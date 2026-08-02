@@ -68,6 +68,7 @@
 </ul>
 </li>
 <li><a href="#2026-08-02-synthesis-journal-datenbank-mit-dem-wiki-verbunden">[2026-08-02] synthesis | Journal-Datenbank mit dem Wiki verbunden</a></li>
+<li><a href="#2026-08-02-tooling-marktdaten-ordner-bleibt-nur-csvs-wandern">[2026-08-02] tooling | Marktdaten: Ordner bleibt, nur CSVs wandern</a></li>
 </ul>
 </div>
 </details>
@@ -321,6 +322,13 @@
 <li>Seiten aktualisiert: wiki/models/Trading Journal &amp; DOL Checklist.md (Abschnitt zur tatsaechlichen Erfuellungsquote + Querverweis), wiki/index.md</li>
 <li>Verifiziert: Stichprobe <code>Tape Reading 17</code> von Hand gegen die Rohdatei geprueft — 6/8, fehlend "Anhaltende Consolidation" und "Entry", Datum 2026-03-16, Bias Baerish, Resultat Win. Stimmt mit der generierten Zeile ueberein.</li>
 <li>Naechster Schritt fuer belastbare Korrelationen: bei jedem Eintrag mit Checkliste auch <code>Resultat</code> setzen. Ab rund 30 Eintraegen mit beidem wird die Win/Loss-Tabelle aussagekraeftig.</li>
+</ul>
+<h2 id="2026-08-02-tooling-marktdaten-ordner-bleibt-nur-csvs-wandern">[2026-08-02] tooling | Marktdaten: Ordner bleibt, nur CSVs wandern</h2>
+<ul>
+<li>Praezisierung des Nutzers: "der marktdaten folder soll bleiben ... alles andere bleibt". Verhalten war bereits so, jetzt belegt statt behauptet.</li>
+<li>Verifiziert: mit <code>notizen.md</code>, <code>screenshot.png</code> und einem eigenen Unterordner (samt CSV darin) in <code>raw/marktdaten/</code> einen Sortierlauf gefahren — nur die lose CSV in der Wurzel wanderte, alles andere blieb unangetastet. <code>loose_files()</code> greift per <code>DATA_DIR.glob("*.csv")</code> bewusst nicht rekursiv.</li>
+<li><code>raw/marktdaten/.gitkeep</code> angelegt: der Ordner ueberlebt damit auch dann in git, wenn irgendwann kein Tagesordner darin liegt. Enthaelt die Ablagekonvention in drei Zeilen.</li>
+<li>Toter Code entfernt: <code>DAY_DIR</code>-Regex in <code>tools/sort_marktdaten.py</code> war ungenutzt.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

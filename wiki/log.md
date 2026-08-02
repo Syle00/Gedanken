@@ -226,3 +226,9 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Seiten aktualisiert: wiki/models/Trading Journal & DOL Checklist.md (Abschnitt zur tatsaechlichen Erfuellungsquote + Querverweis), wiki/index.md
 - Verifiziert: Stichprobe `Tape Reading 17` von Hand gegen die Rohdatei geprueft — 6/8, fehlend "Anhaltende Consolidation" und "Entry", Datum 2026-03-16, Bias Baerish, Resultat Win. Stimmt mit der generierten Zeile ueberein.
 - Naechster Schritt fuer belastbare Korrelationen: bei jedem Eintrag mit Checkliste auch `Resultat` setzen. Ab rund 30 Eintraegen mit beidem wird die Win/Loss-Tabelle aussagekraeftig.
+
+## [2026-08-02] tooling | Marktdaten: Ordner bleibt, nur CSVs wandern
+- Praezisierung des Nutzers: "der marktdaten folder soll bleiben ... alles andere bleibt". Verhalten war bereits so, jetzt belegt statt behauptet.
+- Verifiziert: mit `notizen.md`, `screenshot.png` und einem eigenen Unterordner (samt CSV darin) in `raw/marktdaten/` einen Sortierlauf gefahren — nur die lose CSV in der Wurzel wanderte, alles andere blieb unangetastet. `loose_files()` greift per `DATA_DIR.glob("*.csv")` bewusst nicht rekursiv.
+- `raw/marktdaten/.gitkeep` angelegt: der Ordner ueberlebt damit auch dann in git, wenn irgendwann kein Tagesordner darin liegt. Enthaelt die Ablagekonvention in drei Zeilen.
+- Toter Code entfernt: `DAY_DIR`-Regex in `tools/sort_marktdaten.py` war ungenutzt.

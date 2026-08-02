@@ -47,7 +47,6 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
 # Median-Sekundenabstand -> Timeframe-Label
 STEPS = {60: "1m", 300: "5m", 900: "15m", 3600: "1h", 14400: "4h", 86400: "1d"}
 
-DAY_DIR = re.compile(r"^\d{2}\.\d{2}\.\d{4}$")
 # Futures-Kontraktcode am Ende: MNQU2026, ESZ25, NQ1! ...
 CONTRACT = re.compile(r"(?:[FGHJKMNQUVXZ]\d{2,4}|\d+!)$")
 
