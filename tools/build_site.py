@@ -96,13 +96,19 @@ def as_text(value) -> str:
 # Einlesen
 # --------------------------------------------------------------------------- #
 
+# Anzeigenamen fuer die beiden Sonderseiten im Wiki-Wurzelverzeichnis. Der echte
+# Titel bleibt erhalten, damit [[index]]/[[log]] weiterhin aufloesen.
+DISPLAY_TITLES = {"index": "Katalog (Original)", "log": "Änderungsprotokoll"}
+
+
 class Page:
-    __slots__ = ("path", "title", "category", "slug", "meta", "body",
+    __slots__ = ("path", "title", "display", "category", "slug", "meta", "body",
                  "html", "toc", "summary", "outgoing")
 
     def __init__(self, path: Path, title: str, category: str, meta: dict, body: str):
         self.path = path
         self.title = title
+        self.display = DISPLAY_TITLES.get(title.lower(), title)
         self.category = category
         self.meta = meta
         self.body = body
@@ -358,7 +364,7 @@ def nav_html(pages: list[Page], current: Page | None, depth: str) -> str:
         for p in siblings:
             cls = ' class="here"' if p is current else ""
             out.append(f'<li{cls}><a href="{depth}p/{p.slug}.html">'
-                       f'{html.escape(p.title)}</a></li>')
+                       f'{html.escape(p.display)}</a></li>')
         out.append("</ul></div>")
     out.append("</nav>")
     return "\n".join(out)
@@ -430,7 +436,7 @@ def render_page(page: Page, pages: list[Page], backlinks: list[Page],
     back = ""
     if backlinks:
         items = "".join(
-            f'<li><a href="../p/{p.slug}.html">{html.escape(p.title)}</a>'
+            f'<li><a href="../p/{p.slug}.html">{html.escape(p.display)}</a>'
             f'<span class="cat">{CATEGORY_LABEL[p.category]}</span></li>'
             for p in sorted(backlinks, key=lambda p: p.title.lower()))
         back = (f'<section class="backlinks"><h2>Was zeigt hierher '
@@ -441,14 +447,14 @@ def render_page(page: Page, pages: list[Page], backlinks: list[Page],
     main = f"""<article>
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#{page.category}">{CATEGORY_LABEL[page.category]}</a></div>
-  <h1>{html.escape(page.title)}</h1>
+  <h1>{html.escape(page.display)}</h1>
   <div class="pagemeta">{''.join(meta_bits)}</div>
   {toc}
   <div class="content">{page.html}</div>
   {back}
   <footer class="pagefoot">Quelldatei: <code>{html.escape(rel_src)}</code></footer>
 </article>"""
-    return shell(page.title, "../", nav_html(pages, page, "../"), main)
+    return shell(page.display, "../", nav_html(pages, page, "../"), main)
 
 
 def render_home(pages: list[Page], summaries: dict[str, str], broken_count: int) -> str:
@@ -469,7 +475,7 @@ def render_home(pages: list[Page], summaries: dict[str, str], broken_count: int)
                      f'<h2>{label} <span class="count">{len(items)}</span></h2><ul class="cards">')
         for p in items:
             summary = html.escape(p.summary) if p.summary else ""
-            parts.append(f'<li><a href="p/{p.slug}.html">{html.escape(p.title)}</a>'
+            parts.append(f'<li><a href="p/{p.slug}.html">{html.escape(p.display)}</a>'
                          f'{f"<span>{summary}</span>" if summary else ""}</li>')
         parts.append("</ul></section>")
 
@@ -809,7 +815,7 @@ def main() -> int:
         if isinstance(tags, str):
             tags = [tags]
         search_index.append({
-            "t": page.title,
+            "t": page.display,
             "u": f"p/{page.slug}.html",
             "c": CATEGORY_LABEL[page.category],
             "g": " ".join(as_text(t) for t in tags),
