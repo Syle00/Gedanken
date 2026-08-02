@@ -1,0 +1,3 @@
+# Abhaengigkeiten fuer tools/build_site.py (beide reines Python, keine Compiler noetig)
+markdown>=3.5
+pyyaml>=6.0

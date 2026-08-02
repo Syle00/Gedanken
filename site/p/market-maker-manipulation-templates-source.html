@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market Maker Manipulation Templates (Source) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">41</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">21</span></a></li>
+<li class="active"><a href="../index.html#sources">Quellen<span class="count">84</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Quellen</div><ul class="pagelist">
+<li><a href="../p/20-pips-per-day-source.html">20 Pips Per Day (Source)</a></li>
+<li><a href="../p/2026-ict-study-source.html">2026 ICT Study (Source)</a></li>
+<li><a href="../p/basics-opening-range-concept-source.html">Basics &amp; Opening Range Concept (Source)</a></li>
+<li><a href="../p/blending-ipda-data-ranges-pd-arrays-source.html">Blending IPDA Data Ranges &amp; PD Arrays (Source)</a></li>
+<li><a href="../p/bond-mega-trades-source.html">Bond Mega-Trades (Source)</a></li>
+<li><a href="../p/bread-butter-buy-setups-source.html">Bread &amp; Butter Buy Setups (Source)</a></li>
+<li><a href="../p/bread-butter-sell-setups-source.html">Bread &amp; Butter Sell Setups (Source)</a></li>
+<li><a href="../p/central-banks-dealers-range-source.html">Central Banks Dealers Range (Source)</a></li>
+<li><a href="../p/classic-swing-trading-approach-source.html">Classic Swing Trading Approach (Source)</a></li>
+<li><a href="../p/commodity-mega-trades-source.html">Commodity Mega-Trades (Source)</a></li>
+<li><a href="../p/core-content-2016-source.html">Core Content 2016 (Source)</a></li>
+<li><a href="../p/defining-open-float-liquidity-pools-source.html">Defining Open Float Liquidity Pools (Source)</a></li>
+<li><a href="../p/defining-open-float-liquidity-pools-2-source.html">Defining Open Float Liquidity Pools 2 (Source)</a></li>
+<li><a href="../p/defining-the-daily-range-source.html">Defining The Daily Range (Source)</a></li>
+<li><a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a></li>
+<li><a href="../p/enigma-fvg-projections-source.html">Enigma FVG Projections (Source)</a></li>
+<li><a href="../p/equilibrium-vs-discount-source.html">Equilibrium Vs. Discount (Source)</a></li>
+<li><a href="../p/essentials-to-ict-daytrading-source.html">Essentials To ICT Daytrading (Source)</a></li>
+<li><a href="../p/fair-valuation-source.html">Fair Valuation (Source)</a></li>
+<li><a href="../p/federal-open-market-committee-source.html">Federal Open Market Committee (Source)</a></li>
+<li><a href="../p/filling-the-numbers-source.html">Filling The Numbers (Source)</a></li>
+<li><a href="../p/from-vision-to-execution-source.html">From Vision To Execution (Source)</a></li>
+<li><a href="../p/high-probability-daytrade-setups-source.html">High Probability Daytrade Setups (Source)</a></li>
+<li><a href="../p/high-probability-swing-trade-setups-in-bull-markets-source.html">High Probability Swing Trade Setups In Bull Markets (Source)</a></li>
+<li><a href="../p/how-do-i-engage-markets-when-i-don-t-have-an-initial-bias-source.html">How Do I Engage Markets When I Don&#x27;t Have An Initial Bias (Source)</a></li>
+<li><a href="../p/how-market-makers-condition-the-market-source.html">How Market Makers Condition The Market (Source)</a></li>
+<li><a href="../p/how-market-makers-condition-the-market-2-source.html">How Market Makers Condition The Market 2 (Source)</a></li>
+<li><a href="../p/how-to-use-intermarket-analysis-source.html">How To Use Intermarket Analysis (Source)</a></li>
+<li><a href="../p/ict-2026-smart-money-concepts-lecture-january-02-2026-source.html">ICT 2026 Smart Money Concepts Lecture - January 02, 2026 (Source)</a></li>
+<li><a href="../p/ict-chain-of-custody-of-price-source.html">ICT Chain Of Custody Of Price (Source)</a></li>
+<li><a href="../p/ict-day-trade-routine-source.html">ICT Day Trade Routine (Source)</a></li>
+<li><a href="../p/ideal-swings-conditions-for-any-market-source.html">Ideal Swings Conditions For Any Market (Source)</a></li>
+<li><a href="../p/institutional-marketstructure-source.html">Institutional Marketstructure (Source)</a></li>
+<li><a href="../p/institutional-order-flow-source.html">Institutional Order Flow (Source)</a></li>
+<li><a href="../p/institutional-sponsorship-source.html">Institutional Sponsorship (Source)</a></li>
+<li><a href="../p/integrating-daytrades-with-htf-trade-entries-source.html">Integrating Daytrades With HTF Trade Entries (Source)</a></li>
+<li><a href="../p/interest-rate-differentials-source.html">Interest Rate Differentials (Source)</a></li>
+<li><a href="../p/intraday-profiles-f-london-source.html">Intraday Profiles f. London (Source)</a></li>
+<li><a href="../p/intraweek-market-reversals-overlapping-models-source.html">Intraweek Market Reversals &amp; Overlapping Models (Source)</a></li>
+<li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a></li>
+<li><a href="../p/low-resistance-liquidity-runs-part-1-source.html">Low Resistance Liquidity Runs Part 1 (Source)</a></li>
+<li><a href="../p/low-resistance-liquidity-runs-part-2-source.html">Low Resistance Liquidity Runs Part 2 (Source)</a></li>
+<li><a href="../p/macro-economic-to-micro-technical-source.html">Macro Economic To Micro Technical (Source)</a></li>
+<li class="here"><a href="../p/market-maker-manipulation-templates-source.html">Market Maker Manipulation Templates (Source)</a></li>
+<li><a href="../p/market-maker-trap-trendline-phantoms-source.html">Market Maker Trap Trendline Phantoms (Source)</a></li>
+<li><a href="../p/midnight-et-principles-in-relationship-to-premarket-session-source.html">Midnight ET Principles In Relationship To PreMarket Session (Source)</a></li>
+<li><a href="../p/missed-entry-how-to-navigate-the-same-trade-idea-source.html">Missed Entry How To Navigate The Same Trade Idea (Source)</a></li>
+<li><a href="../p/mitigation-blocks-source.html">Mitigation Blocks (Source)</a></li>
+<li><a href="../p/month-03-source.html">Month 03 (Source)</a></li>
+<li><a href="../p/month-04-source.html">Month 04 (Source)</a></li>
+<li><a href="../p/month-05-source.html">Month 05 (Source)</a></li>
+<li><a href="../p/month-06-swing-trading-model-source.html">Month 06 - Swing Trading Model (Source)</a></li>
+<li><a href="../p/month-07-weekly-source.html">Month 07 - Weekly (Source)</a></li>
+<li><a href="../p/month-08-daytrades-source.html">Month 08 - Daytrades (Source)</a></li>
+<li><a href="../p/month-1-source.html">Month 1 (Source)</a></li>
+<li><a href="../p/month-10-source.html">Month 10 (Source)</a></li>
+<li><a href="../p/month-11-source.html">Month 11 (Source)</a></li>
+<li><a href="../p/month-9-scalping-daytrades-source.html">Month 9 - Scalping-Daytrades (Source)</a></li>
+<li><a href="../p/nq-futures-weekly-range-market-wizardry-source.html">NQ Futures Weekly Range Market Wizardry (Source)</a></li>
+<li><a href="../p/ny-pm-trend-source.html">NY PM Trend (Source)</a></li>
+<li><a href="../p/one-shot-one-kill-model-source.html">One Shot One Kill Model (Source)</a></li>
+<li><a href="../p/open-float-source.html">Open Float (Source)</a></li>
+<li><a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market-source.html">Premium Vs. Carrying Charge Market (Source)</a></li>
+<li><a href="../p/projecting-daily-highs-lows-source.html">Projecting Daily Highs &amp; Lows (Source)</a></li>
+<li><a href="../p/qualifying-trade-conditions-with-10-year-yields-source.html">Qualifying Trade Conditions With 10 Year Yields (Source)</a></li>
+<li><a href="../p/quarterly-shifts-ipda-data-ranges-source.html">Quarterly Shifts &amp; IPDA Data Ranges (Source)</a></li>
+<li><a href="../p/reclaimed-ict-orderblock-source.html">Reclaimed ICT Orderblock (Source)</a></li>
+<li><a href="../p/reeinforced-liquidity-pools-when-to-anticipate-raids-source.html">Reeinforced Liquidity Pools - When to anticipate Raids (Source)</a></li>
+<li><a href="../p/reeinforced-orderblock-theory-breakerblock-source.html">Reeinforced Orderblock Theory BreakerBlock (Source)</a></li>
+<li><a href="../p/reeinforced-orderblock-theory-rejection-block-source.html">Reeinforced Orderblock Theory Rejection Block (Source)</a></li>
+<li><a href="../p/reeinforced-orderblock-theory-selecting-avoiding-source.html">Reeinforced Orderblock Theory Selecting &amp; Avoiding (Source)</a></li>
+<li><a href="../p/relative-strength-analysis-accumulation-distribution-source.html">Relative Strength Analysis - Accumulation &amp; Distribution (Source)</a></li>
+<li><a href="../p/stock-mega-trades-source.html">Stock Mega-Trades (Source)</a></li>
+<li><a href="../p/the-sentiment-effect-source.html">The Sentiment Effect (Source)</a></li>
+<li><a href="../p/trading-complex-opening-ranges-with-fed-impact-07-14-2026-source.html">Trading Complex Opening Ranges With Fed Impact 07-14-2026 (Source)</a></li>
+<li><a href="../p/trading-in-consolidations-source.html">Trading In Consolidations (Source)</a></li>
+<li><a href="../p/trading-market-reversals-source.html">Trading Market Reversals (Source)</a></li>
+<li><a href="../p/using-10-year-notes-in-htf-analysis-source.html">Using 10 Year Notes In HTF Analysis (Source)</a></li>
+<li><a href="../p/using-ipda-data-ranges-source.html">Using IPDA Data Ranges (Source)</a></li>
+<li><a href="../p/using-monthly-weekly-ranges-source.html">Using Monthly &amp; Weekly Ranges (Source)</a></li>
+<li><a href="../p/weekly-range-profiles-source.html">Weekly Range Profiles (Source)</a></li>
+<li><a href="../p/what-to-focus-on-right-now-source.html">What To Focus On Right Now (Source)</a></li>
+<li><a href="../p/when-to-avoid-the-london-session-source.html">When To Avoid The London Session (Source)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#sources">Quellen</a></div>
+  <h1>Market Maker Manipulation Templates (Source)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">source</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-02</div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#extrahierte-seiten">Extrahierte Seiten</a></li>
+<li><a href="#bilder-aus-der-rohquelle">Bilder aus der Rohquelle</a><ul>
+<li><a href="#classic-tuesday-lowhigh-of-the-week">Classic Tuesday Low/High of the Week</a></li>
+<li><a href="#wednesday-lowhigh-of-the-week">Wednesday Low/High of the Week</a></li>
+<li><a href="#consolidation-thursday-reversal">Consolidation Thursday Reversal</a></li>
+<li><a href="#consolidation-midweek-rally-decline">Consolidation Midweek Rally / Decline</a></li>
+<li><a href="#seek-destroy-friday">Seek &amp; Destroy Friday</a></li>
+<li><a href="#wednesday-weekly-reversal">Wednesday Weekly Reversal</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="market-maker-manipulation-templates-source">Market Maker Manipulation Templates (Source)</h1>
+<p>Umfangreiche Kernquelle zu <a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a>: kompletter Katalog der
+Weekly-Manipulation-Profile (Classic Tuesday, Wednesday Low/High, Consolidation Thursday Reversal,
+Consolidation Midweek Rally/Decline, Seek &amp; Destroy Friday, Wednesday Weekly Reversal).</p>
+<h2 id="extrahierte-seiten">Extrahierte Seiten</h2>
+<ul>
+<li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a></li>
+</ul>
+<h2 id="bilder-aus-der-rohquelle">Bilder aus der Rohquelle</h2>
+<h3 id="classic-tuesday-lowhigh-of-the-week">Classic Tuesday Low/High of the Week</h3>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 161.png" alt="image 161" loading="lazy"><figcaption>Bullish, Old Low - Szenario 1: Manipulation am Dienstag in einen alten Liq Pool (Monthly/Weekly/Daily Low im Discount), erwartetes High am Donnerstag in NY.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 162.png" alt="image 162" loading="lazy"><figcaption>Bullish, Old Bullish OB+ - Szenario 2: gleiches Template, Manipulation in einen alten Monthly/Weekly/Daily CISD/OB+.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 163.png" alt="image 163" loading="lazy"><figcaption>Bearish, Old High - Szenario 1: Manipulation Dienstag in eine alte Premium Array HTF (altes M/W/D High), Ziel eine Discount PD Array HTF.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 164.png" alt="image 164" loading="lazy"><figcaption>Bearish, Old Low - Szenario 2: Markt bereits bearish gebrochen, testet am Dienstag das alte Low erneut und nimmt die Liq.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 165.png" alt="image 165" loading="lazy"><figcaption>Bearish, OB- - Szenario 3: Manipulation Montag-Dienstag mit BISI/Void in einen bearishen HTF-CISD-, um Retail Long zu trappen.</figcaption></figure>
+
+<h3 id="wednesday-lowhigh-of-the-week">Wednesday Low/High of the Week</h3>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 166.png" alt="image 166" loading="lazy"><figcaption>Bullish, Szenario 1 - Old Low: Short Term Low am Montag, Dienstag Retracement darunter in ein altes M/W/D-Discount-Low, Ziel Donnerstag/Freitag eine Premium PD Array mindestens 1 Timeframe tiefer.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 167.png" alt="image 167" loading="lazy"><figcaption>Bullish, Szenario 2 - Old High: Montag Manipulation nach oben, Dienstag runter zum alten M/W/D-High (Support), danach Rally bis Freitag in eine Premium PD Array.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 168.png" alt="image 168" loading="lazy"><figcaption>Bullish, Szenario 3 - Old Bullish OB+: gleicher Ablauf in einem alten M/W/D-Discount-CISD+, Ziel eine Premium Market PD nach Redistribution/FVG-Fill.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 169.png" alt="image 169" loading="lazy"><figcaption>Bearish, Szenario 1 - Old High: Manipulation1 Montag/Dienstag short unter eine HTF Premium Array (Short Term High am Montag), Manipulation2 Mittwoch Dreh in ein altes Premium M/W/D High, Expansion Donnerstag/Freitag in eine Discount PD mind. 1 Timeframe tiefer (meist 4H).</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 170.png" alt="image 170" loading="lazy"><figcaption>Bearish, Szenario 2 - Old Low: Manipulation1 Montag/Dienstag mit FVG/Void (Retail-Short-Trap Mittwoch), Manipulation2 in ein altes M/W/D Premium Low, Expansion Donnerstag/Freitag in eine Discount Market PD.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 171.png" alt="image 171" loading="lazy"><figcaption>Bearish, Szenario 3 - Baerish OB-: gleicher Ablauf wie Szenario 2, diesmal über einen bearishen OB-.</figcaption></figure>
+
+<h3 id="consolidation-thursday-reversal">Consolidation Thursday Reversal</h3>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 172.png" alt="image 172" loading="lazy"><figcaption>Bullish Profile: drei Manipulationsphasen Montag-Mittwoch (Retail-Traps), Expansion Donnerstag/Freitag zur Buyside — häufig um FOMC-News (14 Uhr NY) oder Employment Data.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 173.png" alt="image 173" loading="lazy"><figcaption>Bearish Profile: spiegelbildlich, Expansion Donnerstag/Freitag zur Sellside nach den Manipulationsphasen Montag-Mittwoch.</figcaption></figure>
+
+<h3 id="consolidation-midweek-rally-decline">Consolidation Midweek Rally / Decline</h3>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 174.png" alt="image 174" loading="lazy"><figcaption>Bullish Rally: Konsolidierung Montag-Mittwoch (Up-Close-Day Montag, Dienstag Rücksetzer in ein Discount FVG/OB+), Mittwoch News-Driver startet die Expansion bis Freitag.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 175.png" alt="image 175" loading="lazy"><figcaption>Fib High/Low mit den Extensions 1,27 und 1,68 als Liquidity-/PD-Target für die Rally.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 176.png" alt="image 176" loading="lazy"><figcaption>Bearish Decline: spiegelbildlich (Down-Close-Day Montag, Dienstag Rücksetzer in ein Premium FVG/OB+), Mittwoch News-Driver startet die Expansion bis Freitag.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 177.png" alt="image 177" loading="lazy"><figcaption>Zweites Chart-Beispiel zum Consolidation Midweek Decline.</figcaption></figure>
+
+<h3 id="seek-destroy-friday">Seek &amp; Destroy Friday</h3>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 178.png" alt="image 178" loading="lazy"><figcaption>Bullish-Variante: Konsolidierung Montag-Donnerstag baut einen Sellside Liq Pool auf, Manipulation Donnerstag über News-Driver sweept den Pool, Ziel eine Daily/Weekly Premium Array.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 179.png" alt="image 179" loading="lazy"><figcaption>Bearish-Variante: spiegelbildlich mit Buyside Liq Pool, Ziel eine Daily/Weekly Discount Array.</figcaption></figure>
+
+<h3 id="wednesday-weekly-reversal">Wednesday Weekly Reversal</h3>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 180.png" alt="image 180" loading="lazy"><figcaption>Bullish: HTF-Pattern auf Monthly-Ebene — Judas1 an altem Low/Support nach oben, Manipulation2 Dienstag über News tief in eine M/W/D Discount PD, Expansion Mittwoch-Freitag in eine überlappende Weekly/Daily Premium Array.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 181.png" alt="image 181" loading="lazy"><figcaption>Bearish: spiegelbildlich — Judas1 an altem High/Resistance nach unten, Manipulation2 Dienstag hoch in eine Premium PD, Expansion in eine Discount Array.</figcaption></figure></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">3</span></h2><ul><li><a href="../p/index.html">index</a><span class="cat">Meta</span></li><li><a href="../p/month-07-weekly-source.html">Month 07 - Weekly (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/weekly-range-profiles-source.html">Weekly Range Profiles (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/sources/Market Maker Manipulation Templates (Source).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

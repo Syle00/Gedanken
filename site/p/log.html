@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>log — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">41</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">21</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">84</span></a></li>
+<li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
+<li><a href="../p/index.html">index</a></li>
+<li class="here"><a href="../p/log.html">log</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#meta">Meta</a></div>
+  <h1>log</h1>
+  <div class="pagemeta"></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#2026-08-01-setup-llm-wiki-struktur-initialisiert">[2026-08-01] setup | LLM-Wiki-Struktur initialisiert</a></li>
+<li><a href="#2026-08-01-ingest-essentials-to-ict-daytrading">[2026-08-01] ingest | Essentials To ICT Daytrading</a></li>
+<li><a href="#2026-08-01-ingest-batch-rawtrading-ict-komplett-71-core-content-dateien-11-2026er-dateien-fomc">[2026-08-01] ingest | Batch: raw/trading-ict/ komplett (71 Core-Content-Dateien + 11 2026er-Dateien + FOMC)</a></li>
+<li><a href="#2026-08-02-setup-root-aufraumung-nach-obsidian-vault-integration">[2026-08-02] setup | Root-Aufräumung nach Obsidian-Vault-Integration</a></li>
+<li><a href="#2026-08-02-lint-curriculum-zuordnung-monat-4-breaker-block">[2026-08-02] lint | Curriculum-Zuordnung Monat 4 (Breaker Block)</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="log">Log</h1>
+<p>Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe <span class="broken" title="Seite existiert noch nicht">CLAUDE</span>.</p>
+<h2 id="2026-08-01-setup-llm-wiki-struktur-initialisiert">[2026-08-01] setup | LLM-Wiki-Struktur initialisiert</h2>
+<ul>
+<li>Bestehenden Vault-Inhalt (Core Content/, 2026/, 432 PNGs) nach raw/trading-ict/ verschoben</li>
+<li>CLAUDE.md, wiki/index.md, wiki/log.md angelegt</li>
+</ul>
+<h2 id="2026-08-01-ingest-essentials-to-ict-daytrading">[2026-08-01] ingest | Essentials To ICT Daytrading</h2>
+<ul>
+<li>Quelle: raw/trading-ict/Core Content/Essentials To ICT Daytrading.md</li>
+<li>Seiten erstellt: wiki/sources/Essentials To ICT Daytrading (Source).md, wiki/concepts/ICT Daily Range Session Timing.md, wiki/concepts/New Week Opening Gap (NWOG) Bias.md</li>
+<li>Seiten aktualisiert: wiki/index.md</li>
+<li>Offene Anschlussfrage notiert: PD Array / Discount PD Array noch ohne eigene Konzept-Seite</li>
+</ul>
+<h2 id="2026-08-01-ingest-batch-rawtrading-ict-komplett-71-core-content-dateien-11-2026er-dateien-fomc">[2026-08-01] ingest | Batch: raw/trading-ict/ komplett (71 Core-Content-Dateien + 11 2026er-Dateien + FOMC)</h2>
+<ul>
+<li>Auf explizite Anweisung ("injeziere den raw Ordner ins wiki") ohne Rückfragen pro Datei verarbeitet.</li>
+<li>Quellen: alle Dateien in raw/trading-ict/Core Content/ (71, inkl. der bereits ingesteten Essentials To ICT Daytrading), alle Dateien in raw/trading-ict/2026/ (11), sowie raw/Federal Open Market Committee.md.</li>
+<li>Übersprungen: raw/Where teams and agents work together.md (fehlgeschlagener Notion-Clip, kein Inhalt); raw/trading-ict/Core Content/Reeinforced Liquidity Pools -      When to anticipate Raids.md ist leer (0 Byte).</li>
+<li>Seiten erstellt: 36 neue wiki/concepts/-Seiten (u.a. PD Array, IPDA Data Ranges, Equilibrium Vs. Discount, Fair Value Gap (FVG), Order Block + Breaker/Rejection/Reclaimed/Mitigation-Varianten, AMD Cycle, SMT, Judas Swing, Turtle Soup, CISD, Quarterly Shift, COT Data, Seasonal Tendency, Market Reversal Types, Intermarket Relationships, Institutional Order Flow, Institutional Sponsorship, Open Float &amp; Liquidity Pools, Low Resistance Liquidity Run, Central Bank Dealers Range (CBDR), Trendline Phantoms, Premium vs. Carrying Charge Market, sowie 2026er-Konzepte: BISI &amp; SIBI, IFVG, Modell 22, Enigma FVG Projection, Chain of Custody, ICT Macros &amp; Leading Candles, ORG &amp; 1st Presented FVG, Event Horizon, FOMC).</li>
+<li>20 neue wiki/models/-Seiten (u.a. One Shot One Kill Model, Market Maker Manipulation Templates, Classic Swing Trading Approach, Bread &amp; Butter Setups, Weekly Range Trading Model, London Session Profiles, ICT Day Trade Routine, Bond/Commodity/Stock Mega-Trades, sowie 2026er-Modelle: No-Bias Engagement Routine, Missed Entry Trade Management Playbook, Trading Complex Opening Ranges, The Sentiment Effect, Trading Journal &amp; DOL Checklist).</li>
+<li>82 neue wiki/sources/-Seiten (eine pro Rohquelle, Month-1–11-Dateien als reine Curriculum-Sprunglisten markiert).</li>
+<li>Seiten aktualisiert: wiki/index.md (vollständig neu strukturiert mit allen Kategorien).</li>
+<li>Offene Punkte für nächsten Durchgang: unklare 2026er-Begriffe (VII, Suspensionblock, REH/REL, MSS) noch nicht vollständig definiert; Basics &amp; Opening Range Concept nur Bild-Embeds ohne Text — siehe wiki/index.md "Offene Punkte" für Details.</li>
+</ul>
+<h2 id="2026-08-02-setup-root-aufraumung-nach-obsidian-vault-integration">[2026-08-02] setup | Root-Aufräumung nach Obsidian-Vault-Integration</h2>
+<ul>
+<li>Vault-Root (C:\Users\Jannes\Desktop\Gedanken) ist bereits der Obsidian-Vault (<code>.obsidian/</code> liegt dort) — keine Verschiebung nach <code>.obsidian/</code> nötig, das ist nur Obsidians Config-Ordner.</li>
+<li>4 lose Screenshots im Root (image.png, image 1-3.png; ICT Monthly Mentorship Dezember 2016, "Reinforcing Orderblock Theory / Reclaimed Block", bisher nirgends im raw/-Bestand — kein "Month 12" in Core Content 2016.md) nach raw/trading-ict/assets/ verschoben und umbenannt (Namenskollision mit gleichnamigen, aber inhaltlich anderen Dateien im Zielordner vermieden): "ICT Mentorship Dez2016 - Reclaimed Block Market Maker Buy Model.png", "... Chart Example (Uptrend).png", "... Market Maker Sell Model.png", "... Chart Example (Downtrend).png".</li>
+<li>2 leere Stub-Dateien im Root gelöscht (0 Byte, kein Inhalt): image 19.png.md, Reeinforced Liquidity Pools - When to anticipate Raids.md (Duplikat-Stub der bereits bekannten leeren Datei raw/trading-ict/Core Content/Reeinforced Liquidity Pools -      When to anticipate Raids.md, siehe Batch-Ingest-Eintrag oben).</li>
+<li>Zip 737cb9f5-...-ExportBlock-....zip (9.7MB, vermutlich Notion-Export) auf Nutzerwunsch unangetastet gelassen — noch nicht ausgepackt/gesichtet.</li>
+<li>Offener Punkt: Die 4 neuen Reclaimed-Block-Bilder sind reines raw-Material, noch nicht ins Wiki ingestet. Passende Konzept-Seite wäre vermutlich <span class="broken" title="Seite existiert noch nicht">Reclaimed Block</span> (bereits als Order-Block-Variante erwähnt, aber ohne eigene Vertiefung zu "Reinforcing"-Theorie) oder eine neue wiki/sources/-Seite für "ICT Monthly Mentorship Dezember 2016".</li>
+</ul>
+<h2 id="2026-08-02-lint-curriculum-zuordnung-monat-4-breaker-block">[2026-08-02] lint | Curriculum-Zuordnung Monat 4 (Breaker Block)</h2>
+<ul>
+<li>Nutzerhinweis: <code>Reeinforced Orderblock Theory    BreakerBlock</code> gehört ins Core Content, Monat 4.</li>
+<li>Seiten aktualisiert: wiki/sources/Reeinforced Orderblock Theory BreakerBlock (Source).md (Curriculum-Zeile → <a href="../p/month-04-source.html">Month 04 (Source)</a>), wiki/sources/Month 04 (Source).md (veralteter Stand "Breaker/Rejection/Reclaimed noch offen" korrigiert; jetzt vollständige Liste aller 6 Monat-4-Quellen mit ihren Konzept-Seiten).</li>
+<li>Offener Punkt: Die anderen 5 Monat-4-Quellen tragen noch keine eigene Curriculum-Rückverlinkung (nur die Sammelliste in Month 04).</li>
+</ul></div>
+  
+  <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

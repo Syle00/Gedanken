@@ -1,0 +1,89 @@
+<#
+.SYNOPSIS
+    Baut die HTML-Website neu, erstellt einen lokalen Checkpoint-Commit und pusht ihn.
+
+.DESCRIPTION
+    Der Standardweg nach jedem Ingest. Reihenfolge ist bewusst: erst bauen, dann
+    committen -- schlaegt der Build fehl, entsteht kein Commit mit kaputter Website.
+
+.PARAMETER Message
+    Commit-Nachricht. Ohne Angabe: "wiki update <Datum>".
+
+.PARAMETER NoPush
+    Nur lokal committen, nicht pushen.
+
+.EXAMPLE
+    .\publish.ps1 -Message "ingest | Essentials To ICT Daytrading"
+
+.EXAMPLE
+    .\publish.ps1
+#>
+[CmdletBinding()]
+param(
+    [string]$Message,
+    [switch]$NoPush
+)
+
+$ErrorActionPreference = 'Stop'
+$repo = $PSScriptRoot
+Set-Location $repo
+
+function Fail($text) { Write-Host "FEHLER: $text" -ForegroundColor Red; exit 1 }
+
+# --- 1. Website bauen ------------------------------------------------------
+Write-Host "[1/4] Website bauen ..." -ForegroundColor Cyan
+$env:PYTHONIOENCODING = 'utf-8'
+python (Join-Path $repo 'tools\build_site.py')
+if ($LASTEXITCODE -ne 0) {
+    Fail "Build fehlgeschlagen (Exit $LASTEXITCODE). Es wurde nichts committet."
+}
+
+# --- 2. Aenderungen einsammeln --------------------------------------------
+Write-Host "`n[2/4] Aenderungen einsammeln ..." -ForegroundColor Cyan
+git add -A
+if ($LASTEXITCODE -ne 0) { Fail "'git add' fehlgeschlagen." }
+
+git diff --cached --quiet
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "Keine Aenderungen - kein Commit noetig." -ForegroundColor Yellow
+    exit 0
+}
+
+$stat = git diff --cached --shortstat
+Write-Host "  $stat"
+
+# --- 3. Commit -------------------------------------------------------------
+if (-not $Message) { $Message = "wiki update $(Get-Date -Format 'yyyy-MM-dd')" }
+Write-Host "`n[3/4] Commit: $Message" -ForegroundColor Cyan
+git commit -q -m $Message
+if ($LASTEXITCODE -ne 0) { Fail "'git commit' fehlgeschlagen." }
+Write-Host "  $(git log -1 --format='%h %s')"
+
+# --- 4. Push ---------------------------------------------------------------
+if ($NoPush) {
+    Write-Host "`n[4/4] Push uebersprungen (-NoPush)." -ForegroundColor Yellow
+    exit 0
+}
+
+$remotes = git remote
+if (-not $remotes) {
+    Write-Host "`n[4/4] Kein Remote konfiguriert - nur lokaler Checkpoint." -ForegroundColor Yellow
+    Write-Host "      Einrichten mit: git remote add origin <URL>"
+    exit 0
+}
+
+Write-Host "`n[4/4] Push nach origin ..." -ForegroundColor Cyan
+$branch = git rev-parse --abbrev-ref HEAD
+git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>$null | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    git push -u origin $branch          # erster Push: Upstream setzen
+} else {
+    git push
+}
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Push fehlgeschlagen. Der lokale Commit ist erhalten -" -ForegroundColor Red
+    Write-Host "spaeter einfach 'git push' erneut ausfuehren." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "`nFertig. Website: $(Join-Path $repo 'site\index.html')" -ForegroundColor Green
