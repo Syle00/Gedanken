@@ -1,0 +1,32 @@
+# --- Abgeleiteter Output (wird neu erzeugt, gehoert nicht in die Historie) ---
+# graphify schreibt graph.json (1,8 MB) und graph.html (1,5 MB) bei jedem Update
+# komplett neu -- im Git wuerde das die Historie dauerhaft aufblaehen.
+graphify-out/
+# Verirrter Semantic-Cache mitten im Content-Verzeichnis (144 JSON-Dateien).
+wiki/graphify-out/
+
+# --- Redundante Archive ---
+# Der Notion-Export ist bereits nach raw/ entpackt.
+*.zip
+
+# --- Obsidian ---
+# Aendert sich bei jedem Fensterwechsel; die uebrige .obsidian/-Config bleibt versioniert.
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# --- Claude Code ---
+# Maschinenlokale Permissions/Modes; settings.json (Projekt-Hooks) bleibt versioniert.
+.claude/settings.local.json
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+
+# --- OS ---
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Bewusst NICHT ignoriert: raw/ (inkl. aller PNGs), wiki/, site/, CLAUDE.md,
+# .claude/settings.json -- das Vault soll vollstaendig gesichert sein.

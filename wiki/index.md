@@ -1,0 +1,131 @@
+# Index
+
+Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE.md]] für das Schema.
+
+## Concepts
+
+- [[Accumulation & Reaccumulation Model]] — Low-taken-Expansion vs. Dip-Reentry-Phasen nach einem Sweep (2026-08-01)
+- [[AMD Cycle (Accumulation – Manipulation – Distribution)]] — 4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition (2026-08-01)
+- [[BISI & SIBI (Buyside-Sellside Imbalance)]] — Richtungs-Bezeichnung für FVG-Typen (2026-08-01)
+- [[Breaker Block]] — Order-Block-Variante, fokussiert auf gejagte Stop-Losses (2026-08-01)
+- [[Central Bank Dealers Range (CBDR)]] — 14–20-Uhr-Range mit STD-Projektion fürs Tages-High/Low (2026-08-01)
+- [[Chain of Custody (Q-Validation)]] — Q-Level validieren PD Arrays entlang der antizipierten Dealing Range (2026-08-01)
+- [[CISD (Change in State of Delivery)]] — Down-/Up-Close-Candles als struktureller Support/Resistance (2026-08-01)
+- [[COT (Commitment of Traders) Data]] — Positionierungsdaten großer Player, 12-Monats-Hedging-Methode (2026-08-01)
+- [[Enigma FVG Projection]] — FIB-Technik zur Antizipation von FVG-Expansion (VII/C.E) (2026-08-01)
+- [[Equilibrium Vs. Discount]] — Dealing-Range-Konstruktion, EQ, verschachteltes Premium/Discount (2026-08-01)
+- [[Event Horizon]] — 50%-Punkt zwischen zwei Liquidity Pools für Partials (2026-08-01)
+- [[Fair Value Gap (FVG)]] — Preiszone ohne Trading zwischen zwei Candles (2026-08-01)
+- [[FOMC (Federal Open Market Committee)]] — US-Zinsgremium, häufigster News-Katalysator in Weekly-Profilen (2026-08-01)
+- [[ICT Daily Range Session Timing]] — Session-Ablauf, der die Daily Range formt (2026-08-01)
+- [[ICT Macros & Leading Candles]] — Session-Zeitfenster mit auffälligen Referenz-Candles (2026-08-01)
+- [[IFVG (Inverse Fair Value Gap)]] — FVG, das nach Durchhandeln die Polarität wechselt (2026-08-01)
+- [[Institutional Order Flow (Body vs Wick)]] — Volumen steckt in Candle Bodys, nicht Wicks (2026-08-01)
+- [[Institutional Sponsorship]] — Smart Money schützt einen High-Probability-Price-Swing (2026-08-01)
+- [[Intermarket Relationships]] — Bonds/Stocks/Commodities/Currencies-Korrelationsregeln (2026-08-01)
+- [[IPDA Data Ranges]] — 20/40/60-Tage-Lookback des Interbank Price Delivery Algorithmus (2026-08-01)
+- [[Judas Swing]] — Fehlbewegung zu Sessionbeginn (CME Open) vor dem eigentlichen Move (2026-08-01)
+- [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD (2026-08-01)
+- [[Market Reversal Types]] — Katalog der 8 ICT-Reversal-Typen (PDH/PDL, ITH/ITL, NY Reversal...) (2026-08-01)
+- [[Mitigation Block]] — Order-Block-Variante nach einem Failure Swing (2026-08-01)
+- [[Modell 22]] — 2026er Turtle-Soup-Trigger über MSS+SIBI, linkes-IFVG-Regel (2026-08-01)
+- [[New Week Opening Gap (NWOG) Bias]] — Wöchentliche Bias-Regel + Intraweek-Reversal-Muster (2026-08-01)
+- [[Open Float & Liquidity Pools]] — Wo liegen die Stops der großen Funds, OI-Bestätigung (2026-08-01)
+- [[Order Block]] — Basiskonzept + Validierungsregeln für alle OB-Varianten (2026-08-01)
+- [[ORG (Opening Range Gap) & 1st Presented FVG]] — C.E-Bias-Bestätigung über Wicks und ORG (2026-08-01)
+- [[PD Array]] — Premium/Discount-Array, Grundbaustein jedes ICT-Setups (2026-08-01)
+- [[Premium vs. Carrying Charge Market]] — Futures-Kurven-Analyse (Contango/Backwardation) (2026-08-01)
+- [[Quarterly Shift]] — Alle 3–4 Monate markanter Liquidity-Shift, Underlying/Benchmark (2026-08-01)
+- [[Reclaimed Order Block]] — OB-Variante im MMXM-Modell nach Displacement+Retracement (2026-08-01)
+- [[Rejection Block]] — OB-Variante über Wick-vs-Body-Liquidity-Sweep (2026-08-01)
+- [[Seasonal Tendency]] — Historisch wiederkehrende saisonale Preistendenzen (2026-08-01)
+- [[SMT (Smart Money Divergence)]] — Divergenz zwischen korrelierten Märkten, Cross-Asset-Check (2026-08-01)
+- [[Trendline Phantoms (3 Drives Pattern)]] — Retail-Trendline-Falle, 3-Drives-Angriffsziel (2026-08-01)
+- [[Turtle Soup]] — Fehlausbruch-Setup mit Rückkehr in FVG/Retracement (2026-08-01)
+
+## Models
+
+- [[0 GMT IPDA True Day Reset Entry]] — Entry am IPDA-True-Day-Reset unabhängig von CBDR/London (2026-08-01)
+- [[20 Pips Per Day]] — Tägliches ~20-Pip-Expansion-Leg-Daytrade-Modell (2026-08-01)
+- [[Bond Mega-Trades]] — Saisonales HTF-Swing-Modell für 30Y-Treasuries (2026-08-01)
+- [[Bread & Butter Setups]] — Kern-Daytrade-Modell für Buy-/Sell-Setups (2026-08-01)
+- [[Classic Swing Trading Approach]] — Top-down-PD-Suche Monthly→4H, 3:1 RR, Top-Down-Bias-Regel (2026-08-01)
+- [[Commodity Mega-Trades]] — Mega-Trade-Methodik für Rohstoff-Sektoren (2026-08-01)
+- [[High Probability Daytrade Setups]] — Entry-Modell rund um Session-Highs/Lows (2026-08-01)
+- [[ICT Day Trade Routine]] — Täglicher Analyse-Ablauf vor dem Trading (2026-08-01)
+- [[London Session Profiles]] — 4 London-Profile + Wann London vermeiden/ideal ist (2026-08-01)
+- [[Market Maker Manipulation Templates]] — Katalog wiederkehrender Weekly-Manipulation-Profile (2026-08-01)
+- [[Missed Entry Trade Management Playbook]] — Wick-Entry, CISD-Reentry-Skalierung, Event-Horizon-Exits (2026-08-01)
+- [[No-Bias Engagement Routine]] — Vorgehen ohne klaren Bias zu Handelsbeginn (2026-08-01)
+- [[NY PM Trend]] — Regeln für die PM-Session (13–16 Uhr NY) + Index SMT (2026-08-01)
+- [[One Shot One Kill Model]] — Flaggschiff-Swing-Modell, 70%-Wednesday-Regel (2026-08-01)
+- [[Stock Mega-Trades]] — Mega-Trade-Methodik für Einzelaktien, Earnings-gekoppelt (2026-08-01)
+- [[The Sentiment Effect]] — Asia-Range-basiertes Judas-Setup für Daytrading/Scalping (2026-08-01)
+- [[Trading Complex Opening Ranges]] — Trendfortsetzungs-Qualität + 2-Target-Liquidity mit Event Horizon (2026-08-01)
+- [[Trading In Consolidations]] — Regeln fürs Traden innerhalb einer konsolidierenden Range (2026-08-01)
+- [[Trading Journal & DOL Checklist]] — Journal-Checkliste + Top-Down-Chart-Vorgehen (2026-08-01)
+- [[Weekly Range Trading Model]] — Weekly-Range-Modell inkl. Zwei-DOL-Methode & TGIF (2026-08-01)
+
+## Sources
+
+*(Alle Quellen aus `raw/trading-ict/` und `raw/Federal Open Market Committee.md`, ingested 2026-08-01)*
+
+### Core Content
+
+> Curriculum-Navigation: [[Core Content 2016 (Source)]] → Monats-Seiten → Lectures. Jede der 60
+> Lecture-Seiten trägt ein `curriculum:`-Frontmatter-Feld mit Rückverweis auf ihren Monat.
+
+- [[20 Pips Per Day (Source)]], [[Basics & Opening Range Concept (Source)]], [[Blending IPDA Data Ranges & PD Arrays (Source)]], [[Bond Mega-Trades (Source)]], [[Bread & Butter Buy Setups (Source)]], [[Bread & Butter Sell Setups (Source)]]
+- [[Central Banks Dealers Range (Source)]], [[Classic Swing Trading Approach (Source)]], [[Commodity Mega-Trades (Source)]], [[Core Content 2016 (Source)]]
+- [[Defining Open Float Liquidity Pools (Source)]], [[Defining Open Float Liquidity Pools 2 (Source)]], [[Defining The Daily Range (Source)]]
+- [[Elements To Successful Swing Trading (Source)]], [[Equilibrium Vs. Discount (Source)]], [[Essentials To ICT Daytrading (Source)]]
+- [[Fair Valuation (Source)]], [[Filling The Numbers (Source)]]
+- [[High Probability Daytrade Setups (Source)]], [[High Probability Swing Trade Setups In Bull Markets (Source)]]
+- [[How Market Makers Condition The Market (Source)]], [[How Market Makers Condition The Market 2 (Source)]], [[How To Use Intermarket Analysis (Source)]]
+- [[ICT Day Trade Routine (Source)]], [[Ideal Swings Conditions For Any Market (Source)]]
+- [[Institutional Marketstructure (Source)]], [[Institutional Order Flow (Source)]], [[Institutional Sponsorship (Source)]]
+- [[Integrating Daytrades With HTF Trade Entries (Source)]], [[Interest Rate Differentials (Source)]]
+- [[Intraday Profiles f. London (Source)]], [[Intraweek Market Reversals & Overlapping Models (Source)]]
+- [[Low Resistance Liquidity Runs Part 1 (Source)]], [[Low Resistance Liquidity Runs Part 2 (Source)]]
+- [[Macro Economic To Micro Technical (Source)]], [[Market Maker Manipulation Templates (Source)]], [[Market Maker Trap Trendline Phantoms (Source)]]
+- [[Mitigation Blocks (Source)]]
+- [[Month 1 (Source)]], [[Month 03 (Source)]], [[Month 04 (Source)]], [[Month 05 (Source)]], [[Month 06 - Swing Trading Model (Source)]], [[Month 07 - Weekly (Source)]], [[Month 08 - Daytrades (Source)]], [[Month 9 - Scalping-Daytrades (Source)]], [[Month 10 (Source)]], [[Month 11 (Source)]]
+- [[NY PM Trend (Source)]]
+- [[One Shot One Kill Model (Source)]], [[Open Float (Source)]]
+- [[Premium Vs. Carrying Charge Market (Source)]], [[Projecting Daily Highs & Lows (Source)]]
+- [[Qualifying Trade Conditions With 10 Year Yields (Source)]], [[Quarterly Shifts & IPDA Data Ranges (Source)]]
+- [[Reclaimed ICT Orderblock (Source)]], [[Reeinforced Liquidity Pools - When to anticipate Raids (Source)]], [[Reeinforced Orderblock Theory BreakerBlock (Source)]], [[Reeinforced Orderblock Theory Rejection Block (Source)]], [[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]
+- [[Relative Strength Analysis - Accumulation & Distribution (Source)]]
+- [[Stock Mega-Trades (Source)]]
+- [[The Sentiment Effect (Source)]], [[Trading In Consolidations (Source)]], [[Trading Market Reversals (Source)]]
+- [[Using 10 Year Notes In HTF Analysis (Source)]], [[Using IPDA Data Ranges (Source)]], [[Using Monthly & Weekly Ranges (Source)]]
+- [[Weekly Range Profiles (Source)]], [[What To Focus On Right Now (Source)]], [[When To Avoid The London Session (Source)]]
+
+### 2026
+
+- [[2026 ICT Study (Source)]] — Sprungliste
+- [[Enigma FVG Projections (Source)]], [[From Vision To Execution (Source)]], [[How Do I Engage Markets When I Don't Have An Initial Bias (Source)]]
+- [[ICT 2026 Smart Money Concepts Lecture - January 02, 2026 (Source)]], [[ICT Chain Of Custody Of Price (Source)]]
+- [[Midnight ET Principles In Relationship To PreMarket Session (Source)]], [[Missed Entry How To Navigate The Same Trade Idea (Source)]]
+- [[NQ Futures Weekly Range Market Wizardry (Source)]], [[Post US Holiday Monday Followup (Source)]]
+- [[Trading Complex Opening Ranges With Fed Impact 07-14-2026 (Source)]]
+
+### Macro
+
+- [[Federal Open Market Committee (Source)]] — Fed-Referenzseite (nicht ICT-spezifisch)
+
+## Synthesis
+
+*(noch keine Seiten)*
+
+## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)
+
+- ⚠️ "VII", "Suspensionblock", "REH"/"REL", "MSS" (Market Structure Shift) tauchen im 2026er-Content
+  auf, sind aber nicht vollständig eigenständig definiert — bei weiterem Ingest von `raw/trading-ict/2026/`
+  präzisieren.
+- `raw/trading-ict/Core Content/Reeinforced Liquidity Pools -      When to anticipate Raids.md` ist
+  leer (0 Byte) — falls der Nutzer den Inhalt nachreicht, erneut ingesten.
+- `raw/trading-ict/Core Content/Basics & Opening Range Concept.md` enthält nur Bild-Embeds ohne Text
+  — bei Bedarf visuell nachprüfen und Konzept-Seite ergänzen.
+- `raw/Where teams and agents work together.md` wurde bewusst übersprungen (fehlgeschlagener
+  Notion-Clip ohne echten Inhalt).

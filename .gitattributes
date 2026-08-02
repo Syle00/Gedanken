@@ -1,0 +1,10 @@
+# Zeilenenden normalisieren, damit Windows-CRLF keine Pseudo-Aenderungen erzeugt.
+* text=auto eol=lf
+
+# Binaerdateien nie anfassen und nicht diffen.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.zip binary

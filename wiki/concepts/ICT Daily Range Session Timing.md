@@ -1,0 +1,85 @@
+---
+tags: [concept, ict, trading-ict, sessions]
+created: 2026-08-01
+updated: 2026-08-02
+sources: ["[[Essentials To ICT Daytrading (Source)]]", "[[Defining The Daily Range (Source)]]"]
+---
+
+# ICT Daily Range Session Timing
+
+Ablauf der Sessions, die zusammen die Daily Range formen. Ergänzt die Timeframe-Hierarchie
+(Monthly → Weekly → Daily, wobei der Daily Chart fürs Daytrading am wichtigsten ist).
+
+## Erwartungsanker: 5-Tage-Range
+
+Die Range der letzten 5 Handelstage ist der Referenzwert — es wird eine Daily Candle ähnlicher
+Größe erwartet.
+
+![[image 227.png]]
+*Die Range der letzten 5 Handelstage als Erwartungsanker für die kommende Daily Candle.*
+
+## Session-Ablauf
+
+| Session | Zeitfenster | Bedeutung |
+|---|---|---|
+| London | 1–5 Uhr | Bildet oft High/Low des Tages |
+| NY AM | nach London | Wird nur vermieden, wenn London bereits 80% der Daily Range gebildet hat (selten) |
+| London Close | — | Praktisch nicht relevant |
+| NY PM / Close | 2–3 Uhr | Ab 3 Uhr schließen die Bond-Märkte (Silver-Bullet-Fenster); danach ist Daily Range meist fertig, Retracement erwartet |
+| Asia Open | 8 Uhr | Yen/AUD/NZD bilden oft High/Low des Tages, analog zu London |
+| London Lunch | 5–7 Uhr | Ruhiger Markt, Retracement/Konsolidierung als Vorbereitung auf NY |
+
+*(Zeitangaben wie in der Rohquelle übernommen, keine Zeitzone explizit angegeben — beim nächsten
+Ingest verwandter Quellen prüfen und ggf. präzisieren.)*
+
+![[image 229.png]]
+*Sessionabfolge London → NY AM → NY PM/Close → Asia Open → London Lunch, die zusammen die Daily Range formt.*
+
+## Präzise Session-Fenster (NY Standard Time)
+
+Aus `Defining The Daily Range` — feinere Session-Grenzen als oben, gleiche Struktur:
+
+| Session | Fenster (NY Zeit) |
+|---|---|
+| Asian Range | 20–24 Uhr |
+| London Range | 1–5 Uhr |
+| NY AM | 7–10 Uhr |
+| London Close | 10–12 Uhr (nicht mehr wirklich relevant) |
+| **IPDA True Range** | **0–15 Uhr** — die "wahre" 24h-Interbank-Handelstag-Range |
+
+![[image 246.png]]
+*Die IPDA True Range geht von 12am – 15 Uhr NY Standard Time — die wahre 24h-Range des
+Interbank-Handels.*
+
+- Um 3 Uhr (15 Uhr NY) schließen die Bond-Märkte — starker Einfluss auf Währungen über die
+  Interest Rate; FOMC-Meetings liegen meist ebenfalls um diese Zeit.
+- Wenn ICT von "NY Close" spricht, meint er den **3pm IPDA True Day Close**, nicht den
+  Handelsschluss der Börse.
+
+## RTH vs. PM High/Low & Manipulationsfenster (Kurz Notizen)
+
+- Das **RTH-High/-Low** bildet sich in der **NY-AM-Session**; die Wahrscheinlichkeit, dass sich dort
+  auch das Tages-High/-Low bildet, ist nicht gering — dennoch bleibt London die bevorzugte Session
+  dafür.
+- Die **NY-PM-Session** bildet dagegen fast immer das Low bzw. High des Tages (RTH, oft auch ETH) —
+  darüber lässt sich der Tag zuverlässiger framen, als nur auf London zu spekulieren.
+- Die eigentliche **Manipulation des Tages** findet zwischen **0–5 Uhr NY** statt — meist bildet sich
+  dabei in London (teils auch in Tokio) das Low/High des Tages.
+- Die **Asia Range (19–24 Uhr)** soll konsolidieren — dadurch steigt die Wahrscheinlichkeit für einen
+  anschließend großen, klaren Bull-/Bear-Move.
+
+## Liquidity-Priorität für die AM-Session
+
+Reihenfolge der Relevanz für die NY-AM-Session: **Premarket-Liquidität (7–9:30 Uhr)** zuerst, danach
+**London-Liquidität**, danach erst **Asia-Session-Liquidität**.
+
+## Macro um 8:30
+
+Um **8:30 Uhr** gibt es eine starke Market Protection — also ein [[ICT Macros & Leading Candles|Macro]].
+Zwischen **8:30–11 Uhr** ist zudem eine Hauptzeit für Forex-Trading in NY.
+
+## Verwandt
+
+- [[New Week Opening Gap (NWOG) Bias]] — wöchentlicher Bias-Filter, der auf dieses Session-Timing aufsetzt
+- [[ICT Macros & Leading Candles]], [[Silver Bullet Model]]
+- [[Kurz Notizen (Source)]]
