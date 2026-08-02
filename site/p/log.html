@@ -24,7 +24,7 @@
 <li><a href="../index.html#concepts">Konzepte<span class="count">54</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">135</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">2</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">3</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
@@ -67,6 +67,7 @@
 <li><a href="#geprueft">Geprueft</a></li>
 </ul>
 </li>
+<li><a href="#2026-08-02-synthesis-journal-datenbank-mit-dem-wiki-verbunden">[2026-08-02] synthesis | Journal-Datenbank mit dem Wiki verbunden</a></li>
 </ul>
 </div>
 </details>
@@ -308,6 +309,18 @@
 <li>Roh-Export <code>CME_MINI_MNQU2026, 5_zztest.csv</code> in <code>raw/marktdaten/</code> abgelegt -&gt; <code>analyze_ohlc.py</code> hat ihn selbst eingeraeumt, als Duplikat erkannt, entfernt und danach normal analysiert.</li>
 <li>Synthetischer Export eines anderen Tages -&gt; neuer Ordner <code>04.08.2026</code> samt korrektem Dateinamen angelegt (Testartefakt wieder entfernt).</li>
 <li>Symbolerkennung gegen sechs Namensmuster geprueft: MNQU2026/NQ1!/YMZ25/MNQ1!/EURUSD/bereits-konform.</li>
+</ul>
+<h2 id="2026-08-02-synthesis-journal-datenbank-mit-dem-wiki-verbunden">[2026-08-02] synthesis | Journal-Datenbank mit dem Wiki verbunden</h2>
+<ul>
+<li>Nutzerwunsch: "verbinde meine journal datenbank mit dem wiki um beispiele fuer zukuenftige fehler zu finden". Maszgabe aus derselben Sitzung: <strong>SMC ist algorithmisch, kein Schaetzen, nur klare Zahlen.</strong></li>
+<li><strong>Randbedingung</strong>: <code>raw/</code> ist laut CLAUDE.md unveraenderlich — es koennen also keine Wikilinks in die Journaldateien geschrieben werden. Die Verbindung entsteht deshalb generiert in <code>wiki/</code>, analog zu <code>site/</code>.</li>
+<li>Werkzeug erstellt: <code>tools/journal_wiki.py</code> (nur Standardbibliothek). Liest <code>raw/journal/</code> lesend, parst die achtteilige Setup-Checkliste aus den Markdown-Checkboxen (<code>- [x]</code> / <code>- [ ]</code>) samt Zeitstempeln, joint ueber <code>raw/journal/Journal.md</code> Datum, Bias und Resultat, und mappt jeden Checklistenpunkt auf seine Fehler-ID aus dem Fehlerkatalog des trading-journal-Skills sowie auf die zustaendigen Wiki-Seiten.</li>
+<li>Seite erstellt (generiert): <code>wiki/synthesis/Journal-Auswertung.md</code>. Sie ist als generiert gekennzeichnet und wird bei jedem Lauf neu geschrieben.</li>
+<li><strong>Befund, ausgezaehlt ueber 21 Eintraege mit Checkliste</strong>: Liq Sweep 57 %, MS Break 52 %, Macro Expansion 52 %, Displacement 48 %, Richtige Zeitfenster 48 %, Target Liquiditaet 43 %, Anhaltende Consolidation 38 % — und <strong>Entry 5/21 = 24 %</strong>. Der Punkt "Entry" ist rund halb so oft erfuellt wie der naechstschwaechste. Der Fehlerkatalog hatte S12 unabhaengig davon als "den schwersten der acht Punkte" und als Geduldsproblem beschrieben; die Auszaehlung bestaetigt das mit einer Zahl.</li>
+<li><strong>Ehrlich ausgewiesen, was NICHT geht</strong>: Nur 9 der 21 Eintraege tragen ein eindeutiges Resultat (5 Win, 4 Loss). Die Korrelation "welcher fehlende Haken kostet Geld" ist damit <strong>nicht</strong> beantwortbar — die Verteilung ist flach (bei fast jedem Punkt dasselbe Verhaeltnis auf beiden Seiten), zwei Eintraege mit 7/8 wurden gewonnen, zwei mit 7/8 verloren. Steht so auf der Seite, statt eine Scheinkorrelation zu behaupten. Zusaetzlich als Datenluecke markiert: Eintraege mit 0/8 und 1/8 Haken sind mit hoher Wahrscheinlichkeit Faelle, in denen die Liste gar nicht gefuehrt wurde.</li>
+<li>Seiten aktualisiert: wiki/models/Trading Journal &amp; DOL Checklist.md (Abschnitt zur tatsaechlichen Erfuellungsquote + Querverweis), wiki/index.md</li>
+<li>Verifiziert: Stichprobe <code>Tape Reading 17</code> von Hand gegen die Rohdatei geprueft — 6/8, fehlend "Anhaltende Consolidation" und "Entry", Datum 2026-03-16, Bias Baerish, Resultat Win. Stimmt mit der generierten Zeile ueberein.</li>
+<li>Naechster Schritt fuer belastbare Korrelationen: bei jedem Eintrag mit Checkliste auch <code>Resultat</code> setzen. Ab rund 30 Eintraegen mit beidem wird die Win/Loss-Tabelle aussagekraeftig.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

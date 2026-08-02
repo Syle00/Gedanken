@@ -42,7 +42,17 @@ eigentliche Ziel.
 ![[image 10.png]]
 *15-Min-Chart: von ICT für die Daily Range genutzt, Highs/Lows mit Session-Bezug.*
 
+## Eigene Setup-Checkliste: wie oft sie tatsächlich erfüllt war
+
+Die acht Punkte, die im Journal seit Anfang 2026 als Checkboxen geführt werden, sind über
+21 Einträge ausgezählt auf [[Journal-Auswertung]]. Kurzfassung: sieben Punkte liegen zwischen
+38 % und 57 %, **„Entry" bei 24 %** — rund halb so oft erfüllt wie der nächstschwächste Punkt.
+
+Das ist der Punkt, an dem Analyse und Ausführung auseinanderfallen: das Setup wird erkannt, der
+Trigger aber nicht abgewartet.
+
 ## Verwandt
 
+- [[Journal-Auswertung]] — die ausgezählte Verbindung Journal → Wiki
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]]
 - [[Open Float & Liquidity Pools]]

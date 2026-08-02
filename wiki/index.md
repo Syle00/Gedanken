@@ -224,6 +224,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 
 ## Synthesis
 
+- [[Journal-Auswertung]] — **generiert** aus `raw/journal/`: Erfüllungsquote je Checklistenpunkt über 21 Einträge, verknüpft mit den zuständigen Wiki-Seiten; Ausreißer ist „Entry" mit 24 % (2026-08-02)
 - [[MNQ 2026-07-31 — Datenbasierter Tagesrückblick]] — Freitag komplett aus OHLC-Daten ausgewertet: Judas Swing 09:31, 646 Pkt Tagesrange in 41 Minuten, Checkliste 6/7 (2026-08-02)
 - [[MentorShip 2025]] — Überknotenpunkt der MentorShip-Reihe: der gemeinsame Ablauf hinter den fünf Lektionen, wo sie sich gegenseitig bestätigen, was sie neu ins Wiki gebracht haben (2026-08-02)
 
