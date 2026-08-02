@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OHLC-Datenanalyse (Workflow) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">54</span></a></li>
+<li class="active"><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">135</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">2</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Modelle</div><ul class="pagelist">
+<li><a href="../p/0-gmt-ipda-true-day-reset-entry.html">0 GMT IPDA True Day Reset Entry</a></li>
+<li><a href="../p/20-pips-per-day.html">20 Pips Per Day</a></li>
+<li><a href="../p/bond-mega-trades.html">Bond Mega-Trades</a></li>
+<li><a href="../p/bread-butter-setups.html">Bread &amp; Butter Setups</a></li>
+<li><a href="../p/classic-swing-trading-approach.html">Classic Swing Trading Approach</a></li>
+<li><a href="../p/commodity-mega-trades.html">Commodity Mega-Trades</a></li>
+<li><a href="../p/graded-price-swings.html">Graded Price Swings</a></li>
+<li><a href="../p/high-probability-daytrade-setups.html">High Probability Daytrade Setups</a></li>
+<li><a href="../p/ict-day-trade-routine.html">ICT Day Trade Routine</a></li>
+<li><a href="../p/london-session-profiles.html">London Session Profiles</a></li>
+<li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a></li>
+<li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a></li>
+<li><a href="../p/no-bias-engagement-routine.html">No-Bias Engagement Routine</a></li>
+<li><a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a></li>
+<li><a href="../p/ny-pm-trend.html">NY PM Trend</a></li>
+<li class="here"><a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a></li>
+<li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a></li>
+<li><a href="../p/silver-bullet-model.html">Silver Bullet Model</a></li>
+<li><a href="../p/stock-mega-trades.html">Stock Mega-Trades</a></li>
+<li><a href="../p/the-sentiment-effect.html">The Sentiment Effect</a></li>
+<li><a href="../p/three-timeframe-framing.html">Three Timeframe Framing</a></li>
+<li><a href="../p/trading-complex-opening-ranges.html">Trading Complex Opening Ranges</a></li>
+<li><a href="../p/trading-in-consolidations.html">Trading In Consolidations</a></li>
+<li><a href="../p/trading-journal-dol-checklist.html">Trading Journal &amp; DOL Checklist</a></li>
+<li><a href="../p/weekly-range-trading-model.html">Weekly Range Trading Model</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#models">Modelle</a></div>
+  <h1>OHLC-Datenanalyse (Workflow)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">workflow</span> <span class="tag">tooling</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/trading-journal-dol-checklist.html">Trading Journal &amp; DOL Checklist</a>, <a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#arbeitsteilung">Arbeitsteilung</a></li>
+<li><a href="#dateikonvention">Dateikonvention</a></li>
+<li><a href="#aufruf">Aufruf</a></li>
+<li><a href="#was-gerechnet-wird">Was gerechnet wird</a></li>
+<li><a href="#zwei-detektor-entscheidungen-die-das-ergebnis-pragen">Zwei Detektor-Entscheidungen, die das Ergebnis prägen</a></li>
+<li><a href="#grenze-der-checklisten-prufung">Grenze der Checklisten-Prüfung</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="ohlc-datenanalyse-workflow">OHLC-Datenanalyse (Workflow)</h1>
+<p>Screenshot und CSV ersetzen sich nicht — sie beantworten verschiedene Fragen. Diese Seite hält
+fest, wie beides zusammenspielt und was <code>tools/analyze_ohlc.py</code> daraus rechnet.</p>
+<h2 id="arbeitsteilung">Arbeitsteilung</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Screenshot (PNG)</th>
+<th>OHLC-CSV</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zeigt</td>
+<td><strong>was du gesehen und markiert hast</strong></td>
+<td><strong>was tatsächlich passiert ist</strong></td>
+</tr>
+<tr>
+<td>Stark bei</td>
+<td>Struktur, deine Einzeichnungen, dein Blickwinkel</td>
+<td>exakte Preise, Zeiten, Distanzen</td>
+</tr>
+<tr>
+<td>Schwach bei</td>
+<td>exakte Preise (aus Pixeln geraten), Kerzen zählen</td>
+<td>dem, was du wahrgenommen hast</td>
+</tr>
+<tr>
+<td>Rolle im Journal</td>
+<td>Beleg der Entscheidung</td>
+<td>Korrektiv der Wahrnehmung</td>
+</tr>
+</tbody>
+</table>
+<p>Der Punkt ist das Korrektiv: ein als „Liquidity Sweep" markiertes Ereignis, das in den Daten nur
+2 Ticks Durchstich hatte und darüber schloss, war kein Sweep. Das ist aus einem Bild nicht
+belegbar, aus der CSV schon. Siehe <a href="../p/trading-journal-dol-checklist.html">Trading Journal &amp; DOL Checklist</a>.</p>
+<h2 id="dateikonvention">Dateikonvention</h2>
+<pre><code>raw/marktdaten/&lt;SYMBOL&gt; &lt;YYYY-MM-DD&gt; &lt;TF&gt;.csv
+</code></pre>
+<ul>
+<li><code>&lt;YYYY-MM-DD&gt;</code> = der <strong>Handelstag</strong>, um den es geht (Datum der letzten Kerze). Alle Timeframes
+  eines Tages tragen dasselbe Datum, auch wenn der 1D-Export 289 Kerzen Historie enthält.</li>
+<li><code>&lt;TF&gt;</code> ∈ <code>1m 5m 15m 1h 4h 1d</code></li>
+<li>Spalten: <code>time,open,high,low,close[,volume]</code>. <code>time</code> als Unix-Timestamp (TradingView-Default)
+  oder ISO-8601. <strong>Zeitzone wird immer nach New York gerechnet</strong>, weil das gesamte Vokabular
+  (Killzones, Macros, Midnight Open) daran hängt.</li>
+<li>TradingView: <code>Chart → Export chart data</code>. Der Export enthält je nach Plan keine Volumenspalte —
+  das Skript kommt ohne aus.</li>
+</ul>
+<h2 id="aufruf">Aufruf</h2>
+<pre><code class="language-bash">python tools/analyze_ohlc.py MNQ 2026-07-31              # Tagesreport
+python tools/analyze_ohlc.py MNQ 2026-07-31 --at 09:50   # Setup gegen die 8er-Checkliste
+python tools/analyze_ohlc.py MNQ 2026-07-31 --tf 15m     # anderer Basis-Timeframe
+</code></pre>
+<p>Nur Standardbibliothek, keine Installation nötig.</p>
+<h2 id="was-gerechnet-wird">Was gerechnet wird</h2>
+<ul>
+<li><strong>Opening Prices</strong> — Midnight Open, 8:30, 9:30, 13:30 (siehe <a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a>)</li>
+<li><strong>Session-Level</strong> — Asia / London / London Lunch / NY AM / Premarket / London Close / Lunch /
+  NY PM / RTH / IPDA True Range, je mit High, Low, Uhrzeit, Range und Equilibrium</li>
+<li><strong>HTF-Kontext</strong> — 5-Tage-Range als Erwartungsanker gegen die tatsächliche Tagesrange</li>
+<li><strong>Liquidity Sweeps</strong> — mit Alter des genommenen Levels und Durchstich in Punkten</li>
+<li><strong>Market Structure Breaks</strong> — BOS/CHoCH, sequenziell getrackt</li>
+<li><strong>Displacement</strong> — Kerzen über dem Vielfachen der Median-Range, mit Körperanteil</li>
+<li><strong>Fair Value Gaps</strong> — Bereich, CE, Größe, Füllstand (<a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>)</li>
+<li><strong>Macro-Fenster</strong> — Jannes' Stundenraster XX:50–XX+1:10, mit Expansion-Markierung</li>
+<li><strong>Consolidation-Phasen</strong> und <strong>unangetastete Liquidität</strong></li>
+</ul>
+<h2 id="zwei-detektor-entscheidungen-die-das-ergebnis-pragen">Zwei Detektor-Entscheidungen, die das Ergebnis prägen</h2>
+<p><strong>1. Ein Level braucht Alter.</strong> Ein Swing High, das drei Kerzen alt ist, ist keine Liquidität —
+dort liegen keine Stops. Ohne Mindestalter (<code>--min-age</code>, default skaliert mit dem Timeframe)
+meldet der 1m-Chart eines einzigen Tages über 100 „Sweeps" und die Auswertung ist wertlos.</p>
+<p><strong>2. Der Rückgang darf dauern.</strong> Die naive Regel „Docht nimmt das Level, dieselbe Kerze schließt
+zurück" übersieht genau den Fall, auf den es ankommt: der <a href="../p/judas-swing.html">Judas Swing</a> nimmt Buyside, hält
+sich ein paar Kerzen darüber und kippt dann. Deshalb ein Bestätigungsfenster (<code>--confirm</code>).
+Am 31.07.2026 lag der entscheidende Sweep um 09:31 — mit der Ein-Kerzen-Regel war er unsichtbar.</p>
+<blockquote>
+<p>Beides sind Konventionen, keine Wahrheiten. Wer die Schwellen verschiebt, bekommt andere
+Ereignisse. Die Defaults stehen im Skript und sind per CLI überschreibbar.</p>
+</blockquote>
+<h2 id="grenze-der-checklisten-prufung">Grenze der Checklisten-Prüfung</h2>
+<p><code>--at</code> prüft <strong>7 von 8</strong> Punkten. „Entry" ist keine Eigenschaft des Marktes, sondern deine
+Entscheidung — das Skript setzt den Haken nicht.</p>
+<p>Punkt 8 („Target Liquidität min. 2 H/L 1m") wird ausdrücklich <strong>nur mit dem Wissensstand zum
+Setup-Zeitpunkt</strong> gerechnet. Levels, die im Nachhinein unangetastet blieben, sind kein Ziel, das
+zum Entry sichtbar war.</p>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/trading-journal-dol-checklist.html">Trading Journal &amp; DOL Checklist</a> — die Checkliste, gegen die geprüft wird</li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a> — Herkunft der Session-Fenster</li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a> — das Stundenraster der Macros</li>
+<li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a> — erste Anwendung</li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">2</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a><span class="cat">Synthese</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/models/OHLC-Datenanalyse (Workflow).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

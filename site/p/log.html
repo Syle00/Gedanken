@@ -22,9 +22,9 @@
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">54</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">24</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">135</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">1</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">2</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
@@ -57,6 +57,11 @@
 <li><a href="#2026-08-02-ingest-market-maker-primer-ict-youtube-forex-library-2017">[2026-08-02] ingest | Market Maker Primer (ICT YouTube Forex Library 2017)</a></li>
 <li><a href="#2026-08-02-ingest-market-maker-primer-nachtrag-die-restlichen-60-charts-ausgewertet">[2026-08-02] ingest | Market Maker Primer — Nachtrag: die restlichen 60 Charts ausgewertet</a></li>
 <li><a href="#2026-08-02-query-vii-geklaert-volume-imbalance">[2026-08-02] query | VII geklaert = Volume Imbalance</a></li>
+<li><a href="#2026-08-02-synthesis-marktdaten-pipeline-ohlc-csv-als-korrektiv-zum-screenshot">[2026-08-02] synthesis | Marktdaten-Pipeline: OHLC-CSV als Korrektiv zum Screenshot</a><ul>
+<li><a href="#entscheidungen-ohne-rueckfrage-nach-vault-konvention">Entscheidungen ohne Rueckfrage (nach Vault-Konvention)</a></li>
+<li><a href="#befund-aus-dem-ersten-ausgewerteten-tag-fr-31072026">Befund aus dem ersten ausgewerteten Tag (Fr, 31.07.2026)</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </details>
@@ -250,6 +255,31 @@
 <li>Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (neuer Abschnitt "Einzeichnen: Open und Close, nicht die Wicks"), wiki/concepts/Enigma FVG Projection.md, wiki/concepts/PD Array.md (VII in die Aufzaehlung der Arrays), wiki/concepts/Smart Money Concepts (SMC).md, wiki/sources/Alltime Highs und TGIF (Source).md, wiki/models/Weekly Range Trading Model.md, wiki/synthesis/MentorShip 2025.md, wiki/index.md</li>
 <li>✅ Damit sind <strong>beide</strong> grossen offenen Begriffe des 2026er-Materials erledigt: MSS (heute frueher aus der MentorShip 2022) und VII. Offen bleiben nur noch "Suspensionblock" und "REH"/"REL".</li>
 <li>⚠️ Markiert: Die muendliche Erlaeuterung bezeichnete das Zahlenbeispiel als <strong>BISI</strong>, die Sequenz beschreibt aber eine Abwaertsbewegung (Candle 2 faellt von 28.450,50 auf 28.274,50, Candle 3 eroeffnet darunter) — nach der Vault-Definition also ein <strong>SIBI</strong>. Die Einzeichnungsregel ist richtungsunabhaengig und davon nicht betroffen; nur das Label ist zu pruefen.</li>
+</ul>
+<h2 id="2026-08-02-synthesis-marktdaten-pipeline-ohlc-csv-als-korrektiv-zum-screenshot">[2026-08-02] synthesis | Marktdaten-Pipeline: OHLC-CSV als Korrektiv zum Screenshot</h2>
+<ul>
+<li>Frage: "kannst du die tradingcharts in png erkennen ... oder ist es besser wenn ich OHLC des ganzen Tages als .csv hochlade?"</li>
+<li>Antwort in Kuerze: beides, aber fuer verschiedene Jobs. PNG belegt <em>was er gesehen und markiert hat</em>, CSV liefert die exakten Zahlen zum Gegenpruefen. Aus einem Bild sind Preise, Kerzenzahlen und Distanzen nur geschaetzt — genau die Groessen, auf denen seine Checkliste steht.</li>
+<li>Auf seine Freigabe hin gebaut: <code>tools/analyze_ohlc.py</code> (nur Standardbibliothek) + Dateikonvention <code>raw/marktdaten/&lt;SYMBOL&gt; &lt;YYYY-MM-DD&gt; &lt;TF&gt;.csv</code>.</li>
+<li>Seine sechs TradingView-Exporte (1m/5m/15m/1h/4h/1d, alle Freitag 31.07.2026, MNQU2026) aus <code>raw/</code> nach <code>raw/marktdaten/</code> verschoben und nach der Konvention umbenannt — die Originalnamen (<code>CME_MINI_MNQU2026, 1_f6229.csv</code>) waren weder sprechend noch sortierbar.</li>
+<li>Seiten erstellt: wiki/models/OHLC-Datenanalyse (Workflow).md, wiki/synthesis/MNQ 2026-07-31 — Datenbasierter Tagesrückblick.md</li>
+<li>Seiten aktualisiert: wiki/index.md</li>
+</ul>
+<h3 id="entscheidungen-ohne-rueckfrage-nach-vault-konvention">Entscheidungen ohne Rueckfrage (nach Vault-Konvention)</h3>
+<ul>
+<li><strong>Zeitzone</strong>: alle Timestamps werden hart nach New York gerechnet, auch wenn der Export UTC liefert. Sein gesamtes Vokabular haengt daran; ein Report in UTC waere unbrauchbar.</li>
+<li><strong>Rauschfilter statt Vollstaendigkeit</strong>: ohne Mindestalter meldet der 1m-Chart eines Tages 105 "Sweeps" und 153 "Structure Breaks" — unbrauchbar. Ein Level, das drei Kerzen alt ist, ist keine Liquiditaet. Defaults: Mindestalter 15 Kerzen (skaliert mit dem Timeframe), Mindestdurchstich 0,75x Median-Kerzenrange. Per CLI ueberschreibbar, damit die Konvention nicht als Wahrheit auftritt.</li>
+<li><strong>Sweep-Definition korrigiert</strong>: die naive Regel "Docht nimmt das Level, dieselbe Kerze schliesst zurueck" hat am 31.07. den entscheidenden Sweep um 09:31 <strong>nicht gefunden</strong>, weil der Preis vier Kerzen ueber dem Level blieb, bevor er kippte. Genau das ist ein Judas Swing. Deshalb ein Bestaetigungsfenster (default 5 Kerzen auf 1m) statt der Ein-Kerzen-Regel.</li>
+<li><strong>Checklistenpunkt 8 ohne Lookahead</strong>: "Target Liquiditaet min. 2 H/L 1m" wird nur mit dem Wissensstand zum Setup-Zeitpunkt gerechnet. Levels, die <em>im Nachhinein</em> unangetastet blieben, waren zum Entry kein sichtbares Ziel — die erste Fassung hat das falsch gezaehlt.</li>
+<li><strong>Punkt 6 "Entry" bleibt leer</strong>: das ist keine Eigenschaft des Marktes, sondern seine Entscheidung. Das Skript prueft daher 7 von 8 Punkten und sagt das auch so.</li>
+</ul>
+<h3 id="befund-aus-dem-ersten-ausgewerteten-tag-fr-31072026">Befund aus dem ersten ausgewerteten Tag (Fr, 31.07.2026)</h3>
+<ul>
+<li>Tages-High 28.725,75 um 09:35, Tages-Low 28.079,75 um 10:16 — <strong>die komplette Tagesrange von 646 Pkt entstand in 41 Minuten</strong>.</li>
+<li>Um 09:31 Sweep eines Buyside-Levels, das seit 05:19 stand (252 Kerzen), 98 Pkt Durchstich, sofortige Rueckeroberung — Judas Swing zum RTH-Open. Danach fuenf Sellside-Sweeps in acht Minuten, darunter Levels vom Vorabend (19:38, 849 Kerzen alt).</li>
+<li>Macro 09:50–10:10 mit 293,25 Pkt = 4,6x Tagesmedian. Das Lunch-Macro 10:50–11:10 lag mit 92 Pkt <strong>unter</strong> der Expansionsschwelle — wer auf das Lunch-Setup gewartet hat, hat auf das falsche Fenster gewartet.</li>
+<li>Checkliste <code>--at 09:50</code>: 6/7 pruefbare Punkte. Der fehlende ist "Target Liquiditaet" — die Sellside war zu dem Zeitpunkt schon abgeraeumt, der Move lief trotzdem noch 281 Pkt tiefer.</li>
+<li>⚠️ Markiert: High <em>und</em> Low des Tages fielen ins Fenster 09:30–10:16, nicht nach London. Das laeuft der Faustregel in <a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a> entgegen (Manipulation 0–5 Uhr, High/Low meist in London). Als <strong>einzelner Datenpunkt notiert, nicht als Korrektur</strong> — ein Tag widerlegt keine Statistik. Passt besser zum Seek-&amp;-Destroy-Freitag aus <a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a>.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

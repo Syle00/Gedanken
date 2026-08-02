@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MNQ 2026-07-31 — Datenbasierter Tagesrückblick — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">54</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">135</span></a></li>
+<li class="active"><a href="../index.html#synthesis">Synthese<span class="count">2</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Synthese</div><ul class="pagelist">
+<li><a href="../p/mentorship-2025.html">MentorShip 2025</a></li>
+<li class="here"><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#synthesis">Synthese</a></div>
+  <h1>MNQ 2026-07-31 — Datenbasierter Tagesrückblick</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">trading-ict</span> <span class="tag">marktdaten</span> <span class="tag">mnq</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#der-tag-in-einem-satz">Der Tag in einem Satz</a></li>
+<li><a href="#eckdaten">Eckdaten</a></li>
+<li><a href="#session-verlauf">Session-Verlauf</a></li>
+<li><a href="#die-entscheidende-sequenz">Die entscheidende Sequenz</a></li>
+<li><a href="#macro-expansion">Macro-Expansion</a></li>
+<li><a href="#was-der-tag-uber-die-checkliste-sagt">Was der Tag über die Checkliste sagt</a></li>
+<li><a href="#offen-am-handelsende">Offen am Handelsende</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="mnq-2026-07-31-datenbasierter-tagesruckblick">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</h1>
+<p>Freitag, ausgewertet aus <code>raw/marktdaten/MNQ 2026-07-31 {1m,5m,15m,1h,4h,1d}.csv</code> mit
+<code>tools/analyze_ohlc.py</code>. Alle Zeiten New York. Erste Anwendung von
+<a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a> — kein Trade-Eintrag, sondern die Marktseite des Tages.</p>
+<h2 id="der-tag-in-einem-satz">Der Tag in einem Satz</h2>
+<p>Ein Freitag, an dem die gesamte Tagesrange in 41 Minuten entstand: Judas Swing auf ein
+252 Kerzen altes High um 09:31, dann 646 Punkte nach unten bis 10:16 — danach passierte
+nichts Wesentliches mehr.</p>
+<h2 id="eckdaten">Eckdaten</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tages-High</td>
+<td>28 725.75 um <strong>09:35</strong></td>
+</tr>
+<tr>
+<td>Tages-Low</td>
+<td>28 079.75 um <strong>10:16</strong></td>
+</tr>
+<tr>
+<td>Range</td>
+<td>646.00 Pkt · EQ 28 402.75</td>
+</tr>
+<tr>
+<td>Midnight Open</td>
+<td>28 459.00</td>
+</tr>
+<tr>
+<td>8:30 Open</td>
+<td>28 494.75</td>
+</tr>
+<tr>
+<td>9:30 Open</td>
+<td>28 576.25</td>
+</tr>
+<tr>
+<td>Close (16:59)</td>
+<td>28 284.00</td>
+</tr>
+</tbody>
+</table>
+<p>5-Tage-Range als Erwartungsanker: 625.75–1 205.25 Pkt (Median 825.25) → die tatsächlichen
+646 Pkt liegen <strong>am unteren Rand des Erwartungsrahmens</strong>, aber im Rahmen.</p>
+<h2 id="session-verlauf">Session-Verlauf</h2>
+<table>
+<thead>
+<tr>
+<th>Session</th>
+<th>High</th>
+<th>Low</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Asian Range (20–24)</td>
+<td>28 580.00 (21:15)</td>
+<td>28 389.75 (22:37)</td>
+<td>190.25</td>
+</tr>
+<tr>
+<td>London (1–5)</td>
+<td>28 612.25 (02:14)</td>
+<td>28 450.25 (02:48)</td>
+<td>162.00</td>
+</tr>
+<tr>
+<td>London Lunch (5–7)</td>
+<td>28 642.00 (05:10)</td>
+<td>28 519.25 (06:06)</td>
+<td>122.75</td>
+</tr>
+<tr>
+<td>Premarket (7–9:30)</td>
+<td>28 626.00 (07:08)</td>
+<td>28 432.00 (08:42)</td>
+<td>194.00</td>
+</tr>
+<tr>
+<td><strong>NY AM (7–10)</strong></td>
+<td><strong>28 725.75 (09:35)</strong></td>
+<td><strong>28 294.75 (09:54)</strong></td>
+<td><strong>431.00</strong></td>
+</tr>
+<tr>
+<td>London Close (10–12)</td>
+<td>28 392.00 (10:00)</td>
+<td>28 079.75 (10:16)</td>
+<td>312.25</td>
+</tr>
+<tr>
+<td>Lunch (12–13)</td>
+<td>28 391.00 (12:58)</td>
+<td>28 242.00 (12:07)</td>
+<td>149.00</td>
+</tr>
+<tr>
+<td>NY PM (13–16)</td>
+<td>28 524.50 (15:54)</td>
+<td>28 359.75 (13:00)</td>
+<td>164.75</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Beobachtung:</strong> High <em>und</em> Low des Tages fielen in das Fenster 09:30–10:16 — also weder in
+London noch in der PM-Session. Das widerspricht der Faustregel aus
+<a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a>, nach der sich das Tages-High/-Low bevorzugt in London
+bildet (0–5 Uhr Manipulationsfenster). Hier lag London mit 162 Pkt Range praktisch flach; die
+Manipulation kam erst mit dem 9:30-Open.</p>
+<blockquote>
+<p>⚠️ Ein einzelner Tag widerlegt keine Statistik. Notiert als Datenpunkt, nicht als Korrektur
+der Wiki-Aussage. Der Freitag ist zudem der <a href="../p/market-maker-manipulation-templates.html">Seek-&amp;-Destroy</a>-Kandidat
+der Woche — das passt eher zum beobachteten Muster als das London-Profil.</p>
+</blockquote>
+<h2 id="die-entscheidende-sequenz">Die entscheidende Sequenz</h2>
+<table>
+<thead>
+<tr>
+<th>Zeit</th>
+<th>Ereignis</th>
+<th>Beleg aus den Daten</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>09:10</td>
+<td>CHoCH bullish @ 28 491.00</td>
+<td>Close 28 527.00</td>
+</tr>
+<tr>
+<td>09:25</td>
+<td>Sweep buyside @ 28 560.00 (87 Kerzen alt), +54.00 Pkt</td>
+<td>Rückeroberung nach 1 Kerze</td>
+</tr>
+<tr>
+<td>09:30</td>
+<td>RTH Open 28 576.25</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>09:31</strong></td>
+<td><strong>Sweep buyside @ 28 627.75 — Level stand seit 05:19 (252 Kerzen), +98.00 Pkt</strong></td>
+<td>sofortige Rückeroberung</td>
+</tr>
+<tr>
+<td>09:31–09:35</td>
+<td>Displacement bullish, 3 Kerzen über 3x Median-Range</td>
+<td>49.00 / 42.00 / 46.00 Pkt</td>
+</tr>
+<tr>
+<td>09:35</td>
+<td>Tages-High 28 725.75</td>
+<td></td>
+</tr>
+<tr>
+<td>09:38</td>
+<td>Displacement bearish 79.50 Pkt (3.7x), größte Kerze des Tages</td>
+<td>hinterlässt bearish FVG 28 611.00–28 645.75</td>
+</tr>
+<tr>
+<td>09:40–09:48</td>
+<td>fünf Sellside-Sweeps in Folge, darunter Levels von <strong>23:12</strong> (634 Kerzen) und <strong>19:38</strong> (849 Kerzen)</td>
+<td>121 / 127 / 112 / 77 / 56 Pkt Durchstich</td>
+</tr>
+<tr>
+<td>09:50–10:10</td>
+<td>Macro mit <strong>293.25 Pkt Range</strong> = 4.6x Tagesmedian</td>
+<td></td>
+</tr>
+<tr>
+<td>10:16</td>
+<td>Tages-Low 28 079.75</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Das ist ein lehrbuchmäßiger <a href="../p/judas-swing.html">Judas Swing</a>: ein über Nacht stehengebliebenes High wird zum
+RTH-Open um fast 100 Punkte überschossen, sofort zurückerobert, und die Gegenbewegung räumt in
+acht Minuten die Sellside-Liquidität von Asia und Vorabend ab.</p>
+<p>Der bearish FVG von 09:38 (28 611.00–28 645.75) blieb <strong>bis Handelsschluss ungefüllt</strong>.</p>
+<h2 id="macro-expansion">Macro-Expansion</h2>
+<p>Median-Range eines Macro-Fensters an diesem Tag: 63.75 Pkt. Drei Fenster gelten als Expansion:</p>
+<table>
+<thead>
+<tr>
+<th>Fenster</th>
+<th>Range</th>
+<th>Faktor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>09:50–10:10</strong></td>
+<td>293.25</td>
+<td>4.6x</td>
+</tr>
+<tr>
+<td>11:50–12:10</td>
+<td>120.50</td>
+<td>1.9x</td>
+</tr>
+<tr>
+<td>15:50–16:10</td>
+<td>184.00</td>
+<td>2.9x</td>
+</tr>
+</tbody>
+</table>
+<p>Das 10:50–11:10-Macro — das Ausführungsfenster des <a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a> — lag mit 92.00 Pkt
+<strong>unter</strong> der Expansionsschwelle. Wer an diesem Tag auf das Lunch-Setup gewartet hat, hat auf
+das falsche Fenster gewartet; die Bewegung war um 10:16 gelaufen.</p>
+<h2 id="was-der-tag-uber-die-checkliste-sagt">Was der Tag über die Checkliste sagt</h2>
+<p>Prüfung mit <code>--at 09:50</code> (dem Macro, in dem die Expansion lief):</p>
+<table>
+<thead>
+<tr>
+<th>Punkt</th>
+<th>Daten</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Liq Sweep</td>
+<td><strong>ja</strong> — drei Sellside-Sweeps zwischen 09:46 und 09:48</td>
+</tr>
+<tr>
+<td>Displacement</td>
+<td><strong>ja</strong> — 09:31 bis 09:33, bis 3.9x Median</td>
+</tr>
+<tr>
+<td>Anhaltende Consolidation</td>
+<td><strong>ja</strong> — 08:50–09:29, zwei Blöcke à 20 Kerzen</td>
+</tr>
+<tr>
+<td>Richtige Zeitfenster</td>
+<td><strong>ja</strong> — Macro 09:50–10:10, Session NY AM</td>
+</tr>
+<tr>
+<td>MS Break</td>
+<td><strong>ja</strong> — 09:10 CHoCH bullish, 09:34 BOS bullish</td>
+</tr>
+<tr>
+<td>Entry</td>
+<td>— deine Entscheidung</td>
+</tr>
+<tr>
+<td>Macro Expansion</td>
+<td><strong>ja</strong> — 4.6x</td>
+</tr>
+<tr>
+<td>Target Liquidität ≥2 H/L 1m</td>
+<td><strong>nein</strong> — zum Zeitpunkt 09:50 war 1 Buyside-Level offen, kein Sellside-Level</td>
+</tr>
+</tbody>
+</table>
+<p><strong>6 von 7 prüfbaren Punkten.</strong> Der eine fehlende ist aufschlussreich: um 09:50 war die
+Sellside-Liquidität bereits abgeräumt — es gab kein sauberes 1m-Ziel mehr unter dem Preis. Der
+Move lief trotzdem noch 281 Punkte tiefer. Das ist genau die Situation, in der die Checkliste
+konservativ ist und der Markt nicht.</p>
+<h2 id="offen-am-handelsende">Offen am Handelsende</h2>
+<p>Unangetastete Liquidität (1m, Stand 16:59):</p>
+<ul>
+<li><strong>Sellside:</strong> 28 115.50 (11:34) · 28 163.50 (11:43) · 28 165.25 (11:47) · 28 242.00 (12:07) · 28 256.00 (12:16)</li>
+<li><strong>Buyside:</strong> 28 524.50 (15:54) · 28 406.00 (16:13) · darüber der ungefüllte FVG 28 611.00–28 645.75</li>
+</ul>
+<p>Der Tag schloss bei 28 284.00 — zwischen beiden Clustern, näher an der Sellside.</p>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a> — wie diese Zahlen entstehen</li>
+<li><a href="../p/judas-swing.html">Judas Swing</a>, <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>, <a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a> — Seek &amp; Destroy Friday</li>
+<li><a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a></li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">2</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a><span class="cat">Modelle</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/MNQ 2026-07-31 — Datenbasierter Tagesrückblick.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

@@ -65,6 +65,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 ## Models
 
 - [[0 GMT IPDA True Day Reset Entry]] — Entry am IPDA-True-Day-Reset unabhängig von CBDR/London (2026-08-01)
+- [[OHLC-Datenanalyse (Workflow)]] — Screenshot vs. CSV, Dateikonvention fuer raw/marktdaten/ und was tools/analyze_ohlc.py aus einem Tagesexport rechnet (2026-08-02)
 - [[20 Pips Per Day]] — Tägliches ~20-Pip-Expansion-Leg-Daytrade-Modell (2026-08-01)
 - [[Bond Mega-Trades]] — Saisonales HTF-Swing-Modell für 30Y-Treasuries (2026-08-01)
 - [[Bread & Butter Setups]] — Kern-Daytrade-Modell für Buy-/Sell-Setups (2026-08-01)
@@ -223,6 +224,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 
 ## Synthesis
 
+- [[MNQ 2026-07-31 — Datenbasierter Tagesrückblick]] — Freitag komplett aus OHLC-Daten ausgewertet: Judas Swing 09:31, 646 Pkt Tagesrange in 41 Minuten, Checkliste 6/7 (2026-08-02)
 - [[MentorShip 2025]] — Überknotenpunkt der MentorShip-Reihe: der gemeinsame Ablauf hinter den fünf Lektionen, wo sie sich gegenseitig bestätigen, was sie neu ins Wiki gebracht haben (2026-08-02)
 
 ## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)
