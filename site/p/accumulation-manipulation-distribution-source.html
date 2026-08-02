@@ -173,11 +173,14 @@
   <div class="pagemeta"><div class="tags"><span class="tag">source</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">market-maker-primer</span> <span class="tag">po3</span> <span class="tag">amd</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-02</div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#kernpunkte">Kernpunkte</a><ul>
-<li><a href="#der-opening-price-ist-der-anker">Der Opening Price ist der Anker</a></li>
-<li><a href="#aus-jannes-mitschrift">Aus Jannes' Mitschrift</a></li>
+<li><a href="#die-modulthemen">Die Modulthemen</a></li>
+<li><a href="#die-anatomie-der-po3-candle">Die Anatomie der Po3-Candle</a><ul>
+<li><a href="#die-manipulation-leistet-drei-dinge-gleichzeitig">Die Manipulation leistet drei Dinge gleichzeitig</a></li>
+<li><a href="#distribution">Distribution</a></li>
 </ul>
 </li>
+<li><a href="#am-chart">Am Chart</a></li>
+<li><a href="#aus-jannes-mitschrift">Aus Jannes' Mitschrift</a></li>
 <li><a href="#extrahiert-nach">Extrahiert nach</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -185,21 +188,113 @@
 </details>
   <div class="content"><h1 id="accumulation-manipulation-distribution-source">Accumulation - Manipulation - Distribution (Source)</h1>
 <p>Die bildstärkste Lektion des <a href="../p/market-maker-primer-course-source.html">Market Maker Primer</a> (12 Charts)
-— Po3 rund um den <strong>Opening Price</strong>.</p>
-<h2 id="kernpunkte">Kernpunkte</h2>
-<h3 id="der-opening-price-ist-der-anker">Der Opening Price ist der Anker</h3>
-<p>Die Folie definiert ihn als <strong>„Initial Value Price — Prior To Imbalance"</strong>. Das Modul kündigt an:
-Engineering und <strong>Neutralizing</strong> von Liquidität, Market Making &amp; <strong>Pairing of Orders</strong>, und wie
-Accumulation / Manipulation / Distribution jeweils in Bull- und Bear-Bedingungen aussehen.</p>
+— und die einzige Quelle im Vault, die die <strong>Po3-Candle Bauteil für Bauteil benennt</strong>.</p>
+<h2 id="die-modulthemen">Die Modulthemen</h2>
+<p>Die Folien kündigen sieben Punkte an, die zusammen die Market-Making-Mechanik ergeben:</p>
+<ul>
+<li>The ICT Power Of 3</li>
+<li>Importance Of Developing <strong>Anticipatory Skills</strong></li>
+<li><strong>Engineering</strong> Liquidity In The Market</li>
+<li><strong>Neutralizing</strong> Liquidity In The Market</li>
+<li><strong>Market Making &amp; Pairing Of Orders</strong></li>
+<li>What Accumulation / Where Manipulation / What Distribution <strong>Looks Like In Bull &amp; Bear Conditions</strong></li>
+</ul>
+<h2 id="die-anatomie-der-po3-candle">Die Anatomie der Po3-Candle</h2>
+<p>Jede Folie hebt ein Bauteil derselben Candle hervor (Beispiel: bullishe Bedingungen):</p>
+<table>
+<thead>
+<tr>
+<th>Bauteil</th>
+<th>Bezeichnung auf der Folie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Opening Price</strong></td>
+<td>„Initial Value Price — Prior To Imbalance"</td>
+</tr>
+<tr>
+<td><strong>Closing Price</strong></td>
+<td>„Ending Value Price — Post Price Imbalance"</td>
+</tr>
+<tr>
+<td><strong>Range Expansion</strong></td>
+<td>„Dynamic Price Imbalance"</td>
+</tr>
+<tr>
+<td><strong>Accumulation</strong></td>
+<td>„Long Positions Built Up"</td>
+</tr>
+<tr>
+<td><strong>Manipulation</strong></td>
+<td>„<strong>Engineering Short Liquidity</strong>"</td>
+</tr>
+<tr>
+<td><strong>Manipulation</strong></td>
+<td>„<strong>Neutralizing Long Liquidity</strong>"</td>
+</tr>
+<tr>
+<td><strong>Manipulation</strong></td>
+<td>„<strong>Sell Stops Paired With Buy Interest</strong>"</td>
+</tr>
+<tr>
+<td><strong>Distribution</strong></td>
+<td>„<strong>Pairing Long Exits With Pending Buy Interest</strong>"</td>
+</tr>
+</tbody>
+</table>
 <figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 01.png" alt="MMP - AMD 01" loading="lazy"></figure>
 
-<p><em>Der Opening Price als „Initial Value Price — Prior To Imbalance" ist der Bezugspunkt des gesamten
-Po3-Moduls.</em></p>
-<h3 id="aus-jannes-mitschrift">Aus Jannes' Mitschrift</h3>
+<p><em>Der Opening Price als „Initial Value Price — Prior To Imbalance" — der Bezugspunkt des gesamten
+Zyklus.</em></p>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 02.png" alt="MMP - AMD 02" loading="lazy"><figcaption>Der Closing Price als „Ending Value Price — Post Price Imbalance" — das Gegenstück am anderen Ende.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 03.png" alt="MMP - AMD 03" loading="lazy"></figure>
+
+<p><em>Die Range Expansion ist die „Dynamic Price Imbalance" — der Teil der Candle, der die Imbalance
+erzeugt.</em></p>
+<h3 id="die-manipulation-leistet-drei-dinge-gleichzeitig">Die Manipulation leistet drei Dinge gleichzeitig</h3>
+<p>Das ist der inhaltliche Kern der Lektion: Der Wick unterhalb des Opens (bullisher Fall) ist nicht
+<em>eine</em> Aktion, sondern <strong>drei überlagerte</strong>:</p>
+<ol>
+<li><strong>Engineering Short Liquidity</strong> — es werden neue Verkäufer erzeugt, deren Stops oben liegen.</li>
+<li><strong>Neutralizing Long Liquidity</strong> — bestehende Longs werden ausgestoppt, ihre Liquidität
+   verschwindet aus dem Markt.</li>
+<li><strong>Sell Stops Paired With Buy Interest</strong> — die so entstandenen Sell Stops werden mit dem
+   Kaufinteresse der Institutionen <strong>gepaart</strong>. Genau das ist „Market Making".</li>
+</ol>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 05.png" alt="MMP - AMD 05" loading="lazy"><figcaption>Manipulation als „Engineering Short Liquidity" — der Wick erzeugt die Gegenseite.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 06.png" alt="MMP - AMD 06" loading="lazy"><figcaption>Dieselbe Bewegung als „Neutralizing Long Liquidity" — bestehende Longs werden entfernt.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 07.png" alt="MMP - AMD 07" loading="lazy"><figcaption>Und als „Sell Stops Paired With Buy Interest" — das eigentliche Pairing of Orders.</figcaption></figure>
+
+<h3 id="distribution">Distribution</h3>
+<p>Spiegelbildlich am oberen Ende: <strong>„Pairing Long Exits With Pending Buy Interest"</strong> — die Ausstiege
+der Longs werden gegen das noch offene Kaufinteresse verrechnet.</p>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 08.png" alt="MMP - AMD 08" loading="lazy"><figcaption>Distribution als „Pairing Long Exits With Pending Buy Interest".</figcaption></figure>
+
+<h2 id="am-chart">Am Chart</h2>
+<p>Die letzten vier Folien zeigen denselben AudUsd-/UsdCad-Verlauf schrittweise eingefärbt —
+Accumulation, dann Manipulation, dann Distribution:</p>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 09.png" alt="MMP - AMD 09" loading="lazy"><figcaption>„What Accumulation Looks Like In **Bull** Conditions" — die Akkumulationsphase am Chart.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 10.png" alt="MMP - AMD 10" loading="lazy"></figure>
+
+<p><em>„Where Does Manipulation Occur In </em><em>Bull</em><em> Conditions" — die rot markierte Manipulationszone unter
+der Akkumulation.</em></p>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 11.png" alt="MMP - AMD 11" loading="lazy"></figure>
+
+<p><em>„What Distribution Looks Like In </em><em>Bull</em><em> Conditions" — die blau markierte Distributionszone am
+oberen Ende.</em></p>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 12.png" alt="MMP - AMD 12" loading="lazy"></figure>
+
+<p><em>UsdCad M15 mit allen Phasen: „10 Pip Run Into Sell Liquidity" nach unten, danach die Expansion und
+der „20 Pip Run Into Buy Liquidity" am oberen Ziel.</em></p>
+<h2 id="aus-jannes-mitschrift">Aus Jannes' Mitschrift</h2>
 <ul>
-<li><strong>NDOG-Bezug</strong>: Bleiben wir in Asia unter/über dem <a href="../p/new-week-opening-gap-nwog-bias.html">NDOG</a> und
-  expandieren dann in late London, wurde von Smart Money die Position zu einem möglichst günstigen
-  Preis gesammelt — für die anstehende Expansion.</li>
+<li><strong>NDOG-Bezug</strong>: Bleiben wir in Asia unter/über dem NDOG und expandieren dann in late London, wurde
+  von Smart Money die Position zu einem möglichst günstigen Preis gesammelt.</li>
 <li><strong>Bei Long Bias will man möglichst billig einkaufen — also unter dem Opening Price bzw. genau
   darauf.</strong> Genau das tut Smart Money ebenfalls (spiegelbildlich für Shorts).</li>
 <li>Die <strong>Manipulation</strong> ist entweder ein Run auf <strong>Equal Lows/Highs</strong> oder ein <strong>schneller,
@@ -214,15 +309,20 @@ Po3-Moduls.</em></p>
 <li>Leitfrage für den Tag: <em>Wie pairen die Market Maker die Orders? Welche Manipulation findet statt?
   Bias bullish oder bearish?</em> — wer das beantwortet, hat einen Überblick, was am Tag passieren wird.</li>
 </ul>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 04.png" alt="MMP - AMD 04" loading="lazy"></figure>
+
+<p><em>Accumulation als „Long Positions Built Up" — die Phase, in der Smart Money unter dem Opening Price
+einsammelt.</em></p>
 <h2 id="extrahiert-nach">Extrahiert nach</h2>
 <ul>
-<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a> — die vollständige Candle-Anatomie</li>
 <li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a> (Einschränkung zur SL-Sicherheit)</li>
 </ul>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/time-and-price-source.html">Time and Price (Source)</a> — Po3 auf Monthly/Weekly/Daily</li>
 <li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a>, <a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a> — wo die gepaarten Stops liegen</li>
 </ul></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/market-maker-primer-course-source.html">Market Maker Primer Course (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/time-and-price-source.html">Time and Price (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/sources/Accumulation - Manipulation - Distribution (Source).md</code></footer>

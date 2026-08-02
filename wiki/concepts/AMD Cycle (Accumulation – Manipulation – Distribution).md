@@ -71,6 +71,31 @@ der gesamte Zyklus organisiert ist.
 ![[MMP - AMD 01.png]]
 *Der Opening Price als „Initial Value Price — Prior To Imbalance".*
 
+### Die Candle Bauteil für Bauteil
+
+Die Folien benennen jedes Element derselben Po3-Candle einzeln (bullisher Fall):
+
+| Bauteil | Bezeichnung |
+| --- | --- |
+| Opening Price | „Initial Value Price — Prior To Imbalance" |
+| Closing Price | „Ending Value Price — Post Price Imbalance" |
+| Range Expansion | „Dynamic Price Imbalance" |
+| Accumulation | „Long Positions Built Up" |
+| **Manipulation** | „Engineering Short Liquidity" |
+| **Manipulation** | „Neutralizing Long Liquidity" |
+| **Manipulation** | „Sell Stops Paired With Buy Interest" |
+| Distribution | „Pairing Long Exits With Pending Buy Interest" |
+
+**Die Manipulation leistet drei Dinge gleichzeitig** — das ist der eigentliche Mechanismus hinter
+dem Begriff „Market Making": Der Wick unter dem Open **erzeugt** neue Short-Liquidität,
+**neutralisiert** die bestehende Long-Liquidität und **paart** die dabei entstehenden Sell Stops mit
+dem institutionellen Kaufinteresse. Die Distribution am oberen Ende verrechnet spiegelbildlich die
+Long-Ausstiege gegen das noch offene Kaufinteresse.
+
+![[MMP - AMD 07.png]]
+*Manipulation als „Sell Stops Paired With Buy Interest" — das Pairing of Orders, das dem Market
+Making seinen Namen gibt.*
+
 - **Bei Long Bias will man möglichst billig einkaufen — also unter dem Opening Price bzw. genau
   darauf.** Genau das tut Smart Money ebenfalls (spiegelbildlich für Shorts).
 - Die **Manipulation** ist entweder ein Run auf **Equal Lows/Highs** oder ein **schneller, explosiver
@@ -88,15 +113,31 @@ der gesamte Zyklus organisiert ist.
 
 ## Po3 auf Monthly / Weekly / Daily
 
-Aus [[Time and Price (Source)]] — derselbe Zyklus gilt auf jedem Timeframe:
+Aus [[Time and Price (Source)]] — *„Price Action Is Fractal In Nature."* Derselbe Zyklus gilt auf
+jedem Timeframe, und jeder Timeframe liefert eine andere **Ebene des Bias**:
 
-- **„Monthly Chart provides Macro Institutional Bias."** Bullish → **unter dem Monthly Open kaufen**;
-  bearish → **oberhalb des Monthly Open verkaufen**.
+| Chart | Liefert | Regel |
+| --- | --- | --- |
+| **Monthly** | **Macro** Institutional Bias | bullish → kaufen **at or below** Monthly Open; bearish → verkaufen **at or above** |
+| **Weekly** | **Intermediate** Institutional Bias | dieselbe Regel am Weekly Open |
+| **Daily** | **Short Term** Institutional Bias | dieselbe Regel am Daily Open |
+
+- **Warum die Opening Prices**: Große Institutionen nutzen algorithmische Systeme, die **auf die
+  Monthly- und Weekly-Opening-Preise ausgerichtet** sind. Weil dort massives Volumen liegt, ist es
+  sinnvoll, ihre Richtung nachzuahmen.
+- **Highest Probability auf dem Daily**: dann, wenn **Monthly und Weekly die Trade-Idee beide
+  stützen**. Der Markt schwankt höher und tiefer *relativ zur* Monthly-/Weekly-Perspektive.
+- **Einschränkung**: *„Not Every Week Will Move In The Macro Directional Bias"* — es gibt Wochen, die
+  sich heftig in Übereinstimmung mit dem Macro-Bias bewegen, und andere, die es nicht tun.
 - Bestätigung über den **Close der 3. Candle**: wird nach genommener Sellside ein Swing Low dadurch
   bestätigt, ist der Switch zum Target DOL Buyside vollzogen.
-- Gleiches auf **Weekly** und **Daily**. Entscheidend ist **wann und wie stark** expandiert wird:
-  eine riesige Expansion bereits am **Montag** macht Dienstag/Mittwoch zu Retracement- oder
-  Konsolidierungstagen — siehe [[Weekly Range Trading Model]].
+- Entscheidend bleibt **wann und wie stark** expandiert wird: eine riesige Expansion bereits am
+  **Montag** macht Dienstag/Mittwoch zu Retracement- oder Konsolidierungstagen — siehe
+  [[Weekly Range Trading Model]].
+
+![[MMP - TimePrice 02.png]]
+*„ICT Power Of 3 — Monthly Open": Der Monthly Chart liefert den Macro Institutional Bias; gekauft
+wird at or below, verkauft at or above dem Monthly Opening Price.*
 
 ## Verwandt
 

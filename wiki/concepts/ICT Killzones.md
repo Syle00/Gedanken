@@ -36,18 +36,38 @@ gemeinsame Nenner der Folien.
 - **London geht bis 7 Uhr**, der Hauptmove wird aber von **2–5 Uhr** gesucht.
 - Die **NY-Session reicht bis 14 Uhr NY**, die Killzone endet um 9 Uhr.
 
+## Time & Price Theory: der Schnittpunkt macht den Trade
+
+Die Killzone allein ist nur die halbe Bedingung. Die Folie „Time & Price Theory" setzt sie
+ausdrücklich mit dem Preis ins Verhältnis: die **Killzone als senkrechte Zeitlinie**, das
+**Key S&R Level als waagerechte Preislinie** — gehandelt wird ihr **Schnittpunkt**.
+
+![[MMP - MarketStructure 07.png]]
+*Time & Price Theory: die Killzone liefert das Wann, das Key S&R Level das Wo — die Reaktion
+entsteht dort, wo beide zusammentreffen.*
+
+Das deckt sich mit der Regel aus [[Three Timeframe Framing]], dass **alle Trades über Key S&R Levels
+geframed** werden.
+
 ## Was in welchem Fenster passiert
 
 - **Asian**: Konsolidierung ist der Normalfall. Eine enge Range ist ein Argument für einen
-  Trendtag — Details auf [[Asian Range]].
+  Trendtag — Details auf [[Asian Range]]. **Die Session gehört den Crosses**: der USD konsolidiert
+  bis Mitternacht NY und *befreit* damit Paare wie AudJpy oder GbpAud — laut Folie gibt es hier
+  „much more OTE setups in the Crosses … over any other time or Trading Session".
 - **London**: Hier liegt der [[Judas Swing]] des Handelstags, und hier wird das **High oder Low des
-  Tages** erwartet — nicht immer, aber mit der höchsten Wahrscheinlichkeit.
-- **New York**: Zwei Möglichkeiten — Fortsetzung des London-Moves oder Reversal. **Fortsetzung ist
-  deutlich leichter zu antizipieren**, also wird darauf gespielt, wenn der Chart es hergibt. News
-  (Red Folder) liefern die Volatilität für die größten Moves des Tages.
-- **London Close**: meist das **Ende der Manipulation der Daily Candle** (bullisher Bias → Ende der
-  Downside-Manipulation, bearisher → Ende der Upside-Manipulation), oft mit dem Wendepunkt gegen
-  11 Uhr. Kann aber auch ein reines Continuation Pattern sein.
+  Tages** erwartet. Die Folie begründet den Vorrang hart: **höchste Wahrscheinlichkeit für einen
+  großen gerichteten Move im 24-Stunden-Tag** und **höchstes Order-Execution-Volumen aller
+  Sessions**.
+- **New York**: Zwei Möglichkeiten — Fortsetzung des London-Moves oder ein *kompletter* Reversal der
+  Tagesrichtung. Stimmt London mit dem Daily Bias überein, ist Continuation die Erwartung;
+  **„Reversals require more insights"**. News (Red Folder) liefern die Volatilität für die größten
+  Moves des Tages.
+- **London Close**: **entweder Continuation-Punkt für Swings, die bis in den NY-Nachmittag laufen —
+  oder Reversal-Punkt.** Im Reversal-Fall kann sich dort die Richtung **des Tages oder sogar der
+  Woche** drehen. In Jannes' Praxis meist das **Ende der Manipulation der Daily Candle** (bullisher
+  Bias → Ende der Downside-Manipulation, bearisher → Ende der Upside-Manipulation), oft gegen
+  11 Uhr.
 
 ## London filtert NY
 

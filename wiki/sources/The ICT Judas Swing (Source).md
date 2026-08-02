@@ -29,6 +29,17 @@ direction the ICT Judas Swing will form."*
 > *„Der False Run ist die Judas Swing — daher brauchen wir zwangsweise eine Higher-Timeframe-Analyse
 > und ein Verständnis, wo der Preis longterm hingeht."*
 
+![[MMP - Judas 02.png]]
+*Die Definitionsfolie: Fenster 0:00–5:00 Uhr NY, der „False Run", der Trader ohne HTF-Verständnis
+auf die falsche Seite bringt.*
+
+![[MMP - Judas 03.png]]
+*Ausführung in bullishen Bedingungen — Asian Range, NY Opening Price und der Drop darunter vor der
+Expansion.*
+
+![[MMP - Judas 04.png]]
+*Ausführung in bearishen Bedingungen — der Run über die Asian Range High als eigentliche Judas.*
+
 ## Extrahiert nach
 
 - [[Judas Swing]]

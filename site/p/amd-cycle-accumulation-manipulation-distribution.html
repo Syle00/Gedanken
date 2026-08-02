@@ -94,7 +94,10 @@
 <li><a href="#session-fahrplan-fx-ny-zeit-bezug">Session-Fahrplan (FX, NY-Zeit-Bezug)</a></li>
 <li><a href="#dol-draw-on-liquidity">DOL (Draw on Liquidity)</a></li>
 <li><a href="#midnight-start-premarket-2026-erganzung">Midnight-Start &amp; Premarket (2026-Ergänzung)</a></li>
-<li><a href="#der-opening-price-als-anker-market-maker-primer">Der Opening Price als Anker (Market Maker Primer)</a></li>
+<li><a href="#der-opening-price-als-anker-market-maker-primer">Der Opening Price als Anker (Market Maker Primer)</a><ul>
+<li><a href="#die-candle-bauteil-fur-bauteil">Die Candle Bauteil für Bauteil</a></li>
+</ul>
+</li>
 <li><a href="#po3-auf-monthly-weekly-daily">Po3 auf Monthly / Weekly / Daily</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -185,6 +188,59 @@ den Opening Price als <strong>„Initial Value Price — Prior To Imbalance"</st
 der gesamte Zyklus organisiert ist.</p>
 <figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 01.png" alt="MMP - AMD 01" loading="lazy"><figcaption>Der Opening Price als „Initial Value Price — Prior To Imbalance".</figcaption></figure>
 
+<h3 id="die-candle-bauteil-fur-bauteil">Die Candle Bauteil für Bauteil</h3>
+<p>Die Folien benennen jedes Element derselben Po3-Candle einzeln (bullisher Fall):</p>
+<table>
+<thead>
+<tr>
+<th>Bauteil</th>
+<th>Bezeichnung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Opening Price</td>
+<td>„Initial Value Price — Prior To Imbalance"</td>
+</tr>
+<tr>
+<td>Closing Price</td>
+<td>„Ending Value Price — Post Price Imbalance"</td>
+</tr>
+<tr>
+<td>Range Expansion</td>
+<td>„Dynamic Price Imbalance"</td>
+</tr>
+<tr>
+<td>Accumulation</td>
+<td>„Long Positions Built Up"</td>
+</tr>
+<tr>
+<td><strong>Manipulation</strong></td>
+<td>„Engineering Short Liquidity"</td>
+</tr>
+<tr>
+<td><strong>Manipulation</strong></td>
+<td>„Neutralizing Long Liquidity"</td>
+</tr>
+<tr>
+<td><strong>Manipulation</strong></td>
+<td>„Sell Stops Paired With Buy Interest"</td>
+</tr>
+<tr>
+<td>Distribution</td>
+<td>„Pairing Long Exits With Pending Buy Interest"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Die Manipulation leistet drei Dinge gleichzeitig</strong> — das ist der eigentliche Mechanismus hinter
+dem Begriff „Market Making": Der Wick unter dem Open <strong>erzeugt</strong> neue Short-Liquidität,
+<strong>neutralisiert</strong> die bestehende Long-Liquidität und <strong>paart</strong> die dabei entstehenden Sell Stops mit
+dem institutionellen Kaufinteresse. Die Distribution am oberen Ende verrechnet spiegelbildlich die
+Long-Ausstiege gegen das noch offene Kaufinteresse.</p>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - AMD 07.png" alt="MMP - AMD 07" loading="lazy"></figure>
+
+<p><em>Manipulation als „Sell Stops Paired With Buy Interest" — das Pairing of Orders, das dem Market
+Making seinen Namen gibt.</em></p>
 <ul>
 <li><strong>Bei Long Bias will man möglichst billig einkaufen — also unter dem Opening Price bzw. genau
   darauf.</strong> Genau das tut Smart Money ebenfalls (spiegelbildlich für Shorts).</li>
@@ -204,16 +260,52 @@ der gesamte Zyklus organisiert ist.</p>
   Bias bullish oder bearish?</em></li>
 </ul>
 <h2 id="po3-auf-monthly-weekly-daily">Po3 auf Monthly / Weekly / Daily</h2>
-<p>Aus <a href="../p/time-and-price-source.html">Time and Price (Source)</a> — derselbe Zyklus gilt auf jedem Timeframe:</p>
+<p>Aus <a href="../p/time-and-price-source.html">Time and Price (Source)</a> — <em>„Price Action Is Fractal In Nature."</em> Derselbe Zyklus gilt auf
+jedem Timeframe, und jeder Timeframe liefert eine andere <strong>Ebene des Bias</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Chart</th>
+<th>Liefert</th>
+<th>Regel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Monthly</strong></td>
+<td><strong>Macro</strong> Institutional Bias</td>
+<td>bullish → kaufen <strong>at or below</strong> Monthly Open; bearish → verkaufen <strong>at or above</strong></td>
+</tr>
+<tr>
+<td><strong>Weekly</strong></td>
+<td><strong>Intermediate</strong> Institutional Bias</td>
+<td>dieselbe Regel am Weekly Open</td>
+</tr>
+<tr>
+<td><strong>Daily</strong></td>
+<td><strong>Short Term</strong> Institutional Bias</td>
+<td>dieselbe Regel am Daily Open</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li><strong>„Monthly Chart provides Macro Institutional Bias."</strong> Bullish → <strong>unter dem Monthly Open kaufen</strong>;
-  bearish → <strong>oberhalb des Monthly Open verkaufen</strong>.</li>
+<li><strong>Warum die Opening Prices</strong>: Große Institutionen nutzen algorithmische Systeme, die <strong>auf die
+  Monthly- und Weekly-Opening-Preise ausgerichtet</strong> sind. Weil dort massives Volumen liegt, ist es
+  sinnvoll, ihre Richtung nachzuahmen.</li>
+<li><strong>Highest Probability auf dem Daily</strong>: dann, wenn <strong>Monthly und Weekly die Trade-Idee beide
+  stützen</strong>. Der Markt schwankt höher und tiefer <em>relativ zur</em> Monthly-/Weekly-Perspektive.</li>
+<li><strong>Einschränkung</strong>: <em>„Not Every Week Will Move In The Macro Directional Bias"</em> — es gibt Wochen, die
+  sich heftig in Übereinstimmung mit dem Macro-Bias bewegen, und andere, die es nicht tun.</li>
 <li>Bestätigung über den <strong>Close der 3. Candle</strong>: wird nach genommener Sellside ein Swing Low dadurch
   bestätigt, ist der Switch zum Target DOL Buyside vollzogen.</li>
-<li>Gleiches auf <strong>Weekly</strong> und <strong>Daily</strong>. Entscheidend ist <strong>wann und wie stark</strong> expandiert wird:
-  eine riesige Expansion bereits am <strong>Montag</strong> macht Dienstag/Mittwoch zu Retracement- oder
-  Konsolidierungstagen — siehe <a href="../p/weekly-range-trading-model.html">Weekly Range Trading Model</a>.</li>
+<li>Entscheidend bleibt <strong>wann und wie stark</strong> expandiert wird: eine riesige Expansion bereits am
+  <strong>Montag</strong> macht Dienstag/Mittwoch zu Retracement- oder Konsolidierungstagen — siehe
+  <a href="../p/weekly-range-trading-model.html">Weekly Range Trading Model</a>.</li>
 </ul>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - TimePrice 02.png" alt="MMP - TimePrice 02" loading="lazy"></figure>
+
+<p><em>„ICT Power Of 3 — Monthly Open": Der Monthly Chart liefert den Macro Institutional Bias; gekauft
+wird at or below, verkauft at or above dem Monthly Opening Price.</em></p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/judas-swing.html">Judas Swing</a> — die Manipulationsphase im Tagesablauf</li>

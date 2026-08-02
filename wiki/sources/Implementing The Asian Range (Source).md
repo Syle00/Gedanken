@@ -28,9 +28,18 @@ Signalgeber.
 - **Ab 12 Uhr NY ist der Preis bereit sich zu bewegen** — Mitternacht ist zugleich der Start des
   Tages für den Algorithmus.
 
+![[MMP - AsianRange 02.png]]
+*„Defining The Asian Range": Beginn 7:00 pm NY, Ende Mitternacht. Die **Höhe** der Range ist Highest
+High bis Lowest Low, die **Breite** ist die Dauer selbst.*
+
 ![[MMP - AsianRange 03.png]]
-*Die Asian Range von 7:00 PM bis 12:00 AM New York — Highest High und Lowest Low fassen die Phase,
-in der sich Orders und Sentiment aufbauen.*
+*Dieselbe Range am Chart: oberhalb sammeln sich Buy Orders, unterhalb Sell Orders — „Orders &
+Sentiment Build Up".*
+
+![[MMP - AsianRange 01.png]]
+*„Introducing The Asian Range": die Price Action vor der Frankfurt-/London-Eröffnung ist
+aussagekräftig für die spätere Intraday-Bewegung — „a stillness in Price, many times right before
+the Intraday Directional Impulse Swing".*
 
 ### Konsolidierung = Trending Day
 
@@ -41,8 +50,23 @@ abliefern"*. Der Preis steht still, bevor der Intraday Directional Impulse Swing
 
 ### Die Range bleibt nach dem Sweep relevant
 
-Kehrt der Preis im späteren Tagesverlauf **in die Asia Range zurück**, kaufen die Big Boys dort
-(spiegelbildlich für Sells). Ein Sweep entwertet die Range also nicht.
+Die Folie ist hier präziser als die Mitschrift:
+
+> *„The periods when Price is Bullish — we can **extend the Asian Range High and Low into the
+> future**. When Price returns back to the Asian Range High — we can anticipate **Institutional
+> Buying**."*
+
+Die Range wird also als Level **nach rechts verlängert**; die Rückkehr dorthin ist der erwartete
+Punkt institutionellen Kaufens (spiegelbildlich für Sells). Ein Sweep entwertet die Range nicht.
+
+![[MMP - AsianRange 05.png]]
+*„Utilization In Bullish Conditions" — Asian Range High und Low in die Zukunft verlängert.*
+
+![[MMP - AsianRange 06.png]]
+*„The Asian Range In Bullish Conditions": die Reaktion am verlängerten Range-Level.*
+
+![[MMP - AsianRange 04.png]]
+*Ab 12 Uhr NY ist der Preis bereit sich zu bewegen — Mitternacht ist der Start des Algo-Tages.*
 
 ### Ablaufmuster nach Bias
 
@@ -59,6 +83,13 @@ Der Bereich vom **12-Uhr-Midnight-Opening bis 11 Uhr** wird ausgemalt — bis 11
 maximal bis dahin anhalten soll und danach mindestens ein kurzfristiges Retracement erwartet wird.
 In einem bullishen Szenario will man den Preis **unter dem Opening** sehen, bevor man kauft
 (spiegelbildlich für Sells).
+
+![[MMP - AsianRange 07.png]]
+*Bullisher Bias: der Sweep des Asia Low nimmt beide Seiten offset, danach folgt der bullishe Move,
+der nicht mehr unter die Asia Session zurückfällt.*
+
+![[MMP - AsianRange 08.png]]
+*Derselbe Ablauf am Tagesende: der Preis bleibt am High, statt in die Range zurückzukehren.*
 
 ## Extrahiert nach
 

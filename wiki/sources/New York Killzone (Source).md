@@ -21,6 +21,25 @@ raw_path: "raw/trading-ict/Market Maker Primer/New York Killzone.md"
 ![[MMP - NYKZ 03.png]]
 *„The New York Trading Session actually extends beyond the 9:00 am hour to 2:00 pm in New York time."*
 
+## Die zwei Szenarien (Originalfolie)
+
+> *„The New York Session typically has two potential scenarios — Continuation of London's Move or a
+> complete Reversal on the daily direction.*
+>
+> *When the daily is in a clear one sided momentum — it is easiest to look for confirmation of that
+> direction in the London Price Action. If London agrees with the Daily bias — we can anticipate New
+> York to post a continuation setup. **Reversals require more insights.**"*
+
+![[MMP - NYKZ 04.png]]
+*„The New York Session Characteristics" am UsdCad: stimmt London mit dem Daily Bias überein, ist ein
+Continuation-Setup in NY die Erwartung.*
+
+![[MMP - NYKZ 01.png]]
+*Das Killzone-Fenster 7–9 Uhr NY am AudUsd — die Majors sind hier die idealen Instrumente.*
+
+![[MMP - NYKZ 02.png]]
+*Dasselbe Fenster am EurUsd: der New York Open setzt häufig ein OTE-Muster für 20–30 Pips auf.*
+
 ### Aus Jannes' Mitschrift
 
 - News (Red Folder) stimulieren den Preis, bringen enorme Volatilität und verstärken die mögliche
@@ -32,6 +51,9 @@ raw_path: "raw/trading-ict/Market Maker Primer/New York Killzone.md"
   zu suchen: passt London zum Daily (z.B. bullish, Low hat sich in London gebildet), wird in NY
   zuerst ein Retracement zu einem Low erwartet, bevor es weitergeht.
 - **Starke London-Expansion → eher ruhige NY Session bzw. Reversal.**
+
+![[MMP - NYKZ 05.png]]
+*NY im Zusammenspiel mit London: erst das Retracement zu einem Low, dann die Fortsetzung.*
 
 ## Extrahiert nach
 

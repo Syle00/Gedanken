@@ -31,6 +31,27 @@ heißt das Modul **„The Asian Killzone"**.
 *„The periods when the market is not willing to run in the Asian Session — it will consolidate until
 Midnight NY time."*
 
+## Die Session gehört den Crosses
+
+Die dritte Folie („The Asian Session Characteristics") ist die praktisch wichtigste der Lektion:
+
+- **Die Paare, die *nicht* mit dem USD gekoppelt sind — die Crosses — sind zu dieser Tageszeit am
+  aktivsten.**
+- Der **USD konsolidiert** tendenziell bis Mitternacht NY. Genau das **befreit die Crosses** wie
+  **AudJpy, GbpAud** und andere Paare, die mit den zu dieser Zeit aktiven Währungen kreuzen.
+- Daraus folgt direkt:
+
+> *„There will be much more OTE setups in the Crosses in this time of day over any other time or
+> Trading Session. If you are a Cross Trader… this will be a rich time of day for setups."*
+
+![[MMP - Asia 03.png]]
+*„The Asian Session Characteristics" am AudJpy: während der USD konsolidiert, laufen die Crosses —
+die ergiebigste Zeit für OTE-Setups in Cross-Paaren.*
+
+![[MMP - Asia 01.png]]
+*„The Asian Open" am UsdJpy: AUD-, NZD- und JPY-Paare sind ideal, das Muster liefert einen
+15–20-Pip-Scalp.*
+
 ## Extrahiert nach
 
 - [[Asian Range]], [[ICT Killzones]]

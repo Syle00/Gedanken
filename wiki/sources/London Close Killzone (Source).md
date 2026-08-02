@@ -18,6 +18,24 @@ raw_path: "raw/trading-ict/Market Maker Primer/London Close Killzone.md"
 ![[MMP - LDNClose 01.png]]
 *„The Key Times to monitor are 10:00 am to Noon NY time."*
 
+## Charakteristik: Fortsetzung **oder** Wendepunkt
+
+Die Originalfolie nennt ausdrücklich beide Rollen — das erklärt, warum der London Close je nach
+Quelle mal als irrelevant und mal als entscheidend beschrieben wird:
+
+> *„London Close can create **continuation points** for swings that trade well into the New York
+> afternoon hours.*
+>
+> *Other times — The London Close can also be a **Reversal Point** for Price and what had been the
+> direction of the day or week — can change during London Close."*
+
+Bemerkenswert ist die Reichweite: der Wendepunkt kann nicht nur die Richtung **des Tages**, sondern
+die **der Woche** drehen.
+
+![[MMP - LDNClose 02.png]]
+*„Characteristics Of London Close" am UsdJpy: derselbe Zeitraum liefert entweder einen
+Continuation-Punkt in die NY-Nachmittagsstunden oder den Reversal-Punkt für Tag bzw. Woche.*
+
 ### Aus Jannes' Mitschrift
 
 - Key Time 10–12 Uhr, wobei **um 11 Uhr meist das Ende der täglichen Manipulation** liegt.
@@ -29,6 +47,9 @@ raw_path: "raw/trading-ict/Market Maker Primer/London Close Killzone.md"
 - Wer nur den London Close handeln will, nimmt den **OTE-Entry im 5M-Chart**.
 - Bildet der London Close das High of the Day bei bearishem Bias, ist es ab diesem Moment ein
   **Protected High**.
+
+![[MMP - LDNClose 03.png]]
+*Der London Close als High of the Day bei bearishem Bias — ab diesem Moment ein Protected High.*
 
 > ⚠️ Abweichung zur Bestandsseite: [[ICT Daily Range Session Timing]] führt den London Close nach
 > `Essentials To ICT Daytrading` als *„praktisch nicht relevant"*. Hier bekommt er ein eigenes

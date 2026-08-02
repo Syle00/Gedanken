@@ -16,6 +16,10 @@ Man schaut auf **Short- und Longterm Highs und Lows**: Was ist wahrscheinlicher,
 logischsten hin? In einer Trending Condition, in der ein Short- oder Longterm High/Low **noch nicht
 erreicht** wurde, ist die Fortsetzung des Moves das Wahrscheinlichere.
 
+![[MMP - DailyBias 01.png]]
+*Titelchart der Lektion: Previous Day High und Previous Day Low als die beiden Anker, zwischen denen
+der Tages-Bias entschieden wird.*
+
 ### PDH/PDL als Target und als Barriere
 
 - **Bullish** → Target ist das **PDH**. Das PDL wird damit ausgeschlossen, weil dort Support
@@ -35,6 +39,10 @@ erreicht** wurde, ist die Fortsetzung des Moves das Wahrscheinlichere.
 Wurden **PDL und PDH** genommen, wird ein potentielles Reversal bzw. ein **starker nächster Tag mit
 einer großen Candle** erwartet — analog zu einem **Inner Range Day**, nach dem ebenfalls ein starker
 Tag folgt.
+
+![[MMP - DailyBias 02.png]]
+*Der Tagesverlauf zwischen PDH und PDL: das Ziel liegt auf der Bias-Seite, die Gegenseite wirkt als
+Support bzw. Resistance.*
 
 ## Extrahiert nach
 

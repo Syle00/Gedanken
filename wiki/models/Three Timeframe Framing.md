@@ -27,10 +27,32 @@ geframed** — einer für den Kontext, einer fürs Framing, einer fürs Timing.
 
 ## Rollenverteilung
 
+Die Folie „The Keys To Multiple Time Frame Market Structure" legt sie explizit fest:
+
+> **Where Your Focus Should Be: The Highest of the 3 Time Frames.**
+
+- **Trades werden vom höchsten oder mittleren Timeframe aus gemanagt.**
+- **Der kürzeste Timeframe dient dem Entry und liefert Hinweise auf mögliche Reversals** — sonst
+  nichts.
+- **Die Trades mit der höchsten Wahrscheinlichkeit laufen in Richtung des höheren Timeframes.**
+- **Alle Trades werden über Key S&R Levels geframed** — das ist die Preisseite zur Zeitseite der
+  [[ICT Killzones]], siehe Time & Price Theory dort.
+- Market Profiles unterstützen die Market-Structure-Analyse.
+
+![[MMP - MarketStructure 02.png]]
+*„The Keys To Multiple Time Frame Market Structure" — Fokus auf dem höchsten der drei Timeframes,
+Management über HTF/MTF, Entry und Reversal-Hinweise über den kürzesten.*
+
+In Jannes' Mitschrift dieselbe Aufteilung, nur schärfer formuliert:
+
 - **HTF**: liefert Bias und Modell — welches MMXM-Modell liegt vor, wo sind die HTF-PD-Arrays. Auch
   die Swing-Klassifikation (Shortterm High/Low vs. ITH/ITL) gehört hierher.
 - **MTF**: hier verbringt man **die meiste Zeit**. Der Trade wird geframed, die Liquidität beobachtet.
 - **LTF**: **ausschließlich für den Entry** — *„aber für nichts anderes!!"*
+
+![[MMP - MarketStructure 06.png]]
+*Swing-Klassifikation: jedes Hoch und Tief wird eingeordnet; die Extrempunkte markieren Start und
+Ende des übergeordneten Swings.*
 
 ## Jannes' Intraday-Variante: 15M / 5M / 1M
 
@@ -52,6 +74,31 @@ Die [[ICT MentorShip 2022 (Source)|MentorShip 2022]] deckt sich damit und schär
 Je mehr Timeframes im selben Zustand sind, desto stärker das Setup: Befindet man sich im
 **1M-, 5M- und 15M-Discount** gleichzeitig, ist das allein schon ein starker Long-Verdacht.
 *„Je mehr Dealing Ranges übereinstimmen, desto besser!"* — siehe [[Dealing Range]].
+
+## „Avoid The Over-Complicating"
+
+Die Abschlussfolie der Lektion ist eine Haltungsfrage — und relativiert die Bias-Arbeit deutlich:
+
+> *„Selecting a Directional Bias does not guarantee profitability. Nor does it guarantee accuracy in
+> either your Trade Direction and or Trade Results.*
+>
+> *One Trader's Buy Bias may exist inside the realm of another Trader's Sell Bias. **They both can be
+> „correct" and make money** and even see their respective profit objectives achieved. They both can
+> be „wrong" and make money … They could simply lose money and neither Trade idea come to fruition.
+> **There is no „black & white".***
+>
+> *As a Trader you must enter „The Grey" and be comfortable with **less than perfect visibility**.*
+>
+> *Find your Time Frame — determine the Market Structure given that Time Frame. Trade within that
+> respective Market Structure and perform your **targeting on the Highest & Mid level Time Frames**."*
+
+![[MMP - MarketStructure 08.png]]
+*„Between Black & White" — zwei Trader mit gegensätzlichem Bias können beide recht behalten; der
+Timeframe entscheidet, welche Struktur überhaupt gilt.*
+
+Das ist die inhaltliche Begründung dafür, warum die Timeframe-Wahl **vor** der Bias-Frage steht: Ein
+Bias ist nur innerhalb einer Marktstruktur überhaupt sinnvoll, und die Marktstruktur hängt am
+gewählten Timeframe.
 
 ## Verwandt
 

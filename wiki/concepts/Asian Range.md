@@ -11,9 +11,18 @@ Die Konsolidierungsphase vor London — **7:00 PM bis 12:00 AM NY**, gemessen al
 Lowest Low**. Sie ist kein Signalgeber, sondern der **Rahmen**, in dem ein bereits vorhandener Bias
 seine Bestätigung findet.
 
+Die Folie trennt dabei zwei Maße:
+
+- **Höhe der Range** = Highest High bis Lowest Low zwischen 7:00 PM und Mitternacht.
+- **Breite der Range** = die Dauer selbst, also 7:00 PM bis Mitternacht NY.
+
+![[MMP - AsianRange 02.png]]
+*„Defining The Asian Range": Beginn 7:00 pm NY, Ende Mitternacht NY; die Höhe ergibt sich aus
+Highest High und Lowest Low, die Breite aus der Dauer.*
+
 ![[MMP - AsianRange 03.png]]
-*Definition der Asian Range: 7:00 PM → 12:00 AM New York, Highest High und Lowest Low — dazwischen
-bauen sich Orders und Sentiment auf.*
+*Dieselbe Definition am Chart — dazwischen bauen sich Buy Orders oberhalb und Sell Orders unterhalb
+auf: „Orders & Sentiment Build Up".*
 
 ## Ohne Bias keine Anwendung
 
@@ -47,8 +56,22 @@ Fall **Asia** — deshalb ist ein Stop unter bzw. über der Asia Range geschütz
 
 ## Die Range bleibt nach dem Sweep relevant
 
-Kehrt der Preis im späteren Tagesverlauf **in die Asia Range zurück**, kaufen die Big Boys dort
-(spiegelbildlich für Sells). Ein Sweep entwertet die Range also nicht — sie bleibt ein PD-Bereich.
+Die Folie „Utilization In Bullish Conditions" ist hier präziser als die Mitschrift:
+
+> *„The periods when Price is Bullish — we can **extend the Asian Range High and Low into the
+> future**. When Price returns back to the **Asian Range High** — we can anticipate **Institutional
+> Buying**."*
+
+Die Range wird also nicht nur beobachtet, sondern **als Level nach rechts verlängert**. Kehrt der
+Preis im späteren Tagesverlauf dorthin zurück, ist institutionelles Kaufinteresse zu erwarten
+(spiegelbildlich für Sells). Ein Sweep entwertet die Range nicht — sie bleibt ein PD-Bereich.
+
+![[MMP - AsianRange 05.png]]
+*„Utilization In Bullish Conditions": Asian Range High und Low werden in die Zukunft verlängert; die
+Rückkehr an das Range High ist der Punkt, an dem institutionelles Kaufen erwartet wird.*
+
+![[MMP - AsianRange 06.png]]
+*Die Reaktion am verlängerten Range-Level im weiteren Tagesverlauf.*
 
 ## Zusammenspiel mit dem Judas Swing
 

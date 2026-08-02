@@ -32,6 +32,12 @@ Das Modul behandelt unter der Überschrift **„Engineering The Daily Range"**:
 - **Oder** er konsolidiert vor London — was zur Regel *Consolidation Asia Range = Trending Tag* aus
   [[Implementing The Asian Range (Source)]] passt.
 
+![[MMP - SwingPoints 02.png]]
+*„The Asian Open — Can be the Daily High or Low."*
+
+![[MMP - SwingPoints 03.png]]
+*Der zweite Fall: statt eines Extrems konsolidiert der Asian Open vor London.*
+
 ### London Open
 
 - **Kann das Daily High oder Low sein.**
@@ -39,6 +45,10 @@ Das Modul behandelt unter der Überschrift **„Engineering The Daily Range"**:
 
 ![[MMP - SwingPoints 04.png]]
 *„The London Open — Can be the Daily High or Low. Or it can retrace from the Asian Open."*
+
+![[MMP - SwingPoints 05.png]]
+*Der zweite Fall am EURUSD: der London Open retraced vom Asian Open aus, statt selbst das Extrem zu
+setzen.*
 
 ### New York Open / London Close
 
