@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]"]
+sources: ["[[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]", "[[Kurz Notizen (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]"]
 ---
 
 # Order Block
@@ -31,6 +31,31 @@ Basiskonzept: die letzte gegensätzliche Candle vor einem starken Displacement �
 *Bei den besten Order Blocks geht Price nicht über das 50%-Level hinaus.*
 - Nach Validierung erwartet ICT einen Spike von **2–3× der Candle-Range**, bevor das eigentliche
   Retracement kommt — das gibt mehr Spielraum für einen optimalen Einstieg.
+
+## Wann ein OB überhaupt entstanden ist (MentorShip 2022)
+
+> **Ein OB ist immer erst bestätigt, wenn danach ein Displacement folgt.**
+
+Das ist die schärfste Formulierung im Vault dazu — und sie erklärt zugleich, warum ein OB aus
+**mehreren Candles** bestehen kann: im Beispiel bilden **zwei Up-Closing Candles zusammen einen OB**,
+weil nach beiden zusammen das Displacement in Form eines SIBI folgt. Gilt spiegelbildlich bullish.
+
+![[ICT 2022 - Ep17 03.png]]
+*Zwei Up-Closing Candles bilden zusammen einen Order Block — bestätigt durch das nachfolgende SIBI.*
+
+## High Probability OB: zwei Pflichtmerkmale
+
+Ein High-Probability-OB hat **immer** beides:
+
+1. eine **Imbalance**, und
+2. ein **eindeutiges Buy-/Sellside-Liquidity-Target**.
+
+Fehlt das Target, ist der OB nicht high probability — er zeigt dann nicht, wohin geliefert werden
+soll.
+
+![[ICT 2022 - Ep13 03.png]]
+*1H-OB im 15M ausgemalt; im Lower Timeframe das Displacement mit eindeutigem Target auf der
+High-Probability-Buyside.*
 
 ## C.E / Mean Threshold bei Multi-Candle-OBs (Kurz Notizen)
 

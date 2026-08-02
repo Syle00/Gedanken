@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[How Market Makers Condition The Market 2 (Source)]]", "[[How Market Makers Condition The Market (Source)]]", "[[What To Focus On Right Now (Source)]]", "[[Midnight ET Principles In Relationship To PreMarket Session (Source)]]"]
+sources: ["[[How Market Makers Condition The Market 2 (Source)]]", "[[How Market Makers Condition The Market (Source)]]", "[[What To Focus On Right Now (Source)]]", "[[Midnight ET Principles In Relationship To PreMarket Session (Source)]]", "[[Accumulation - Manipulation - Distribution (Source)]]", "[[Time and Price (Source)]]"]
 ---
 
 # AMD Cycle (Accumulation – Manipulation – Distribution)
@@ -62,9 +62,46 @@ erfolgt. Zentrales Zielkonzept für die Expansion-Phase des AMD-Zyklus.
   es könnte, ist die Buyside dort oft das "Low Hanging Fruit" (leichter/schneller erreichbares Ziel)
   und damit der wahrscheinlichere Fokus.
 
+## Der Opening Price als Anker (Market Maker Primer)
+
+Die Folien des [[Accumulation - Manipulation - Distribution (Source)|Market Maker Primer]] definieren
+den Opening Price als **„Initial Value Price — Prior To Imbalance"** — der Bezugspunkt, um den herum
+der gesamte Zyklus organisiert ist.
+
+![[MMP - AMD 01.png]]
+*Der Opening Price als „Initial Value Price — Prior To Imbalance".*
+
+- **Bei Long Bias will man möglichst billig einkaufen — also unter dem Opening Price bzw. genau
+  darauf.** Genau das tut Smart Money ebenfalls (spiegelbildlich für Shorts).
+- Die **Manipulation** ist entweder ein Run auf **Equal Lows/Highs** oder ein **schneller, explosiver
+  Move**, um Liquidität zu nehmen.
+- **NDOG-Variante**: Bleibt der Preis in Asia unter/über dem NDOG und expandiert dann in late London,
+  hat Smart Money die Position günstig gesammelt. Es gibt aber eine zweite Variante — bei bullishem
+  Bias wird nach unten manipuliert, **über** das NDOG gelaufen und dann **erneut zurück zum/unter das
+  NDOG**, bevor die Expansion kommt.
+
+> ⚠️ Daraus folgt ausdrücklich: **Das NDOG ist kein 100 % sicherer Stop-Loss-Schutz** — vgl.
+> [[New Week Opening Gap (NWOG) Bias]].
+
+- Leitfrage für den Tag: *Wie pairen die Market Maker die Orders? Welche Manipulation findet statt?
+  Bias bullish oder bearish?*
+
+## Po3 auf Monthly / Weekly / Daily
+
+Aus [[Time and Price (Source)]] — derselbe Zyklus gilt auf jedem Timeframe:
+
+- **„Monthly Chart provides Macro Institutional Bias."** Bullish → **unter dem Monthly Open kaufen**;
+  bearish → **oberhalb des Monthly Open verkaufen**.
+- Bestätigung über den **Close der 3. Candle**: wird nach genommener Sellside ein Swing Low dadurch
+  bestätigt, ist der Switch zum Target DOL Buyside vollzogen.
+- Gleiches auf **Weekly** und **Daily**. Entscheidend ist **wann und wie stark** expandiert wird:
+  eine riesige Expansion bereits am **Montag** macht Dienstag/Mittwoch zu Retracement- oder
+  Konsolidierungstagen — siehe [[Weekly Range Trading Model]].
+
 ## Verwandt
 
-- [[Judas Swing]]
+- [[Judas Swing]] — die Manipulationsphase im Tagesablauf
+- [[Asian Range]] — die Accumulation-Phase des Tages
 - [[PD Array]] — DOL ist im Kern das nächste anvisierte PD-Array-Ziel
 - [[ICT Daily Range Session Timing]]
 - [[Open Float & Liquidity Pools]]

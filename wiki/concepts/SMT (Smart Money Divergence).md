@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[Bond Mega-Trades (Source)]]", "[[Commodity Mega-Trades (Source)]]", "[[Institutional Marketstructure (Source)]]", "[[Macro Economic To Micro Technical (Source)]]", "[[Qualifying Trade Conditions With 10 Year Yields (Source)]]"]
+sources: ["[[Bond Mega-Trades (Source)]]", "[[Commodity Mega-Trades (Source)]]", "[[Institutional Marketstructure (Source)]]", "[[Macro Economic To Micro Technical (Source)]]", "[[Qualifying Trade Conditions With 10 Year Yields (Source)]]", "[[SMT Smart Money Technique (Source)]]"]
 ---
 
 # SMT (Smart Money Divergence)
@@ -39,6 +39,24 @@ Vergleich zweier korrelierter Assets (z.B. DXY vs. NQ/ES — "Institutional Mark
   beide Lower Low) → Trend setzt sich mit hoher Wahrscheinlichkeit fort, Reversal unwahrscheinlich.
 - **Non-Symmetrical Market**: ein Chart macht ein Higher High, der andere schafft **kein** Lower Low
   mehr (macht stattdessen ein Higher Low) → klassisches SMT-Divergenzsignal, Reversal wahrscheinlich.
+
+## Forex: immer gegen den DXY
+
+Aus dem [[SMT Smart Money Technique (Source)|Market Maker Primer]] — die einfachste Anwendung, und
+ausdrücklich als **Bestätigungswerkzeug**, nicht als Signalgeber gedacht:
+
+> *„Im Forex geht es immer um den DXY. Die Paare sollen **failen**, ein Higher High oder Lower Low
+> zu kreieren."*
+
+- **Bearish**: EURUSD macht ein Lower Low, der DXY schafft **kein** Higher High → Crack in
+  Correlation.
+- **Bullish**: DXY macht ein Higher High, der AUDUSD macht **kein** Lower Low, sondern
+  **konsolidiert** — Anzeichen dafür, dass Smart Money am Kaufen ist.
+- **Immer denselben Timeframe** für beide Charts verwenden.
+
+![[MMP - SMT 01.png]]
+*USDX (oben) gegen AUDUSD (unten) im H1: der Dollar-Index läuft nach oben, AUDUSD folgt nicht nach
+unten.*
 
 ## Cross-Asset-Bestätigungsregel
 

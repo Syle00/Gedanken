@@ -2,13 +2,18 @@
 tags: [concept, ict, trading-ict, sessions]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[Essentials To ICT Daytrading (Source)]]", "[[Defining The Daily Range (Source)]]", "[[Kurz Notizen (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]"]
+sources: ["[[Essentials To ICT Daytrading (Source)]]", "[[Defining The Daily Range (Source)]]", "[[Kurz Notizen (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[ICT 2022 - Episode 11 Important Dealing Range (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]", "[[ICT 2022 - Episode 05 Intraday Orderflow & Swing H-L 8.30-13.30 (Source)]]"]
 ---
 
 # ICT Daily Range Session Timing
 
 Ablauf der Sessions, die zusammen die Daily Range formen. Ergänzt die Timeframe-Hierarchie
 (Monthly → Weekly → Daily, wobei der Daily Chart fürs Daytrading am wichtigsten ist).
+
+> **Killzone ≠ Session.** Die handelbaren Eröffnungsfenster mit ihren Pip-Erwartungen stehen auf
+> [[ICT Killzones]] (London 2–5, NY 7–9, London Close 10–12, Asia ab 19/20 Uhr NY). Diese Seite
+> beschreibt die *Sessions*, die jeweils deutlich länger laufen: Asia reicht über Mitternacht hinaus,
+> London bis 7 Uhr, NY bis 14 Uhr.
 
 ## Erwartungsanker: 5-Tage-Range
 
@@ -24,7 +29,7 @@ Größe erwartet.
 |---|---|---|
 | London | 1–5 Uhr | Bildet oft High/Low des Tages |
 | NY AM | nach London | Wird nur vermieden, wenn London bereits 80% der Daily Range gebildet hat (selten) |
-| London Close | — | Praktisch nicht relevant |
+| London Close | 10–12 | Praktisch nicht relevant als Trendsession — als **Ende der Tagesmanipulation** aber sehr wohl, siehe [[ICT Killzones]] |
 | NY PM / Close | 2–3 Uhr | Ab 3 Uhr schließen die Bond-Märkte (Silver-Bullet-Fenster); danach ist Daily Range meist fertig, Retracement erwartet |
 | Asia Open | 8 Uhr | Yen/AUD/NZD bilden oft High/Low des Tages, analog zu London |
 | London Lunch | 5–7 Uhr | Ruhiger Markt, Retracement/Konsolidierung als Vorbereitung auf NY |
@@ -67,6 +72,36 @@ Interbank-Handels.*
   dabei in London (teils auch in Tokio) das Low/High des Tages.
 - Die **Asia Range (19–24 Uhr)** soll konsolidieren — dadurch steigt die Wahrscheinlichkeit für einen
   anschließend großen, klaren Bull-/Bear-Move.
+
+## Welcher Opening Price gilt wann (MentorShip 2022)
+
+ICT nutzt **zwei** Opening-Preise als **Manipulations-Indikator**:
+
+| Preis | Gilt für |
+|---|---|
+| **0:00 Midnight** | die **gesamte Daily Session** — und für London |
+| **8:30** | **ausschließlich die NY-AM/Morning-Session** |
+
+- Faustregel: *„generell 8:30 für NY, 0 Uhr für London — aber auch in NY schauen wir auf 0 Uhr."*
+- **Öffnen beide unterschiedlich**, gilt für **Shorts der tiefere** und für **Longs der höhere** der
+  beiden Preise. Wer long ist, will möglichst nah am Open Price kaufen, idealerweise darunter.
+- Als Manipulations-Linie gelesen: sind wir bearish und Preis steht **über** der Linie, gilt der Move
+  noch als **Manipulation** — bis Preis **mit einer Imbalance unter die Linie** geht.
+
+Siehe [[Midnight Opening Range]] für die 0:00–0:30-Range selbst.
+
+## Lunch: kein Handelsfenster
+
+**12 Uhr / Lunchtime ist ausdrücklich eine No-Trading-Time** — erst zur NY-PM-Session wird wieder
+gehandelt. Das ergänzt das [[NY Lunch Macro Model]], dessen Ausführungsfenster (10:50–11:10) davor
+liegt.
+
+## Forex-Killzone & News-Verlängerung
+
+- **7–10 Uhr NY ist die NY-Killzone für Forex.**
+- Ein **High-Impact-News-Driver um 10 Uhr verlängert die NY-Killzone bis 11:00/11:30**. Stimmt der
+  Bias, ist die Manipulation des Tages zu diesem Zeitpunkt bereits passiert und die Volatilität
+  lässt sich nutzen.
 
 ## Liquidity-Priorität für die AM-Session
 

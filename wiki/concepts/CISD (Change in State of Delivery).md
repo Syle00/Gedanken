@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, mentorship-2020, orderflow]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[Elements To Successful Swing Trading (Source)]]", "[[CISD Mini Serie - Lecture 1 (Source)]]", "[[CISD Mini Serie - Lecture 2 (Source)]]"]
+sources: ["[[Elements To Successful Swing Trading (Source)]]", "[[CISD Mini Serie - Lecture 1 (Source)]]", "[[CISD Mini Serie - Lecture 2 (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)]]"]
 ---
 
 # CISD (Change in State of Delivery)
@@ -44,6 +44,23 @@ gehört zum Programm dazu, solange er Liquidität holt oder eine Imbalance ausgl
 Konkret geschaltet wird von Bullish zu Bearish (und umgekehrt), indem Preis **über dem Swing High
 closed** — spiegelbildlich unter dem Swing Low. Siehe [[Graded Price Swings]], wo das CISD als
 Schalter zwischen Buy- und Sell-Programm dient.
+
+## Wann ein CISD valide ist
+
+Aus [[ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)]]:
+
+> **Ein CISD ist valide, wenn eine Imbalance darin liegt.**
+
+Ohne Imbalance zählt der Shift nicht. Das ist die schärfste Validierungsregel im Vault dazu und
+ergänzt die strukturelle Sicht in [[Market Structure Shift (MSS)]].
+
+![[ICT 2022 - Ep18 04.png]]
+*Valider CISD — die Imbalance darin ist das entscheidende Merkmal.*
+
+Der Blick auf die Candles davor ([[ICT 2022 - Episode 13 Market Structure for Precision (Source)|Episode 13]]):
+Solange in einem Downside Run die **Down-Closed Candles nicht überschossen** werden — der Preis also
+bei keiner Candle unter deren Closing Price schließt — ist der Trend intakt. Erst wenn Preis
+schließlich **über die Down-Closed Candle** geht, liegt ein bullisher CISD vor.
 
 ## Candle-Ebene
 

@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">48</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">23</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">105</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">53</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">24</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">135</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">1</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -53,6 +53,8 @@
 <li><a href="#2026-08-02-ingest-ict-2023-mentorship-tgif-one-trading-setup-for-life">[2026-08-02] ingest | ICT 2023 Mentorship (TGIF + One Trading Setup For Life)</a></li>
 <li><a href="#2026-08-02-ingest-ict-2025-lecture-series-week-1-4-8-inhaltsseiten">[2026-08-02] ingest | ICT 2025 Lecture Series (Week 1-4, 8 Inhaltsseiten)</a></li>
 <li><a href="#2026-08-02-ingest-cisd-mini-serie-ict-monthly-mentorship-2020">[2026-08-02] ingest | CISD Mini Serie (ICT Monthly Mentorship 2020)</a></li>
+<li><a href="#2026-08-02-ingest-ict-mentorship-2022-13-episoden">[2026-08-02] ingest | ICT MentorShip 2022 (13 Episoden)</a></li>
+<li><a href="#2026-08-02-ingest-market-maker-primer-ict-youtube-forex-library-2017">[2026-08-02] ingest | Market Maker Primer (ICT YouTube Forex Library 2017)</a></li>
 </ul>
 </div>
 </details>
@@ -185,6 +187,41 @@
 <li>⚠️ <strong>Starke Aussage markiert</strong>: "Mehr Models gibt es nicht es sind diese beiden!" (Graded Price Swings + MMXM). Das steht quer zu den ueber 20 Seiten unter wiki/models/. Vermutlich ist "Modell" hier enger gemeint — uebergeordneter Deliverungs-Rahmen statt Setup. Nicht aufgeloest, an beiden Stellen markiert.</li>
 <li>⚠️ <strong>Neue Luecke</strong>: <strong>MMXM</strong> (Market Maker Buy/Sell Model) wird hier als eine von zwei Saeulen genannt, hat im Vault aber keine eigene Seite. Kandidat fuer den naechsten Ingest.</li>
 <li>✅ Erledigt: der Lueckenhinweis auf der CISD-Seite ("COT und Seasonal Tendency nur erwaehnt, noch keine eigene Konzept-Seite") — beide Seiten existieren inzwischen.</li>
+</ul>
+<h2 id="2026-08-02-ingest-ict-mentorship-2022-13-episoden">[2026-08-02] ingest | ICT MentorShip 2022 (13 Episoden)</h2>
+<ul>
+<li>Rohquelle: <code>raw/2022.zip</code> (verschachteltes Notion-ZIP, HTML, 14 Seiten + 47 PNGs, 9,6 MB). Entpackt, nach Markdown konvertiert, neuer Ordner <code>raw/trading-ict/ICT MentorShip 2022/</code> — <strong>siebter ICT-Jahrgang</strong> im Vault.</li>
+<li>Nutzeranweisung: "injeziere 2022" — Batch ohne Rueckfragen.</li>
+<li>Enthalten sind die Episoden 3-8, 11, 13-18. <strong>Die Episoden 1, 2, 9, 10 und 12 fehlen im Export</strong>; Episode 1/2 duerften die Grundlagen enthalten, auf denen Episode 3 bereits aufsetzt.</li>
+<li>Assets: die 47 PNGs hiessen wieder <code>image.png</code> / <code>image 1..46.png</code>. Bei dieser Menge episoden- und positionsbezogen nummeriert: <code>ICT 2022 - EpNN MM.png</code>. Zuordnung per Skript gegen die Dokumentreihenfolge geprueft (47/47, keine unzugeordnete Datei).</li>
+<li><strong>Rohdateien mit Reihen-Praefix abgelegt</strong>: die Unterseiten hiessen "Episode 14 - Live Trade" usw. — bei vault-weiter Namensaufloesung Kollisionskandidaten, zumal sich zwei nur durch die Nummer unterscheiden. Abgelegt als <code>ICT 2022 - Episode NN ...md</code>, gleiche Praxis wie zuvor bei der CISD Mini Serie.</li>
+<li>✅ <strong>Dauerhaft offener Link geschlossen</strong>: <strong>MSS (Market Structure Shift)</strong> war seit dem ersten Ingest einer von sechs unaufloesbaren Wikilinks — vorausgesetzt in <a href="../p/modell-22.html">Modell 22</a>, nirgends definiert. Episode 3 liefert die Definition <strong>und</strong> die Abgrenzung: ein <strong>MSS</strong> ist ein kurzzeitiger Break bis moeglicherweise zum naechsten H/L, ein <strong>MSB</strong> der grosse Break, der die Longterm Market Structure geshiftet hat. Dazu die Pflichtbedingung: es MUSS zuerst Liquiditaet genommen werden, danach das erste Swing High/Low — sonst kein bestaetigter MSS.</li>
+<li>Damit ist auch die alte Anmerkung auf <a href="../p/modell-22.html">Modell 22</a> praezisiert: MSS ist <strong>nicht</strong> deckungsgleich mit CISD, sondern die strukturelle Sicht auf denselben Vorgang. Ergaenzend aus Episode 18: ein <strong>CISD ist valide, wenn eine Imbalance darin liegt</strong>.</li>
+<li><strong>Modell 22 ist aelter als angenommen</strong>: Es laeuft in dieser Reihe bereits 2022 unter genau diesem Namen (Liq Sweep + Displacement + FVG). Die 2026er Fassung ist eine Praezisierung, keine Neuerfindung — auf der Konzeptseite entsprechend eingeordnet.</li>
+<li>Seiten erstellt: wiki/concepts/Market Structure Shift (MSS).md, wiki/concepts/Dealing Range.md, dazu 14 Quellseiten (Navigationsknoten + 13 Episoden).</li>
+<li>Seiten aktualisiert: wiki/concepts/Modell 22.md (2022er Ausfuehrung: Timeframe-Abstieg 15M -&gt; 5M -&gt; 4M/3M/2M bis FVG, "kein FVG = kein Trade", 1M als unprofitabelster Chart, Displacement muss unter das ganze Manipulation Leg, HTF-Trend schlaegt Setup), wiki/concepts/Order Block.md (OB ist erst bestaetigt, wenn danach ein Displacement folgt; zwei Up-Closing Candles koennen zusammen ein OB sein; High-Prob-OB braucht Imbalance UND eindeutiges Liq-Target), wiki/concepts/CISD (Change in State of Delivery).md, wiki/concepts/Trendline Phantoms (3 Drives Pattern).md (die 3-Drives-Ausnahme von der Sweep-Pflicht), wiki/concepts/ICT Daily Range Session Timing.md (0:00 fuer den Tag / 8:30 nur NY AM, bei abweichenden Opens fuer Shorts den tieferen und fuer Longs den hoeheren Preis, Lunch als No-Trading-Time, Forex-Killzone 7-10, News um 10 Uhr verlaengert bis 11/11:30), wiki/index.md</li>
+<li>Weitere neue Inhalte: die ITL-Regel ("immer wenn Price eine Imbalance gefillt hat, ist es automatisch ein ITL, das protected ist"), der erste NY-Open-Run als Turtle Soup bis zum 50 % der ORG, Fib-Messung ausschliesslich auf Candle Bodies fuer Retracement-Targets, und die Disziplin-Saetze aus Episode 18 (Bias halten bis eindeutig widerlegt; RR schlaegt Trefferquote).</li>
+<li>Noch offen: <strong>MMXM</strong> hat weiterhin keine eigene Seite (aus dem vorigen Ingest). Die fehlenden Episoden 1, 2, 9, 10, 12.</li>
+</ul>
+<h2 id="2026-08-02-ingest-market-maker-primer-ict-youtube-forex-library-2017">[2026-08-02] ingest | Market Maker Primer (ICT YouTube Forex Library 2017)</h2>
+<ul>
+<li>Rohquelle: <code>raw/market maker primer.zip</code> (verschachteltes Notion-ZIP, HTML, 16 Seiten + 77 PNGs, 28 MB). Entpackt, nach Markdown konvertiert, neuer Ordner <code>raw/trading-ict/Market Maker Primer/</code>.</li>
+<li>Nutzeranweisung: "injeziere market maker primer" — Batch ohne Rueckfragen.</li>
+<li><strong>Jahrgang bestimmt</strong>: Die Folien tragen "TheInnerCircleTrader.com - YouTube.com/InnerCircleTrader - All Rights Reserved 2017", die MT4-Charts sind von Nov/Dez 2017. Damit ist es der <strong>aelteste vollstaendige Jahrgang im Vault</strong> (nach Core Content 2016) und die achte ICT-Reihe. Der Kurs mischt Originalfolien der ICT YouTube Forex Library mit Jannes' deutschen Mitschriften.</li>
+<li>Assets: die 77 PNGs hiessen wieder generisch <code>image.png</code> / <code>image 1..76.png</code>. Bei dieser Menge lektions- und positionsbezogen nummeriert: <code>MMP - &lt;Kuerzel&gt; NN.png</code> (z.B. <code>MMP - LDNKZ 01.png</code>). Zuordnung per Skript gegen die Dokumentreihenfolge geprueft (77/77, keine unzugeordnete Datei).</li>
+<li><strong>Container-Seite eingefaltet</strong>: "Market Maker Primer Course" enthielt im Export nur Links auf die 15 Lektionen und keinen Text — als Reihen-Index <code>Market Maker Primer Course.md</code> abgelegt und entsprechend gekennzeichnet, statt sie als leere Rohdatei zu fuehren.</li>
+<li><strong>Inhalt liegt ueberwiegend in den Bildern.</strong> Mehrere Mitschriften bestehen fast nur aus Wikilinks (Trading The Key Swing Points: 15 Zeichen Text bei 5 Charts). Die Folien wurden deshalb direkt ausgelesen; die harten Zahlen unten stammen aus den Folien, nicht aus der Mitschrift.</li>
+<li>Seiten erstellt: wiki/concepts/ICT Killzones.md, wiki/concepts/Optimal Trade Entry (OTE).md, wiki/concepts/Asian Range.md, wiki/models/Three Timeframe Framing.md, dazu 16 Quellseiten (Navigationsknoten + 15 Lektionen).</li>
+<li>Seiten aktualisiert: wiki/concepts/Judas Swing.md (von 24 auf ~70 Zeilen), wiki/concepts/AMD Cycle (Accumulation - Manipulation - Distribution).md, wiki/concepts/SMT (Smart Money Divergence).md, wiki/concepts/Intermarket Relationships.md, wiki/concepts/ICT Daily Range Session Timing.md, wiki/index.md</li>
+<li>Inhaltlich am wichtigsten: <strong>die Killzones sind erstmals quantifiziert</strong> — London 2-5 Uhr (EUR/GBP, 25-50 Pips), NY 7-9 Uhr (Majors, 20-30), London Close 10-12 Uhr (Majors, 10-20), Asia ab 19/20 Uhr (AUD/NZD/JPY, 15-20). Dazu die Abgrenzung Killzone vs. Session (Asia reicht ueber Mitternacht, London bis 7, NY bis 14 Uhr).</li>
+<li>Ebenfalls neu: <strong>der OTE bekommt konkrete Zahlen</strong> — Entry-Zone 0,618 / 0,705 / 0,79, First Profit bei 0, Target 1 bei -0,27, Target 2 bei -0,62, Symmetrical Swing bei -1, SL unter dem initialen Low. Das Muster ist der gemeinsame Nenner aller vier Killzones; im Vault gab es dazu bislang keine Seite.</li>
+<li>Und: <strong>die Asian Range bekommt eine harte Definition</strong> (7:00 PM - 12:00 AM NY, Highest High / Lowest Low) samt der Regel "Consolidation Asia Range = Trending Tag" und der Grundbedingung, dass die gesamte Theorie ohne vorhandenen Bias nicht anwendbar ist.</li>
+<li>⚠️ <strong>Widerspruch markiert und aufgeloest</strong>: <a href="../p/judas-swing.html">Judas Swing</a> fuehrte den Judas bislang als "klassisch CME Open, 08:20 NY" (aus den Bread-&amp;-Butter-Quellen). Die Originalfolie definiert <strong>0:00 - 5:00 Uhr NY</strong>. Auf der Konzeptseite als Praezisierung markiert: 08:20 ist ein zweiter Manipulationszeitpunkt zum US-Sessionstart, aber nicht der Judas Swing im Sinne der Definition.</li>
+<li>⚠️ <strong>Abweichung markiert</strong>: <a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a> fuehrt den London Close nach <code>Essentials To ICT Daytrading</code> als "praktisch nicht relevant"; hier hat er ein eigenes Modul mit klarer Funktion. An beiden Stellen als Doppelrolle eingeordnet — als Trendsession schwach, als Zeitmarke fuer das Ende der Tagesmanipulation aussagekraeftig.</li>
+<li>⚠️ <strong>Einschraenkung des NDOG-Schutzes</strong>: Bei bullishem Bias kann ueber das NDOG hinaus und dann erneut darunter manipuliert werden, bevor die Expansion kommt — "Das NDOG ist also kein 100 % Schutz SL!!!!". Auf <span class="broken" title="Seite existiert noch nicht">AMD Cycle (Accumulation - Manipulation - Distribution)</span> vermerkt.</li>
+<li>⚠️ <strong>Drei Mitschriften sind unvollstaendig</strong> ("Weiter bei min 12", "Weiter bei min 30", "Weiter bei 4.30") — Cross Currency Relationships, OTE Primier und Trading The Key Swing Points. Auf den jeweiligen Quellseiten und im Navigationsknoten markiert; die Folien liegen vollstaendig vor, der Kommentar nicht.</li>
+<li>Hinweis zum Ablauf: Die <strong>MentorShip 2022 wurde parallel in einer zweiten Sitzung ingested</strong> (eigener Log-Eintrag oben). Ueberschneidungen wurden geprueft — die 2022er Quellseiten waren bereits angelegt und blieben unangetastet; dieser Ingest hat nur die Verweise darauf gesetzt (Killzone 7-10 fuer Forex, Timeframe-Abstieg auf <a href="../p/three-timeframe-framing.html">Three Timeframe Framing</a>).</li>
+<li>Noch offen: <strong>MMXM</strong> hat weiterhin keine eigene Seite. Die Folien nennen ausserdem "Market Making &amp; Pairing Of Orders" und "Neutralizing Liquidity" als Modulthemen — beides ist in der Mitschrift nur gestreift und waere ein Kandidat, sobald weiteres Material dazu vorliegt.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

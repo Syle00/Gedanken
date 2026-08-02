@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Optimal Trade Entry (OTE) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">53</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">24</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">135</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">1</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li class="here"><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Optimal Trade Entry (OTE)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">entry</span> <span class="tag">fibonacci</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/ote-primier-ict-optimal-trade-entry-source.html">OTE Primier - ICT optimal Trade Entry (Source)</a>, <a href="../p/asia-session-source.html">Asia Session (Source)</a>, <a href="../p/london-killzone-source.html">London Killzone (Source)</a>, <a href="../p/new-york-killzone-source.html">New York Killzone (Source)</a>, <a href="../p/london-close-killzone-source.html">London Close Killzone (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#die-zone">Die Zone</a></li>
+<li><a href="#regeln">Regeln</a></li>
+<li><a href="#pip-erwartung-je-killzone">Pip-Erwartung je Killzone</a></li>
+<li><a href="#einordnung">Einordnung</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="optimal-trade-entry-ote">Optimal Trade Entry (OTE)</h1>
+<p>Das <strong>Retracement-Entry</strong> von ICT: Nicht dem Move hinterherlaufen, sondern den Rücklauf in eine
+definierte Fibonacci-Zone kaufen bzw. verkaufen. Es ist das Entry-Muster, das den vier
+<a href="../p/ict-killzones.html">ICT Killzones</a> gemeinsam ist.</p>
+<h2 id="die-zone">Die Zone</h2>
+<p>Gemessen wird vom Swing-Extrem in Richtung des erwarteten Moves. Die eigentliche Entry-Zone liegt
+zwischen <strong>62 % und 79 %</strong>, der Kern bei <strong>70,5 %</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Rolle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td>First Profit – Scaling</td>
+</tr>
+<tr>
+<td><strong>0.618</strong></td>
+<td>Beginn der OTE-Zone (62 %)</td>
+</tr>
+<tr>
+<td><strong>0.705</strong></td>
+<td><strong>OTE</strong> — der Kern</td>
+</tr>
+<tr>
+<td><strong>0.79</strong></td>
+<td>Ende der Zone (79 %) — laut ICT noch in Ordnung</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>Swing-Extrem (100 %)</td>
+</tr>
+<tr>
+<td><strong>−0.27</strong></td>
+<td>Target 1</td>
+</tr>
+<tr>
+<td><strong>−0.62</strong></td>
+<td>Target 2</td>
+</tr>
+<tr>
+<td><strong>−1</strong></td>
+<td>Symmetrical Swing</td>
+</tr>
+</tbody>
+</table>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - OTE 01.png" alt="MMP - OTE 01" loading="lazy"></figure>
+
+<p><em>Die OTE-Übersicht in beide Richtungen: Retracement-Zone unten (62/70,5/79), darüber First Profit
+(Scaling), Target 1, Target 2 und der Symmetrical Swing als letztes Ziel.</em></p>
+<h2 id="regeln">Regeln</h2>
+<ul>
+<li><strong>Higher Timeframe nutzen</strong> — das Retracement wird im übergeordneten Kontext gehandelt, nicht
+  isoliert.</li>
+<li><strong>Retracement bis maximal 0,79.</strong> Tiefer ist kein OTE mehr.</li>
+<li><strong>Stop Loss genau unter dem initialen Low</strong> (bzw. über dem initialen High) — dort ist er
+  protected.</li>
+<li><strong>Erster Profit am ersten High/Low, optimalerweise leicht davor</strong> — der Preis schafft es nicht
+  immer ganz bis zum Extrem zurück.</li>
+</ul>
+<h2 id="pip-erwartung-je-killzone">Pip-Erwartung je Killzone</h2>
+<p>Das OTE-Muster liefert je nach Fenster unterschiedlich viel:</p>
+<table>
+<thead>
+<tr>
+<th>Killzone</th>
+<th>Erwartung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>London Open</td>
+<td>25–50 Pips</td>
+</tr>
+<tr>
+<td>New York Open</td>
+<td>20–30 Pips</td>
+</tr>
+<tr>
+<td>Asian Open</td>
+<td>15–20 Pips</td>
+</tr>
+<tr>
+<td>London Close</td>
+<td>10–20 Pips</td>
+</tr>
+</tbody>
+</table>
+<p>Der HTF-Bias hilft dabei, aber auch <strong>kurzfristige Retracements in Bull- wie Bear-Märkten</strong> liefern
+vergleichbare OTE-Setups.</p>
+<h2 id="einordnung">Einordnung</h2>
+<p>Der OTE ist ein <strong>Level-Entry</strong>, kein Struktur-Entry. Im späteren Curriculum wird derselbe Rücklauf
+über PD Arrays begründet — <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>, <a href="../p/order-block.html">Order Block</a>, <a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a> —
+statt über Fib-Prozente. Die 70,5-%-Zone liegt in aller Regel im <strong>Discount</strong> der
+<a href="../p/dealing-range.html">Dealing Range</a> und fällt oft mit einer PD Array zusammen; der stärkste Fall ist die Überlagerung
+beider.</p>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a> — wo der OTE gesucht wird</li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a>, <a href="../p/pd-array.html">PD Array</a>, <a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a> — die Bewegung, die das Retracement oft erst erzeugt</li>
+<li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a>, <a href="../p/bread-butter-setups.html">Bread &amp; Butter Setups</a></li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">9</span></h2><ul><li><a href="../p/asia-session-source.html">Asia Session (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/asian-range.html">Asian Range</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-killzones.html">ICT Killzones</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/london-close-killzone-source.html">London Close Killzone (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/london-killzone-source.html">London Killzone (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/market-maker-primer-course-source.html">Market Maker Primer Course (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/new-york-killzone-source.html">New York Killzone (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ote-primier-ict-optimal-trade-entry-source.html">OTE Primier - ICT optimal Trade Entry (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Optimal Trade Entry (OTE).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

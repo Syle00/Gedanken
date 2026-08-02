@@ -23,7 +23,24 @@ Passt strukturell zum MMXM-Modell (siehe [[New Week Opening Gap (NWOG) Bias]]).
 *Beispiel für ein 3-Drives-Pattern: drei Spitzen an der Trendline als bevorzugtes Angriffsziel für
 Smart Money.*
 
+## Als Entry-Bedingung: die Buyside muss nicht genommen werden
+
+Aus [[ICT 2022 - Episode 05 Intraday Orderflow & Swing H-L 8.30-13.30 (Source)]] — die praktische
+Kehrseite des Musters:
+
+> Haben sich **dreimal hintereinander Higher Highs** gebildet, **ohne dass ein Swing Low genommen
+> wurde**, und es ist eine klare Buyside in Sicht, **muss diese Buyside nicht genommen werden**, um
+> short zu gehen.
+
+Begründung: durch die drei Swing Highs wurde bereits **genug Liquidität absorbiert**, damit Preis
+einen Shift in der Market Structure vollziehen kann (Beispiel im 5M-Chart).
+
+Das ist eine der wenigen dokumentierten Ausnahmen von der sonst strikten Sweep-Vorbedingung in
+[[Market Structure Shift (MSS)]] — die drei Drives ersetzen den einzelnen Sweep.
+
 ## Verwandt
 
 - [[Institutional Sponsorship]]
+- [[Market Structure Shift (MSS)]] — die Regel, zu der dieses Muster die Ausnahme bildet
 - [[New Week Opening Gap (NWOG) Bias]]
+- [[ICT 2022 - Episode 05 Intraday Orderflow & Swing H-L 8.30-13.30 (Source)]]

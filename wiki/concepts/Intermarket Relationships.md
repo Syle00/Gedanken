@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[How To Use Intermarket Analysis (Source)]]", "[[Interest Rate Differentials (Source)]]", "[[Using 10 Year Notes In HTF Analysis (Source)]]"]
+sources: ["[[How To Use Intermarket Analysis (Source)]]", "[[Interest Rate Differentials (Source)]]", "[[Using 10 Year Notes In HTF Analysis (Source)]]", "[[ICTCross Currency Relationships und HTF Institutional Order Flow (Source)]]"]
 ---
 
 # Intermarket Relationships
@@ -58,6 +58,21 @@ Markt.*
 ![[image 86.png]]
 *USDX läuft im Chart entgegengesetzt zu den Bonds — Divergenz als Warnsignal für fehlende
 Trending Conditions.*
+
+## Cross Currency: Paarauswahl über News und EURGBP
+
+Aus dem [[ICTCross Currency Relationships und HTF Institutional Order Flow (Source)|Market Maker Primer]]
+— die FX-interne Anwendung derselben Logik. **Alles fängt mit dem Economic Calendar an**, nicht mit
+dem Chart.
+
+- **News-Asymmetrie als Filter**: Big News für den Euro, keine für GBP → der Euro wird bis zum
+  Release zurückgehalten und konsolidiert, der **Cable ist freier und weniger manipuliert**. Also auf
+  GBP konzentrieren.
+- **EURGBP zeigt, wer führt.** Er kann nur aus **zwei** Gründen stark steigen/fallen: entweder EU ist
+  bullish und Cable konsolidiert — oder Cable ist bullish und EU konsolidiert. Eine dritte
+  Möglichkeit gibt es nicht.
+- **Reihenfolge**: zuerst den **USDX** auf klare Divergenz prüfen, dann das Paar wählen, bei dem
+  bessere Liquidität und Imbalances liegen.
 
 ## Verwandt
 

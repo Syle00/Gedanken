@@ -11,7 +11,9 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Algorithmic Order Flow]] — Fünfstufige Bestätigungs-Hierarchie von Macro Interest Rate bis State of Delivery (2026-08-02)
 - [[Algorithmic Price Delivery Continuum]] — ICTs Timeframe-Durchlauf bei jedem Candle-Close; erklärt, wann ein FVG offen bleibt (2026-08-02)
 - [[Buy & Sell Program]] — Zwei Kriterien, an denen ein Buy-/Sell-Programm erkannt wird (2026-08-02)
+- [[Dealing Range]] — Premium/Discount-Rahmen; je mehr Timeframes übereinstimmen, desto besser (2026-08-02)
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]] — 4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition (2026-08-01)
+- [[Asian Range]] — 19–24 Uhr NY, Highest High/Lowest Low; Konsolidierung = Trendtag, nur mit Bias nutzbar (2026-08-02)
 - [[Balanced Price Range (BPR)]] — Verhalten innerhalb eines FVG, eine Timeframe tiefer betrachtet (2026-08-02)
 - [[BISI & SIBI (Buyside-Sellside Imbalance)]] — Richtungs-Bezeichnung für FVG-Typen (2026-08-01)
 - [[Breakaway Gap]] — Displacement am FVG-Quadranten/Wick, LTF-Umdeutung des FVG (2026-08-02)
@@ -27,20 +29,23 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Fair Value Gap (FVG)]] — Preiszone ohne Trading zwischen zwei Candles (2026-08-01)
 - [[FOMC (Federal Open Market Committee)]] — US-Zinsgremium, häufigster News-Katalysator in Weekly-Profilen (2026-08-01)
 - [[ICT Daily Range Session Timing]] — Session-Ablauf, der die Daily Range formt (2026-08-01)
+- [[ICT Killzones]] — Die vier Handelsfenster mit idealen Paaren und Pip-Erwartung (2026-08-02)
 - [[ICT Macros & Leading Candles]] — Session-Zeitfenster mit auffälligen Referenz-Candles (2026-08-01)
 - [[IFVG (Inverse Fair Value Gap)]] — FVG, das nach Durchhandeln die Polarität wechselt (2026-08-01)
 - [[Institutional Order Flow (Body vs Wick)]] — Volumen steckt in Candle Bodys, nicht Wicks (2026-08-01)
 - [[Institutional Sponsorship]] — Smart Money schützt einen High-Probability-Price-Swing (2026-08-01)
 - [[Intermarket Relationships]] — Bonds/Stocks/Commodities/Currencies-Korrelationsregeln (2026-08-01)
 - [[IPDA Data Ranges]] — 20/40/60-Tage-Lookback des Interbank Price Delivery Algorithmus (2026-08-01)
-- [[Judas Swing]] — Fehlbewegung zu Sessionbeginn (CME Open) vor dem eigentlichen Move (2026-08-01)
+- [[Judas Swing]] — Der False Run zwischen 0:00 und 5:00 NY, bullishe/bearishe Ausführung (2026-08-02)
 - [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD (2026-08-01)
 - [[Market Reversal Types]] — Katalog der 8 ICT-Reversal-Typen (PDH/PDL, ITH/ITL, NY Reversal...) (2026-08-01)
 - [[Mitigation Block]] — Order-Block-Variante nach einem Failure Swing (2026-08-01)
+- [[Market Structure Shift (MSS)]] — MSS vs. MSB, Pflichtbedingung Liq-Sweep vor dem Swing-Bruch (2026-08-02)
 - [[Midnight Opening Range]] — 0:00–0:30 NY, Fib + negative STD fürs Daily High/Low, max. Manipulation −1 STD (2026-08-02)
 - [[Modell 22]] — 2026er Turtle-Soup-Trigger über MSS+SIBI, linkes-IFVG-Regel (2026-08-01)
 - [[New Week Opening Gap (NWOG) Bias]] — Wöchentliche Bias-Regel + Intraweek-Reversal-Muster (2026-08-01)
 - [[Open Float & Liquidity Pools]] — Wo liegen die Stops der großen Funds, OI-Bestätigung (2026-08-01)
+- [[Optimal Trade Entry (OTE)]] — Retracement-Entry 62/70,5/79 % mit Targets und protectetem SL (2026-08-02)
 - [[Order Block]] — Basiskonzept + Validierungsregeln für alle OB-Varianten (2026-08-01)
 - [[ORG (Opening Range Gap) & 1st Presented FVG]] — C.E-Bias-Bestätigung über Wicks und ORG (2026-08-01)
 - [[PD Array]] — Premium/Discount-Array, Grundbaustein jedes ICT-Setups (2026-08-01)
@@ -77,6 +82,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Silver Bullet Model]] — Macro-basiertes Entry-Modell, Move startet im Macro davor (2026-08-02)
 - [[Stock Mega-Trades]] — Mega-Trade-Methodik für Einzelaktien, Earnings-gekoppelt (2026-08-01)
 - [[The Sentiment Effect]] — Asia-Range-basiertes Judas-Setup für Daytrading/Scalping (2026-08-01)
+- [[Three Timeframe Framing]] — Timeframe-Tripel je Handelsstil; HTF Kontext, MTF Framing, LTF nur Entry (2026-08-02)
 - [[Trading Complex Opening Ranges]] — Trendfortsetzungs-Qualität + 2-Target-Liquidity mit Event Horizon (2026-08-01)
 - [[Trading In Consolidations]] — Regeln fürs Traden innerhalb einer konsolidierenden Range (2026-08-01)
 - [[Trading Journal & DOL Checklist]] — Journal-Checkliste + Top-Down-Chart-Vorgehen (2026-08-01)
@@ -137,6 +143,44 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Opening Range Theory - 1st Presented FVG Logic (Source)]] — Lektion 06: London ORG (1:30–2:00) und NY-Pre-Session-ORG (7:00–7:30), Sequenz Sweep → Displacement → Shift → 1. Presented FVG, das zu 90 % ein IFVG wird (2026-08-02)
 
 *Lektion 02 (FOMC Two Stage Delivery) fehlt noch als Rohquelle — zum FOMC-Thema existiert bislang nur [[Federal Open Market Committee (Source)]].*
+
+### ICT MentorShip 2022
+
+**Navigationsknoten: [[ICT MentorShip 2022 (Source)]]** — 13 Episoden, überwiegend kommentierte Handelstage. Episoden 1, 2, 9, 10, 12 fehlen im Export.
+
+- [[ICT 2022 - Episode 03 Market ST + Modell 22 (Source)]] — **MSS vs. MSB definiert**, Liq-Sweep als Pflichtbedingung, zwei Grundsetups (2026-08-02)
+- [[ICT 2022 - Episode 04 Internal Range Liq & MSS (Source)]] — Abstieg ab 5M bis zum FVG, bei mehreren das höchste nehmen (2026-08-02)
+- [[ICT 2022 - Episode 05 Intraday Orderflow & Swing H-L 8.30-13.30 (Source)]] — Lunch als No-Trading-Time, 3-Drives-Ausnahme, PM-Startpunkt 13:30 (2026-08-02)
+- [[ICT 2022 - Episode 06 Institutional Orderflow (Source)]] — HTF-Trend schlägt Setup; Displacement muss unter das ganze Manipulation Leg; 4M/3M-Charts (2026-08-02)
+- [[ICT 2022 - Episode 07 Daily Bias - SMT (Source)]] — bei EQ-Konsolidierung kein Daily Bias, Ausweichen auf 4H/1H-Dealing-Ranges (2026-08-02)
+- [[ICT 2022 - Episode 08 Institutionel Orderflow (Source)]] — Vierschritt Purge → Swing → Displacement → Retracement (2026-08-02)
+- [[ICT 2022 - Episode 11 Important Dealing Range (Source)]] — Dealing Ranges zur Deckung bringen; 0:00 für den Tag, 8:30 nur für NY AM (2026-08-02)
+- [[ICT 2022 - Episode 13 Market Structure for Precision (Source)]] — High-Prob-OB braucht Imbalance + Liq-Target, 9:30-Manipulation, ITL-Regel (2026-08-02)
+- [[ICT 2022 - Episode 14 Live Trade (Source)]] — reine Execution: Minor Liq, 2× Swing Low, Entry im FVG/IFVG (2026-08-02)
+- [[ICT 2022 - Episode 15 Live Trade (Source)]] — Geduld nach dem Equity Open, das 1.p FVG wird oft komplett gefüllt (2026-08-02)
+- [[ICT 2022 - Episode 16 Midnight open + Displacement (Source)]] — Opening Prices als Manipulations-Indikator, Fib nur auf Candle Bodies (2026-08-02)
+- [[ICT 2022 - Episode 17 FX Anwendung (Source)]] — FX-Rundzahlen, OB bestätigt durch Displacement, Forex-Killzone 7–10 (2026-08-02)
+- [[ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)]] — Bias halten, RR schlägt Trefferquote, valider CISD braucht eine Imbalance (2026-08-02)
+
+### Market Maker Primer (ICT YouTube Forex Library, 2017)
+
+**Navigationsknoten: [[Market Maker Primer Course (Source)]]** — ältester vollständiger Jahrgang im Vault; Originalfolien von 2017 plus deutsche Mitschriften. Hier bekommen die Sessions zum ersten Mal harte Zeitfenster und Pip-Erwartungen.
+
+- [[Asia Session (Source)]] — Asian Killzone ab 19/20 Uhr NY, AUD/NZD/JPY, Konsolidierung bis Mitternacht (2026-08-02)
+- [[Implementing The Asian Range (Source)]] — Bias als Vorbedingung, „Consolidation Asia Range = Trending Tag", Rückkehr in die Range (2026-08-02)
+- [[London Killzone (Source)]] — 2–5 Uhr NY, EUR/GBP, 25–50 Pips; London filtert die NY Session (2026-08-02)
+- [[New York Killzone (Source)]] — 7–9 Uhr NY, Majors, 20–30 Pips; Fortsetzung ist leichter als Reversal (2026-08-02)
+- [[London Close Killzone (Source)]] — 10–12 Uhr NY, Majors, 10–20 Pips; Ende der Tagesmanipulation (2026-08-02)
+- [[The ICT Judas Swing (Source)]] — der False Run als HTF-abhängiges Signal (2026-08-02)
+- [[Understanding The ICT Judas Swing (Source)]] — **Judas-Fenster 0:00–5:00 NY definiert**, bullishe/bearishe Ausführung (2026-08-02)
+- [[Accumulation - Manipulation - Distribution (Source)]] — Opening Price als „Initial Value Price", NDOG ist kein sicherer SL-Schutz (2026-08-02)
+- [[SMT Smart Money Technique (Source)]] — im Forex immer gegen den DXY, Paare sollen failen (2026-08-02)
+- [[Essentials To Trading The Daily Bias (Source)]] — PDH/PDL als Target und Barriere, Frühwarnung bei frühem Sweep (2026-08-02)
+- [[Essentials To ICT Market Structure (Source)]] — Timeframe-Tripel je Handelsstil, Rollenverteilung der drei Charts (2026-08-02)
+- [[Trading The Key Swing Points (Source)]] — die vier Key Swing Points als Bausteine der Daily Range (Mitschrift bricht ab) (2026-08-02)
+- [[ICTCross Currency Relationships und HTF Institutional Order Flow (Source)]] — News-Kalender zuerst, EURGBP als Führungsindikator (Mitschrift bricht ab) (2026-08-02)
+- [[OTE Primier - ICT optimal Trade Entry (Source)]] — **die konkreten Fib-Level des OTE** inkl. Targets (Mitschrift bricht ab) (2026-08-02)
+- [[Time and Price (Source)]] — Po3 auf Monthly/Weekly/Daily, Monthly liefert den Macro Institutional Bias (2026-08-02)
 
 ### CISD Mini Serie (Monthly Mentorship 2020)
 

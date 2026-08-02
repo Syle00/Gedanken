@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">48</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">23</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">105</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">53</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">24</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">135</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">1</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -32,6 +32,7 @@
 <li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
 <li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
 <li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
 <li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
 <li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
 <li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
@@ -41,6 +42,7 @@
 <li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
 <li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
 <li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
 <li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
 <li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
 <li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
@@ -48,6 +50,7 @@
 <li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
 <li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
 <li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
 <li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
 <li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
 <li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
@@ -57,11 +60,13 @@
 <li class="here"><a href="../p/judas-swing.html">Judas Swing</a></li>
 <li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
 <li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
 <li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
 <li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
 <li><a href="../p/modell-22.html">Modell 22</a></li>
 <li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
 <li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
 <li><a href="../p/order-block.html">Order Block</a></li>
 <li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
 <li><a href="../p/pd-array.html">PD Array</a></li>
@@ -83,24 +88,95 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Judas Swing</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-01</div><div class="srcline"><span>Quellen:</span> <a href="../p/bread-butter-buy-setups-source.html">Bread &amp; Butter Buy Setups (Source)</a>, <a href="../p/bread-butter-sell-setups-source.html">Bread &amp; Butter Sell Setups (Source)</a></div></div>
-  
-  <div class="content"><h1 id="judas-swing">Judas Swing</h1>
-<p>Initiale Fehlbewegung zu Sessionbeginn (klassisch <strong>CME Open, 08:20 NY</strong>), die die Masse in die
-falsche Richtung lockt, bevor der eigentliche Move in Richtung Bias/Ziel-PD startet.</p>
-<h2 id="beobachtung">Beobachtung</h2>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">sessions</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/bread-butter-buy-setups-source.html">Bread &amp; Butter Buy Setups (Source)</a>, <a href="../p/bread-butter-sell-setups-source.html">Bread &amp; Butter Sell Setups (Source)</a>, <a href="../p/understanding-the-ict-judas-swing-source.html">Understanding The ICT Judas Swing (Source)</a>, <a href="../p/the-ict-judas-swing-source.html">The ICT Judas Swing (Source)</a>, <a href="../p/london-killzone-source.html">London Killzone (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li>Tritt zuverlässig um den CME-Open (08:20 NY) auf.</li>
-<li>Wird in Kombination mit einer kleinen Asia-Session als Bias-Bestätigung genutzt: kleine Asia-Range</li>
-<li>London bestätigt Bias + Judas-Bewegung um 0 Uhr/CME-Open in die Gegenrichtung → danach Fortsetzung
-  in Bias-Richtung.</li>
+<li><a href="#zeitfenster">Zeitfenster</a></li>
+<li><a href="#woran-man-sie-erkennt">Woran man sie erkennt</a></li>
+<li><a href="#ausfuhrung-nach-bias">Ausführung nach Bias</a></li>
+<li><a href="#vorbedingung">Vorbedingung</a></li>
+<li><a href="#beobachtung-aus-den-bread-butter-quellen">Beobachtung aus den Bread-&amp;-Butter-Quellen</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
 </ul>
+</div>
+</details>
+  <div class="content"><h1 id="judas-swing">Judas Swing</h1>
+<p>Der <strong>„False Run"</strong> — die initiale Fehlbewegung, die Trader in die falsche Richtung lockt, bevor der
+eigentliche Move in Richtung Bias/Ziel-PD startet. Sie trifft diejenigen, denen das Verständnis der
+<strong>wahren Tagesrichtung</strong> fehlt; dieses Verständnis kommt ausschließlich vom Higher Timeframe.</p>
+<h2 id="zeitfenster">Zeitfenster</h2>
+<blockquote>
+<p><strong>Begins: Midnight New York Time. Ends: 5:00 am New York Time.</strong></p>
+</blockquote>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - JudasDeep 01.png" alt="MMP - JudasDeep 01" loading="lazy"></figure>
+
+<p><em>Die Originaldefinition aus dem <a href="../p/market-maker-primer-course-source.html">Market Maker Primer</a>: der
+Judas Swing ist ein Fenster, kein Zeitpunkt.</em></p>
+<ul>
+<li>Die Judas bildet sich <strong>irgendwo zwischen 0 und 5 Uhr NY</strong>. Sie kann damit auch <strong>in der Asia
+  Session</strong> liegen und muss nicht zwingend in London auftreten — etwa wenn Asia das High/Low des
+  Tages bildet.</li>
+<li>In der Praxis liegt sie meist in der <strong><a href="../p/ict-killzones.html">London Killzone</a> (2–5 Uhr)</strong>; dort wird
+  auch das High/Low des Tages erwartet.</li>
+</ul>
+<blockquote>
+<p>⚠️ <strong>Präzisierung gegenüber dem früheren Stand dieser Seite.</strong> Hier stand zuvor, der Judas Swing
+trete „klassisch am CME Open, 08:20 NY" auf — das stammt aus
+<a href="../p/bread-butter-buy-setups-source.html">Bread &amp; Butter Buy Setups (Source)</a>/<a href="../p/bread-butter-sell-setups-source.html">Bread &amp; Butter Sell Setups (Source)</a>. Die
+Originalfolien definieren das Fenster <strong>0:00–5:00 Uhr NY</strong>. Beides lässt sich vereinbaren: 08:20
+ist ein <em>zweiter</em> Manipulationszeitpunkt zum US-Sessionstart, aber <strong>nicht</strong> der Judas Swing im
+Sinne der Definition. Wo in den Bread-&amp;-Butter-Quellen von „Judas um 08:20" die Rede ist, ist die
+<strong>NY-Open-Manipulation</strong> gemeint.</p>
+</blockquote>
+<h2 id="woran-man-sie-erkennt">Woran man sie erkennt</h2>
+<ul>
+<li>Der Swing, der das <strong>London Session High/Low setzt</strong>, ist oft ein <em>energetic Price Swing</em> — schnell
+  und kraftvoll.</li>
+<li>Grundlage des Spikes: ein <strong>Run auf Stops</strong> und/oder die <strong>Rückkehr zu einem Key Price Level</strong>.</li>
+<li>Ist der Fake Move fertig und folgt ein <strong>schneller Switch</strong>, ist das ein sehr gutes Zeichen, dass
+  die Judas tatsächlich gebildet wurde.</li>
+<li>Der <strong>0-Uhr-Preis ist der Referenzpunkt</strong>: Eine bullishe Judas sweept das Asia Low; ab dem Moment,
+  in dem das 0-Uhr-Opening zurückerobert wird und es zum Asia High geht, liegt eine Judas vor.</li>
+</ul>
+<h2 id="ausfuhrung-nach-bias">Ausführung nach Bias</h2>
+<table>
+<thead>
+<tr>
+<th>Bias</th>
+<th>Ablauf</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bullish</strong></td>
+<td>Sweep des <strong>Asia High</strong> zur Täuschung → Drop nach unten, um <strong>beide Seiten offset</strong> zu nehmen → Expansion zur Buyside / zum bullishen DOL</td>
+</tr>
+<tr>
+<td><strong>Bearish</strong></td>
+<td>Asia klein und eng konsolidierend → Sweep des <strong>Asia Low</strong>, um zu ziehen → Run zur Buyside (das <em>ist</em> die Judas) → Hauptmove zur Sellside / DOL</td>
+</tr>
+</tbody>
+</table>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MMP - JudasDeep 03.png" alt="MMP - JudasDeep 03" loading="lazy"></figure>
+
+<p><em>„Implementing In Bearish Conditions" — nach der engen Asia-Konsolidierung läuft der Preis über die
+Asian Range High und den NY Opening Price, bevor der eigentliche Move nach unten startet.</em></p>
+<h2 id="vorbedingung">Vorbedingung</h2>
+<p>Ein <strong>HTF-Verständnis ist zwingend</strong>, um zu bestimmen, in welche Richtung sich die Judas bilden wird
+— ohne Bias ist die Bewegung nicht interpretierbar, sondern nur im Nachhinein benennbar. Das deckt
+sich mit der Grundregel der <a href="../p/asian-range.html">Asian Range</a>.</p>
+<h2 id="beobachtung-aus-den-bread-butter-quellen">Beobachtung aus den Bread-&amp;-Butter-Quellen</h2>
+<p>Wird in Kombination mit einer kleinen Asia-Session als Bias-Bestätigung genutzt: kleine Asia-Range +
+London bestätigt Bias + Judas-Bewegung in die Gegenrichtung → danach Fortsetzung in Bias-Richtung.</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
+<li><a href="../p/asian-range.html">Asian Range</a> — die Ränder, an denen die Judas arbeitet</li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a>, <a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
 <li><a href="../p/turtle-soup.html">Turtle Soup</a> — levelbasiertes Pendant</li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a> — die Judas <em>ist</em> die Manipulationsphase</li>
 <li><a href="../p/bread-butter-setups.html">Bread &amp; Butter Setups</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">17</span></h2><ul><li><a href="../p/0-gmt-ipda-true-day-reset-entry.html">0 GMT IPDA True Day Reset Entry</a><span class="cat">Modelle</span></li><li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a><span class="cat">Konzepte</span></li><li><a href="../p/bread-butter-buy-setups-source.html">Bread &amp; Butter Buy Setups (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/bread-butter-setups.html">Bread &amp; Butter Setups</a><span class="cat">Modelle</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/london-session-profiles.html">London Session Profiles</a><span class="cat">Modelle</span></li><li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a><span class="cat">Modelle</span></li><li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a><span class="cat">Modelle</span></li><li><a href="../p/month-9-scalping-daytrades-source.html">Month 9 - Scalping-Daytrades (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a><span class="cat">Konzepte</span></li><li><a href="../p/tgif-thank-god-its-friday-source.html">TGIF - Thank God its Friday (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/the-sentiment-effect.html">The Sentiment Effect</a><span class="cat">Modelle</span></li><li><a href="../p/trading-in-consolidations.html">Trading In Consolidations</a><span class="cat">Modelle</span></li><li><a href="../p/trading-premarket-and-regular-session-liquidity-source.html">Trading Premarket and Regular Session Liquidity (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/turtle-soup.html">Turtle Soup</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">25</span></h2><ul><li><a href="../p/0-gmt-ipda-true-day-reset-entry.html">0 GMT IPDA True Day Reset Entry</a><span class="cat">Modelle</span></li><li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a><span class="cat">Konzepte</span></li><li><a href="../p/asian-range.html">Asian Range</a><span class="cat">Konzepte</span></li><li><a href="../p/bread-butter-buy-setups-source.html">Bread &amp; Butter Buy Setups (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/bread-butter-setups.html">Bread &amp; Butter Setups</a><span class="cat">Modelle</span></li><li><a href="../p/ict-killzones.html">ICT Killzones</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/london-killzone-source.html">London Killzone (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/london-session-profiles.html">London Session Profiles</a><span class="cat">Modelle</span></li><li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a><span class="cat">Modelle</span></li><li><a href="../p/market-maker-primer-course-source.html">Market Maker Primer Course (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a><span class="cat">Modelle</span></li><li><a href="../p/month-9-scalping-daytrades-source.html">Month 9 - Scalping-Daytrades (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a><span class="cat">Konzepte</span></li><li><a href="../p/tgif-thank-god-its-friday-source.html">TGIF - Thank God its Friday (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/the-ict-judas-swing-source.html">The ICT Judas Swing (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/the-sentiment-effect.html">The Sentiment Effect</a><span class="cat">Modelle</span></li><li><a href="../p/trading-in-consolidations.html">Trading In Consolidations</a><span class="cat">Modelle</span></li><li><a href="../p/trading-premarket-and-regular-session-liquidity-source.html">Trading Premarket and Regular Session Liquidity (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/turtle-soup.html">Turtle Soup</a><span class="cat">Konzepte</span></li><li><a href="../p/understanding-the-ict-judas-swing-source.html">Understanding The ICT Judas Swing (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Judas Swing.md</code></footer>
 </article>
 </main>
