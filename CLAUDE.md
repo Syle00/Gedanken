@@ -15,7 +15,7 @@ raw/
   trading-ict/
     Core Content/     ICT-Trading-Notizen (Notion-Export), unangetastet
     2026/              Weitere ICT-Notizen (2026er Jahrgang)
-    assets/            432 Chart-/Screenshot-PNGs, per Obsidian-Wikilink referenziert
+    assets/            453 Chart-/Screenshot-PNGs, per Obsidian-Wikilink referenziert
   <neue-domäne>/       Weitere Themenbereiche entstehen hier bei Bedarf, z.B.
                         raw/gesundheit/, raw/buch-xyz/, raw/firma-abc/
 ```
@@ -63,6 +63,45 @@ das obige Schema ist das Trading-spezifische Beispiel, kein starres Gesetz.
 - Bilder aus `raw/trading-ict/assets/` können direkt per `![[bilddatei.png]]` eingebunden
   werden (Obsidian löst Wikilinks vault-weit nach Dateinamen auf, Ordnerpfad ist egal).
 
+## Layer 3 — `site/` (generiert, nie von Hand bearbeiten)
+
+Eine statische, wikipedia-artige HTML-Ansicht des `wiki/`-Layers, erzeugt von
+`tools/build_site.py`. Gedacht für die lokale Nutzung: `site/index.html` im Browser öffnen.
+
+```
+site/
+  index.html          Startseite: alle Seiten nach Kategorie, mit Kurzbeschreibung
+  p/<slug>.html       Eine Seite pro Wiki-Seite
+  style.css           Light/Dark, Serifen-Lesespalte, Sidebar
+  search.js           Clientseitige Volltextsuche (Tastenkürzel: / oder Strg+K)
+  search-index.js     Suchindex (bewusst .js statt .json — file:// blockiert fetch auf JSON)
+```
+
+Was der Generator aus dem Wiki macht:
+
+- **Wikilinks** werden wie in Obsidian vault-weit über den Dateinamen aufgelöst, inklusive
+  Alias (`[[Seite|Kurzform]]`). Zeigt ein Link auf eine Rohquelle `X`, greift automatisch die
+  Wiki-Seite `X (Source)`.
+- **Bilder** werden nicht kopiert, sondern relativ nach `raw/` referenziert — das hält `site/`
+  bei ~2 MB statt 190 MB. Eine `![[bild.png]]`-Zeile plus direkt folgende `*Kursivzeile*` wird
+  zu `<figure>` mit Bildunterschrift.
+- **Backlinks** („Was zeigt hierher") entstehen automatisch pro Seite.
+- **Unauflösbare Links** brechen den Build nicht ab, sondern werden grau markiert und am Ende
+  aufgelistet — sie sind laut Seitenkonvention gewollte Lücken.
+
+Der Build ist reproduzierbar: `site/` darf jederzeit gelöscht und neu erzeugt werden.
+Abhängigkeiten: `python -m pip install -r tools/requirements.txt` (nur `markdown` + `pyyaml`).
+
+## Versionskontrolle
+
+Das gesamte Vault liegt in einem privaten Git-Repo (`raw/` inkl. aller PNGs, `wiki/`, `site/`).
+Nicht versioniert werden abgeleitete Artefakte (`graphify-out/`), der Notion-Export-ZIP und
+maschinenlokale Configs — siehe `.gitignore`.
+
+`.\publish.ps1 [-Message "..."] [-NoPush]` ist der einzige Weg, Änderungen zu veröffentlichen:
+Build → `git add -A` → Commit → Push. Schlägt der Build fehl, entsteht kein Commit. Gibt es
+nichts zu committen, endet das Skript ohne Leer-Commit.
+
 ## Operationen
 
 ### Ingest (neue Quelle verarbeiten)
@@ -73,9 +112,13 @@ das obige Schema ist das Trading-spezifische Beispiel, kein starres Gesetz.
 4. Relevante `wiki/concepts/` und `wiki/models/` Seiten anlegen oder aktualisieren, Querverweise setzen.
 5. `wiki/index.md` aktualisieren (neue Seiten eintragen).
 6. Eintrag an `wiki/log.md` anhängen.
+7. **`.\publish.ps1 -Message "ingest | <Quellname>"` ausführen** — baut die HTML-Website neu,
+   erstellt einen lokalen Checkpoint-Commit und pusht ins private GitHub-Repo. Ohne diesen
+   Schritt ist der Ingest nicht abgeschlossen.
 
 Standardmäßig eine Quelle nach der anderen, mit Rückfrage an den Nutzer, was betont werden soll.
-Nur auf explizite Anweisung im Batch ohne Rückfragen verarbeiten.
+Nur auf explizite Anweisung im Batch ohne Rückfragen verarbeiten. Bei einem Batch genügt ein
+einziger `publish.ps1`-Aufruf am Ende.
 
 ### Query (Frage beantworten)
 
@@ -91,6 +134,10 @@ Nur auf explizite Anweisung im Batch ohne Rückfragen verarbeiten.
 Auf Anfrage: Widersprüche zwischen Seiten suchen, veraltete Aussagen markieren, verwaiste
 Seiten (keine eingehenden Links) finden, erwähnte aber fehlende Konzept-Seiten identifizieren,
 fehlende Querverweise ergänzen. Ergebnisse als Liste vorschlagen, nicht automatisch löschen.
+
+Als Startpunkt dafür `python tools/build_site.py` laufen lassen: der Build meldet ohne
+zusätzlichen Aufwand unauflösbare Wikilinks, verwaiste Seiten und die Drift zwischen
+`wiki/index.md` und dem tatsächlichen Dateibestand.
 
 ## `index.md`-Format
 
@@ -123,6 +170,6 @@ This project has a knowledge graph at graphify-out/ with god nodes, community st
 
 Rules:
 - For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
-- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- For broad navigation use `wiki/index.md` (the curated catalog) rather than raw source browsing.
 - Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
 - After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).

@@ -24,7 +24,10 @@ param(
     [switch]$NoPush
 )
 
-$ErrorActionPreference = 'Stop'
+# Bewusst NICHT 'Stop': git schreibt Hinweise (CRLF-Warnungen, Push-Fortschritt) auf
+# stderr. Mit 'Stop' wuerde das Skript daran abbrechen, sobald jemand die Ausgabe
+# umleitet. Fehler werden stattdessen unten explizit ueber $LASTEXITCODE geprueft.
+$ErrorActionPreference = 'Continue'
 $repo = $PSScriptRoot
 Set-Location $repo
 
