@@ -35,5 +35,7 @@ Immer in **0,25-Schritten** (1,25 / 1,5 / 1,75 …).
 
 - [[Fair Value Gap (FVG)]], [[Central Bank Dealers Range (CBDR)]] (C.E-Konzept)
 - [[Chain of Custody (Q-Validation)]] — baut direkt auf dieser Projektionsmethode auf
-- ⚠️ "VII" wird in der Quelle nicht ausdefiniert (vermutlich ein spezifischer ICT-Referenzpunkt
-  innerhalb der Candle) — bei weiterem 2026-Content-Ingest präzisieren.
+- [[Volume Imbalance (VII)]] — der Bezugspunkt hinter "mit/ohne VII"
+- ✅ **Geklärt (2026-08-02)**: "VII" = **Volume Imbalance**, die Lücke zwischen dem Close einer
+  Candle und dem Open der nächsten. Die Differenz von 0,010 zwischen „mit" (101,805) und „ohne"
+  (101,795) VII entspricht genau der Größenordnung einer solchen Close-Open-Lücke.

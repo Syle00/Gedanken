@@ -91,7 +91,8 @@ Siehe [[Institutional Order Flow (Body vs Wick)]].
   Wiederkehrende lose Sprechweise, kein Verschreiber. Eigene Seite: [[TGIF (Thank God its Friday)]].
 - **Lektion 02** (Trading FOMC Two Stage Delivery) liegt noch nicht in `raw/`.
 - **Ohne eigene Seite**, obwohl in dieser Reihe verwendet: *Immediate Rebalance*, *Bear Trap*,
-  *Reclaimed FVG* (es gibt bislang nur [[Reclaimed Order Block]]), *VII*.
+  *Reclaimed FVG* (es gibt bislang nur [[Reclaimed Order Block]]).
+  ✅ *VII* ist seit 2026-08-02 geklärt → [[Volume Imbalance (VII)]].
 - **Eigener Lernpunkt aus 04**: der Entry am Reclaimed FVG ist dort mit *„was ich noch nicht
   behersche"* markiert — der Reclaimed-FVG-Mechanismus wird in 03 ausführlicher gezeigt
   (bearishes SIBI: darunter → darüber mit Buyside-Sweep → darunter).

@@ -108,5 +108,7 @@ Oberbegriff und Einstiegspunkt.
 ## Verwandt
 
 - [[../index|Katalog aller Wiki-Seiten]]
-- ⚠️ Noch nicht als eigene Seiten definiert (aus dem 2026er Material): **MSS** (Market Structure
-  Shift), **VII**, **Suspensionblock**, **REH/REL** — siehe „Offene Punkte" im Index.
+- ✅ Inzwischen definiert: **MSS** → [[Market Structure Shift (MSS)]] (MentorShip 2022),
+  **VII** → [[Volume Imbalance (VII)]].
+- ⚠️ Noch offen (aus dem 2026er Material): **Suspensionblock**, **REH/REL** — siehe „Offene Punkte"
+  im Index.

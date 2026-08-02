@@ -21,7 +21,7 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">53</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">54</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">24</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">135</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">1</span></a></li>
@@ -56,6 +56,7 @@
 <li><a href="#2026-08-02-ingest-ict-mentorship-2022-13-episoden">[2026-08-02] ingest | ICT MentorShip 2022 (13 Episoden)</a></li>
 <li><a href="#2026-08-02-ingest-market-maker-primer-ict-youtube-forex-library-2017">[2026-08-02] ingest | Market Maker Primer (ICT YouTube Forex Library 2017)</a></li>
 <li><a href="#2026-08-02-ingest-market-maker-primer-nachtrag-die-restlichen-60-charts-ausgewertet">[2026-08-02] ingest | Market Maker Primer — Nachtrag: die restlichen 60 Charts ausgewertet</a></li>
+<li><a href="#2026-08-02-query-vii-geklaert-volume-imbalance">[2026-08-02] query | VII geklaert = Volume Imbalance</a></li>
 </ul>
 </div>
 </details>
@@ -238,6 +239,17 @@
 <li>⚠️ <strong>Fremdquelle markiert</strong>: Die Schemafolie "Correlated Pairs — Bullish SMT" (<code>MMP - SMT 03.png</code>) traegt das Wasserzeichen <strong>TTrades_edu</strong> und stammt damit <strong>nicht</strong> aus dem ICT-Originalkurs, sondern wurde von Jannes ergaenzt. Inhaltlich deckungsgleich, aber auf der Quellseite als Fremdmaterial gekennzeichnet.</li>
 <li>Seiten aktualisiert: wiki/sources/Accumulation - Manipulation - Distribution (Source).md (vollstaendig neu geschrieben), wiki/sources/Time and Price (Source).md (vollstaendig neu geschrieben), wiki/sources/Asia Session (Source).md, London Killzone (Source).md, New York Killzone (Source).md, London Close Killzone (Source).md, The ICT Judas Swing (Source).md, Implementing The Asian Range (Source).md, Essentials To ICT Market Structure (Source).md, Essentials To Trading The Daily Bias (Source).md, ICTCross Currency Relationships und HTF Institutional Order Flow (Source).md, OTE Primier - ICT optimal Trade Entry (Source).md, SMT Smart Money Technique (Source).md, Trading The Key Swing Points (Source).md, wiki/concepts/AMD Cycle (Accumulation – Manipulation – Distribution).md, wiki/concepts/ICT Killzones.md, wiki/concepts/Asian Range.md, wiki/models/Three Timeframe Framing.md</li>
 <li>Noch offen: <strong>MMXM</strong> hat weiterhin keine eigene Seite — inzwischen der am haeufigsten offen gebliebene Punkt (CISD Mini Serie, Market Maker Primer, Essentials To ICT Market Structure verweisen alle darauf).</li>
+</ul>
+<h2 id="2026-08-02-query-vii-geklaert-volume-imbalance">[2026-08-02] query | VII geklaert = Volume Imbalance</h2>
+<ul>
+<li>Frage: "weisst du was VII ist?" — der Begriff stand seit dem ersten Ingest an vier Stellen als offener Punkt und war im Vault nirgends definiert.</li>
+<li>Vault-Befund vorab: VII kommt nur in zwei Kontexten vor — als Fib-Anker in <a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a> ("mit VII" 101,805 vs. "ohne VII" 101,795 am DXY) und als "Daily VII" in <a href="../p/alltime-highs-und-tgif-source.html">Alltime Highs und TGIF (Source)</a>, dort als Draw, nach dessen Erreichen eine explosive Reaktion folgte. Auffaellig: "Volume Imbalance" kam im gesamten Vault (raw/ wie wiki/) <strong>kein einziges Mal</strong> vor, obwohl es eine der ICT-Kern-PD-Arrays ist.</li>
+<li><strong>Vom Nutzer bestaetigt</strong>: VII = <strong>Volume Imbalance</strong>, die Luecke zwischen dem Close einer Candle und dem Open der naechsten. Zwei Rollen: Hilfsmittel zum korrekten Einzeichnen eines FVG <strong>und</strong> eigenstaendige PD Array.</li>
+<li><strong>Die neue Regel</strong>, die bislang komplett fehlte: <em>"Eine VII wird immer mit eingezeichnet, wenn sie vorhanden ist. Ist keine da, nutzen wir die Wicks."</em> Beim FVG also immer auf <strong>Open und Close</strong> achten, nicht nur auf die Wick-Extrema — sonst stimmen C.E, Quadranten und jeder darauf aufbauende Entry nicht.</li>
+<li>Seite erstellt: wiki/concepts/Volume Imbalance (VII).md (inkl. Zahlenbeispiel mit zwei VII: Close C1 28.450,25 -&gt; Open C2 28.450,50 = 0,25; Close C2 28.274,50 -&gt; Open C3 28.275,00 = 0,50).</li>
+<li>Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (neuer Abschnitt "Einzeichnen: Open und Close, nicht die Wicks"), wiki/concepts/Enigma FVG Projection.md, wiki/concepts/PD Array.md (VII in die Aufzaehlung der Arrays), wiki/concepts/Smart Money Concepts (SMC).md, wiki/sources/Alltime Highs und TGIF (Source).md, wiki/models/Weekly Range Trading Model.md, wiki/synthesis/MentorShip 2025.md, wiki/index.md</li>
+<li>✅ Damit sind <strong>beide</strong> grossen offenen Begriffe des 2026er-Materials erledigt: MSS (heute frueher aus der MentorShip 2022) und VII. Offen bleiben nur noch "Suspensionblock" und "REH"/"REL".</li>
+<li>⚠️ Markiert: Die muendliche Erlaeuterung bezeichnete das Zahlenbeispiel als <strong>BISI</strong>, die Sequenz beschreibt aber eine Abwaertsbewegung (Candle 2 faellt von 28.450,50 auf 28.274,50, Candle 3 eroeffnet darunter) — nach der Vault-Definition also ein <strong>SIBI</strong>. Die Einzeichnungsregel ist richtungsunabhaengig und davon nicht betroffen; nur das Label ist zu pruefen.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

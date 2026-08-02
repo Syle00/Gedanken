@@ -22,6 +22,7 @@
     ]
   },
   "enabledPlugins": {
-    "ponytail@ponytail": true
+    "ponytail@ponytail": true,
+    "superpowers@claude-plugins-official": true
   }
 }

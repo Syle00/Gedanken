@@ -7,8 +7,8 @@ sources: ["[[Blending IPDA Data Ranges & PD Arrays (Source)]]"]
 
 # PD Array
 
-Premium/Discount Array — Sammelbegriff für die Kurszonen (Order Block, FVG, Liquidity Pool etc.),
-auf die Preis reagiert. Grundbaustein für [[ICT Daily Range Session Timing]], [[New Week Opening Gap (NWOG) Bias]]
+Premium/Discount Array — Sammelbegriff für die Kurszonen (Order Block, FVG,
+[[Volume Imbalance (VII)|Volume Imbalance]], Liquidity Pool etc.), auf die Preis reagiert. Grundbaustein für [[ICT Daily Range Session Timing]], [[New Week Opening Gap (NWOG) Bias]]
 und praktisch jedes ICT-Modell.
 
 ## Kernregeln

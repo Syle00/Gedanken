@@ -11,6 +11,16 @@ Preiszone zwischen zwei Candles, in der **kein Trading stattgefunden hat** — e
 impulsiven Moves. Solange kein Handel in dieser Zone stattfand, besteht ein berechtigtes Interesse,
 dass Preis dorthin zurückkehrt, um beide Richtungen (Bullish/Bearish) fair anzubieten.
 
+## Einzeichnen: Open und Close, nicht die Wicks
+
+> **Immer auf Open und Close achten.** Liegt zwischen dem Close einer Candle und dem Open der
+> nächsten eine **[[Volume Imbalance (VII)|VII]]**, wird diese beim Einzeichnen des FVG
+> **mitgenommen**. Nur wenn keine VII vorhanden ist, werden die **Wicks** als Begrenzung genutzt.
+
+Wer das FVG allein über die Wick-Extrema aufzieht, bekommt also falsche Grenzen, sobald eine VII im
+Spiel ist — mit Folgen für C.E, Quadranten und jeden darauf aufbauenden Entry. Details und
+Zahlenbeispiel auf [[Volume Imbalance (VII)]].
+
 ## Fair Value — zwei Perspektiven
 
 - **Retail**: Fair Value = der Preis, zu dem verkauft (Premium) bzw. gekauft (Discount) wird —
@@ -53,6 +63,7 @@ Erst wenn alle drei Ebenen übereinstimmen, gilt der Preis als "im fairen Bereic
 
 ## Verwandt
 
+- [[Volume Imbalance (VII)]] — bestimmt die Grenzen des FVG
 - [[Equilibrium Vs. Discount]]
 - [[PD Array]]
 - [[Turtle Soup]] — nutzt FVG als Retracement-Ziel nach einem Sweep

@@ -59,7 +59,7 @@ Sell-Program).*
 - **Fallbeispiel aus [[Alltime Highs und TGIF (Source)]]**: bei einer sehr bullishen Woche
   Retracement von **20 %**; Target waren die Quadranten der Premium Wick bzw. die
   **Premarket-Sellside-Liquidität**, der Entry lag am **Reclaimed FVG**. Relevant war die
-  **Daily VII** — nach deren Erreichen folgte eine explosive Reaktion.
+  **Daily [[Volume Imbalance (VII)|VII]]** — nach deren Erreichen folgte eine explosive Reaktion.
   > ✅ **Geklärt (2026-08-02)**: Die dort notierte „20% der **Daily** Range" war als offene Frage
   > markiert. [[TGIF - Thank God its Friday (Source)]] verwendet dieselbe lose „Daily"-Sprechweise
   > in der Einleitung, definiert das Setup operativ aber über einen Fib auf die **Weekly Range** und

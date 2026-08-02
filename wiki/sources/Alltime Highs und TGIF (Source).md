@@ -28,8 +28,10 @@ Freitags-Setup ("Thanks God its Friday").
   *"was ich noch nicht behersche"* — offener Lernpunkt.
 - Relevant ist die **Daily VII**; nachdem diese erreicht wurde, folgte eine **explosive Reaktion**.
 
-  > ⚠️ „VII" ist im Wiki weiterhin nicht eigenständig definiert (steht schon als offener Punkt in
-  > [[index]]). Diese Quelle bestätigt die Bedeutung, liefert aber keine Definition.
+  > ✅ **Geklärt (2026-08-02)**: „VII" = **[[Volume Imbalance (VII)|Volume Imbalance]]** — die Lücke
+  > zwischen Close und Open zweier Candles. Sie ist nicht nur Hilfsmittel zum Einzeichnen eines FVG,
+  > sondern eine **eigenständige PD Array**; genau als solche wirkt sie hier: die Daily VII ist der
+  > Draw, nach dessen Erreichen die explosive Reaktion folgt.
 
 ## Extrahierte Seiten
 
