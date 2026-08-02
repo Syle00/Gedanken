@@ -47,20 +47,22 @@ git add -A
 if ($LASTEXITCODE -ne 0) { Fail "'git add' fehlgeschlagen." }
 
 git diff --cached --quiet
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "Keine Aenderungen - kein Commit noetig." -ForegroundColor Yellow
-    exit 0
-}
-
-$stat = git diff --cached --shortstat
-Write-Host "  $stat"
+$nothingToCommit = ($LASTEXITCODE -eq 0)
 
 # --- 3. Commit -------------------------------------------------------------
-if (-not $Message) { $Message = "wiki update $(Get-Date -Format 'yyyy-MM-dd')" }
-Write-Host "`n[3/4] Commit: $Message" -ForegroundColor Cyan
-git commit -q -m $Message
-if ($LASTEXITCODE -ne 0) { Fail "'git commit' fehlgeschlagen." }
-Write-Host "  $(git log -1 --format='%h %s')"
+# Auch ohne neue Aenderungen weiterlaufen: es koennen noch ungepushte Commits
+# aus einem frueheren Lauf offen sein (z.B. weil damals kein Remote existierte).
+if ($nothingToCommit) {
+    Write-Host "  Keine Aenderungen - kein Commit noetig." -ForegroundColor Yellow
+    Write-Host "`n[3/4] Commit uebersprungen." -ForegroundColor Cyan
+} else {
+    Write-Host "  $(git diff --cached --shortstat)"
+    if (-not $Message) { $Message = "wiki update $(Get-Date -Format 'yyyy-MM-dd')" }
+    Write-Host "`n[3/4] Commit: $Message" -ForegroundColor Cyan
+    git commit -q -m $Message
+    if ($LASTEXITCODE -ne 0) { Fail "'git commit' fehlgeschlagen." }
+    Write-Host "  $(git log -1 --format='%h %s')"
+}
 
 # --- 4. Push ---------------------------------------------------------------
 if ($NoPush) {
