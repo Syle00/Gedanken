@@ -81,6 +81,11 @@ def strip_markup(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def write(path: Path, text: str) -> None:
+    """Immer mit LF schreiben - sonst meldet Git bei jedem Build 150+ CRLF-Warnungen."""
+    path.write_text(text, encoding="utf-8", newline="\n")
+
+
 def as_text(value) -> str:
     if isinstance(value, (date,)):
         return value.isoformat()
@@ -797,7 +802,7 @@ def main() -> int:
     search_index = []
     for page in pages:
         out = render_page(page, pages, incoming.get(page.title, []), resolver)
-        (PAGES_DIR / f"{page.slug}.html").write_text(out, encoding="utf-8")
+        write(PAGES_DIR / f"{page.slug}.html", out)
 
         text = strip_html(page.html)
         tags = page.meta.get("tags") or []
@@ -815,15 +820,13 @@ def main() -> int:
         })
 
     broken_total = sum(len(v) for v in resolver.broken.values())
-    (SITE / "index.html").write_text(
-        render_home(pages, summaries, len(resolver.broken)), encoding="utf-8")
-    (SITE / "style.css").write_text(STYLE.strip() + "\n", encoding="utf-8")
-    (SITE / "search.js").write_text(SEARCH_JS.strip() + "\n", encoding="utf-8")
+    write(SITE / "index.html", render_home(pages, summaries, len(resolver.broken)))
+    write(SITE / "style.css", STYLE.strip() + "\n")
+    write(SITE / "search.js", SEARCH_JS.strip() + "\n")
     # Als .js statt .json: fetch() auf lokale JSON-Dateien blockiert Chrome
     # unter file:// per CORS, ein <script src> laedt dagegen problemlos.
-    (SITE / "search-index.js").write_text(
-        "window.SEARCH_INDEX=" + json.dumps(search_index, ensure_ascii=False) + ";\n",
-        encoding="utf-8")
+    write(SITE / "search-index.js",
+          "window.SEARCH_INDEX=" + json.dumps(search_index, ensure_ascii=False) + ";\n")
 
     # ---- Report ----------------------------------------------------------- #
     by_cat: dict[str, int] = defaultdict(int)
