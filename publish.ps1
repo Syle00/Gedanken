@@ -33,9 +33,16 @@ Set-Location $repo
 
 function Fail($text) { Write-Host "FEHLER: $text" -ForegroundColor Red; exit 1 }
 
+$env:PYTHONIOENCODING = 'utf-8'
+
+# --- 0. Marktdaten einraeumen ----------------------------------------------
+# Lose CSV-Exporte wandern in ihren Tagesordner (dd.mm.jjjj), bevor irgendetwas
+# committet wird. Bewusst nicht abbruchrelevant: eine Datei, deren Timeframe
+# nicht erkannt wird, darf keinen Publish blockieren -- sie bleibt einfach liegen.
+python (Join-Path $repo 'tools\sort_marktdaten.py') --quiet
+
 # --- 1. Website bauen ------------------------------------------------------
 Write-Host "[1/4] Website bauen ..." -ForegroundColor Cyan
-$env:PYTHONIOENCODING = 'utf-8'
 python (Join-Path $repo 'tools\build_site.py')
 if ($LASTEXITCODE -ne 0) {
     Fail "Build fehlgeschlagen (Exit $LASTEXITCODE). Es wurde nichts committet."

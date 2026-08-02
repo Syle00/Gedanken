@@ -65,6 +65,7 @@
 <ul>
 <li><a href="#arbeitsteilung">Arbeitsteilung</a></li>
 <li><a href="#dateikonvention">Dateikonvention</a></li>
+<li><a href="#einsortieren-passiert-von-selbst">Einsortieren passiert von selbst</a></li>
 <li><a href="#aufruf">Aufruf</a></li>
 <li><a href="#was-gerechnet-wird">Was gerechnet wird</a></li>
 <li><a href="#zwei-detektor-entscheidungen-die-das-ergebnis-pragen">Zwei Detektor-Entscheidungen, die das Ergebnis prägen</a></li>
@@ -112,11 +113,15 @@ fest, wie beides zusammenspielt und was <code>tools/analyze_ohlc.py</code> darau
 2 Ticks Durchstich hatte und darüber schloss, war kein Sweep. Das ist aus einem Bild nicht
 belegbar, aus der CSV schon. Siehe <a href="../p/trading-journal-dol-checklist.html">Trading Journal &amp; DOL Checklist</a>.</p>
 <h2 id="dateikonvention">Dateikonvention</h2>
-<pre><code>raw/marktdaten/&lt;SYMBOL&gt; &lt;YYYY-MM-DD&gt; &lt;TF&gt;.csv
+<pre><code>raw/marktdaten/&lt;dd.mm.jjjj&gt;/&lt;SYMBOL&gt; &lt;YYYY-MM-DD&gt; &lt;TF&gt;.csv
 </code></pre>
+<p>Beispiel: <code>raw/marktdaten/31.07.2026/MNQ 2026-07-31 1m.csv</code></p>
 <ul>
-<li><code>&lt;YYYY-MM-DD&gt;</code> = der <strong>Handelstag</strong>, um den es geht (Datum der letzten Kerze). Alle Timeframes
-  eines Tages tragen dasselbe Datum, auch wenn der 1D-Export 289 Kerzen Historie enthält.</li>
+<li>Der <strong>Ordner</strong> trägt das deutsche Datumsformat, der <strong>Dateiname</strong> das ISO-Datum. Die Redundanz
+  ist gewollt: der Ordner ist zum Anschauen da, das ISO-Datum im Namen sortiert korrekt und macht
+  die Datei auch außerhalb ihres Ordners noch selbsterklärend.</li>
+<li><code>&lt;YYYY-MM-DD&gt;</code> = der <strong>Handelstag</strong>, um den es geht. Alle Timeframes eines Tages tragen dasselbe
+  Datum, auch wenn der 1D-Export 289 Kerzen Historie enthält.</li>
 <li><code>&lt;TF&gt;</code> ∈ <code>1m 5m 15m 1h 4h 1d</code></li>
 <li>Spalten: <code>time,open,high,low,close[,volume]</code>. <code>time</code> als Unix-Timestamp (TradingView-Default)
   oder ISO-8601. <strong>Zeitzone wird immer nach New York gerechnet</strong>, weil das gesamte Vokabular
@@ -124,6 +129,28 @@ belegbar, aus der CSV schon. Siehe <a href="../p/trading-journal-dol-checklist.h
 <li>TradingView: <code>Chart → Export chart data</code>. Der Export enthält je nach Plan keine Volumenspalte —
   das Skript kommt ohne aus.</li>
 </ul>
+<h2 id="einsortieren-passiert-von-selbst">Einsortieren passiert von selbst</h2>
+<p>Exporte werden <strong>flach nach <code>raw/marktdaten/</code> gelegt</strong> — mit dem Namen, den TradingView vergibt.
+Umbenennen ist unnötig. <code>tools/sort_marktdaten.py</code> räumt sie in den Tagesordner ein und läuft
+automatisch mit:</p>
+<ul>
+<li>jedem <code>publish.ps1</code> (vor dem Build, damit nichts Loses committet wird)</li>
+<li>jedem <code>analyze_ohlc.py</code> (damit die Analyse die Datei überhaupt findet)</li>
+<li>optional zeitgesteuert: <code>.\tools\register_marktdaten_task.ps1</code> legt eine tägliche
+  Windows-Aufgabe um 23:15 an (CME-Close 17:00 NY = 23:00 Berlin). Verpasste Läufe werden
+  nachgeholt. Entfernen mit <code>-Unregister</code>.</li>
+</ul>
+<pre><code class="language-bash">python tools/sort_marktdaten.py --dry-run    # zeigt nur, was wohin ginge
+</code></pre>
+<p><strong>Woher der Tag kommt:</strong> aus der <strong>letzten Kerze der Datei</strong>, nicht aus dem Dateinamen. Kerzen
+ab 18:00 NY gehören bereits zur nächsten CME-Session und zählen deshalb auf den Folgetag — genau
+deshalb landet ein 1D-Export, dessen letzte Kerze am 30.07. um 18:00 beginnt, korrekt im Ordner
+<code>31.07.2026</code>.</p>
+<p><strong>Woher Symbol und Timeframe kommen:</strong> der Timeframe aus dem Median-Abstand der Timestamps
+(unbestechlich), das Symbol aus dem Dateinamen, wobei der Kontraktcode abgestreift wird
+(<code>CME_MINI_MNQU2026</code> → <code>MNQ</code>, <code>CME_MINI_NQ1!</code> → <code>NQ</code>). Notfalls <code>--symbol NQ</code> erzwingen.</p>
+<p>Eine bereits vorhandene, inhaltsgleiche Datei führt zum Löschen des Duplikats; bei gleichem Namen
+und abweichendem Inhalt wird <code>(2)</code> angehängt, statt zu überschreiben.</p>
 <h2 id="aufruf">Aufruf</h2>
 <pre><code class="language-bash">python tools/analyze_ohlc.py MNQ 2026-07-31              # Tagesreport
 python tools/analyze_ohlc.py MNQ 2026-07-31 --at 09:50   # Setup gegen die 8er-Checkliste

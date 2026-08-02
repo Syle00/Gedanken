@@ -89,11 +89,16 @@ def load(path: Path) -> list[Bar]:
 
 
 def find_files(symbol: str, day: str) -> dict[str, Path]:
+    """Sucht im Tagesordner (dd.mm.jjjj) und, als Rueckfall, flach in raw/marktdaten/."""
+    iso = datetime.strptime(day, "%Y-%m-%d").date()
+    roots = [DATA_DIR / iso.strftime("%d.%m.%Y"), DATA_DIR]
     out = {}
     for tf in TF_MINUTES:
-        p = DATA_DIR / f"{symbol} {day} {tf}.csv"
-        if p.exists():
-            out[tf] = p
+        for root in roots:
+            p = root / f"{symbol} {day} {tf}.csv"
+            if p.exists():
+                out[tf] = p
+                break
     return out
 
 
@@ -705,6 +710,7 @@ def main(argv=None):
                     help="Displacement ab dem Wievielfachen der Median-Range")
     ap.add_argument("-o", "--out", help="Ausgabedatei (default: stdout)")
     a = ap.parse_args(argv)
+    sys.stdout.reconfigure(encoding="utf-8")
 
     # Rauschfilter in Kerzen skalieren mit dem Timeframe: 15 Kerzen sind auf 1m
     # eine Viertelstunde, auf 15m fast vier Stunden.
@@ -715,6 +721,12 @@ def main(argv=None):
         confirm=a.confirm if a.confirm is not None else max(2, round(5 / tf_min)),
     )
     day = datetime.strptime(a.day, "%Y-%m-%d").date()
+    # Lose Exporte zuerst einraeumen, damit sie ueberhaupt gefunden werden.
+    try:
+        from sort_marktdaten import run as sort_run
+        sort_run(quiet=True)
+    except ImportError:
+        pass
     files = find_files(a.symbol, a.day)
     if not files:
         sys.exit(f"Keine Dateien fuer '{a.symbol} {a.day} <tf>.csv' in {DATA_DIR}")

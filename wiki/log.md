@@ -195,3 +195,23 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Macro 09:50–10:10 mit 293,25 Pkt = 4,6x Tagesmedian. Das Lunch-Macro 10:50–11:10 lag mit 92 Pkt **unter** der Expansionsschwelle — wer auf das Lunch-Setup gewartet hat, hat auf das falsche Fenster gewartet.
 - Checkliste `--at 09:50`: 6/7 pruefbare Punkte. Der fehlende ist "Target Liquiditaet" — die Sellside war zu dem Zeitpunkt schon abgeraeumt, der Move lief trotzdem noch 281 Pkt tiefer.
 - ⚠️ Markiert: High *und* Low des Tages fielen ins Fenster 09:30–10:16, nicht nach London. Das laeuft der Faustregel in [[ICT Daily Range Session Timing]] entgegen (Manipulation 0–5 Uhr, High/Low meist in London). Als **einzelner Datenpunkt notiert, nicht als Korrektur** — ein Tag widerlegt keine Statistik. Passt besser zum Seek-&-Destroy-Freitag aus [[Market Maker Manipulation Templates]].
+
+## [2026-08-02] tooling | Marktdaten: automatische Tagesordner (dd.mm.jjjj)
+- Wunsch: "nachdem .csv dateien im marktdaten ordner sind ordne sie automatisch am tagesende in einen unterordner ein benannt mit dem datum im format dd.mm.jjjj"
+- Neu: `tools/sort_marktdaten.py` (nur Standardbibliothek) + `tools/register_marktdaten_task.ps1` (optionale Windows-Aufgabe).
+- Bestand verschoben: die sechs Freitags-CSVs liegen jetzt in `raw/marktdaten/31.07.2026/`.
+- Seiten aktualisiert: wiki/models/OHLC-Datenanalyse (Workflow).md (neue Abschnitte "Dateikonvention" und "Einsortieren passiert von selbst"), wiki/synthesis/MNQ 2026-07-31 — Datenbasierter Tagesrückblick.md (Pfadangabe), publish.ps1, tools/analyze_ohlc.py
+
+### Entscheidungen ohne Rueckfrage (nach Vault-Konvention)
+- **Ordner dd.mm.jjjj, Dateiname weiter ISO.** Nur der Ordner bekommt das deutsche Format wie gewuenscht; im Dateinamen bleibt `MNQ 2026-07-31 1m.csv`. Grund: ISO sortiert korrekt, und `analyze_ohlc.py` setzt darauf auf. Die Datei bleibt so auch ausserhalb ihres Ordners selbsterklaerend.
+- **Der Handelstag kommt aus der letzten Kerze, nicht aus dem Dateinamen.** Sonst muesste er die TradingView-Exporte vorher von Hand umbenennen — genau die Arbeit, die wegfallen soll. Kerzen ab 18:00 NY zaehlen auf den Folgetag, weil dann bereits die naechste CME-Session laeuft. Ohne diese Regel waere der 1D-Export (letzte Kerze 30.07. 18:00) im Ordner 30.07.2026 gelandet statt in 31.07.2026.
+- **Timeframe aus dem Median-Timestamp-Abstand**, nicht aus dem Dateinamen — der TradingView-Name (`, 1_f6229`) ist mehrdeutig, der Abstand nicht. Symbol aus dem Namen mit abgestreiftem Kontraktcode (`CME_MINI_MNQU2026` -> `MNQ`), per `--symbol` ueberschreibbar.
+- **"Am Tagesende" auf drei Wegen umgesetzt**, weil die Formulierung offen laesst, ob ein Scheduler gemeint war: automatisch in `publish.ps1` und in `analyze_ohlc.py` (greift in seinem realen Arbeitsablauf ohne jede Einrichtung), plus eine **opt-in** Windows-Aufgabe fuer echte Zeitsteuerung um 23:15 (CME-Close 17:00 NY = 23:00 Berlin). Die Aufgabe wurde **nicht** registriert — das ist eine Aenderung an seinem System und bleibt seine Entscheidung, ein Aufruf genuegt.
+- **Sortierfehler blockieren keinen Publish**: eine Datei mit unerkennbarem Timeframe bleibt liegen und wird gemeldet, statt den Build abzubrechen.
+- **Keine stillen Ueberschreibungen**: inhaltsgleiche Duplikate werden geloescht, gleichnamige mit abweichendem Inhalt bekommen `(2)`.
+
+### Geprueft
+- Alle sechs Bestandsdateien korrekt einsortiert, inkl. der 1D-Datei ueber die 18-Uhr-Regel.
+- Roh-Export `CME_MINI_MNQU2026, 5_zztest.csv` in `raw/marktdaten/` abgelegt -> `analyze_ohlc.py` hat ihn selbst eingeraeumt, als Duplikat erkannt, entfernt und danach normal analysiert.
+- Synthetischer Export eines anderen Tages -> neuer Ordner `04.08.2026` samt korrektem Dateinamen angelegt (Testartefakt wieder entfernt).
+- Symbolerkennung gegen sechs Namensmuster geprueft: MNQU2026/NQ1!/YMZ25/MNQ1!/EURUSD/bereits-konform.
