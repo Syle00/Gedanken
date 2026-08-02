@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[Blending IPDA Data Ranges & PD Arrays (Source)]]", "[[Using IPDA Data Ranges (Source)]]"]
+sources: ["[[Blending IPDA Data Ranges & PD Arrays (Source)]]", "[[Using IPDA Data Ranges (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]"]
 ---
 
 # IPDA Data Ranges
@@ -28,6 +28,14 @@ Interbank Price Delivery Algorithm — die Lookback-Fenster (20/40/60 Tage), in 
 Equilibrium (siehe [[Equilibrium Vs. Discount]])? Gibt es darüber/darunter ein FVG bzw. BISI/SIBI
 (Buyside-/Sellside-Imbalance, siehe [[Fair Value Gap (FVG)]])? Genau dorthin bewegt sich der Preis.
 Der Algo schaut **60 Tage zurück**, um die Targets/Orders der großen Funds zu finden.
+
+## Rückwirkende Gültigkeit von PD Arrays
+
+Das 20/40/60-Fenster begrenzt nicht nur die Suche nach dem relevanten High/Low, sondern die
+**Verwendbarkeit der [[PD Array|PD Arrays]] insgesamt**:
+
+> Wie lange nutzen wir rückwirkend die PDs wie Imbalances, Wicks und Gaps? Wir nehmen die IPDA Data
+> Ranges 20/40/60 Days — **PDs sind bis zu 60 Tage rückwirkend nutzbar.**
 
 ## Quarterly Shift als Ankerpunkt
 

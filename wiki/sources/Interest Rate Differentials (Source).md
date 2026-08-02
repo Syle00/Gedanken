@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Interest Rate Differentials.md"
+raw: "[[Interest Rate Differentials]]"
+raw_path: "raw/trading-ict/Core Content/Interest Rate Differentials.md"
 curriculum: "[[Month 05 (Source)]]"
 ---
 

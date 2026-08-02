@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Institutional Sponsorship.md"
+raw: "[[Institutional Sponsorship]]"
+raw_path: "raw/trading-ict/Core Content/Institutional Sponsorship.md"
 curriculum: "[[Month 03 (Source)]]"
 ---
 

@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Low Resistance Liquidity Runs Part 2.md"
+raw: "[[Low Resistance Liquidity Runs Part 2]]"
+raw_path: "raw/trading-ict/Core Content/Low Resistance Liquidity Runs Part 2.md"
 curriculum: "[[Month 07 - Weekly (Source)]]"
 ---
 

@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict, curriculum]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Core Content 2016.md"
+raw: "[[Core Content 2016]]"
+raw_path: "raw/trading-ict/Core Content/Core Content 2016.md"
 ---
 
 # Core Content 2016 (Source)

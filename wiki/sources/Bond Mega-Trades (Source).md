@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Bond Mega-Trades.md"
+raw: "[[Bond Mega-Trades]]"
+raw_path: "raw/trading-ict/Core Content/Bond Mega-Trades.md"
 curriculum: "[[Month 11 (Source)]]"
 ---
 

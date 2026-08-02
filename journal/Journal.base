@@ -1,0 +1,54 @@
+filters:
+  and:
+    - file.inFolder("journal/entries")
+views:
+  - type: table
+    name: Alle Eintraege
+    order:
+      - Date
+      - typ
+      - zeit_entry
+      - Bias
+      - modell
+      - Resultat
+      - checks_erfuellt
+      - ergebnis_r
+      - fehler
+  - type: table
+    name: Nur Trades
+    filters:
+      and:
+        - typ == "trade"
+    order:
+      - Date
+      - zeit_entry
+      - modell
+      - richtung
+      - risiko_pct
+      - rr_geplant
+      - Resultat
+      - ergebnis_r
+      - ergebnis_betrag
+      - fehler
+  - type: table
+    name: Verluste
+    filters:
+      and:
+        - Resultat == "Loss"
+    order:
+      - Date
+      - typ
+      - modell
+      - checks_erfuellt
+      - fehler
+      - emotion_vorher
+      - ergebnis_r
+  - type: table
+    name: Bias offen
+    filters:
+      and:
+        - typ == "daily-bias"
+    order:
+      - Date
+      - Bias
+      - bias_korrekt

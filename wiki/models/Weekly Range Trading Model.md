@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, swing, weekly]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[Using Monthly & Weekly Ranges (Source)]]", "[[NQ Futures Weekly Range Market Wizardry (Source)]]"]
+sources: ["[[Using Monthly & Weekly Ranges (Source)]]", "[[NQ Futures Weekly Range Market Wizardry (Source)]]", "[[TGIF - Thank God its Friday (Source)]]"]
 ---
 
 # Weekly Range Trading Model
@@ -52,9 +52,18 @@ Sell-Program).*
   Discount-Array).
 - Bei bearishem Bias/Orderflow wird **zuerst** das Premium-DOL antizipiert — erst nach dessen
   Erreichen rückt das Discount-Pool/DOL in den Fokus (spiegelbildlich bei bullishem Bias).
-- **TGIF**: nach Erreichen der Discount-Array und passendem Timing (Freitag) wird ein Retracement
-  von **20–30 % der Weekly Range** erwartet. Kommt das Retracement nicht bereits am Freitag, wird es
+- **TGIF** → ausführlich auf der eigenen Seite [[TGIF (Thank God its Friday)]]. Kurzfassung: nach
+  Erreichen der Discount-Array und passendem Timing (Freitag) wird ein Retracement von
+  **20–30 % der Weekly Range** erwartet. Kommt das Retracement nicht bereits am Freitag, wird es
   standardmäßig am **Montag oder Dienstag** der Folgewoche erwartet (Kurz Notizen).
+- **Fallbeispiel aus [[Alltime Highs und TGIF (Source)]]**: bei einer sehr bullishen Woche
+  Retracement von **20 %**; Target waren die Quadranten der Premium Wick bzw. die
+  **Premarket-Sellside-Liquidität**, der Entry lag am **Reclaimed FVG**. Relevant war die
+  **Daily VII** — nach deren Erreichen folgte eine explosive Reaktion.
+  > ✅ **Geklärt (2026-08-02)**: Die dort notierte „20% der **Daily** Range" war als offene Frage
+  > markiert. [[TGIF - Thank God its Friday (Source)]] verwendet dieselbe lose „Daily"-Sprechweise
+  > in der Einleitung, definiert das Setup operativ aber über einen Fib auf die **Weekly Range** und
+  > beschriftet die Charts mit „20% / 30% Weekly Range". Maßgeblich ist die **Weekly Range**.
 - Wo genau relativ zum **C.E** (Consequent Encroachment, siehe [[Central Bank Dealers Range (CBDR)]])
   einer Wick/PD Array geclosed wird, ist entscheidend — der tatsächliche Orderflow wiegt dabei immer
   schwerer als der einzelne Schlusskurs einer Candle.
@@ -67,6 +76,7 @@ Sell-Program).*
 
 ## Verwandt
 
+- [[TGIF (Thank God its Friday)]]
 - [[One Shot One Kill Model]]
 - [[Market Maker Manipulation Templates]]
 - [[PD Array]], [[Fair Value Gap (FVG)]]

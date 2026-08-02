@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Blending IPDA Data Ranges & PD Arrays.md"
+raw: "[[Blending IPDA Data Ranges & PD Arrays]]"
+raw_path: "raw/trading-ict/Core Content/Blending IPDA Data Ranges & PD Arrays.md"
 curriculum: "[[Month 07 - Weekly (Source)]]"
 ---
 

@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, sessions]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[Essentials To ICT Daytrading (Source)]]", "[[Defining The Daily Range (Source)]]"]
+sources: ["[[Essentials To ICT Daytrading (Source)]]", "[[Defining The Daily Range (Source)]]", "[[Kurz Notizen (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]"]
 ---
 
 # ICT Daily Range Session Timing
@@ -78,8 +78,30 @@ Reihenfolge der Relevanz für die NY-AM-Session: **Premarket-Liquidität (7–9:
 Um **8:30 Uhr** gibt es eine starke Market Protection — also ein [[ICT Macros & Leading Candles|Macro]].
 Zwischen **8:30–11 Uhr** ist zudem eine Hauptzeit für Forex-Trading in NY.
 
+## Intraday-Fahrplan 7:00 – 11:30 (MentorShip 2025)
+
+Der konkrete Ablauf eines Handelstags, wie ihn
+[[Trading Premarket and Regular Session Liquidity (Source)]] durchkommentiert — Leitsatz
+**Time/Day – Price – Liquidität**:
+
+| Zeit (NY) | Was passiert |
+|---|---|
+| **7:00** | Premarket startet (13 Uhr DE). Run auf die offensichtliche Buyside, die sich *vor* Premarket gebildet hat → Retail-Offset, Liquiditätsaufbau |
+| **kurz vor 8:30** | News Driver bringt Volatilität: erst Buyside nehmen, dann große Expansion in eine Discount-PD; Target ist die Premarket-Sellside-Liquidität |
+| **9:30** | [[ORG (Opening Range Gap) & 1st Presented FVG#Der 9:30-Fake-Drop\|Fake Drop]] über ORG und Minor Buyside Pool auf die Quadranten der Premium Wicks |
+| **ab 10:00** | Die Liquidität, die sich ab hier bildet, wird zum Ziel des Lunch Macro |
+| **NY Lunch Macro** | Meist ein Retracement; attackiert **das erste High/Low vor 10 Uhr** bzw. die erste PD — nach der Opening Range |
+| **ab 11:30** | Lunch Macro attackiert die **während der Lunch Hour** gebildete Liquidität. Bullishe Session → Sellside, bearishe Session → Buyside; genommen wird das **offensichtlichste** Swing Low/High |
+
+Der Tages-Bias wird dabei über den Wochentag mitbestimmt: im Beispiel ein **Donnerstag**, der Tag
+mit der höchsten Wahrscheinlichkeit für das High/Low der Woche (siehe
+[[Weekly Range Trading Model]]) — der Premarket-Ablauf ist ein
+[[AMD Cycle (Accumulation – Manipulation – Distribution)|Po3]] aus Accumulation von Shorts,
+Manipulation auf Minor Buyside und Distribution zur Sellside.
+
 ## Verwandt
 
 - [[New Week Opening Gap (NWOG) Bias]] — wöchentlicher Bias-Filter, der auf dieses Session-Timing aufsetzt
 - [[ICT Macros & Leading Candles]], [[Silver Bullet Model]]
-- [[Kurz Notizen (Source)]]
+- [[ORG (Opening Range Gap) & 1st Presented FVG]] — Opening Ranges für London (1:30–2:00) und NY Pre Session (7:00–7:30)
+- [[Kurz Notizen (Source)]], [[Trading Premarket and Regular Session Liquidity (Source)]]

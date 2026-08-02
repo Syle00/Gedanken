@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict, curriculum]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Month 06 - Swing Trading Model.md"
+raw: "[[Month 06 - Swing Trading Model]]"
+raw_path: "raw/trading-ict/Core Content/Month 06 - Swing Trading Model.md"
 curriculum: "[[Core Content 2016 (Source)]]"
 ---
 

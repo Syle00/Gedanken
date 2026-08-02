@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict, 2026, curriculum]
 created: 2026-08-01
 updated: 2026-08-01
-raw: "raw/trading-ict/2026/2026 ICT Study.md"
+raw: "[[2026 ICT Study]]"
+raw_path: "raw/trading-ict/2026/2026 ICT Study.md"
 ---
 
 # 2026 ICT Study (Source)

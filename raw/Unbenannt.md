@@ -1,1 +1,0 @@
-![[Kurz Notizen - Unbenannt Chart Example.png]]

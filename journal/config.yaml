@@ -1,0 +1,61 @@
+# Trading-Journal Konfiguration
+# Diese Werte sind der Massstab der Fehlerpruefung — halte sie aktuell, sonst
+# markiert das Journal Fehler gegen Regeln, die laengst nicht mehr gelten.
+
+konto:
+  groesse: 25000
+  waehrung: USD          # Lucid-Konto laeuft in USD, Futures-P&L ebenfalls
+  usd_kurs: 1.0          # Faktor USD -> Kontowaehrung; bei USD-Konto 1.0
+
+# Alle Grenzen unten sind aus den Lucid-Daten abgeleitet (26 Handelstage,
+# 24.03. - 31.07.2026, MNQ). Sie sind Startwerte, keine Naturgesetze — wenn sie
+# dauernd greifen, ohne dass es hilft, gehoeren sie geaendert statt ignoriert.
+
+risiko:
+  # Sein Risiko JE TRADE ist unauffaellig: Median 39 USD (0,16 %), Schnitt 80 USD
+  # (0,32 %). Die Standardgrenze liegt bewusst knapp darueber statt beim ueblichen
+  # 1 % — 1 % waeren 250 USD und damit rund 6 MNQ-Kontrakte, also genau die Zone,
+  # in der seine Statistik kippt.
+  standard_pct: 0.35     # = 87 USD  -> darueber greift R01
+  max_pct: 0.6           # = 150 USD -> absolute Obergrenze
+  min_rr: 2.0            # darunter greift R02
+  max_trades_pro_tag: 3  # darueber greift P03
+  pause_nach_verlust_min: 30   # kuerzerer Abstand nach Verlust -> Verdacht P01
+  min_checks: 6          # Checklistenpunkte, ab denen ein Setup gilt -> darunter P10
+
+  # Die eigentliche Schranke. Zwei Tage (30.07. -344, 31.07. -615) erklaeren das
+  # gesamte Minus des Zeitraums; ohne sie stuende das Konto bei +783 statt -175.
+  # 250 USD (1 % des Kontos) haette genau diese beiden Tage gestoppt und keinen
+  # einzigen normalen Verlusttag (Schnitt -80 USD ohne die Ausreisser).
+  max_tagesverlust: 250        # danach Feierabend -> R08
+
+  # Kontrakte am Tag vs. Ergebnis ueber 26 Tage:
+  #   1-2 Kontrakte:  8 Tage, Schnitt +44,75 USD
+  #   3-5 Kontrakte: 11 Tage, Schnitt  -8,82 USD
+  #   6+  Kontrakte:  7 Tage, Schnitt -62,36 USD
+  max_kontrakte: 2             # je Trade -> R09
+  max_kontrakte_pro_tag: 5     # ueber alle Trades des Tages -> R09
+
+  # Falls Lucid eigene Regeln hat (Trailing Drawdown, Daily Loss Limit der Firma),
+  # gehoeren sie hier rein und haben Vorrang vor den Werten oben:
+  # prop_daily_loss: null
+  # prop_trailing_drawdown: null
+
+screenshots:
+  # Tagesordner der TradingView-Screenshots, Ordnername = Tag der AUFNAHME (TT-MM-JJJJ).
+  # Bei Replay ist das NICHT das Marktdatum: am 02.08. entstehen Bilder eines Replays
+  # vom 31.07. Beim Ablegen im Journal zaehlt das Marktdatum.
+  quelle: "C:/Users/Jannes/Dropbox/TradingJournal/Screenshots"
+  ordner_format: "%d-%m-%Y"
+
+instrumente:
+  NQ:
+    punktwert_usd: 20
+  MNQ:
+    punktwert_usd: 2
+  ES:
+    punktwert_usd: 50
+  MES:
+    punktwert_usd: 5
+
+zeitzone: America/New_York

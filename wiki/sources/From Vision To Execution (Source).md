@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict, 2026]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/2026/From Vision To Execution.md"
+raw: "[[From Vision To Execution]]"
+raw_path: "raw/trading-ict/2026/From Vision To Execution.md"
 ---
 
 # From Vision To Execution (Source)

@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict, 2026]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/2026/NQ Futures Weekly Range Market Wizardry.md"
+raw: "[[NQ Futures Weekly Range Market Wizardry]]"
+raw_path: "raw/trading-ict/2026/NQ Futures Weekly Range Market Wizardry.md"
 ---
 
 # NQ Futures Weekly Range Market Wizardry (Source)

@@ -15,10 +15,21 @@ raw/
   trading-ict/
     Core Content/     ICT-Trading-Notizen (Notion-Export), unangetastet
     2026/              Weitere ICT-Notizen (2026er Jahrgang)
-    assets/            453 Chart-/Screenshot-PNGs, per Obsidian-Wikilink referenziert
+    assets/            462 Chart-/Screenshot-PNGs, per Obsidian-Wikilink referenziert
+  journal/            Trading-Logbuch (Notion-Export): Daily Bias / Weekly Bias /
+                        Trade Execution / Tape Reading, Juni 2025 – 2026
+    Journal.md         Notion-Datenbanktabelle: alle Einträge mit Datum, Bias, Tags
+    assets/            695 Screenshots; kollidierende Namen tragen das Präfix "journal-"
   <neue-domäne>/       Weitere Themenbereiche entstehen hier bei Bedarf, z.B.
                         raw/gesundheit/, raw/buch-xyz/, raw/firma-abc/
 ```
+
+> ⚠️ **Bildnamen sind vault-weit eindeutig zu halten.** Obsidian *und* `tools/build_site.py`
+> lösen `![[bild.png]]` allein über den Dateinamen auf — zwei gleichnamige Bilder in
+> verschiedenen Ordnern führen dazu, dass stillschweigend das falsche angezeigt wird.
+> Notion-Exporte liefern generische Namen (`image 1.png`, `image 2.png`, …) und kollidieren
+> daher zwangsläufig. Beim Ingest eines neuen Exports: Assets in den Domänenordner legen und
+> kollidierende Namen mit einem Domänen-Präfix versehen.
 
 Neue Rohquellen (Artikel, PDFs, Notizen, Screenshots) legt der Nutzer hier ab, thematisch
 in einem eigenen Unterordner pro Domäne. Wenn eine neue Domäne beginnt, lege den Ordner an,

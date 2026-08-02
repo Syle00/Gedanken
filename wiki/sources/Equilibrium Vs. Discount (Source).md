@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Equilibrium Vs. Discount.md"
+raw: "[[Equilibrium Vs. Discount]]"
+raw_path: "raw/trading-ict/Core Content/Equilibrium Vs. Discount.md"
 curriculum: "[[Month 1 (Source)]]"
 ---
 

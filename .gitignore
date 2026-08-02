@@ -18,6 +18,10 @@ wiki/graphify-out/
 # Maschinenlokale Permissions/Modes; settings.json (Projekt-Hooks) bleibt versioniert.
 .claude/settings.local.json
 
+# --- Zugangsdaten ---
+# imgur Client-ID fuer den Screenshot-Upload. Gehoert nie ins Repo, auch nicht ins private.
+journal/.secrets.yaml
+
 # --- Python ---
 __pycache__/
 *.pyc

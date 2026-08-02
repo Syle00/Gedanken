@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict, 2026]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/2026/How Do I Engage Markets When I Don't Have An Initial Bias.md"
+raw: "[[How Do I Engage Markets When I Don't Have An Initial Bias]]"
+raw_path: "raw/trading-ict/2026/How Do I Engage Markets When I Don't Have An Initial Bias.md"
 ---
 
 # How Do I Engage Markets When I Don't Have An Initial Bias (Source)

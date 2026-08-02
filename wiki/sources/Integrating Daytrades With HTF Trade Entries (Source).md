@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Integrating Daytrades With HTF Trade Entries.md"
+raw: "[[Integrating Daytrades With HTF Trade Entries]]"
+raw_path: "raw/trading-ict/Core Content/Integrating Daytrades With HTF Trade Entries.md"
 curriculum: "[[Month 08 - Daytrades (Source)]]"
 ---
 

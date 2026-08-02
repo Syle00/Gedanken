@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/High Probability Swing Trade Setups In Bull Markets.md"
+raw: "[[High Probability Swing Trade Setups In Bull Markets]]"
+raw_path: "raw/trading-ict/Core Content/High Probability Swing Trade Setups In Bull Markets.md"
 curriculum: "[[Month 06 - Swing Trading Model (Source)]]"
 ---
 

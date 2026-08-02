@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Basics & Opening Range Concept.md"
+raw: "[[Basics & Opening Range Concept]]"
+raw_path: "raw/trading-ict/Core Content/Basics & Opening Range Concept.md"
 curriculum: "[[Month 10 (Source)]]"
 ---
 

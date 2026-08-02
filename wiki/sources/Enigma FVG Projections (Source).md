@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict, 2026]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/2026/Enigma FVG Projections.md"
+raw: "[[Enigma FVG Projections]]"
+raw_path: "raw/trading-ict/2026/Enigma FVG Projections.md"
 ---
 
 # Enigma FVG Projections (Source)

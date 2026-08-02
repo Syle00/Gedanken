@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Ideal Swings Conditions For Any Market.md"
+raw: "[[Ideal Swings Conditions For Any Market]]"
+raw_path: "raw/trading-ict/Core Content/Ideal Swings Conditions For Any Market.md"
 curriculum: "[[Month 06 - Swing Trading Model (Source)]]"
 ---
 

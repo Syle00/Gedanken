@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Trading In Consolidations.md"
+raw: "[[Trading In Consolidations]]"
+raw_path: "raw/trading-ict/Core Content/Trading In Consolidations.md"
 curriculum: "[[Month 9 - Scalping-Daytrades (Source)]]"
 ---
 

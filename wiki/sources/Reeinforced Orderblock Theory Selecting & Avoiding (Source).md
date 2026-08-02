@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Reeinforced Orderblock Theory Selecting & Avoiding.md"
+raw: "[[Reeinforced Orderblock Theory Selecting & Avoiding]]"
+raw_path: "raw/trading-ict/Core Content/Reeinforced Orderblock Theory Selecting & Avoiding.md"
 curriculum: "[[Month 04 (Source)]]"
 ---
 

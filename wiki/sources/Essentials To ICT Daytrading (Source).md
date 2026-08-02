@@ -2,7 +2,8 @@
 tags: [source, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-02
-raw: "raw/trading-ict/Core Content/Essentials To ICT Daytrading.md"
+raw: "[[Essentials To ICT Daytrading]]"
+raw_path: "raw/trading-ict/Core Content/Essentials To ICT Daytrading.md"
 curriculum: "[[Month 08 - Daytrades (Source)]]"
 ---
 
