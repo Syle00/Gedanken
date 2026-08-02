@@ -118,18 +118,35 @@ nichts zu committen, endet das Skript ohne Leer-Commit.
 ### Ingest (neue Quelle verarbeiten)
 
 1. Quelle lesen (aus `raw/`).
-2. Mit dem Nutzer die Kernaussagen kurz besprechen (was ist neu, was wichtig, was widerspricht Bestehendem).
+2. Kernaussagen herausarbeiten (was ist neu, was wichtig, was widerspricht Bestehendem) — das wird
+   **nicht vorab besprochen, sondern am Ende berichtet**.
 3. Seite unter `wiki/sources/<Quellname>.md` anlegen: Zusammenfassung, Kernpunkte, Zitate/Verweise auf `raw/`-Original.
 4. Relevante `wiki/concepts/` und `wiki/models/` Seiten anlegen oder aktualisieren, Querverweise setzen.
 5. `wiki/index.md` aktualisieren (neue Seiten eintragen).
 6. Eintrag an `wiki/log.md` anhängen.
-7. **`.\publish.ps1 -Message "ingest | <Quellname>"` ausführen** — baut die HTML-Website neu,
+7. **`.\publish.ps1 -Message "ingest | <Quellname>"` selbst ausführen** — baut die HTML-Website neu,
    erstellt einen lokalen Checkpoint-Commit und pusht ins private GitHub-Repo. Ohne diesen
-   Schritt ist der Ingest nicht abgeschlossen.
+   Schritt ist der Ingest nicht abgeschlossen. Das gehört zum Ingest dazu und wird **nicht
+   erst erfragt**; bei einem Batch genügt ein Aufruf am Schluss. („Manuell" heißt: kein
+   Hintergrundprozess, kein Auto-Push bei fremden Änderungen — nicht, dass der Aufruf unterbleibt.)
 
-Standardmäßig eine Quelle nach der anderen, mit Rückfrage an den Nutzer, was betont werden soll.
-Nur auf explizite Anweisung im Batch ohne Rückfragen verarbeiten. Bei einem Batch genügt ein
-einziger `publish.ps1`-Aufruf am Ende.
+**Ohne Rückfragen, im Batch.** Eine Aufforderung wie „injeziere den neuen Kontent" oder „importiere"
+ist die vollständige Freigabe für alles, was an neuem Material vorliegt — nicht nur für eine Quelle.
+Nicht nachfragen, welche Quelle zuerst drankommt oder was betont werden soll; einfach durcharbeiten
+und am Ende berichten. Bei einem Batch genügt ein einziger `publish.ps1`-Aufruf am Ende.
+
+Entscheidungen, die sonst eine Rückfrage wären, werden nach den Konventionen dieses Vaults selbst
+getroffen und **im Bericht sowie in `wiki/log.md` offengelegt** — insbesondere:
+
+- **Widerspruch zu einer Bestandsseite**: markieren statt still überschreiben (siehe
+  Seitenkonventionen). Bestätigt eine neue Quelle eine bislang offene Frage, den Marker von `⚠️` auf
+  `✅` umstellen und die Begründung dazuschreiben, statt ihn zu löschen.
+- **Große Exporte**: kollidierende Bildnamen bekommen ein Domänen-Präfix. Sind es zu viele Bilder
+  für durchgehend sprechende Namen, seiten- und positionsbezogen nummerieren
+  (`<Domäne> - <Seitenkürzel> <NN>.png`) und die Beschreibung in die Bildunterschrift der Wiki-Seite
+  legen. Die Abweichung im Log vermerken.
+- **Leere oder reine Container-Seiten** im Export: nicht als Rohdateien anlegen, sondern in die
+  Index-Datei der Reihe falten und als leer kennzeichnen.
 
 ### Query (Frage beantworten)
 

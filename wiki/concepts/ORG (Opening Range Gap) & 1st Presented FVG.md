@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]"]
+sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]"]
 ---
 
 # ORG (Opening Range Gap) & 1st Presented FVG
@@ -22,6 +22,30 @@ Zwei verwandte 2026er-Konzepte zur Premium/Discount-Bias-Bestätigung über den
 
 ## ORG (Opening Range Gap)
 
+**Definition** (aus [[SMC Opening Range Gaps (Source)]]): die letzte Candle **16:14 Closing Price**
+→ **9:30 Opening Price**. Sichtbar nur, wenn der Chart von elektronischen auf **Regular Trading
+Hours** umgestellt wird. Darüber ein **Fib 0–1** für die Key Level. Pre Market ist 6:00–9:30.
+
+> ⚠️ Das ORG ist **weder das New Day Opening Gap noch die [[Midnight Opening Range]]** — die Quelle
+> stellt das ausdrücklich klar. Dieselbe Lecture-Reihe verwendet den Begriff an einer früheren
+> Stelle allerdings selbst falsch, siehe [[Making Money With SMC Concepts (Source)]].
+
+### Gap-Größe entscheidet über den Fill
+
+| Gap-Größe | Erwartung |
+|---|---|
+| **Mehrere 100 Punkte** | Preis kehrt wahrscheinlich **nicht** ins Gap zurück, sondern läuft weiter in Gap-Richtung |
+| **Ab ~120 Punkten** | Fill bis C.E unwahrscheinlich; **erstes Target ist 0.25 statt C.E** ("low hanging target") |
+| **Sehr klein** | Schnelle Reaktion + Retracement **mindestens bis C.E**, oft deutlich weiter; kompletter Close erwartbar |
+
+- **Reihenfolge bei einem Premium Gap**: erst soll Preis zu einem High/markanten Punkt auf der
+  **Buyside in London** laufen, **erst danach** ist das Retracement zum Gap-C.E zu erwarten — das
+  C.E ist dabei das Minimum. Spiegelbildlich beim Discount Gap.
+- **Session-Wahl über die Gap-Größe**: ORG **über 100 Handle** → auf die **AM Session**
+  konzentrieren; kleinere Range (höhere Fill-Wahrscheinlichkeit) → **PM Session**.
+- Alte Gaps im RTH-Chart sind markante Punkte, die für den ganzen Handelstag relevant bleiben und
+  als wiederverwendbare Targets dienen, solange sie offen sind.
+
 - Das Premium/Discount-Konzept mit C.E-Respekt gilt genauso für die ORG.
 - Bei bearishem Bias + starkem Close unterhalb des C.E + Premium-Sensitivität am C.E der ORG wird
   erwartet, dass dieses Verhalten anhält, bis ein [[AMD Cycle (Accumulation – Manipulation – Distribution)|DOL]]
@@ -33,12 +57,44 @@ Zwei verwandte 2026er-Konzepte zur Premium/Discount-Bias-Bestätigung über den
 
 ## 1st Presented FVG (1.p FVG)
 
+> **Eigentlich: 1. presented _Displacement_.** Die [[ICT 2025 Lecture Series (Source)]] formuliert
+> das an drei Stellen unabhängig aus: *„Nicht immer das erste FVG nehmen sondern schauen welches am
+> größten ist!! Es heißt also im Grunde nicht 1 presented FVG sondern 1. presented Displacement des
+> Tages."* Gesucht wird das **größte und offensichtlichste Displacement** innerhalb der Range —
+> im Beispiel von [[SMC Midnight Opening Range (Source)]] ist das sogar das **letzte** FVG der Range.
+>
+> Das ist keine Kehrtwende, sondern die Verallgemeinerung dessen, was im Wiki schon für die
+> PM-Session-ORG und in der Sequenz-Regel unten stand („erstes *starkes* Displacement, nicht jedes
+> kleine Mini-FVG"). Neu ist, dass die Regel **für alle Opening Ranges** gilt und dass der Name
+> selbst als irreführend benannt wird.
+
 - FVGs, die als erstes innerhalb der NY-Session entstehen, sind grundsätzlich relevant — das
   **erste FVG am Montag** ist aber für die **gesamte Handelswoche** relevant und wird aktiv als
   Referenzpunkt genutzt (z.B. am Dienstag direkt wieder angelaufen).
+- **Zeitliche Grenze**: für die 9:30-Session zählt das 1.p FVG **ab 9:31**, da die 9:30-Candle
+  selbst mitzählt ([[SMC Trading Opening Range Gaps (Source)]]).
 
 ![[image 40.png]]
 *1.p FVG am Montag: für die gesamte Handelswoche relevant.*
+
+### Wann ein Kandidat _kein_ 1.p FVG ist
+
+Ausschlusskriterien aus [[How To Disqualify 1st Presented FVGs (Source)]] — Maßstab ist immer die
+Lage **relativ zur laufenden Range**, nicht das FVG für sich:
+
+- **Disqualifiziert**, wenn der Kandidat die **aktuelle Trading Range nicht verlässt**: kein
+  signifikanter Move, auf gleicher Höhe wie die vorherigen Candles → der Preis ist **nicht
+  ineffizient**, es hat sich nichts getan.
+- **Disqualifiziert**, wenn nur **über das C.E der vorliegenden Candle gewickt** wird, ohne die
+  [[Balanced Price Range (BPR)]] zu verlassen — das *deutet* das Verlassen nur an.
+- **Qualifiziert**, wenn die vorliegende Range **verlassen** wird — dann liegt echte Ineffizienz vor.
+
+![[ICT 2025 - Disqualify FVG 02.png]]
+*ICTs Frage „Why Is This Not A Valid 1st P. FVG?" — der Kandidat verlässt die laufende Range nicht.*
+
+![[ICT 2025 - Disqualify FVG 04.png]]
+*„Look At The Real Inefficiency Here…" — hier wird die Range verlassen; ICT beschriftet es mit
+„1st P. FVG Changes Characteristic to IFVG".*
 
 ## Konvergenz mehrerer RTH-C.E
 
@@ -86,8 +142,16 @@ erwartet.
 > ⚠️ Widerspruch: [[Kurz Notizen (Source)]] gibt die London Opening Range mit **0–0:30 Uhr** an,
 > [[Opening Range Theory - 1st Presented FVG Logic (Source)]] mit **1:30–2:00 Uhr**. Die Charts der
 > zweiten Quelle (NQ 1min mit den Markern "London Opening Range Start/End") stützen 1:30–2:00, daher
-> steht diese Zeit hier oben. Beim nächsten Durchgang durch die Rohnotizen prüfen, ob die 0–0:30
-> aus einer anderen Zeitzone (London-lokal statt NY) stammt.
+> steht diese Zeit hier oben.
+>
+> **Stand 2026-08-02**: Die [[ICT 2025 Lecture Series (Source)]] ist eine **zweite unabhängige
+> Quelle für 0:00–0:30** — [[London Opening Range +1p FVG (Source)]] schreibt wörtlich „Die London
+> Opening Range geht von 12uhr midnight - 12.30" und [[SMC Midnight Opening Range (Source)]] nennt
+> dieselbe Range „Midnight Opening Range". Sie liefert damit auch die **Erklärung für den Namen**:
+> in dieser halben Stunde wird das High/Low festgelegt, das meist die London Session bringt. Damit
+> spricht viel dafür, dass es **zwei verschiedene Ranges** gibt, die beide „London Opening Range"
+> genannt werden — und nicht um eine falsche Uhrzeit. Die Zeitzonen-Vermutung ist damit hinfällig.
+> Details auf [[Midnight Opening Range]].
 
 ## Der 9:30-Fake-Drop
 
@@ -155,4 +219,7 @@ Bias wird es also invertiert und liefert in die Gegenrichtung.
 - [[Chain of Custody (Q-Validation)]], [[Enigma FVG Projection]]
 - [[Fair Value Gap (FVG)]], [[IFVG (Inverse Fair Value Gap)]], [[Breakaway Gap]]
 - [[ICT Daily Range Session Timing]], [[ICT Macros & Leading Candles]]
+- [[Midnight Opening Range]] — die 0:00–0:30-Range, gegen die das ORG abzugrenzen ist
+- [[Balanced Price Range (BPR)]], [[Algorithmic Price Delivery Continuum]]
 - [[Kurz Notizen (Source)]], [[Opening Range Theory - 1st Presented FVG Logic (Source)]]
+- [[ICT 2025 Lecture Series (Source)]]

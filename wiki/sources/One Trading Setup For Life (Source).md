@@ -24,9 +24,12 @@ Mitschrift** — inhaltlich damit nur ein Zeiger, kein ausgearbeitetes Setup.
 - Der Anspruch des Titels ("One Trading Setup For Life") legt nahe, dass ICT dieses eine
   Session-Range-Konzept als für sich ausreichendes Setup präsentiert.
 
-  > ⚠️ **Zeitfenster weicht ab**: [[NY PM Trend]] definiert die PM-Session als **13–16 Uhr**, diese
-  > Folie als **13:30–16 Uhr**. Ob 13:30 hier bewusst enger gefasst ist (Beginn nach der
-  > Lunch-Stunde) oder nur eine andere Rundung ist, klärt die Folie nicht.
+  > ✅ **Weitgehend geklärt (2026-08-02)** durch [[NY Lunch Macro Rules & PM Session & Final RTH Hour (Source)]]:
+  > **13:30** ist kein abweichender Sessionbeginn, sondern der Start der **PM Opening Range
+  > (13:30–14:00)** — dieselbe Angabe steht bereits auf
+  > [[ORG (Opening Range Gap) & 1st Presented FVG]]. Die Folie meint also die PM-**Range** ab dem
+  > Opening-Range-Start bis zum RTH-Close, während [[NY PM Trend]] die Session grob mit 13–16 Uhr
+  > angibt. Kein echter Widerspruch, nur zwei verschiedene Bezugspunkte.
 
 ## Bilder aus der Rohquelle
 

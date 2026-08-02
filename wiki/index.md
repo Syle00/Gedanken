@@ -8,6 +8,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 ## Concepts
 
 - [[Accumulation & Reaccumulation Model]] — Low-taken-Expansion vs. Dip-Reentry-Phasen nach einem Sweep (2026-08-01)
+- [[Algorithmic Price Delivery Continuum]] — ICTs Timeframe-Durchlauf bei jedem Candle-Close; erklärt, wann ein FVG offen bleibt (2026-08-02)
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]] — 4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition (2026-08-01)
 - [[Balanced Price Range (BPR)]] — Verhalten innerhalb eines FVG, eine Timeframe tiefer betrachtet (2026-08-02)
 - [[BISI & SIBI (Buyside-Sellside Imbalance)]] — Richtungs-Bezeichnung für FVG-Typen (2026-08-01)
@@ -34,6 +35,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD (2026-08-01)
 - [[Market Reversal Types]] — Katalog der 8 ICT-Reversal-Typen (PDH/PDL, ITH/ITL, NY Reversal...) (2026-08-01)
 - [[Mitigation Block]] — Order-Block-Variante nach einem Failure Swing (2026-08-01)
+- [[Midnight Opening Range]] — 0:00–0:30 NY, Fib + negative STD fürs Daily High/Low, max. Manipulation −1 STD (2026-08-02)
 - [[Modell 22]] — 2026er Turtle-Soup-Trigger über MSS+SIBI, linkes-IFVG-Regel (2026-08-01)
 - [[New Week Opening Gap (NWOG) Bias]] — Wöchentliche Bias-Regel + Intraweek-Reversal-Muster (2026-08-01)
 - [[Open Float & Liquidity Pools]] — Wo liegen die Stops der großen Funds, OI-Bestätigung (2026-08-01)
@@ -66,6 +68,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Market Maker Manipulation Templates]] — Katalog wiederkehrender Weekly-Manipulation-Profile (2026-08-01)
 - [[Missed Entry Trade Management Playbook]] — Wick-Entry, CISD-Reentry-Skalierung, Event-Horizon-Exits (2026-08-01)
 - [[No-Bias Engagement Routine]] — Vorgehen ohne klaren Bias zu Handelsbeginn (2026-08-01)
+- [[NY Lunch Macro Model]] — 10-Uhr-Linie, Target-Liq muss intakt bleiben, Execution im Macro 10:50–11:10 (2026-08-02)
 - [[NY PM Trend]] — Regeln für die PM-Session (13–16 Uhr NY) + Index SMT (2026-08-01)
 - [[One Shot One Kill Model]] — Flaggschiff-Swing-Modell, 70%-Wednesday-Regel (2026-08-01)
 - [[Silver Bullet Model]] — Macro-basiertes Entry-Modell, Move startet im Macro davor (2026-08-02)
@@ -138,6 +141,22 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 
 - [[TGIF - Thank God its Friday (Source)]] — ausführlichste TGIF-Quelle: 3 Building Requirements, 20–30 % der Weekly Range als Draw, Weekly Po3, Time Distortion, PM Silver Bullet am Freitag (2026-08-02)
 - [[One Trading Setup For Life (Source)]] — Stub: eine einzelne Folie zu PM Session Ranges 13:30–16:00 NY, ohne Mitschrift (2026-08-02)
+
+### ICT 2025 Lecture Series
+
+**Navigationsknoten der Reihe: [[ICT 2025 Lecture Series (Source)]]** — fünfter Jahrgang, thematisch der geschlossenste: fast alles kreist um Opening Ranges und die Frage, welches FVG das relevante ist.
+
+- [[Making Money With SMC Concepts (Source)]] — Week 1: Midnight Range 0:00–0:30, 3 Key-Punkte, negative STD −0,5 bis −5 fürs Daily High/Low (2026-08-02)
+- [[SMC Opening Range Gaps (Source)]] — Week 1: ORG = 16:14-Close → 9:30-Open im RTH-Chart, Gap-Größe entscheidet über den Fill (2026-08-02)
+- [[SMC Trading Opening Range Gaps (Source)]] — Week 1: eigenes Modell aus 1.p FVG + ORG + NWOG/NDOG, 1.p FVG zählt ab 9:31 (2026-08-02)
+- [[Algorithmic Price Delivery Continuum (Source)]] — Week 2: Timeframe-Durchlauf bei jedem Candle-Close, Mechanismus der Balanced Price Range (2026-08-02)
+- [[Balanced Price Chart Bsp (Source)]] — Week 2: sechs NQ-Charts ohne Begleittext (2026-08-02)
+- [[NY Lunch Macro Rules & PM Session & Final RTH Hour (Source)]] — Week 4: die vier Lunch-Regeln, Execution 10:50–11:10, PM Opening Range 13:30–14:00 (2026-08-02)
+- [[How To Disqualify 1st Presented FVGs (Source)]] — Ausschlusskriterien für ein vermeintliches 1.p FVG (2026-08-02)
+- [[SMC Midnight Opening Range (Source)]] — Midnight Range gilt den ganzen Tag, „1. presented Displacement" statt „1. presented FVG", 3:30 Sweetspot (2026-08-02)
+- [[London Opening Range +1p FVG (Source)]] — STD-Projektion über die Opening Range, max. Manipulation = −1 STD (2026-08-02)
+
+*Week 3 und „When 9:30 a.m. ET is presented for the first time" sind im Export leer, ebenso der Abschnitt „RTH Final Hour Of Trading".*
 
 ### Notizen
 

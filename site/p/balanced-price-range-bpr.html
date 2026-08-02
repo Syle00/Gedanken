@@ -21,14 +21,15 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">44</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">21</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">92</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">46</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">22</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">102</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">1</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
 <li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
 <li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
 <li class="here"><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
 <li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
@@ -54,6 +55,7 @@
 <li><a href="../p/judas-swing.html">Judas Swing</a></li>
 <li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
 <li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
 <li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
 <li><a href="../p/modell-22.html">Modell 22</a></li>
 <li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
@@ -79,8 +81,16 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Balanced Price Range (BPR)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/kurz-notizen-source.html">Kurz Notizen</a></div></div>
-  
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#regel">Regel</a></li>
+<li><a href="#wodurch-eine-bpr-entsteht">Wodurch eine BPR entsteht</a></li>
+<li><a href="#antizipieren-ob-ein-fvg-offen-bleibt">Antizipieren, ob ein FVG offen bleibt</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
   <div class="content"><h1 id="balanced-price-range-bpr">Balanced Price Range (BPR)</h1>
 <p>Preiszone innerhalb eines <a href="../p/fair-value-gap-fvg.html">FVG</a>, die entsteht, wenn man <strong>mindestens eine
 Timeframe tiefer</strong> geht, um zu sehen, wie Preis sich innerhalb des FVG tatsächlich verhalten hat.</p>
@@ -96,13 +106,35 @@ Timeframe tiefer</strong> geht, um zu sehen, wie Preis sich innerhalb des FVG ta
   bis wieder ein FVG entsteht. Sobald wieder ein FVG da ist, den Lower Timeframe nutzen, um zu
   prüfen, ob dieses FVG eine BPR enthält oder nicht.</li>
 </ul>
+<h2 id="wodurch-eine-bpr-entsteht">Wodurch eine BPR entsteht</h2>
+<p><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a> ist die Lecture hinter den Merksätzen oben und
+liefert den Mechanismus — entscheidend ist die <strong>verbrachte Zeit</strong>, nicht die reine Berührung:</p>
+<blockquote>
+<p>Wird in der oberen Hälfte eines SIBI <strong>länger</strong> hoch und runter getradet und der Preis dabei
+gehalten, macht das diese Hälfte zur Balanced Price Range. Spiegelbildlich beim BISI.</p>
+</blockquote>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/ICT 2025 - APDC 03.png" alt="ICT 2025 - APDC 03" loading="lazy"><figcaption>15M-SIBI mit Balanced Price Range über dem C.E — die obere Hälfte ist abgearbeitet.</figcaption></figure>
+
+<h2 id="antizipieren-ob-ein-fvg-offen-bleibt">Antizipieren, ob ein FVG offen bleibt</h2>
+<p>Daraus folgt die praktische Anwendung:</p>
+<ul>
+<li>Ist eine Hälfte <strong>imbalanced</strong> — nur eine einzige Candle ist stark durchgelaufen — während in der
+  anderen <strong>viel Zeit</strong> verbracht wurde, wird erwartet, dass Preis die imbalanced Hälfte <strong>füllt</strong>
+  und die andere <strong>offen bleibt</strong>.</li>
+<li>Bei einem <strong>Higher-Timeframe-FVG</strong> deshalb immer prüfen, <strong>was am 50-%-Level (C.E) passiert ist</strong>:
+  liegt dort eine BPR oder nicht? Ohne BPR ist eher mit Fill oder sogar Durchschießen zu rechnen.</li>
+</ul>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/ICT 2025 - APDC 05.png" alt="ICT 2025 - APDC 05" loading="lazy"><figcaption>Untere Hälfte imbalanced, obere mit viel verbrachter Zeit — Fill unten erwartet, oben bleibt offen.</figcaption></figure>
+
 <h2 id="verwandt">Verwandt</h2>
 <ul>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a> — die Lesemethode, in der die BPR-Prüfung ihren Platz hat</li>
 <li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>, <a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
 <li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
-<li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a></li>
+<li><a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a> — die BPR als Ausschlusskriterium für Schein-FVGs</li>
+<li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">11</span></h2><ul><li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a><span class="cat">Konzepte</span></li><li><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/balanced-price-chart-bsp-source.html">Balanced Price Chart Bsp (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Balanced Price Range (BPR).md</code></footer>
 </article>
 </main>

@@ -11,7 +11,9 @@ Regeln für die Nachmittags-Session (PM).
 
 ## PM Rules
 
-1. PM-Session: **13–16 Uhr NY**.
+1. PM-Session: **13–16 Uhr NY**. Die **Opening Range der PM-Session** liegt darin bei
+   **13:30–14:00**, in der wie sonst auch das 1. presented Displacement gesucht wird
+   ([[NY Lunch Macro Model]], [[ORG (Opening Range Gap) & 1st Presented FVG]]).
 2. **True Day High/Low** bildet sich zwischen **3–4 Uhr NY** (nicht in der PM-Session selbst).
 3. Zwischen 13–16 Uhr entsteht ein "Afternoon Swing" (Price Swing), der eine Fortsetzung der
    London-/AM-Session sein kann.
@@ -28,4 +30,6 @@ Regeln für die Nachmittags-Session (PM).
 ## Verwandt
 
 - [[ICT Daily Range Session Timing]]
+- [[NY Lunch Macro Model]] — das Setup unmittelbar vor der PM-Session
+- [[One Trading Setup For Life (Source)]] — PM Session Ranges als eigenständiges Konzept
 - [[SMT (Smart Money Divergence)]]

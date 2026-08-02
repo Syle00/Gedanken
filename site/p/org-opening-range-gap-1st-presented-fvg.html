@@ -21,14 +21,15 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">44</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">21</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">92</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">46</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">22</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">102</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">1</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
 <li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
 <li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
 <li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
 <li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
@@ -54,6 +55,7 @@
 <li><a href="../p/judas-swing.html">Judas Swing</a></li>
 <li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
 <li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
 <li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
 <li><a href="../p/modell-22.html">Modell 22</a></li>
 <li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
@@ -79,12 +81,18 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>ORG (Opening Range Gap) &amp; 1st Presented FVG</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2026</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-chain-of-custody-of-price-source.html">ICT Chain Of Custody Of Price (Source)</a>, <a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a>, <a href="../p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a>, <a href="../p/trading-premarket-and-regular-session-liquidity-source.html">Trading Premarket and Regular Session Liquidity (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2026</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-chain-of-custody-of-price-source.html">ICT Chain Of Custody Of Price (Source)</a>, <a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a>, <a href="../p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a>, <a href="../p/trading-premarket-and-regular-session-liquidity-source.html">Trading Premarket and Regular Session Liquidity (Source)</a>, <a href="../p/smc-opening-range-gaps-source.html">SMC Opening Range Gaps (Source)</a>, <a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a>, <a href="../p/smc-midnight-opening-range-source.html">SMC Midnight Opening Range (Source)</a>, <a href="../p/smc-trading-opening-range-gaps-source.html">SMC Trading Opening Range Gaps (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#bias-uber-wicks-ce">Bias über Wicks &amp; C.E</a></li>
-<li><a href="#org-opening-range-gap">ORG (Opening Range Gap)</a></li>
-<li><a href="#1st-presented-fvg-1p-fvg">1st Presented FVG (1.p FVG)</a></li>
+<li><a href="#org-opening-range-gap">ORG (Opening Range Gap)</a><ul>
+<li><a href="#gap-groe-entscheidet-uber-den-fill">Gap-Größe entscheidet über den Fill</a></li>
+</ul>
+</li>
+<li><a href="#1st-presented-fvg-1p-fvg">1st Presented FVG (1.p FVG)</a><ul>
+<li><a href="#wann-ein-kandidat-kein-1p-fvg-ist">Wann ein Kandidat kein 1.p FVG ist</a></li>
+</ul>
+</li>
 <li><a href="#konvergenz-mehrerer-rth-ce">Konvergenz mehrerer RTH-C.E</a></li>
 <li><a href="#erste-30-minuten-kurz-notizen">Erste 30 Minuten (Kurz Notizen)</a></li>
 <li><a href="#blackholes-multi-day-marking">"Blackholes" &amp; Multi-Day-Marking</a></li>
@@ -112,8 +120,50 @@
 <figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 39.png" alt="image 39" loading="lazy"><figcaption>Die beiden tiefsten/größten Wicks bilden Swing Lows — Close unterhalb ihres C.E bestätigt den Bias.</figcaption></figure>
 
 <h2 id="org-opening-range-gap">ORG (Opening Range Gap)</h2>
+<p><strong>Definition</strong> (aus <a href="../p/smc-opening-range-gaps-source.html">SMC Opening Range Gaps (Source)</a>): die letzte Candle <strong>16:14 Closing Price</strong>
+→ <strong>9:30 Opening Price</strong>. Sichtbar nur, wenn der Chart von elektronischen auf <strong>Regular Trading
+Hours</strong> umgestellt wird. Darüber ein <strong>Fib 0–1</strong> für die Key Level. Pre Market ist 6:00–9:30.</p>
+<blockquote>
+<p>⚠️ Das ORG ist <strong>weder das New Day Opening Gap noch die <a href="../p/midnight-opening-range.html">Midnight Opening Range</a></strong> — die Quelle
+stellt das ausdrücklich klar. Dieselbe Lecture-Reihe verwendet den Begriff an einer früheren
+Stelle allerdings selbst falsch, siehe <a href="../p/making-money-with-smc-concepts-source.html">Making Money With SMC Concepts (Source)</a>.</p>
+</blockquote>
+<h3 id="gap-groe-entscheidet-uber-den-fill">Gap-Größe entscheidet über den Fill</h3>
+<table>
+<thead>
+<tr>
+<th>Gap-Größe</th>
+<th>Erwartung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Mehrere 100 Punkte</strong></td>
+<td>Preis kehrt wahrscheinlich <strong>nicht</strong> ins Gap zurück, sondern läuft weiter in Gap-Richtung</td>
+</tr>
+<tr>
+<td><strong>Ab ~120 Punkten</strong></td>
+<td>Fill bis C.E unwahrscheinlich; <strong>erstes Target ist 0.25 statt C.E</strong> ("low hanging target")</td>
+</tr>
+<tr>
+<td><strong>Sehr klein</strong></td>
+<td>Schnelle Reaktion + Retracement <strong>mindestens bis C.E</strong>, oft deutlich weiter; kompletter Close erwartbar</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>Das Premium/Discount-Konzept mit C.E-Respekt gilt genauso für die ORG.</li>
+<li><strong>Reihenfolge bei einem Premium Gap</strong>: erst soll Preis zu einem High/markanten Punkt auf der
+  <strong>Buyside in London</strong> laufen, <strong>erst danach</strong> ist das Retracement zum Gap-C.E zu erwarten — das
+  C.E ist dabei das Minimum. Spiegelbildlich beim Discount Gap.</li>
+<li><strong>Session-Wahl über die Gap-Größe</strong>: ORG <strong>über 100 Handle</strong> → auf die <strong>AM Session</strong>
+  konzentrieren; kleinere Range (höhere Fill-Wahrscheinlichkeit) → <strong>PM Session</strong>.</li>
+<li>
+<p>Alte Gaps im RTH-Chart sind markante Punkte, die für den ganzen Handelstag relevant bleiben und
+  als wiederverwendbare Targets dienen, solange sie offen sind.</p>
+</li>
+<li>
+<p>Das Premium/Discount-Konzept mit C.E-Respekt gilt genauso für die ORG.</p>
+</li>
 <li>Bei bearishem Bias + starkem Close unterhalb des C.E + Premium-Sensitivität am C.E der ORG wird
   erwartet, dass dieses Verhalten anhält, bis ein <a href="../p/amd-cycle-accumulation-manipulation-distribution.html">DOL</a>
   erreicht ist.</li>
@@ -123,13 +173,43 @@
   klares Signal in Richtung des bestehenden Bias.</li>
 </ul>
 <h2 id="1st-presented-fvg-1p-fvg">1st Presented FVG (1.p FVG)</h2>
+<blockquote>
+<p><strong>Eigentlich: 1. presented <em>Displacement</em>.</strong> Die <a href="../p/ict-2025-lecture-series-source.html">ICT 2025 Lecture Series (Source)</a> formuliert
+das an drei Stellen unabhängig aus: <em>„Nicht immer das erste FVG nehmen sondern schauen welches am
+größten ist!! Es heißt also im Grunde nicht 1 presented FVG sondern 1. presented Displacement des
+Tages."</em> Gesucht wird das <strong>größte und offensichtlichste Displacement</strong> innerhalb der Range —
+im Beispiel von <a href="../p/smc-midnight-opening-range-source.html">SMC Midnight Opening Range (Source)</a> ist das sogar das <strong>letzte</strong> FVG der Range.</p>
+<p>Das ist keine Kehrtwende, sondern die Verallgemeinerung dessen, was im Wiki schon für die
+PM-Session-ORG und in der Sequenz-Regel unten stand („erstes <em>starkes</em> Displacement, nicht jedes
+kleine Mini-FVG"). Neu ist, dass die Regel <strong>für alle Opening Ranges</strong> gilt und dass der Name
+selbst als irreführend benannt wird.</p>
+</blockquote>
 <ul>
 <li>FVGs, die als erstes innerhalb der NY-Session entstehen, sind grundsätzlich relevant — das
   <strong>erste FVG am Montag</strong> ist aber für die <strong>gesamte Handelswoche</strong> relevant und wird aktiv als
   Referenzpunkt genutzt (z.B. am Dienstag direkt wieder angelaufen).</li>
+<li><strong>Zeitliche Grenze</strong>: für die 9:30-Session zählt das 1.p FVG <strong>ab 9:31</strong>, da die 9:30-Candle
+  selbst mitzählt (<a href="../p/smc-trading-opening-range-gaps-source.html">SMC Trading Opening Range Gaps (Source)</a>).</li>
 </ul>
 <figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 40.png" alt="image 40" loading="lazy"><figcaption>1.p FVG am Montag: für die gesamte Handelswoche relevant.</figcaption></figure>
 
+<h3 id="wann-ein-kandidat-kein-1p-fvg-ist">Wann ein Kandidat <em>kein</em> 1.p FVG ist</h3>
+<p>Ausschlusskriterien aus <a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a> — Maßstab ist immer die
+Lage <strong>relativ zur laufenden Range</strong>, nicht das FVG für sich:</p>
+<ul>
+<li><strong>Disqualifiziert</strong>, wenn der Kandidat die <strong>aktuelle Trading Range nicht verlässt</strong>: kein
+  signifikanter Move, auf gleicher Höhe wie die vorherigen Candles → der Preis ist <strong>nicht
+  ineffizient</strong>, es hat sich nichts getan.</li>
+<li><strong>Disqualifiziert</strong>, wenn nur <strong>über das C.E der vorliegenden Candle gewickt</strong> wird, ohne die
+  <a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a> zu verlassen — das <em>deutet</em> das Verlassen nur an.</li>
+<li><strong>Qualifiziert</strong>, wenn die vorliegende Range <strong>verlassen</strong> wird — dann liegt echte Ineffizienz vor.</li>
+</ul>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/ICT 2025 - Disqualify FVG 02.png" alt="ICT 2025 - Disqualify FVG 02" loading="lazy"><figcaption>ICTs Frage „Why Is This Not A Valid 1st P. FVG?" — der Kandidat verlässt die laufende Range nicht.</figcaption></figure>
+
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/ICT 2025 - Disqualify FVG 04.png" alt="ICT 2025 - Disqualify FVG 04" loading="lazy"></figure>
+
+<p><em>„Look At The Real Inefficiency Here…" — hier wird die Range verlassen; ICT beschriftet es mit
+„1st P. FVG Changes Characteristic to IFVG".</em></p>
 <h2 id="konvergenz-mehrerer-rth-ce">Konvergenz mehrerer RTH-C.E</h2>
 <ul>
 <li>Sammeln sich mehrere RTH-C.E-Level an einer Stelle, ist eine <strong>große Daily Range</strong> wahrscheinlich
@@ -174,8 +254,15 @@ erwartet.</p>
 <p>⚠️ Widerspruch: <a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a> gibt die London Opening Range mit <strong>0–0:30 Uhr</strong> an,
 <a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a> mit <strong>1:30–2:00 Uhr</strong>. Die Charts der
 zweiten Quelle (NQ 1min mit den Markern "London Opening Range Start/End") stützen 1:30–2:00, daher
-steht diese Zeit hier oben. Beim nächsten Durchgang durch die Rohnotizen prüfen, ob die 0–0:30
-aus einer anderen Zeitzone (London-lokal statt NY) stammt.</p>
+steht diese Zeit hier oben.</p>
+<p><strong>Stand 2026-08-02</strong>: Die <a href="../p/ict-2025-lecture-series-source.html">ICT 2025 Lecture Series (Source)</a> ist eine <strong>zweite unabhängige
+Quelle für 0:00–0:30</strong> — <a href="../p/london-opening-range-1p-fvg-source.html">London Opening Range +1p FVG (Source)</a> schreibt wörtlich „Die London
+Opening Range geht von 12uhr midnight - 12.30" und <a href="../p/smc-midnight-opening-range-source.html">SMC Midnight Opening Range (Source)</a> nennt
+dieselbe Range „Midnight Opening Range". Sie liefert damit auch die <strong>Erklärung für den Namen</strong>:
+in dieser halben Stunde wird das High/Low festgelegt, das meist die London Session bringt. Damit
+spricht viel dafür, dass es <strong>zwei verschiedene Ranges</strong> gibt, die beide „London Opening Range"
+genannt werden — und nicht um eine falsche Uhrzeit. Die Zeitzonen-Vermutung ist damit hinfällig.
+Details auf <a href="../p/midnight-opening-range.html">Midnight Opening Range</a>.</p>
 </blockquote>
 <h2 id="der-930-fake-drop">Der 9:30-Fake-Drop</h2>
 <p>Um <strong>9:30</strong> kommt regelmäßig ein <strong>Fake Drop</strong>, um Retail-Offset zu setzen: über das ORG, einen
@@ -230,9 +317,12 @@ Bias wird es also invertiert und liefert in die Gegenrichtung.</p>
 <li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a>, <a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
 <li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>, <a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a>, <a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
 <li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a>, <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a> — die 0:00–0:30-Range, gegen die das ORG abzugrenzen ist</li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a>, <a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
 <li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a></li>
+<li><a href="../p/ict-2025-lecture-series-source.html">ICT 2025 Lecture Series (Source)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">13</span></h2><ul><li><a href="../p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/breakaway-gap.html">Breakaway Gap</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-chain-of-custody-of-price-source.html">ICT Chain Of Custody Of Price (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a><span class="cat">Konzepte</span></li><li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/mentorship-2025.html">MentorShip 2025</a><span class="cat">Synthese</span></li><li><a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/pd-array.html">PD Array</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a><span class="cat">Konzepte</span></li><li><a href="../p/trading-premarket-and-regular-session-liquidity-source.html">Trading Premarket and Regular Session Liquidity (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">24</span></h2><ul><li><a href="../p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/breakaway-gap.html">Breakaway Gap</a><span class="cat">Konzepte</span></li><li><a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-chain-of-custody-of-price-source.html">ICT Chain Of Custody Of Price (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a><span class="cat">Konzepte</span></li><li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/london-opening-range-1p-fvg-source.html">London Opening Range +1p FVG (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/making-money-with-smc-concepts-source.html">Making Money With SMC Concepts (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/mentorship-2025.html">MentorShip 2025</a><span class="cat">Synthese</span></li><li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a><span class="cat">Konzepte</span></li><li><a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a><span class="cat">Modelle</span></li><li><a href="../p/ny-lunch-macro-rules-pm-session-final-rth-hour-source.html">NY Lunch Macro Rules &amp; PM Session &amp; Final RTH Hour (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ny-pm-trend.html">NY PM Trend</a><span class="cat">Modelle</span></li><li><a href="../p/one-trading-setup-for-life-source.html">One Trading Setup For Life (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/pd-array.html">PD Array</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/smc-midnight-opening-range-source.html">SMC Midnight Opening Range (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smc-opening-range-gaps-source.html">SMC Opening Range Gaps (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smc-trading-opening-range-gaps-source.html">SMC Trading Opening Range Gaps (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a><span class="cat">Konzepte</span></li><li><a href="../p/trading-premarket-and-regular-session-liquidity-source.html">Trading Premarket and Regular Session Liquidity (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md</code></footer>
 </article>
 </main>

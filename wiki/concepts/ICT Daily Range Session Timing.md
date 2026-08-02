@@ -91,7 +91,14 @@ Der konkrete Ablauf eines Handelstags, wie ihn
 | **9:30** | [[ORG (Opening Range Gap) & 1st Presented FVG#Der 9:30-Fake-Drop\|Fake Drop]] über ORG und Minor Buyside Pool auf die Quadranten der Premium Wicks |
 | **ab 10:00** | Die Liquidität, die sich ab hier bildet, wird zum Ziel des Lunch Macro |
 | **NY Lunch Macro** | Meist ein Retracement; attackiert **das erste High/Low vor 10 Uhr** bzw. die erste PD — nach der Opening Range |
+| **10:50–11:10** | Das Macro, in dem das Lunch-Setup ausgeführt wird → [[NY Lunch Macro Model]] |
 | **ab 11:30** | Lunch Macro attackiert die **während der Lunch Hour** gebildete Liquidität. Bullishe Session → Sellside, bearishe Session → Buyside; genommen wird das **offensichtlichste** Swing Low/High |
+| **13:30–14:00** | Opening Range der **PM Session**, ebenfalls mit 1. presented FVG |
+
+Die [[ICT 2025 Lecture Series (Source)]] präzisiert das Lunch-Fenster: der Move **ab 10:00** zum
+nächsten Liquidity Pool wird **noch nicht gehandelt** — er *erzeugt* erst das Target. Gehandelt wird
+im Macro **10:50–11:10**, und zwar nur, solange die neu gebildete Liquidität **intakt** bleibt.
+Vollständige Regeln auf [[NY Lunch Macro Model]].
 
 Der Tages-Bias wird dabei über den Wochentag mitbestimmt: im Beispiel ein **Donnerstag**, der Tag
 mit der höchsten Wahrscheinlichkeit für das High/Low der Woche (siehe
@@ -103,5 +110,7 @@ Manipulation auf Minor Buyside und Distribution zur Sellside.
 
 - [[New Week Opening Gap (NWOG) Bias]] — wöchentlicher Bias-Filter, der auf dieses Session-Timing aufsetzt
 - [[ICT Macros & Leading Candles]], [[Silver Bullet Model]]
+- [[NY Lunch Macro Model]] — das regelbasierte Setup im Lunch-Fenster
+- [[Midnight Opening Range]] — 0:00–0:30, gilt samt STD-Leveln den ganzen Tag
 - [[ORG (Opening Range Gap) & 1st Presented FVG]] — Opening Ranges für London (1:30–2:00) und NY Pre Session (7:00–7:30)
 - [[Kurz Notizen (Source)]], [[Trading Premarket and Regular Session Liquidity (Source)]]

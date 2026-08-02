@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">44</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">21</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">92</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">46</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">22</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">102</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">1</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -51,6 +51,7 @@
 <li><a href="#2026-08-02-ingest-mentorship-2025-lektionen-01030405">[2026-08-02] ingest | MentorShip 2025, Lektionen 01/03/04/05</a></li>
 <li><a href="#2026-08-02-synthesis-uberknotenpunkt-mentorship-2025">[2026-08-02] synthesis | Überknotenpunkt MentorShip 2025</a></li>
 <li><a href="#2026-08-02-ingest-ict-2023-mentorship-tgif-one-trading-setup-for-life">[2026-08-02] ingest | ICT 2023 Mentorship (TGIF + One Trading Setup For Life)</a></li>
+<li><a href="#2026-08-02-ingest-ict-2025-lecture-series-week-1-4-8-inhaltsseiten">[2026-08-02] ingest | ICT 2025 Lecture Series (Week 1-4, 8 Inhaltsseiten)</a></li>
 </ul>
 </div>
 </details>
@@ -151,6 +152,24 @@
 <li>⚠️ Neue Abweichung markiert: <a href="../p/one-trading-setup-for-life-source.html">One Trading Setup For Life (Source)</a> gibt die PM-Session mit <strong>13:30–16:00</strong> an, <a href="../p/ny-pm-trend.html">NY PM Trend</a> mit <strong>13–16 Uhr</strong>. Nicht auflösbar, da die Folie ohne Mitschrift vorliegt (als Stub gekennzeichnet).</li>
 <li>Offen: Ob die 2023er Mentorship im Original mehr als diese zwei Unterseiten enthält. "MSS" bleibt weiterhin ohne eigene Seite (deckungsgleich mit <a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a>).</li>
 <li>Noch nicht ausgeführt: publish.ps1 (wird bewusst vom Nutzer ausgelöst).</li>
+</ul>
+<h2 id="2026-08-02-ingest-ict-2025-lecture-series-week-1-4-8-inhaltsseiten">[2026-08-02] ingest | ICT 2025 Lecture Series (Week 1-4, 8 Inhaltsseiten)</h2>
+<ul>
+<li>Rohquelle: neuester Notion-Export im Vault-Root, <code>raw/0d04eb09-...-ExportBlock-2078fff1-....zip</code> (verschachteltes ZIP, HTML statt Markdown, 15 Seiten + 54 PNGs, 10,8 MB). Entpackt, nach Markdown konvertiert, neuer Ordner <code>raw/trading-ict/ICT 2025 Lecture Series/</code> — damit liegt ein <strong>fuenfter ICT-Jahrgang</strong> im Vault (neben Core Content 2016, 2026 Study, MentorShip 2025, ICT 2023 Mentorship).</li>
+<li>Nutzeranweisung: Batch ohne Rueckfragen ("importiere").</li>
+<li>Struktur: Week 1 (3 Seiten), Week 2 (1 Seite + Chartstrecke), Week 4 (1 Seite), dazu 3 Seiten ohne Wochenzuordnung. <strong>Week 3 und "When 9:30 a.m. ET is presented for the first time" sind im Export leer</strong>, ebenso der Abschnitt "RTH Final Hour Of Trading" (nur Ueberschrift). Die reinen Container-Seiten Week 1-4 wurden nicht als eigene Rohdateien angelegt, sondern in die Index-Datei gefaltet.</li>
+<li>Assets: alle 54 PNGs trugen kollisionsgefaehrdete Namen (<code>image.png</code>, <code>image 1..22.png</code>, <code>1.png</code>-<code>4.png</code>, <code>1 1.png</code>, <code>Unbenannt.png</code>, diverse <code>Screenshot_*.png</code>) und haetten vault-weit auf bestehende Dateien aufgeloest — dasselbe Muster wie bei jedem bisherigen Notion-Ingest. Kopiert als <code>ICT 2025 - &lt;Seitenkuerzel&gt; &lt;NN&gt;.png</code>. Abweichung von der bisherigen Praxis: bei 54 Bildern wurde <strong>auf durchgehend sprechende Dateinamen verzichtet</strong> und stattdessen seiten- und positionsbezogen nummeriert; die Beschreibung steht in den Bildunterschriften der Wiki-Seiten. Zuordnung per Skript gegen die Exportliste geprueft (54/54, keine unzugeordnete Datei).</li>
+<li>Seiten erstellt (Konzepte/Modelle): wiki/concepts/Algorithmic Price Delivery Continuum.md, wiki/concepts/Midnight Opening Range.md, wiki/models/NY Lunch Macro Model.md</li>
+<li>Seiten erstellt (Quellen): wiki/sources/ICT 2025 Lecture Series (Source).md, Making Money With SMC Concepts (Source).md, SMC Opening Range Gaps (Source).md, SMC Trading Opening Range Gaps (Source).md, Algorithmic Price Delivery Continuum (Source).md, Balanced Price Chart Bsp (Source).md, How To Disqualify 1st Presented FVGs (Source).md, SMC Midnight Opening Range (Source).md, London Opening Range +1p FVG (Source).md, NY Lunch Macro Rules &amp; PM Session &amp; Final RTH Hour (Source).md</li>
+<li>Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md (ORG-Definition 16:14-&gt;9:30 samt Abgrenzung, Gap-Groessen-Tabelle, "1. presented Displacement", Ausschlusskriterien), wiki/concepts/Balanced Price Range (BPR).md (Mechanismus + Antizipation, ob ein FVG offen bleibt), wiki/concepts/ICT Daily Range Session Timing.md (Lunch-Fenster praezisiert, PM Opening Range ergaenzt), wiki/models/NY PM Trend.md, wiki/sources/One Trading Setup For Life (Source).md, wiki/index.md</li>
+<li><strong>Praezisierung statt Korrektur beim 1. presented FVG</strong>: Die Quelle sagt dreimal, man nehme nicht das erste, sondern das <strong>groesste und offensichtlichste Displacement</strong> ("nicht 1 presented FVG sondern 1. presented Displacement des Tages"). Das Wiki hatte diese Regel bereits fuer die PM-Session-ORG und implizit in der Sequenz-Regel aus Lektion 06 ("erstes <em>starkes</em> Displacement"). Die neue Quelle verallgemeinert sie auf alle Opening Ranges und benennt den Namen selbst als irrefuehrend — daher eingearbeitet, nicht als Widerspruch markiert.</li>
+<li><strong>Offener Punkt London Opening Range aufgewertet</strong>: Die 2025er Reihe ist eine zweite unabhaengige Quelle fuer <strong>0:00-0:30</strong> und liefert erstmals die Begruendung fuer den Namen (in dieser halben Stunde wird das High/Low festgelegt, das meist die London Session bringt). Damit spricht viel dafuer, dass 0:00-0:30 und 1:30-2:00 <strong>zwei verschiedene Ranges</strong> sind statt einer widerspruechlichen Zeitangabe; die bisherige Zeitzonen-Vermutung ist hinfaellig. Der Marker bleibt offen, ist aber neu begruendet.</li>
+<li>✅ <strong>PM-Session-Frage aus dem vorigen Ingest geklaert</strong>: 13:30 ist kein abweichender Sessionbeginn, sondern der Start der <strong>PM Opening Range (13:30-14:00)</strong>. Kein Widerspruch zu <a href="../p/ny-pm-trend.html">NY PM Trend</a> (13-16 Uhr), nur ein anderer Bezugspunkt.</li>
+<li>⚠️ <strong>Begriffsvermischung in der Quelle markiert</strong>: <a href="../p/making-money-with-smc-concepts-source.html">Making Money With SMC Concepts (Source)</a> nennt die Range 0:00-0:30 durchgehend "Opening Range Gap"; die spaetere Seite <a href="../p/smc-opening-range-gaps-source.html">SMC Opening Range Gaps (Source)</a> stellt ausdruecklich klar, dass das ORG etwas anderes ist (16:14-Close -&gt; 9:30-Open) und weder das New Day Opening Gap noch die Midnight Opening Range. Nicht stillschweigend korrigiert, an beiden Stellen markiert.</li>
+<li><strong>Latenter Fehler behoben</strong>: wiki/concepts/Balanced Price Range (BPR).md verwies im Frontmatter auf <code>&lt;a href="../p/kurz-notizen-source.html"&gt;Kurz Notizen&lt;/a&gt;</code> (die Rohquelle) statt auf <code>&lt;a href="../p/kurz-notizen-source.html"&gt;Kurz Notizen (Source)&lt;/a&gt;</code> — derselbe Fehler, der beim MentorShip-Ingest schon fuer <a href="../p/breakaway-gap.html">Breakaway Gap</a> korrigiert wurde. Als Graph-Kante war das wirkungslos.</li>
+<li>Neu ins Wiki gebracht: Price Delivery Continuum Theory als benannte Routine, der Mechanismus hinter der Balanced Price Range (verbrachte Zeit statt Beruehrung), FVG-Bildungsfenster 10:00-11:00 in Viertelstunden, Gap-Groessen-Regeln (120 Punkte / 0.25 statt C.E / Session-Wahl ueber die Gap-Groesse), STD-Manipulationsgrenze -1 STD als Algo-Grenze, die vier NY-Lunch-Regeln mit Execution 10:50-11:10, sowie die Ausschlusskriterien fuer ein Schein-FVG.</li>
+<li>Offen: Der Autor notiert in <a href="../p/smc-trading-opening-range-gaps-source.html">SMC Trading Opening Range Gaps (Source)</a> ein <strong>eigenes Modell</strong> (1.p FVG + ORG + NWOG/NDOG) — bislang ohne eigene Modellseite, da die Quelle es nur ankuendigt ("was ich weiter verfolgen werde"). Kandidat fuer wiki/models/, sobald mehr dazu vorliegt.</li>
+<li>Noch nicht ausgefuehrt: publish.ps1 (wird bewusst vom Nutzer ausgeloest).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
