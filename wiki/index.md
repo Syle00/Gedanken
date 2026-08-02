@@ -8,7 +8,9 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 ## Concepts
 
 - [[Accumulation & Reaccumulation Model]] — Low-taken-Expansion vs. Dip-Reentry-Phasen nach einem Sweep (2026-08-01)
+- [[Algorithmic Order Flow]] — Fünfstufige Bestätigungs-Hierarchie von Macro Interest Rate bis State of Delivery (2026-08-02)
 - [[Algorithmic Price Delivery Continuum]] — ICTs Timeframe-Durchlauf bei jedem Candle-Close; erklärt, wann ein FVG offen bleibt (2026-08-02)
+- [[Buy & Sell Program]] — Zwei Kriterien, an denen ein Buy-/Sell-Programm erkannt wird (2026-08-02)
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]] — 4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition (2026-08-01)
 - [[Balanced Price Range (BPR)]] — Verhalten innerhalb eines FVG, eine Timeframe tiefer betrachtet (2026-08-02)
 - [[BISI & SIBI (Buyside-Sellside Imbalance)]] — Richtungs-Bezeichnung für FVG-Typen (2026-08-01)
@@ -62,6 +64,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Bread & Butter Setups]] — Kern-Daytrade-Modell für Buy-/Sell-Setups (2026-08-01)
 - [[Classic Swing Trading Approach]] — Top-down-PD-Suche Monthly→4H, 3:1 RR, Top-Down-Bias-Regel (2026-08-01)
 - [[Commodity Mega-Trades]] — Mega-Trade-Methodik für Rohstoff-Sektoren (2026-08-01)
+- [[Graded Price Swings]] — Range in Viertel graden (25/50/75 %), Reaktion je Level, laut Quelle das zweite Modell neben MMXM (2026-08-02)
 - [[High Probability Daytrade Setups]] — Entry-Modell rund um Session-Highs/Lows (2026-08-01)
 - [[ICT Day Trade Routine]] — Täglicher Analyse-Ablauf vor dem Trading (2026-08-01)
 - [[London Session Profiles]] — 4 London-Profile + Wann London vermeiden/ideal ist (2026-08-01)
@@ -134,6 +137,13 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Opening Range Theory - 1st Presented FVG Logic (Source)]] — Lektion 06: London ORG (1:30–2:00) und NY-Pre-Session-ORG (7:00–7:30), Sequenz Sweep → Displacement → Shift → 1. Presented FVG, das zu 90 % ein IFVG wird (2026-08-02)
 
 *Lektion 02 (FOMC Two Stage Delivery) fehlt noch als Rohquelle — zum FOMC-Thema existiert bislang nur [[Federal Open Market Committee (Source)]].*
+
+### CISD Mini Serie (Monthly Mentorship 2020)
+
+**Navigationsknoten: [[CISD Mini Serie (Source)]]** — ältestes Material nach Core Content; Folien von Dez. 2020, EURUSD.
+
+- [[CISD Mini Serie - Lecture 1 (Source)]] — Fünfstufige Orderflow-Hierarchie, zwei Buy-/Sell-Program-Kriterien, State of Delivery als Richtungsgeber (2026-08-02)
+- [[CISD Mini Serie - Lecture 2 (Source)]] — Graded Price Swings 25/50/75 %, Imbalance am 50-%-Level wird zum Breakaway Gap, MMXM-Abgrenzung (2026-08-02)
 
 ### ICT 2023 Mentorship
 

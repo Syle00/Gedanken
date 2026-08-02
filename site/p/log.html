@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">46</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">22</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">102</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">48</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">23</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">105</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">1</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -52,6 +52,7 @@
 <li><a href="#2026-08-02-synthesis-uberknotenpunkt-mentorship-2025">[2026-08-02] synthesis | Überknotenpunkt MentorShip 2025</a></li>
 <li><a href="#2026-08-02-ingest-ict-2023-mentorship-tgif-one-trading-setup-for-life">[2026-08-02] ingest | ICT 2023 Mentorship (TGIF + One Trading Setup For Life)</a></li>
 <li><a href="#2026-08-02-ingest-ict-2025-lecture-series-week-1-4-8-inhaltsseiten">[2026-08-02] ingest | ICT 2025 Lecture Series (Week 1-4, 8 Inhaltsseiten)</a></li>
+<li><a href="#2026-08-02-ingest-cisd-mini-serie-ict-monthly-mentorship-2020">[2026-08-02] ingest | CISD Mini Serie (ICT Monthly Mentorship 2020)</a></li>
 </ul>
 </div>
 </details>
@@ -170,6 +171,20 @@
 <li>Neu ins Wiki gebracht: Price Delivery Continuum Theory als benannte Routine, der Mechanismus hinter der Balanced Price Range (verbrachte Zeit statt Beruehrung), FVG-Bildungsfenster 10:00-11:00 in Viertelstunden, Gap-Groessen-Regeln (120 Punkte / 0.25 statt C.E / Session-Wahl ueber die Gap-Groesse), STD-Manipulationsgrenze -1 STD als Algo-Grenze, die vier NY-Lunch-Regeln mit Execution 10:50-11:10, sowie die Ausschlusskriterien fuer ein Schein-FVG.</li>
 <li>Offen: Der Autor notiert in <a href="../p/smc-trading-opening-range-gaps-source.html">SMC Trading Opening Range Gaps (Source)</a> ein <strong>eigenes Modell</strong> (1.p FVG + ORG + NWOG/NDOG) — bislang ohne eigene Modellseite, da die Quelle es nur ankuendigt ("was ich weiter verfolgen werde"). Kandidat fuer wiki/models/, sobald mehr dazu vorliegt.</li>
 <li>Noch nicht ausgefuehrt: publish.ps1 (wird bewusst vom Nutzer ausgeloest).</li>
+</ul>
+<h2 id="2026-08-02-ingest-cisd-mini-serie-ict-monthly-mentorship-2020">[2026-08-02] ingest | CISD Mini Serie (ICT Monthly Mentorship 2020)</h2>
+<ul>
+<li>Rohquelle: neuester Notion-Export im Vault-Root, <code>raw/858fcb95-...-ExportBlock-7891d2ec-....zip</code> (verschachteltes ZIP, HTML, 3 Seiten + 7 PNGs). Entpackt, nach Markdown konvertiert, neuer Ordner <code>raw/trading-ict/CISD Mini Serie/</code>.</li>
+<li><strong>Jahrgang bestimmt</strong>: Die Folien tragen "TheInnerCircleTrader.com - Not For Public Distribution - All Rights Reserved 2020" und die TradingView-Charts sind vom 23.12.2020 (EURUSD). Das Material stammt also aus der <strong>Monthly Mentorship 2020</strong> und schliesst die Luecke zwischen Core Content (2016) und den 2023er Seiten — sechster Jahrgang im Vault.</li>
+<li>Assets: die 7 PNGs hiessen wieder generisch <code>image.png</code> / <code>image 1..6.png</code>. Bei dieser Menge waren sprechende Namen machbar, daher <code>CISD Mini Serie - &lt;Beschreibung&gt;.png</code> (statt der Nummerierung, die beim 54-Bilder-Export noetig war).</li>
+<li><strong>Rohdateien bewusst umbenannt</strong>: die Unterseiten hiessen im Export schlicht <code>Lecture 1</code> / <code>Lecture 2</code>. Da Obsidian, graphify und tools/build_site.py Wikilinks vault-weit ueber den Dateinamen aufloesen, waeren das Kollisions-Kandidaten fuer jeden kuenftigen Export. Abgelegt als <code>CISD Mini Serie - Lecture 1.md</code> / <code>- Lecture 2.md</code> (gleiche Praxis wie bei der MentorShip-2025-Nummerierung).</li>
+<li>Seiten erstellt: wiki/concepts/Algorithmic Order Flow.md (fuenfstufige Hierarchie), wiki/concepts/Buy &amp; Sell Program.md (die zwei Erkennungskriterien), wiki/models/Graded Price Swings.md, wiki/sources/CISD Mini Serie (Source).md, wiki/sources/CISD Mini Serie - Lecture 1 (Source).md, wiki/sources/CISD Mini Serie - Lecture 2 (Source).md</li>
+<li>Seiten aktualisiert: wiki/concepts/CISD (Change in State of Delivery).md (von 22 auf ~70 Zeilen: State of Delivery als erster richtungsgebender Liquiditaets-Run, der Bias-Test ueber den Gegenzug, Trigger per Close ueber dem Swing Point, Einordnung als Stufe 5), wiki/concepts/Breakaway Gap.md (zweiter Entstehungsweg ueber das 50-%-Level), wiki/concepts/Seasonal Tendency.md (Lesart: Aussage ueber Widerstand, nicht ueber Richtung), wiki/index.md</li>
+<li>Inhaltlich am wichtigsten: <strong>ein Gegenzug widerlegt den Bias nicht</strong>. Nach Erreichen der Buyside wechselt der State of Delivery zur Sellside; stimmt der Bias, wird dabei Liquiditaet gezogen oder eine Imbalance rebalanced, und das Buy Program laeuft weiter. Das fehlte im Wiki bislang komplett — CISD stand dort nur als Candle-Regel ("Down-Close wird Support").</li>
+<li>Ausserdem neu: die Orderflow-Hierarchie ist <strong>universal</strong>, ICT wendet sie ausdruecklich bis in den 1M-Chart an (nicht nur HTF); Seasonal Tendency ist eine Aussage ueber Widerstand statt ueber Richtung; die Imbalance kurz unter dem 50-%-Level wird meist zum Breakaway Gap, sonst wird das naechstliegende Short Term Low genommen.</li>
+<li>⚠️ <strong>Starke Aussage markiert</strong>: "Mehr Models gibt es nicht es sind diese beiden!" (Graded Price Swings + MMXM). Das steht quer zu den ueber 20 Seiten unter wiki/models/. Vermutlich ist "Modell" hier enger gemeint — uebergeordneter Deliverungs-Rahmen statt Setup. Nicht aufgeloest, an beiden Stellen markiert.</li>
+<li>⚠️ <strong>Neue Luecke</strong>: <strong>MMXM</strong> (Market Maker Buy/Sell Model) wird hier als eine von zwei Saeulen genannt, hat im Vault aber keine eigene Seite. Kandidat fuer den naechsten Ingest.</li>
+<li>✅ Erledigt: der Lueckenhinweis auf der CISD-Seite ("COT und Seasonal Tendency nur erwaehnt, noch keine eigene Konzept-Seite") — beide Seiten existieren inzwischen.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

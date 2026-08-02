@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict]
 created: 2026-08-02
 updated: 2026-08-02
-sources: ["[[Kurz Notizen (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]"]
+sources: ["[[Kurz Notizen (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[CISD Mini Serie - Lecture 2 (Source)]]"]
 ---
 
 # Breakaway Gap
@@ -27,6 +27,19 @@ ursprüngliche FVG dadurch häufig zu einem Breakaway Gap.
 
 ![[MentorShip 2025 - 05 Bullish EU Mirrored IPDA 60 Days.png]]
 *Gespiegelt bullish am EU: das zuerst entstandene Gap bleibt relevant, das darüberliegende BISI tritt zurück.*
+
+## Entstehung am 50-%-Level
+
+Ein zweiter, unabhängiger Entstehungsweg aus [[CISD Mini Serie - Lecture 2 (Source)]]: kommt Preis in
+einem Buy Program am **50 % der antizipierten Range** an und liegt dort eine **Imbalance kurz unter
+50 %**, wird diese **meistens zum Breakaway Gap**.
+
+- Ist **keine Imbalance** vorhanden, wird stattdessen das **nächstliegende Short Term Low** genommen.
+- **Oberhalb des 50-%-Levels** gilt dasselbe; spiegelbildlich im Sell Program.
+
+Damit gibt es zwei Wege zum Breakaway Gap: über ein **Displacement am Quadranten** (oben) und über
+die **Lage relativ zum 50-%-Level** einer gegradeten Range ([[Graded Price Swings]]). Beide laufen
+auf dieselbe Quadranten-Logik hinaus.
 
 ## Inversion-Varianten
 

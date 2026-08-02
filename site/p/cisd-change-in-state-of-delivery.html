@@ -21,20 +21,22 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">46</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">22</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">102</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">48</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">23</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">105</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">1</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
 <li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
 <li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
 <li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
 <li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
 <li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
 <li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
 <li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
 <li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
 <li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
 <li class="here"><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
@@ -81,21 +83,70 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>CISD (Change in State of Delivery)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-01</div><div class="srcline"><span>Quellen:</span> <a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a></div></div>
-  
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">mentorship-2020</span> <span class="tag">orderflow</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a>, <a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a>, <a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#definition">Definition</a></li>
+<li><a href="#der-test-des-bias">Der Test des Bias</a></li>
+<li><a href="#der-trigger-close-uber-dem-swing-point">Der Trigger: Close über dem Swing Point</a></li>
+<li><a href="#candle-ebene">Candle-Ebene</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
   <div class="content"><h1 id="cisd-change-in-state-of-delivery">CISD (Change in State of Delivery)</h1>
-<p>Jede Down-Close-Candle wird zum Support für nachfolgende bullishe Candles (und umgekehrt bei
-Bearish/CISD für Sells) — Grundlage, um eine Trade-Idee strukturell zu bestätigen.</p>
-<p>Wird laut Quelle im Verbund mit <a href="../p/smt-smart-money-divergence.html">SMT</a>, COT (Commitment of Traders),
-Seasonal Tendency und Intermarket-Analyse genutzt, um eine Trade-These zu verfestigen ("Hallmark"-
-Kriterien).</p>
+<p>Der <strong>State of Delivery</strong> ist die Frage, wohin der Algorithmus gerade liefert — zur Buyside oder zur
+Sellside. Das <strong>CISD</strong> ist der Moment, in dem diese Lieferrichtung <strong>wechselt</strong>.</p>
+<p>Es ist Stufe 5 und damit die unterste, konkreteste Ebene der
+<a href="../p/algorithmic-order-flow.html">Orderflow-Hierarchie</a>.</p>
+<h2 id="definition">Definition</h2>
+<blockquote>
+<p>Der State of Delivery ist der <strong>erste Run auf eine Liquidität, der die Richtung vergibt</strong> — aus
+einer Konsolidierung heraus auf die erste Buyside (bzw. Sellside). Es ist also das CISD, das die
+<strong>Richtung des Programms</strong> vorgibt.</p>
+</blockquote>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/CISD Mini Serie - State Of Delivery Buyside.png" alt="CISD Mini Serie - State Of Delivery Buyside" loading="lazy"></figure>
+
+<p><em>EURUSD 4H: aus der Konsolidierung heraus „State Of Delivery Is On Buyside" — daraus ergibt sich das
+Buy Program und der bullishe Short Term Bias.</em></p>
+<h2 id="der-test-des-bias">Der Test des Bias</h2>
+<p>Nach Erreichen der Buyside <strong>wechselt der State of Delivery zur Sellside</strong>, um Sellside-Liquidität
+zu ziehen. Genau hier entscheidet sich, ob der Bias stimmt:</p>
+<ul>
+<li><strong>Bias richtig</strong> → es wird Liquidität gezogen <strong>oder</strong> eine Imbalance rebalanced, und der Markt
+  arbeitet danach <strong>weiter im Buy Program</strong>.</li>
+<li>Bleibt das aus, war der Bias falsch.</li>
+</ul>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/CISD Mini Serie - State Of Delivery Sellside.png" alt="CISD Mini Serie - State Of Delivery Sellside" loading="lazy"></figure>
+
+<p><em>Derselbe Chart: „State Of Delivery Is On Sellside" (rot) — der Gegenzug, an dem sich der Bias
+bewährt. Danach läuft das Buy Program weiter.</em></p>
+<p>Das ist der praktisch wichtigste Punkt der Seite: <strong>ein Gegenzug widerlegt den Bias nicht</strong> — er
+gehört zum Programm dazu, solange er Liquidität holt oder eine Imbalance ausgleicht.</p>
+<h2 id="der-trigger-close-uber-dem-swing-point">Der Trigger: Close über dem Swing Point</h2>
+<p>Konkret geschaltet wird von Bullish zu Bearish (und umgekehrt), indem Preis <strong>über dem Swing High
+closed</strong> — spiegelbildlich unter dem Swing Low. Siehe <a href="../p/graded-price-swings.html">Graded Price Swings</a>, wo das CISD als
+Schalter zwischen Buy- und Sell-Programm dient.</p>
+<h2 id="candle-ebene">Candle-Ebene</h2>
+<p>Jede <strong>Down-Close-Candle</strong> wird zum Support für nachfolgende bullishe Candles (spiegelbildlich bei
+bearishem CISD). Das ist dieselbe Mechanik eine Ebene tiefer und zugleich das erste Kriterium, an
+dem ein <a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a> erkannt wird.</p>
+<p>Wird laut <a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a> im Verbund mit
+<a href="../p/smt-smart-money-divergence.html">SMT</a>, <a href="../p/cot-commitment-of-traders-data.html">COT</a>,
+<a href="../p/seasonal-tendency.html">Seasonal Tendency</a> und <a href="../p/intermarket-relationships.html">Intermarket-Analyse</a> genutzt, um eine
+Trade-These zu verfestigen ("Hallmark"-Kriterien).</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
-<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
-<li>⚠️ COT (Commitment of Traders) und Seasonal Tendency sind hier nur erwähnt, noch keine eigene
-  Konzept-Seite — Bond/Commodity-Mega-Trades-Quellen nutzen Seasonal Tendency bereits implizit.</li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a> — die Hierarchie, in der das CISD Stufe 5 ist</li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a> — was das CISD in Gang setzt</li>
+<li><a href="../p/graded-price-swings.html">Graded Price Swings</a> — Modell, das das CISD als Programm-Schalter nutzt</li>
+<li><a href="../p/modell-22.html">Modell 22</a> — 2026er Weiterentwicklung mit IFVG-Trigger</li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a>, <a href="../p/order-block.html">Order Block</a>, <a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li>✅ COT und Seasonal Tendency haben inzwischen eigene Seiten
+  (<a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a>, <a href="../p/seasonal-tendency.html">Seasonal Tendency</a>) — der frühere Lückenhinweis hier
+  ist damit erledigt.</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">16</span></h2><ul><li><a href="../p/classic-swing-trading-approach.html">Classic Swing Trading Approach</a><span class="cat">Modelle</span></li><li><a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a><span class="cat">Konzepte</span></li><li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a><span class="cat">Konzepte</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a><span class="cat">Modelle</span></li><li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a><span class="cat">Modelle</span></li><li><a href="../p/modell-22.html">Modell 22</a><span class="cat">Konzepte</span></li><li><a href="../p/month-06-swing-trading-model-source.html">Month 06 - Swing Trading Model (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/order-block.html">Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li><li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/tgif-thank-god-its-friday-source.html">TGIF - Thank God its Friday (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">22</span></h2><ul><li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a><span class="cat">Konzepte</span></li><li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a><span class="cat">Konzepte</span></li><li><a href="../p/cisd-mini-serie-source.html">CISD Mini Serie (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/classic-swing-trading-approach.html">Classic Swing Trading Approach</a><span class="cat">Modelle</span></li><li><a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/graded-price-swings.html">Graded Price Swings</a><span class="cat">Modelle</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a><span class="cat">Konzepte</span></li><li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a><span class="cat">Konzepte</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a><span class="cat">Modelle</span></li><li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a><span class="cat">Modelle</span></li><li><a href="../p/modell-22.html">Modell 22</a><span class="cat">Konzepte</span></li><li><a href="../p/month-06-swing-trading-model-source.html">Month 06 - Swing Trading Model (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/order-block.html">Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li><li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/tgif-thank-god-its-friday-source.html">TGIF - Thank God its Friday (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/CISD (Change in State of Delivery).md</code></footer>
 </article>
 </main>
