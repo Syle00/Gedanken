@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">54</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">55</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">135</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">136</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">3</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -71,6 +71,7 @@
 <li><a href="#2026-08-02-tooling-marktdaten-ordner-bleibt-nur-csvs-wandern">[2026-08-02] tooling | Marktdaten: Ordner bleibt, nur CSVs wandern</a></li>
 <li><a href="#2026-08-03-journal-weekly-bias-2026-w32-mnq-ingest-korrektur-gegen-das-wiki">[2026-08-03] journal | Weekly Bias 2026-W32 (MNQ) — ingest + Korrektur gegen das Wiki</a></li>
 <li><a href="#2026-08-03-journal-daily-bias-0308-mnq-ingest-nachrechnung-aus-den-marktdaten">[2026-08-03] journal | Daily Bias 03.08. (MNQ) — ingest + Nachrechnung aus den Marktdaten</a></li>
+<li><a href="#2026-08-03-ingest-chain-of-custody-of-price-with-daily-inefficiencies">[2026-08-03] ingest | Chain Of Custody Of Price With Daily Inefficiencies</a></li>
 </ul>
 </div>
 </details>
@@ -355,6 +356,16 @@
 <li><strong>Korrigiert</strong>: <strong>Widerspruch zum eigenen Weekly Bias 33 Minuten vorher</strong> — 01:55 "Montag sollte gute Price Action liefern" (NFP-Woche-Ausnahme), 02:28 "am Montag schwierig" (Grundregel). <code>wiki/models/ICT Day Trade Routine.md</code> fuehrt beides als Regel <em>und</em> Ausnahme; heute greift die Ausnahme. Weiter: Judas-Swing-Zeitfenster (Wiki: 0–5 Uhr NY, der US-Open-Move ist laut ausdruecklicher Praezisierung <em>nicht</em> die Judas) als <code>vermutet</code>; fehlende Invalidierung fuer "Judas Richtung Sellside" (Vorschlag: Sweep 28.284,00 → max. 28.210,25 mit Reclaim) als S08 <code>belegt</code>; Timing-Konflikt ISM-PMI 10:00 verlaengert die AM-Killzone bis 11:00/11:30, gehandelt wird aber erst 14:00–15:00.</li>
 <li>Neuer Begriff ohne Wiki-Seite: <strong>"Bellweather Chart"</strong> (sein 15m als DOL-Finder). Noch nicht angelegt — Konvention: ab dem dritten Auftreten.</li>
 <li>Belegdaten: <code>raw/marktdaten/31.07.2026/MNQ 2026-07-31 15m.csv</code> (ETH) und <code>... 15m RTH.csv</code>.</li>
+</ul>
+<h2 id="2026-08-03-ingest-chain-of-custody-of-price-with-daily-inefficiencies">[2026-08-03] ingest | Chain Of Custody Of Price With Daily Inefficiencies</h2>
+<ul>
+<li>Quelle lag zunächst lose im Vault-Root (<code>raw/Chain Of Custody Of Price With Daily Inefficiencies.md</code> + 5 Screenshots image-4.png–image-8.png). Nutzerhinweis: gehört inhaltlich zum 2026er-Jahrgang (wie das bereits ingestete <code>ICT Chain Of Custody Of Price.md</code>) — nach <code>raw/trading-ict/2026/Chain Of Custody Of Price With Daily Inefficiencies.md</code> verschoben, Bilder nach <code>raw/trading-ict/assets/</code> (Namenskollision vorab geprüft: keine). Anderes Video als <code>ICT Chain Of Custody Of Price.md</code> — beide teilen nur den Titel-Begriff, unterschiedliche YouTube-IDs und Kernaussagen.</li>
+<li>Seite erstellt: wiki/sources/Chain Of Custody Of Price With Daily Inefficiencies (Source).md</li>
+<li>Seite erstellt: wiki/concepts/Suspension Block.md — FVG mit VII auf beiden Seiten, laut Quelle eine der stärksten PD Arrays.</li>
+<li>Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (neuer Abschnitt "Oktanten (Os) und VII-Einschluss bei BISI/SIBI": Q/O-Raster direkt auf BISI/SIBI angewendet, Partials-Regel an Key-Leveln, No-Trade-Regel bei Konsolidierung zwischen Qs/Os), wiki/concepts/BISI &amp; SIBI (Buyside-Sellside Imbalance).md (VII zählt zum vollen Rand des BISI/SIBI, Verweis auf Suspension Block), wiki/index.md</li>
+<li>✅ <strong>Offenen Punkt aus dem ersten Batch-Ingest geklärt</strong>: "Suspensionblock" war seit dem ersten Ingest (2026-08-01) als unklarer 2026er-Begriff markiert. Definition jetzt vorhanden: ein FVG mit VII auf beiden Seiten. Marker in wiki/index.md von ⚠️ auf ✅ umgestellt; "REH"/"REL" bleiben weiterhin offen (von dieser Quelle nicht berührt).</li>
+<li>Nicht neu angelegt: keine eigene Seite für "Partials" — bestehender Verweis auf <a href="../p/event-horizon.html">Event Horizon</a> als verwandten Partial-Marker genügt, da die Quelle das Konzept nur an bestehende Key-Level anhängt statt eigenständig zu definieren.</li>
+<li>Site neu gebaut (<code>PYTHONIOENCODING=utf-8 python tools/build_site.py</code>), publish.ps1 ausgeführt.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[ICT Chain Of Custody Of Price (Source)]]"]
+updated: 2026-08-03
+sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Chain Of Custody Of Price With Daily Inefficiencies (Source)]]"]
 ---
 
 # Chain of Custody (Q-Validation)
@@ -42,8 +42,25 @@ bearish: unter das Q).
 ![[Kurz Notizen - High Probability FVG Quadrant Example 5.png]]
 *Beispielserie: High-Probability-FVG, dessen Q innerhalb des FVG liegt und von beiden FVG-Candles überschritten wird.*
 
+## Oktanten (Os) und VII-Einschluss bei BISI/SIBI
+
+Zweite Quelle ([[Chain Of Custody Of Price With Daily Inefficiencies (Source)]]) verfeinert das
+Raster: neben den **Quadranten (Qs)** kommen **Oktanten (Os)** als feinere Fib-Unterteilung dazu.
+Angewendet wird das Raster direkt auf ein [[BISI & SIBI (Buyside-Sellside Imbalance)|BISI/SIBI]]:
+
+- Liegt am oberen *und* unteren Rand des BISI/SIBI je eine
+  [[Volume Imbalance (VII)|VII]], zählen beide zur Range dazu — das **gesamte BISI inkl. VII** gilt
+  dann als eine **Discount PD Array**.
+- Bildet sich dabei ein FVG mit VII auf **beiden** Seiten, ist das ein
+  [[Suspension Block]] — eine der stärksten PD Arrays überhaupt.
+- **Partials**: an Quadranten/Oktanten, Liquidity-Leveln und NDOG werden, wo möglich, Teilgewinne
+  genommen, um Risiko zu minimieren (vgl. [[Event Horizon]] als verwandter Partial-Marker).
+- **No-Trade-Regel**: Verbringt Preis längere Zeit zwischen zwei Qs/Os und konsolidiert sichtlich,
+  ist das **nicht High Probability** — unabhängig vom Zeitfenster wird kein Trade genommen.
+
 ## Verwandt
 
 - [[Enigma FVG Projection]], [[Order Block]], [[Fair Value Gap (FVG)]]
 - [[IFVG (Inverse Fair Value Gap)]]
-- [[Kurz Notizen (Source)]]
+- [[BISI & SIBI (Buyside-Sellside Imbalance)]], [[Suspension Block]], [[Event Horizon]]
+- [[Kurz Notizen (Source)]], [[Chain Of Custody Of Price With Daily Inefficiencies (Source)]]

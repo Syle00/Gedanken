@@ -56,6 +56,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Seasonal Tendency]] — Historisch wiederkehrende saisonale Preistendenzen (2026-08-01)
 - [[Smart Money Concepts (SMC)]] — **Wurzelseite**: Dachbegriff über allen ICT-Study-Notes, thematischer Einstieg (2026-08-02)
 - [[SMT (Smart Money Divergence)]] — Divergenz zwischen korrelierten Märkten, Cross-Asset-Check (2026-08-01)
+- [[Suspension Block]] — FVG mit VII auf beiden Seiten, eine der stärksten PD Arrays (2026-08-03)
 - [[TGIF (Thank God its Friday)]] — Freitags-Retracement 20–30 % in die Weekly Range als Draw on Liquidity, 3 Voraussetzungen, Weekly Po3 (2026-08-02)
 - [[Trading All Time Highs (ATH)]] — Continuation-Checkliste am ATH und die 3 Stages, an denen Smart Money oben verkauft (2026-08-02)
 - [[Trendline Phantoms (3 Drives Pattern)]] — Retail-Trendline-Falle, 3-Drives-Angriffsziel (2026-08-01)
@@ -133,6 +134,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Midnight ET Principles In Relationship To PreMarket Session (Source)]], [[Missed Entry How To Navigate The Same Trade Idea (Source)]]
 - [[NQ Futures Weekly Range Market Wizardry (Source)]], [[Post US Holiday Monday Followup (Source)]]
 - [[Trading Complex Opening Ranges With Fed Impact 07-14-2026 (Source)]]
+- [[Chain Of Custody Of Price With Daily Inefficiencies (Source)]] — Quadranten/Oktanten-Raster auf BISI/SIBI inkl. VII, definiert den Suspension Block (2026-08-03)
 
 ### MentorShip 2025
 
@@ -232,8 +234,10 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 
 - ✅ **Erledigt (2026-08-02)**: "MSS" → [[Market Structure Shift (MSS)]] (aus der MentorShip 2022),
   "VII" → [[Volume Imbalance (VII)]] (mündlich geklärt: Volume Imbalance, Lücke Close→Open).
-- ⚠️ "Suspensionblock" und "REH"/"REL" tauchen im 2026er-Content auf, sind aber nicht eigenständig
-  definiert — bei weiterem Ingest von `raw/trading-ict/2026/` präzisieren.
+- ✅ **Erledigt (2026-08-03)**: "Suspensionblock" → [[Suspension Block]] (FVG mit VII auf beiden
+  Seiten, aus [[Chain Of Custody Of Price With Daily Inefficiencies (Source)]]).
+- ⚠️ "REH"/"REL" tauchen im 2026er-Content auf, sind aber nicht eigenständig definiert — bei
+  weiterem Ingest von `raw/trading-ict/2026/` präzisieren.
 - `raw/trading-ict/Core Content/Reeinforced Liquidity Pools -      When to anticipate Raids.md` ist
   leer (0 Byte) — falls der Nutzer den Inhalt nachreicht, erneut ingesten.
 - `raw/trading-ict/Core Content/Basics & Opening Range Concept.md` enthält nur Bild-Embeds ohne Text
