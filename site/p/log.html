@@ -72,6 +72,7 @@
 <li><a href="#2026-08-03-journal-weekly-bias-2026-w32-mnq-ingest-korrektur-gegen-das-wiki">[2026-08-03] journal | Weekly Bias 2026-W32 (MNQ) — ingest + Korrektur gegen das Wiki</a></li>
 <li><a href="#2026-08-03-journal-daily-bias-0308-mnq-ingest-nachrechnung-aus-den-marktdaten">[2026-08-03] journal | Daily Bias 03.08. (MNQ) — ingest + Nachrechnung aus den Marktdaten</a></li>
 <li><a href="#2026-08-03-ingest-chain-of-custody-of-price-with-daily-inefficiencies">[2026-08-03] ingest | Chain Of Custody Of Price With Daily Inefficiencies</a></li>
+<li><a href="#2026-08-03-setup-multi-rechner-workflow-update-befehl-auto-push-hook">[2026-08-03] setup | Multi-Rechner-Workflow: /update-Befehl + Auto-Push-Hook</a></li>
 </ul>
 </div>
 </details>
@@ -366,6 +367,13 @@
 <li>✅ <strong>Offenen Punkt aus dem ersten Batch-Ingest geklärt</strong>: "Suspensionblock" war seit dem ersten Ingest (2026-08-01) als unklarer 2026er-Begriff markiert. Definition jetzt vorhanden: ein FVG mit VII auf beiden Seiten. Marker in wiki/index.md von ⚠️ auf ✅ umgestellt; "REH"/"REL" bleiben weiterhin offen (von dieser Quelle nicht berührt).</li>
 <li>Nicht neu angelegt: keine eigene Seite für "Partials" — bestehender Verweis auf <a href="../p/event-horizon.html">Event Horizon</a> als verwandten Partial-Marker genügt, da die Quelle das Konzept nur an bestehende Key-Level anhängt statt eigenständig zu definieren.</li>
 <li>Site neu gebaut (<code>PYTHONIOENCODING=utf-8 python tools/build_site.py</code>), publish.ps1 ausgeführt.</li>
+</ul>
+<h2 id="2026-08-03-setup-multi-rechner-workflow-update-befehl-auto-push-hook">[2026-08-03] setup | Multi-Rechner-Workflow: /update-Befehl + Auto-Push-Hook</h2>
+<ul>
+<li>Nutzer arbeitet auf 2 Rechnern (unterschiedliche Windows-User: <code>janne</code> hier, <code>Jannes</code> laut Pfad im bestehenden PreToolUse-Hook für <code>graphify.EXE hook-guard</code> — dieser Hook-Pfad existiert auf diesem Rechner nicht und läuft hier ins Leere; nicht angefasst, da außerhalb des aktuellen Auftrags).</li>
+<li><code>.claude/commands/update.md</code> angelegt: Slash-Command <code>/update</code>, holt <code>origin/main</code> (Stash bei uncommitteten Änderungen, <code>git pull</code>, Stash-Pop, Zusammenfassung). Liegt im Repo (versioniert), zieht also auf beiden Rechnern automatisch mit.</li>
+<li><code>.claude/settings.json</code> um einen <code>Stop</code>-Hook erweitert: prüft bei jedem Gesprächsende <code>git status --porcelain -- wiki raw</code>; gibt es Änderungen, wird <code>push.ps1</code> automatisch ausgeführt (Nutzerwunsch: "wenn ich neue Sachen ins Wiki einfüge, führst du push.ps1 automatisch aus" — nicht mehr nur die bestehende Ingest-Konvention aus CLAUDE.md, sondern hart über einen Hook erzwungen, damit es rechnerunabhängig zuverlässig greift). Getestet: Trigger-Logik (grep auf git-status-Diff) feuert korrekt bei geänderten wiki/raw-Dateien und bleibt still bei sauberem Stand.</li>
+<li><code>.claude/settings.json</code> ist bereits laut <code>.gitignore</code>-Kommentar bewusst versioniert (nur <code>settings.local.json</code> ist maschinenlokal) — der Hook zieht also ebenfalls automatisch auf den zweiten Rechner mit.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

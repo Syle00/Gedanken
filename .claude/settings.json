@@ -19,6 +19,18 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git status --porcelain -- wiki raw | grep -q . && powershell.exe -NoProfile -ExecutionPolicy Bypass -File push.ps1; true",
+            "timeout": 120,
+            "statusMessage": "Auto-push: neue wiki/raw-Aenderungen erkannt..."
+          }
+        ]
+      }
     ]
   },
   "enabledPlugins": {
