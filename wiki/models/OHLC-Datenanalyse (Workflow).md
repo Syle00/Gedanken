@@ -26,14 +26,18 @@ belegbar, aus der CSV schon. Siehe [[Trading Journal & DOL Checklist]].
 ## Dateikonvention
 
 ```
-raw/marktdaten/<dd.mm.jjjj>/<SYMBOL> <YYYY-MM-DD> <TF>.csv
+raw/marktdaten/<jjjj>/<mm>/<dd.mm.jjjj>/<SYMBOL> <YYYY-MM-DD> <TF>.csv
 ```
 
-Beispiel: `raw/marktdaten/31.07.2026/MNQ 2026-07-31 1m.csv`
+Beispiel: `raw/marktdaten/2026/07/31.07.2026/MNQ 2026-07-31 1m.csv`
 
-- Der **Ordner** trägt das deutsche Datumsformat, der **Dateiname** das ISO-Datum. Die Redundanz
-  ist gewollt: der Ordner ist zum Anschauen da, das ISO-Datum im Namen sortiert korrekt und macht
-  die Datei auch außerhalb ihres Ordners noch selbsterklärend.
+- Der **Tagesordner** trägt das deutsche Datumsformat, der **Dateiname** das ISO-Datum. Die
+  Redundanz ist gewollt: der Ordner ist zum Anschauen da, das ISO-Datum im Namen sortiert korrekt
+  und macht die Datei auch außerhalb ihres Ordners noch selbsterklärend.
+- Darüber liegen **Jahr- und Monatsordner** (`jjjj/mm`), damit der Hauptordner bei täglichen
+  Exporten nicht mit hunderten Tagesordnern flach volläuft. Die Verschachtelung entsteht von
+  selbst beim Monats-/Jahreswechsel — `tools/sort_marktdaten.py` legt sie an, keine manuelle
+  Pflege nötig.
 - `<YYYY-MM-DD>` = der **Handelstag**, um den es geht. Alle Timeframes eines Tages tragen dasselbe
   Datum, auch wenn der 1D-Export 289 Kerzen Historie enthält.
 - `<TF>` ∈ `1m 5m 15m 1h 4h 1d`

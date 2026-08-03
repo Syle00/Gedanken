@@ -1,3 +1,4 @@
 TradingView-Exporte hier flach ablegen, Name egal.
-tools/sort_marktdaten.py legt daraus den Tagesordner <dd.mm.jjjj> an und
-verschiebt nur die losen .csv-Dateien dorthin. Alles andere bleibt liegen.
+tools/sort_marktdaten.py legt daraus <jjjj>/<mm>/<dd.mm.jjjj>/ an (Jahr/Monat
+verschachteln sich von selbst beim Wechsel) und verschiebt nur die losen
+.csv-Dateien dorthin. Alles andere bleibt liegen.

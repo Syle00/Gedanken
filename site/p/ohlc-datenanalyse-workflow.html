@@ -113,13 +113,17 @@ fest, wie beides zusammenspielt und was <code>tools/analyze_ohlc.py</code> darau
 2 Ticks Durchstich hatte und darüber schloss, war kein Sweep. Das ist aus einem Bild nicht
 belegbar, aus der CSV schon. Siehe <a href="../p/trading-journal-dol-checklist.html">Trading Journal &amp; DOL Checklist</a>.</p>
 <h2 id="dateikonvention">Dateikonvention</h2>
-<pre><code>raw/marktdaten/&lt;dd.mm.jjjj&gt;/&lt;SYMBOL&gt; &lt;YYYY-MM-DD&gt; &lt;TF&gt;.csv
+<pre><code>raw/marktdaten/&lt;jjjj&gt;/&lt;mm&gt;/&lt;dd.mm.jjjj&gt;/&lt;SYMBOL&gt; &lt;YYYY-MM-DD&gt; &lt;TF&gt;.csv
 </code></pre>
-<p>Beispiel: <code>raw/marktdaten/31.07.2026/MNQ 2026-07-31 1m.csv</code></p>
+<p>Beispiel: <code>raw/marktdaten/2026/07/31.07.2026/MNQ 2026-07-31 1m.csv</code></p>
 <ul>
-<li>Der <strong>Ordner</strong> trägt das deutsche Datumsformat, der <strong>Dateiname</strong> das ISO-Datum. Die Redundanz
-  ist gewollt: der Ordner ist zum Anschauen da, das ISO-Datum im Namen sortiert korrekt und macht
-  die Datei auch außerhalb ihres Ordners noch selbsterklärend.</li>
+<li>Der <strong>Tagesordner</strong> trägt das deutsche Datumsformat, der <strong>Dateiname</strong> das ISO-Datum. Die
+  Redundanz ist gewollt: der Ordner ist zum Anschauen da, das ISO-Datum im Namen sortiert korrekt
+  und macht die Datei auch außerhalb ihres Ordners noch selbsterklärend.</li>
+<li>Darüber liegen <strong>Jahr- und Monatsordner</strong> (<code>jjjj/mm</code>), damit der Hauptordner bei täglichen
+  Exporten nicht mit hunderten Tagesordnern flach volläuft. Die Verschachtelung entsteht von
+  selbst beim Monats-/Jahreswechsel — <code>tools/sort_marktdaten.py</code> legt sie an, keine manuelle
+  Pflege nötig.</li>
 <li><code>&lt;YYYY-MM-DD&gt;</code> = der <strong>Handelstag</strong>, um den es geht. Alle Timeframes eines Tages tragen dasselbe
   Datum, auch wenn der 1D-Export 289 Kerzen Historie enthält.</li>
 <li><code>&lt;TF&gt;</code> ∈ <code>1m 5m 15m 1h 4h 1d</code></li>

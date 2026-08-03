@@ -280,3 +280,30 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Seiten aktualisiert: wiki/index.md (neuer Synthesis-Eintrag).
 - Datenlimitierung markiert: der 1m-Export deckte am 03.08. nur 11:19-16:18 NY ab (TradingView-300-Kerzen-Limit); fuer Sessions/Opening Prices wurde deshalb der 5m-Chart als Basis verwendet. Checkliste-Punkt 8 (Target Liquiditaet 1m) war fuer die AM-Session dadurch nicht auswertbar — als Datenluecke markiert, nicht als "nein" gewertet.
 - push.ps1 auf Nutzerwunsch am Ende ausgefuehrt.
+
+## [2026-08-03] setup | Jahr/Monat-Verschachtelung fuer raw/marktdaten/ + Uebergeordnetes Ziel im Algo-Projekt
+- Nutzerauftrag: Marktdaten sollen sich bei Monats-/Jahreswechsel automatisch in Unterordner
+  einsortieren (statt flach unter dem Hauptordner mit einem Ordner pro Tag). Ausserdem: das
+  eigentliche, uebergeordnete Ziel des gesamten Wiki-Projekts als "Schicht 1" festhalten —
+  ein Algorithmus, der selbststaendig und allein ueber Interactive Brokers handelt.
+- `tools/sort_marktdaten.py`: Zielpfad von `raw/marktdaten/<dd.mm.jjjj>/...` auf
+  `raw/marktdaten/<jjjj>/<mm>/<dd.mm.jjjj>/...` umgestellt; Konsolenausgabe zeigt jetzt den
+  vollen relativen Pfad statt nur des Tagesordner-Namens.
+- `tools/analyze_ohlc.py` (`find_files`) sucht jetzt zuerst im neuen verschachtelten Pfad,
+  faellt auf den alten flachen Tagesordner und zuletzt auf `raw/marktdaten/` selbst zurueck
+  (Abwaertskompatibilitaet fuer Daten, die noch nicht migriert sind).
+- Bestehende Tagesordner migriert: `raw/marktdaten/31.07.2026/` → `raw/marktdaten/2026/07/31.07.2026/`,
+  `raw/marktdaten/03.08.2026/` → `raw/marktdaten/2026/08/03.08.2026/`. Beide Reports
+  (`analyze_ohlc.py MNQ 2026-07-31` / `... 2026-08-03`) nach der Migration erfolgreich gegen-
+  geprueft — finden die Dateien weiterhin.
+- Seiten aktualisiert: wiki/models/OHLC-Datenanalyse (Workflow).md (Dateikonvention-Abschnitt),
+  wiki/synthesis/MNQ 2026-07-31 — Datenbasierter Tagesrückblick.md und
+  wiki/synthesis/MNQ 2026-08-03 — Datenbasierter Tagesrückblick.md (Pfadangaben im Frontmatter
+  und im Fliesstext), raw/marktdaten/.gitkeep (Hinweistext).
+- `algo/PLAN.md`: neuer Abschnitt "Schicht 1 — Übergeordnetes Ziel" ganz oben im Dokument —
+  auf Nutzerwunsch ausdruecklich als das Ziel von allem markiert (Wiki, Marktdaten, Tools,
+  Algo-Projekt sind Unterbau dafuer), nicht nur ein Punkt unter vielen. Neuer Abschnitt
+  "Code-Ideen (Backlog)" mit vier ersten Eintraegen: Backtest-Harness auf Basis der
+  bestehenden Detektoren, eine Regel-Schicht (Entry/Stop/Target statt Ja/Nein-Checkliste),
+  ein duenner IBKR-Broker-Adapter (erst nach Regel-Schicht, erst gegen Paper-Trading), sowie
+  ein Backtest-Ergebnis-Artefakt als Datenformat.

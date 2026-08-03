@@ -8,8 +8,11 @@ Aus
 
 wird
 
-    raw/marktdaten/31.07.2026/MNQ 2026-07-31 1m.csv
-    raw/marktdaten/31.07.2026/MNQ 2026-07-31 5m.csv
+    raw/marktdaten/2026/07/31.07.2026/MNQ 2026-07-31 1m.csv
+    raw/marktdaten/2026/07/31.07.2026/MNQ 2026-07-31 5m.csv
+
+Die Jahr/Monat-Ordner (jjjj/mm) sammeln sich automatisch beim Monats-/Jahreswechsel an;
+der Tagesordner (dd.mm.jjjj) bleibt darunter wie bisher.
 
 Der Handelstag kommt aus der **letzten Kerze der Datei**, nicht aus dem Dateinamen —
 so funktionieren auch rohe TradingView-Exporte, deren Namen kein Datum enthalten.
@@ -119,7 +122,8 @@ def plan(files: list[Path], forced_symbol: str | None):
             out.append((src, None, "Symbol nicht erkennbar (--symbol nutzen)"))
             continue
         day = trading_day(times)
-        dst = DATA_DIR / day.strftime("%d.%m.%Y") / f"{sym} {day.isoformat()} {tf}.csv"
+        dst = (DATA_DIR / day.strftime("%Y") / day.strftime("%m")
+               / day.strftime("%d.%m.%Y") / f"{sym} {day.isoformat()} {tf}.csv")
         out.append((src, dst, f"{len(times)} Kerzen, letzte {times[-1]:%d.%m. %H:%M} NY"))
     return out
 
@@ -146,11 +150,11 @@ def run(dry_run=False, forced_symbol=None, quiet=False) -> int:
         if dst.exists():
             if filecmp.cmp(src, dst, shallow=False):
                 if dry_run:
-                    print(f"  = {src.name} — identisch mit {dst.parent.name}/{dst.name}, "
+                    print(f"  = {src.name} — identisch mit {dst.relative_to(DATA_DIR)}, "
                           f"Quelle waere zu loeschen")
                 else:
                     src.unlink()
-                    print(f"  = {src.name} — Duplikat von {dst.parent.name}/{dst.name}, entfernt")
+                    print(f"  = {src.name} — Duplikat von {dst.relative_to(DATA_DIR)}, entfernt")
                 moved += 1
                 continue
             stem, n = dst.stem, 2
@@ -158,7 +162,7 @@ def run(dry_run=False, forced_symbol=None, quiet=False) -> int:
                 dst = dst.with_name(f"{stem} ({n}).csv")
                 n += 1
             note += " — Zielname belegt, abweichender Inhalt"
-        rel = f"{dst.parent.name}/{dst.name}"
+        rel = dst.relative_to(DATA_DIR)
         if dry_run:
             print(f"  → {src.name}  ->  {rel}   ({note})")
         else:

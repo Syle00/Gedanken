@@ -3,12 +3,12 @@ tags: [synthesis, trading-ict, marktdaten, mnq]
 created: 2026-08-02
 updated: 2026-08-02
 sources: ["[[OHLC-Datenanalyse (Workflow)]]"]
-raw: "raw/marktdaten/31.07.2026/MNQ 2026-07-31 1m.csv"
+raw: "raw/marktdaten/2026/07/31.07.2026/MNQ 2026-07-31 1m.csv"
 ---
 
 # MNQ 2026-07-31 — Datenbasierter Tagesrückblick
 
-Freitag, ausgewertet aus `raw/marktdaten/31.07.2026/MNQ 2026-07-31 {1m,5m,15m,1h,4h,1d}.csv` mit
+Freitag, ausgewertet aus `raw/marktdaten/2026/07/31.07.2026/MNQ 2026-07-31 {1m,5m,15m,1h,4h,1d}.csv` mit
 `tools/analyze_ohlc.py`. Alle Zeiten New York. Erste Anwendung von
 [[OHLC-Datenanalyse (Workflow)]] — kein Trade-Eintrag, sondern die Marktseite des Tages.
 

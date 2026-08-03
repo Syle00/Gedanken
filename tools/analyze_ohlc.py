@@ -89,9 +89,12 @@ def load(path: Path) -> list[Bar]:
 
 
 def find_files(symbol: str, day: str) -> dict[str, Path]:
-    """Sucht im Tagesordner (dd.mm.jjjj) und, als Rueckfall, flach in raw/marktdaten/."""
+    """Sucht im Tagesordner (jjjj/mm/dd.mm.jjjj), im alten flachen Tagesordner
+    (dd.mm.jjjj, vor der Jahr/Monat-Verschachtelung) und, als letzter Rueckfall,
+    flach in raw/marktdaten/."""
     iso = datetime.strptime(day, "%Y-%m-%d").date()
-    roots = [DATA_DIR / iso.strftime("%d.%m.%Y"), DATA_DIR]
+    roots = [DATA_DIR / iso.strftime("%Y") / iso.strftime("%m") / iso.strftime("%d.%m.%Y"),
+             DATA_DIR / iso.strftime("%d.%m.%Y"), DATA_DIR]
     out = {}
     for tf in TF_MINUTES:
         for root in roots:

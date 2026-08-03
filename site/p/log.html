@@ -74,6 +74,7 @@
 <li><a href="#2026-08-03-ingest-chain-of-custody-of-price-with-daily-inefficiencies">[2026-08-03] ingest | Chain Of Custody Of Price With Daily Inefficiencies</a></li>
 <li><a href="#2026-08-03-setup-multi-rechner-workflow-update-befehl-auto-push-hook">[2026-08-03] setup | Multi-Rechner-Workflow: /update-Befehl + Auto-Push-Hook</a></li>
 <li><a href="#2026-08-03-ingest-mnq-2026-08-03-marktdaten-update-start-algo-trading-projekt">[2026-08-03] ingest | MNQ 2026-08-03 (Marktdaten-Update, Start Algo-Trading-Projekt)</a></li>
+<li><a href="#2026-08-03-setup-jahrmonat-verschachtelung-fuer-rawmarktdaten-uebergeordnetes-ziel-im-algo-projekt">[2026-08-03] setup | Jahr/Monat-Verschachtelung fuer raw/marktdaten/ + Uebergeordnetes Ziel im Algo-Projekt</a></li>
 </ul>
 </div>
 </details>
@@ -387,6 +388,34 @@
 <li>Seiten aktualisiert: wiki/index.md (neuer Synthesis-Eintrag).</li>
 <li>Datenlimitierung markiert: der 1m-Export deckte am 03.08. nur 11:19-16:18 NY ab (TradingView-300-Kerzen-Limit); fuer Sessions/Opening Prices wurde deshalb der 5m-Chart als Basis verwendet. Checkliste-Punkt 8 (Target Liquiditaet 1m) war fuer die AM-Session dadurch nicht auswertbar — als Datenluecke markiert, nicht als "nein" gewertet.</li>
 <li>push.ps1 auf Nutzerwunsch am Ende ausgefuehrt.</li>
+</ul>
+<h2 id="2026-08-03-setup-jahrmonat-verschachtelung-fuer-rawmarktdaten-uebergeordnetes-ziel-im-algo-projekt">[2026-08-03] setup | Jahr/Monat-Verschachtelung fuer raw/marktdaten/ + Uebergeordnetes Ziel im Algo-Projekt</h2>
+<ul>
+<li>Nutzerauftrag: Marktdaten sollen sich bei Monats-/Jahreswechsel automatisch in Unterordner
+  einsortieren (statt flach unter dem Hauptordner mit einem Ordner pro Tag). Ausserdem: das
+  eigentliche, uebergeordnete Ziel des gesamten Wiki-Projekts als "Schicht 1" festhalten —
+  ein Algorithmus, der selbststaendig und allein ueber Interactive Brokers handelt.</li>
+<li><code>tools/sort_marktdaten.py</code>: Zielpfad von <code>raw/marktdaten/&lt;dd.mm.jjjj&gt;/...</code> auf
+  <code>raw/marktdaten/&lt;jjjj&gt;/&lt;mm&gt;/&lt;dd.mm.jjjj&gt;/...</code> umgestellt; Konsolenausgabe zeigt jetzt den
+  vollen relativen Pfad statt nur des Tagesordner-Namens.</li>
+<li><code>tools/analyze_ohlc.py</code> (<code>find_files</code>) sucht jetzt zuerst im neuen verschachtelten Pfad,
+  faellt auf den alten flachen Tagesordner und zuletzt auf <code>raw/marktdaten/</code> selbst zurueck
+  (Abwaertskompatibilitaet fuer Daten, die noch nicht migriert sind).</li>
+<li>Bestehende Tagesordner migriert: <code>raw/marktdaten/31.07.2026/</code> → <code>raw/marktdaten/2026/07/31.07.2026/</code>,
+  <code>raw/marktdaten/03.08.2026/</code> → <code>raw/marktdaten/2026/08/03.08.2026/</code>. Beide Reports
+  (<code>analyze_ohlc.py MNQ 2026-07-31</code> / <code>... 2026-08-03</code>) nach der Migration erfolgreich gegen-
+  geprueft — finden die Dateien weiterhin.</li>
+<li>Seiten aktualisiert: wiki/models/OHLC-Datenanalyse (Workflow).md (Dateikonvention-Abschnitt),
+  wiki/synthesis/MNQ 2026-07-31 — Datenbasierter Tagesrückblick.md und
+  wiki/synthesis/MNQ 2026-08-03 — Datenbasierter Tagesrückblick.md (Pfadangaben im Frontmatter
+  und im Fliesstext), raw/marktdaten/.gitkeep (Hinweistext).</li>
+<li><code>algo/PLAN.md</code>: neuer Abschnitt "Schicht 1 — Übergeordnetes Ziel" ganz oben im Dokument —
+  auf Nutzerwunsch ausdruecklich als das Ziel von allem markiert (Wiki, Marktdaten, Tools,
+  Algo-Projekt sind Unterbau dafuer), nicht nur ein Punkt unter vielen. Neuer Abschnitt
+  "Code-Ideen (Backlog)" mit vier ersten Eintraegen: Backtest-Harness auf Basis der
+  bestehenden Detektoren, eine Regel-Schicht (Entry/Stop/Target statt Ja/Nein-Checkliste),
+  ein duenner IBKR-Broker-Adapter (erst nach Regel-Schicht, erst gegen Paper-Trading), sowie
+  ein Backtest-Ergebnis-Artefakt als Datenformat.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
