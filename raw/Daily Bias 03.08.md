@@ -6,4 +6,4 @@ Ich sehe eine Buyside bei 28.763.75 die als eventuelles Target fungiert.
 Die Charsbilder siehst du vom Weekly bias 
 ![RTH Chart](image-3.png)
 Ich werde hauptsächlich abwarten was bis zur NY PM SB stunde passiert und mir dan ein ein erneutes bild machen und aufdem 15m chart achten um Liq auszumachen.
-Freitags Daily High ist ein möglicher DOL 
+Freitags Daily High ist ein möglicher DOL ja doch das Freitags high inkl. das High vom Montag 27.07 halte ich als guten DOL fest aber die Frage ist ob dieses bereits is NY AM genommen wird gerade mit der Volatilität. ICh würde erst einen Drop ins NWOg bevorzugen und dan eine judas swing richtung sellside um dan Bullish weiter zu gehen. 
