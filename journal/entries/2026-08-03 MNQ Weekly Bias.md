@@ -41,9 +41,10 @@ pd_arrays: [New Week Opening Gap (NWOG) Bias, BISI & SIBI (Buyside-Sellside Imba
    - Ruecklauf **in** das NWOG (bis C.E. 28.425,75) = Discount-PD, laut Wiki-Ausnahme sogar der bevorzugte Long-Bereich. Bias bleibt.
    - **Close unter 28.284,00** = NWOG durchbrochen, Bias bullish ist tot. Das ist die Zahl, die im Plan fehlt.
 
-3. **COT-Lesart ist nicht gegen die eigene Methode geprueft.** `wiki/concepts/COT (Commitment of Traders) Data.md` schreibt die 12-Monats-Methode vor: High/Low der letzten 12 Monate, EQ bestimmen, Wert ueber der 0-Linie = bullish, darunter = bearish. Im Screenshot steht die gruene Linie bei **+4.914 und steigt seit Ende Juni**, die rote bei **−14.946 und faellt**. Sind die Commercials die gruene Linie, ist das smart money, das **kauft** — also Rueckenwind fuer den Bullish-Bias, nicht der Gegenwind, als der es notiert wurde. Bis das geklaert ist: `vermutet`, siehe Rueckfrage.
+3. **COT: Lesart richtig ✅, Konsequenz fehlt ⚠️.** *(Nachtrag 2026-08-03 nach seiner Antwort: rot = Commercials, gruen = Large Speculators. Der urspruengliche Verdacht, er habe die Linien vertauscht, ist damit widerlegt — seine Zuordnung war korrekt.)* Commercials stehen bei **−14.946 und fallen**, Large Specs bei **+4.914 und steigen**. Smart Money hat also tatsaechlich verkauft, wie er schreibt. Genau deshalb ist es keine Randnotiz: `wiki/concepts/COT (Commitment of Traders) Data.md` sagt **Wert unter der 0-Linie = bearish**. Der COT ist damit das **einzige Signal im ganzen Wochenbias, das gegen Bullish spricht** — notiert als letzter Satz, ohne dass es den Bias beruehrt. Ein widersprechendes Signal wahrzunehmen und nicht aufzuloesen ist teurer, als es zu uebersehen: es steht dann als nachtraegliche Rechtfertigung bereit, egal wie die Woche laeuft. Zu klaeren: liegt Bullish trotzdem richtig (weil Commercials als Hedger in Staerke hinein verkaufen und das Timing-Signal erst am Extrem entsteht), oder ist die Wochenrichtung nur ein Retracement in einem bearishen HTF-Kontext?
+   - Datenluecke dazu: der Screenshot zeigt **6 Monate**, die Wiki-Methode verlangt **12 Monate** samt High/Low und EQ. Der eigentlich vorgeschriebene Check ist damit gar nicht gemacht.
 
-4. **"Smart Money hat verkauft, was absolut zur Price Action der letzten Woche passt."** Nur halb. Die Vorwoche war zweigeteilt: Abverkauf bis 27.208 am 30.07., danach eine der groessten Tageskerzen des Charts nach oben und ein Wochen-Close bei 28.284. Die zweite Haelfte spricht gegen Verteilung.
+4. **"...was absolut zur Price Action der letzten Woche passt."** Nur zur ersten Haelfte. Die Vorwoche war zweigeteilt: Abverkauf bis 27.208 am 30.07. — dazu passt der Commercial-Verkauf — danach eine der groessten Tageskerzen des Charts nach oben und Wochen-Close bei 28.284. Commercials, die in diese Rally hinein weiter short gehen, sind kein Beleg fuer die Aufwaertsbewegung, sondern das Gegenteil. Der Satz liest sich wie Bestaetigung, ist aber Widerspruch — siehe Punkt 3.
 
 5. **ORG vs. NDOG.** Er schreibt "IM RTH Chart ist das ORG Donnerstag 23 Juli noch komplett offen". Unter den fuenf Screenshots ist kein RTH-Chart (4H/1H/15m stehen auf ETH), und die genannten Level 29.168,75 / 29.107,50 sind auf seinem eigenen Chart als **NDOG 23.07** beschriftet. ORG (16:15-Close → 09:30-RTH-Open) und NDOG (Globex-Open) sind zwei verschiedene Gaps — die Aussage "liegt unterhalb des DOL" stimmt fuer beide, der Begriff aber nur fuer eins.
 
@@ -67,6 +68,7 @@ Jede Zeile ist mit einem Preis beantwortbar — genau das fehlte im Altbestand b
 | 6 | Montag "gute Price Action" (NFP-Woche) | Montag-Range vs. Ø der letzten 4 Montage |
 | 7 | Donnerstag als Reversal-Kandidat (NWOG-Regel) | Richtungswechsel am 06.08.? |
 | 8 | Do/Fr nicht gehandelt (eigene NFP-Regel) | Trades am 06./07.08. im Journal? |
+| 9 | **Bullish-Bias vs. bearisher COT** | Wer hatte recht — Wochen-Close ueber oder unter dem Montag-Open 28.567,50? |
 
 ### MNQ
 
@@ -110,7 +112,7 @@ Jede Zeile ist mit einem Preis beantwortbar — genau das fehlte im Altbestand b
 
 ![[2026-08-03-cot.png]]
 
-*02:01 — COTLC auf NQU26 (barchart, 6M). Gruene Linie +4.914 und seit Ende Juni steigend, rote Linie −14.946 und fallend. Die 12-Monats-Methode aus dem Wiki wurde darauf noch nicht angewandt.*
+*02:01 — COTLC auf NQU26 (barchart, 6M). **Rot = Commercials −14.946 und fallend, Gruen = Large Speculators +4.914 und steigend** (von ihm bestaetigt). Commercials unter der 0-Linie = bearish nach der Wiki-Methode. Nur 6 Monate sichtbar, die Methode verlangt 12.*
 
 **Reaktion**
 
@@ -152,6 +154,7 @@ Jede Zeile ist mit einem Preis beantwortbar — genau das fehlte im Altbestand b
 - Kein RTH-Chart unter den Screenshots, obwohl im Text darauf Bezug genommen wird.
 - DXY / SMT fehlen, obwohl 'DXY zuerst' Schritt 2 der eigenen ICT Day Trade Routine ist.
 - Seasonal Tendency fehlt, obwohl das Wiki COT ausdruecklich mit Seasonals und SMT kombiniert.
+- COT-Screenshot zeigt nur 6 Monate; die Wiki-Methode verlangt 12 Monate mit High/Low und EQ. Der vorgeschriebene Check ist damit nicht gemacht.
 - '0,25 der Premium Wick' im Weekly ohne Preisangabe — nicht nachpruefbar.
 - Kein Plan fuer Dienstag bis Donnerstag; die Woche ist nur ueber Montag und Freitag gedacht.
 - Keine Angabe zur Gefuehlslage beim Erstellen des Bias.
