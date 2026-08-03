@@ -1,0 +1,4 @@
+# Abhaengigkeiten fuer die pandas-Prototypen in algo/ (nicht fuer tools/analyze_ohlc.py,
+# das bewusst Standardbibliothek bleibt).
+pandas>=2.2
+matplotlib>=3.8

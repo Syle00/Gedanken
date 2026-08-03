@@ -1,0 +1,252 @@
+<title>MNQ 2026-08-03 — pandas-Prototyp</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --axis:           #c3c2b7;
+    --series-1:       #2a78d6;
+    --band-fill:      rgba(42, 120, 214, 0.08);
+    --band-line:      rgba(42, 120, 214, 0.35);
+    --marker-sweep:   #e34948;
+    --marker-high:    #1baf7a;
+    --border:         rgba(11,11,11,0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --axis:           #383835;
+      --series-1:       #3987e5;
+      --band-fill:      rgba(57, 135, 229, 0.12);
+      --band-line:      rgba(57, 135, 229, 0.4);
+      --marker-sweep:   #e66767;
+      --marker-high:    #199e70;
+      --border:         rgba(255,255,255,0.10);
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --axis:           #383835;
+    --series-1:       #3987e5;
+    --band-fill:      rgba(57, 135, 229, 0.12);
+    --band-line:      rgba(57, 135, 229, 0.4);
+    --marker-sweep:   #e66767;
+    --marker-high:    #199e70;
+    --border:         rgba(255,255,255,0.10);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .viz-root { max-width: 920px; margin: 0 auto; padding: 28px 24px 20px; color: var(--text-primary); }
+  h1 { font-size: 17px; font-weight: 600; margin: 0 0 2px; }
+  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 4px; }
+  .note { font-size: 12px; color: var(--text-muted); margin: 0 0 18px; }
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px 8px; overflow-x: auto;
+  }
+  svg { display: block; overflow: visible; }
+  .price-line { fill: none; stroke: var(--series-1); stroke-width: 2px; stroke-linejoin: round; }
+  .gridline { stroke: var(--grid); stroke-width: 1px; }
+  .axis-line { stroke: var(--axis); stroke-width: 1px; }
+  .tick-label { fill: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+  .band-fill { fill: var(--band-fill); }
+  .band-line { stroke: var(--band-line); stroke-width: 1px; stroke-dasharray: 3 3; }
+  .band-label { fill: var(--text-secondary); font-size: 11px; }
+  .evt-dot { stroke: var(--surface-1); stroke-width: 2px; }
+  .evt-label { font-size: 11px; fill: var(--text-primary); }
+  .evt-leader { stroke: var(--text-muted); stroke-width: 1px; }
+  .crosshair-line { stroke: var(--text-muted); stroke-width: 1px; stroke-dasharray: 2 3; pointer-events: none; }
+  .crosshair-dot { fill: var(--series-1); pointer-events: none; }
+  .tooltip {
+    position: absolute; pointer-events: none; background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 6px; padding: 6px 9px;
+    font-size: 12px; color: var(--text-primary); box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    white-space: nowrap; opacity: 0; transition: opacity 0.08s;
+  }
+  .tooltip .t { color: var(--text-muted); font-size: 11px; }
+  .chart-wrap { position: relative; }
+  table.data-table { border-collapse: collapse; font-size: 12px; margin-top: 6px; width: 100%; }
+  table.data-table caption { text-align: left; font-size: 12px; color: var(--text-muted); padding-bottom: 6px; }
+  table.data-table th, table.data-table td { text-align: left; padding: 5px 10px; border-bottom: 1px solid var(--grid); }
+  table.data-table th { color: var(--text-muted); font-weight: 500; }
+  table.data-table td.num { font-variant-numeric: tabular-nums; }
+  details { margin-top: 14px; }
+  summary { font-size: 12px; color: var(--text-secondary); cursor: pointer; }
+  .footer { font-size: 12px; color: var(--text-muted); margin-top: 14px; line-height: 1.5; }
+  code { font-size: 11px; background: var(--grid); padding: 1px 5px; border-radius: 4px; }
+</style>
+
+<div class="viz-root">
+  <h1>MNQ — 03.08.2026, 5m-Close (00:00–16:15 NY)</h1>
+  <p class="sub">Datenquelle: <code>raw/marktdaten/2026/08/03.08.2026/MNQ 2026-08-03 5m.csv</code>, geladen und
+    gefiltert mit pandas (<code>algo/viz_prototype.py</code>) — Zahlen decken sich mit dem
+    Stdlib-Report aus <code>tools/analyze_ohlc.py</code> (Macro-Range 175,00 Pkt in beiden).</p>
+  <p class="note">Handelstag in diesen Daten nicht beendet (letzte Kerze 16:15 NY).</p>
+
+  <div class="card">
+    <div class="chart-wrap" id="chartWrap">
+      <svg id="chart" width="860" height="380" viewBox="0 0 860 380"></svg>
+      <div class="tooltip" id="tooltip"></div>
+    </div>
+  </div>
+
+  <details>
+    <summary>Als Tabelle anzeigen (annotierte Ereignisse)</summary>
+    <table class="data-table">
+      <caption>Ausgewählte Ereignisse aus dem Chart oben, exakte Werte statt Pixelposition.</caption>
+      <thead><tr><th>Zeit (NY)</th><th>Ereignis</th><th>Preis</th></tr></thead>
+      <tbody id="eventTable"></tbody>
+    </table>
+  </details>
+
+  <p class="footer">
+    Prototyp fuer <code>algo/PLAN.md</code> Code-Idee 1 (Backtest-Harness): pandas übernimmt
+    Zeitzonen-Konvertierung und Fenster-Slicing in wenigen Zeilen statt der Schleifen in
+    <code>tools/analyze_ohlc.py</code> — <code>tools/analyze_ohlc.py</code> selbst bleibt bewusst
+    Standardbibliothek und wird dadurch nicht ersetzt.
+  </p>
+</div>
+
+<script>
+const DATA = {"series":[{"t":"00:00","c":28661.5},{"t":"00:05","c":28658.5},{"t":"00:10","c":28661.75},{"t":"00:15","c":28670.5},{"t":"00:20","c":28683.25},{"t":"00:25","c":28682.5},{"t":"00:30","c":28674.5},{"t":"00:35","c":28672.5},{"t":"00:40","c":28674.5},{"t":"00:45","c":28681.25},{"t":"00:50","c":28662.0},{"t":"00:55","c":28651.0},{"t":"01:00","c":28650.5},{"t":"01:05","c":28642.0},{"t":"01:10","c":28639.5},{"t":"01:15","c":28625.75},{"t":"01:20","c":28636.0},{"t":"01:25","c":28638.0},{"t":"01:30","c":28632.75},{"t":"01:35","c":28644.0},{"t":"01:40","c":28634.75},{"t":"01:45","c":28639.25},{"t":"01:50","c":28621.5},{"t":"01:55","c":28641.75},{"t":"02:00","c":28650.75},{"t":"02:05","c":28641.0},{"t":"02:10","c":28641.75},{"t":"02:15","c":28642.0},{"t":"02:20","c":28632.0},{"t":"02:25","c":28625.75},{"t":"02:30","c":28638.0},{"t":"02:35","c":28621.25},{"t":"02:40","c":28610.5},{"t":"02:45","c":28598.0},{"t":"02:50","c":28596.0},{"t":"02:55","c":28592.75},{"t":"03:00","c":28597.5},{"t":"03:05","c":28612.75},{"t":"03:10","c":28619.0},{"t":"03:15","c":28583.25},{"t":"03:20","c":28601.5},{"t":"03:25","c":28603.25},{"t":"03:30","c":28605.5},{"t":"03:35","c":28583.0},{"t":"03:40","c":28563.0},{"t":"03:45","c":28576.5},{"t":"03:50","c":28570.75},{"t":"03:55","c":28587.5},{"t":"04:00","c":28535.0},{"t":"04:05","c":28540.5},{"t":"04:10","c":28562.25},{"t":"04:15","c":28513.75},{"t":"04:20","c":28493.5},{"t":"04:25","c":28487.5},{"t":"04:30","c":28483.25},{"t":"04:35","c":28538.5},{"t":"04:40","c":28536.0},{"t":"04:45","c":28545.75},{"t":"04:50","c":28561.5},{"t":"04:55","c":28593.75},{"t":"05:00","c":28570.75},{"t":"05:05","c":28573.0},{"t":"05:10","c":28558.5},{"t":"05:15","c":28574.0},{"t":"05:20","c":28552.0},{"t":"05:25","c":28556.5},{"t":"05:30","c":28556.25},{"t":"05:35","c":28551.25},{"t":"05:40","c":28544.5},{"t":"05:45","c":28545.0},{"t":"05:50","c":28542.5},{"t":"05:55","c":28558.5},{"t":"06:00","c":28549.25},{"t":"06:05","c":28541.25},{"t":"06:10","c":28527.25},{"t":"06:15","c":28525.25},{"t":"06:20","c":28493.5},{"t":"06:25","c":28509.5},{"t":"06:30","c":28523.25},{"t":"06:35","c":28527.25},{"t":"06:40","c":28527.0},{"t":"06:45","c":28520.5},{"t":"06:50","c":28528.5},{"t":"06:55","c":28541.0},{"t":"07:00","c":28500.25},{"t":"07:05","c":28478.0},{"t":"07:10","c":28488.0},{"t":"07:15","c":28504.0},{"t":"07:20","c":28488.25},{"t":"07:25","c":28469.75},{"t":"07:30","c":28506.0},{"t":"07:35","c":28459.75},{"t":"07:40","c":28475.0},{"t":"07:45","c":28457.75},{"t":"07:50","c":28412.75},{"t":"07:55","c":28420.0},{"t":"08:00","c":28395.75},{"t":"08:05","c":28416.5},{"t":"08:10","c":28435.5},{"t":"08:15","c":28440.25},{"t":"08:20","c":28434.25},{"t":"08:25","c":28449.75},{"t":"08:30","c":28454.25},{"t":"08:35","c":28446.75},{"t":"08:40","c":28487.5},{"t":"08:45","c":28458.5},{"t":"08:50","c":28469.75},{"t":"08:55","c":28459.25},{"t":"09:00","c":28466.0},{"t":"09:05","c":28459.5},{"t":"09:10","c":28460.25},{"t":"09:15","c":28487.0},{"t":"09:20","c":28471.25},{"t":"09:25","c":28417.0},{"t":"09:30","c":28381.5},{"t":"09:35","c":28502.5},{"t":"09:40","c":28492.25},{"t":"09:45","c":28475.0},{"t":"09:50","c":28524.0},{"t":"09:55","c":28629.25},{"t":"10:00","c":28554.25},{"t":"10:05","c":28571.75},{"t":"10:10","c":28571.0},{"t":"10:15","c":28613.75},{"t":"10:20","c":28661.5},{"t":"10:25","c":28678.25},{"t":"10:30","c":28685.0},{"t":"10:35","c":28716.5},{"t":"10:40","c":28707.75},{"t":"10:45","c":28738.75},{"t":"10:50","c":28779.5},{"t":"10:55","c":28802.0},{"t":"11:00","c":28791.25},{"t":"11:05","c":28766.0},{"t":"11:10","c":28757.5},{"t":"11:15","c":28780.75},{"t":"11:20","c":28780.0},{"t":"11:25","c":28734.75},{"t":"11:30","c":28764.25},{"t":"11:35","c":28766.25},{"t":"11:40","c":28782.0},{"t":"11:45","c":28785.5},{"t":"11:50","c":28804.25},{"t":"11:55","c":28792.0},{"t":"12:00","c":28806.25},{"t":"12:05","c":28812.75},{"t":"12:10","c":28814.25},{"t":"12:15","c":28845.25},{"t":"12:20","c":28833.5},{"t":"12:25","c":28837.0},{"t":"12:30","c":28835.25},{"t":"12:35","c":28822.25},{"t":"12:40","c":28834.0},{"t":"12:45","c":28832.75},{"t":"12:50","c":28822.75},{"t":"12:55","c":28821.75},{"t":"13:00","c":28827.5},{"t":"13:05","c":28836.75},{"t":"13:10","c":28857.5},{"t":"13:15","c":28870.5},{"t":"13:20","c":28878.75},{"t":"13:25","c":28885.5},{"t":"13:30","c":28891.25},{"t":"13:35","c":28879.0},{"t":"13:40","c":28885.5},{"t":"13:45","c":28892.25},{"t":"13:50","c":28898.75},{"t":"13:55","c":28917.75},{"t":"14:00","c":28945.75},{"t":"14:05","c":28953.75},{"t":"14:10","c":28940.25},{"t":"14:15","c":28928.25},{"t":"14:20","c":28921.25},{"t":"14:25","c":28892.75},{"t":"14:30","c":28893.25},{"t":"14:35","c":28890.0},{"t":"14:40","c":28913.25},{"t":"14:45","c":28921.5},{"t":"14:50","c":28915.0},{"t":"14:55","c":28907.5},{"t":"15:00","c":28933.5},{"t":"15:05","c":28909.25},{"t":"15:10","c":28900.0},{"t":"15:15","c":28923.25},{"t":"15:20","c":28916.5},{"t":"15:25","c":28913.25},{"t":"15:30","c":28911.75},{"t":"15:35","c":28905.25},{"t":"15:40","c":28915.0},{"t":"15:45","c":28915.25},{"t":"15:50","c":28899.75},{"t":"15:55","c":28900.75},{"t":"16:00","c":28884.75},{"t":"16:05","c":28909.0},{"t":"16:10","c":28911.5},{"t":"16:15","c":28927.25}],"events":[{"t":"09:30","label":"Sweep sellside @ 28 382,75 (Level seit 08:05, Tages-Low)","y":28313.0,"kind":"sweep"},{"t":"09:35","label":"Displacement +166,25 Pkt (5,5x Median)","y":28502.5,"kind":"displacement"},{"t":"14:10","label":"Tages-High 28 965,00","y":28965.0,"kind":"high"}],"band":{"start":"09:50","end":"10:10","label":"Macro-Expansion (175,00 Pkt)"}};
+
+(function () {
+  const svg = document.getElementById("chart");
+  const NS = "http://www.w3.org/2000/svg";
+  const W = 860, H = 380;
+  const M = { top: 16, right: 16, bottom: 28, left: 62 };
+  const plotW = W - M.left - M.right;
+  const plotH = H - M.top - M.bottom;
+
+  const series = DATA.series;
+  const n = series.length;
+  const idx = t => series.findIndex(p => p.t === t);
+
+  const lowPad = 60;
+  const yMin = Math.min(...series.map(p => p.c), 28313 - lowPad) - 10;
+  const yMax = Math.max(...series.map(p => p.c), 28965) + 10;
+
+  const x = i => M.left + (i / (n - 1)) * plotW;
+  const y = v => M.top + plotH - ((v - yMin) / (yMax - yMin)) * plotH;
+
+  function el(tag, attrs) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  // Gridlines + y ticks (round hundreds)
+  const yStep = 100;
+  const yStart = Math.ceil(yMin / yStep) * yStep;
+  for (let v = yStart; v <= yMax; v += yStep) {
+    svg.appendChild(el("line", { class: "gridline", x1: M.left, x2: W - M.right, y1: y(v), y2: y(v) }));
+    const lbl = el("text", { class: "tick-label", x: M.left - 8, y: y(v) + 4, "text-anchor": "end" });
+    lbl.textContent = v.toLocaleString("de-DE");
+    svg.appendChild(lbl);
+  }
+
+  // X ticks every 2h
+  for (let h = 0; h <= 16; h += 2) {
+    const t = String(h).padStart(2, "0") + ":00";
+    const i = idx(t);
+    if (i < 0) continue;
+    const lbl = el("text", { class: "tick-label", x: x(i), y: H - 8, "text-anchor": "middle" });
+    lbl.textContent = t;
+    svg.appendChild(lbl);
+  }
+  svg.appendChild(el("line", { class: "axis-line", x1: M.left, x2: W - M.right, y1: H - M.bottom, y2: H - M.bottom }));
+
+  // Macro-expansion band
+  const bandStart = idx(DATA.band.start), bandEnd = idx(DATA.band.end);
+  if (bandStart >= 0 && bandEnd >= 0) {
+    svg.appendChild(el("rect", {
+      class: "band-fill", x: x(bandStart), width: x(bandEnd) - x(bandStart),
+      y: M.top, height: plotH,
+    }));
+    svg.appendChild(el("line", { class: "band-line", x1: x(bandStart), x2: x(bandStart), y1: M.top, y2: H - M.bottom }));
+    svg.appendChild(el("line", { class: "band-line", x1: x(bandEnd), x2: x(bandEnd), y1: M.top, y2: H - M.bottom }));
+    const bl = el("text", { class: "band-label", x: (x(bandStart) + x(bandEnd)) / 2, y: M.top + 12, "text-anchor": "middle" });
+    bl.textContent = DATA.band.label;
+    svg.appendChild(bl);
+  }
+
+  // Price line
+  const d = series.map((p, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(2)},${y(p.c).toFixed(2)}`).join(" ");
+  svg.appendChild(el("path", { class: "price-line", d }));
+
+  // Event markers + leader-labeled callouts (positioned to avoid overlap)
+  const calloutPos = {
+    "sweep": { dx: -6, dy: 34, anchor: "end" },
+    "displacement": { dx: 10, dy: -26, anchor: "start" },
+    "high": { dx: -8, dy: -14, anchor: "end" },
+  };
+  DATA.events.forEach(ev => {
+    const i = idx(ev.t);
+    if (i < 0) return;
+    const px = x(i), py = y(ev.y);
+    const color = ev.kind === "sweep" ? "var(--marker-sweep)" : ev.kind === "high" ? "var(--marker-high)" : "var(--series-1)";
+    svg.appendChild(el("circle", { class: "evt-dot", cx: px, cy: py, r: 4, fill: color }));
+    const pos = calloutPos[ev.kind];
+    const lx = px + pos.dx, ly = py + pos.dy;
+    svg.appendChild(el("line", { class: "evt-leader", x1: px, y1: py, x2: lx, y2: ly }));
+    ev.label.split("\n").forEach((line, li) => {
+      const t = el("text", { class: "evt-label", x: lx + (pos.anchor === "end" ? -4 : 4), y: ly + li * 13, "text-anchor": pos.anchor });
+      t.textContent = line;
+      svg.appendChild(t);
+    });
+  });
+
+  // Crosshair + tooltip
+  const tooltip = document.getElementById("tooltip");
+  const overlay = el("rect", { x: M.left, y: M.top, width: plotW, height: plotH, fill: "transparent" });
+  const chLine = el("line", { class: "crosshair-line", y1: M.top, y2: H - M.bottom, visibility: "hidden" });
+  const chDot = el("circle", { class: "crosshair-dot", r: 3.5, visibility: "hidden" });
+  svg.appendChild(overlay);
+  svg.appendChild(chLine);
+  svg.appendChild(chDot);
+
+  overlay.addEventListener("mousemove", (e) => {
+    const rect = svg.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (W / rect.width);
+    let i = Math.round(((mx - M.left) / plotW) * (n - 1));
+    i = Math.max(0, Math.min(n - 1, i));
+    const p = series[i];
+    chLine.setAttribute("x1", x(i)); chLine.setAttribute("x2", x(i)); chLine.setAttribute("visibility", "visible");
+    chDot.setAttribute("cx", x(i)); chDot.setAttribute("cy", y(p.c)); chDot.setAttribute("visibility", "visible");
+    tooltip.style.opacity = "1";
+    tooltip.style.left = (rect.left - svg.parentElement.getBoundingClientRect().left + (x(i) / W) * rect.width + 12) + "px";
+    tooltip.style.top = ((y(p.c) / H) * rect.height - 34) + "px";
+    tooltip.innerHTML = `<span class="t">${p.t} NY</span><br>${p.c.toLocaleString("de-DE")}`;
+  });
+  overlay.addEventListener("mouseleave", () => {
+    chLine.setAttribute("visibility", "hidden");
+    chDot.setAttribute("visibility", "hidden");
+    tooltip.style.opacity = "0";
+  });
+
+  // Event table
+  const tbody = document.getElementById("eventTable");
+  DATA.events.forEach(ev => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${ev.t}</td><td>${ev.label.replace("\n", " ")}</td><td class="num">${ev.y.toLocaleString("de-DE")}</td>`;
+    tbody.appendChild(tr);
+  });
+})();
+</script>

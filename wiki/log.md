@@ -307,3 +307,41 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   bestehenden Detektoren, eine Regel-Schicht (Entry/Stop/Target statt Ja/Nein-Checkliste),
   ein duenner IBKR-Broker-Adapter (erst nach Regel-Schicht, erst gegen Paper-Trading), sowie
   ein Backtest-Ergebnis-Artefakt als Datenformat.
+
+## [2026-08-03] synthesis | Muster-Validierung (laufend) — erste Version, ICT-Behauptungen gegen echte Daten
+- Nutzerfrage: "wird das C.E eines ORG zu 70% gefuellt? stimmt das?" — dazu ausdruecklich: alle
+  Daten (CISD, ORG, "alle PD Arrays", "das gesamte Wiki") sollen jetzt schon und laufend gegen
+  echte und kuenftige Daten geprueft werden, nicht erst ab einer willkuerlichen Tagesanzahl.
+- Recherche zur 70%-Zahl: im gesamten ingesteten Wiki-Material nicht auffindbar (gezielt
+  gesucht — einzige Treffer waren die unabhaengige "70%-Wednesday-Regel" aus
+  [[One Shot One Kill Model]], thematisch unverwandt). Vermutlich allgemeines ICT-Wissen des
+  Nutzers von ausserhalb des hier vorliegenden Materials, keine dokumentierte Vault-Aussage.
+- `algo/backtest_ohlc.py` gebaut: erste Version des in `algo/PLAN.md` geplanten
+  Backtest-Harness. Laeuft ueber alle Tagesordner in `raw/marktdaten/`, importiert
+  bestehende Detektoren aus `tools/analyze_ohlc.py` (`fvgs`, `sweeps`, `structure_breaks`,
+  `macro_windows`, neu: `viis`) statt sie neu zu schreiben, schreibt die Aggregation nach
+  `wiki/synthesis/Muster-Validierung (laufend).md`.
+- **Bug im ersten Entwurf gefunden und noch am selben Tag gefixt**: `tools/analyze_ohlc.py`
+  skaliert `min_age`/`confirm` mit dem Timeframe nur innerhalb seiner CLI (`main()`); der
+  direkte Import in `backtest_ohlc.py` uebernahm das nicht und lief mit den unskalierten
+  Rohwerten (`min_age=15` statt `3` bei 5m) — dadurch waren Structure-Break-Zahlen vor dem
+  Fix ca. 5x zu niedrig (4 statt 37 ueber beide Tage). Nach dem Fix regressionsgeprueft: die
+  08-03-Tageszahlen (18 Structure Breaks) decken sich exakt mit dem zuvor manuell erstellten
+  Tagesreport.
+- Neuer Detektor `viis()` in `tools/analyze_ohlc.py`: Volume Imbalance (2-Kerzen-Luecke
+  Close->Open, siehe [[Volume Imbalance (VII)]]) — erster Schritt, um "alle PD Arrays"
+  abzudecken statt nur FVG/Sweeps/Struktur/Macro.
+- Ergebnis bei n=2 Tagen (**ausdruecklich als nicht belastbar markiert**, nur Statuswert):
+  C.E erreicht bei grossen FVGs 78%, komplett gefuellt 67%, VII zu 97% gefuellt, 38% der
+  Structure Breaks waren CHoCH, nur 14% der Macro-Fenster zeigten Expansion. Die 78%
+  liegen in der Naehe der kursierenden 70%, aber bei 2 Tagen ist das noch reiner Zufall
+  moeglich — die Seite warnt davor, das schon als bestaetigt zu lesen.
+- Seiten erstellt: wiki/synthesis/Muster-Validierung (laufend).md (generiert, wird bei jedem
+  neuen Handelstag neu geschrieben, nicht von Hand gepflegt).
+- Seiten aktualisiert: wiki/index.md (neuer Synthesis-Eintrag), wiki/models/OHLC-Datenanalyse
+  (Workflow).md (neuer Abschnitt: Muster-Validierung laeuft ab jetzt bei jedem neuen
+  Handelstag automatisch mit), algo/PLAN.md (Code-Idee 1 als erledigt markiert, Abdeckungs-
+  Backlog fuer die noch fehlenden PD Arrays — Order-Block-Varianten, IFVG, BPR, CBDR,
+  NWOG/NDOG, OTE, Breakaway Gap, Suspension Block, Judas-Zeitfenster, SMT).
+- Offen: die meisten PD Arrays haben noch keinen Detektor (siehe Abdeckungs-Tabelle in der
+  generierten Seite). Wird schrittweise ausgebaut, nicht in einem Schritt geraten.

@@ -24,7 +24,7 @@
 <li><a href="../index.html#concepts">Konzepte<span class="count">55</span></a></li>
 <li class="active"><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">136</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">4</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">5</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Modelle</div><ul class="pagelist">
@@ -70,6 +70,7 @@
 <li><a href="#was-gerechnet-wird">Was gerechnet wird</a></li>
 <li><a href="#zwei-detektor-entscheidungen-die-das-ergebnis-pragen">Zwei Detektor-Entscheidungen, die das Ergebnis prägen</a></li>
 <li><a href="#grenze-der-checklisten-prufung">Grenze der Checklisten-Prüfung</a></li>
+<li><a href="#muster-validierung-uber-alle-tage">Muster-Validierung über alle Tage</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
@@ -192,14 +193,24 @@ Entscheidung — das Skript setzt den Haken nicht.</p>
 <p>Punkt 8 („Target Liquidität min. 2 H/L 1m") wird ausdrücklich <strong>nur mit dem Wissensstand zum
 Setup-Zeitpunkt</strong> gerechnet. Levels, die im Nachhinein unangetastet blieben, sind kein Ziel, das
 zum Entry sichtbar war.</p>
+<h2 id="muster-validierung-uber-alle-tage">Muster-Validierung über alle Tage</h2>
+<p>Auf Nutzerwunsch (2026-08-03): <strong>bei jedem neuen Handelstag</strong> zusätzlich zum
+Einzeltages-Report <code>python algo/backtest_ohlc.py &lt;SYMBOL&gt; -o "wiki/synthesis/Muster-Validierung (laufend).md"</code>
+laufen lassen — aggregiert dieselben Detektoren über alle bisherigen Tage (FVG/VII-Füllraten,
+Sweep-/Struktur-/Macro-Statistik) und prüft damit ICT-Behauptungen aus dem Wiki (z.B. die
+oft zitierte "C.E wird zu ~70% erreicht"-Regel) gegen die tatsächlichen Daten statt sie zu
+übernehmen. Ziel: alle PD Arrays und, wo sinnvoll automatisierbar, das gesamte Wiki gegen die
+wachsende Datenbasis testen — Ausbau-Stand siehe <code>algo/PLAN.md</code>. Solange die Stichprobe klein
+ist (siehe Warnhinweis auf der Seite), sind die Zahlen ein Statusbericht, keine bestätigte Regel.</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/trading-journal-dol-checklist.html">Trading Journal &amp; DOL Checklist</a> — die Checkliste, gegen die geprüft wird</li>
 <li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a> — Herkunft der Session-Fenster</li>
 <li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a> — das Stundenraster der Macros</li>
 <li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a> — erste Anwendung</li>
+<li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a> — laufende Aggregation über alle Tage, siehe oben</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">3</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a><span class="cat">Synthese</span></li><li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a><span class="cat">Synthese</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a><span class="cat">Synthese</span></li><li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a><span class="cat">Synthese</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/models/OHLC-Datenanalyse (Workflow).md</code></footer>
 </article>
 </main>

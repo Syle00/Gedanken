@@ -24,7 +24,7 @@
 <li><a href="../index.html#concepts">Konzepte<span class="count">55</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">136</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">4</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">5</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
@@ -75,6 +75,7 @@
 <li><a href="#2026-08-03-setup-multi-rechner-workflow-update-befehl-auto-push-hook">[2026-08-03] setup | Multi-Rechner-Workflow: /update-Befehl + Auto-Push-Hook</a></li>
 <li><a href="#2026-08-03-ingest-mnq-2026-08-03-marktdaten-update-start-algo-trading-projekt">[2026-08-03] ingest | MNQ 2026-08-03 (Marktdaten-Update, Start Algo-Trading-Projekt)</a></li>
 <li><a href="#2026-08-03-setup-jahrmonat-verschachtelung-fuer-rawmarktdaten-uebergeordnetes-ziel-im-algo-projekt">[2026-08-03] setup | Jahr/Monat-Verschachtelung fuer raw/marktdaten/ + Uebergeordnetes Ziel im Algo-Projekt</a></li>
+<li><a href="#2026-08-03-synthesis-muster-validierung-laufend-erste-version-ict-behauptungen-gegen-echte-daten">[2026-08-03] synthesis | Muster-Validierung (laufend) — erste Version, ICT-Behauptungen gegen echte Daten</a></li>
 </ul>
 </div>
 </details>
@@ -416,6 +417,45 @@
   bestehenden Detektoren, eine Regel-Schicht (Entry/Stop/Target statt Ja/Nein-Checkliste),
   ein duenner IBKR-Broker-Adapter (erst nach Regel-Schicht, erst gegen Paper-Trading), sowie
   ein Backtest-Ergebnis-Artefakt als Datenformat.</li>
+</ul>
+<h2 id="2026-08-03-synthesis-muster-validierung-laufend-erste-version-ict-behauptungen-gegen-echte-daten">[2026-08-03] synthesis | Muster-Validierung (laufend) — erste Version, ICT-Behauptungen gegen echte Daten</h2>
+<ul>
+<li>Nutzerfrage: "wird das C.E eines ORG zu 70% gefuellt? stimmt das?" — dazu ausdruecklich: alle
+  Daten (CISD, ORG, "alle PD Arrays", "das gesamte Wiki") sollen jetzt schon und laufend gegen
+  echte und kuenftige Daten geprueft werden, nicht erst ab einer willkuerlichen Tagesanzahl.</li>
+<li>Recherche zur 70%-Zahl: im gesamten ingesteten Wiki-Material nicht auffindbar (gezielt
+  gesucht — einzige Treffer waren die unabhaengige "70%-Wednesday-Regel" aus
+  <a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a>, thematisch unverwandt). Vermutlich allgemeines ICT-Wissen des
+  Nutzers von ausserhalb des hier vorliegenden Materials, keine dokumentierte Vault-Aussage.</li>
+<li><code>algo/backtest_ohlc.py</code> gebaut: erste Version des in <code>algo/PLAN.md</code> geplanten
+  Backtest-Harness. Laeuft ueber alle Tagesordner in <code>raw/marktdaten/</code>, importiert
+  bestehende Detektoren aus <code>tools/analyze_ohlc.py</code> (<code>fvgs</code>, <code>sweeps</code>, <code>structure_breaks</code>,
+  <code>macro_windows</code>, neu: <code>viis</code>) statt sie neu zu schreiben, schreibt die Aggregation nach
+  <code>wiki/synthesis/Muster-Validierung (laufend).md</code>.</li>
+<li><strong>Bug im ersten Entwurf gefunden und noch am selben Tag gefixt</strong>: <code>tools/analyze_ohlc.py</code>
+  skaliert <code>min_age</code>/<code>confirm</code> mit dem Timeframe nur innerhalb seiner CLI (<code>main()</code>); der
+  direkte Import in <code>backtest_ohlc.py</code> uebernahm das nicht und lief mit den unskalierten
+  Rohwerten (<code>min_age=15</code> statt <code>3</code> bei 5m) — dadurch waren Structure-Break-Zahlen vor dem
+  Fix ca. 5x zu niedrig (4 statt 37 ueber beide Tage). Nach dem Fix regressionsgeprueft: die
+  08-03-Tageszahlen (18 Structure Breaks) decken sich exakt mit dem zuvor manuell erstellten
+  Tagesreport.</li>
+<li>Neuer Detektor <code>viis()</code> in <code>tools/analyze_ohlc.py</code>: Volume Imbalance (2-Kerzen-Luecke
+  Close-&gt;Open, siehe <a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a>) — erster Schritt, um "alle PD Arrays"
+  abzudecken statt nur FVG/Sweeps/Struktur/Macro.</li>
+<li>Ergebnis bei n=2 Tagen (<strong>ausdruecklich als nicht belastbar markiert</strong>, nur Statuswert):
+  C.E erreicht bei grossen FVGs 78%, komplett gefuellt 67%, VII zu 97% gefuellt, 38% der
+  Structure Breaks waren CHoCH, nur 14% der Macro-Fenster zeigten Expansion. Die 78%
+  liegen in der Naehe der kursierenden 70%, aber bei 2 Tagen ist das noch reiner Zufall
+  moeglich — die Seite warnt davor, das schon als bestaetigt zu lesen.</li>
+<li>Seiten erstellt: wiki/synthesis/Muster-Validierung (laufend).md (generiert, wird bei jedem
+  neuen Handelstag neu geschrieben, nicht von Hand gepflegt).</li>
+<li>Seiten aktualisiert: wiki/index.md (neuer Synthesis-Eintrag), wiki/models/OHLC-Datenanalyse
+  (Workflow).md (neuer Abschnitt: Muster-Validierung laeuft ab jetzt bei jedem neuen
+  Handelstag automatisch mit), algo/PLAN.md (Code-Idee 1 als erledigt markiert, Abdeckungs-
+  Backlog fuer die noch fehlenden PD Arrays — Order-Block-Varianten, IFVG, BPR, CBDR,
+  NWOG/NDOG, OTE, Breakaway Gap, Suspension Block, Judas-Zeitfenster, SMT).</li>
+<li>Offen: die meisten PD Arrays haben noch keinen Detektor (siehe Abdeckungs-Tabelle in der
+  generierten Seite). Wird schrittweise ausgebaut, nicht in einem Schritt geraten.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

@@ -309,6 +309,32 @@ def fvgs(bars: list[Bar], min_size: float = 0.0):
     return out
 
 
+def viis(bars: list[Bar], min_size: float = 0.0):
+    """Volume Imbalance (VII): Luecke zwischen Close[i] und Open[i+1] -- die Koerper
+    beruehren sich nicht, obwohl die Wicks meist ueberlappen. Zwei Kerzen statt der drei
+    beim FVG. Siehe wiki/concepts/Volume Imbalance (VII).md."""
+    out = []
+    for i in range(len(bars) - 1):
+        a, b = bars[i], bars[i + 1]
+        if b.o > a.c and b.o - a.c > min_size:
+            lo, hi, side = a.c, b.o, "bullish"
+        elif b.o < a.c and a.c - b.o > min_size:
+            lo, hi, side = b.o, a.c, "bearish"
+        else:
+            continue
+        rest = bars[i + 2:]
+        filled = False
+        fill_t = None
+        for w in rest:
+            if (side == "bullish" and w.l <= lo) or (side == "bearish" and w.h >= hi):
+                filled = True
+                fill_t = w.t
+                break
+        out.append({"t": b.t, "side": side, "lo": lo, "hi": hi, "size": hi - lo,
+                    "filled": filled, "fill_t": fill_t})
+    return out
+
+
 def untouched_levels(bars: list[Bar], n: int = 2):
     """Swing H/L, die bis zum Ende der Daten nie wieder genommen wurden.
 

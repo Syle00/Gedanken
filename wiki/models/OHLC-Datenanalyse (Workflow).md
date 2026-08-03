@@ -121,9 +121,21 @@ Punkt 8 („Target Liquidität min. 2 H/L 1m") wird ausdrücklich **nur mit dem 
 Setup-Zeitpunkt** gerechnet. Levels, die im Nachhinein unangetastet blieben, sind kein Ziel, das
 zum Entry sichtbar war.
 
+## Muster-Validierung über alle Tage
+
+Auf Nutzerwunsch (2026-08-03): **bei jedem neuen Handelstag** zusätzlich zum
+Einzeltages-Report `python algo/backtest_ohlc.py <SYMBOL> -o "wiki/synthesis/Muster-Validierung (laufend).md"`
+laufen lassen — aggregiert dieselben Detektoren über alle bisherigen Tage (FVG/VII-Füllraten,
+Sweep-/Struktur-/Macro-Statistik) und prüft damit ICT-Behauptungen aus dem Wiki (z.B. die
+oft zitierte "C.E wird zu ~70% erreicht"-Regel) gegen die tatsächlichen Daten statt sie zu
+übernehmen. Ziel: alle PD Arrays und, wo sinnvoll automatisierbar, das gesamte Wiki gegen die
+wachsende Datenbasis testen — Ausbau-Stand siehe `algo/PLAN.md`. Solange die Stichprobe klein
+ist (siehe Warnhinweis auf der Seite), sind die Zahlen ein Statusbericht, keine bestätigte Regel.
+
 ## Verwandt
 
 - [[Trading Journal & DOL Checklist]] — die Checkliste, gegen die geprüft wird
 - [[ICT Daily Range Session Timing]] — Herkunft der Session-Fenster
 - [[ICT Macros & Leading Candles]] — das Stundenraster der Macros
 - [[MNQ 2026-07-31 — Datenbasierter Tagesrückblick]] — erste Anwendung
+- [[Muster-Validierung (laufend)]] — laufende Aggregation über alle Tage, siehe oben
