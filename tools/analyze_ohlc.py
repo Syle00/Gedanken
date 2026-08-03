@@ -415,7 +415,10 @@ def day_report(symbol, day, data: dict[str, list[Bar]], tf: str) -> list[str]:
 
     # -- HTF-Kontext
     if "1d" in data:
-        dailies = [b for b in data["1d"] if b.t.date() < day]
+        # Tageskerzen oeffnen um 18:00 NY (CME-Session-Start) -- eine Kerze mit
+        # Open-Zeitstempel "Vortag 18:00" gehoert zum Handelstag danach, nicht davor.
+        dailies = [b for b in data["1d"]
+                   if (b.t.date() if b.t.hour < 18 else (b.t + timedelta(days=1)).date()) < day]
         if len(dailies) >= 5:
             last5 = dailies[-5:]
             rngs = [b.rng for b in last5]
