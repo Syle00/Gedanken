@@ -19,7 +19,7 @@ Python 3 (tested with 3.14) plus the two pure-Python deps in
 python -m pip install -r tools/requirements.txt   # markdown>=3.5, pyyaml>=6.0
 ```
 
-If you'll also run `tools/sort_marktdaten.py` (invoked by `publish.ps1`, step 0),
+If you'll also run `tools/sort_marktdaten.py` (invoked by `push.ps1`, step 0),
 it needs the IANA tz database, which stock Windows Python does not ship:
 
 ```bash
@@ -76,7 +76,7 @@ use, only for the agent-driven flow above (see Gotchas for why).
 ## Full publish (build + commit + push)
 
 ```powershell
-.\publish.ps1 -Message "..."
+.\push.ps1 -Message "..."
 ```
 
 Runs, in order: `tools/sort_marktdaten.py` (tidies loose CSVs in
@@ -99,7 +99,7 @@ python tools/journal_wiki.py --dry-run      # preview the generated journal/chec
 - **`UnicodeEncodeError: 'charmap' codec can't encode character '\u2192'`**
   running `build_site.py` directly on Windows — its status prints use `→`,
   and the default console codepage (cp1252) can't encode it. Always set
-  `PYTHONIOENCODING=utf-8` (already done for you inside `publish.ps1`).
+  `PYTHONIOENCODING=utf-8` (already done for you inside `push.ps1`).
 - **`claude-in-chrome` refuses `file://` URLs** — `navigate` to a
   `file:///C:/...` path errors with "Can't interact with browser-internal or
   unparseable URLs." There is no flag to allow it; serve over `http://`

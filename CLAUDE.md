@@ -109,7 +109,7 @@ Das gesamte Vault liegt in einem privaten Git-Repo (`raw/` inkl. aller PNGs, `wi
 Nicht versioniert werden abgeleitete Artefakte (`graphify-out/`), der Notion-Export-ZIP und
 maschinenlokale Configs — siehe `.gitignore`.
 
-`.\publish.ps1 [-Message "..."] [-NoPush]` ist der einzige Weg, Änderungen zu veröffentlichen:
+`.\push.ps1 [-Message "..."] [-NoPush]` ist der einzige Weg, Änderungen zu veröffentlichen:
 Build → `git add -A` → Commit → Push. Schlägt der Build fehl, entsteht kein Commit. Gibt es
 nichts zu committen, endet das Skript ohne Leer-Commit.
 
@@ -124,7 +124,7 @@ nichts zu committen, endet das Skript ohne Leer-Commit.
 4. Relevante `wiki/concepts/` und `wiki/models/` Seiten anlegen oder aktualisieren, Querverweise setzen.
 5. `wiki/index.md` aktualisieren (neue Seiten eintragen).
 6. Eintrag an `wiki/log.md` anhängen.
-7. **`.\publish.ps1 -Message "ingest | <Quellname>"` selbst ausführen** — baut die HTML-Website neu,
+7. **`.\push.ps1 -Message "ingest | <Quellname>"` selbst ausführen** — baut die HTML-Website neu,
    erstellt einen lokalen Checkpoint-Commit und pusht ins private GitHub-Repo. Ohne diesen
    Schritt ist der Ingest nicht abgeschlossen. Das gehört zum Ingest dazu und wird **nicht
    erst erfragt**; bei einem Batch genügt ein Aufruf am Schluss. („Manuell" heißt: kein
@@ -133,7 +133,7 @@ nichts zu committen, endet das Skript ohne Leer-Commit.
 **Ohne Rückfragen, im Batch.** Eine Aufforderung wie „injeziere den neuen Kontent" oder „importiere"
 ist die vollständige Freigabe für alles, was an neuem Material vorliegt — nicht nur für eine Quelle.
 Nicht nachfragen, welche Quelle zuerst drankommt oder was betont werden soll; einfach durcharbeiten
-und am Ende berichten. Bei einem Batch genügt ein einziger `publish.ps1`-Aufruf am Ende.
+und am Ende berichten. Bei einem Batch genügt ein einziger `push.ps1`-Aufruf am Ende.
 
 Entscheidungen, die sonst eine Rückfrage wären, werden nach den Konventionen dieses Vaults selbst
 getroffen und **im Bericht sowie in `wiki/log.md` offengelegt** — insbesondere:

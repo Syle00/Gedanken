@@ -1,32 +1,31 @@
 <#
 .SYNOPSIS
-    Registriert eine taegliche Windows-Aufgabe, die lose CSVs in raw/marktdaten/
-    in ihren Tagesordner einraeumt.
+    Registriert eine taegliche Windows-Aufgabe, die lose Bilddateien in raw/
+    nach raw/bilder/ einraeumt.
 
 .DESCRIPTION
-    Optional. Ohne diese Aufgabe raeumt bereits jeder Lauf von push.ps1 und
-    analyze_ohlc.py auf -- die Aufgabe ist nur fuer den Fall gedacht, dass die
-    Dateien wirklich zeitgesteuert am Tagesende wandern sollen, auch wenn an dem
-    Tag nichts anderes am Vault passiert.
+    Optional. Ohne diese Aufgabe raeumt bereits jeder Lauf von push.ps1 auf --
+    die Aufgabe ist nur fuer den Fall gedacht, dass die Bilder wirklich
+    zeitgesteuert am Tagesende wandern sollen, auch wenn an dem Tag nichts
+    anderes am Vault passiert.
 
     Laeuft unter dem angemeldeten Benutzer, ohne Fenster. Verpasste Laeufe (PC aus)
     werden beim naechsten Hochfahren nachgeholt.
 
 .PARAMETER Time
-    Startzeit in lokaler Zeit, Format HH:mm. Default 23:15 -- die CME-Session
-    endet um 17:00 New York, das sind 23:00 in Berlin.
+    Startzeit in lokaler Zeit, Format HH:mm. Default 23:15.
 
 .PARAMETER Unregister
     Aufgabe wieder entfernen.
 
 .EXAMPLE
-    .\tools\register_marktdaten_task.ps1
+    .\tools\register_bilder_task.ps1
 
 .EXAMPLE
-    .\tools\register_marktdaten_task.ps1 -Time 23:45
+    .\tools\register_bilder_task.ps1 -Time 23:45
 
 .EXAMPLE
-    .\tools\register_marktdaten_task.ps1 -Unregister
+    .\tools\register_bilder_task.ps1 -Unregister
 #>
 [CmdletBinding()]
 param(
@@ -35,9 +34,9 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$taskName = 'Gedanken - Marktdaten einraeumen'
+$taskName = 'Gedanken - Bilder einraeumen'
 $repo = Split-Path -Parent $PSScriptRoot
-$script = Join-Path $repo 'tools\sort_marktdaten.py'
+$script = Join-Path $repo 'tools\sort_bilder.py'
 
 if ($Unregister) {
     try {
@@ -64,8 +63,8 @@ $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable `
     -ExecutionTimeLimit (New-TimeSpan -Minutes 10)
 
 Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger `
-    -Settings $settings -Description 'Raeumt lose CSV-Exporte in raw/marktdaten/ in Tagesordner (dd.mm.jjjj) ein.' `
+    -Settings $settings -Description 'Raeumt lose Bilddateien in raw/ nach raw/bilder/ ein.' `
     -Force | Out-Null
 
 Write-Host "Aufgabe '$taskName' registriert - taeglich $Time." -ForegroundColor Green
-Write-Host "  Entfernen mit: .\tools\register_marktdaten_task.ps1 -Unregister"
+Write-Host "  Entfernen mit: .\tools\register_bilder_task.ps1 -Unregister"

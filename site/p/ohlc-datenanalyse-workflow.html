@@ -134,7 +134,7 @@ belegbar, aus der CSV schon. Siehe <a href="../p/trading-journal-dol-checklist.h
 Umbenennen ist unnötig. <code>tools/sort_marktdaten.py</code> räumt sie in den Tagesordner ein und läuft
 automatisch mit:</p>
 <ul>
-<li>jedem <code>publish.ps1</code> (vor dem Build, damit nichts Loses committet wird)</li>
+<li>jedem <code>push.ps1</code> (vor dem Build, damit nichts Loses committet wird)</li>
 <li>jedem <code>analyze_ohlc.py</code> (damit die Analyse die Datei überhaupt findet)</li>
 <li>optional zeitgesteuert: <code>.\tools\register_marktdaten_task.ps1</code> legt eine tägliche
   Windows-Aufgabe um 23:15 an (CME-Close 17:00 NY = 23:00 Berlin). Verpasste Läufe werden

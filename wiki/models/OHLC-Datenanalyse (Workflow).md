@@ -49,7 +49,7 @@ Exporte werden **flach nach `raw/marktdaten/` gelegt** — mit dem Namen, den Tr
 Umbenennen ist unnötig. `tools/sort_marktdaten.py` räumt sie in den Tagesordner ein und läuft
 automatisch mit:
 
-- jedem `publish.ps1` (vor dem Build, damit nichts Loses committet wird)
+- jedem `push.ps1` (vor dem Build, damit nichts Loses committet wird)
 - jedem `analyze_ohlc.py` (damit die Analyse die Datei überhaupt findet)
 - optional zeitgesteuert: `.\tools\register_marktdaten_task.ps1` legt eine tägliche
   Windows-Aufgabe um 23:15 an (CME-Close 17:00 NY = 23:00 Berlin). Verpasste Läufe werden

@@ -13,10 +13,10 @@
     Nur lokal committen, nicht pushen.
 
 .EXAMPLE
-    .\publish.ps1 -Message "ingest | Essentials To ICT Daytrading"
+    .\push.ps1 -Message "ingest | Essentials To ICT Daytrading"
 
 .EXAMPLE
-    .\publish.ps1
+    .\push.ps1
 #>
 [CmdletBinding()]
 param(
@@ -40,6 +40,10 @@ $env:PYTHONIOENCODING = 'utf-8'
 # committet wird. Bewusst nicht abbruchrelevant: eine Datei, deren Timeframe
 # nicht erkannt wird, darf keinen Publish blockieren -- sie bleibt einfach liegen.
 python (Join-Path $repo 'tools\sort_marktdaten.py') --quiet
+
+# --- 0b. Bilder einraeumen --------------------------------------------------
+# Lose Bilddateien direkt unter raw/ wandern nach raw/bilder/.
+python (Join-Path $repo 'tools\sort_bilder.py') --quiet
 
 # --- 1. Website bauen ------------------------------------------------------
 Write-Host "[1/4] Website bauen ..." -ForegroundColor Cyan
