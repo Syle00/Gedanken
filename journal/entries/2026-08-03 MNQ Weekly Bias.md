@@ -41,16 +41,37 @@ pd_arrays: [New Week Opening Gap (NWOG) Bias, BISI & SIBI (Buyside-Sellside Imba
    - Ruecklauf **in** das NWOG (bis C.E. 28.425,75) = Discount-PD, laut Wiki-Ausnahme sogar der bevorzugte Long-Bereich. Bias bleibt.
    - **Close unter 28.284,00** = NWOG durchbrochen, Bias bullish ist tot. Das ist die Zahl, die im Plan fehlt.
 
-3. **COT: Lesart richtig ✅, Konsequenz fehlt ⚠️.** *(Nachtrag 2026-08-03 nach seiner Antwort: rot = Commercials, gruen = Large Speculators. Der urspruengliche Verdacht, er habe die Linien vertauscht, ist damit widerlegt — seine Zuordnung war korrekt.)* Commercials stehen bei **−14.946 und fallen**, Large Specs bei **+4.914 und steigen**. Smart Money hat also tatsaechlich verkauft, wie er schreibt. Genau deshalb ist es keine Randnotiz: `wiki/concepts/COT (Commitment of Traders) Data.md` sagt **Wert unter der 0-Linie = bearish**. Der COT ist damit das **einzige Signal im ganzen Wochenbias, das gegen Bullish spricht** — notiert als letzter Satz, ohne dass es den Bias beruehrt. Ein widersprechendes Signal wahrzunehmen und nicht aufzuloesen ist teurer, als es zu uebersehen: es steht dann als nachtraegliche Rechtfertigung bereit, egal wie die Woche laeuft. Zu klaeren: liegt Bullish trotzdem richtig (weil Commercials als Hedger in Staerke hinein verkaufen und das Timing-Signal erst am Extrem entsteht), oder ist die Wochenrichtung nur ein Retracement in einem bearishen HTF-Kontext?
-   - Datenluecke dazu: der Screenshot zeigt **6 Monate**, die Wiki-Methode verlangt **12 Monate** samt High/Low und EQ. Der eigentlich vorgeschriebene Check ist damit gar nicht gemacht.
+3. **COT ✅ — geklaert, und er lag richtig.** *(Zweifach nachgetragen am 2026-08-03. Erst sein Hinweis: rot = Commercials, gruen = Large Speculators — mein Verdacht, er habe die Linien vertauscht, war falsch. Dann sein 12-Monats-Chart `raw/COT 12 monate.PNG`, der auch meine zweite Aussage widerlegt.)*
+
+   Commercials stehen bei **−14,95 K und fallen**, Large Specs bei **+4,91 K und steigen** — Smart Money hat also verkauft, genau wie er schreibt. Ich hatte daraus **bearish** abgeleitet, weil der Wert unter null liegt. Das war falsch: massgeblich ist das **EQ der 12-Monats-Range**, nicht die Null. Sein Indikator zieht diese Linie bei rund **−27 K** (12M-High ≈ +15 K, 12M-Low ≈ −68 K). **−14,95 K liegt darueber, im gruenen Bereich** — der Indikator gibt fuer 12 Monate ausdruecklich **BUY** aus. Der COT stuetzt seinen Bullish-Bias also, statt ihm zu widersprechen. `wiki/concepts/COT (Commitment of Traders) Data.md` ist entsprechend praezisiert worden; die Seite war an dieser Stelle selbst unscharf (Punkt 1 nennt das EQ, Punkt 2 die 0-Linie).
+
+   **Was bleibt:** die Horizonte widersprechen sich. Sein Indikator gibt gleichzeitig aus —
+   **3M SELL · 6M SELL · 12M BUY · 2Y BUY · 4Y SELL**. Sein "etwas abgeschwaecht, Smart Money hat verkauft" beschreibt korrekt die **kurzen** Horizonte, der Bullish-Bias steht auf dem **12-Monats**-Horizont. Beides stimmt. Fuer einen **Wochen**-Bias liegen 3M/6M naeher am Zeithorizont des Trades als 12M — das ist die eigentliche offene Frage, nicht "bullish oder bearish".
 
 4. **"...was absolut zur Price Action der letzten Woche passt."** Nur zur ersten Haelfte. Die Vorwoche war zweigeteilt: Abverkauf bis 27.208 am 30.07. — dazu passt der Commercial-Verkauf — danach eine der groessten Tageskerzen des Charts nach oben und Wochen-Close bei 28.284. Commercials, die in diese Rally hinein weiter short gehen, sind kein Beleg fuer die Aufwaertsbewegung, sondern das Gegenteil. Der Satz liest sich wie Bestaetigung, ist aber Widerspruch — siehe Punkt 3.
 
-5. **ORG vs. NDOG.** Er schreibt "IM RTH Chart ist das ORG Donnerstag 23 Juli noch komplett offen". Unter den fuenf Screenshots ist kein RTH-Chart (4H/1H/15m stehen auf ETH), und die genannten Level 29.168,75 / 29.107,50 sind auf seinem eigenen Chart als **NDOG 23.07** beschriftet. ORG (16:15-Close → 09:30-RTH-Open) und NDOG (Globex-Open) sind zwei verschiedene Gaps — die Aussage "liegt unterhalb des DOL" stimmt fuer beide, der Begriff aber nur fuer eins.
+5. **ORG 23.07 — nachgerechnet.** *(Nachtrag 2026-08-03: er hat die RTH-Daten geliefert, `raw/marktdaten/31.07.2026/MNQ 2026-07-31 15m RTH.csv`, 15m RTH 14.07.–31.07. Mein Verdacht, er habe ORG und NDOG verwechselt, faellt damit weg — das ORG existiert, er hatte den RTH-Chart offen.)*
 
-6. **Preis-Tippfehler:** NWOG-Open notiert als 28.567,**60**. MNQ tickt in 0,25er-Schritten, .60 existiert nicht — laut Chart 28.567,**50**.
+   Gerechnet nach der Wiki-Definition (letzter RTH-Close des Vortages → 09:30-Open):
 
-7. **Eigene Regel fehlt im Wochenplan.** `wiki/models/ICT Day Trade Routine.md`: *"NFP Week: an Donnerstag und Freitag der NFP-Woche generell nicht traden — beide Tage meiden."* Der Plan nennt den NFP-Freitag als Volatilitaetstreiber, aber nicht die Konsequenz. Wenn Do/Fr wegfallen, ist die Woche **Montag bis Mittwoch** — und damit ist die Montag-bis-Mittwoch-Range aus `wiki/models/Weekly Range Trading Model.md` das eigentliche Arbeitsgeraet, nicht ein 727-Punkte-DOL bis Freitag.
+   | | Wert |
+   |---|---|
+   | ORG 23.07 (Do) | **29.249,75 → 28.718,00**, Gap **down**, 531,75 Punkte |
+   | C.E. | **28.983,88** — bis heute **nicht** erreicht |
+   | bereits abgearbeitet | **150,25 P** von unten, bis **28.868,25** (28 % des Gaps) |
+   | offener Rest | **28.868,25 – 29.249,75** |
+
+   **Korrektur:** "noch komplett offen" stimmt nicht — 28 % sind zu. Sein struktureller Punkt haelt aber: der offene Rest endet bei 29.249,75 und liegt damit **unterhalb des DOL 29.363,50** ✅. Der Weg zum DOL fuehrt durch den ORG-Rest, dann durch die NDOG-Level 29.107,50 / 29.168,75, die **innerhalb** dieser ORG-Zone liegen. Beide Gaps existieren, sie ueberlappen sich nur.
+
+   > ⚠️ Caveat aus dem eigenen Wiki: `ORG (Opening Range Gap) & 1st Presented FVG` fuehrt fuer Gaps von **"mehreren 100 Punkten"** die Erwartung, dass der Preis **nicht** ins Gap zurueckkehrt, sondern in Gap-Richtung weiterlaeuft. 531,75 Punkte fallen klar in diese Klasse. Ein solches ORG als Aufwaerts-Magnet zu benutzen, laeuft der Tabelle entgegen — moeglicherweise zu Recht, aber es gehoert begruendet.
+
+   **Nicht erwaehnt, aber relevant:** das **ORG 30.07 (Do) 27.299,25 → 27.876,75** (577,50 P, gap up) ist in den Daten das einzige **voellig unberuehrte** ORG des Zeitraums — ein offener Magnet **unterhalb** des Preises. Als Downside-Ziel taucht es im Wochenplan nicht auf.
+
+6. **Entry-Ebene ✅ geklaert, kein Fehler.** *(Nachtrag 2026-08-03.)* Der Einwand "Long-Bias aus dem Premium ohne definierten Discount-Einstieg" (S09) ist erledigt: er ist **Scalper** und arbeitet im Minuten-/Sekunden-Chart. Der Weekly Bias ist bei ihm ein **Richtungsrahmen**, kein Entry-Plan — ein Entry ist zum Zeitpunkt der Analyse gar nicht bestimmbar. Das ist eine bewusste, begruendete Arbeitsweise und keine Abweichung. Heute (Mo 03.08.) handelt er ausschliesslich die **NY PM Silver Bullet, 14:00–15:00 NY** (`wiki/models/NY PM Trend.md`: PM-Session 13–16 Uhr, PM Opening Range 13:30–14:00, SB ab 14:00). Fuer die Fehlerpruefung heisst das: Premium/Discount ist auf **Trade-Ebene** zu pruefen, nicht am Wochenbias.
+
+7. **Preis-Tippfehler:** NWOG-Open notiert als 28.567,**60**. MNQ tickt in 0,25er-Schritten, .60 existiert nicht — laut Chart 28.567,**50**.
+
+8. **Eigene Regel fehlt im Wochenplan.** `wiki/models/ICT Day Trade Routine.md`: *"NFP Week: an Donnerstag und Freitag der NFP-Woche generell nicht traden — beide Tage meiden."* Der Plan nennt den NFP-Freitag als Volatilitaetstreiber, aber nicht die Konsequenz. Wenn Do/Fr wegfallen, ist die Woche **Montag bis Mittwoch** — und damit ist die Montag-bis-Mittwoch-Range aus `wiki/models/Weekly Range Trading Model.md` das eigentliche Arbeitsgeraet, nicht ein 727-Punkte-DOL bis Freitag.
 
 ---
 
@@ -68,7 +89,10 @@ Jede Zeile ist mit einem Preis beantwortbar — genau das fehlte im Altbestand b
 | 6 | Montag "gute Price Action" (NFP-Woche) | Montag-Range vs. Ø der letzten 4 Montage |
 | 7 | Donnerstag als Reversal-Kandidat (NWOG-Regel) | Richtungswechsel am 06.08.? |
 | 8 | Do/Fr nicht gehandelt (eigene NFP-Regel) | Trades am 06./07.08. im Journal? |
-| 9 | **Bullish-Bias vs. bearisher COT** | Wer hatte recht — Wochen-Close ueber oder unter dem Montag-Open 28.567,50? |
+| 9 | **COT-Horizonte:** 12M sagt BUY, 3M/6M sagen SELL | Welcher Lookback trug die Woche — Wochen-Close ueber oder unter dem Montag-Open 28.567,50? |
+| 10 | ORG 23.07: offener Rest **28.868,25 – 29.249,75** | Wochen-High >= 28.868,25 / C.E. 28.983,88 / 29.249,75? |
+| 11 | ORG 30.07 **27.299,25 – 27.876,75** (unberuehrt) | Wochen-Low <= 27.876,75? |
+| 12 | Nur NY PM Silver Bullet gehandelt (14:00–15:00 NY) | Entry-Zeiten der Trades dieser Woche |
 
 ### MNQ
 
@@ -112,7 +136,11 @@ Jede Zeile ist mit einem Preis beantwortbar — genau das fehlte im Altbestand b
 
 ![[2026-08-03-cot.png]]
 
-*02:01 — COTLC auf NQU26 (barchart, 6M). **Rot = Commercials −14.946 und fallend, Gruen = Large Speculators +4.914 und steigend** (von ihm bestaetigt). Commercials unter der 0-Linie = bearish nach der Wiki-Methode. Nur 6 Monate sichtbar, die Methode verlangt 12.*
+*02:01 — COTLC auf NQU26 (barchart, 6M). **Rot = Commercials −14.946 und fallend, Gruen = Large Speculators +4.914 und steigend** (von ihm bestaetigt). Auf 6 Monaten allein nicht entscheidbar — siehe naechstes Bild.*
+
+![[2026-08-03-cot-12m.png]]
+
+*Nachgereicht — COT-12-Monats-Indikator auf NQ (Aug 2025 – Aug 2026). Die Trennlinie gruen/rot liegt bei rund **−27 K** = EQ aus 12M-High ≈ +15 K und 12M-Low ≈ −68 K, **nicht** bei null. Aktuell **−14,95 K**, also im gruenen Bereich. Panel oben rechts: 3M **SELL** · 6M **SELL** · 12M **BUY** · 2Y **BUY** · 4Y **SELL**. Der 12-Monats-Horizont — der, den das Wiki vorschreibt — stuetzt den Bullish-Bias.*
 
 **Reaktion**
 
@@ -132,8 +160,8 @@ Jede Zeile ist mit einem Preis beantwortbar — genau das fehlte im Altbestand b
 
 **Zu prüfen:**
 
-- **S09** — Long-Bias bei einem als Premium erkannten Open, ohne definierten Discount-Einstieg. Der Ruecklauf ins NWOG (C.E. 28.425,75) waere laut Wiki-Ausnahme genau dieser Bereich — steht aber nicht im Plan.
-- **S08** — ORG 23.07 genannt, auf dem Chart sind die Level als NDOG 23.07 beschriftet und kein RTH-Chart liegt vor. Begriffe moeglicherweise vermischt.
+- ~~**S09**~~ — **verworfen 2026-08-03.** Er ist Scalper; der Weekly Bias ist Richtungsrahmen, kein Entry-Plan. Premium/Discount gehoert auf Trade-Ebene geprueft. Siehe Korrektur 6.
+- ~~**S08**~~ — **verworfen 2026-08-03.** RTH-Daten nachgeliefert, das ORG 23.07 existiert und ist korrekt benannt. Sachlich falsch war nur "komplett offen" (28 % sind zu). Siehe Korrektur 5.
 
 ## Was gut lief
 
@@ -154,7 +182,9 @@ Jede Zeile ist mit einem Preis beantwortbar — genau das fehlte im Altbestand b
 - Kein RTH-Chart unter den Screenshots, obwohl im Text darauf Bezug genommen wird.
 - DXY / SMT fehlen, obwohl 'DXY zuerst' Schritt 2 der eigenen ICT Day Trade Routine ist.
 - Seasonal Tendency fehlt, obwohl das Wiki COT ausdruecklich mit Seasonals und SMT kombiniert.
-- COT-Screenshot zeigt nur 6 Monate; die Wiki-Methode verlangt 12 Monate mit High/Low und EQ. Der vorgeschriebene Check ist damit nicht gemacht.
+- ~~COT-Screenshot zeigt nur 6 Monate~~ — **geschlossen 2026-08-03**, 12-Monats-Ansicht nachgeliefert (`raw/COT 12 monate.PNG`): 12M **BUY**, aber 3M/6M **SELL**. Offen bleibt, welcher Horizont fuer einen Wochenbias massgeblich ist.
+- ~~Kein RTH-Chart~~ — **geschlossen 2026-08-03**, RTH-15m-Daten nachgeliefert und ausgewertet.
+- Der ORG-Rest 28.868,25–29.249,75 ist im Markup nicht als eigenes Level eingezeichnet, nur als "ORG offen" im Text.
 - '0,25 der Premium Wick' im Weekly ohne Preisangabe — nicht nachpruefbar.
 - Kein Plan fuer Dienstag bis Donnerstag; die Woche ist nur ueber Montag und Freitag gedacht.
 - Keine Angabe zur Gefuehlslage beim Erstellen des Bias.
