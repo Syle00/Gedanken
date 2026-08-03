@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "C:/Users/Jannes/.local/bin/graphify.EXE hook-guard search"
+            "command": "f1=\"$USERPROFILE/.local/bin/graphify.EXE\"; f2=\"$USERPROFILE/AppData/Local/Python/pythoncore-3.14-64/Scripts/graphify.exe\"; if [ -x \"$f1\" ]; then \"$f1\" hook-guard search; elif [ -x \"$f2\" ]; then \"$f2\" hook-guard search; else true; fi"
           }
         ]
       },
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "C:/Users/Jannes/.local/bin/graphify.EXE hook-guard read"
+            "command": "f1=\"$USERPROFILE/.local/bin/graphify.EXE\"; f2=\"$USERPROFILE/AppData/Local/Python/pythoncore-3.14-64/Scripts/graphify.exe\"; if [ -x \"$f1\" ]; then \"$f1\" hook-guard read; elif [ -x \"$f2\" ]; then \"$f2\" hook-guard read; else true; fi"
           }
         ]
       }
