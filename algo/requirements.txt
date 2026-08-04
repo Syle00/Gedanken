@@ -2,3 +2,4 @@
 # das bewusst Standardbibliothek bleibt).
 pandas>=2.2
 matplotlib>=3.8
+yfinance>=1.5
