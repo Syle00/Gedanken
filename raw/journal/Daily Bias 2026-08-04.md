@@ -60,33 +60,34 @@ Chart) zeigt sich ein kurzes Zögern in dem Bereich. Kein klarer Widerspruch zur
 (13:30–16:00 NY) hatte ihr Tief bei 28.865,75 (15:55 NY). Asias Tief (28.831,50) liegt klar
 darunter — Sweep bestätigt.
 
-**Selbstkorrektur "London Low wurde genommen":** ⚠️ Nicht bestätigt, vermutlich verfrüht/Irrtum.
-Londons eigenes Tief aus dem 95-Punkte-Fenster (29.037,25, 03:10 NY) steht bis jetzt (~06:30 NY)
-weiterhin unangetastet — der Preis ist seitdem nicht mehr darunter gehandelt. Falls "London Low"
-sich auf einen anderen Bezugspunkt bezieht (z.B. Montags Londoner Session), bitte präzisieren;
-gegen die naheliegendste Lesart (heutiges London-Session-Tief) hält der Punkt nicht.
+**Selbstkorrektur "London Low wurde genommen":** ✅ Bestätigt (Nutzer-Korrektur war richtig,
+meine erste Prüfung falsch). Mein 03:00–05:00-Fenster war zu eng geschnitten und endete genau vor
+dem Sweep. Um **05:06 NY** fiel der Preis auf ein Tief von **29.032,75** — das liegt unter dem
+vorherigen London-Tief von 29.037,25 (03:10 NY). Sweep bestätigt, nur ~5 Minuten außerhalb meines
+ursprünglichen Fensters.
 
 ## ForexFactory Economic Calendar — Di. 04.08.2026 (NY Time)
 
-| Zeit (NY) | Event | Impact |
+> ⚠️ ForexFactory blockiert direkten Zugriff (403 bei jedem Versuch). Die Impact-Spalte unten kam
+> ursprünglich von tradingeconomics.com als Ersatzquelle — deren Einstufung entspricht nicht den
+> FF-Ordnerfarben. Nutzer-Korrektur vor Ort auf forexfactory.com: **Trade Balance = Yellow**,
+> **JOLTs Job Openings = Orange**. Übernommen unten. Factory Orders / restliche Zeilen sind weiterhin
+> ungeprüft gegen die echte FF-Seite — bei Bedarf bitte ebenfalls gegenchecken.
+
+| Zeit (NY) | Event | Impact (FF, korrigiert) |
 |---|---|---|
-| 06:00 | LMI Logistics Managers Index (Jul) | Mittel |
-| 08:30 | Balance of Trade (Jun), Forecast -73,0B | **Hoch (Red Folder)** |
-| 08:30 | Exports / Imports (Jun) | Mittel |
-| 10:00 | JOLTs Job Openings (Jun), Forecast 7,3M vs. 7,4M prev. | **Hoch (Red Folder)** |
-| 10:00 | Factory Orders MoM (Jun), Forecast 0,4% vs. 0,2% prev. | **Hoch (Red Folder)** |
-| 10:00 | JOLTs Job Quits (Jun) | Mittel |
-| 11:30 | 52-Week / 6-Week Bill Auction | Niedrig |
-| 16:30 | API Crude Oil Stock Change | Mittel |
+| 06:00 | LMI Logistics Managers Index (Jul) | Mittel (ungeprüft) |
+| 08:30 | Balance of Trade (Jun), Forecast -73,0B | **Yellow (Low)** ✅ korrigiert |
+| 08:30 | Exports / Imports (Jun) | Mittel (ungeprüft) |
+| 10:00 | JOLTs Job Openings (Jun), Forecast 7,3M vs. 7,4M prev. | **Orange (Medium)** ✅ korrigiert |
+| 10:00 | Factory Orders MoM (Jun), Forecast 0,4% vs. 0,2% prev. | Ungeprüft (ursprünglich als Hoch/Red gemeldet — Vorsicht) |
+| 10:00 | JOLTs Job Quits (Jun) | Mittel (ungeprüft) |
+| 11:30 | 52-Week / 6-Week Bill Auction | Niedrig (ungeprüft) |
+| 16:30 | API Crude Oil Stock Change | Mittel (ungeprüft) |
 
-Zwei Red-Folder-Events heute: **08:30 Trade Balance** (kurz vor NY-Cash-Open, mitten in der
-NY-AM-Killzone-Vorbereitung) und **10:00 JOLTs + Factory Orders** (Ende der NY-AM-Killzone,
-07:00–10:00). Für den geplanten Judas-Swing/Sweep-Sellside-Bias sind das die beiden Fenster mit
-der höchsten Wahrscheinlichkeit für den entscheidenden Move — 08:30 eher für den Sweep selbst,
-10:00 für eine mögliche zweite Volatilitätsspitze falls der erste Move noch nicht sauber war.
-
-**Idee:** Da der C.E. des NDOG 23.07 (29.138) noch nicht getestet ist und die beiden Red-Folder-News
-genau in die erwartete NY-AM-Phase fallen, spricht einiges dafür, den Judas-Swing sellside eher
-*vor* 08:30 oder direkt in der 08:30-Reaktion zu suchen, statt auf ein Erreichen des C.E. vor
-10:00 zu warten — beides gleichzeitig (C.E.-Test und ruhiger Verlauf bis 10:00) ist wenig
-wahrscheinlich an einem Doppel-Red-Folder-Tag.
+Mit der Korrektur gibt es heute **kein bestätigtes Red-Folder-Event** mehr um 08:30/10:00 (Yellow/
+Orange statt Red) — die ursprüngliche Idee unten ("Judas-Swing um die Red-Folder-News") war auf
+einer falschen Prämisse aufgebaut und damit zu verwerfen. Ohne Red-Folder-Katalysator ist eine
+Volatilitätsspitze zu diesen Uhrzeiten weniger wahrscheinlich; der Judas-Swing/Sweep-Sellside-Bias
+sollte eher aus der reinen Price-Action (C.E. NDOG 23.07 bei 29.138, noch offen) hergeleitet werden
+als aus der News-Erwartung.
