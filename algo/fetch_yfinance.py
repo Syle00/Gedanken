@@ -2,11 +2,11 @@
 """Laedt MNQ-Marktdaten per yfinance und legt sie im raw/marktdaten/-Format ab
 (gleiches Schema wie die TradingView-Exporte: time,open,high,low,close).
 
-1m wird geladen, wo yfinance es hergibt: nur die letzten ~30 Tage, und pro Request
-maximal 7 Tage am Stueck -- deshalb wird 1m in 7-Tage-Haeppchen angefragt (siehe
-`download_interval`). Fuer aeltere Tage bleibt 1m leer, das ist eine harte Yahoo-Grenze,
-kein Bug hier. 4h gibt es bei yfinance nicht nativ und wird aus 1h resampled (naiv ab
-Tagesstart, nicht CME-Session-aligned).
+Intraday-TFs werden geladen, wo yfinance es hergibt -- 1m nur die letzten ~30 Tage
+(7-Tage-Haeppchen pro Request), 5m/15m nur die letzten ~60 Tage (55-Tage-Haeppchen,
+siehe `CHUNK_DAYS`/`download_interval`). Fuer aeltere Tage bleiben sie leer, das ist
+eine harte Yahoo-Grenze, kein Bug hier. 4h gibt es bei yfinance nicht nativ und wird
+aus 1h resampled (naiv ab Tagesstart, nicht CME-Session-aligned).
 
 Zusaetzlich zur vollen Session schreibt das Skript fuer 5m/15m/1h je einen
 RTH-Ausschnitt (09:30-16:00 NY, wie das bestehende manuelle Referenzfile) als
@@ -35,7 +35,9 @@ SYMBOL = "MNQ=F"
 INTERVALS = ["1m", "5m", "15m", "1h", "1d"]
 RTH_TFS = ["1m", "5m", "15m", "1h"]  # wie beim bestehenden manuellen Export: 09:30-16:00 NY
 RTH_START, RTH_END = dtime(9, 30), dtime(16, 0)
-MINUTE_CHUNK_DAYS = 7  # yfinance-Limit pro Request fuer interval="1m"
+# yfinance lehnt Requests ab, die aelter als dieses Fenster sind -- ausserhalb
+# davon bleibt der jeweilige Timeframe leer, das ist eine harte Yahoo-Grenze.
+CHUNK_DAYS = {"1m": 7, "5m": 55, "15m": 55}  # 55 statt 60, Sicherheitsabstand zum Limit
 
 
 def trading_day(ts: pd.Timestamp, daily: bool = False):
@@ -71,14 +73,15 @@ def write_day(tf: str, day, rows: pd.DataFrame) -> Path | None:
 
 
 def download_interval(tf: str, start: str, end: str) -> pd.DataFrame:
-    """1m nur in MINUTE_CHUNK_DAYS-Haeppchen anfragen (yfinance-Limit pro Request);
-    ein Chunk ausserhalb des ~30-Tage-Fensters liefert einfach leer zurueck."""
-    if tf != "1m":
+    """Intraday-TFs (1m/5m/15m) in CHUNK_DAYS-Haeppchen anfragen (yfinance lehnt einen
+    Request sonst komplett ab, wenn die Spanne aelter als sein Limit ist -- nicht nur
+    den zu alten Teil); ein Chunk ausserhalb des jeweiligen Fensters liefert leer zurueck."""
+    if tf not in CHUNK_DAYS:
         return flatten(yf.download(SYMBOL, start=start, end=end, interval=tf, progress=False))
     cur, end_d = date.fromisoformat(start), date.fromisoformat(end)
     chunks = []
     while cur < end_d:
-        nxt = min(cur + timedelta(days=MINUTE_CHUNK_DAYS), end_d)
+        nxt = min(cur + timedelta(days=CHUNK_DAYS[tf]), end_d)
         df = flatten(yf.download(SYMBOL, start=cur.isoformat(), end=nxt.isoformat(),
                                   interval=tf, progress=False))
         if not df.empty:

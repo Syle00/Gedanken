@@ -30,7 +30,7 @@ ausfuehrt.
 
 - Opening Prices (Midnight/8:30/9:30/13:30), Session-Level (Asia/London/NY AM/PM/...)
 - Liquidity Sweeps (mit Levelalter + Penetration + Bestaetigungsfenster)
-- Market Structure Breaks (BOS/CHoCH, sequenziell)
+- Market Structure Breaks (BOS/MSS, sequenziell)
 - Displacement-Kerzen, Fair Value Gaps (Groesse, CE, Fuellstatus)
 - Macro-Fenster-Expansion (Jannes' XX:50–XX+1:10-Raster)
 - Consolidation-Phasen, unangetastete Liquiditaet am Datenende

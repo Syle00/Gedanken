@@ -234,7 +234,9 @@ def structure_breaks(bars: list[Bar], n: int = 2, min_age: int = 10):
 
     Gebrochen wird immer nur der *zuletzt bestaetigte, noch intakte* Swing —
     dadurch entsteht pro echtem Richtungswechsel ein Event und nicht dreissig.
-    BOS = Fortsetzung, CHoCH = erster Break gegen die laufende Richtung.
+    BOS = Fortsetzung, MSS = erster Break gegen die laufende Richtung
+    (siehe [[Market Structure Shift (MSS)]] im Wiki -- die frueher hier verwendete
+    Bezeichnung "CHoCH" ist veraltet).
     """
     conf = _swings_by_confirmation(bars, n)
     last_high = last_low = None       # (index, preis)
@@ -249,13 +251,13 @@ def structure_breaks(bars: list[Bar], n: int = 2, min_age: int = 10):
                 if last_low is None or price < last_low[1] or idx > last_low[0]:
                     last_low = (idx, price)
         if last_high and b.c > last_high[1] and j - last_high[0] >= min_age:
-            typ = "CHoCH" if trend == "bearish" else "BOS"
+            typ = "MSS" if trend == "bearish" else "BOS"
             out.append({"t": b.t, "dir": "bullish", "type": typ,
                         "level": last_high[1], "close": b.c,
                         "swing_t": bars[last_high[0]].t})
             trend, last_high, last_low = "bullish", None, None
         elif last_low and b.c < last_low[1] and j - last_low[0] >= min_age:
-            typ = "CHoCH" if trend == "bullish" else "BOS"
+            typ = "MSS" if trend == "bullish" else "BOS"
             out.append({"t": b.t, "dir": "bearish", "type": typ,
                         "level": last_low[1], "close": b.c,
                         "swing_t": bars[last_low[0]].t})

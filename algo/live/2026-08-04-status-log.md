@@ -38,3 +38,30 @@ aktiven 09:50–10:10-Makro-Fenster, das oft eine Umkehr-/Reaktionsphase markier
 gelegene Buyside-Liquidität in den `untouched_levels` bleibt eine reine Fortsetzung nach oben
 weniger klar zielgerichtet; darunter bleibt 29185.0 (09:00 ET) das nächste Sellside-Level für
 einen tieferen Rücksetzer.
+
+## [2026-08-04 21:10 lokal / 15:10:34 ET]
+
+**Stand**: Letzter Preis 29889.0 (15:00 ET). Kein aktives Makro- oder Silver-Bullet-Fenster,
+kein offenes `setup`.
+
+**Abgleich**: Seit dem letzten Eintrag (09:50 ET, Preis 29408.0) ist der Preis um weitere ~481 Punkte
+auf 29889.0 gestiegen. Die zuvor erwartete Pullback-Auffüllung der FVG 29254.5–29352.5 ist **nicht**
+eingetreten — kein entsprechendes Fill-Event in den neuen Daten, der Preis hat diese Zone seither
+nicht mehr angetastet und ist stattdessen ohne nennenswerten Rücksetzer weitergelaufen. Die
+Struktur bestätigt das: drei weitere bullische Structure Breaks — CHoCH um 10:05 ET (Level 29504.5),
+BOS um 11:00 ET (Level 29579.25), BOS um 12:15 ET (Level 29699.5) — reine Trendfortsetzung statt
+Korrektur. Über die Session hinweg entstanden laufend neue bullische FVGs, von denen die meisten
+binnen 10–30 Minuten wieder gefüllt wurden (z. B. FVG 13:35 ET gefüllt 14:00 ET, FVG 13:40 ET
+gefüllt 13:50 ET) — deutlich schnellere Nachfüllung als bei früheren Beobachtungen zu altem
+Gap-Fill-Verhalten. Zwei kleine bearishe Gegen-FVGs (13:50 und 14:35 ET) wurden ebenfalls rasch
+gefüllt, ohne die bullische Struktur zu kippen.
+
+**Ausblick**: Direkt über dem aktuellen Preis liegt unberührte Buyside-Liquidität bei 29898.25
+(13:45 ET) — nur ~9 Punkte entfernt, das nächstliegende Ziel bei Fortsetzung. Als Pullback-Zone
+bietet sich die noch offene bullische FVG von 14:45 ET (29863.5–29875.5, C.E. noch nicht getroffen)
+direkt unter dem aktuellen Preis an. Kein Makro-/Silver-Bullet-Fenster ist aktuell aktiv; folgt das
+bisherige :50–:10-Muster, wäre 15:50–16:10 ET das nächste reguläre Makro-Fenster, das bereits in
+die Power-Hour vor Handelsschluss fällt. Hinweis zur NDOG/NWOG-Beobachtungspflicht: `live_status.py`
+liefert aktuell keine NDOG/NWOG-Felder (bestätigt gegen `algo/PLAN.md`-Backlog, Detektor fehlt noch) —
+die zugehörigen Opening-/Closing-Preise können in diesem Report deshalb noch nicht mit hinterlegt
+werden; das ist eine offene Lücke im Skript, kein Datenfehler dieses Laufs.

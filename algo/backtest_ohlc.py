@@ -98,7 +98,7 @@ def analyze_day(day: date, path: Path) -> dict:
         "sweeps": len(sw),
         "sweeps_immediate": sum(1 for s in sw if s["bars_back"] == 0),
         "bos": sum(1 for x in sb if x["type"] == "BOS"),
-        "choch": sum(1 for x in sb if x["type"] == "CHoCH"),
+        "mss": sum(1 for x in sb if x["type"] == "MSS"),
         "macro_windows": len(mrows),
         "macro_expansions": macro_expansions,
     }
@@ -152,7 +152,7 @@ def report(rows: list[tuple[date, str, dict]]) -> list[str]:
     L.append("- [[Fair Value Gap (FVG)]] (inkl. C.E-Fuellung), [[Volume Imbalance (VII)]], "
               "[[ORG (Opening Range Gap) & 1st Presented FVG]] (ueber FVG-Detektor), "
               "Liquidity Sweeps / [[Open Float & Liquidity Pools]], "
-              "[[Market Structure Shift (MSS)]] / BOS-CHoCH / [[CISD (Change in State of Delivery)]] "
+              "[[Market Structure Shift (MSS)]] / BOS-MSS / [[CISD (Change in State of Delivery)]] "
               "(als Struktur-Proxy), [[ICT Macros & Leading Candles]]-Expansion.")
     L.append("")
     L.append("**Noch ohne eigenen Detektor** (Backlog in `algo/PLAN.md`, wird nach und nach "
@@ -204,12 +204,12 @@ def report(rows: list[tuple[date, str, dict]]) -> list[str]:
               f"`confirm`-Fenster in [[OHLC-Datenanalyse (Workflow)]].")
     L.append("")
 
-    L.append("## Market Structure Breaks (BOS/CHoCH → CISD)")
+    L.append("## Market Structure Breaks (BOS/MSS → CISD)")
     L.append("")
-    bos, choch = agg.get("bos", 0), agg.get("choch", 0)
-    total_sb = bos + choch
-    L.append(f"{total_sb} Structure Breaks insgesamt: {bos} BOS (Fortsetzung), {choch} CHoCH "
-              f"(Richtungswechsel) — {pct(choch, total_sb)} der Breaks waren ein "
+    bos, mss = agg.get("bos", 0), agg.get("mss", 0)
+    total_sb = bos + mss
+    L.append(f"{total_sb} Structure Breaks insgesamt: {bos} BOS (Fortsetzung), {mss} MSS "
+              f"(Richtungswechsel) — {pct(mss, total_sb)} der Breaks waren ein "
               f"Richtungswechsel. Jeder Break ist ein potenzieller [[CISD (Change in State of Delivery)]]; "
               f"siehe dort fuer die Bedingung (Imbalance muss enthalten sein), die dieser "
               f"Zaehler noch nicht prueft.")
@@ -227,14 +227,14 @@ def report(rows: list[tuple[date, str, dict]]) -> list[str]:
 
     L.append("## Pro Tag")
     L.append("")
-    L.append("| Tag | FVGs (groß) | C.E erreicht | Sweeps | BOS/CHoCH | Macro-Expansionen |")
+    L.append("| Tag | FVGs (groß) | C.E erreicht | Sweeps | BOS/MSS | Macro-Expansionen |")
     L.append("|---|---|---|---|---|---|")
     for d, sym, r in rows:
         if not r:
             continue
         L.append(f"| {d.isoformat()} | {r['fvg_big']} | "
                   f"{pct(r['fvg_big_ce_hit'], r['fvg_big'])} | {r['sweeps']} | "
-                  f"{r['bos']}/{r['choch']} | {r['macro_expansions']}/{r['macro_windows']} |")
+                  f"{r['bos']}/{r['mss']} | {r['macro_expansions']}/{r['macro_windows']} |")
     L.append("")
 
     L.append("## Verwandt")
