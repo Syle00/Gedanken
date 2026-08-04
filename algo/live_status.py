@@ -16,7 +16,7 @@ import json
 import statistics
 import sys
 from dataclasses import asdict
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
@@ -25,11 +25,64 @@ from analyze_ohlc import (  # noqa: E402
 )
 from rules import plan_trade, _active_window  # noqa: E402
 
+import pandas as pd
+import yfinance as yf
+
+from fetch_yfinance import trading_day, flatten, SYMBOL  # noqa: E402
+
+DISPLAY_SYMBOL = "MNQ"
+INTERVALS = ["1m", "5m", "15m", "1h", "1d"]
+
 BASE_TF = "5m"
 _tf_min = TF_MINUTES[BASE_TF]
 CFG.update(min_age=max(3, round(15 / _tf_min)), confirm=max(2, round(5 / _tf_min)))
 
 LIVE_DIR = Path(__file__).resolve().parent / "live"
+
+
+def _download(tf: str, start: str, end: str) -> pd.DataFrame:
+    try:
+        return flatten(yf.download(SYMBOL, start=start, end=end, interval=tf, progress=False))
+    except Exception as exc:  # Netzwerk-/yfinance-Fehler sollen den Loop nicht abbrechen
+        print(f"  ! {tf}: Download fehlgeschlagen ({exc})", file=sys.stderr)
+        return pd.DataFrame()
+
+
+def fetch_today(target_day: date) -> dict[str, pd.DataFrame]:
+    """Alle INTERVALS + 4h (aus 1h resampled), gefiltert auf target_day ueber trading_day()
+    (aus fetch_yfinance.py) -- die Globex-Session startet 18:00 NY am Vortag, ohne die
+    Filterung landen Vorabend-Kerzen sonst unter dem falschen Kalendertag."""
+    start = (target_day - timedelta(days=3)).isoformat()
+    end = (target_day + timedelta(days=1)).isoformat()
+    dfs: dict[str, pd.DataFrame] = {}
+    for tf in INTERVALS:
+        raw = _download(tf, start, end)
+        if not raw.empty:
+            daily = tf == "1d"
+            raw = raw[raw.index.map(lambda ts: trading_day(ts, daily)) == target_day]
+        dfs[tf] = raw
+
+    hourly = dfs["1h"]
+    if not hourly.empty:
+        dfs["4h"] = (hourly.resample("4h").agg(
+            {"Open": "first", "High": "max", "Low": "min", "Close": "last"}).dropna())
+    else:
+        dfs["4h"] = pd.DataFrame()
+    return dfs
+
+
+def write_live_day(tf: str, day: date, rows: pd.DataFrame) -> Path:
+    dest = LIVE_DIR / day.isoformat() / f"{DISPLAY_SYMBOL} {day.isoformat()} {tf}.csv"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    out = pd.DataFrame({
+        "time": rows.index.as_unit("s").astype("int64"),
+        "open": rows["Open"].to_numpy(),
+        "high": rows["High"].to_numpy(),
+        "low": rows["Low"].to_numpy(),
+        "close": rows["Close"].to_numpy(),
+    })
+    out.to_csv(dest, index=False)
+    return dest
 
 
 def event_key(d: dict, field: str) -> list:
@@ -124,6 +177,18 @@ def selftest() -> None:
     assert any(e["kind"] == "setup_exited" for e in events4), events4
 
     print("selftest (Task 1: diff_events) ok")
+
+    # Task 3: write_live_day mit synthetischen Daten -- kein Netzwerk noetig.
+    idx = pd.date_range("2026-01-02 10:00", periods=2, freq="5min", tz="America/New_York")
+    synth = pd.DataFrame({"Open": [100.0, 101.0], "High": [101.0, 102.0],
+                           "Low": [99.5, 100.5], "Close": [100.5, 101.5]}, index=idx)
+    dest = write_live_day("5m", date(2026, 1, 2), synth)
+    assert dest.exists()
+    written_bars = load(dest)
+    assert len(written_bars) == 2 and written_bars[0].o == 100.0
+    dest.unlink()
+    dest.parent.rmdir()
+    print("selftest (Task 3: write_live_day) ok")
 
     # Task 2: run_detectors gegen echte, bereits abgeschlossene Daten (31.07.2026).
     day_path = (Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
