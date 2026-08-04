@@ -1,0 +1,156 @@
+{
+  "generated_at": "2026-08-04T20:49:31.336987+00:00",
+  "n_days": 147,
+  "date_range": [
+    "2026-01-02",
+    "2026-08-04"
+  ],
+  "weekday": {
+    "Mo": {
+      "n": 28,
+      "bullish_pct": 78.6,
+      "avg_return_pct": 0.711,
+      "median_range": 551.0,
+      "avg_range": 574.77
+    },
+    "Di": {
+      "n": 31,
+      "bullish_pct": 48.4,
+      "avg_return_pct": -0.025,
+      "median_range": 506.25,
+      "avg_range": 566.61
+    },
+    "Mi": {
+      "n": 30,
+      "bullish_pct": 53.3,
+      "avg_return_pct": 0.135,
+      "median_range": 506.88,
+      "avg_range": 546.42
+    },
+    "Do": {
+      "n": 30,
+      "bullish_pct": 50.0,
+      "avg_return_pct": -0.06,
+      "median_range": 491.88,
+      "avg_range": 580.86
+    },
+    "Fr": {
+      "n": 28,
+      "bullish_pct": 46.4,
+      "avg_return_pct": -0.12,
+      "median_range": 467.0,
+      "avg_range": 540.34
+    }
+  },
+  "month": {
+    "2026-01": {
+      "n": 20,
+      "bullish_pct": 60.0,
+      "avg_return_pct": 0.049,
+      "median_range": 361.5,
+      "avg_range": 396.41
+    },
+    "2026-02": {
+      "n": 19,
+      "bullish_pct": 42.1,
+      "avg_return_pct": -0.059,
+      "median_range": 473.0,
+      "avg_range": 532.78
+    },
+    "2026-03": {
+      "n": 22,
+      "bullish_pct": 36.4,
+      "avg_return_pct": -0.004,
+      "median_range": 541.38,
+      "avg_range": 572.1
+    },
+    "2026-04": {
+      "n": 21,
+      "bullish_pct": 85.7,
+      "avg_return_pct": 0.795,
+      "median_range": 445.75,
+      "avg_range": 442.57
+    },
+    "2026-05": {
+      "n": 20,
+      "bullish_pct": 70.0,
+      "avg_return_pct": 0.495,
+      "median_range": 506.5,
+      "avg_range": 491.88
+    },
+    "2026-06": {
+      "n": 21,
+      "bullish_pct": 52.4,
+      "avg_return_pct": -0.062,
+      "median_range": 733.75,
+      "avg_range": 806.27
+    },
+    "2026-07": {
+      "n": 22,
+      "bullish_pct": 36.4,
+      "avg_return_pct": -0.395,
+      "median_range": 651.88,
+      "avg_range": 682.3
+    },
+    "2026-08": {
+      "n": 2,
+      "bullish_pct": 100.0,
+      "avg_return_pct": 0.839,
+      "median_range": 447.62,
+      "avg_range": 447.62
+    }
+  },
+  "turn_of_month": {
+    "window": {
+      "n": 28,
+      "bullish_pct": 64.3,
+      "avg_return_pct": 0.341,
+      "median_range": 495.75,
+      "avg_range": 544.47
+    },
+    "rest": {
+      "n": 221,
+      "bullish_pct": 52.5,
+      "avg_return_pct": 0.07,
+      "median_range": 509.0,
+      "avg_range": 577.97
+    }
+  },
+  "week_of_month": {
+    "1": {
+      "n": 34,
+      "bullish_pct": 61.8,
+      "avg_return_pct": 0.001,
+      "median_range": 528.0,
+      "avg_range": 576.9
+    },
+    "2": {
+      "n": 35,
+      "bullish_pct": 62.9,
+      "avg_return_pct": 0.384,
+      "median_range": 473.5,
+      "avg_range": 571.17
+    },
+    "3": {
+      "n": 32,
+      "bullish_pct": 50.0,
+      "avg_return_pct": 0.129,
+      "median_range": 479.38,
+      "avg_range": 511.98
+    },
+    "4": {
+      "n": 34,
+      "bullish_pct": 44.1,
+      "avg_return_pct": -0.251,
+      "median_range": 503.38,
+      "avg_range": 542.59
+    },
+    "5": {
+      "n": 12,
+      "bullish_pct": 58.3,
+      "avg_return_pct": 0.746,
+      "median_range": 655.38,
+      "avg_range": 680.77
+    }
+  }
+}

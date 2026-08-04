@@ -42,3 +42,6 @@ Die Tendency allein trägt also keinen Trade — sie ist **Stufe 2** in der Hier
 - [[Bond Mega-Trades]], [[Commodity Mega-Trades]]
 - [[One Shot One Kill Model]]
 - [[CISD Mini Serie - Lecture 1 (Source)]]
+- [[Seasonal Tendency (Eigene Daten, laufend)]] — dieselbe Frage rein aus den eigenen
+  MNQ-Daten beantwortet (Wochentag, Turn-of-Month, Monat), gegen externe Nasdaq-Quellen
+  gehalten statt aus der Lehrmeinung übernommen

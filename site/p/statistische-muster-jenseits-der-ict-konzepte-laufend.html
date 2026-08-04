@@ -24,7 +24,7 @@
 <li><a href="../index.html#concepts">Konzepte<span class="count">55</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">137</span></a></li>
-<li class="active"><a href="../index.html#synthesis">Synthese<span class="count">6</span></a></li>
+<li class="active"><a href="../index.html#synthesis">Synthese<span class="count">7</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Synthese</div><ul class="pagelist">
@@ -33,6 +33,7 @@
 <li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a></li>
 <li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a></li>
 <li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
+<li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a></li>
 <li class="here"><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a></li>
 </ul></div>
 </nav>
@@ -41,16 +42,12 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#synthesis">Synthese</a></div>
   <h1>Statistische Muster jenseits der ICT-Konzepte (laufend)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-04</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">explore_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_daily_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_seasonal.py</span></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-04</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">explore_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_daily_patterns.py</span></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#1-montag-gro-und-bullish">1. Montag: groß und bullish</a></li>
-<li><a href="#2-range-autokorrelation-echtes-volatility-clustering">2. Range-Autokorrelation: echtes Volatility Clustering</a></li>
-<li><a href="#3-richtungs-autokorrelation-schwaches-momentum">3. Richtungs-Autokorrelation: schwaches Momentum</a></li>
-<li><a href="#4-rundzahl-magnetismus-kein-effekt">4. Rundzahl-Magnetismus: kein Effekt</a></li>
-<li><a href="#5-turn-of-month-effekt-bestatigt-sich-in-den-eigenen-daten">5. Turn-of-Month-Effekt: bestätigt sich in den eigenen Daten</a></li>
-<li><a href="#6-woche-im-monat">6. Woche-im-Monat</a></li>
-<li><a href="#7-monatszahlen-2026-gegen-externe-nasdaq-seasonality-quellen">7. Monatszahlen 2026 gegen externe Nasdaq-Seasonality-Quellen</a></li>
+<li><a href="#1-range-autokorrelation-echtes-volatility-clustering">1. Range-Autokorrelation: echtes Volatility Clustering</a></li>
+<li><a href="#2-richtungs-autokorrelation-schwaches-momentum">2. Richtungs-Autokorrelation: schwaches Momentum</a></li>
+<li><a href="#3-rundzahl-magnetismus-kein-effekt">3. Rundzahl-Magnetismus: kein Effekt</a></li>
 <li><a href="#einordnung">Einordnung</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -64,90 +61,28 @@ benanntes Konzept im Wiki stehen. Zwei Stichproben: <code>algo/explore_patterns.
 volle Globex-Session, 2026-01-02 bis 2026-08-04 — die 1d-Auflösung hat bei yfinance kein
 30/60-Tage-Limit, deshalb die deutlich größere Stichprobe).</p>
 <blockquote>
+<p><strong>Alle kalendarischen Muster</strong> (Wochentag, Turn-of-Month, Woche-im-Monat, Monatszahlen)
+stehen jetzt auf der eigenen Datenbank-Seite
+<a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a>, inkl. Abgleich gegen externe Quellen. Diese
+Seite hier behält die nicht-kalendarischen Funde.</p>
 <p><strong>Laufende Seite</strong>: wird bei wachsendem <code>raw/marktdaten/</code>-Bestand erneut gerechnet und hier
 aktualisiert (analog <a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a>). Ein Fund, der sich mit mehr Daten als
 Rauschen herausstellt, wird hier <strong>gelöscht statt nur markiert</strong> — anders als bei
 widersprüchlichen ICT-Primärquellen (dort bleibt beides stehen, siehe Seitenkonvention in
 <span class="broken" title="Seite existiert noch nicht">CLAUDE</span>), weil es hier keine zwei gleichwertigen Lehrmeinungen gibt, sondern eine
 einzige nachpruefbare Zahl.</p>
-<p>⚠️ Die beiden Stichproben widersprechen sich teils (siehe unten) — ein Hinweis, dass die
-kleine Stichprobe (n≈34) für Wochentag-/Autokorrelations-Aussagen zu instabil ist. Wo beide
-vorliegen, zählt die n=147-Zahl mehr.</p>
+<p>⚠️ Bei der kleinen Stichprobe (n≈34) zeigten sich unten teils andere Vorzeichen als bei der
+großen (n=147, siehe Punkt 1 und Punkt 2 unten) — ein Hinweis, dass n≈34 für
+Autokorrelations-Aussagen zu instabil ist. Wo beide vorliegen, zählt die n=147-Zahl mehr.</p>
 </blockquote>
-<h2 id="1-montag-gro-und-bullish">1. Montag: groß und bullish</h2>
-<p>Bei n=147 (volle Globex-Session) sticht <strong>Montag klar heraus</strong>: größte Median-Range aller
-Wochentage (551,00 Pkt.) <strong>und</strong> deutlich bullish-verzerrt (<strong>78,6 % bullish, n=28</strong>) — alle
-anderen Wochentage liegen bei 46–53 % (nahe Zufall).</p>
-<table>
-<thead>
-<tr>
-<th>Tag</th>
-<th>n</th>
-<th>Median-Range</th>
-<th>Bullish %</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Mo</td>
-<td>28</td>
-<td>551,00</td>
-<td><strong>78,6</strong></td>
-</tr>
-<tr>
-<td>Di</td>
-<td>31</td>
-<td>506,25</td>
-<td>48,4</td>
-</tr>
-<tr>
-<td>Mi</td>
-<td>30</td>
-<td>506,88</td>
-<td>53,3</td>
-</tr>
-<tr>
-<td>Do</td>
-<td>30</td>
-<td>491,88</td>
-<td>50,0</td>
-</tr>
-<tr>
-<td>Fr</td>
-<td>28</td>
-<td>467,00</td>
-<td>46,4</td>
-</tr>
-</tbody>
-</table>
-<p>Das ist <strong>nicht</strong> dasselbe wie die 70%-Wednesday-Regel aus <a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a> (dort
-geht es darum, <em>wann sich das Wochen-High/-Low bildet</em>, nicht um Montags eigene Richtung) und
-auch nicht dieselbe Aussage wie „Wochenhoch/-tief bildet sich bevorzugt Montag" aus
-<a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a>. Beide bestehenden Konzepte beschreiben <em>Timing</em>
-innerhalb der Woche — dieser Fund beschreibt Montags eigene <em>Richtungs-Tendenz</em>, was bislang
-nirgends im Wiki beziffert ist.</p>
-<blockquote>
-<p>Auf der kleinen Stichprobe (n≈34, nur die letzten ~7 Wochen) zeigte sich noch ein anderes
-Bild (Montag 50 % bullish, Mittwoch mit der größten Range) — bei n=8 pro Wochentag reiner
-Zufall möglich. Der Montags-Effekt gilt erst ab n=147 als belastbar, nicht schon vorher.
-<strong>n=28 pro Wochentag ist immer noch klein</strong> — 78,6 % ist ein echter, aber noch nicht
-bewiesener Befund. Naechster Check: haelt die Quote, sobald weitere Montage dazukommen?</p>
-</blockquote>
-<p><strong>Gegenprobe pro Monat</strong> (haelt der Montags-Vorsprung, oder kommt er nur aus einem starken
-Trendmonat?): Montag schlaegt die uebrigen Wochentage in 5 von 7 Monaten mit brauchbarem n
-(Jan 100 % vs. 53 %, Feb 67 % vs. 38 %, Mär 80 % vs. 24 %, Jun 100 % vs. 38 %, Jul 50 % vs.
-33 %) — aber <strong>nicht im Mai</strong> (33 % vs. 76 %, dort war Montag sogar schwaecher) und im April
-kein klarer Vorsprung (100 % vs. 82 %, beide Seiten in einem generell sehr bullishen Monat).
-Der Effekt ist also kein Artefakt eines einzelnen Ausreißer-Monats, haelt aber auch nicht
-ausnahmslos — Mai widerspricht offen. Wird bei jedem neuen Monat aktualisiert.</p>
-<h2 id="2-range-autokorrelation-echtes-volatility-clustering">2. Range-Autokorrelation: echtes Volatility Clustering</h2>
+<h2 id="1-range-autokorrelation-echtes-volatility-clustering">1. Range-Autokorrelation: echtes Volatility Clustering</h2>
 <p>Pearson r = <strong>0,305</strong> (n=146) zwischen der Tagesrange und der Range des Vortags — ein
 moderater, positiver Zusammenhang. Auf einen Tag mit großer Range folgt statistisch eher
 wieder ein Tag mit großer Range (und umgekehrt), nicht das Gegenteil. Bei der kleinen
 Stichprobe war das noch nicht sichtbar (r=-0,07, im Rauschen) — auch das erst ab n=147 klar.</p>
 <p><strong>Praktische Lesart</strong>: nach einem ungewöhnlich großen Tag eher mit einem weiteren
 Expansions-Tag rechnen statt automatisch eine ruhigere Konsolidierung zu erwarten.</p>
-<h2 id="3-richtungs-autokorrelation-schwaches-momentum">3. Richtungs-Autokorrelation: schwaches Momentum</h2>
+<h2 id="2-richtungs-autokorrelation-schwaches-momentum">2. Richtungs-Autokorrelation: schwaches Momentum</h2>
 <ul>
 <li>Nach bullishem Tag: 58,8 % bullish am nächsten Tag (n=80) — leichtes Momentum.</li>
 <li>Nach bearishem Tag: 51,5 % bullish am nächsten Tag (n=66) — praktisch Zufall.</li>
@@ -155,197 +90,27 @@ Expansions-Tag rechnen statt automatisch eine ruhigere Konsolidierung zu erwarte
 <p>Schwächer als der Range-Effekt, aber in dieselbe Richtung (Fortsetzung statt Umkehr), zumindest
 nach bullishen Tagen. Bei n≈34 zeigte sich hier fälschlich das Gegenteil (33,3 % nach bullish —
 Reversion) — noch ein Beleg, dass die kleine Stichprobe nicht tragfähig war.</p>
-<h2 id="4-rundzahl-magnetismus-kein-effekt">4. Rundzahl-Magnetismus: kein Effekt</h2>
+<h2 id="3-rundzahl-magnetismus-kein-effekt">3. Rundzahl-Magnetismus: kein Effekt</h2>
 <p>Durchschnittlicher Abstand von Tages-High/-Low zur nächsten 50-Punkte-Marke: <strong>12,25 Punkte</strong>
 (n=294) gegen 12,5 Punkte, die bei Gleichverteilung zu erwarten wären. Praktisch identisch —
 <strong>keine Evidenz</strong>, dass Tagesextreme in diesem Datensatz runde Zahlen bevorzugen. Konsistentes
 Nullresultat über beide Stichproben.</p>
-<h2 id="5-turn-of-month-effekt-bestatigt-sich-in-den-eigenen-daten">5. Turn-of-Month-Effekt: bestätigt sich in den eigenen Daten</h2>
-<p>Extern gut belegtes Phänomen (siehe Quellen unten): Renditen konzentrieren sich auf die
-letzten Handelstage eines Monats plus die ersten paar Tage des Folgemonats. Getestet mit
-<code>algo/backtest_seasonal.py</code> (letzter Handelstag + erste 3 des Folgemonats vs. Rest):</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>n</th>
-<th>Ø-Tagesrendite</th>
-<th>Bullish %</th>
-<th>Ø-Range</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>TOM-Fenster</td>
-<td>28</td>
-<td><strong>+0,341 %</strong></td>
-<td><strong>64,3</strong></td>
-<td>544,5</td>
-</tr>
-<tr>
-<td>Rest des Monats</td>
-<td>221</td>
-<td>+0,070 %</td>
-<td>52,5</td>
-<td>578,0</td>
-</tr>
-</tbody>
-</table>
-<p>Die TOM-Tage sind <strong>nicht größer</strong> in der Range (sogar leicht kleiner), aber deutlich
-einseitiger bullish — passt zur externen Literatur (Kunkel/Compton/Beyer 2003, McConnell/Xu
-2008: 4-Tage-Fenster in 19+ Ländern, ~15–20 Basispunkte Zusatzrendite pro Tag im TOM-Fenster
-gegen ~0 sonst). Von den bisher getesteten Mustern das einzige mit externer Bestätigung UND
-Bestätigung in den eigenen Daten.</p>
-<h2 id="6-woche-im-monat">6. Woche-im-Monat</h2>
-<table>
-<thead>
-<tr>
-<th>Woche (Tage)</th>
-<th>n</th>
-<th>Bullish %</th>
-<th>Median-Range</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1 (1.–7.)</td>
-<td>34</td>
-<td>61,8</td>
-<td>528,00</td>
-</tr>
-<tr>
-<td>2 (8.–14.)</td>
-<td>35</td>
-<td>62,9</td>
-<td>473,50</td>
-</tr>
-<tr>
-<td>3 (15.–21.)</td>
-<td>32</td>
-<td>50,0</td>
-<td>479,38</td>
-</tr>
-<tr>
-<td>4 (22.–28.)</td>
-<td>34</td>
-<td><strong>44,1</strong></td>
-<td>503,38</td>
-</tr>
-<tr>
-<td>5 (29.–31., dünn)</td>
-<td>12</td>
-<td>58,3</td>
-<td>655,38</td>
-</tr>
-</tbody>
-</table>
-<p>Woche 1+2 überschneiden sich teilweise mit dem Turn-of-Month-Fenster (Punkt 5) — kein
-unabhängiger Fund. Woche 4 (44,1 % bullish, spürbar unter den anderen) ist dagegen <strong>nicht</strong>
-durch TOM erklärt und noch unbeobachtet — möglicher Vorbote-Effekt vor dem TOM-Fenster, aber
-bei n=34 noch nicht belastbar. Offener Punkt fürs nächste Update.</p>
-<h2 id="7-monatszahlen-2026-gegen-externe-nasdaq-seasonality-quellen">7. Monatszahlen 2026 gegen externe Nasdaq-Seasonality-Quellen</h2>
-<p>Mit nur 7 vollen Monaten (ein einziges Jahr) ist das <strong>kein echter Mehrjahres-
-Seasonality-Test</strong> — Kalendermonate wiederholen sich hier nicht. Trotzdem als Rohbefund
-gegen die extern behauptete 20-Jahres-Nasdaq-100-Saisonalität gehalten (Equity Clock/Barchart:
-beste Monate historisch Jan, Mär, Apr, Mai, Jul, Aug, Okt, Nov; „Sell in May" gilt für
-Tech/Nasdaq laut mehreren Quellen deutlich schwächer als für den S&amp;P 500):</p>
-<table>
-<thead>
-<tr>
-<th>Monat 2026</th>
-<th>n</th>
-<th>Bullish %</th>
-<th>Ø-Tagesrendite</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Jan</td>
-<td>20</td>
-<td>60,0</td>
-<td>+0,05 %</td>
-</tr>
-<tr>
-<td>Feb</td>
-<td>19</td>
-<td>42,1</td>
-<td>−0,06 %</td>
-</tr>
-<tr>
-<td>Mär</td>
-<td>22</td>
-<td>36,4</td>
-<td>−0,00 %</td>
-</tr>
-<tr>
-<td>Apr</td>
-<td>21</td>
-<td><strong>85,7</strong></td>
-<td><strong>+0,80 %</strong></td>
-</tr>
-<tr>
-<td>Mai</td>
-<td>20</td>
-<td>70,0</td>
-<td>+0,49 %</td>
-</tr>
-<tr>
-<td>Jun</td>
-<td>21</td>
-<td>52,4</td>
-<td>−0,06 %</td>
-</tr>
-<tr>
-<td>Jul</td>
-<td>22</td>
-<td>36,4</td>
-<td>−0,40 %</td>
-</tr>
-<tr>
-<td>Aug</td>
-<td>2</td>
-<td>100,0 (n=2, kaum aussagekräftig)</td>
-<td>+0,84 %</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Deckt sich</strong>: April und Mai — beide historisch "beste Monate" laut Quellen, beide 2026
-deutlich bullish. Mai speziell bestätigt auch die "Sell in May gilt für Tech kaum"-Beobachtung
-aus der Literatur (Forbes: „S&amp;P-Yes, Nasdaq-No").
-<strong>Widerspricht klar</strong>: März und Juli — beide historisch "beste Monate", in 2026 aber die mit
-Abstand schwächsten (36,4 % bullish, negative Ø-Rendite). Kein Beleg, dass die 20-Jahres-
-Saisonalität sich in diesem einen Jahr wiederholt hat.</p>
-<p><strong>Quellen</strong> (Web-Recherche 2026-08-04):</p>
-<ul>
-<li><a href="https://equityclock.com/charts/e-mini-nasdaq-100-futures-nq-seasonal-chart/">E-Mini Nasdaq 100 Futures (NQ) Seasonal Chart – Equity Clock</a></li>
-<li><a href="https://www.barchart.com/futures/quotes/NQ*0/seasonality-chart">Nasdaq 100 E-Mini Futures Seasonal Returns – Barchart</a></li>
-<li><a href="https://www.etftrends.com/etf-strategist-channel/turn-month-effect/">Turn of the Month Effect – ETF Trends</a></li>
-<li><a href="https://quantpedia.com/strategies/turn-of-the-month-in-equity-indexes">Turn of the Month in Equity Indexes – Quantpedia</a></li>
-<li><a href="https://www.forbes.com/sites/kennethwinans/2026/05/05/selling-stocks-in-may-sp-yes-nasdaq-no/">Selling Stocks In May? S&amp;P-Yes, Nasdaq-No! – Forbes</a></li>
-<li><a href="https://deephaven.io/blog/2026/05/08/sell-in-may/">Sell in May and Go Away? Testing the adage with 50 years of data – Deephaven</a></li>
-</ul>
 <h2 id="einordnung">Einordnung</h2>
-<p><strong>Am robustesten</strong>: Punkt 5 (Turn-of-Month) — großes n, klarer Effekt, UND extern durch
-unabhängige Forschung über 19+ Länder bestätigt. Punkt 1 (Montag) und 2 (Range-Autokorrelation)
-sind ebenfalls solide (großes n, deutlicher Effekt), aber ohne externe Bestätigung gefunden —
-Kandidaten für eigene Konzept-Seiten, falls sie sich halten. Punkt 3 ist schwächer und sollte
-mit mehr Daten erneut geprüft werden. Punkt 4 ist ein stabiles Negativ-Ergebnis. Punkt 6
-(Woche 4) ist ein neuer, noch unbestätigter Kandidat. Punkt 7 zeigt: die <em>externe</em> Monats-
-Seasonality-Erwartung trifft in diesem einen Jahr nur teilweise zu (Apr/Mai ja, Mär/Jul klar
-nein) — ohne Mehrjahresdaten kein belastbarer Test. Alle fünf Skripte laufen bei wachsendem
+<p>Punkt 1 ist der robusteste Fund hier (großes n, deutlicher Effekt) und Kandidat für eine
+eigene Konzept-Seite, falls er sich mit wachsendem Datenstand hält. Punkt 2 ist schwächer und
+sollte mit mehr Daten erneut geprüft werden. Punkt 3 ist ein stabiles Negativ-Ergebnis. Für die
+kalendarischen Funde (Montag-Effekt, Turn-of-Month, Woche-im-Monat, Monatszahlen) siehe
+<a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a>. Beide Skripte laufen bei wachsendem
 <code>raw/marktdaten/</code>-Bestand automatisch mit größerer Stichprobe erneut — siehe <code>algo/PLAN.md</code>-Log
 für den Rohbefund.</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
-<li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a>, <a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a> — bestehende
-  Wochentags-Konzepte, die etwas anderes behaupten als Punkt 1</li>
-<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a> — einziges anderes wochentagsspezifisches Konzept im Wiki</li>
-<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a> — bestehende Wiki-Seite zu saisonalen Tendenzen (allgemein, ohne
-  Monatsdetails); Punkt 7 hier ist die erste konkrete Zahlenprüfung dagegen</li>
+<li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a> — Schwesterseite für alle kalendarischen
+  Muster (Wochentag, Turn-of-Month, Woche-im-Monat, Monat)</li>
 <li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a> — Schwesterseite fuer die ICT-PD-Array-Backtests</li>
 <li><code>algo/PLAN.md</code> — vollstaendiger Log-Eintrag mit Methodik</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">2</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a><span class="cat">Synthese</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md</code></footer>
 </article>
 </main>
