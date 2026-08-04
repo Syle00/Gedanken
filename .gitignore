@@ -32,5 +32,11 @@ Thumbs.db
 desktop.ini
 .DS_Store
 
+# --- Algo Live-Loop ---
+# algo/live_status.py schreibt bei jedem 10-Minuten-Zyklus CSVs + state.json neu --
+# reiner Ableitungs-Output, keine Historie wert (anders als raw/marktdaten/).
+# Die Text-Statusberichte (algo/live/<datum>-status-log.md) bleiben bewusst versioniert.
+algo/live/*/
+
 # Bewusst NICHT ignoriert: raw/ (inkl. aller PNGs), wiki/, site/, CLAUDE.md,
 # .claude/settings.json -- das Vault soll vollstaendig gesichert sein.
