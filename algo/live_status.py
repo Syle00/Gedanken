@@ -18,6 +18,7 @@ import sys
 from dataclasses import asdict
 from datetime import date, datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import (  # noqa: E402
@@ -38,6 +39,7 @@ _tf_min = TF_MINUTES[BASE_TF]
 CFG.update(min_age=max(3, round(15 / _tf_min)), confirm=max(2, round(5 / _tf_min)))
 
 LIVE_DIR = Path(__file__).resolve().parent / "live"
+NY = ZoneInfo("America/New_York")
 
 
 def _download(tf: str, start: str, end: str) -> pd.DataFrame:
@@ -202,13 +204,80 @@ def selftest() -> None:
     print("selftest (Task 2: run_detectors) ok")
 
 
+def _dry_run(day_str: str) -> dict:
+    day = date.fromisoformat(day_str)
+    path = (Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
+            / f"{day:%Y}" / f"{day:%m}" / f"{day:%d.%m.%Y}"
+            / f"{DISPLAY_SYMBOL} {day.isoformat()} {BASE_TF}.csv")
+    if not path.exists():
+        return {"generated_at": datetime.now(NY).isoformat(), "day": day_str,
+                "market_data": False, "error": f"keine {BASE_TF}-Datei fuer {day_str} gefunden",
+                "price": None, "active_macro_window": None,
+                "active_silver_bullet_window": None, "setup": None, "new_events": []}
+    bars = load(path)
+    now = bars[-1].t
+    det = run_detectors(bars, day, now)
+    empty_state = {"fvgs": [], "sweeps": [], "structure_breaks": [], "setup": None}
+    new_events, _ = diff_events(det, empty_state)
+    return {"generated_at": now.isoformat(), "day": day_str, "market_data": True, "error": None,
+            "price": det["price"], "active_macro_window": det["active_macro_window"],
+            "active_silver_bullet_window": det["active_silver_bullet_window"],
+            "setup": det["setup"], "new_events": new_events}
+
+
+def _live_run() -> dict:
+    now = datetime.now(NY)
+    day = trading_day(pd.Timestamp(now))
+    dfs = fetch_today(day)
+    if dfs["5m"].empty:
+        return {"generated_at": now.isoformat(), "day": day.isoformat(), "market_data": False,
+                "error": "keine 5m-Daten (Markt geschlossen oder yfinance-Fehler)",
+                "price": None, "active_macro_window": None,
+                "active_silver_bullet_window": None, "setup": None, "new_events": []}
+
+    for tf, df in dfs.items():
+        if not df.empty:
+            write_live_day(tf, day, df)
+
+    bars = load(LIVE_DIR / day.isoformat() / f"{DISPLAY_SYMBOL} {day.isoformat()} 5m.csv")
+    det = run_detectors(bars, day, now)
+
+    state_path = LIVE_DIR / day.isoformat() / "state.json"
+    prev_state = load_state(state_path)
+    new_events, new_state = diff_events(det, prev_state)
+    state_path.write_text(json.dumps(new_state, default=str, ensure_ascii=False, indent=2),
+                          encoding="utf-8")
+
+    return {"generated_at": now.isoformat(), "day": day.isoformat(), "market_data": True,
+            "error": None, "price": det["price"], "active_macro_window": det["active_macro_window"],
+            "active_silver_bullet_window": det["active_silver_bullet_window"],
+            "setup": det["setup"], "new_events": new_events}
+
+
 def main(argv=None) -> int:
     args = argv if argv is not None else sys.argv[1:]
-    if "--selftest" in args:
+    ap = _build_arg_parser()
+    a = ap.parse_args(args)
+    sys.stdout.reconfigure(encoding="utf-8")
+
+    if a.selftest:
         selftest()
         return 0
-    print("noch nicht implementiert", file=sys.stderr)
-    return 1
+
+    summary = _dry_run(a.dry_run) if a.dry_run else _live_run()
+    print(json.dumps(summary, default=str, ensure_ascii=False, indent=2))
+    return 0
+
+
+def _build_arg_parser():
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--dry-run", metavar="YYYY-MM-DD",
+                    help="Pipeline gegen einen fertigen Handelstag aus raw/marktdaten/ testen")
+    ap.add_argument("--selftest", action="store_true",
+                    help="Reine Funktions-Selbstchecks, kein Netzwerk/Dateizugriff")
+    return ap
 
 
 if __name__ == "__main__":
