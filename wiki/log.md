@@ -401,3 +401,9 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Ergebnis (n=28 Wochen): Bias-intakt-Quote nur 7,1% -- die "saubere" NWOG-Situation ist die Ausnahme, nicht der Normalfall. Wochen-Low bevorzugt Montag (teilweise bestaetigt), Wochen-High nicht. Donnerstag-Reversal-These klar widerlegt (Donnerstag unwahrscheinlichster Tag fuer beide Extreme).
 - algo/live_status.py liefert montags ein nwog-Feld, .claude/commands/algo-live-status.md aktualisiert.
 - Seiten aktualisiert: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md (neuer Abschnitt 5), wiki/concepts/New Week Opening Gap (NWOG) Bias.md (Backtest-Abschnitt ergaenzt)
+
+## [2026-08-04] synthesis | TGIF-Backtest: Median trifft, Einzelwochen kaum
+- Nutzerauftrag: TGIF-Setup fuer Freitag mit einberechnen.
+- algo/backtest_tgif.py prueft die 20-30%-Weekly-Range-Retracement-These aus wiki/concepts/TGIF (Thank God its Friday).md gegen n=27 Wochen.
+- Ergebnis: exakte Trefferquote nur 3,7%, Median trifft mit 22,1% fast genau -- aber die Verteilung ist bimodal (37% kaum Retracement, 48% deutlich mehr als erwartet), kein echtes Clustering um 20-30%.
+- Seiten aktualisiert: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md (neuer Abschnitt 6), wiki/concepts/TGIF (Thank God its Friday).md (Backtest-Abschnitt ergaenzt)

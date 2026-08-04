@@ -2,7 +2,7 @@
 tags: [synthesis, algo, backtest, generiert]
 created: 2026-08-04
 updated: 2026-08-04
-sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_ndog.py]]", "[[../../algo/backtest_nwog.py]]"]
+sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_ndog.py]]", "[[../../algo/backtest_nwog.py]]", "[[../../algo/backtest_tgif.py]]"]
 ---
 
 # Statistische Muster jenseits der ICT-Konzepte (laufend)
@@ -104,6 +104,25 @@ Seite des NWOG, gilt der Bias als intakt"):
 
 `algo/live_status.py` liefert montags zusätzlich ein `nwog`-Feld (sonst `null`).
 
+## 6. TGIF: Median trifft die Zielzone, Einzelwochen kaum
+
+[[TGIF (Thank God its Friday)]] erwartet einen Freitag-Close, der 20–30 % in die laufende
+Weekly Range zurückretraced. Operationalisierung mangels exakter Formel in der Quelle:
+Wochenrichtung über Montag-Open vs. Close des vorletzten Handelstags, Retracement dann als
+Abstand des Freitag-Close vom Wochen-Extrem (High bei bullisher, Low bei bearisher Richtung)
+in % der Wochenrange. `algo/backtest_tgif.py`, n=27 Wochen:
+
+- **Exakte Trefferquote (20–30 %-Fenster): nur 3,7 %** (1/27) — auch mit großzügigerer
+  Toleranz (15–35 %) bleibt es bei 3,7 %.
+- **Median 22,1 %** — trifft die Zielzone fast exakt.
+- **Aber**: die Verteilung ist **bimodal**, kein Cluster um 20–30 %. 37 % der Wochen retracen
+  kaum (0–10 %, Freitag schließt nahe am Wochenextrem), 48 % dagegen deutlich mehr als erwartet
+  (50–100 %, teils bis zum gegenüberliegenden Ende der Range). Der Median trifft die 20–30 %
+  also eher zufällig durch den Split zwischen "kaum" und "viel" als durch echtes Clustering.
+
+**Fazit**: die 20–30 %-Zahl ist als Median richtig, aber als Erwartung für eine einzelne Woche
+irreführend — TGIF liefert eher "kaum" oder "viel" Retracement, selten genau die Zielzone.
+
 ## Einordnung
 
 Punkt 1 ist der robusteste Fund hier (großes n, deutlicher Effekt) und Kandidat für eine
@@ -111,8 +130,10 @@ eigene Konzept-Seite, falls er sich mit wachsendem Datenstand hält. Punkt 2 ist
 sollte mit mehr Daten erneut geprüft werden. Punkt 3 ist ein stabiles Negativ-Ergebnis. Punkt 4
 bestätigt eine bestehende ICT-Regel quantitativ für einen neuen Gap-Typ. Punkt 5 relativiert
 eine bestehende ICT-Regel deutlich (Bias-intakt-Quote nur 7 %) und widerlegt die
-Donnerstag-Reversal-Behauptung klar — bei n=28 Wochen aber noch keine große Stichprobe. Für die
-kalendarischen Funde (Montag-Effekt, Turn-of-Month, Woche-im-Monat, Monatszahlen) siehe
+Donnerstag-Reversal-Behauptung klar. Punkt 6 zeigt einen Median-Treffer bei gleichzeitig
+niedriger Einzeltreffer-Quote — Vorsicht vor Medianen, die eine bimodale Verteilung verdecken.
+Bei n=27/28 Wochen ist das noch keine große Stichprobe. Für die kalendarischen Funde
+(Montag-Effekt, Turn-of-Month, Woche-im-Monat, Monatszahlen) siehe
 [[Seasonal Tendency (Eigene Daten, laufend)]]. Alle Skripte laufen bei wachsendem
 `raw/marktdaten/`-Bestand automatisch mit größerer Stichprobe erneut — siehe `algo/PLAN.md`-Log
 für den Rohbefund.

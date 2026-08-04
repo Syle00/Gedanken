@@ -102,6 +102,14 @@ Aus [[Alltime Highs und TGIF (Source)]]: sehr bullishe Woche, Retracement von **
 Quadranten der Premium Wick bzw. die Premarket-Sellside-Liquidität, Entry am **Reclaimed FVG**,
 relevant war die Daily VII.
 
+## Backtest gegen echte Daten
+
+[[Statistische Muster jenseits der ICT-Konzepte (laufend)]]#6 prüft die 20–30%-Zielzone gegen
+n=27 Wochen MNQ-Daten: exakte Trefferquote nur 3,7%, aber der **Median liegt bei 22,1%** — die
+Zahl stimmt im Median, die Verteilung ist aber bimodal (Wochen retracen meist entweder kaum
+0–10% oder deutlich mehr 50–100%, selten genau 20–30%). Als Erwartung für eine einzelne Woche
+ist die Zielzone deshalb mit Vorsicht zu genießen.
+
 ## Verwandt
 
 - [[Weekly Range Trading Model]] — TGIF als Teil der Zwei-DOL-Methode
