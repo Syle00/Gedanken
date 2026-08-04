@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Statistische Muster jenseits der ICT-Konzepte (Backtest) — Gedanken</title>
+<title>Statistische Muster jenseits der ICT-Konzepte (laufend) — Gedanken</title>
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -33,14 +33,14 @@
 <li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a></li>
 <li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a></li>
 <li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
-<li class="here"><a href="../p/statistische-muster-jenseits-der-ict-konzepte-backtest.html">Statistische Muster jenseits der ICT-Konzepte (Backtest)</a></li>
+<li class="here"><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a></li>
 </ul></div>
 </nav>
 <main>
 <article>
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#synthesis">Synthese</a></div>
-  <h1>Statistische Muster jenseits der ICT-Konzepte (Backtest)</h1>
+  <h1>Statistische Muster jenseits der ICT-Konzepte (laufend)</h1>
   <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-04</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">explore_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_daily_patterns.py</span></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
@@ -53,7 +53,7 @@
 </ul>
 </div>
 </details>
-  <div class="content"><h1 id="statistische-muster-jenseits-der-ict-konzepte-backtest">Statistische Muster jenseits der ICT-Konzepte (Backtest)</h1>
+  <div class="content"><h1 id="statistische-muster-jenseits-der-ict-konzepte-laufend">Statistische Muster jenseits der ICT-Konzepte (laufend)</h1>
 <p>Reine Datenexploration ohne vorab formulierte ICT-These — Gegenstück zu den <code>backtest_*.py</code>-
 Skripten, die eine konkrete Nutzeraussage prüfen. Ziel: Muster finden, die (noch) nicht als
 benanntes Konzept im Wiki stehen. Zwei Stichproben: <code>algo/explore_patterns.py</code> (n≈34 Tage,
@@ -61,6 +61,12 @@ benanntes Konzept im Wiki stehen. Zwei Stichproben: <code>algo/explore_patterns.
 volle Globex-Session, 2026-01-02 bis 2026-08-04 — die 1d-Auflösung hat bei yfinance kein
 30/60-Tage-Limit, deshalb die deutlich größere Stichprobe).</p>
 <blockquote>
+<p><strong>Laufende Seite</strong>: wird bei wachsendem <code>raw/marktdaten/</code>-Bestand erneut gerechnet und hier
+aktualisiert (analog <a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a>). Ein Fund, der sich mit mehr Daten als
+Rauschen herausstellt, wird hier <strong>gelöscht statt nur markiert</strong> — anders als bei
+widersprüchlichen ICT-Primärquellen (dort bleibt beides stehen, siehe Seitenkonvention in
+<span class="broken" title="Seite existiert noch nicht">CLAUDE</span>), weil es hier keine zwei gleichwertigen Lehrmeinungen gibt, sondern eine
+einzige nachpruefbare Zahl.</p>
 <p>⚠️ Die beiden Stichproben widersprechen sich teils (siehe unten) — ein Hinweis, dass die
 kleine Stichprobe (n≈34) für Wochentag-/Autokorrelations-Aussagen zu instabil ist. Wo beide
 vorliegen, zählt die n=147-Zahl mehr.</p>
@@ -120,8 +126,17 @@ nirgends im Wiki beziffert ist.</p>
 <blockquote>
 <p>Auf der kleinen Stichprobe (n≈34, nur die letzten ~7 Wochen) zeigte sich noch ein anderes
 Bild (Montag 50 % bullish, Mittwoch mit der größten Range) — bei n=8 pro Wochentag reiner
-Zufall möglich. Der Montags-Effekt gilt erst ab n=147 als belastbar, nicht schon vorher.</p>
+Zufall möglich. Der Montags-Effekt gilt erst ab n=147 als belastbar, nicht schon vorher.
+<strong>n=28 pro Wochentag ist immer noch klein</strong> — 78,6 % ist ein echter, aber noch nicht
+bewiesener Befund. Naechster Check: haelt die Quote, sobald weitere Montage dazukommen?</p>
 </blockquote>
+<p><strong>Gegenprobe pro Monat</strong> (haelt der Montags-Vorsprung, oder kommt er nur aus einem starken
+Trendmonat?): Montag schlaegt die uebrigen Wochentage in 5 von 7 Monaten mit brauchbarem n
+(Jan 100 % vs. 53 %, Feb 67 % vs. 38 %, Mär 80 % vs. 24 %, Jun 100 % vs. 38 %, Jul 50 % vs.
+33 %) — aber <strong>nicht im Mai</strong> (33 % vs. 76 %, dort war Montag sogar schwaecher) und im April
+kein klarer Vorsprung (100 % vs. 82 %, beide Seiten in einem generell sehr bullishen Monat).
+Der Effekt ist also kein Artefakt eines einzelnen Ausreißer-Monats, haelt aber auch nicht
+ausnahmslos — Mai widerspricht offen. Wird bei jedem neuen Monat aktualisiert.</p>
 <h2 id="2-range-autokorrelation-echtes-volatility-clustering">2. Range-Autokorrelation: echtes Volatility Clustering</h2>
 <p>Pearson r = <strong>0,305</strong> (n=146) zwischen der Tagesrange und der Range des Vortags — ein
 moderater, positiver Zusammenhang. Auf einen Tag mit großer Range folgt statistisch eher
@@ -157,7 +172,7 @@ mit größerer Stichprobe erneut — siehe <code>algo/PLAN.md</code>-Log für de
 <li><code>algo/PLAN.md</code> — vollstaendiger Log-Eintrag mit Methodik</li>
 </ul></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
-  <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (Backtest).md</code></footer>
+  <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md</code></footer>
 </article>
 </main>
 </div>

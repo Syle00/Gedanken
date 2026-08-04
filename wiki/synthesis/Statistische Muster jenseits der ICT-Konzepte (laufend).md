@@ -5,7 +5,7 @@ updated: 2026-08-04
 sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]"]
 ---
 
-# Statistische Muster jenseits der ICT-Konzepte (Backtest)
+# Statistische Muster jenseits der ICT-Konzepte (laufend)
 
 Reine Datenexploration ohne vorab formulierte ICT-These — Gegenstück zu den `backtest_*.py`-
 Skripten, die eine konkrete Nutzeraussage prüfen. Ziel: Muster finden, die (noch) nicht als
@@ -13,6 +13,13 @@ benanntes Konzept im Wiki stehen. Zwei Stichproben: `algo/explore_patterns.py` (
 1m/5m-Auflösung, RTH 9:30–16:00) und `algo/backtest_daily_patterns.py` (n=147 Tage, 1d-Bars,
 volle Globex-Session, 2026-01-02 bis 2026-08-04 — die 1d-Auflösung hat bei yfinance kein
 30/60-Tage-Limit, deshalb die deutlich größere Stichprobe).
+
+> **Laufende Seite**: wird bei wachsendem `raw/marktdaten/`-Bestand erneut gerechnet und hier
+> aktualisiert (analog [[Muster-Validierung (laufend)]]). Ein Fund, der sich mit mehr Daten als
+> Rauschen herausstellt, wird hier **gelöscht statt nur markiert** — anders als bei
+> widersprüchlichen ICT-Primärquellen (dort bleibt beides stehen, siehe Seitenkonvention in
+> [[../../CLAUDE.md]]), weil es hier keine zwei gleichwertigen Lehrmeinungen gibt, sondern eine
+> einzige nachpruefbare Zahl.
 
 > ⚠️ Die beiden Stichproben widersprechen sich teils (siehe unten) — ein Hinweis, dass die
 > kleine Stichprobe (n≈34) für Wochentag-/Autokorrelations-Aussagen zu instabil ist. Wo beide
@@ -42,6 +49,16 @@ nirgends im Wiki beziffert ist.
 > Auf der kleinen Stichprobe (n≈34, nur die letzten ~7 Wochen) zeigte sich noch ein anderes
 > Bild (Montag 50 % bullish, Mittwoch mit der größten Range) — bei n=8 pro Wochentag reiner
 > Zufall möglich. Der Montags-Effekt gilt erst ab n=147 als belastbar, nicht schon vorher.
+> **n=28 pro Wochentag ist immer noch klein** — 78,6 % ist ein echter, aber noch nicht
+> bewiesener Befund. Naechster Check: haelt die Quote, sobald weitere Montage dazukommen?
+
+**Gegenprobe pro Monat** (haelt der Montags-Vorsprung, oder kommt er nur aus einem starken
+Trendmonat?): Montag schlaegt die uebrigen Wochentage in 5 von 7 Monaten mit brauchbarem n
+(Jan 100 % vs. 53 %, Feb 67 % vs. 38 %, Mär 80 % vs. 24 %, Jun 100 % vs. 38 %, Jul 50 % vs.
+33 %) — aber **nicht im Mai** (33 % vs. 76 %, dort war Montag sogar schwaecher) und im April
+kein klarer Vorsprung (100 % vs. 82 %, beide Seiten in einem generell sehr bullishen Monat).
+Der Effekt ist also kein Artefakt eines einzelnen Ausreißer-Monats, haelt aber auch nicht
+ausnahmslos — Mai widerspricht offen. Wird bei jedem neuen Monat aktualisiert.
 
 ## 2. Range-Autokorrelation: echtes Volatility Clustering
 

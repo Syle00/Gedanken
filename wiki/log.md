@@ -383,5 +383,5 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Nutzerauftrag (`/goal`): rein datengetrieben nach algorithmischen Mustern suchen, die noch nicht im Wiki stehen, und backtesten.
 - Zwei neue Skripte: `algo/explore_patterns.py` (n≈34, 1m/5m) und `algo/backtest_daily_patterns.py` (n=147, 1d-Bars ab 2026-01-02 — 1d hat bei yfinance kein Lookback-Limit, deshalb deutlich groessere Stichprobe).
 - Funde (n=147 zaehlt, kleine Stichprobe war teils widerspruechlich, siehe Seite): Montag groesste Range + 78,6% bullish (n=28) — keine Wiederholung bestehender Wochentags-Konzepte ([[One Shot One Kill Model]], [[Market Maker Manipulation Templates]] behaupten etwas anderes); Range-Autokorrelation r=0,305 (n=146, echtes Volatility Clustering); schwaches Richtungs-Momentum nach bullishen Tagen (58,8% vs. 51,5%); kein Rundzahl-Magnetismus (12,25 vs. 12,5 Pkt. Erwartungswert, Nullresultat).
-- Seite erstellt: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (Backtest).md
+- Seite erstellt: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md (als "(laufend)" angelegt, analog Muster-Validierung — Nutzerwunsch: staendig gegenpruefen, aktualisieren, falsifizierte Funde loeschen statt nur markieren)
 - Seiten aktualisiert: wiki/index.md
