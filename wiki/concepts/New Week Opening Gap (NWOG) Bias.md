@@ -60,3 +60,12 @@ Candle, Dienstag erreicht die PD.*
   Konzept-Seite erfasst — Kandidat für eine spätere `wiki/concepts/PD Array.md` Seite (taucht in
   `raw/trading-ict/Core Content/` mehrfach auf, z.B. in "Blending IPDA Data Ranges & PD Arrays.md",
   "Equilibrium Vs. Discount.md").
+
+## Backtest gegen echte Daten
+
+[[Statistische Muster jenseits der ICT-Konzepte (laufend)]]#5 prüft die Bias-Regel und beide
+Timing-Behauptungen hier gegen n=28 Wochen MNQ-Daten: Bias-intakt-Quote nur 7,1 % (das NWOG
+wird fast immer wieder erreicht), Wochen-Low bevorzugt tatsächlich Montag, Wochen-High aber
+nicht, und die Donnerstag-Reversal-These wird klar widerlegt (Donnerstag ist der
+unwahrscheinlichste Tag für beide Extreme). `algo/live_status.py` liefert montags ein
+`nwog`-Feld live mit.

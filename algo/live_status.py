@@ -23,7 +23,7 @@ from zoneinfo import ZoneInfo
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import (  # noqa: E402
     Bar, load, fvgs, sweeps, structure_breaks, untouched_levels, macro_windows, org_gap,
-    ndog_gap, at, TF_MINUTES, CFG,
+    ndog_gap, nwog_gap, at, TF_MINUTES, CFG,
 )
 from rules import plan_trade, _active_window  # noqa: E402
 
@@ -124,7 +124,7 @@ def run_detectors(bars: list[Bar], day: date, now: datetime,
         return {"price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None,
                 "fvgs": [], "sweeps": [], "structure_breaks": [], "untouched_levels": [],
-                "org_ce": None, "ndog": None}
+                "org_ce": None, "ndog": None, "nwog": None}
 
     # Detektor-Scope: die Globex-Session *dieses* Handelstages (18:00 NY am Vorabend bis
     # `now`) -- sonst tauchen Ereignisse vom Vortag in einem Bericht auf, der mit `day`
@@ -162,13 +162,14 @@ def run_detectors(bars: list[Bar], day: date, now: datetime,
     wide_bars = org_bars if org_bars is not None else bars
     org = org_gap(wide_bars, day)
     ndog = ndog_gap(wide_bars, day)
+    nwog = nwog_gap(wide_bars, day)  # None ausser montags, siehe nwog_gap()
     return {
         "price": {"last": last.c, "t": last.t.isoformat()},
         "active_macro_window": active_macro,
         "active_silver_bullet_window": win[0] if win else None,
         "setup": asdict(setup) if setup else None,
         "fvgs": fg, "sweeps": sw, "structure_breaks": sb, "untouched_levels": lv,
-        "org_ce": org, "ndog": ndog,
+        "org_ce": org, "ndog": ndog, "nwog": nwog,
     }
 
 
@@ -265,10 +266,16 @@ def selftest() -> None:
     assert isinstance(det["untouched_levels"], list)  # Fix 5
     assert det["org_ce"] is not None and det["org_ce"]["filled_30m"] is True  # ORG-C.E.-Tracking
     assert det["ndog"] is not None and isinstance(det["ndog"]["filled"], bool)  # NDOG-Tracking
+    assert day31.weekday() == 4 and det["nwog"] is None  # Freitag -> kein NWOG (nur montags)
+    monday_path = (Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
+                   / "2026" / "07" / "20.07.2026" / "MNQ 2026-07-20 5m.csv")
+    monday_bars = load(monday_path)
+    monday_det = run_detectors(monday_bars, date(2026, 7, 20), monday_bars[-1].t)
+    assert monday_det["nwog"] is not None and isinstance(monday_det["nwog"]["filled"], bool)
     empty_det = run_detectors([], day31, real_bars[-1].t)
     assert empty_det["price"] is None and empty_det["fvgs"] == []
     assert empty_det["untouched_levels"] == [] and empty_det["org_ce"] is None
-    assert empty_det["ndog"] is None
+    assert empty_det["ndog"] is None and empty_det["nwog"] is None
 
     # Fix 6: kein Ereignis vor Session-Start (18:00 NY am Vorabend), obwohl die CSV
     # bis 2026-07-30 15:00 zurueckreicht. `price` bleibt die echte letzte Kerze.
@@ -296,7 +303,8 @@ def _dry_run(day_str: str) -> dict:
                 "market_data": False, "error": f"keine {BASE_TF}-Datei fuer {day_str} gefunden",
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
-                "first_run": False, "untouched_levels": [], "org_ce": None, "ndog": None}
+                "first_run": False, "untouched_levels": [], "org_ce": None, "ndog": None,
+                "nwog": None}
     bars = load(path)
     now = bars[-1].t
     det = run_detectors(bars, day, now)
@@ -308,7 +316,7 @@ def _dry_run(day_str: str) -> dict:
             "active_silver_bullet_window": det["active_silver_bullet_window"],
             "setup": det["setup"], "new_events": new_events,
             "first_run": True, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"],
-            "ndog": det["ndog"]}
+            "ndog": det["ndog"], "nwog": det["nwog"]}
 
 
 def _live_run() -> dict:
@@ -320,7 +328,8 @@ def _live_run() -> dict:
                 "error": "keine 5m-Daten (Markt geschlossen oder yfinance-Fehler)",
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
-                "first_run": False, "untouched_levels": [], "org_ce": None, "ndog": None}
+                "first_run": False, "untouched_levels": [], "org_ce": None, "ndog": None,
+                "nwog": None}
 
     for tf, df in dfs.items():
         if tf != "5m_unfiltered" and not df.empty:
@@ -342,7 +351,7 @@ def _live_run() -> dict:
             "active_silver_bullet_window": det["active_silver_bullet_window"],
             "setup": det["setup"], "new_events": new_events,
             "first_run": first_run, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"],
-            "ndog": det["ndog"]}
+            "ndog": det["ndog"], "nwog": det["nwog"]}
 
 
 def main(argv=None) -> int:

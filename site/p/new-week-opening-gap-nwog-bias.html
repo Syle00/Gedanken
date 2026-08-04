@@ -97,6 +97,7 @@
 <li><a href="#timing-beobachtung">Timing-Beobachtung</a></li>
 <li><a href="#intraweek-reversal-montagdienstag">Intraweek Reversal (Montag/Dienstag)</a></li>
 <li><a href="#offene-punkte">Offene Punkte</a></li>
+<li><a href="#backtest-gegen-echte-daten">Backtest gegen echte Daten</a></li>
 </ul>
 </div>
 </details>
@@ -149,7 +150,14 @@ Candle, Dienstag erreicht die PD.</em></p>
   Konzept-Seite erfasst — Kandidat für eine spätere <code>wiki/concepts/PD Array.md</code> Seite (taucht in
   <code>raw/trading-ict/Core Content/</code> mehrfach auf, z.B. in "Blending IPDA Data Ranges &amp; PD Arrays.md",
   "Equilibrium Vs. Discount.md").</li>
-</ul></div>
+</ul>
+<h2 id="backtest-gegen-echte-daten">Backtest gegen echte Daten</h2>
+<p><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a>#5 prüft die Bias-Regel und beide
+Timing-Behauptungen hier gegen n=28 Wochen MNQ-Daten: Bias-intakt-Quote nur 7,1 % (das NWOG
+wird fast immer wieder erreicht), Wochen-Low bevorzugt tatsächlich Montag, Wochen-High aber
+nicht, und die Donnerstag-Reversal-These wird klar widerlegt (Donnerstag ist der
+unwahrscheinlichste Tag für beide Extreme). <code>algo/live_status.py</code> liefert montags ein
+<code>nwog</code>-Feld live mit.</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">20</span></h2><ul><li><a href="../p/accumulation-manipulation-distribution-source.html">Accumulation - Manipulation - Distribution (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a><span class="cat">Konzepte</span></li><li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a><span class="cat">Konzepte</span></li><li><a href="../p/essentials-to-ict-daytrading-source.html">Essentials To ICT Daytrading (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/intraweek-market-reversals-overlapping-models-source.html">Intraweek Market Reversals &amp; Overlapping Models (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a><span class="cat">Modelle</span></li><li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a><span class="cat">Konzepte</span></li><li><a href="../p/month-07-weekly-source.html">Month 07 - Weekly (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/no-bias-engagement-routine.html">No-Bias Engagement Routine</a><span class="cat">Modelle</span></li><li><a href="../p/pd-array.html">PD Array</a><span class="cat">Konzepte</span></li><li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/smc-opening-range-gaps-source.html">SMC Opening Range Gaps (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smc-trading-opening-range-gaps-source.html">SMC Trading Opening Range Gaps (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a><span class="cat">Konzepte</span></li><li><a href="../p/weekly-range-trading-model.html">Weekly Range Trading Model</a><span class="cat">Modelle</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/New Week Opening Gap (NWOG) Bias.md</code></footer>
 </article>

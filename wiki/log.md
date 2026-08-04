@@ -394,3 +394,10 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Montags-Effekt gegen Turn-of-Month-Ueberschneidung gegengeprueft: haelt unabhaengig (21 "reine" Montage 76,2% bullish vs. 7 TOM-Montage 85,7% -- kein TOM-Artefakt). Ergaenzt auf wiki/synthesis/Seasonal Tendency (Eigene Daten, laufend).md.
 - Neuer Detektor ndog_gap() in tools/analyze_ohlc.py + algo/backtest_ndog.py: NDOG-Fill-Quote 86,3% (98,6% kleine / 74,0% grosse Gaps), Korrelation |Gap| vs. Range r=0,264, Gap-Richtung setzt sich nur zu 43,2% fort. algo/live_status.py liefert jetzt ein ndog-Feld, .claude/commands/algo-live-status.md aktualisiert.
 - Seiten aktualisiert: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md (neuer Abschnitt 4), wiki/synthesis/Seasonal Tendency (Eigene Daten, laufend).md (Montag-Gegenprobe)
+
+## [2026-08-04] synthesis | NWOG-Backtest gegen die bestehende Wiki-Regel
+- Nutzerauftrag: NWOG-Pendant zu NDOG bauen ("gleiche Machart"), dann pushen.
+- nwog_gap() in tools/analyze_ohlc.py (Wrapper um ndog_gap(), nur montags), algo/backtest_nwog.py prueft direkt die Bias-Regel + beide Timing-Behauptungen aus wiki/concepts/New Week Opening Gap (NWOG) Bias.md.
+- Ergebnis (n=28 Wochen): Bias-intakt-Quote nur 7,1% -- die "saubere" NWOG-Situation ist die Ausnahme, nicht der Normalfall. Wochen-Low bevorzugt Montag (teilweise bestaetigt), Wochen-High nicht. Donnerstag-Reversal-These klar widerlegt (Donnerstag unwahrscheinlichster Tag fuer beide Extreme).
+- algo/live_status.py liefert montags ein nwog-Feld, .claude/commands/algo-live-status.md aktualisiert.
+- Seiten aktualisiert: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md (neuer Abschnitt 5), wiki/concepts/New Week Opening Gap (NWOG) Bias.md (Backtest-Abschnitt ergaenzt)

@@ -203,6 +203,16 @@ def ndog_gap(bars: list[Bar], day) -> dict | None:
             "gap": today_open - prev_close, "filled": fill_t is not None, "fill_t": fill_t}
 
 
+def nwog_gap(bars: list[Bar], day) -> dict | None:
+    """NWOG (New Week Opening Gap): Spezialfall von ndog_gap() -- nur an Wochen-Opens (Montag),
+    Gap zum letzten Handelstag der Vorwoche (im Regelfall Freitag). None an allen anderen
+    Wochentagen. Siehe wiki/concepts/New Week Opening Gap (NWOG) Bias.md.
+    """
+    if day.weekday() != 0:
+        return None
+    return ndog_gap(bars, day)
+
+
 # --------------------------------------------------------------------------- Detektoren
 
 def swings(bars: list[Bar], n: int = 2):

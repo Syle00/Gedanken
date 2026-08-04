@@ -19,6 +19,9 @@ Fuehre einen einzelnen Live-Status-Zyklus fuer MNQ aus.
      Ebenso `ndog` (falls nicht `null`): Vortages-Close, heutiger Open, Gap-Groesse und ob
      der Vortages-Close heute schon wieder erreicht wurde -- siehe `algo/backtest_ndog.py`
      (empirisch: Fill-Quote 86%, aber nur 74% bei ueberdurchschnittlich grossen Gaps).
+     Montags zusaetzlich `nwog` (Freitag-Close vs. heutiger Open, sonst `null`) -- siehe
+     `algo/backtest_nwog.py` (empirisch: Bias-intakt-Quote nur 7%, die meisten Wochen
+     durchbrechen das NWOG irgendwann wieder, auch nach Montag).
    - **Abgleich**: die Eintraege in `new_events` gegen das, was die Algo-Signale fuer
      diese Fenster/Uhrzeit erwarten lassen wuerden -- deckt sich das oder nicht?
      Bei leerem `new_events`: kurz sagen, dass sich seit dem letzten Lauf nichts

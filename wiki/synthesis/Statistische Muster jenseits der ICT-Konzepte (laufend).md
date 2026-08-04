@@ -2,7 +2,7 @@
 tags: [synthesis, algo, backtest, generiert]
 created: 2026-08-04
 updated: 2026-08-04
-sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_ndog.py]]"]
+sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_ndog.py]]", "[[../../algo/backtest_nwog.py]]"]
 ---
 
 # Statistische Muster jenseits der ICT-Konzepte (laufend)
@@ -78,13 +78,41 @@ heutiger Open, Gap, Fill-Status) im JSON, `/algo-live-status` berichtet es mit �
 vom 2026-08-04 ("NDOG/NWOG sind relevant, Opening-/Closing-Preise immer mitführen") damit
 erstmals technisch umgesetzt statt nur vorgemerkt.
 
+## 5. NWOG (New Week Opening Gap): Bias-intakt-Quote überraschend niedrig
+
+Spezialfall von NDOG (Punkt 4), nur montags: Gap zwischen Freitag-Close und Montag-Open.
+`nwog_gap()` in `tools/analyze_ohlc.py` ist ein dünner Wrapper um `ndog_gap()` (gleiche Logik,
+nur auf Montage beschränkt). Getestet mit `algo/backtest_nwog.py` (n=28 Wochen), direkt gegen
+die Regel aus [[New Week Opening Gap (NWOG) Bias]] ("bleibt der Kurs die ganze Woche auf einer
+Seite des NWOG, gilt der Bias als intakt"):
+
+- **Bias-intakt-Quote nur 7,1 %** (2/28 Wochen) — das NWOG wird in fast allen Wochen
+  irgendwann wieder erreicht. Selbst wenn man Montags eigene Kerze (die den Freitag-Close fast
+  immer trivial mitstreift) ausklammert und erst ab Dienstag zählt, bleibt es bei nur 10,7 %.
+  Die "saubere" NWOG-Bias-Situation, auf die sich die Regel bezieht, ist in diesem Datensatz
+  die Ausnahme, nicht der Normalfall.
+- **Korrelation |Gap| vs. Wochenrange**: r=0,124 — deutlich schwächer als der Tages-Analog
+  (0,264 bei NDOG), praktisch kein Zusammenhang.
+- **Gap-Richtung vs. Wochenrichtung**: exakt 50,0 % — reiner Zufall, anders als NDOG (43,2 %,
+  leichte Fade-Tendenz). Auf Wochenebene liefert die Gap-Richtung keine Information.
+- **Wochentag von Wochen-High/-Low** (Test der beiden Timing-Behauptungen aus
+  [[New Week Opening Gap (NWOG) Bias]]): Wochen-**Low** bildet sich am häufigsten Montag
+  (32,1 %, höchster Einzelwert) — **teilweise bestätigt**. Wochen-**High** dagegen am seltensten
+  Montag (14,3 %, hinter Di/Mi mit je 28,6 %) — **nicht bestätigt**. Die "Donnerstag ist
+  Reversal-Kandidat"-Behauptung widerspricht der Datenlage klar: Donnerstag ist der
+  *unwahrscheinlichste* Tag für sowohl Wochen-High (7,1 %) als auch Wochen-Low (0,0 %).
+
+`algo/live_status.py` liefert montags zusätzlich ein `nwog`-Feld (sonst `null`).
+
 ## Einordnung
 
 Punkt 1 ist der robusteste Fund hier (großes n, deutlicher Effekt) und Kandidat für eine
 eigene Konzept-Seite, falls er sich mit wachsendem Datenstand hält. Punkt 2 ist schwächer und
 sollte mit mehr Daten erneut geprüft werden. Punkt 3 ist ein stabiles Negativ-Ergebnis. Punkt 4
-bestätigt eine bestehende ICT-Regel quantitativ für einen neuen Gap-Typ. Für die kalendarischen
-Funde (Montag-Effekt, Turn-of-Month, Woche-im-Monat, Monatszahlen) siehe
+bestätigt eine bestehende ICT-Regel quantitativ für einen neuen Gap-Typ. Punkt 5 relativiert
+eine bestehende ICT-Regel deutlich (Bias-intakt-Quote nur 7 %) und widerlegt die
+Donnerstag-Reversal-Behauptung klar — bei n=28 Wochen aber noch keine große Stichprobe. Für die
+kalendarischen Funde (Montag-Effekt, Turn-of-Month, Woche-im-Monat, Monatszahlen) siehe
 [[Seasonal Tendency (Eigene Daten, laufend)]]. Alle Skripte laufen bei wachsendem
 `raw/marktdaten/`-Bestand automatisch mit größerer Stichprobe erneut — siehe `algo/PLAN.md`-Log
 für den Rohbefund.
