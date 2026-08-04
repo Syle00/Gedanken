@@ -16,6 +16,9 @@ Fuehre einen einzelnen Live-Status-Zyklus fuer MNQ aus.
      plus `org_ce` (falls nicht `null`): ORG-Gap, C.E.-Level und ob es innerhalb der ersten
      30 Minuten (9:30-10:00 NY) gefuellt wurde -- laufende Beobachtung der ICT-These "C.E. zu
      70% gefuellt" (siehe `algo/backtest_org_ce.py`, empirisch bislang eher 35-43%).
+     Ebenso `ndog` (falls nicht `null`): Vortages-Close, heutiger Open, Gap-Groesse und ob
+     der Vortages-Close heute schon wieder erreicht wurde -- siehe `algo/backtest_ndog.py`
+     (empirisch: Fill-Quote 86%, aber nur 74% bei ueberdurchschnittlich grossen Gaps).
    - **Abgleich**: die Eintraege in `new_events` gegen das, was die Algo-Signale fuer
      diese Fenster/Uhrzeit erwarten lassen wuerden -- deckt sich das oder nicht?
      Bei leerem `new_events`: kurz sagen, dass sich seit dem letzten Lauf nichts

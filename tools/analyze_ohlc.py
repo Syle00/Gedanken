@@ -182,6 +182,27 @@ def org_gap(bars: list[Bar], day, tol_min: int = 10) -> dict | None:
             "gap": hi - lo, "ce": ce, "filled_30m": fill_t is not None, "filled_t": fill_t}
 
 
+def ndog_gap(bars: list[Bar], day) -> dict | None:
+    """NDOG (New Day Opening Gap): Gap zwischen dem letzten Kerzen-Close des Vortags (volle
+    Globex-Session, kein 16:14-Anker wie bei org_gap()) und der ersten Kerze von `day`.
+    Prueft, ob der Preis den Vortages-Close noch am selben Tag wieder erreicht ("Fill").
+
+    None, wenn `day` oder der Vortag keine Kerzen in `bars` haben.
+    """
+    day_bars = sorted((b for b in bars if b.t.date() == day), key=lambda b: b.t)
+    if not day_bars:
+        return None
+    prev_bars = [b for b in bars if b.t.date() < day]
+    if not prev_bars:
+        return None
+    open_bar = day_bars[0]
+    prev_close_bar = max(prev_bars, key=lambda b: b.t)
+    prev_close, today_open = prev_close_bar.c, open_bar.o
+    fill_t = next((b.t for b in day_bars if b.l <= prev_close <= b.h), None)
+    return {"prev_close": prev_close, "prev_close_t": prev_close_bar.t, "today_open": today_open,
+            "gap": today_open - prev_close, "filled": fill_t is not None, "fill_t": fill_t}
+
+
 # --------------------------------------------------------------------------- Detektoren
 
 def swings(bars: list[Bar], n: int = 2):

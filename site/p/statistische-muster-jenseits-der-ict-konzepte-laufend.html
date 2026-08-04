@@ -42,12 +42,13 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#synthesis">Synthese</a></div>
   <h1>Statistische Muster jenseits der ICT-Konzepte (laufend)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-04</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">explore_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_daily_patterns.py</span></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-04</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">explore_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_daily_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_ndog.py</span></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#1-range-autokorrelation-echtes-volatility-clustering">1. Range-Autokorrelation: echtes Volatility Clustering</a></li>
 <li><a href="#2-richtungs-autokorrelation-schwaches-momentum">2. Richtungs-Autokorrelation: schwaches Momentum</a></li>
 <li><a href="#3-rundzahl-magnetismus-kein-effekt">3. Rundzahl-Magnetismus: kein Effekt</a></li>
+<li><a href="#4-ndog-new-day-opening-gap-fill-quote-und-fortsetzung">4. NDOG (New Day Opening Gap): Fill-Quote und Fortsetzung</a></li>
 <li><a href="#einordnung">Einordnung</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -95,18 +96,41 @@ Reversion) — noch ein Beleg, dass die kleine Stichprobe nicht tragfähig war.<
 (n=294) gegen 12,5 Punkte, die bei Gleichverteilung zu erwarten wären. Praktisch identisch —
 <strong>keine Evidenz</strong>, dass Tagesextreme in diesem Datensatz runde Zahlen bevorzugen. Konsistentes
 Nullresultat über beide Stichproben.</p>
+<h2 id="4-ndog-new-day-opening-gap-fill-quote-und-fortsetzung">4. NDOG (New Day Opening Gap): Fill-Quote und Fortsetzung</h2>
+<p>Erster Detektor für NDOG/NWOG (bislang Backlog-Posten, siehe <code>algo/PLAN.md</code>): <code>ndog_gap()</code> in
+<code>tools/analyze_ohlc.py</code>, Gap zwischen Vortages-Close und Tages-Open (Mitternacht-Grenze, anders
+als das 16:14-verankerte <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG</a>). Getestet mit
+<code>algo/backtest_ndog.py</code> (n=146, 1d-Bars):</p>
+<ul>
+<li><strong>Korrelation |Gap| vs. Tagesrange</strong>: r=0,264 — ein größeres NDOG geht tendenziell mit einem
+  größeren Handelstag einher (schwächer als die 0,305 bei Punkt 1, gleiche Richtung).</li>
+<li><strong>Fill-Quote (selber Tag)</strong>: 86,3 % insgesamt — <strong>98,6 %</strong> bei unterdurchschnittlichen Gaps,
+  aber nur <strong>74,0 %</strong> bei überdurchschnittlich großen. Bestätigt quantitativ, was fürs ORG
+  bereits qualitativ dokumentiert ist („Gap-Größe entscheidet über den Fill", siehe
+  <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>) — hier zum ersten Mal beziffert, und für
+  einen anderen Gap-Typ (NDOG statt ORG).</li>
+<li><strong>Gap-Richtung vs. Tagesrichtung</strong>: nur 43,2 % Fortsetzung — der Tag läuft <strong>öfter gegen</strong>
+  die Gap-Richtung als mit ihr. Leichte Fade-Tendenz, kein Momentum-Effekt.</li>
+</ul>
+<p>Live-Tracking ergänzt: <code>algo/live_status.py</code> liefert jetzt ein <code>ndog</code>-Feld (Vortages-Close,
+heutiger Open, Gap, Fill-Status) im JSON, <code>/algo-live-status</code> berichtet es mit — Nutzer-Vorgabe
+vom 2026-08-04 ("NDOG/NWOG sind relevant, Opening-/Closing-Preise immer mitführen") damit
+erstmals technisch umgesetzt statt nur vorgemerkt.</p>
 <h2 id="einordnung">Einordnung</h2>
 <p>Punkt 1 ist der robusteste Fund hier (großes n, deutlicher Effekt) und Kandidat für eine
 eigene Konzept-Seite, falls er sich mit wachsendem Datenstand hält. Punkt 2 ist schwächer und
-sollte mit mehr Daten erneut geprüft werden. Punkt 3 ist ein stabiles Negativ-Ergebnis. Für die
-kalendarischen Funde (Montag-Effekt, Turn-of-Month, Woche-im-Monat, Monatszahlen) siehe
-<a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a>. Beide Skripte laufen bei wachsendem
+sollte mit mehr Daten erneut geprüft werden. Punkt 3 ist ein stabiles Negativ-Ergebnis. Punkt 4
+bestätigt eine bestehende ICT-Regel quantitativ für einen neuen Gap-Typ. Für die kalendarischen
+Funde (Montag-Effekt, Turn-of-Month, Woche-im-Monat, Monatszahlen) siehe
+<a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a>. Alle Skripte laufen bei wachsendem
 <code>raw/marktdaten/</code>-Bestand automatisch mit größerer Stichprobe erneut — siehe <code>algo/PLAN.md</code>-Log
 für den Rohbefund.</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a> — Schwesterseite für alle kalendarischen
   Muster (Wochentag, Turn-of-Month, Woche-im-Monat, Monat)</li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a> — der andere, 16:14-verankerte Gap-Typ</li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a> — NWOG (Wochen-Ebene), NDOG-Pendant fürs Wochenende</li>
 <li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a> — Schwesterseite fuer die ICT-PD-Array-Backtests</li>
 <li><code>algo/PLAN.md</code> — vollstaendiger Log-Eintrag mit Methodik</li>
 </ul></div>

@@ -22,8 +22,8 @@ from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import (  # noqa: E402
-    Bar, load, fvgs, sweeps, structure_breaks, untouched_levels, macro_windows, org_gap, at,
-    TF_MINUTES, CFG,
+    Bar, load, fvgs, sweeps, structure_breaks, untouched_levels, macro_windows, org_gap,
+    ndog_gap, at, TF_MINUTES, CFG,
 )
 from rules import plan_trade, _active_window  # noqa: E402
 
@@ -124,7 +124,7 @@ def run_detectors(bars: list[Bar], day: date, now: datetime,
         return {"price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None,
                 "fvgs": [], "sweeps": [], "structure_breaks": [], "untouched_levels": [],
-                "org_ce": None}
+                "org_ce": None, "ndog": None}
 
     # Detektor-Scope: die Globex-Session *dieses* Handelstages (18:00 NY am Vorabend bis
     # `now`) -- sonst tauchen Ereignisse vom Vortag in einem Bericht auf, der mit `day`
@@ -157,16 +157,18 @@ def run_detectors(bars: list[Bar], day: date, now: datetime,
     win = _active_window(day, now)
 
     last = bars[-1]  # Preis kommt bewusst von der *echten* letzten Kerze, inkl. laufender
-    # org_gap() braucht die ~16:14-Kerze des Vortags -- die liegt VOR session_start (18:00
+    # org_gap()/ndog_gap() brauchen Kerzen des Vortags -- die liegen VOR session_start (18:00
     # Vorabend), deshalb hier bewusst auf `org_bars` (Default: `bars`) gerechnet, nicht stable_bars.
-    org = org_gap(org_bars if org_bars is not None else bars, day)
+    wide_bars = org_bars if org_bars is not None else bars
+    org = org_gap(wide_bars, day)
+    ndog = ndog_gap(wide_bars, day)
     return {
         "price": {"last": last.c, "t": last.t.isoformat()},
         "active_macro_window": active_macro,
         "active_silver_bullet_window": win[0] if win else None,
         "setup": asdict(setup) if setup else None,
         "fvgs": fg, "sweeps": sw, "structure_breaks": sb, "untouched_levels": lv,
-        "org_ce": org,
+        "org_ce": org, "ndog": ndog,
     }
 
 
@@ -262,9 +264,11 @@ def selftest() -> None:
     assert isinstance(det["fvgs"], list) and isinstance(det["sweeps"], list)
     assert isinstance(det["untouched_levels"], list)  # Fix 5
     assert det["org_ce"] is not None and det["org_ce"]["filled_30m"] is True  # ORG-C.E.-Tracking
+    assert det["ndog"] is not None and isinstance(det["ndog"]["filled"], bool)  # NDOG-Tracking
     empty_det = run_detectors([], day31, real_bars[-1].t)
     assert empty_det["price"] is None and empty_det["fvgs"] == []
     assert empty_det["untouched_levels"] == [] and empty_det["org_ce"] is None
+    assert empty_det["ndog"] is None
 
     # Fix 6: kein Ereignis vor Session-Start (18:00 NY am Vorabend), obwohl die CSV
     # bis 2026-07-30 15:00 zurueckreicht. `price` bleibt die echte letzte Kerze.
@@ -292,7 +296,7 @@ def _dry_run(day_str: str) -> dict:
                 "market_data": False, "error": f"keine {BASE_TF}-Datei fuer {day_str} gefunden",
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
-                "first_run": False, "untouched_levels": [], "org_ce": None}
+                "first_run": False, "untouched_levels": [], "org_ce": None, "ndog": None}
     bars = load(path)
     now = bars[-1].t
     det = run_detectors(bars, day, now)
@@ -303,7 +307,8 @@ def _dry_run(day_str: str) -> dict:
             "price": det["price"], "active_macro_window": det["active_macro_window"],
             "active_silver_bullet_window": det["active_silver_bullet_window"],
             "setup": det["setup"], "new_events": new_events,
-            "first_run": True, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"]}
+            "first_run": True, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"],
+            "ndog": det["ndog"]}
 
 
 def _live_run() -> dict:
@@ -315,7 +320,7 @@ def _live_run() -> dict:
                 "error": "keine 5m-Daten (Markt geschlossen oder yfinance-Fehler)",
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
-                "first_run": False, "untouched_levels": [], "org_ce": None}
+                "first_run": False, "untouched_levels": [], "org_ce": None, "ndog": None}
 
     for tf, df in dfs.items():
         if tf != "5m_unfiltered" and not df.empty:
@@ -336,7 +341,8 @@ def _live_run() -> dict:
             "error": None, "price": det["price"], "active_macro_window": det["active_macro_window"],
             "active_silver_bullet_window": det["active_silver_bullet_window"],
             "setup": det["setup"], "new_events": new_events,
-            "first_run": first_run, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"]}
+            "first_run": first_run, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"],
+            "ndog": det["ndog"]}
 
 
 def main(argv=None) -> int:

@@ -2,7 +2,7 @@
 tags: [synthesis, algo, backtest, generiert]
 created: 2026-08-04
 updated: 2026-08-04
-sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]"]
+sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_ndog.py]]"]
 ---
 
 # Statistische Muster jenseits der ICT-Konzepte (laufend)
@@ -56,13 +56,36 @@ Durchschnittlicher Abstand von Tages-High/-Low zur nächsten 50-Punkte-Marke: **
 **keine Evidenz**, dass Tagesextreme in diesem Datensatz runde Zahlen bevorzugen. Konsistentes
 Nullresultat über beide Stichproben.
 
+## 4. NDOG (New Day Opening Gap): Fill-Quote und Fortsetzung
+
+Erster Detektor für NDOG/NWOG (bislang Backlog-Posten, siehe `algo/PLAN.md`): `ndog_gap()` in
+`tools/analyze_ohlc.py`, Gap zwischen Vortages-Close und Tages-Open (Mitternacht-Grenze, anders
+als das 16:14-verankerte [[ORG (Opening Range Gap) & 1st Presented FVG|ORG]]). Getestet mit
+`algo/backtest_ndog.py` (n=146, 1d-Bars):
+
+- **Korrelation |Gap| vs. Tagesrange**: r=0,264 — ein größeres NDOG geht tendenziell mit einem
+  größeren Handelstag einher (schwächer als die 0,305 bei Punkt 1, gleiche Richtung).
+- **Fill-Quote (selber Tag)**: 86,3 % insgesamt — **98,6 %** bei unterdurchschnittlichen Gaps,
+  aber nur **74,0 %** bei überdurchschnittlich großen. Bestätigt quantitativ, was fürs ORG
+  bereits qualitativ dokumentiert ist („Gap-Größe entscheidet über den Fill", siehe
+  [[ORG (Opening Range Gap) & 1st Presented FVG]]) — hier zum ersten Mal beziffert, und für
+  einen anderen Gap-Typ (NDOG statt ORG).
+- **Gap-Richtung vs. Tagesrichtung**: nur 43,2 % Fortsetzung — der Tag läuft **öfter gegen**
+  die Gap-Richtung als mit ihr. Leichte Fade-Tendenz, kein Momentum-Effekt.
+
+Live-Tracking ergänzt: `algo/live_status.py` liefert jetzt ein `ndog`-Feld (Vortages-Close,
+heutiger Open, Gap, Fill-Status) im JSON, `/algo-live-status` berichtet es mit — Nutzer-Vorgabe
+vom 2026-08-04 ("NDOG/NWOG sind relevant, Opening-/Closing-Preise immer mitführen") damit
+erstmals technisch umgesetzt statt nur vorgemerkt.
+
 ## Einordnung
 
 Punkt 1 ist der robusteste Fund hier (großes n, deutlicher Effekt) und Kandidat für eine
 eigene Konzept-Seite, falls er sich mit wachsendem Datenstand hält. Punkt 2 ist schwächer und
-sollte mit mehr Daten erneut geprüft werden. Punkt 3 ist ein stabiles Negativ-Ergebnis. Für die
-kalendarischen Funde (Montag-Effekt, Turn-of-Month, Woche-im-Monat, Monatszahlen) siehe
-[[Seasonal Tendency (Eigene Daten, laufend)]]. Beide Skripte laufen bei wachsendem
+sollte mit mehr Daten erneut geprüft werden. Punkt 3 ist ein stabiles Negativ-Ergebnis. Punkt 4
+bestätigt eine bestehende ICT-Regel quantitativ für einen neuen Gap-Typ. Für die kalendarischen
+Funde (Montag-Effekt, Turn-of-Month, Woche-im-Monat, Monatszahlen) siehe
+[[Seasonal Tendency (Eigene Daten, laufend)]]. Alle Skripte laufen bei wachsendem
 `raw/marktdaten/`-Bestand automatisch mit größerer Stichprobe erneut — siehe `algo/PLAN.md`-Log
 für den Rohbefund.
 
@@ -70,5 +93,7 @@ für den Rohbefund.
 
 - [[Seasonal Tendency (Eigene Daten, laufend)]] — Schwesterseite für alle kalendarischen
   Muster (Wochentag, Turn-of-Month, Woche-im-Monat, Monat)
+- [[ORG (Opening Range Gap) & 1st Presented FVG]] — der andere, 16:14-verankerte Gap-Typ
+- [[New Week Opening Gap (NWOG) Bias]] — NWOG (Wochen-Ebene), NDOG-Pendant fürs Wochenende
 - [[Muster-Validierung (laufend)]] — Schwesterseite fuer die ICT-PD-Array-Backtests
 - `algo/PLAN.md` — vollstaendiger Log-Eintrag mit Methodik

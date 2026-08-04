@@ -46,6 +46,12 @@ Regel ([[One Shot One Kill Model]]) oder "Wochenextrem bevorzugt Montag"
 ([[Market Maker Manipulation Templates]]) — beide beschreiben *Timing* des Wochenextrems,
 nicht Montags eigene Richtung.
 
+**Gegenprobe gegen Turn-of-Month-Überschneidung** (naheliegender Einwand: ist der Montags-
+Effekt nur ein Nebenprodukt von Turn-of-Month, weil beide bullish sind?): nur 7 von 28 Montagen
+liegen überhaupt im TOM-Fenster. Die übrigen 21 „reinen" Montage (kein TOM-Overlap) liegen bei
+**76,2 % bullish, Ø-Rendite +0,70 %** — praktisch identisch zu den TOM-Montagen (85,7 %,
++0,73 %). Der Montags-Effekt ist also **kein** TOM-Artefakt, sondern hält unabhängig davon.
+
 ## Turn-of-Month
 
 Extern sehr gut belegtes Phänomen (Kunkel/Compton/Beyer 2003, McConnell/Xu 2008 — siehe Links
