@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">55</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">136</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">137</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">5</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -77,6 +77,7 @@
 <li><a href="#2026-08-03-setup-jahrmonat-verschachtelung-fuer-rawmarktdaten-uebergeordnetes-ziel-im-algo-projekt">[2026-08-03] setup | Jahr/Monat-Verschachtelung fuer raw/marktdaten/ + Uebergeordnetes Ziel im Algo-Projekt</a></li>
 <li><a href="#2026-08-03-synthesis-muster-validierung-laufend-erste-version-ict-behauptungen-gegen-echte-daten">[2026-08-03] synthesis | Muster-Validierung (laufend) — erste Version, ICT-Behauptungen gegen echte Daten</a></li>
 <li><a href="#2026-08-04-ingest-mnq-marktdaten-update-erster-bias-accuracy-backtest">[2026-08-04] ingest | MNQ Marktdaten-Update + erster Bias-Accuracy-Backtest</a></li>
+<li><a href="#2026-08-04-lint-root-aufraumung-gepruft-5-von-6-dateien-bereits-ingested-1-neu-ict-silver-bullet">[2026-08-04] lint | Root-Aufräumung geprüft: 5 von 6 Dateien bereits ingested, 1 neu (ICT Silver Bullet)</a></li>
 </ul>
 </div>
 </details>
@@ -468,6 +469,22 @@
 <li><code>algo/backtest_ohlc.py</code> neu ausgefuehrt: <code>wiki/synthesis/Muster-Validierung (laufend).md</code> jetzt mit 3 Handelstagen (07-31, 08-03, 08-04) statt 2. Der duenne 08-04-Vormarkt-Tag taucht in der Pro-Tag-Tabelle transparent mit fast leeren Zahlen auf (0 grosse FVGs, 1 Sweep) statt die Gesamtstatistik unbemerkt zu verwaessern.</li>
 <li>Seiten aktualisiert: <code>journal/entries/2026-08-03 MNQ Daily Bias.md</code>, <code>journal/entries/2026-08-03 MNQ Weekly Bias.md</code>, <code>wiki/synthesis/Muster-Validierung (laufend).md</code>, <code>wiki/index.md</code> (Tage-Zahl aktualisiert).</li>
 <li>Offen: Weekly-Bias-<code>bias_korrekt</code> erst nach Donnerstag/Freitag entscheidbar (Punkte 7/8/9/12 der Pruefliste). "Bellweather Chart" (User-Begriff aus dem Daily Bias) hat weiterhin keine Wiki-Seite — dritter Auftreten-Schwelle noch nicht erreicht.</li>
+</ul>
+<h2 id="2026-08-04-lint-root-aufraumung-gepruft-5-von-6-dateien-bereits-ingested-1-neu-ict-silver-bullet">[2026-08-04] lint | Root-Aufräumung geprüft: 5 von 6 Dateien bereits ingested, 1 neu (ICT Silver Bullet)</h2>
+<ul>
+<li>Nutzerauftrag: 6 lose Dateien im Vault-Root aufräumen/einsortieren und ins Wiki bringen, falls noch nicht vorhanden — ohne anzunehmen, dass alle neu sind.</li>
+<li>Geprüft gegen <code>wiki/index.md</code>, <code>wiki/log.md</code> und die referenzierenden Wiki-Seiten:</li>
+<li><code>raw/Daily Bias 03.08.md</code> — bereits ingested (<code>journal/entries/2026-08-03 MNQ Daily Bias.md</code>, Log-Eintrag 2026-08-03/2026-08-04). Keine Aktion.</li>
+<li><code>raw/Weekly Bias KW 32.md</code> — bereits ingested (<code>journal/entries/2026-08-03 MNQ Weekly Bias.md</code>; Rohdatei war zum Ingest-Zeitpunkt noch als "KW 31" benannt, Inhalt und Zahlen decken sich exakt mit dem Log-Eintrag vom 2026-08-03). Keine Aktion.</li>
+<li><code>raw/Federal Open Market Committee.md</code> — bereits ingested im ersten Batch-Ingest (2026-08-01), <code>wiki/sources/Federal Open Market Committee (Source).md</code> existiert. Keine Aktion.</li>
+<li><code>raw/Kurz Notizen.md</code> und <code>raw/2025 MentorShip Notiz.md</code> — beide bereits als Teil von <code>wiki/sources/Kurz Notizen (Source).md</code> ingested (2026-08-02). Stichprobe geprüft: die RTH-High/Low- und Macro-8:30-Inhalte aus <code>2025 MentorShip Notiz.md</code> stehen wörtlich im Abschnitt "RTH vs. PM High/Low &amp; Manipulationsfenster" auf <code>wiki/concepts/ICT Daily Range Session Timing.md</code>. Keine Aktion.</li>
+<li><code>raw/ICT Silver Bullet.md</code> — <strong>neu, noch nicht ingested.</strong> Die 9 zugehörigen Screenshots (<code>Screenshot_2025-01-20_*.png</code>) lagen bereits seit der Journal-Migration (2026-08-02) korrekt in <code>raw/trading-ict/assets/</code>, nur die Notiz selbst war noch nicht verarbeitet.</li>
+<li>Datei-Organisation: <code>raw/ICT Silver Bullet.md</code> bleibt bewusst im Vault-Root liegen — analog zu <code>Kurz Notizen.md</code> und <code>Federal Open Market Committee.md</code> ist das die etablierte Ablage für lose persönliche Notizen, die nicht zu einem bestimmten Kursjahrgang gehören.</li>
+<li>Seite erstellt: <code>wiki/sources/ICT Silver Bullet (Source).md</code> — die drei Silver-Bullet-Zeitfenster (London 3–4, NY AM 10–11, NY PM 14–15 Uhr NY), Entry-Logik (5-Min-Chart + PD Arrays aus 15M/1H, Fenster nur für den Einstieg relevant, Confluenz-Pflicht).</li>
+<li>Seite aktualisiert: <code>wiki/models/Silver Bullet Model.md</code> — neue Tabelle mit den drei Fenstern, Bezug zu <a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a> (AM-Fenster überlappt den Vorlauf) und <a href="../p/ny-pm-trend.html">NY PM Trend</a> (bestätigt dessen "~2 Uhr"-Angabe).</li>
+<li>✅ <strong>Offenen Punkt geklärt</strong>: Silver Bullet Model notierte bisher nur das PM-Fenster fest, AM/Lunch-Fenster waren "noch nicht vollständig als eigene Zeiten belegt". Jetzt durch alle drei Fenster ersetzt.</li>
+<li>Geprüft, kein Widerspruch: Die London-SB-Zeit (3–4 Uhr) liegt innerhalb der breiteren London Killzone (2–5 Uhr) aus <code>wiki/concepts/ICT Killzones.md</code> — Teilfenster, keine abweichende Angabe. Die Zahlen "3–4 Uhr" fallen zufällig mit der "True Day High/Low"-Angabe auf <code>wiki/models/NY PM Trend.md</code> zusammen — verschiedene Konzepte, nicht verwechselt.</li>
+<li>Seiten aktualisiert: <code>wiki/index.md</code> (Silver Bullet Model-Zeile präzisiert, neuer Sources-Eintrag unter "Notizen").</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

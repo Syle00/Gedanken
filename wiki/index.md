@@ -82,7 +82,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[NY Lunch Macro Model]] — 10-Uhr-Linie, Target-Liq muss intakt bleiben, Execution im Macro 10:50–11:10 (2026-08-02)
 - [[NY PM Trend]] — Regeln für die PM-Session (13–16 Uhr NY) + Index SMT (2026-08-01)
 - [[One Shot One Kill Model]] — Flaggschiff-Swing-Modell, 70%-Wednesday-Regel (2026-08-01)
-- [[Silver Bullet Model]] — Macro-basiertes Entry-Modell, Move startet im Macro davor (2026-08-02)
+- [[Silver Bullet Model]] — Time-based Model mit drei festen Fenstern (London 3–4, NY AM 10–11, NY PM 14–15 Uhr), Move startet im Macro davor (2026-08-04)
 - [[Stock Mega-Trades]] — Mega-Trade-Methodik für Einzelaktien, Earnings-gekoppelt (2026-08-01)
 - [[The Sentiment Effect]] — Asia-Range-basiertes Judas-Setup für Daytrading/Scalping (2026-08-01)
 - [[Three Timeframe Framing]] — Timeframe-Tripel je Handelsstil; HTF Kontext, MTF Framing, LTF nur Entry (2026-08-02)
@@ -219,6 +219,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 ### Notizen
 
 - [[Kurz Notizen (Source)]] — ~90 lose Mentorship-Merksätze aus `Kurz Notizen.md`, `Unbenannt.md`, `2025 MentorShip Notiz.md` (2026-08-02)
+- [[ICT Silver Bullet (Source)]] — die drei Silver-Bullet-Zeitfenster (London 3–4, NY AM 10–11, NY PM 14–15 Uhr) + Entry-Logik (2026-08-04)
 
 ### Macro
 

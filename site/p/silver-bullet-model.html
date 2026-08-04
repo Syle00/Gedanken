@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">55</span></a></li>
 <li class="active"><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">136</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">137</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">5</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -60,18 +60,52 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#models">Modelle</a></div>
   <h1>Silver Bullet Model</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">daytrade</span> <span class="tag">sessions</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/kurz-notizen-source.html">Kurz Notizen</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">daytrade</span> <span class="tag">sessions</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-04</div><div class="srcline"><span>Quellen:</span> <a href="../p/kurz-notizen-source.html">Kurz Notizen</a>, <a href="../p/ict-silver-bullet-source.html">ICT Silver Bullet (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
+<li><a href="#die-drei-fenster-ny-zeit">Die drei Fenster (NY Zeit)</a></li>
 <li><a href="#ablauf">Ablauf</a></li>
-<li><a href="#weitere-bekannte-silver-bullet-fenster">Weitere bekannte Silver-Bullet-Fenster</a></li>
+<li><a href="#bezug-zu-nachbar-fenstern">Bezug zu Nachbar-Fenstern</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
 </details>
   <div class="content"><h1 id="silver-bullet-model">Silver Bullet Model</h1>
-<p>Macro-basiertes Entry-Modell: der eigentliche Silver-Bullet-Move beginnt <strong>innerhalb des Macros vor</strong>
-dem eigentlichen Silver-Bullet-Fenster, nicht erst mit dessen Beginn.</p>
+<p>Reines <strong>Time-based Model</strong> — nur innerhalb der drei festen Zeitfenster tradebar. Der eigentliche
+Silver-Bullet-Move beginnt <strong>innerhalb des Macros vor</strong> dem eigentlichen Silver-Bullet-Fenster,
+nicht erst mit dessen Beginn.</p>
+<h2 id="die-drei-fenster-ny-zeit">Die drei Fenster (NY Zeit)</h2>
+<table>
+<thead>
+<tr>
+<th>Fenster</th>
+<th>Zeit</th>
+<th>Session</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>London Silver Bullet</td>
+<td><strong>3:00–4:00 Uhr</strong></td>
+<td>London</td>
+</tr>
+<tr>
+<td>NY AM Silver Bullet</td>
+<td><strong>10:00–11:00 Uhr</strong></td>
+<td>NY-Session</td>
+</tr>
+<tr>
+<td>NY PM Silver Bullet</td>
+<td><strong>14:00–15:00 Uhr</strong></td>
+<td>NY PM</td>
+</tr>
+</tbody>
+</table>
+<p>Das Zeitfenster ist nur für den <strong>Einstieg</strong> relevant — der Trade muss nicht innerhalb des Windows
+fertig sein und darf über die Stunde hinaus weiterlaufen. ICT nutzt bevorzugt den <strong>5-Min-Chart</strong>
+für den Entry, kombiniert mit PD Arrays aus dem 15-Min- und 1H-Chart. Muss zusätzlich mit
+<strong>Confluenz</strong> abgesichert werden: andere PD Arrays/Targets wie NWOG/NDOG, Midnight Opening Fibs
+oder das 1. presented FVG. Siehe <a href="../p/ict-silver-bullet-source.html">ICT Silver Bullet (Source)</a>.</p>
 <h2 id="ablauf">Ablauf</h2>
 <ul>
 <li>Referenzbeispiel: das <a href="../p/ict-macros-leading-candles.html">Macro</a> <strong>9:50–10:10</strong> liefert Displacement +
@@ -89,21 +123,24 @@ dem eigentlichen Silver-Bullet-Fenster, nicht erst mit dessen Beginn.</p>
 </ul>
 <figure><img class="wiki-img" src="../../raw/trading-ict/assets/Kurz Notizen - Late Shorting Liquidity Pool Example.png" alt="Kurz Notizen - Late Shorting Liquidity Pool Example" loading="lazy"><figcaption>ICT würde hier trotz fast vollendetem Price Run noch shorten, da kurz davor ein offensichtlicher Liquidity Pool liegt.</figcaption></figure>
 
-<h2 id="weitere-bekannte-silver-bullet-fenster">Weitere bekannte Silver-Bullet-Fenster</h2>
+<h2 id="bezug-zu-nachbar-fenstern">Bezug zu Nachbar-Fenstern</h2>
 <ul>
-<li><strong>PM-Session, ~14 Uhr NY</strong> — siehe <a href="../p/ny-pm-trend.html">NY PM Trend</a>.</li>
-<li>Weitere Fenster (AM/Lunch) sind über <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a> und
-  <a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a> referenziert, aber noch nicht vollständig als eigene Zeiten
-  belegt — bei weiterem Ingest präzisieren.</li>
+<li>Das <strong>NY-AM-Fenster (10–11 Uhr)</strong> überlappt mit dem Vorlauf zum [[NY Lunch Macro Model|NY Lunch
+  Macro]] (Ausführung 10:50–11:10) — beide liegen im selben Vormittagsblock, sind aber getrennte
+  Setups.</li>
+<li>Das <strong>PM-Fenster (14–15 Uhr)</strong> bestätigt <a href="../p/ny-pm-trend.html">NY PM Trend</a> ("Beginnt typischerweise um 2 Uhr =
+  Silver Bullet").</li>
+<li>✅ Damit ist der bisher offene Punkt geklärt, dass die AM-/Lunch-Fenster noch nicht als eigene
+  Zeiten belegt waren.</li>
 </ul>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a>, <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>, <a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
 <li><a href="../p/modell-22.html">Modell 22</a> — ebenfalls ein MSS+SIBI/IFVG-basierter Trigger</li>
-<li><a href="../p/ny-pm-trend.html">NY PM Trend</a>, <a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
-<li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a></li>
+<li><a href="../p/ny-pm-trend.html">NY PM Trend</a>, <a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a>, <a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/ict-silver-bullet-source.html">ICT Silver Bullet (Source)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">16</span></h2><ul><li><a href="../p/graded-price-swings.html">Graded Price Swings</a><span class="cat">Modelle</span></li><li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-killzones.html">ICT Killzones</a><span class="cat">Konzepte</span></li><li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/london-opening-range-1p-fvg-source.html">London Opening Range +1p FVG (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a><span class="cat">Konzepte</span></li><li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a><span class="cat">Synthese</span></li><li><a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a><span class="cat">Modelle</span></li><li><a href="../p/one-trading-setup-for-life-source.html">One Trading Setup For Life (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/smc-midnight-opening-range-source.html">SMC Midnight Opening Range (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a><span class="cat">Konzepte</span></li><li><a href="../p/tgif-thank-god-its-friday-source.html">TGIF - Thank God its Friday (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">17</span></h2><ul><li><a href="../p/graded-price-swings.html">Graded Price Swings</a><span class="cat">Modelle</span></li><li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-killzones.html">ICT Killzones</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-silver-bullet-source.html">ICT Silver Bullet (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/london-opening-range-1p-fvg-source.html">London Opening Range +1p FVG (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a><span class="cat">Konzepte</span></li><li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a><span class="cat">Synthese</span></li><li><a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a><span class="cat">Modelle</span></li><li><a href="../p/one-trading-setup-for-life-source.html">One Trading Setup For Life (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/smc-midnight-opening-range-source.html">SMC Midnight Opening Range (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a><span class="cat">Konzepte</span></li><li><a href="../p/tgif-thank-god-its-friday-source.html">TGIF - Thank God its Friday (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/models/Silver Bullet Model.md</code></footer>
 </article>
 </main>
