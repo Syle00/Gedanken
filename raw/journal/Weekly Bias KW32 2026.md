@@ -9,6 +9,6 @@ Da das NWOG groß und noch offen ist werde ich schauen ob und wann wir versuchen
 IM RTH Chart ist das ORG Donnerstag 23 Juli bnoch komplett offen und ist unterhalb meines DOL Buyside was ich gut finde da dieses wahrscheinlich gefilled werden will. 
 
 COT daten sind etwas abgeschwächt Smart Money hat verkauft was absolut zur Priceaction der letzten Woche passt.
-![alt text](image-1.png) 
+![alt text](journal-2026-w32-cot-chart.png) 
 
-![alt text](03.08.2026.07.55.39.785.AM.png) ![alt text](03.08.2026.08.00.07.547.AM.png) ![alt text](03.08.2026.08.00.29.154.AM.png) ![alt text](03.08.2026.08.01.10.385.AM.png) ![alt text](03.08.2026.08.01.29.510.AM.png)![alt text](cot.png)
+![alt text](journal-2026-w32-cot-01.png) ![alt text](journal-2026-w32-cot-02.png) ![alt text](journal-2026-w32-cot-03.png) ![alt text](journal-2026-w32-cot-04.png) ![alt text](journal-2026-w32-cot-05.png)![alt text](journal-2026-w32-cot-06.png)
