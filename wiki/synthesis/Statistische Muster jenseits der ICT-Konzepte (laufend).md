@@ -2,7 +2,7 @@
 tags: [synthesis, algo, backtest, generiert]
 created: 2026-08-04
 updated: 2026-08-04
-sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]"]
+sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_seasonal.py]]"]
 ---
 
 # Statistische Muster jenseits der ICT-Konzepte (laufend)
@@ -86,18 +86,91 @@ Durchschnittlicher Abstand von Tages-High/-Low zur nächsten 50-Punkte-Marke: **
 **keine Evidenz**, dass Tagesextreme in diesem Datensatz runde Zahlen bevorzugen. Konsistentes
 Nullresultat über beide Stichproben.
 
+## 5. Turn-of-Month-Effekt: bestätigt sich in den eigenen Daten
+
+Extern gut belegtes Phänomen (siehe Quellen unten): Renditen konzentrieren sich auf die
+letzten Handelstage eines Monats plus die ersten paar Tage des Folgemonats. Getestet mit
+`algo/backtest_seasonal.py` (letzter Handelstag + erste 3 des Folgemonats vs. Rest):
+
+| | n | Ø-Tagesrendite | Bullish % | Ø-Range |
+|---|---|---|---|---|
+| TOM-Fenster | 28 | **+0,341 %** | **64,3** | 544,5 |
+| Rest des Monats | 221 | +0,070 % | 52,5 | 578,0 |
+
+Die TOM-Tage sind **nicht größer** in der Range (sogar leicht kleiner), aber deutlich
+einseitiger bullish — passt zur externen Literatur (Kunkel/Compton/Beyer 2003, McConnell/Xu
+2008: 4-Tage-Fenster in 19+ Ländern, ~15–20 Basispunkte Zusatzrendite pro Tag im TOM-Fenster
+gegen ~0 sonst). Von den bisher getesteten Mustern das einzige mit externer Bestätigung UND
+Bestätigung in den eigenen Daten.
+
+## 6. Woche-im-Monat
+
+| Woche (Tage) | n | Bullish % | Median-Range |
+|---|---|---|---|
+| 1 (1.–7.) | 34 | 61,8 | 528,00 |
+| 2 (8.–14.) | 35 | 62,9 | 473,50 |
+| 3 (15.–21.) | 32 | 50,0 | 479,38 |
+| 4 (22.–28.) | 34 | **44,1** | 503,38 |
+| 5 (29.–31., dünn) | 12 | 58,3 | 655,38 |
+
+Woche 1+2 überschneiden sich teilweise mit dem Turn-of-Month-Fenster (Punkt 5) — kein
+unabhängiger Fund. Woche 4 (44,1 % bullish, spürbar unter den anderen) ist dagegen **nicht**
+durch TOM erklärt und noch unbeobachtet — möglicher Vorbote-Effekt vor dem TOM-Fenster, aber
+bei n=34 noch nicht belastbar. Offener Punkt fürs nächste Update.
+
+## 7. Monatszahlen 2026 gegen externe Nasdaq-Seasonality-Quellen
+
+Mit nur 7 vollen Monaten (ein einziges Jahr) ist das **kein echter Mehrjahres-
+Seasonality-Test** — Kalendermonate wiederholen sich hier nicht. Trotzdem als Rohbefund
+gegen die extern behauptete 20-Jahres-Nasdaq-100-Saisonalität gehalten (Equity Clock/Barchart:
+beste Monate historisch Jan, Mär, Apr, Mai, Jul, Aug, Okt, Nov; „Sell in May" gilt für
+Tech/Nasdaq laut mehreren Quellen deutlich schwächer als für den S&P 500):
+
+| Monat 2026 | n | Bullish % | Ø-Tagesrendite |
+|---|---|---|---|
+| Jan | 20 | 60,0 | +0,05 % |
+| Feb | 19 | 42,1 | −0,06 % |
+| Mär | 22 | 36,4 | −0,00 % |
+| Apr | 21 | **85,7** | **+0,80 %** |
+| Mai | 20 | 70,0 | +0,49 % |
+| Jun | 21 | 52,4 | −0,06 % |
+| Jul | 22 | 36,4 | −0,40 % |
+| Aug | 2 | 100,0 (n=2, kaum aussagekräftig) | +0,84 % |
+
+**Deckt sich**: April und Mai — beide historisch "beste Monate" laut Quellen, beide 2026
+deutlich bullish. Mai speziell bestätigt auch die "Sell in May gilt für Tech kaum"-Beobachtung
+aus der Literatur (Forbes: „S&P-Yes, Nasdaq-No").
+**Widerspricht klar**: März und Juli — beide historisch "beste Monate", in 2026 aber die mit
+Abstand schwächsten (36,4 % bullish, negative Ø-Rendite). Kein Beleg, dass die 20-Jahres-
+Saisonalität sich in diesem einen Jahr wiederholt hat.
+
+**Quellen** (Web-Recherche 2026-08-04):
+- [E-Mini Nasdaq 100 Futures (NQ) Seasonal Chart – Equity Clock](https://equityclock.com/charts/e-mini-nasdaq-100-futures-nq-seasonal-chart/)
+- [Nasdaq 100 E-Mini Futures Seasonal Returns – Barchart](https://www.barchart.com/futures/quotes/NQ*0/seasonality-chart)
+- [Turn of the Month Effect – ETF Trends](https://www.etftrends.com/etf-strategist-channel/turn-month-effect/)
+- [Turn of the Month in Equity Indexes – Quantpedia](https://quantpedia.com/strategies/turn-of-the-month-in-equity-indexes)
+- [Selling Stocks In May? S&P-Yes, Nasdaq-No! – Forbes](https://www.forbes.com/sites/kennethwinans/2026/05/05/selling-stocks-in-may-sp-yes-nasdaq-no/)
+- [Sell in May and Go Away? Testing the adage with 50 years of data – Deephaven](https://deephaven.io/blog/2026/05/08/sell-in-may/)
+
 ## Einordnung
 
-Punkt 1 und 2 sind die robustesten Funde (großes n, deutlicher Effekt) und Kandidaten für
-eigene Konzept-Seiten, falls sich das Muster mit wachsendem Datenstand hält. Punkt 3 ist
-schwächer und sollte mit mehr Daten erneut geprüft werden. Punkt 4 ist ein stabiles
-Negativ-Ergebnis. Alle vier Skripte laufen bei wachsendem `raw/marktdaten/`-Bestand automatisch
-mit größerer Stichprobe erneut — siehe `algo/PLAN.md`-Log für den Rohbefund.
+**Am robustesten**: Punkt 5 (Turn-of-Month) — großes n, klarer Effekt, UND extern durch
+unabhängige Forschung über 19+ Länder bestätigt. Punkt 1 (Montag) und 2 (Range-Autokorrelation)
+sind ebenfalls solide (großes n, deutlicher Effekt), aber ohne externe Bestätigung gefunden —
+Kandidaten für eigene Konzept-Seiten, falls sie sich halten. Punkt 3 ist schwächer und sollte
+mit mehr Daten erneut geprüft werden. Punkt 4 ist ein stabiles Negativ-Ergebnis. Punkt 6
+(Woche 4) ist ein neuer, noch unbestätigter Kandidat. Punkt 7 zeigt: die *externe* Monats-
+Seasonality-Erwartung trifft in diesem einen Jahr nur teilweise zu (Apr/Mai ja, Mär/Jul klar
+nein) — ohne Mehrjahresdaten kein belastbarer Test. Alle fünf Skripte laufen bei wachsendem
+`raw/marktdaten/`-Bestand automatisch mit größerer Stichprobe erneut — siehe `algo/PLAN.md`-Log
+für den Rohbefund.
 
 ## Verwandt
 
 - [[One Shot One Kill Model]], [[Market Maker Manipulation Templates]] — bestehende
   Wochentags-Konzepte, die etwas anderes behaupten als Punkt 1
 - [[TGIF (Thank God its Friday)]] — einziges anderes wochentagsspezifisches Konzept im Wiki
+- [[Seasonal Tendency]] — bestehende Wiki-Seite zu saisonalen Tendenzen (allgemein, ohne
+  Monatsdetails); Punkt 7 hier ist die erste konkrete Zahlenprüfung dagegen
 - [[Muster-Validierung (laufend)]] — Schwesterseite fuer die ICT-PD-Array-Backtests
 - `algo/PLAN.md` — vollstaendiger Log-Eintrag mit Methodik
