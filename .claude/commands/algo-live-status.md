@@ -19,5 +19,8 @@ Fuehre einen einzelnen Live-Status-Zyklus fuer MNQ aus.
      Neues ergeben hat.
    - **Ausblick**: eigene Einschaetzung, was als naechstes plausibel ist (z.B. naechstes
      Zeitfenster, offenes `setup`-Target, unberuehrte Liquiditaet in der Naehe).
+
+   Ist `first_run: true`, das explizit sagen und `new_events` als Startaufnahme des
+   ganzen Handelstages behandeln, nicht als Liste dessen, was gerade eben passiert ist.
 5. Den Bericht mit Zeitstempel an `algo/live/<day>-status-log.md` anhaengen (Datei
    anlegen, falls sie noch nicht existiert) und ihn auch im Chat ausgeben.

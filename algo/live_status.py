@@ -22,7 +22,8 @@ from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import (  # noqa: E402
-    Bar, load, fvgs, sweeps, structure_breaks, macro_windows, TF_MINUTES, CFG,
+    Bar, load, fvgs, sweeps, structure_breaks, untouched_levels, macro_windows, at,
+    TF_MINUTES, CFG,
 )
 from rules import plan_trade, _active_window  # noqa: E402
 
@@ -105,29 +106,54 @@ def run_detectors(bars: list[Bar], day: date, now: datetime) -> dict:
     if not bars:
         return {"price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None,
-                "fvgs": [], "sweeps": [], "structure_breaks": []}
+                "fvgs": [], "sweeps": [], "structure_breaks": [], "untouched_levels": []}
 
-    med_bar = statistics.median(b.rng for b in bars) or 1.0
-    fg = fvgs(bars)
-    sw = sweeps(bars, CFG["swing"], CFG["min_age"], CFG["min_pen"] * med_bar, CFG["confirm"])
-    sb = structure_breaks(bars, CFG["swing"], CFG["min_age"])
-    setup = plan_trade(bars, now)
+    # Detektor-Scope: die Globex-Session *dieses* Handelstages (18:00 NY am Vorabend bis
+    # `now`) -- sonst tauchen Ereignisse vom Vortag in einem Bericht auf, der mit `day`
+    # beschriftet ist, und die Zahlen sind nicht mit backtest_ohlc.py vergleichbar.
+    # Die letzte Kerze wird abgeschnitten: sie ist im Live-Betrieb noch am Entstehen, und
+    # ein daraus abgeleitetes Ereignis kann sich wieder aufloesen -- diff_events() kann
+    # aber nur hinzufuegen, nie zuruecknehmen.
+    session_start = at(day - timedelta(days=1), 18)
+    scoped = [b for b in bars if session_start <= b.t <= now]
+    stable_bars = scoped[:-1] if len(scoped) > 1 else scoped
 
+    med_bar = (statistics.median(b.rng for b in stable_bars) or 1.0) if stable_bars else 1.0
+    fg = fvgs(stable_bars)
+    sw = sweeps(stable_bars, CFG["swing"], CFG["min_age"], CFG["min_pen"] * med_bar,
+                CFG["confirm"])
+    sb = structure_breaks(stable_bars, CFG["swing"], CFG["min_age"])
+    setup = plan_trade(stable_bars, now)
+    lv = untouched_levels(stable_bars, CFG["swing"])
+
+    # Vor 18:00 NY liegt `now` noch in den Fenstern des *vorherigen* Handelstages --
+    # `day` ist bereits globex-verschoben, deshalb beide Tage durchsuchen.
     active_macro = None
-    for name, start, end in macro_windows(day):
-        if start <= now < end:
-            active_macro = {"name": name, "start": start.isoformat(), "end": end.isoformat()}
+    for candidate_day in (day - timedelta(days=1), day):
+        for name, start, end in macro_windows(candidate_day):
+            if start <= now < end:
+                active_macro = {"name": name, "start": start.isoformat(), "end": end.isoformat()}
+                break
+        if active_macro:
             break
     win = _active_window(day, now)
 
-    last = bars[-1]
+    last = bars[-1]  # Preis kommt bewusst von der *echten* letzten Kerze, inkl. laufender
     return {
         "price": {"last": last.c, "t": last.t.isoformat()},
         "active_macro_window": active_macro,
         "active_silver_bullet_window": win[0] if win else None,
         "setup": asdict(setup) if setup else None,
-        "fvgs": fg, "sweeps": sw, "structure_breaks": sb,
+        "fvgs": fg, "sweeps": sw, "structure_breaks": sb, "untouched_levels": lv,
     }
+
+
+def _setup_identity(s: dict | None):
+    """Identitaet eines Setups *ohne* `t`: plan_trade() setzt t = Abfragezeitpunkt, nicht
+    den Beginn des Setups. Ein unveraendertes Setup waere sonst in jedem Zyklus 'neu'."""
+    if s is None:
+        return None
+    return (s["window"], s["side"], s["entry"], s["stop"], s["target"])
 
 
 def diff_events(current: dict, prev_state: dict) -> tuple[list[dict], dict]:
@@ -147,7 +173,7 @@ def diff_events(current: dict, prev_state: dict) -> tuple[list[dict], dict]:
         new_state[field] = keys
 
     prev_setup, cur_setup = prev_state.get("setup"), current["setup"]
-    if cur_setup and cur_setup != prev_setup:
+    if cur_setup and _setup_identity(cur_setup) != _setup_identity(prev_setup):
         new_events.append({"kind": "setup_entered", **cur_setup})
     elif prev_setup and not cur_setup:
         new_events.append({"kind": "setup_exited", **prev_setup})
@@ -178,6 +204,18 @@ def selftest() -> None:
     events4, _ = diff_events(without_setup, state3)
     assert any(e["kind"] == "setup_exited" for e in events4), events4
 
+    # Fix 1: gleiches Setup, nur ein anderer Abfragezeitpunkt -> kein neues Ereignis.
+    same_setup_later = {**setup, "t": t1 + timedelta(minutes=10)}
+    events5, state5 = diff_events(
+        {"fvgs": [], "sweeps": [], "structure_breaks": [], "setup": same_setup_later}, state3)
+    assert not any(e["kind"] == "setup_entered" for e in events5), events5
+    assert state5["setup"]["t"] == same_setup_later["t"], state5  # `t` wird trotzdem persistiert
+    # ...ein echt anderes Setup (anderer Entry) aber schon.
+    moved_setup = {**same_setup_later, "entry": 101.5}
+    events6, _ = diff_events(
+        {"fvgs": [], "sweeps": [], "structure_breaks": [], "setup": moved_setup}, state5)
+    assert any(e["kind"] == "setup_entered" for e in events6), events6
+
     print("selftest (Task 1: diff_events) ok")
 
     # Task 3: write_live_day mit synthetischen Daten -- kein Netzwerk noetig.
@@ -196,11 +234,28 @@ def selftest() -> None:
     day_path = (Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
                 / "2026" / "07" / "31.07.2026" / "MNQ 2026-07-31 5m.csv")
     real_bars = load(day_path)
-    det = run_detectors(real_bars, date(2026, 7, 31), real_bars[-1].t)
+    day31 = date(2026, 7, 31)
+    det = run_detectors(real_bars, day31, real_bars[-1].t)
     assert det["price"]["last"] == real_bars[-1].c
     assert isinstance(det["fvgs"], list) and isinstance(det["sweeps"], list)
-    empty_det = run_detectors([], date(2026, 7, 31), real_bars[-1].t)
+    assert isinstance(det["untouched_levels"], list)  # Fix 5
+    empty_det = run_detectors([], day31, real_bars[-1].t)
     assert empty_det["price"] is None and empty_det["fvgs"] == []
+    assert empty_det["untouched_levels"] == []
+
+    # Fix 6: kein Ereignis vor Session-Start (18:00 NY am Vorabend), obwohl die CSV
+    # bis 2026-07-30 15:00 zurueckreicht. `price` bleibt die echte letzte Kerze.
+    session_start = at(day31 - timedelta(days=1), 18)
+    assert real_bars[0].t < session_start, real_bars[0].t  # Vorbedingung des Tests
+    for cat in ("fvgs", "sweeps", "structure_breaks", "untouched_levels"):
+        assert all(e["t"] >= session_start for e in det[cat]), (cat, det[cat][:2])
+    assert det["price"]["t"] == real_bars[-1].t.isoformat()
+
+    # Fix 2: 20:00 NY am Vorabend gehoert per Globex bereits zu day31 -- das aktive
+    # Makro-Fenster liegt dann in macro_windows(day31 - 1 Tag) und war frueher `null`.
+    evening = run_detectors(real_bars, day31, at(day31 - timedelta(days=1), 20))
+    assert evening["active_macro_window"] is not None, evening["active_macro_window"]
+    assert evening["active_macro_window"]["name"] == "19:50-20:10", evening["active_macro_window"]
     print("selftest (Task 2: run_detectors) ok")
 
 
@@ -213,16 +268,19 @@ def _dry_run(day_str: str) -> dict:
         return {"generated_at": datetime.now(NY).isoformat(), "day": day_str,
                 "market_data": False, "error": f"keine {BASE_TF}-Datei fuer {day_str} gefunden",
                 "price": None, "active_macro_window": None,
-                "active_silver_bullet_window": None, "setup": None, "new_events": []}
+                "active_silver_bullet_window": None, "setup": None, "new_events": [],
+                "first_run": False, "untouched_levels": []}
     bars = load(path)
     now = bars[-1].t
     det = run_detectors(bars, day, now)
     empty_state = {"fvgs": [], "sweeps": [], "structure_breaks": [], "setup": None}
     new_events, _ = diff_events(det, empty_state)
+    # --dry-run vergleicht per Konstruktion immer gegen einen leeren State.
     return {"generated_at": now.isoformat(), "day": day_str, "market_data": True, "error": None,
             "price": det["price"], "active_macro_window": det["active_macro_window"],
             "active_silver_bullet_window": det["active_silver_bullet_window"],
-            "setup": det["setup"], "new_events": new_events}
+            "setup": det["setup"], "new_events": new_events,
+            "first_run": True, "untouched_levels": det["untouched_levels"]}
 
 
 def _live_run() -> dict:
@@ -233,7 +291,8 @@ def _live_run() -> dict:
         return {"generated_at": now.isoformat(), "day": day.isoformat(), "market_data": False,
                 "error": "keine 5m-Daten (Markt geschlossen oder yfinance-Fehler)",
                 "price": None, "active_macro_window": None,
-                "active_silver_bullet_window": None, "setup": None, "new_events": []}
+                "active_silver_bullet_window": None, "setup": None, "new_events": [],
+                "first_run": False, "untouched_levels": []}
 
     for tf, df in dfs.items():
         if not df.empty:
@@ -243,6 +302,7 @@ def _live_run() -> dict:
     det = run_detectors(bars, day, now)
 
     state_path = LIVE_DIR / day.isoformat() / "state.json"
+    first_run = not state_path.exists()  # vor dem Schreiben des neuen States pruefen
     prev_state = load_state(state_path)
     new_events, new_state = diff_events(det, prev_state)
     state_path.write_text(json.dumps(new_state, default=str, ensure_ascii=False, indent=2),
@@ -251,7 +311,8 @@ def _live_run() -> dict:
     return {"generated_at": now.isoformat(), "day": day.isoformat(), "market_data": True,
             "error": None, "price": det["price"], "active_macro_window": det["active_macro_window"],
             "active_silver_bullet_window": det["active_silver_bullet_window"],
-            "setup": det["setup"], "new_events": new_events}
+            "setup": det["setup"], "new_events": new_events,
+            "first_run": first_run, "untouched_levels": det["untouched_levels"]}
 
 
 def main(argv=None) -> int:
