@@ -5,6 +5,11 @@
 1m fehlt bewusst: yfinance liefert Minutendaten nur fuer die letzten ~7 Tage,
 fuer Backfills also ungeeignet. 4h gibt es bei yfinance nicht nativ und wird
 aus 1h resampled (naiv ab Tagesstart, nicht CME-Session-aligned).
+
+Zusaetzlich zur vollen Session schreibt das Skript fuer 5m/15m/1h je einen
+RTH-Ausschnitt (09:30-16:00 NY, wie das bestehende manuelle Referenzfile) als
+eigene "<tf> RTH.csv" -- yfinance liefert keinen separaten RTH-Feed, das ist
+derselbe Datenstrom, nur auf das Zeitfenster gefiltert.
 # ponytail: 4h-Resampling ist ein grobes Raster, kein exaktes Session-Grid;
 # falls das mal einen Unterschied macht: an CME-Session-Start (18:00 NY) ausrichten.
 
@@ -15,7 +20,7 @@ Aufruf:
 from __future__ import annotations
 
 import sys
-from datetime import timedelta
+from datetime import time as dtime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -26,6 +31,8 @@ NY = ZoneInfo("America/New_York")
 DATA_DIR = Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
 SYMBOL = "MNQ=F"
 INTERVALS = ["5m", "15m", "1h", "1d"]
+RTH_TFS = ["5m", "15m", "1h"]  # wie beim bestehenden manuellen Export: 09:30-16:00 NY
+RTH_START, RTH_END = dtime(9, 30), dtime(16, 0)
 
 
 def trading_day(ts: pd.Timestamp, daily: bool = False):
@@ -75,6 +82,14 @@ def fetch(start: str, end: str) -> list[Path]:
             f = write_day(tf, day, rows)
             if f:
                 written.append(f)
+
+        if tf in RTH_TFS:
+            ny_time = df.index.tz_convert(NY).time
+            rth = df[(ny_time >= RTH_START) & (ny_time <= RTH_END)]
+            for day, rows in rth.groupby(rth.index.tz_convert(NY).date):
+                f = write_day(f"{tf} RTH", day, rows)
+                if f:
+                    written.append(f)
 
     if hourly is not None:
         h4 = (hourly.resample("4h").agg(
