@@ -79,20 +79,22 @@ pd_arrays: [New Week Opening Gap (NWOG) Bias, BISI & SIBI (Buyside-Sellside Imba
 
 Jede Zeile ist mit einem Preis beantwortbar — genau das fehlte im Altbestand bei 156 Bias-Eintraegen:
 
-| # | Vorhersage | Pruefung |
-|---|---|---|
-| 1 | Bias **Bullish** | Weekly-Close ueber 28.567,50? |
-| 2 | DOL **29.363,50** erreicht | Wochen-High >= 29.363,50? |
-| 3 | NDOG 23.07 (29.107,50 / 29.168,75) vorher gefuellt | ja/nein |
-| 4 | NWOG bleibt intakt | kein Daily-Close unter 28.284,00? |
-| 5 | Weekly High/Low bildet sich Montag (NWOG-Regel) | Wochen-Extrem am 03.08.? |
-| 6 | Montag "gute Price Action" (NFP-Woche) | Montag-Range vs. Ø der letzten 4 Montage |
-| 7 | Donnerstag als Reversal-Kandidat (NWOG-Regel) | Richtungswechsel am 06.08.? |
-| 8 | Do/Fr nicht gehandelt (eigene NFP-Regel) | Trades am 06./07.08. im Journal? |
-| 9 | **COT-Horizonte:** 12M sagt BUY, 3M/6M sagen SELL | Welcher Lookback trug die Woche — Wochen-Close ueber oder unter dem Montag-Open 28.567,50? |
-| 10 | ORG 23.07: offener Rest **28.868,25 – 29.249,75** | Wochen-High >= 28.868,25 / C.E. 28.983,88 / 29.249,75? |
-| 11 | ORG 30.07 **27.299,25 – 27.876,75** (unberuehrt) | Wochen-Low <= 27.876,75? |
-| 12 | Nur NY PM Silver Bullet gehandelt (14:00–15:00 NY) | Entry-Zeiten der Trades dieser Woche |
+| # | Vorhersage | Pruefung | Stand 2026-08-04 (Di, vor RTH-Open — Woche laeuft noch) |
+|---|---|---|---|
+| 1 | Bias **Bullish** | Weekly-Close ueber 28.567,50? | Zwischenstand: letzter Preis 29.045,50 (04.08. 01:50 NY) — **darueber**, noch kein Wochenschluss |
+| 2 | DOL **29.363,50** erreicht | Wochen-High >= 29.363,50? | Noch nicht — Wochen-High bislang 29.074,75 (04.08. 01:35 NY), 288,75 P entfernt |
+| 3 | NDOG 23.07 (29.107,50 / 29.168,75) vorher gefuellt | ja/nein | Noch nicht — Hoch bislang 29.074,75 liegt knapp darunter |
+| 4 | NWOG bleibt intakt | kein Daily-Close unter 28.284,00? | ✅ bisher intakt — Montag-Close 28.929,25 |
+| 5 | Weekly High/Low bildet sich Montag (NWOG-Regel) | Wochen-Extrem am 03.08.? | ⚠️ **Bisher widerlegt fuer das High:** Wochen-Low kam Montag 09:30 (28.313,00), das Wochen-High bislang aber erst Dienstagfrueh 01:35 (29.074,75) — noch nicht final, da die Woche laeuft |
+| 6 | Montag "gute Price Action" (NFP-Woche) | Montag-Range vs. Ø der letzten 4 Montage | Montag-Range 652,0 P vs. Ø der 4 Vor-Montage 690,5 P (795,0 / 656,0 / 485,75 / 825,25) — **im Rahmen**, nicht auffaellig ueber- oder unterdurchschnittlich |
+| 7 | Donnerstag als Reversal-Kandidat (NWOG-Regel) | Richtungswechsel am 06.08.? | offen — Donnerstag steht noch aus |
+| 8 | Do/Fr nicht gehandelt (eigene NFP-Regel) | Trades am 06./07.08. im Journal? | offen |
+| 9 | **COT-Horizonte:** 12M sagt BUY, 3M/6M sagen SELL | Welcher Lookback trug die Woche — Wochen-Close ueber oder unter dem Montag-Open 28.567,50? | offen, tendenziell 12M (Preis bisher klar ueber 28.567,50) |
+| 10 | ORG 23.07: offener Rest **28.868,25 – 29.249,75** | Wochen-High >= 28.868,25 / C.E. 28.983,88 / 29.249,75? | ✅ 28.868,25 und C.E. 28.983,88 bereits ueberschritten (High 29.074,75); Zonen-Obergrenze 29.249,75 noch nicht erreicht |
+| 11 | ORG 30.07 **27.299,25 – 27.876,75** (unberuehrt) | Wochen-Low <= 27.876,75? | ✅ weiterhin unberuehrt — Wochen-Low 28.313,00 liegt weit darueber |
+| 12 | Nur NY PM Silver Bullet gehandelt (14:00–15:00 NY) | Entry-Zeiten der Trades dieser Woche | offen |
+
+**Noch kein `bias_korrekt`** — die Woche ist erst Dienstagfrueh vor RTH-Open, Punkte 7/8/9/12 brauchen Donnerstag/Freitag. Auffaelligster Zwischenbefund: Punkt 5 (Weekly-Extrem bildet sich am Montag) haelt bislang nur fuer das Low, nicht fuer das High — der eigentliche Hochpunkt lief bis in die Dienstagfrueh-Session weiter.
 
 ### MNQ
 
@@ -176,7 +178,7 @@ Jede Zeile ist mit einem Preis beantwortbar — genau das fehlte im Altbestand b
 
 *Nicht bewertbar, weil die Information fehlt — beim nächsten Mal mitloggen.*
 
-- P09: bias_korrekt bleibt bis Freitag leer — die Pruefliste unten macht es diesmal objektiv entscheidbar statt nach Gefuehl.
+- P09: bias_korrekt bleibt bis Freitag leer — die Pruefliste unten macht es diesmal objektiv entscheidbar statt nach Gefuehl. **Zwischenstand 2026-08-04 in der Pruefliste ergaenzt** (Punkte 1/2/3/4/6/10/11 bereits mit Marktdaten beantwortbar, 5/7/8/9/12 erst nach Do/Fr).
 - P09: Bias noch nicht nachgehalten — nach Sessionende eintragen, ob er aufging. Ohne das bleibt die Trefferquote des Bias unbekannt.
 - Kein Invalidierungslevel fuer den Bullish-Bias genannt — vorgeschlagen: Daily-Close unter 28.284,00.
 - Kein RTH-Chart unter den Screenshots, obwohl im Text darauf Bezug genommen wird.

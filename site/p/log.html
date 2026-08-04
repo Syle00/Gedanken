@@ -76,6 +76,7 @@
 <li><a href="#2026-08-03-ingest-mnq-2026-08-03-marktdaten-update-start-algo-trading-projekt">[2026-08-03] ingest | MNQ 2026-08-03 (Marktdaten-Update, Start Algo-Trading-Projekt)</a></li>
 <li><a href="#2026-08-03-setup-jahrmonat-verschachtelung-fuer-rawmarktdaten-uebergeordnetes-ziel-im-algo-projekt">[2026-08-03] setup | Jahr/Monat-Verschachtelung fuer raw/marktdaten/ + Uebergeordnetes Ziel im Algo-Projekt</a></li>
 <li><a href="#2026-08-03-synthesis-muster-validierung-laufend-erste-version-ict-behauptungen-gegen-echte-daten">[2026-08-03] synthesis | Muster-Validierung (laufend) — erste Version, ICT-Behauptungen gegen echte Daten</a></li>
+<li><a href="#2026-08-04-ingest-mnq-marktdaten-update-erster-bias-accuracy-backtest">[2026-08-04] ingest | MNQ Marktdaten-Update + erster Bias-Accuracy-Backtest</a></li>
 </ul>
 </div>
 </details>
@@ -456,6 +457,17 @@
   NWOG/NDOG, OTE, Breakaway Gap, Suspension Block, Judas-Zeitfenster, SMT).</li>
 <li>Offen: die meisten PD Arrays haben noch keinen Detektor (siehe Abdeckungs-Tabelle in der
   generierten Seite). Wird schrittweise ausgebaut, nicht in einem Schritt geraten.</li>
+</ul>
+<h2 id="2026-08-04-ingest-mnq-marktdaten-update-erster-bias-accuracy-backtest">[2026-08-04] ingest | MNQ Marktdaten-Update + erster Bias-Accuracy-Backtest</h2>
+<ul>
+<li>Nutzerauftrag: neue Daten in <code>raw/</code> verarbeiten und pruefen, wie sich der Bias geschlagen hat; neue Erkenntnisse im Projekt hinterlegen.</li>
+<li>6 lose TradingView-Exporte (<code>raw/CME_MINI_MNQU2026, {1,5,15,60,240,1D}_*.csv</code>) lagen im Vault-Root statt in <code>raw/marktdaten/</code> — dorthin verschoben, mit <code>tools/sort_marktdaten.py</code> eingeraeumt. Ergebnis: <code>raw/marktdaten/2026/08/04.08.2026/</code>. Die 1m/5m/15m/1h-Dateien decken aber <strong>nur den Nacht-/Vormarktbereich bis 04.08. 01:50 NY</strong> ab (Export offenbar frueh am Morgen gezogen, vor RTH-Open) — kein vollstaendiger Handelstag, deshalb <strong>keine eigene "Tagesrueckblick"-Seite</strong> fuer den 04.08. angelegt (waere auf duennen Daten spekulativ).</li>
+<li><strong>Erster echter Bias-Accuracy-Backtest, bislang eine Luecke.</strong> Bisher gab es zwar Marktdaten-Tagesreports und die generierte <code>Muster-Validierung</code>, aber keine Auswertung, ob ein <em>geaeusserter Bias</em> tatsaechlich eingetroffen ist. Die beiden 03.08.-Journal-Eintraege (<code>journal/entries/2026-08-03 MNQ Daily Bias.md</code>, <code>... Weekly Bias.md</code>) enthalten bereits eine preisbasierte Pruefliste mit leerem <code>bias_korrekt</code>-Feld genau fuer diesen Zweck — jetzt erstmals ausgefuellt, keine neue Tooling-Schicht noetig.</li>
+<li><strong>Daily Bias 03.08. ausgewertet</strong> (Datenbasis: kompletter Handelstag in <code>raw/marktdaten/.../03.08.2026/</code>): <code>bias_korrekt: true</code> gesetzt. Bullish-These voll bestaetigt — Close +361,75 P ueber Open, DOL 28.725,75–28.763,75 um 201 P ueberschossen, NWOG haelt. Die im Plan angenommene tiefe Judas-Sequenz (Sweep bis 28.210,25–28.284,00) traf <strong>nicht</strong> ein — Tages-Low blieb bei 28.313,00, innerhalb des NWOG. Kostete nichts (kein Invalidierungslevel gerissen), zeigt aber: die Tiefe eines erwarteten Sweeps war vorab nicht zuverlaessig einschaetzbar. Auffaelligster Fund: das Tages-High (= DOL-Treffer) entstand um <strong>14:10</strong>, exakt im geplanten NY-PM-Silver-Bullet-Fenster 14:00–15:00 — die Zeitwahl war treffsicher, auch wenn kein Entry geloggt ist und die Trefferquote des tatsaechlichen Trades damit unbekannt bleibt.</li>
+<li><strong>Weekly Bias 03.08. — Zwischenstand, kein <code>bias_korrekt</code></strong> (Woche laeuft bis Freitag): NWOG haelt bislang, ORG-23.07-C.E. bereits ueberschritten, ORG 30.07 weiterhin unberuehrt, Montag-Range 652 P liegt im Rahmen der letzten 4 Montage (Ø 690,5 P). <strong>Neuer Bruch mit der eigenen Erwartung:</strong> die NWOG-Regel "Weekly High/Low bildet sich am Montag" haelt bislang nur fuers Low (Montag 09:30) — das Wochen-High lief bis in die Dienstagfrueh-Session (01:35 NY) weiter. Ob sich das noch dreht, zeigt erst der Rest der Woche.</li>
+<li><code>algo/backtest_ohlc.py</code> neu ausgefuehrt: <code>wiki/synthesis/Muster-Validierung (laufend).md</code> jetzt mit 3 Handelstagen (07-31, 08-03, 08-04) statt 2. Der duenne 08-04-Vormarkt-Tag taucht in der Pro-Tag-Tabelle transparent mit fast leeren Zahlen auf (0 grosse FVGs, 1 Sweep) statt die Gesamtstatistik unbemerkt zu verwaessern.</li>
+<li>Seiten aktualisiert: <code>journal/entries/2026-08-03 MNQ Daily Bias.md</code>, <code>journal/entries/2026-08-03 MNQ Weekly Bias.md</code>, <code>wiki/synthesis/Muster-Validierung (laufend).md</code>, <code>wiki/index.md</code> (Tage-Zahl aktualisiert).</li>
+<li>Offen: Weekly-Bias-<code>bias_korrekt</code> erst nach Donnerstag/Freitag entscheidbar (Punkte 7/8/9/12 der Pruefliste). "Bellweather Chart" (User-Begriff aus dem Daily Bias) hat weiterhin keine Wiki-Seite — dritter Auftreten-Schwelle noch nicht erreicht.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

@@ -230,7 +230,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[MNQ 2026-07-31 — Datenbasierter Tagesrückblick]] — Freitag komplett aus OHLC-Daten ausgewertet: Judas Swing 09:31, 646 Pkt Tagesrange in 41 Minuten, Checkliste 6/7 (2026-08-02)
 - [[MNQ 2026-08-03 — Datenbasierter Tagesrückblick]] — Montag (Daten bis 16:18 NY, Tag nicht beendet): Sweep + 166-Pkt-Displacement exakt am RTH-Open 09:30, Macro-Expansion erneut vor dem offiziellen Lunch-Fenster (2026-08-03)
 - [[MentorShip 2025]] — Überknotenpunkt der MentorShip-Reihe: der gemeinsame Ablauf hinter den fünf Lektionen, wo sie sich gegenseitig bestätigen, was sie neu ins Wiki gebracht haben (2026-08-02)
-- [[Muster-Validierung (laufend)]] — **generiert** von `algo/backtest_ohlc.py`, wird bei jedem neuen Handelstag neu geschrieben: FVG/VII-Füllraten, Sweep-/Struktur-/Macro-Statistik über alle Tage in `raw/marktdaten/`, Stand 2 Tage — noch nicht belastbar (2026-08-03)
+- [[Muster-Validierung (laufend)]] — **generiert** von `algo/backtest_ohlc.py`, wird bei jedem neuen Handelstag neu geschrieben: FVG/VII-Füllraten, Sweep-/Struktur-/Macro-Statistik über alle Tage in `raw/marktdaten/`, Stand 3 Tage — noch nicht belastbar (2026-08-04)
 
 ## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)
 

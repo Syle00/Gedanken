@@ -4,6 +4,7 @@ tags:
 Bias:
   - Bullish
 Date: 2026-08-03
+bias_korrekt: true
 NQ/ES: MNQ
 id: 2026-08-03-02
 typ: daily-bias
@@ -55,17 +56,21 @@ fehler: [S08]
 
 ---
 
-## Zu pruefen nach Sessionende
+## Zu pruefen nach Sessionende — ausgewertet 2026-08-04
 
-| # | Vorhersage | Pruefung |
-|---|---|---|
-| 1 | Bias **Bullish** | Tages-Close ueber Open 28.567,50? |
-| 2 | DOL **28.725,75–28.763,75** erreicht | Tages-High >= 28.725,75? |
-| 3 | Drop ins NWOG kam **zuerst** | Tages-Low <= 28.567,50 vor dem High? |
-| 4 | Judas zur Sellside mit Reclaim | Low zwischen 28.210,25 und 28.284,00, danach Rueckeroberung? |
-| 5 | NWOG haelt | Kein Close unter 28.284,00? |
-| 6 | Nur NY PM SB gehandelt | Entry-Zeit im Fenster 14:00–15:00? |
-| 7 | War die AM-Session der Tagesmove? | Lag das Tagesextrem vor 11:30? |
+Datenbasis: `raw/marktdaten/2026/08/03.08.2026/MNQ 2026-08-03 5m.csv` (300 Kerzen, kompletter Tag).
+
+| # | Vorhersage | Pruefung | Ergebnis |
+|---|---|---|---|
+| 1 | Bias **Bullish** | Tages-Close ueber Open 28.567,50? | ✅ Ja — Close 28.929,25 (+361,75 P) |
+| 2 | DOL **28.725,75–28.763,75** erreicht | Tages-High >= 28.725,75? | ✅ Ja — High 28.965,00 um 14:10, DOL um 201,25 P **ueberschossen** |
+| 3 | Drop ins NWOG kam **zuerst** | Tages-Low <= 28.567,50 vor dem High? | ✅ Ja — Low 28.313,00 um 09:30, danach erst der Anstieg zum High um 14:10 |
+| 4 | Judas zur Sellside mit Reclaim | Low zwischen 28.210,25 und 28.284,00, danach Rueckeroberung? | ❌ Nein — Low blieb bei 28.313,00, **innerhalb** des NWOG (nie unter 28.284,00 gefallen). Sweep um 09:30 traf das Level 28.382,75 (69,75 P Penetration), nicht die NWOG-Unterkante. Der Judas fiel flacher aus als angenommen, invalidierte den Bias aber auch nie. |
+| 5 | NWOG haelt | Kein Close unter 28.284,00? | ✅ Ja — kein Close in der Naehe, Tag schloss 645 P darueber |
+| 6 | Nur NY PM SB gehandelt | Entry-Zeit im Fenster 14:00–15:00? | — nicht protokolliert (Entry-Feld im Eintrag leer). Bemerkenswert: das Tages-High (= DOL-Treffer) entstand um **14:10**, exakt im geplanten SB-Fenster 14:00–15:00. |
+| 7 | War die AM-Session der Tagesmove? | Lag das Tagesextrem vor 11:30? | ⚠️ Gemischt — das Low (09:30) ja, das bias-entscheidende High (14:10, der DOL-Treffer) **nein**, kam in der PM-Session |
+
+**bias_korrekt: Ja.** Der Bullish-Bias war korrekt und deutlich profitabel (+361,75 P Close-zu-Open, DOL um 201 P ueberschossen). Die im Plan angenommene Judas-Sequenz (Punkt 4) traf im Detail nicht zu — das kostet nichts, weil kein Invalidierungslevel gerissen wurde, zeigt aber, dass die Tiefe eines erwarteten Sweeps vorab nicht zuverlaessig vorhersagbar war.
 
 ### MNQ
 
@@ -116,10 +121,12 @@ fehler: [S08]
 **Belegt:**
 
 - **S08** — Kein Invalidierungslevel fuer den 'Judas Richtung Sellside'. Ohne Zahl ist jeder Abverkauf im Nachhinein eine Judas. Vorgeschlagen: Sweep 28.284,00 → max. 28.210,25 mit sofortigem Reclaim = Judas; Verbleib darunter = NWOG-Bruch, Bias kippt.
+  - ✅ **2026-08-04 nachgetragen:** Level nie getestet — Tages-Low blieb bei 28.313,00, 29 P oberhalb der NWOG-Kante 28.284,00. Das Invalidierungslevel war also richtig gesetzt, aber am 03.08. nicht entscheidungsrelevant.
 
 **Zu prüfen:**
 
 - **T03** — 'Judas Swing' ohne Zeitangabe. Wiki: Judas bildet sich 0–5 Uhr NY; der Move zum US-Open ist laut ausdruecklicher Praezisierung auf der Seite ein zweiter Manipulationspunkt, aber nicht die Judas. Welches Fenster ist gemeint?
+  - **2026-08-04 nachgetragen, weiterhin offen:** Die Marktdaten zeigen keinen einzelnen sauberen Judas-Sweep, sondern einen durchgehenden bearishen Grind von 00:55 bis 09:30 NY (mehrere BOS/CHoCH, siehe Structure-Break-Tabelle im Tagesreport) — der Sweep, der den Tag drehte, war der um 09:30 (Level 28.382,75, Reclaim nach 1 Kerze), also im **US-Open-Fenster**, nicht im 0–5-Uhr-Fenster. Stuetzt eher die Lesart "US-Open-Manipulation ≠ Judas im engeren Sinne, aber der eigentliche Taktgeber" — ohne weitere Tage nicht abschliessend zu werten.
 
 ## Was gut lief
 
@@ -130,13 +137,14 @@ fehler: [S08]
 - NWOG-Label auf dem Chart von 31 auf 32 korrigiert.
 - ORG-23.07-C.E. bei 28.984,00 war bereits eingezeichnet, bevor danach gefragt wurde.
 - News-Termine erneut vor Sessionbeginn geprueft und korrekt nach Impact getrennt (red vs. orange).
+- **2026-08-04 nachgetragen:** Tages-High entstand um 14:10 — mitten im eigenen SB-Fenster 14:00–15:00. Das Setup war zeitlich exakt auf den Punkt geplant, an dem der Tag tatsaechlich seinen DOL-Treffer lieferte.
 
 ## Datenlücken
 
 *Nicht bewertbar, weil die Information fehlt — beim nächsten Mal mitloggen.*
 
-- P09: bias_korrekt nach Sessionende setzen. Die 7-Zeilen-Pruefliste oben macht es mit Preisen entscheidbar.
-- P09: Bias noch nicht nachgehalten — nach Sessionende eintragen, ob er aufging. Ohne das bleibt die Trefferquote des Bias unbekannt.
+- ~~P09: bias_korrekt nach Sessionende setzen~~ — **geschlossen 2026-08-04**, siehe Pruefliste oben (bias_korrekt: true).
+- Weiterhin offen: **kein geloggter Entry-Zeitpunkt** — ob tatsaechlich in 14:00–15:00 gehandelt wurde, bleibt unbekannt, obwohl die Preisdaten das Fenster als richtig bestaetigen. Ohne Entry/Target/Resultat im Eintrag ist die Trefferquote des Bias zwar jetzt bekannt, die Trefferquote des **Trades** weiterhin nicht.
 - Keine Angabe zur Gefuehlslage.
 - 'Bellweather Chart' hat keine Wiki-Seite — beim dritten Auftreten anlegen.
 - Keine Rangfolge zwischen Daily-DOL (28.725,75–28.763,75), ORG-Rest (bis 29.249,75) und Weekly-DOL (29.363,50).
