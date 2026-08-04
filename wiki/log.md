@@ -378,3 +378,10 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Die 9 Dateien in `raw/bilder/` waren selbst **nirgends referenziert** (weder in raw/ noch in wiki/) — reines Kollisionsrisiko ohne aktuellen Schaden, aber eine Falle für jede künftige Notiz, die `![[image.png]]` schreibt.
 - Behoben: alle 9 Dateien in `raw/bilder/` mit Präfix versehen (`bilder - image.png`, `bilder - image 1.png`, … `bilder - image 8.png`). Herkunft/Domäne unbekannt (keine Notiz referenziert sie), daher der neutrale Ordner-Präfix statt eines inhaltlichen. Kollisionscheck über alle drei Asset-Ordner (`raw/bilder`, `raw/trading-ict/assets`, `raw/journal/assets`) danach: 0 Kollisionen vault-weit.
 - Offener Punkt: die 9 umbenannten Bilder bleiben unzugeordnetes Rohmaterial (Herkunft/Kontext unklar) — falls der Nutzer weiß, wozu sie gehören, können sie beim nächsten Ingest sprechend benannt und einer Notiz zugeordnet werden.
+
+## [2026-08-04] synthesis | Statistische Muster jenseits der ICT-Konzepte (Backtest)
+- Nutzerauftrag (`/goal`): rein datengetrieben nach algorithmischen Mustern suchen, die noch nicht im Wiki stehen, und backtesten.
+- Zwei neue Skripte: `algo/explore_patterns.py` (n≈34, 1m/5m) und `algo/backtest_daily_patterns.py` (n=147, 1d-Bars ab 2026-01-02 — 1d hat bei yfinance kein Lookback-Limit, deshalb deutlich groessere Stichprobe).
+- Funde (n=147 zaehlt, kleine Stichprobe war teils widerspruechlich, siehe Seite): Montag groesste Range + 78,6% bullish (n=28) — keine Wiederholung bestehender Wochentags-Konzepte ([[One Shot One Kill Model]], [[Market Maker Manipulation Templates]] behaupten etwas anderes); Range-Autokorrelation r=0,305 (n=146, echtes Volatility Clustering); schwaches Richtungs-Momentum nach bullishen Tagen (58,8% vs. 51,5%); kein Rundzahl-Magnetismus (12,25 vs. 12,5 Pkt. Erwartungswert, Nullresultat).
+- Seite erstellt: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (Backtest).md
+- Seiten aktualisiert: wiki/index.md

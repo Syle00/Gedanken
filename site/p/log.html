@@ -24,7 +24,7 @@
 <li><a href="../index.html#concepts">Konzepte<span class="count">55</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">137</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">5</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">6</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
@@ -79,6 +79,7 @@
 <li><a href="#2026-08-04-ingest-mnq-marktdaten-update-erster-bias-accuracy-backtest">[2026-08-04] ingest | MNQ Marktdaten-Update + erster Bias-Accuracy-Backtest</a></li>
 <li><a href="#2026-08-04-lint-root-aufraumung-gepruft-5-von-6-dateien-bereits-ingested-1-neu-ict-silver-bullet">[2026-08-04] lint | Root-Aufräumung geprüft: 5 von 6 Dateien bereits ingested, 1 neu (ICT Silver Bullet)</a></li>
 <li><a href="#2026-08-04-lint-raw-aufgeraumt-namenskollision-in-rawbilder-behoben">[2026-08-04] lint | raw/ aufgeräumt: Namenskollision in raw/bilder/ behoben</a></li>
+<li><a href="#2026-08-04-synthesis-statistische-muster-jenseits-der-ict-konzepte-backtest">[2026-08-04] synthesis | Statistische Muster jenseits der ICT-Konzepte (Backtest)</a></li>
 </ul>
 </div>
 </details>
@@ -495,6 +496,14 @@
 <li>Die 9 Dateien in <code>raw/bilder/</code> waren selbst <strong>nirgends referenziert</strong> (weder in raw/ noch in wiki/) — reines Kollisionsrisiko ohne aktuellen Schaden, aber eine Falle für jede künftige Notiz, die <code>&lt;img class="wiki-img" src="../../raw/trading-ict/assets/image.png" alt="image" loading="lazy"&gt;</code> schreibt.</li>
 <li>Behoben: alle 9 Dateien in <code>raw/bilder/</code> mit Präfix versehen (<code>bilder - image.png</code>, <code>bilder - image 1.png</code>, … <code>bilder - image 8.png</code>). Herkunft/Domäne unbekannt (keine Notiz referenziert sie), daher der neutrale Ordner-Präfix statt eines inhaltlichen. Kollisionscheck über alle drei Asset-Ordner (<code>raw/bilder</code>, <code>raw/trading-ict/assets</code>, <code>raw/journal/assets</code>) danach: 0 Kollisionen vault-weit.</li>
 <li>Offener Punkt: die 9 umbenannten Bilder bleiben unzugeordnetes Rohmaterial (Herkunft/Kontext unklar) — falls der Nutzer weiß, wozu sie gehören, können sie beim nächsten Ingest sprechend benannt und einer Notiz zugeordnet werden.</li>
+</ul>
+<h2 id="2026-08-04-synthesis-statistische-muster-jenseits-der-ict-konzepte-backtest">[2026-08-04] synthesis | Statistische Muster jenseits der ICT-Konzepte (Backtest)</h2>
+<ul>
+<li>Nutzerauftrag (<code>/goal</code>): rein datengetrieben nach algorithmischen Mustern suchen, die noch nicht im Wiki stehen, und backtesten.</li>
+<li>Zwei neue Skripte: <code>algo/explore_patterns.py</code> (n≈34, 1m/5m) und <code>algo/backtest_daily_patterns.py</code> (n=147, 1d-Bars ab 2026-01-02 — 1d hat bei yfinance kein Lookback-Limit, deshalb deutlich groessere Stichprobe).</li>
+<li>Funde (n=147 zaehlt, kleine Stichprobe war teils widerspruechlich, siehe Seite): Montag groesste Range + 78,6% bullish (n=28) — keine Wiederholung bestehender Wochentags-Konzepte (<a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a>, <a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a> behaupten etwas anderes); Range-Autokorrelation r=0,305 (n=146, echtes Volatility Clustering); schwaches Richtungs-Momentum nach bullishen Tagen (58,8% vs. 51,5%); kein Rundzahl-Magnetismus (12,25 vs. 12,5 Pkt. Erwartungswert, Nullresultat).</li>
+<li>Seite erstellt: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (Backtest).md</li>
+<li>Seiten aktualisiert: wiki/index.md</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

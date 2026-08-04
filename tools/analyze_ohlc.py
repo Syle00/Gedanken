@@ -152,6 +152,36 @@ def open_price(bars: list[Bar], when: datetime) -> float | None:
     return None
 
 
+def org_gap(bars: list[Bar], day, tol_min: int = 10) -> dict | None:
+    """ORG (Opening Range Gap): Gap zwischen der ~16:14-Schlusskerze des Vortags und der
+    9:30-Kerze von `day`. C.E. = Mittelpunkt. Prueft, ob der Preis den C.E. bis 10:00 NY
+    (erste 30 Minuten) beruehrt. Quelle:
+    wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md.
+
+    None, wenn die 9:30-Kerze fehlt oder die naechstgelegene Vortagskerze mehr als
+    `tol_min` Minuten von 16:14 entfernt liegt (z.B. duennes/unvollstaendiges Vortagesfenster).
+    """
+    open_bar = next((b for b in bars if b.t == at(day, 9, 30)), None)
+    if open_bar is None:
+        return None
+    prev_dates = sorted({b.t.date() for b in bars if b.t.date() < day})
+    if not prev_dates:
+        return None
+    prev_bars = [b for b in bars if b.t.date() == prev_dates[-1]]
+    target = 16 * 60 + 14
+    prev_close_bar = min(prev_bars, key=lambda b: abs(b.t.hour * 60 + b.t.minute - target))
+    if abs(prev_close_bar.t.hour * 60 + prev_close_bar.t.minute - target) > tol_min:
+        return None
+
+    prev_close, today_open = prev_close_bar.c, open_bar.o
+    lo, hi = sorted([prev_close, today_open])
+    ce = (lo + hi) / 2
+    window = [b for b in bars if at(day, 9, 30) <= b.t < at(day, 10, 0)]
+    fill_t = next((b.t for b in window if b.l <= ce <= b.h), None)
+    return {"prev_close": prev_close, "prev_close_t": prev_close_bar.t, "today_open": today_open,
+            "gap": hi - lo, "ce": ce, "filled_30m": fill_t is not None, "filled_t": fill_t}
+
+
 # --------------------------------------------------------------------------- Detektoren
 
 def swings(bars: list[Bar], n: int = 2):

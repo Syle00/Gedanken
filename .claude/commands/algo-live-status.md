@@ -12,7 +12,10 @@ Fuehre einen einzelnen Live-Status-Zyklus fuer MNQ aus.
    `<day>` ist das `day`-Feld aus der JSON-Ausgabe), um an die letzte Einschaetzung
    anzuknuepfen.
 4. Einen kurzen deutschen Statusbericht schreiben mit drei Teilen:
-   - **Stand**: aktueller Preis, aktives Makro-/Silver-Bullet-Fenster (falls eins aktiv ist).
+   - **Stand**: aktueller Preis, aktives Makro-/Silver-Bullet-Fenster (falls eins aktiv ist),
+     plus `org_ce` (falls nicht `null`): ORG-Gap, C.E.-Level und ob es innerhalb der ersten
+     30 Minuten (9:30-10:00 NY) gefuellt wurde -- laufende Beobachtung der ICT-These "C.E. zu
+     70% gefuellt" (siehe `algo/backtest_org_ce.py`, empirisch bislang eher 35-43%).
    - **Abgleich**: die Eintraege in `new_events` gegen das, was die Algo-Signale fuer
      diese Fenster/Uhrzeit erwarten lassen wuerden -- deckt sich das oder nicht?
      Bei leerem `new_events`: kurz sagen, dass sich seit dem letzten Lauf nichts

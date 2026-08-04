@@ -22,7 +22,7 @@ from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import (  # noqa: E402
-    Bar, load, fvgs, sweeps, structure_breaks, untouched_levels, macro_windows, at,
+    Bar, load, fvgs, sweeps, structure_breaks, untouched_levels, macro_windows, org_gap, at,
     TF_MINUTES, CFG,
 )
 from rules import plan_trade, _active_window  # noqa: E402
@@ -54,12 +54,17 @@ def _download(tf: str, start: str, end: str) -> pd.DataFrame:
 def fetch_today(target_day: date) -> dict[str, pd.DataFrame]:
     """Alle INTERVALS + 4h (aus 1h resampled), gefiltert auf target_day ueber trading_day()
     (aus fetch_yfinance.py) -- die Globex-Session startet 18:00 NY am Vortag, ohne die
-    Filterung landen Vorabend-Kerzen sonst unter dem falschen Kalendertag."""
+    Filterung landen Vorabend-Kerzen sonst unter dem falschen Kalendertag.
+
+    `5m_unfiltered` ist bewusst die ungefilterte 5m-Rohspanne (mehrere Tage) -- org_gap()
+    braucht die ~16:14-Schlusskerze des *Vortags*, die die Tages-Filterung sonst wegwirft."""
     start = (target_day - timedelta(days=3)).isoformat()
     end = (target_day + timedelta(days=1)).isoformat()
     dfs: dict[str, pd.DataFrame] = {}
     for tf in INTERVALS:
         raw = _download(tf, start, end)
+        if tf == "5m":
+            dfs["5m_unfiltered"] = raw
         if not raw.empty:
             daily = tf == "1d"
             raw = raw[raw.index.map(lambda ts: trading_day(ts, daily)) == target_day]
@@ -88,6 +93,13 @@ def write_live_day(tf: str, day: date, rows: pd.DataFrame) -> Path:
     return dest
 
 
+def _bars_from_df(df: pd.DataFrame) -> list[Bar]:
+    """Wie load(), nur direkt aus einem yfinance-DataFrame statt einer CSV-Datei."""
+    idx = df.index.tz_convert(NY)
+    return [Bar(t.to_pydatetime(), float(o), float(h), float(l), float(c))
+            for t, o, h, l, c in zip(idx, df["Open"], df["High"], df["Low"], df["Close"])]
+
+
 def event_key(d: dict, field: str) -> list:
     """Identitaet eines Ereignisses ueber Laeufe hinweg: Kerzenzeit + Seite/Richtung."""
     t = d["t"]
@@ -100,13 +112,19 @@ def load_state(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def run_detectors(bars: list[Bar], day: date, now: datetime) -> dict:
+def run_detectors(bars: list[Bar], day: date, now: datetime,
+                   org_bars: list[Bar] | None = None) -> dict:
     """Reine Funktion: bestehende Detektoren auf `bars` (Basis-TF 5m, siehe BASE_TF) +
-    plan_trade(). Feldnamen matchen die Kategorien aus diff_events() (Task 1)."""
+    plan_trade(). Feldnamen matchen die Kategorien aus diff_events() (Task 1).
+
+    `org_bars` (optional, faellt sonst auf `bars` zurueck): breitere, ungescopte Kerzenreihe
+    fuer org_gap() -- die braucht die ~16:14-Kerze des Vortags, die im Live-Betrieb VOR dem
+    Tages-Filter von fetch_today() liegt und in `bars` (bereits auf `day` gescoped) fehlt."""
     if not bars:
         return {"price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None,
-                "fvgs": [], "sweeps": [], "structure_breaks": [], "untouched_levels": []}
+                "fvgs": [], "sweeps": [], "structure_breaks": [], "untouched_levels": [],
+                "org_ce": None}
 
     # Detektor-Scope: die Globex-Session *dieses* Handelstages (18:00 NY am Vorabend bis
     # `now`) -- sonst tauchen Ereignisse vom Vortag in einem Bericht auf, der mit `day`
@@ -139,12 +157,16 @@ def run_detectors(bars: list[Bar], day: date, now: datetime) -> dict:
     win = _active_window(day, now)
 
     last = bars[-1]  # Preis kommt bewusst von der *echten* letzten Kerze, inkl. laufender
+    # org_gap() braucht die ~16:14-Kerze des Vortags -- die liegt VOR session_start (18:00
+    # Vorabend), deshalb hier bewusst auf `org_bars` (Default: `bars`) gerechnet, nicht stable_bars.
+    org = org_gap(org_bars if org_bars is not None else bars, day)
     return {
         "price": {"last": last.c, "t": last.t.isoformat()},
         "active_macro_window": active_macro,
         "active_silver_bullet_window": win[0] if win else None,
         "setup": asdict(setup) if setup else None,
         "fvgs": fg, "sweeps": sw, "structure_breaks": sb, "untouched_levels": lv,
+        "org_ce": org,
     }
 
 
@@ -239,9 +261,10 @@ def selftest() -> None:
     assert det["price"]["last"] == real_bars[-1].c
     assert isinstance(det["fvgs"], list) and isinstance(det["sweeps"], list)
     assert isinstance(det["untouched_levels"], list)  # Fix 5
+    assert det["org_ce"] is not None and det["org_ce"]["filled_30m"] is True  # ORG-C.E.-Tracking
     empty_det = run_detectors([], day31, real_bars[-1].t)
     assert empty_det["price"] is None and empty_det["fvgs"] == []
-    assert empty_det["untouched_levels"] == []
+    assert empty_det["untouched_levels"] == [] and empty_det["org_ce"] is None
 
     # Fix 6: kein Ereignis vor Session-Start (18:00 NY am Vorabend), obwohl die CSV
     # bis 2026-07-30 15:00 zurueckreicht. `price` bleibt die echte letzte Kerze.
@@ -269,7 +292,7 @@ def _dry_run(day_str: str) -> dict:
                 "market_data": False, "error": f"keine {BASE_TF}-Datei fuer {day_str} gefunden",
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
-                "first_run": False, "untouched_levels": []}
+                "first_run": False, "untouched_levels": [], "org_ce": None}
     bars = load(path)
     now = bars[-1].t
     det = run_detectors(bars, day, now)
@@ -280,7 +303,7 @@ def _dry_run(day_str: str) -> dict:
             "price": det["price"], "active_macro_window": det["active_macro_window"],
             "active_silver_bullet_window": det["active_silver_bullet_window"],
             "setup": det["setup"], "new_events": new_events,
-            "first_run": True, "untouched_levels": det["untouched_levels"]}
+            "first_run": True, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"]}
 
 
 def _live_run() -> dict:
@@ -292,14 +315,15 @@ def _live_run() -> dict:
                 "error": "keine 5m-Daten (Markt geschlossen oder yfinance-Fehler)",
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
-                "first_run": False, "untouched_levels": []}
+                "first_run": False, "untouched_levels": [], "org_ce": None}
 
     for tf, df in dfs.items():
-        if not df.empty:
+        if tf != "5m_unfiltered" and not df.empty:
             write_live_day(tf, day, df)
 
     bars = load(LIVE_DIR / day.isoformat() / f"{DISPLAY_SYMBOL} {day.isoformat()} 5m.csv")
-    det = run_detectors(bars, day, now)
+    org_bars = _bars_from_df(dfs["5m_unfiltered"]) if not dfs["5m_unfiltered"].empty else bars
+    det = run_detectors(bars, day, now, org_bars=org_bars)
 
     state_path = LIVE_DIR / day.isoformat() / "state.json"
     first_run = not state_path.exists()  # vor dem Schreiben des neuen States pruefen
@@ -312,7 +336,7 @@ def _live_run() -> dict:
             "error": None, "price": det["price"], "active_macro_window": det["active_macro_window"],
             "active_silver_bullet_window": det["active_silver_bullet_window"],
             "setup": det["setup"], "new_events": new_events,
-            "first_run": first_run, "untouched_levels": det["untouched_levels"]}
+            "first_run": first_run, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"]}
 
 
 def main(argv=None) -> int:
