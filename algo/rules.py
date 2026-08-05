@@ -12,6 +12,10 @@ Regel, so wie sie im Wiki steht:
   4. Entry = FVG-C.E. (50%-Linie), Stop = FVG-Gegenkante + kleiner Puffer.
   5. Target = naechstes noch unberuehrtes Liquiditaets-Level (untouched_levels) in Traderichtung
      -- ohne Zielliquiditaet kein Setup (die Quelle verlangt Confluenz mit einem Ziel).
+  6. Mindestabstand Entry->Target: `min_target_points` (Default 10) -- Setup ohne genug
+     Potenzial wird nicht genommen (siehe wiki/models/Silver Bullet Model.md, "Trade
+     Management"). Partial-Taking an Swing-Punkten + Stop-auf-Breakeven danach passiert
+     als Trade-Management NACH Entry, nicht hier -- siehe algo/backtest_ensemble.py.
 
 Kein Lookahead: alle Detektoren laufen nur auf bars mit t <= when, nie auf der vollen Reihe --
 sonst waere der Backtest gegen die eigene Zukunft geloest.
@@ -53,12 +57,15 @@ def _active_window(day: date, when: datetime) -> tuple[str, datetime] | None:
     return None
 
 
-def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1) -> TradeSetup | None:
+def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
+                min_target_points: float = 10.0) -> TradeSetup | None:
     """Silver-Bullet-Setup zum Zeitpunkt `when`, oder None. Nur bars[t<=when] werden benutzt.
 
     `stop_buffer_pct` (Anteil der FVG-Groesse als SL-Puffer) ist optimierbar/testbar --
     siehe algo/backtest_walkforward.py (Parameter-Sensitivitaet, PLAN.md "Stop-Puffer
-    vergroessern/testen")."""
+    vergroessern/testen"). `min_target_points`: Setup wird nur genommen, wenn Entry->Target
+    mindestens so viele Punkte Potenzial hat (Nutzerregel, siehe wiki/models/Silver Bullet
+    Model.md)."""
     win = _active_window(when.date(), when)
     if win is None:
         return None
@@ -87,6 +94,8 @@ def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1) ->
         target = max(candidates) if candidates else None
     if target is None:
         return None  # keine Zielliquiditaet -> Quelle fordert Confluenz, kein Setup ohne Ziel
+    if abs(target - entry) < min_target_points:
+        return None  # zu wenig Potenzial fuers Mindest-Handle-Ziel
 
     return TradeSetup(t=when, window=window_name, side=side, entry=entry, stop=stop, target=target)
 

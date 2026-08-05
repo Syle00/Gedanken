@@ -22,7 +22,7 @@ from sklearn.linear_model import LogisticRegression
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
-from analyze_ohlc import Bar  # noqa: E402
+from analyze_ohlc import Bar, swings, CFG  # noqa: E402
 from rules import plan_trade  # noqa: E402
 from signals import build_features  # noqa: E402
 
@@ -65,10 +65,15 @@ def _passes_bias_filter(setup_side: str, day_bias: str) -> bool:
 class EnsembleStrategy(Strategy):
     bias: dict = {}            # date -> "long"/"short"/"neutral", vor bt.run() gesetzt
     stop_buffer_pct = 0.1
+    min_target_points = 10.0   # Mindest-Handle-Ziel Entry->Target, siehe rules.py::plan_trade
+    partial_portion = 0.5      # Anteil, der am ersten Swing-Punkt in Traderichtung geschlossen
+                                # wird (Nutzerregel; Split selbst nicht vorgegeben -> 50/50
+                                # als ponytail: Default, bei Bedarf anpassbar)
     intraday = True
 
     def init(self):
         self._taken: set[tuple] = set()
+        self._active: dict | None = None  # Entry-Info der offenen Position (Partial/BE-Tracking)
 
     def next(self):
         when = self.data.index[-1]
@@ -86,22 +91,51 @@ class EnsembleStrategy(Strategy):
                 self.sell()
             return
 
-        if self.position or day_bias == "neutral":
-            return
         hist = [Bar(t, o, h, l, c) for t, o, h, l, c in
                 zip(self.data.index, self.data.Open, self.data.High,
                     self.data.Low, self.data.Close)]
-        setup = plan_trade(hist, when, stop_buffer_pct=self.stop_buffer_pct)
+
+        if self.position:
+            self._manage_partial(hist)
+            return
+        if day_bias == "neutral":
+            return
+
+        setup = plan_trade(hist, when, stop_buffer_pct=self.stop_buffer_pct,
+                            min_target_points=self.min_target_points)
         if setup is None or not _passes_bias_filter(setup.side, day_bias):
             return
         key = (setup.t.date(), setup.window)
         if key in self._taken:
             return
         self._taken.add(key)
+        self._active = {"side": setup.side, "entry": setup.entry, "entry_t": setup.t,
+                         "partial_done": False}
         if setup.side == "long":
             self.buy(limit=setup.entry, sl=setup.stop, tp=setup.target)
         else:
             self.sell(limit=setup.entry, sl=setup.stop, tp=setup.target)
+
+    def _manage_partial(self, hist: list[Bar]) -> None:
+        """Nutzerregel: Partial am ersten Swing-Hoch (long) bzw. Swing-Tief (short) NACH dem
+        Entry, danach Stop auf Breakeven -- verhindert, dass ein ausgelaufener Gewinn wieder
+        zum Drawdown wird (siehe wiki/models/Silver Bullet Model.md, "Trade Management")."""
+        if self._active is None or self._active["partial_done"] or not self.trades:
+            return
+        side, entry_t = self._active["side"], self._active["entry_t"]
+        kind = "high" if side == "long" else "low"
+        candidates = [price for idx, k, price in swings(hist, CFG["swing"])
+                      if k == kind and hist[idx].t > entry_t]
+        if not candidates:
+            return
+        level = candidates[0]  # erster (frueheste) Swing-Punkt nach Entry in Traderichtung
+        bar = hist[-1]
+        reached = bar.h >= level if side == "long" else bar.l <= level
+        if not reached:
+            return
+        self.trades[0].close(portion=self.partial_portion)
+        self.trades[0].sl = self._active["entry"]
+        self._active["partial_done"] = True
 
 
 def _demo() -> None:

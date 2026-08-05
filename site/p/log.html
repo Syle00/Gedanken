@@ -84,6 +84,7 @@
 <li><a href="#2026-08-04-synthesis-nwog-backtest-gegen-die-bestehende-wiki-regel">[2026-08-04] synthesis | NWOG-Backtest gegen die bestehende Wiki-Regel</a></li>
 <li><a href="#2026-08-04-synthesis-tgif-backtest-median-trifft-einzelwochen-kaum">[2026-08-04] synthesis | TGIF-Backtest: Median trifft, Einzelwochen kaum</a></li>
 <li><a href="#2026-08-05-synthesis-fred-wirtschaftsdaten-angebunden-makro-backtest">[2026-08-05] synthesis | FRED-Wirtschaftsdaten angebunden + Makro-Backtest</a></li>
+<li><a href="#2026-08-05-synthesis-silver-bullet-trade-management-regel-mindestziel-partial-breakeven">[2026-08-05] synthesis | Silver-Bullet-Trade-Management-Regel (Mindestziel + Partial + Breakeven)</a></li>
 </ul>
 </div>
 </details>
@@ -543,6 +544,15 @@
 <li>Seite erstellt: wiki/synthesis/Makro-FRED-Zusammenhaenge (Eigene Daten, laufend).md</li>
 <li>Seiten aktualisiert: wiki/index.md, .gitignore (algo/.secrets.yaml ergaenzt)</li>
 <li>Offener Punkt fuer spaeter: verifizierte FOMC-Terminliste als eigene raw/-Quelle ablegen, dann ist der urspruengliche Test sauber baubar.</li>
+</ul>
+<h2 id="2026-08-05-synthesis-silver-bullet-trade-management-regel-mindestziel-partial-breakeven">[2026-08-05] synthesis | Silver-Bullet-Trade-Management-Regel (Mindestziel + Partial + Breakeven)</h2>
+<ul>
+<li>Nutzerregel (kein ICT-Quellenzitat): Silver-Bullet-Setup nur nehmen, wenn Entry-&gt;Target mindestens 10 Handle/Punkte Potenzial bietet; Partial am ersten Swing-Hoch (long) bzw. Swing-Tief (short) nach dem Entry; danach Stop auf Breakeven, um Drawdown auf den gelaufenen Gewinn zu verhindern.</li>
+<li>algo/rules.py::plan_trade neuer Parameter <code>min_target_points</code> (Default 10.0): Setup wird verworfen, wenn <code>abs(target-entry)</code> darunter liegt.</li>
+<li>algo/backtest_ensemble.py::EnsembleStrategy neue Methode <code>_manage_partial</code> (nutzt <code>analyze_ohlc.swings()</code> auf die bis-jetzt bekannten Bars, kein Lookahead): sobald der erste Swing-Punkt in Traderichtung nach Entry vom Preis erreicht wird, <code>trade.close(portion=partial_portion)</code> (Default 50%, Split war nicht vorgegeben) + <code>trade.sl = entry</code> (Breakeven).</li>
+<li>Seite aktualisiert: wiki/models/Silver Bullet Model.md (neuer Abschnitt "Trade Management", ausdruecklich als eigene Ausfuehrungsregel markiert, keine ICT-Quellenaussage).</li>
+<li>Verifiziert: algo/rules.py-Demo (Entry/Target-Abstand 11,5 &gt;= 10, unveraendert bestanden), algo/backtest_ensemble.py-Demo, sowie ein voller Backtest-Lauf ueber die komplette MNQ-Historie ohne Fehler (Positionsgroessen ~65-75 Kontrakte, Partial-Portion rundungssicher).</li>
+<li>Dashboard (algo/dashboard.py::simulate) bewusst NICHT angepasst: die Intraday-Simulation dort ist laut eigenem Docstring ohnehin nur eine Sofort-Fill-Naeherung fuer die Anschauung, nicht die offizielle Kennzahlenquelle (das bleibt algo/validate_ensemble.py ueber EnsembleStrategy) -- die neue Regel wirkt dort nur indirekt ueber den ohnehin geteilten <code>plan_trade</code>-Mindestziel-Filter.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

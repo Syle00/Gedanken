@@ -416,3 +416,11 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Seite erstellt: wiki/synthesis/Makro-FRED-Zusammenhaenge (Eigene Daten, laufend).md
 - Seiten aktualisiert: wiki/index.md, .gitignore (algo/.secrets.yaml ergaenzt)
 - Offener Punkt fuer spaeter: verifizierte FOMC-Terminliste als eigene raw/-Quelle ablegen, dann ist der urspruengliche Test sauber baubar.
+
+## [2026-08-05] synthesis | Silver-Bullet-Trade-Management-Regel (Mindestziel + Partial + Breakeven)
+- Nutzerregel (kein ICT-Quellenzitat): Silver-Bullet-Setup nur nehmen, wenn Entry->Target mindestens 10 Handle/Punkte Potenzial bietet; Partial am ersten Swing-Hoch (long) bzw. Swing-Tief (short) nach dem Entry; danach Stop auf Breakeven, um Drawdown auf den gelaufenen Gewinn zu verhindern.
+- algo/rules.py::plan_trade neuer Parameter `min_target_points` (Default 10.0): Setup wird verworfen, wenn `abs(target-entry)` darunter liegt.
+- algo/backtest_ensemble.py::EnsembleStrategy neue Methode `_manage_partial` (nutzt `analyze_ohlc.swings()` auf die bis-jetzt bekannten Bars, kein Lookahead): sobald der erste Swing-Punkt in Traderichtung nach Entry vom Preis erreicht wird, `trade.close(portion=partial_portion)` (Default 50%, Split war nicht vorgegeben) + `trade.sl = entry` (Breakeven).
+- Seite aktualisiert: wiki/models/Silver Bullet Model.md (neuer Abschnitt "Trade Management", ausdruecklich als eigene Ausfuehrungsregel markiert, keine ICT-Quellenaussage).
+- Verifiziert: algo/rules.py-Demo (Entry/Target-Abstand 11,5 >= 10, unveraendert bestanden), algo/backtest_ensemble.py-Demo, sowie ein voller Backtest-Lauf ueber die komplette MNQ-Historie ohne Fehler (Positionsgroessen ~65-75 Kontrakte, Partial-Portion rundungssicher).
+- Dashboard (algo/dashboard.py::simulate) bewusst NICHT angepasst: die Intraday-Simulation dort ist laut eigenem Docstring ohnehin nur eine Sofort-Fill-Naeherung fuer die Anschauung, nicht die offizielle Kennzahlenquelle (das bleibt algo/validate_ensemble.py ueber EnsembleStrategy) -- die neue Regel wirkt dort nur indirekt ueber den ohnehin geteilten `plan_trade`-Mindestziel-Filter.

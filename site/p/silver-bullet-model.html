@@ -60,11 +60,12 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#models">Modelle</a></div>
   <h1>Silver Bullet Model</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">daytrade</span> <span class="tag">sessions</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-04</div><div class="srcline"><span>Quellen:</span> <a href="../p/kurz-notizen-source.html">Kurz Notizen</a>, <a href="../p/ict-silver-bullet-source.html">ICT Silver Bullet (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">daytrade</span> <span class="tag">sessions</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-05</div><div class="srcline"><span>Quellen:</span> <a href="../p/kurz-notizen-source.html">Kurz Notizen</a>, <a href="../p/ict-silver-bullet-source.html">ICT Silver Bullet (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#die-drei-fenster-ny-zeit">Die drei Fenster (NY Zeit)</a></li>
 <li><a href="#ablauf">Ablauf</a></li>
+<li><a href="#trade-management-eigene-ausfuhrungsregel-kein-ict-quellenzitat">Trade Management (eigene Ausführungsregel, kein ICT-Quellenzitat)</a></li>
 <li><a href="#bezug-zu-nachbar-fenstern">Bezug zu Nachbar-Fenstern</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -123,6 +124,21 @@ oder das 1. presented FVG. Siehe <a href="../p/ict-silver-bullet-source.html">IC
 </ul>
 <figure><img class="wiki-img" src="../../raw/trading-ict/assets/Kurz Notizen - Late Shorting Liquidity Pool Example.png" alt="Kurz Notizen - Late Shorting Liquidity Pool Example" loading="lazy"><figcaption>ICT würde hier trotz fast vollendetem Price Run noch shorten, da kurz davor ein offensichtlicher Liquidity Pool liegt.</figcaption></figure>
 
+<h2 id="trade-management-eigene-ausfuhrungsregel-kein-ict-quellenzitat">Trade Management (eigene Ausführungsregel, kein ICT-Quellenzitat)</h2>
+<p>Zusatzregel zur reinen Entry-Logik oben, so wie im Algo-Backtest (<code>algo/rules.py::plan_trade</code>,
+<code>algo/backtest_ensemble.py::EnsembleStrategy</code>) umgesetzt:</p>
+<ul>
+<li><strong>Mindestziel:</strong> Setup wird nur genommen, wenn zwischen Entry und Target mindestens
+  <strong>10 Handle/Punkte</strong> Potenzial liegen. Ohne genug Abstand: kein Trade, unabhängig davon, ob
+  sonst alle Kriterien (Fenster, FVG, Zielliquidität) erfüllt sind.</li>
+<li><strong>Partial:</strong> am <strong>ersten Swing-Hoch</strong> (long) bzw. <strong>ersten Swing-Tief</strong> (short), das nach dem
+  Entry entsteht, wird ein Teil der Position geschlossen (Backtest-Default 50%, siehe
+  <code>EnsembleStrategy.partial_portion</code> — die genaue Aufteilung war nicht vorgegeben).</li>
+<li><strong>Breakeven:</strong> sobald das Partial genommen wurde, wandert der Stop auf den Entry-Preis. Der
+  Rest der Position läuft drawdown-frei bis Stop oder Target weiter.</li>
+</ul>
+<p>Diese Regel ist reines Trade-Management, keine ICT-Quellenaussage — sie ergänzt, ersetzt aber
+nicht die Entry-Kriterien aus dem Abschnitt oben.</p>
 <h2 id="bezug-zu-nachbar-fenstern">Bezug zu Nachbar-Fenstern</h2>
 <ul>
 <li>Das <strong>NY-AM-Fenster (10–11 Uhr)</strong> überlappt mit dem Vorlauf zum [[NY Lunch Macro Model|NY Lunch
