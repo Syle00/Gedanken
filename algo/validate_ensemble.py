@@ -30,15 +30,22 @@ def _make_fold_hook(es_rows: list[dict], mnq_rows: list[dict]):
     def on_fold_train(train_df: pd.DataFrame) -> dict:
         train_days = set(train_df.index.date)
         fold_mnq = [r for r in mnq_rows if r["day"] in train_days]
-        fold_es = [r for r in es_rows if r["day"] < max(train_days, default=r["day"])]
+        fold_es = [r for r in es_rows if r["day"] in train_days]
         if len(fold_mnq) - 1 <= MIN_HISTORY:
             # build_features() liefert bei so wenigen In-Sample-Tagen keine einzige Zeile
             # (range(min_history, len(rows)-1) waere leer) -- LogisticRegression.fit() auf
             # leerem X wuerde crashen. Leerer Bias = neutral fuer den ganzen Fold (0 OOS-Trades),
             # analog zu validate.py's eigenem "zu wenig Handelstage"-Skip.
             return {"bias": {}}
+        # Fit NUR auf dem In-Sample-Fold (kein Lookahead in den Fit). bias_series() dagegen
+        # bekommt die vollen mnq_rows/es_rows: signals.py::_row_features schaut pro Tag i nur
+        # rueckwaerts (mnq_rows[:i+1]), daher liefert der breitere Tagesbereich lediglich mehr
+        # Vorhersagen desselben (fold-gefitteten) Modells -- u.a. fuer die OOS-Testtage, ohne
+        # die je einziges Feature in die Zukunft schauen zu lassen. Mit fold_mnq/fold_es waeren
+        # alle target_days zwangslaeufig im Trainingsfold selbst (build_features() nimmt
+        # mnq_rows[i+1] als target), sodass der OOS-Backtest nie einen Bias-Treffer haette.
         model = fit_model(fold_mnq, fold_es)
-        return {"bias": bias_series(model, fold_mnq, fold_es)}
+        return {"bias": bias_series(model, mnq_rows, es_rows)}
     return on_fold_train
 
 
