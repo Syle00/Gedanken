@@ -10,7 +10,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Accumulation & Reaccumulation Model]] — Low-taken-Expansion vs. Dip-Reentry-Phasen nach einem Sweep (2026-08-01)
 - [[Algorithmic Order Flow]] — Fünfstufige Bestätigungs-Hierarchie von Macro Interest Rate bis State of Delivery (2026-08-02)
 - [[Algorithmic Price Delivery Continuum]] — ICTs Timeframe-Durchlauf bei jedem Candle-Close; erklärt, wann ein FVG offen bleibt (2026-08-02)
-- [[Buy & Sell Program]] — Zwei Kriterien, an denen ein Buy-/Sell-Programm erkannt wird (2026-08-02)
+- [[Algorithmic Time & Price Grid]] — Preis-Achse (Octant/Quadrant) × Zeit-Achse (Macro-Startzeiten); PD Array am Kreuzungspunkt = höchste Bestätigung, fraktale Wiederholung (2026-08-05)
+- [[Buy & Sell Program]] — Zwei Kriterien, an denen ein Buy-/Sell-Programm erkannt wird; visuelle Signatur ergänzt (2026-08-05)
 - [[Dealing Range]] — Premium/Discount-Rahmen; je mehr Timeframes übereinstimmen, desto besser (2026-08-02)
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]] — 4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition (2026-08-01)
 - [[Asian Range]] — 19–24 Uhr NY, Highest High/Lowest Low; Konsolidierung = Trendtag, nur mit Bias nutzbar (2026-08-02)
@@ -22,6 +23,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Chain of Custody (Q-Validation)]] — Q-Level validieren PD Arrays entlang der antizipierten Dealing Range (2026-08-01)
 - [[CISD (Change in State of Delivery)]] — Down-/Up-Close-Candles als struktureller Support/Resistance (2026-08-01)
 - [[COT (Commitment of Traders) Data]] — Positionierungsdaten großer Player, 12-Monats-Hedging-Methode (2026-08-01)
+- [[Daily High & Low Projektion (Konvergenz)]] — Fib-0,5-Extension, 3-Tage-Wick-Projektion und Fulcrum Point kombiniert für High-Probability-Daily-Extreme (2026-08-05)
 - [[DXY Correlation (Risk On_Off)]] — Risk-On/Risk-Off-Faustregel über den Dollar Index (2026-08-02)
 - [[Enigma FVG Projection]] — FIB-Technik zur Antizipation von FVG-Expansion (VII/C.E) (2026-08-01)
 - [[Equilibrium Vs. Discount]] — Dealing-Range-Konstruktion, EQ, verschachteltes Premium/Discount (2026-08-01)
@@ -141,6 +143,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Chain Of Custody Of Price With Daily Inefficiencies (Source)]] — Quadranten/Oktanten-Raster auf BISI/SIBI inkl. VII, definiert den Suspension Block (2026-08-03)
 - [[ICT Price Action Chronicles - Market On Close Macro (Source)]] — YouTube 2026-08-04: Grundlagen-Lecture zum MOC Macro (NQ, 2026-08-03), zwei Ranges, Relative-Equal-Kriterium, Wick-vs-FVG-Vorrang, SL-/Exit-Philosophie (2026-08-05)
 - [[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]] — YouTube 2026-08-05: MOC Macro Model am ES angewendet, 16tel-Fib-Level, Candlestick-only Order-Flow-Bestätigung, Signal-Following-Risiko (2026-08-05)
+- [[Predicting Session Low & High With Executions (Source)]] — YouTube 2026-07-29: Daily-Suspension-Block-Reaktion liefert Session-Low *und* -High, Market-Maker-Buy-Model, "Mohawk"-Wick am IFVG (2026-08-05)
+- [[Market Review NQ July 31, 2026 (Source)]] — YouTube 2026-07-31: Pre-Market-7-9-Uhr-Raster, Fib-0,5-Extension für Daily High, 70-%-ORG-Regel, Order-Flow-Testeinsatz (2026-08-05)
+- [[ICT Algorithmic Time & Price Grids (Source)]] — YouTube 2026-07-31: vollständige Herleitung des Time-&-Price-Grid-Konzepts, ~200-Handle-Move in 10 Min (2026-08-05)
+- [[Part 1 High Precision Secrets To Intraday Price Action (Source)]] — YouTube 2026-08-01: Daily-Low-Projektion über Konvergenz zweier Fib-Messungen, 3-Tage-Intraday-Lookback (2026-08-05)
+- [[Part 2 High Precision Secrets To Intraday Price Action (Source)]] — YouTube 2026-08-01: ORG-Partial-Leiter bis −1,0 STD, Fulcrum Point, Single-Contract-Probe + Pyramiding in Drawdown (2026-08-05)
 
 ### MentorShip 2025
 

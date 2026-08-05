@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[Institutional Order Flow (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
+updated: 2026-08-05
+sources: ["[[Institutional Order Flow (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[Predicting Session Low & High With Executions (Source)]]", "[[Market Review NQ July 31, 2026 (Source)]]"]
 ---
 
 # Institutional Order Flow (Body vs Wick)
@@ -77,6 +77,22 @@ und Einbettung ins Setup: [[Market on Close (MOC) Macro Model]].
 > Schlägt diese Regel in der Praxis fehl, ist laut Quelle fast immer der **Bias falsch angenommen**
 > worden — nicht die Regel selbst defekt. Siehe [[Signal-Following & Crowd Liquidity Risk]].
 
+## "Mohawk"-Wick am IFVG (2026-Ergänzung)
+
+Ein Wick an einem [[IFVG (Inverse Fair Value Gap)|IFVG]], dessen Candle-Bodies sich **nicht**
+innerhalb der IFVG-Zone halten können (Bodies bleiben komplett außerhalb/oberhalb, nur der Wick
+taucht kurz hinein) — benannt nach der Optik (schmaler Wick, Bodies "frisiert" außen dran vorbei.
+Gilt als bullisches Bestätigungssignal für einen Reversal: die Bodies "wollen" nicht in die Zone,
+also fehlt Verkaufsdruck dort. Spiegelbildlich für bearishe Reversals (Bodies bleiben unterhalb).
+
+## Order-Flow-Testeinsatz (Single-Contract-Probe, 2026-Ergänzung)
+
+Vor dem eigentlichen Einstieg einen einzelnen (Micro-)Kontrakt platzieren, um am realen Order Flow
+zu lesen, ob der antizipierte Level hält — ausdrücklich auch am Demo-Konto möglich, wenn kein
+Live-Konto verfügbar ist. Erst wenn diese Rückmeldung (Preis respektiert das Level, PD Arrays
+bilden sich wie erwartet) passt, wird die Position aufgebaut. Quelle:
+[[Market Review NQ July 31, 2026 (Source)]].
+
 ## Verwandt
 
 - [[PD Array]], [[CISD (Change in State of Delivery)]]
@@ -84,3 +100,4 @@ und Einbettung ins Setup: [[Market on Close (MOC) Macro Model]].
 - [[Order Block]], [[Market Reversal Types]]
 - [[Market on Close (MOC) Macro Model]], [[Volume Imbalance (VII)]], [[IFVG (Inverse Fair Value Gap)]]
 - [[Kurz Notizen (Source)]]
+- [[Predicting Session Low & High With Executions (Source)]]

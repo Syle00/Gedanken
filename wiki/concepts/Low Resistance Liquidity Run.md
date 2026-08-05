@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]"]
+updated: 2026-08-05
+sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[ICT Algorithmic Time & Price Grids (Source)]]"]
 ---
 
 # Low Resistance Liquidity Run
@@ -41,6 +41,16 @@ nächsten. Zentrales Suchziel in [[Classic Swing Trading Approach]].
   jeweils höheren PD.
 - **30–50 % Wahrscheinlichkeit**, dass sich das Wochen-High/Low unter Trending Conditions bereits am
   **Mittwoch** bildet.
+
+## Setup-Erkennung: leere Zone zwischen zwei Daily PD Arrays (2026-Ergänzung)
+
+Liegen zwei Daily-[[Suspension Block|Suspension Blocks]] (oder andere Daily-PD-Arrays) **ohne
+Überlappung** übereinander und eröffnet die Session **innerhalb der leeren Zone dazwischen**, ist ein
+schneller, "sauberer" Lauf zum entfernteren Block wahrscheinlich — große Candles, hohe Geschwindigkeit,
+kaum Gegenreaktion. Davon zu unterscheiden ist das **effiziente Buy-/Sell-Program** (siehe
+[[Buy & Sell Program]]): eng getaktete, kleine Candles ohne Pullback, die genauso schwer zu shorten/
+longen sind, aber optisch das Gegenteil zeigen (langsam statt schnell). Quelle:
+[[ICT Algorithmic Time & Price Grids (Source)]].
 
 ## Gegenstück: High Resistance Liquidity Run
 

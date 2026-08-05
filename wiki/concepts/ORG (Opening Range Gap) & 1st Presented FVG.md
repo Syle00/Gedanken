@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]"]
+updated: 2026-08-05
+sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]", "[[Market Review NQ July 31, 2026 (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
 ---
 
 # ORG (Opening Range Gap) & 1st Presented FVG
@@ -46,6 +46,9 @@ Hours** umgestellt wird. Darüber ein **Fib 0–1** für die Key Level. Pre Mark
 - Alte Gaps im RTH-Chart sind markante Punkte, die für den ganzen Handelstag relevant bleiben und
   als wiederverwendbare Targets dienen, solange sie offen sind.
 
+- **70-%-Regel (2026-Ergänzung)**: bis **10:00 Uhr NY** (also innerhalb der ersten 30 Minuten nach
+  9:30-Opening) ist es zu **70 %** wahrscheinlich, dass Preis zum C.E. des ORG zurückläuft — Quelle:
+  [[Market Review NQ July 31, 2026 (Source)]].
 - Das Premium/Discount-Konzept mit C.E-Respekt gilt genauso für die ORG.
 - Bei bearishem Bias + starkem Close unterhalb des C.E + Premium-Sensitivität am C.E der ORG wird
   erwartet, dass dieses Verhalten anhält, bis ein [[AMD Cycle (Accumulation – Manipulation – Distribution)|DOL]]
@@ -54,6 +57,23 @@ Hours** umgestellt wird. Darüber ein **Fib 0–1** für die Key Level. Pre Mark
   um Premium-/Discount-Sensitivität zu bestimmen.
 - Schafft Preis es **nicht**, über/unter dem C.E der ORG zu closen (kein Durchbruch), ist das ein
   klares Signal in Richtung des bestehenden Bias.
+
+## Partial-Leiter jenseits des Gaps (2026-Ergänzung)
+
+Konkretes Skalierungsschema, wenn die ORG als Short-/Long-Idee gehandelt wird (Beispiel: Short am
+9:30-Open-Ende der ORG, Ziel Richtung Gap-Low):
+
+1. **C.E. (Half Gap)**: erste Partial, da laut 70-%-Regel oben am wahrscheinlichsten erreicht.
+2. **Full Gap Closure**: Hauptteil der Position (ca. 75–80 %) hier schließen — Standardziel.
+3. **−0,2 STD** (knapp jenseits des Gaps): nächste Partial für den verbleibenden Rest.
+4. **−0,5 STD**: weitere Partial, Stop danach auf den zuvor erreichten Level nachziehen.
+5. **−1,0 STD**: letzter Runner (Restgröße z.B. 3 Mikro-Kontrakte) — bei Erreichen oder bei einem
+   Schluss-Close, der den vorherigen Level wieder zurückerobert, konsequent schließen statt zu
+   hoffen.
+
+Alternative, einfachere Referenz für das Gap selbst: statt des offiziellen 4:14-Uhr-Settlements kann
+auch der **High der letzten 16:00-Uhr-Candle** (falls höher als der Settlement-Close) als Gap-Anker
+verwendet werden — laut ICT seine eigene Einstiegsmethode aus den 1990ern, einfacher, aber gröber.
 
 ## 1st Presented FVG (1.p FVG)
 

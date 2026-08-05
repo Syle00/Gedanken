@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-01
-sources: ["[[Fair Valuation (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]"]
+updated: 2026-08-05
+sources: ["[[Fair Valuation (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
 ---
 
 # Fair Value Gap (FVG)
@@ -63,6 +63,13 @@ Erst wenn alle drei Ebenen übereinstimmen, gilt der Preis als "im fairen Bereic
 
 ![[Kurz Notizen - Breakaway Gap Example.png]]
 *Großes Displacement an einem FVG-/Wick-Quadranten — im Lower Timeframe entsteht daraus oft ein Breakaway Gap.*
+
+## Immediate Rebalance (2026-Ergänzung)
+
+Wird der Low/High einer Candle **von der unmittelbar nächsten Candle** erneut angelaufen (nicht
+irgendwann später), gilt das als "Immediate Rebalance" — ein eigenständig benannter Spezialfall, der
+nur in diesem engen Zeitfenster (die direkt folgende Candle) zählt. Quelle:
+[[Part 2 High Precision Secrets To Intraday Price Action (Source)]].
 
 ## Verwandt
 

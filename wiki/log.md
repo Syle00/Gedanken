@@ -456,6 +456,45 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Seiten aktualisiert: wiki/index.md, .gitignore (algo/.secrets.yaml ergaenzt)
 - Offener Punkt fuer spaeter: verifizierte FOMC-Terminliste als eigene raw/-Quelle ablegen, dann ist der urspruengliche Test sauber baubar.
 
+## [2026-08-05] ingest | 5 neue YouTube-Videos, Kanal The Inner Circle Trader (letzte 7 Tage)
+- Nutzerauftrag: "importiere alle videos der letzten woche mit meinen regeln" — Kanal
+  https://www.youtube.com/@InnerCircleTrader per `yt-dlp` (`--flat-playlist`, `sort=dd`) nach
+  Upload-Datum durchsucht. Fenster 2026-07-29 bis 2026-08-05: 8 Videos gefunden, 2 davon
+  (HFWqQelvrJw, PP1-i0ti_tQ) bereits am selben Tag ingested (siehe Eintrag weiter oben), 2 weitere
+  (V5crdCw0AsY, XKjdVwBUs2E) außerhalb des 7-Tage-Fensters (2026-07-28) und daher nicht Teil dieses
+  Batches.
+- **Übersprungen**: `gXyoGuaOUgs` ("Full Trade Entry To Premature Close Due To Family Emergency
+  [Silent]", 2026-07-29) — YouTube meldet "Subtitles are disabled for this video" (erwartbar bei
+  einem als "[Silent]" gekennzeichneten Screen-Recording ohne Sprachspur). Kein Whisper-Fallback
+  versucht, da ffmpeg auf diesem Rechner trotz früherem Log-Eintrag nicht auffindbar ist (`ffmpeg`/
+  `where ffmpeg` liefert nichts) — offener Punkt, siehe unten.
+- Neues Skript `tools/fetch_yt_transcript.py`: zieht Metadaten via `yt-dlp` und Auto-Captions via
+  `youtube_transcript_api`, schreibt `raw/trading-ict/2026/yt-<id>-transcript.md` im Format der
+  ersten beiden manuellen Ingests. Für 5 Videos gelaufen (42–61k Zeichen Transkript je Video).
+- **5 Quellenseiten erstellt**: [[Predicting Session Low & High With Executions (Source)]],
+  [[Market Review NQ July 31, 2026 (Source)]], [[ICT Algorithmic Time & Price Grids (Source)]],
+  [[Part 1 High Precision Secrets To Intraday Price Action (Source)]],
+  [[Part 2 High Precision Secrets To Intraday Price Action (Source)]] — jeweils mit Abschnitt
+  "Bewusst ausgefiltert" (Familienanekdoten, Kritiker-Abwehr, Motivations-/Persona-Rhetorik).
+- **2 neue Konzeptseiten**: [[Algorithmic Time & Price Grid]] (Preis×Zeit-Raster, fraktale
+  Wiederholung, IFVG-Rückkehr zur First Utilization), [[Daily High & Low Projektion (Konvergenz)]]
+  (Fib-0,5-Extension + 3-Tage-Wick-Projektion + Fulcrum Point).
+- **Bestehende Konzeptseiten erweitert**: [[Institutional Order Flow (Body vs Wick)]] ("Mohawk"-Wick
+  am IFVG, Order-Flow-Testeinsatz), [[ICT Macros & Leading Candles]] (8:30 als algorithmischer
+  Fixzeitpunkt), [[Volume Imbalance (VII)]] (Candle-Auswahl bei Level-Test),
+  [[ORG (Opening Range Gap) & 1st Presented FVG]] (70-%-Regel, vollständige Partial-Leiter bis
+  −1,0 STD), [[Low Resistance Liquidity Run]] (leere Zone zwischen zwei Daily-PD-Arrays),
+  [[Buy & Sell Program]] (visuelle Signatur), [[IPDA Data Ranges]] (3-Tage-Intraday-Lookback),
+  [[Fair Value Gap (FVG)]] (Immediate Rebalance), [[Missed Entry Trade Management Playbook]]
+  (Single-Contract-Probe + Pyramiding in Drawdown, gestuftes SL-Nachziehen).
+- Seiten aktualisiert: wiki/index.md (5 Sources, 2 Concepts eingetragen).
+- Neuer Skill `.claude/skills/yt-ict-ingest/SKILL.md`: dokumentiert den wiederholbaren Ablauf
+  (Kanal-Scan → Transkript-Fetch → Trading-relevant-Filter → Wiki-Schreibstil) für künftige
+  "importiere neue Videos"-Aufträge.
+- **Offener Punkt**: ffmpeg fehlt auf diesem Rechner (frühere Installation laut Log-Eintrag
+  2026-08-05 nicht wirksam/nicht im PATH) — ohne ffmpeg kein Whisper-Fallback für Videos ohne
+  Auto-Captions (z.B. `gXyoGuaOUgs`). Bei Bedarf `ffmpeg` erneut installieren und PATH prüfen.
+
 ## [2026-08-05] synthesis | Silver-Bullet-Trade-Management-Regel (Mindestziel + Partial + Breakeven)
 - Nutzerregel (kein ICT-Quellenzitat): Silver-Bullet-Setup nur nehmen, wenn Entry->Target mindestens 10 Handle/Punkte Potenzial bietet; Partial am ersten Swing-Hoch (long) bzw. Swing-Tief (short) nach dem Entry; danach Stop auf Breakeven, um Drawdown auf den gelaufenen Gewinn zu verhindern.
 - algo/rules.py::plan_trade neuer Parameter `min_target_points` (Default 10.0): Setup wird verworfen, wenn `abs(target-entry)` darunter liegt.

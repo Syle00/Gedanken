@@ -61,8 +61,16 @@ Das 20/40/60-Fenster begrenzt nicht nur die Suche nach dem relevanten High/Low, 
 *OI-Abfall von 15% oder mehr: Zentralbank tritt als Liquiditätsquelle auf, Big Funds nehmen
 Gewinne mit.*
 
+## Kürzeres Lookback für Intraday-Scalping (2026-Ergänzung)
+
+Für reines Daytrading/Intraday-Scalping genügt laut ICT ein **3-Tage-Lookback** statt der
+20/40/60-Tage-HTF-Fenster — "das gesamte Universum an Liquidität und Ineffizienzen der letzten 3
+Tage" reicht aus. Erst wenn die Range der letzten 3 Tage durchbrochen wird, muss weiter
+zurückgeschaut werden. Praktische Anwendung: [[Daily High & Low Projektion (Konvergenz)]].
+
 ## Verwandt
 
 - [[PD Array]], [[Fair Value Gap (FVG)]]
 - [[Quarterly Shift]]
 - [[Open Float & Liquidity Pools]]
+- [[Daily High & Low Projektion (Konvergenz)]]

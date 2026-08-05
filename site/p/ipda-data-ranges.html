@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">57</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">59</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">139</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">144</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">9</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -31,6 +31,7 @@
 <li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
 <li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
 <li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
 <li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
 <li><a href="../p/asian-range.html">Asian Range</a></li>
 <li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
@@ -42,6 +43,7 @@
 <li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
 <li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
 <li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
 <li><a href="../p/dealing-range.html">Dealing Range</a></li>
 <li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
 <li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
@@ -100,6 +102,7 @@
 <li><a href="#ruckwirkende-gultigkeit-von-pd-arrays">Rückwirkende Gültigkeit von PD Arrays</a></li>
 <li><a href="#quarterly-shift-als-ankerpunkt">Quarterly Shift als Ankerpunkt</a></li>
 <li><a href="#open-interest-als-shift-bestatigung">Open Interest als Shift-Bestätigung</a></li>
+<li><a href="#kurzeres-lookback-fur-intraday-scalping-2026-erganzung">Kürzeres Lookback für Intraday-Scalping (2026-Ergänzung)</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
@@ -155,13 +158,19 @@ Ranges 20/40/60 Days — <strong>PDs sind bis zu 60 Tage rückwirkend nutzbar.</
 
 <p><em>OI-Abfall von 15% oder mehr: Zentralbank tritt als Liquiditätsquelle auf, Big Funds nehmen
 Gewinne mit.</em></p>
+<h2 id="kurzeres-lookback-fur-intraday-scalping-2026-erganzung">Kürzeres Lookback für Intraday-Scalping (2026-Ergänzung)</h2>
+<p>Für reines Daytrading/Intraday-Scalping genügt laut ICT ein <strong>3-Tage-Lookback</strong> statt der
+20/40/60-Tage-HTF-Fenster — "das gesamte Universum an Liquidität und Ineffizienzen der letzten 3
+Tage" reicht aus. Erst wenn die Range der letzten 3 Tage durchbrochen wird, muss weiter
+zurückgeschaut werden. Praktische Anwendung: <a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a>.</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/pd-array.html">PD Array</a>, <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
 <li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
 <li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">16</span></h2><ul><li><a href="../p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/blending-ipda-data-ranges-pd-arrays-source.html">Blending IPDA Data Ranges &amp; PD Arrays (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/breakaway-gap.html">Breakaway Gap</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-day-trade-routine.html">ICT Day Trade Routine</a><span class="cat">Modelle</span></li><li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/mentorship-2025.html">MentorShip 2025</a><span class="cat">Synthese</span></li><li><a href="../p/month-05-source.html">Month 05 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-07-weekly-source.html">Month 07 - Weekly (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a><span class="cat">Modelle</span></li><li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a><span class="cat">Konzepte</span></li><li><a href="../p/pd-array.html">PD Array</a><span class="cat">Konzepte</span></li><li><a href="../p/quarterly-shift.html">Quarterly Shift</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/using-ipda-data-ranges-source.html">Using IPDA Data Ranges (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">19</span></h2><ul><li><a href="../p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/blending-ipda-data-ranges-pd-arrays-source.html">Blending IPDA Data Ranges &amp; PD Arrays (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/breakaway-gap.html">Breakaway Gap</a><span class="cat">Konzepte</span></li><li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-day-trade-routine.html">ICT Day Trade Routine</a><span class="cat">Modelle</span></li><li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/mentorship-2025.html">MentorShip 2025</a><span class="cat">Synthese</span></li><li><a href="../p/month-05-source.html">Month 05 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-07-weekly-source.html">Month 07 - Weekly (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a><span class="cat">Modelle</span></li><li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a><span class="cat">Konzepte</span></li><li><a href="../p/part-1-high-precision-secrets-to-intraday-price-action-source.html">Part 1 High Precision Secrets To Intraday Price Action (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/pd-array.html">PD Array</a><span class="cat">Konzepte</span></li><li><a href="../p/quarterly-shift.html">Quarterly Shift</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/using-ipda-data-ranges-source.html">Using IPDA Data Ranges (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/IPDA Data Ranges.md</code></footer>
 </article>
 </main>

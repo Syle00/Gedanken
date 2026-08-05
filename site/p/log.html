@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">57</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">59</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">139</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">144</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">9</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -86,6 +86,7 @@
 <li><a href="#2026-08-04-synthesis-nwog-backtest-gegen-die-bestehende-wiki-regel">[2026-08-04] synthesis | NWOG-Backtest gegen die bestehende Wiki-Regel</a></li>
 <li><a href="#2026-08-04-synthesis-tgif-backtest-median-trifft-einzelwochen-kaum">[2026-08-04] synthesis | TGIF-Backtest: Median trifft, Einzelwochen kaum</a></li>
 <li><a href="#2026-08-05-synthesis-fred-wirtschaftsdaten-angebunden-makro-backtest">[2026-08-05] synthesis | FRED-Wirtschaftsdaten angebunden + Makro-Backtest</a></li>
+<li><a href="#2026-08-05-ingest-5-neue-youtube-videos-kanal-the-inner-circle-trader-letzte-7-tage">[2026-08-05] ingest | 5 neue YouTube-Videos, Kanal The Inner Circle Trader (letzte 7 Tage)</a></li>
 <li><a href="#2026-08-05-synthesis-silver-bullet-trade-management-regel-mindestziel-partial-breakeven">[2026-08-05] synthesis | Silver-Bullet-Trade-Management-Regel (Mindestziel + Partial + Breakeven)</a></li>
 <li><a href="#2026-08-05-setup-wikimodelsmeine-strategien-ubersicht-angelegt-positionsgroen-regel-1-tagesrisiko">[2026-08-05] setup | wiki/models/Meine Strategien (Übersicht) angelegt + Positionsgrößen-Regel (1% Tagesrisiko)</a></li>
 <li><a href="#2026-08-05-setup-korrektur-risiko-regel-gilt-pro-trade-nicht-pro-tag">[2026-08-05] setup | Korrektur: Risiko-Regel gilt PRO TRADE, nicht pro Tag</a></li>
@@ -590,6 +591,46 @@
 <li>Seite erstellt: wiki/synthesis/Makro-FRED-Zusammenhaenge (Eigene Daten, laufend).md</li>
 <li>Seiten aktualisiert: wiki/index.md, .gitignore (algo/.secrets.yaml ergaenzt)</li>
 <li>Offener Punkt fuer spaeter: verifizierte FOMC-Terminliste als eigene raw/-Quelle ablegen, dann ist der urspruengliche Test sauber baubar.</li>
+</ul>
+<h2 id="2026-08-05-ingest-5-neue-youtube-videos-kanal-the-inner-circle-trader-letzte-7-tage">[2026-08-05] ingest | 5 neue YouTube-Videos, Kanal The Inner Circle Trader (letzte 7 Tage)</h2>
+<ul>
+<li>Nutzerauftrag: "importiere alle videos der letzten woche mit meinen regeln" — Kanal
+  https://www.youtube.com/@InnerCircleTrader per <code>yt-dlp</code> (<code>--flat-playlist</code>, <code>sort=dd</code>) nach
+  Upload-Datum durchsucht. Fenster 2026-07-29 bis 2026-08-05: 8 Videos gefunden, 2 davon
+  (HFWqQelvrJw, PP1-i0ti_tQ) bereits am selben Tag ingested (siehe Eintrag weiter oben), 2 weitere
+  (V5crdCw0AsY, XKjdVwBUs2E) außerhalb des 7-Tage-Fensters (2026-07-28) und daher nicht Teil dieses
+  Batches.</li>
+<li><strong>Übersprungen</strong>: <code>gXyoGuaOUgs</code> ("Full Trade Entry To Premature Close Due To Family Emergency
+  [Silent]", 2026-07-29) — YouTube meldet "Subtitles are disabled for this video" (erwartbar bei
+  einem als "[Silent]" gekennzeichneten Screen-Recording ohne Sprachspur). Kein Whisper-Fallback
+  versucht, da ffmpeg auf diesem Rechner trotz früherem Log-Eintrag nicht auffindbar ist (<code>ffmpeg</code>/
+  <code>where ffmpeg</code> liefert nichts) — offener Punkt, siehe unten.</li>
+<li>Neues Skript <code>tools/fetch_yt_transcript.py</code>: zieht Metadaten via <code>yt-dlp</code> und Auto-Captions via
+  <code>youtube_transcript_api</code>, schreibt <code>raw/trading-ict/2026/yt-&lt;id&gt;-transcript.md</code> im Format der
+  ersten beiden manuellen Ingests. Für 5 Videos gelaufen (42–61k Zeichen Transkript je Video).</li>
+<li><strong>5 Quellenseiten erstellt</strong>: <a href="../p/predicting-session-low-high-with-executions-source.html">Predicting Session Low &amp; High With Executions (Source)</a>,
+  <a href="../p/market-review-nq-july-31-2026-source.html">Market Review NQ July 31, 2026 (Source)</a>, <a href="../p/ict-algorithmic-time-price-grids-source.html">ICT Algorithmic Time &amp; Price Grids (Source)</a>,
+  <a href="../p/part-1-high-precision-secrets-to-intraday-price-action-source.html">Part 1 High Precision Secrets To Intraday Price Action (Source)</a>,
+  <a href="../p/part-2-high-precision-secrets-to-intraday-price-action-source.html">Part 2 High Precision Secrets To Intraday Price Action (Source)</a> — jeweils mit Abschnitt
+  "Bewusst ausgefiltert" (Familienanekdoten, Kritiker-Abwehr, Motivations-/Persona-Rhetorik).</li>
+<li><strong>2 neue Konzeptseiten</strong>: <a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a> (Preis×Zeit-Raster, fraktale
+  Wiederholung, IFVG-Rückkehr zur First Utilization), <a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a>
+  (Fib-0,5-Extension + 3-Tage-Wick-Projektion + Fulcrum Point).</li>
+<li><strong>Bestehende Konzeptseiten erweitert</strong>: <a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a> ("Mohawk"-Wick
+  am IFVG, Order-Flow-Testeinsatz), <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a> (8:30 als algorithmischer
+  Fixzeitpunkt), <a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a> (Candle-Auswahl bei Level-Test),
+  <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a> (70-%-Regel, vollständige Partial-Leiter bis
+  −1,0 STD), <a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a> (leere Zone zwischen zwei Daily-PD-Arrays),
+  <a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a> (visuelle Signatur), <a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a> (3-Tage-Intraday-Lookback),
+  <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a> (Immediate Rebalance), <a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a>
+  (Single-Contract-Probe + Pyramiding in Drawdown, gestuftes SL-Nachziehen).</li>
+<li>Seiten aktualisiert: wiki/index.md (5 Sources, 2 Concepts eingetragen).</li>
+<li>Neuer Skill <code>.claude/skills/yt-ict-ingest/SKILL.md</code>: dokumentiert den wiederholbaren Ablauf
+  (Kanal-Scan → Transkript-Fetch → Trading-relevant-Filter → Wiki-Schreibstil) für künftige
+  "importiere neue Videos"-Aufträge.</li>
+<li><strong>Offener Punkt</strong>: ffmpeg fehlt auf diesem Rechner (frühere Installation laut Log-Eintrag
+  2026-08-05 nicht wirksam/nicht im PATH) — ohne ffmpeg kein Whisper-Fallback für Videos ohne
+  Auto-Captions (z.B. <code>gXyoGuaOUgs</code>). Bei Bedarf <code>ffmpeg</code> erneut installieren und PATH prüfen.</li>
 </ul>
 <h2 id="2026-08-05-synthesis-silver-bullet-trade-management-regel-mindestziel-partial-breakeven">[2026-08-05] synthesis | Silver-Bullet-Trade-Management-Regel (Mindestziel + Partial + Breakeven)</h2>
 <ul>

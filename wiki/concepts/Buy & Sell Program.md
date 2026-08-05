@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, mentorship-2020, orderflow, bias]
 created: 2026-08-02
-updated: 2026-08-02
-sources: ["[[CISD Mini Serie - Lecture 1 (Source)]]"]
+updated: 2026-08-05
+sources: ["[[CISD Mini Serie - Lecture 1 (Source)]]", "[[ICT Algorithmic Time & Price Grids (Source)]]"]
 ---
 
 # Buy & Sell Program
@@ -35,6 +35,14 @@ Kriterium 1 ist damit die konstruktive Seite (die Struktur trägt), Kriterium 2 
 ![[CISD Mini Serie - EURUSD Daily Breaker Bullish Seasonal.png]]
 *EURUSD Daily: Buyside-/Sellside-Liquidität, Breaker High und Low, dazu die als „Bullish Seasonal"
 markierte Phase — das Umfeld, in dem das Buy Program läuft.*
+
+## Visuelle Signatur (2026-Ergänzung)
+
+Ein laufendes Buy Program zeigt sich optisch als **eng getaktete Folge kleiner, gleichförmiger
+Candles ohne nennenswerten Pullback** — im Gegensatz zum [[Low Resistance Liquidity Run]], der über
+große, schnelle Candles läuft. Beide Signaturen sind gleichermaßen schwer gegen den Trend zu
+handeln, sehen aber unterschiedlich aus (langsam-stetig vs. schnell-explosiv). Quelle:
+[[ICT Algorithmic Time & Price Grids (Source)]].
 
 ## Bezug zum Order Block
 

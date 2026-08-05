@@ -1,8 +1,8 @@
 ---
 tags: [model, ict, trading-ict, 2026, execution]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[Missed Entry How To Navigate The Same Trade Idea (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]"]
+updated: 2026-08-05
+sources: ["[[Missed Entry How To Navigate The Same Trade Idea (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
 ---
 
 # Missed Entry / Trade Management Playbook
@@ -52,8 +52,24 @@ als [[CISD (Change in State of Delivery)|CISD]]/[[Rejection Block]] identifizier
   — man wird nicht besser dadurch, dass Trades aufgehen, sondern durch die Analyse, was beim
   Verfehlen übersehen wurde.
 
+## Single-Contract-Probe + Pyramiding in Drawdown (2026-Ergänzung)
+
+- **Entry-Test**: vor dem eigentlichen Aufbau einen einzelnen (Mikro-)Kontrakt am oberen Quadranten/
+  Midpoint einer Referenz-Wick platzieren (siehe [[Institutional Order Flow (Body vs Wick)]]).
+- **Pyramiding in Drawdown erlaubt**: läuft Preis zunächst gegen die Position, aber bleibt der Wick-
+  Bereich respektiert, wird an tieferen Wick-Leveln **nachgekauft/-verkauft** — ausdrücklich auch
+  während die erste Teilposition im Minus steht. Nicht mit den meisten Prop-Firm-Regeln vereinbar,
+  ICT selbst handelt ohne Prop-Firm-Constraints.
+- **SL-Nachziehen in Stufen**: initial oberhalb C.E. der Entry-Wick → sobald Preis unter das Low der
+  Entry-Candle closed, SL auf C.E. des genutzten FVG → danach weiter Richtung High der Struktur
+  nachziehen, bis das erste Ziel (Half Gap) erreicht ist.
+- **Volatilitäts-Faustregel**: ist der nötige SL-Abstand an einem hochvolatilen Tag entsprechend groß,
+  auf **Micro-Kontrakte** ausweichen statt die Positionsgröße/den Stop zu verzerren.
+
 ## Verwandt
 
 - [[Event Horizon]], [[CISD (Change in State of Delivery)]], [[Rejection Block]]
 - [[Judas Swing]]
 - [[Market on Close (MOC) Macro Model]]
+- [[Institutional Order Flow (Body vs Wick)]], [[ORG (Opening Range Gap) & 1st Presented FVG]]
+- [[Part 2 High Precision Secrets To Intraday Price Action (Source)]]

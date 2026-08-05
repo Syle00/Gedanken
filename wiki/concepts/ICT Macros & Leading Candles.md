@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[From Vision To Execution (Source)]]"]
+updated: 2026-08-05
+sources: ["[[From Vision To Execution (Source)]]", "[[Market Review NQ July 31, 2026 (Source)]]"]
 ---
 
 # ICT Macros & Leading Candles
@@ -27,6 +27,12 @@ als besonders aussagekräftig für die weitere Preisrichtung.
   *Nicht starkes FVG: sehr klein und ohne genommene Liquidity — für ICT nur ein gewöhnliches Gap.*
 - Ein FVG mit **Purge** (vorheriger Liquidity-Sweep) innerhalb der [[IPDA Data Ranges]] gilt als
   besonders starke PD Array.
+
+## 8:30 als algorithmischer Fixzeitpunkt (2026-Ergänzung)
+
+Unabhängig vom regulären 20-Minuten-Macro-Raster (xx:50–x0:10) ist **8:30 Uhr NY** ein feststehender
+News-Release-Zeitpunkt (z.B. viele US-Konjunkturdaten) und dadurch verlässlich volatil — auch ohne
+dass ein Macro-Fenster dort offiziell benannt ist. Quelle: [[Market Review NQ July 31, 2026 (Source)]].
 
 ## Verwandt
 
