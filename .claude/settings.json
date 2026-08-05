@@ -25,9 +25,22 @@
         "hooks": [
           {
             "type": "command",
-            "command": "git status --porcelain -- wiki raw | grep -q . && powershell.exe -NoProfile -ExecutionPolicy Bypass -File push.ps1; true",
-            "timeout": 120,
-            "statusMessage": "Auto-push: neue wiki/raw-Aenderungen erkannt..."
+            "command": "git status --porcelain | grep -q . && powershell.exe -NoProfile -ExecutionPolicy Bypass -File push.ps1; true",
+            "timeout": 180,
+            "statusMessage": "Auto-push: Aenderungen im Vault erkannt..."
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git fetch origin --quiet 2>/dev/null; b=$(git rev-parse --abbrev-ref HEAD); n=$(git rev-list --count HEAD..origin/$b 2>/dev/null || echo 0); if [ \"$n\" -gt 0 ]; then if [ -z \"$(git status --porcelain)\" ]; then git merge --ff-only origin/$b --quiet && echo \"Vault-Sync: $n Commit(s) von origin/$b geholt.\"; else echo \"Vault-Sync uebersprungen: origin/$b ist $n Commit(s) voraus, aber der Arbeitsbaum ist nicht sauber. Dem Nutzer sagen, dass /update noetig ist.\"; fi; fi; true",
+            "timeout": 60,
+            "statusMessage": "Vault mit GitHub abgleichen..."
           }
         ]
       }

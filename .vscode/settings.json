@@ -1,0 +1,12 @@
+{
+  // Am 04.08.2026 sind "Daily Bias 04.08.26.md" und "Weekly Bias KW 32.md" nur als
+  // ungespeicherter Editor-Puffer auf dem anderen Rechner existiert -- git kann nichts
+  // synchronisieren, was nie auf der Platte lag. Autosave schliesst genau diese Luecke.
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 2000,
+
+  // Damit der Auto-Push keine halben Zeilen und keine BOM-Reste committet.
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.encoding": "utf8"
+}

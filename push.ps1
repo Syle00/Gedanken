@@ -45,6 +45,28 @@ python (Join-Path $repo 'tools\sort_marktdaten.py') --quiet
 # Lose Bilddateien direkt unter raw/ wandern nach raw/bilder/.
 python (Join-Path $repo 'tools\sort_bilder.py') --quiet
 
+# --- 0c. Mit origin abgleichen ---------------------------------------------
+# Zwei-Rechner-Betrieb: hat der andere Rechner gepusht, waere der eigene Push sonst
+# ein non-fast-forward und schlaegt fehl -- die Aenderungen blieben liegen. Darum
+# VOR dem Build rebasen, damit die Website auf dem zusammengefuehrten Stand baut.
+# --autostash rettet dabei die noch uncommitteten lokalen Aenderungen.
+if (git remote) {
+    Write-Host "[0/4] Mit origin abgleichen ..." -ForegroundColor Cyan
+    git fetch origin --quiet
+    $branch = git rev-parse --abbrev-ref HEAD
+    $behind = git rev-list --count "HEAD..origin/$branch" 2>$null
+    if ($LASTEXITCODE -eq 0 -and [int]$behind -gt 0) {
+        Write-Host "  $behind neue(r) Commit(s) von origin - rebase ..." -ForegroundColor Yellow
+        git pull --rebase --autostash origin $branch
+        if ($LASTEXITCODE -ne 0) {
+            git rebase --abort 2>$null
+            Fail "Rebase auf origin/$branch fehlgeschlagen (Konflikt). Bitte von Hand aufloesen; es wurde nichts committet."
+        }
+    } else {
+        Write-Host "  Bereits auf dem Stand von origin." -ForegroundColor DarkGray
+    }
+}
+
 # --- 1. Website bauen ------------------------------------------------------
 Write-Host "[1/4] Website bauen ..." -ForegroundColor Cyan
 python (Join-Path $repo 'tools\build_site.py')

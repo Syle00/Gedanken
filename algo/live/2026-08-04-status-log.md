@@ -39,6 +39,29 @@ gelegene Buyside-Liquidität in den `untouched_levels` bleibt eine reine Fortset
 weniger klar zielgerichtet; darunter bleibt 29185.0 (09:00 ET) das nächste Sellside-Level für
 einen tieferen Rücksetzer.
 
+## [2026-08-04 16:58 lokal / 10:58:14 ET]
+
+**Stand**: Letzter Preis 29549.5 (10:45 ET). Aktives Makro-Fenster 10:50–11:10 ET, zusätzlich
+läuft das NY-AM-Silver-Bullet-Fenster. Kein offenes `setup`.
+
+**Abgleich**: Die Pullback-Erwartung aus dem letzten Bericht ist **nicht** eingetreten — statt
+einer Auffüllung der großen FVG 29254.5–29352.5 lief der Preis im 09:50–10:10-Makro-Fenster
+weiter nach oben, +141 Punkte seit 09:50. Die Signale zeichnen sauberen Trend-Continuation-Charakter:
+bullische FVG 09:45 (29452.5–29454.75) sofort um 09:55 gefüllt, bullische FVG 10:05
+(29498.0–29506.25) um 10:20 gefüllt, dazwischen um 10:05 ein bullischer CHoCH über 29504.5
+(Close 29518.25, Ursprungs-Swing 09:50). Beide FVGs wurden also nur kurz als Rücksetzer-Zonen
+genutzt und direkt abgearbeitet — genau das Muster, das gegen die Umkehr-These sprach. Neue
+Buyside-Liquidität steht keine in `untouched_levels`; die Liste ist rein Sellside, höchster
+Eintrag 29482.25 (10:20 ET).
+
+**Ausblick**: Beide frischen FVGs sind bereits gefüllt und damit als Support entwertet — das
+nächste konkrete Ziel darunter ist der unberührte Sellside-Level 29482.25 (10:20 ET), rund 67
+Punkte unter dem Preis. Da über 29549.5 kein kartiertes Buyside-Ziel mehr liegt, fehlt der
+Fortsetzung ein klarer Magnet; das aktuelle Doppelfenster (Makro 10:50–11:10 plus AM Silver
+Bullet, das um 11:00 ET ausläuft) ist der typische Ort für die Tagesspitze der AM-Session.
+Plausibel ist daher entweder ein letzter Push mit anschließendem Rücklauf auf 29482.25 oder eine
+neue FVG innerhalb des Fensters, die den Trend nochmal trägt. Tiefere Sellside-Staffel bei
+29208.0 / 29185.0 bleibt erst bei Bruch der 10:05-CHoCH-Struktur (29504.5) relevant.
 ## [2026-08-04 21:10 lokal / 15:10:34 ET]
 
 **Stand**: Letzter Preis 29889.0 (15:00 ET). Kein aktives Makro- oder Silver-Bullet-Fenster,

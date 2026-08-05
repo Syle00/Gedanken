@@ -33,10 +33,15 @@ desktop.ini
 .DS_Store
 
 # --- Algo Live-Loop ---
-# algo/live_status.py schreibt bei jedem 10-Minuten-Zyklus CSVs + state.json neu --
-# reiner Ableitungs-Output, keine Historie wert (anders als raw/marktdaten/).
-# Die Text-Statusberichte (algo/live/<datum>-status-log.md) bleiben bewusst versioniert.
-algo/live/*/
+# state.json ist reine Laufzeit-Buchhaltung des 10-Minuten-Zyklus (welche Events schon
+# gemeldet wurden) und wird bei jedem Lauf neu geschrieben -- keine Historie wert.
+algo/live/*/state.json
+
+# Die Intraday-CSVs daneben bleiben ab 04.08.2026 bewusst VERSIONIERT: yfinance liefert
+# 1m-Daten nur ~30 und 5m nur ~60 Tage rueckwirkend, danach sind diese Snapshots nicht
+# mehr rekonstruierbar. ~80 KB je Handelstag sind der Preis dafuer, dass die Datenlage
+# spaeter noch vollstaendig ist. Die Text-Statusberichte (algo/live/<datum>-status-log.md)
+# waren schon vorher versioniert.
 
 # Bewusst NICHT ignoriert: raw/ (inkl. aller PNGs), wiki/, site/, CLAUDE.md,
 # .claude/settings.json -- das Vault soll vollstaendig gesichert sein.

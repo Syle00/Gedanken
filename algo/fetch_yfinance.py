@@ -15,6 +15,13 @@ derselbe Datenstrom, nur auf das Zeitfenster gefiltert.
 # ponytail: 4h-Resampling ist ein grobes Raster, kein exaktes Session-Grid;
 # falls das mal einen Unterschied macht: an CME-Session-Start (18:00 NY) ausrichten.
 
+Ein Handelstag laeuft 18:00 NY des Vortages bis 17:00 NY (Globex, siehe trading_day()),
+der Download-Bereich ist dagegen ein reiner Kalenderschnitt. Daraus folgt fuer den Aufruf:
+`start` einen Tag VOR den ersten gewuenschten Handelstag legen (sonst fehlt dessen
+Abendsession), und der Handelstag `end` wird bewusst nicht geschrieben, weil er nur bis
+Mitternacht reichen wuerde -- write_day() ueberschreibt nie, so ein Stumpf bliebe fuer
+immer liegen.
+
 Aufruf:
     python algo/fetch_yfinance.py 2026-07-01 2026-08-01   # end exklusiv
 """
@@ -93,6 +100,19 @@ def download_interval(tf: str, start: str, end: str) -> pd.DataFrame:
 def fetch(start: str, end: str) -> list[Path]:
     written = []
     hourly = None
+    end_day = date.fromisoformat(end)
+
+    def emit(tf: str, day, rows) -> None:
+        # Der Handelstag am Bereichsrand ist immer angeschnitten: trading_day() schiebt
+        # Abendbaren (>=18:00 NY) auf den Folgetag, der Download endet aber am Kalender-
+        # datum -- so entsteht ein Tag, der nur bis Mitternacht reicht. write_day()
+        # ueberschreibt nie, ein solcher Stumpf bliebe also dauerhaft in raw/ liegen.
+        if day >= end_day:
+            return
+        f = write_day(tf, day, rows)
+        if f:
+            written.append(f)
+
     for tf in INTERVALS:
         df = download_interval(tf, start, end)
         if df.empty:
@@ -102,25 +122,19 @@ def fetch(start: str, end: str) -> list[Path]:
         if tf == "1h":
             hourly = df
         for day, rows in df.groupby(df.index.map(lambda ts: trading_day(ts, daily))):
-            f = write_day(tf, day, rows)
-            if f:
-                written.append(f)
+            emit(tf, day, rows)
 
         if tf in RTH_TFS:
             ny_time = df.index.tz_convert(NY).time
             rth = df[(ny_time >= RTH_START) & (ny_time <= RTH_END)]
             for day, rows in rth.groupby(rth.index.tz_convert(NY).date):
-                f = write_day(f"{tf} RTH", day, rows)
-                if f:
-                    written.append(f)
+                emit(f"{tf} RTH", day, rows)
 
     if hourly is not None:
         h4 = (hourly.resample("4h").agg(
             {"Open": "first", "High": "max", "Low": "min", "Close": "last"}).dropna())
         for day, rows in h4.groupby(h4.index.map(trading_day)):
-            f = write_day("4h", day, rows)
-            if f:
-                written.append(f)
+            emit("4h", day, rows)
     return written
 
 

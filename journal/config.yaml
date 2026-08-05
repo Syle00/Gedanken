@@ -33,8 +33,15 @@ risiko:
   #   1-2 Kontrakte:  8 Tage, Schnitt +44,75 USD
   #   3-5 Kontrakte: 11 Tage, Schnitt  -8,82 USD
   #   6+  Kontrakte:  7 Tage, Schnitt -62,36 USD
-  max_kontrakte: 2             # je Trade -> R09
-  max_kontrakte_pro_tag: 5     # ueber alle Trades des Tages -> R09
+  # Geaendert am 04.08.2026 auf Jannes' Entscheidung: 4 Micro-Kontrakte sind auf einem
+  # 25k-Konto die richtige Groesse. Das ist sachlich richtig -- 4 MNQ sind 8 USD je Punkt,
+  # mit einem 10-Punkte-Stop also 80 USD (0,32 %) und damit unauffaellig. Die Kontraktzahl
+  # war nie das eigentliche Problem: am 04.08. waren es 4 Kontrakte MAL 35 Punkte Stop
+  # = 280 USD. Der Hebel ist die Stopweite bei voller Groesse, nicht die Stueckzahl.
+  # Die bindende Schranke sind deshalb die risiko-Prozente oben: bei 4 Kontrakten
+  # entspricht max_pct 0,6 % (150 USD) einem maximalen Stop von ~18 Punkten.
+  max_kontrakte: 4             # je Trade -> R09
+  max_kontrakte_pro_tag: 12    # 3 Trades a 4 Kontrakte -> R09
 
   # Falls Lucid eigene Regeln hat (Trailing Drawdown, Daily Loss Limit der Firma),
   # gehoeren sie hier rein und haben Vorrang vor den Werten oben:
