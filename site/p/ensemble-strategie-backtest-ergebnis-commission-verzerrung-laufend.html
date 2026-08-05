@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">56</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">26</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">137</span></a></li>
+<li class="active"><a href="../index.html#synthesis">Synthese<span class="count">9</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Synthese</div><ul class="pagelist">
+<li class="here"><a href="../p/ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend.html">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</a></li>
+<li><a href="../p/journal-auswertung.html">Journal-Auswertung</a></li>
+<li><a href="../p/makro-fred-zusammenhaenge-eigene-daten-laufend.html">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</a></li>
+<li><a href="../p/mentorship-2025.html">MentorShip 2025</a></li>
+<li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
+<li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a></li>
+<li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#synthesis">Synthese</a></div>
+  <h1>Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">ensemble</span> <span class="tag">generiert</span></div><div class="dates">erstellt 2026-08-05 · aktualisiert 2026-08-05</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">backtest_ensemble.py</span>, <span class="broken" title="Seite existiert noch nicht">PLAN</span></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#kennzahlen">Kennzahlen</a></li>
+<li><a href="#hauptbefund-commission-modell-verzerrt-das-ergebnis-massiv">Hauptbefund: Commission-Modell verzerrt das Ergebnis massiv</a></li>
+<li><a href="#vorsicht-vor-der-189-zahl">Vorsicht vor der +18,9%-Zahl</a></li>
+<li><a href="#bereits-nachweislich-widerlegte-ansatze-nicht-wiederholen">Bereits nachweislich widerlegte Ansätze (nicht wiederholen)</a></li>
+<li><a href="#bereits-als-signal-in-der-bias-regression-enthalten-nicht-doppelt-hinzufugen">Bereits als Signal in der Bias-Regression enthalten (nicht doppelt hinzufügen)</a></li>
+<li><a href="#nachste-schritte-prioritat">Nächste Schritte (Priorität)</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</h1>
+<p>Antwort auf die Nutzerfrage "hast du Ideen wie ich profitabel werde?" — Ergebnis eines vollen
+In-Sample-Laufs von <code>EnsembleStrategy</code> (48 Handelstage MNQ, alle Regeln aus
+<a href="../p/silver-bullet-model.html">Silver Bullet Model</a> + <a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a> Stand 2026-08-05).</p>
+<h2 id="kennzahlen">Kennzahlen</h2>
+<table>
+<thead>
+<tr>
+<th>Kennzahl</th>
+<th>Wert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Return</td>
+<td>-0,89%</td>
+</tr>
+<tr>
+<td>Profit Factor</td>
+<td>1,48</td>
+</tr>
+<tr>
+<td>Win Rate</td>
+<td>32,4%</td>
+</tr>
+<tr>
+<td>Sharpe Ratio</td>
+<td>0,13</td>
+</tr>
+<tr>
+<td>Kelly Criterion</td>
+<td>-0,01 (negativ)</td>
+</tr>
+<tr>
+<td>SQN</td>
+<td>-0,07</td>
+</tr>
+<tr>
+<td>Commissions</td>
+<td>$19.757</td>
+</tr>
+<tr>
+<td>Max Drawdown</td>
+<td>-15,7%</td>
+</tr>
+<tr>
+<td># Trades</td>
+<td>34</td>
+</tr>
+</tbody>
+</table>
+<h2 id="hauptbefund-commission-modell-verzerrt-das-ergebnis-massiv">Hauptbefund: Commission-Modell verzerrt das Ergebnis massiv</h2>
+<p>Profit Factor &gt;1 bei gleichzeitig negativem Return ist der Schlüssel: Netto-Verlust
+(-885,67 $) + Commissions (19.757 $) = <strong>brutto ca. +18.870 $ (+18,9%)</strong>.</p>
+<p><code>BT_KWARGS = dict(commission=0.0002)</code> (in <code>backtest_walkforward.py</code>, <code>validate_ensemble.py</code>,
+<code>stress_test.py</code>, <code>backtest_bt.py</code>) berechnet Kommission als <strong>Prozent vom Notional-Wert</strong> —
+das Modell für Aktien/Forex. Echte Futures-Broker berechnen einen <strong>Fixbetrag pro Kontrakt</strong>
+(MNQ real ca. 0,50–1,50 $ Roundtrip/Kontrakt), unabhängig vom Preis. Bei den hier üblichen
+Positionsgrößen (12–70 Kontrakte, siehe <a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a>) multipliziert das
+Prozent-Modell die echten Kosten um ein Vielfaches — verschärft durch das neue Partial-Taking
+(jeder Trade jetzt 3 statt 2 Commission-Events: Entry, Partial-Exit, Final-Exit).</p>
+<p><strong>Höchster Hebel für Profitabilität</strong>: Commission-Modell auf Fixbetrag/Kontrakt umstellen,
+kompletten Stack neu laufen lassen.</p>
+<h2 id="vorsicht-vor-der-189-zahl">Vorsicht vor der +18,9%-Zahl</h2>
+<p>n=34 Trades auf 48 Tagen ist eine sehr kleine Stichprobe, und dieser Lauf war reiner
+<strong>In-Sample</strong> (<code>bt.run()</code>, kein Walk-Forward mit Per-Fold-Refit). SQN -0,07 und negatives
+Kelly-Criterion zeigen: selbst mit dem Profit-Factor-Edge ist die Trade-zu-Trade-Qualität
+(noch) schwach/instabil. Nicht als bestätigte Profitabilität werten, bevor Walk-Forward +
+realistische Kosten das bestätigen.</p>
+<h2 id="bereits-nachweislich-widerlegte-ansatze-nicht-wiederholen">Bereits nachweislich widerlegte Ansätze (nicht wiederholen)</h2>
+<ul>
+<li>Silver Bullet ohne Bias-Filter: Profit Factor &lt;1 bei jedem <code>stop_buffer_pct</code>, Walk-Forward OOS
+  durchgehend negativ, Monte-Carlo-95.-Perzentil nie profitabel (siehe <code>algo/PLAN.md</code>-Log 2026-08-05).</li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a> 20–30%-Retracement: nur 3,7% exakte Trefferquote.</li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a> "Bias intakt": nur 7,1%.</li>
+<li>Rundzahl-Magnetismus: kein Effekt (siehe <a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a>).</li>
+</ul>
+<h2 id="bereits-als-signal-in-der-bias-regression-enthalten-nicht-doppelt-hinzufugen">Bereits als Signal in der Bias-Regression enthalten (nicht doppelt hinzufügen)</h2>
+<ul>
+<li>Montags-Effekt (78,6% bullish, +0,71% Ø-Rendite) aus <a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a></li>
+<li>Range-Autokorrelation (r=0,305) aus <a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a></li>
+</ul>
+<p>Beide fließen schon über <code>algo/signals.py</code> in <code>fit_model()</code> ein.</p>
+<h2 id="nachste-schritte-prioritat">Nächste Schritte (Priorität)</h2>
+<ol>
+<li>Commission-Modell auf Fixbetrag/Kontrakt umstellen, gesamten Stack neu validieren.</li>
+<li>Walk-Forward (nicht nur Einzellauf) für die aktuelle Regelmenge (min-10pt-Filter,
+   Partial+Breakeven, 1%-Sizing) — bisher nur die Vorstufe walk-forward-validiert.</li>
+<li><code>algo/stress_test.py</code>-Ergebnisse (5 Krisenfenster) tatsächlich auswerten — Skript existiert
+   seit heute, Ergebnis nie gelesen/dokumentiert.</li>
+<li><code>partial_portion</code> und <code>min_target_points</code> parameter-sensitivitätstesten (wie <code>stop_buffer_pct</code>
+   bereits getestet wurde) — beide neue, ungetestete Freiheitsgrade bei kleinem Sample.</li>
+</ol>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/silver-bullet-model.html">Silver Bullet Model</a>, <a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a>, <a href="../p/meine-strategien-uebersicht.html">Meine Strategien (Übersicht)</a></li>
+<li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a>, <a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a></li>
+<li><a href="../p/makro-fred-zusammenhaenge-eigene-daten-laufend.html">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</a></li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

@@ -237,6 +237,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Statistische Muster jenseits der ICT-Konzepte (laufend)]] — **generiert**, nicht-kalendarische Datenexploration: Range-Autokorrelation r=0,305 (n=147), schwaches Richtungs-Momentum, kein Rundzahl-Magnetismus (2026-08-04)
 - [[Seasonal Tendency (Eigene Daten, laufend)]] — **generiert**, eigene Datenbank (`algo/seasonal_tendency.json`) für Wochentag/Turn-of-Month/Woche-im-Monat/Monat: Montag groß+bullish (78,6%, n=28), Turn-of-Month extern+eigen bestätigt, gegen externe Nasdaq-Quellen gehalten (2026-08-04)
 - [[Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)]] — **generiert**, FRED-Wirtschaftsdaten (VIX/DGS10/WALCL) gegen MNQ: VIX-Änderung korreliert -0,743 mit Tagesrendite, DGS10 -0,281; CPI-/FOMC-Reaktionstest bewusst nicht gebaut (kein verifizierbares Release-Datum) (2026-08-05)
+- [[Ensemble-Strategie — Backtest-Ergebnis & Commission-Verzerrung (laufend)]] — **generiert**: Profit Factor 1,48 bei Return -0,89% (In-Sample, n=34) — Commissions ($19.757, Prozent-vom-Notional-Modell statt Futures-Fixbetrag) fressen den gesamten brutto ca. +18,9%-Edge auf; größter Profitabilitäts-Hebel identifiziert (2026-08-05)
 
 ## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)
 
