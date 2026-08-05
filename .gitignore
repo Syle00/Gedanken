@@ -29,6 +29,11 @@ __pycache__/
 *.pyc
 .venv/
 
+# --- Algo Backtest-Rohlaeufe ---
+# Konsolen-Mitschnitt (Progress-Bars) eines Hintergrundlaufs, keine Historie wert --
+# Ergebnisse werden nach Abschluss in algo/PLAN.md verdichtet.
+algo/walkforward_result.txt
+
 # --- OS ---
 Thumbs.db
 desktop.ini
