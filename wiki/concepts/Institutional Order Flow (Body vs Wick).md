@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[Institutional Order Flow (Source)]]"]
+sources: ["[[Institutional Order Flow (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
 ---
 
 # Institutional Order Flow (Body vs Wick)
@@ -60,9 +60,27 @@ Wie viele Wicks ein Low (bzw. High) bilden, entscheidet über die Lesart:
 - Ein Swing High/Low, das **energetisch** (mit Kraft, via [[Market Reversal Types|MSS/BOS]])
   genommen wird, ist ein positives Zeichen dafür, dass der Move weitergeht.
 
+## MOC-Order-Flow-Bestätigung (Candlestick-only, 2026-Ergänzung)
+
+Regel für die Bias-Bestätigung **ausschließlich über Candlesticks** — keine Indikatoren, kein Volume
+Profile, kein Level 2, keine Heatmaps, kein Wyckoff, keine Pitchforks:
+
+1. Candle **rallyt in ein (Inversion-)FVG** hinein.
+2. Sie **berührt dessen C.E. (Consequent Encroachment) nicht**.
+3. Sie **closed unterhalb ihres eigenen Lows**, wobei genau dort eine
+   [[Volume Imbalance (VII)|Volume Imbalance]] liegt.
+
+Sind alle drei Punkte erfüllt, gilt der **bearishe Bias als bestätigt** (spiegelbildlich: Rally in
+ein Gap, C.E. nicht berührt, Close über dem eigenen High mit VII → bullish bestätigt). Praxisbeispiel
+und Einbettung ins Setup: [[Market on Close (MOC) Macro Model]].
+
+> Schlägt diese Regel in der Praxis fehl, ist laut Quelle fast immer der **Bias falsch angenommen**
+> worden — nicht die Regel selbst defekt. Siehe [[Signal-Following & Crowd Liquidity Risk]].
+
 ## Verwandt
 
 - [[PD Array]], [[CISD (Change in State of Delivery)]]
 - [[Open Float & Liquidity Pools]]
 - [[Order Block]], [[Market Reversal Types]]
+- [[Market on Close (MOC) Macro Model]], [[Volume Imbalance (VII)]], [[IFVG (Inverse Fair Value Gap)]]
 - [[Kurz Notizen (Source)]]

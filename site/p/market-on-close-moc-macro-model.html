@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market on Close (MOC) Macro Model — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">57</span></a></li>
+<li class="active"><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">138</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">9</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Modelle</div><ul class="pagelist">
+<li><a href="../p/0-gmt-ipda-true-day-reset-entry.html">0 GMT IPDA True Day Reset Entry</a></li>
+<li><a href="../p/20-pips-per-day.html">20 Pips Per Day</a></li>
+<li><a href="../p/bond-mega-trades.html">Bond Mega-Trades</a></li>
+<li><a href="../p/bread-butter-setups.html">Bread &amp; Butter Setups</a></li>
+<li><a href="../p/classic-swing-trading-approach.html">Classic Swing Trading Approach</a></li>
+<li><a href="../p/commodity-mega-trades.html">Commodity Mega-Trades</a></li>
+<li><a href="../p/graded-price-swings.html">Graded Price Swings</a></li>
+<li><a href="../p/high-probability-daytrade-setups.html">High Probability Daytrade Setups</a></li>
+<li><a href="../p/ict-day-trade-routine.html">ICT Day Trade Routine</a></li>
+<li><a href="../p/london-session-profiles.html">London Session Profiles</a></li>
+<li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a></li>
+<li class="here"><a href="../p/market-on-close-moc-macro-model.html">Market on Close (MOC) Macro Model</a></li>
+<li><a href="../p/meine-strategien-uebersicht.html">Meine Strategien (Übersicht)</a></li>
+<li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a></li>
+<li><a href="../p/no-bias-engagement-routine.html">No-Bias Engagement Routine</a></li>
+<li><a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a></li>
+<li><a href="../p/ny-pm-trend.html">NY PM Trend</a></li>
+<li><a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a></li>
+<li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a></li>
+<li><a href="../p/silver-bullet-model.html">Silver Bullet Model</a></li>
+<li><a href="../p/stock-mega-trades.html">Stock Mega-Trades</a></li>
+<li><a href="../p/the-sentiment-effect.html">The Sentiment Effect</a></li>
+<li><a href="../p/three-timeframe-framing.html">Three Timeframe Framing</a></li>
+<li><a href="../p/trading-complex-opening-ranges.html">Trading Complex Opening Ranges</a></li>
+<li><a href="../p/trading-in-consolidations.html">Trading In Consolidations</a></li>
+<li><a href="../p/trading-journal-dol-checklist.html">Trading Journal &amp; DOL Checklist</a></li>
+<li><a href="../p/weekly-range-trading-model.html">Weekly Range Trading Model</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#models">Modelle</a></div>
+  <h1>Market on Close (MOC) Macro Model</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2026</span> <span class="tag">macro</span> <span class="tag">sessions</span> <span class="tag">moc</span></div><div class="dates">erstellt 2026-08-05 · aktualisiert 2026-08-05</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#grundidee">Grundidee</a></li>
+<li><a href="#ablauf">Ablauf</a></li>
+<li><a href="#fib-feinraster-quadrant-oktant-16tel">Fib-Feinraster: Quadrant → Oktant → 16tel</a></li>
+<li><a href="#zahlenbeispiel-es-2026-08-04">Zahlenbeispiel (ES, 2026-08-04)</a></li>
+<li><a href="#risikohinweis-aus-der-quelle">Risikohinweis aus der Quelle</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="market-on-close-moc-macro-model">Market on Close (MOC) Macro Model</h1>
+<p>Setup für die <strong>letzten 10 Minuten des RTH-Handelstags (15:50–16:00 Uhr NY)</strong> — analog zum
+<a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a>, nur am Tagesende statt zur Mittagszeit. Laut Quelle <strong>nicht
+NASDAQ-exklusiv</strong>: das Beispiel läuft am E-Mini S&amp;P (ES), dieselbe Logik gilt index-übergreifend.</p>
+<h2 id="grundidee">Grundidee</h2>
+<p>Ab <strong>15:00 Uhr</strong> (Beginn der letzten RTH-Stunde) wird beobachtet, wie sich Preis relativ zur
+<strong>Dealing Range des Tages</strong> verhält (PM-Opening-Range-Low ab 13:30 Uhr bis Tageshoch). Ziel ist,
+<strong>in einem 10-Minuten-Fenster</strong> eine chirurgisch präzise Entscheidung zu treffen — kein
+"Hold for hundreds of handles", sondern ein kleiner, gezielter Move.</p>
+<blockquote>
+<p>Bei einem Tag, der bereits <strong>lange in eine Richtung gelaufen ist</strong> ("long in the tooth"), wird vor
+dem Close eher <strong>Konsolidierung oder ein Retracement</strong> erwartet als eine weitere Fortsetzung.</p>
+</blockquote>
+<h2 id="ablauf">Ablauf</h2>
+<ol>
+<li><strong>Dealing Range bestimmen</strong>: PM-Opening-Range-Low (13:30 Uhr) bis Tageshoch — das ist der große
+   Rahmen. Innerhalb davon eine <strong>kleinere Dealing Range</strong> suchen, die dicht ans Equilibrium
+   herangehandelt hat (Discount, ohne den Midpoint zu brechen) und ein Buyside-Balance-Sellside-
+   Inefficiency respektiert (siehe <a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a>).</li>
+<li><strong>Fib-Grid anlegen</strong>: Low → High dieser kleineren Range, inkl. <strong>negativem -0,5-Level</strong> (Setting
+   wie bei <a href="../p/midnight-opening-range.html">Midnight Opening Range</a> gewohnt). Daraus ergibt sich ein Levelpaar (Q/O-Raster, siehe
+   unten).</li>
+<li><strong>Erwartung ab ~15:50</strong>: Preis läuft <strong>erst</strong> in Richtung Buyside (nimmt die Relative-Equal-Highs
+   der kleineren Range), <strong>dann erst</strong> wird die eigentliche MOC-Richtung gehandelt — der erste Move
+   ist noch <strong>nicht</strong> die Execution, sondern baut nur das Levelpaar auf (analog zur
+   <a href="../p/ny-lunch-macro-model.html">10-Uhr-Linie</a> beim Lunch Macro: "erst entsteht das Target, dann wird
+   gehandelt").</li>
+<li><strong>Entry-Zone</strong>: Alles zwischen dem gesweepten High und dem Midpoint der kleineren Range gilt als
+   valide Short- (bzw. Long-)Zone — <strong>aber erst nach Order-Flow-Bestätigung</strong> (Schritt 5).</li>
+<li><strong>Order-Flow-Bestätigung</strong> (candlestick-only, siehe
+   <a href="../p/institutional-order-flow-body-vs-wick.html">Detailregel</a>):
+   Candle rallyt in ein (Inversion-)FVG, berührt dessen C.E. nicht, closed unterhalb des eigenen Lows
+   (das eine Volume Imbalance trägt) → bestätigt den bearishen Bias (spiegelbildlich bullish).</li>
+<li><strong>Fortsetzung</strong>: nach Bestätigung aggressiver Bruch durch minor Sellside-Pools (Relative Equal
+   Lows), bis das projizierte Fib-Level erreicht wird.</li>
+</ol>
+<h2 id="fib-feinraster-quadrant-oktant-16tel">Fib-Feinraster: Quadrant → Oktant → 16tel</h2>
+<p>Ergänzt das bestehende Q/O-Raster (<a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a>):</p>
+<table>
+<thead>
+<tr>
+<th>Ebene</th>
+<th>Anteil der Range</th>
+<th>Bezeichnung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Percentile</td>
+<td>100 % / Hälften</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Quadrant (Q)</td>
+<td>25 %</td>
+<td>bereits im Wiki</td>
+</tr>
+<tr>
+<td>Oktant (O)</td>
+<td>12,5 % (halber Quadrant)</td>
+<td>bereits im Wiki</td>
+</tr>
+<tr>
+<td><strong>16tel</strong></td>
+<td><strong>6,25 % (halber Oktant)</strong></td>
+<td><strong>neu</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="zahlenbeispiel-es-2026-08-04">Zahlenbeispiel (ES, 2026-08-04)</h2>
+<ul>
+<li>Short-Entry am projizierten Midpoint: <strong>7.786,00</strong></li>
+<li>Projiziertes 16tel-Level (Ziel/Reversal): <strong>7.761,75</strong></li>
+<li>Tatsächliches Tagestief: <strong>7.761,25</strong> — Abweichung <strong>2 Ticks</strong></li>
+</ul>
+<p>Diente ICT als Präzisionsnachweis: die Level wurden <strong>vor</strong> dem Move berechnet, nicht im Nachhinein
+angepasst.</p>
+<h2 id="risikohinweis-aus-der-quelle">Risikohinweis aus der Quelle</h2>
+<p>Fills sind bei öffentlich geteilten Levels <strong>nicht garantiert</strong> — bei genug Followern, die dieselbe
+enge Zone anlaufen, bekommt nicht jeder eine Füllung zum selben Preis (Marktmechanik, keine
+Verschwörung). Siehe <a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a>.</p>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/ny-pm-trend.html">NY PM Trend</a> — die übergeordnete PM-Session, in die das MOC-Fenster fällt</li>
+<li><a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a> — strukturell identisches Prinzip zur Mittagszeit</li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a>, <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a>, <a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a>, <a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a>, <a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a></li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a><span class="cat">Konzepte</span></li><li><a href="../p/ny-pm-trend.html">NY PM Trend</a><span class="cat">Modelle</span></li><li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/models/Market on Close (MOC) Macro Model.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

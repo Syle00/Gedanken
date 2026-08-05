@@ -38,6 +38,26 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Nutzerhinweis: Alle ICT-Study-Notes gehören zusammen und bauen aufeinander auf; Oberbegriff des gesamten Konzepts ist **Smart Money Concepts (SMC)**. Die Ordnertrennung (Core Content 2016 / 2026 / lose Rohnotizen) ist Herkunft des Materials, keine inhaltliche Trennung.
 - Seite erstellt: wiki/concepts/Smart Money Concepts (SMC).md — Wurzel-/Einstiegsseite: gemeinsame Grundannahme (algorithmische Price Delivery), 5 Bausteingruppen (Rahmen, Liquidität, PD Arrays, Struktur, Kontext), Verweis auf die Modelle, Lernpfad Core Content 2016 → 2026 → Kurz Notizen, Einordnung des Verhältnisses der Jahrgänge (2026 präzisiert, ersetzt nicht).
 - Frontmatter-Migration in allen 83 wiki/sources/-Seiten: das Feld `raw` enthält jetzt einen Obsidian-Wikilink auf den Dateinamen der Rohquelle statt eines Pfad-Strings; der Pfad bleibt verlustfrei im neuen Feld `raw_path` erhalten. Grund: der Pfad-String erzeugte in Obsidian keine Graph-Kante, dadurch hingen raw/ und wiki/ als getrennte Inseln im Graphen (Nutzerfrage "warum ist der core content und 2026 study nicht mit index verbunden?"). tools/build_site.py liest nur tags/created/updated/sources — die Website bleibt unverändert.
+
+## [2026-08-05] ingest | YouTube: ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth
+- Neuer Kanal für automatischen YouTube-Ingest eingerichtet: `yt-video-text-md` (pip) zieht Transkripte;
+  das Paket selbst ist auf diesem Windows-Rechner defekt (PyPI-Namenskollision bei seiner
+  `whisper`-Abhängigkeit — die *echte* `openai-whisper` heißt anders, das installierte `whisper` bricht
+  beim Import via `ctypes.CDLL`). Umgangen, indem direkt gegen die darunterliegende
+  `youtube-transcript-api` gescriptet wurde (kein Whisper-Fallback nötig, da YouTube-Auto-Captions
+  vorhanden waren).
+- Quelle: https://www.youtube.com/watch?v=HFWqQelvrJw (Kanal The Inner Circle Trader, veröffentlicht
+  2026-08-05). Transkript gespeichert unter `raw/trading-ict/2026/yt-HFWqQelvrJw-transcript.md`.
+- ⚠️ Auto-Captions decken nur **~39 von 52 Minuten** ab (brechen nach der Reversal-Bestätigung ab,
+  vor der wiederholten Trade-Recording-Passage) — als Limitation auf der Source-Seite vermerkt statt
+  stillschweigend als vollständig behandelt.
+- Nutzeranweisung befolgt: nur **trading-relevantes Wissen** verdichtet, Meta-/Persönlichkeits-Content
+  (Kritiker-Bashing, CFTC-Anekdote, Community-Historie) bewusst ausgefiltert.
+- Seiten erstellt: wiki/sources/ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source).md, wiki/models/Market on Close (MOC) Macro Model.md, wiki/concepts/Signal-Following & Crowd Liquidity Risk.md
+- Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (16tel-Raster ergänzt), wiki/concepts/Institutional Order Flow (Body vs Wick).md (MOC-Order-Flow-Bestätigungsregel), wiki/models/Trading Journal & DOL Checklist.md (Journaling-Haltung), wiki/models/NY PM Trend.md (Verlinkung), wiki/index.md
+- Offener Punkt: falls die fehlenden ~13 Minuten (Trade-Recording) inhaltlich doch neue Regeln
+  enthalten (aktuell nur vermutet, dass es eine Wiederholung ist), bei Gelegenheit per Whisper
+  (echtes `openai-whisper`, nicht das kollidierende PyPI-Paket `whisper`) nachziehen.
 - Übersprungen: wiki/sources/Kurz Notizen (Source).md (hat kein `raw:`-Feld, verweist bereits per `sources:`-Wikilinks direkt auf die Rohnotizen).
 - Seiten aktualisiert: wiki/index.md (Einstiegs-Hinweis auf die SMC-Wurzelseite, SMC in Concepts eingetragen, 5 fehlende Katalogeinträge nachgetragen: [[Kurz Notizen (Source)]] unter neuer Rubrik "Notizen", sowie [[Balanced Price Range (BPR)]], [[Breakaway Gap]], [[DXY Correlation (Risk On_Off)]], [[Silver Bullet Model]] — vom Build als Index-Drift gemeldet).
 

@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
 updated: 2026-08-03
-sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Chain Of Custody Of Price With Daily Inefficiencies (Source)]]"]
+sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Chain Of Custody Of Price With Daily Inefficiencies (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
 ---
 
 # Chain of Custody (Q-Validation)
@@ -58,9 +58,17 @@ Angewendet wird das Raster direkt auf ein [[BISI & SIBI (Buyside-Sellside Imbala
 - **No-Trade-Regel**: Verbringt Preis längere Zeit zwischen zwei Qs/Os und konsolidiert sichtlich,
   ist das **nicht High Probability** — unabhängig vom Zeitfenster wird kein Trade genommen.
 
+## 16tel (halber Oktant) — 2026-Ergänzung (MOC-Video)
+
+Das Raster geht noch eine Stufe feiner als Q/O: **Oktant halbiert = 16tel** (6,25 % der Range). Im
+konkreten Beispiel am E-Mini S&P wurde ein 16tel-Level bei 7.761,75 projiziert, das Tagestief kam bei
+7.761,25 — **2 Ticks Abweichung**. Details und Ablauf auf
+[[Market on Close (MOC) Macro Model]].
+
 ## Verwandt
 
 - [[Enigma FVG Projection]], [[Order Block]], [[Fair Value Gap (FVG)]]
 - [[IFVG (Inverse Fair Value Gap)]]
 - [[BISI & SIBI (Buyside-Sellside Imbalance)]], [[Suspension Block]], [[Event Horizon]]
+- [[Market on Close (MOC) Macro Model]] — nutzt das 16tel-Level in der Praxis
 - [[Kurz Notizen (Source)]], [[Chain Of Custody Of Price With Daily Inefficiencies (Source)]]

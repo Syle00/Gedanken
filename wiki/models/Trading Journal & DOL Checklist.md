@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, routine]
 created: 2026-08-01
 updated: 2026-08-02
-sources: ["[[What To Focus On Right Now (Source)]]"]
+sources: ["[[What To Focus On Right Now (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
 ---
 
 # Trading Journal & DOL Checklist
@@ -51,8 +51,16 @@ Die acht Punkte, die im Journal seit Anfang 2026 als Checkboxen geführt werden,
 Das ist der Punkt, an dem Analyse und Ausführung auseinanderfallen: das Setup wird erkannt, der
 Trigger aber nicht abgewartet.
 
+## Journaling-Haltung (2026-Ergänzung, MOC-Video)
+
+Das Journal muss **nicht erschöpfend** sein — nur festhalten, was auf dem aktuellen Wissensstand
+**salient** ist. Der Detailgrad darf mit wachsender Erfahrung zunehmen; am Anfang reicht wenig. Sinn
+der Übung: am Ende der Woche/des Monats zurückblicken und sich erinnern, dass unklare Marktphasen
+vorübergehen und wieder in prognosefähiges Verhalten zurückkehren.
+
 ## Verwandt
 
 - [[Journal-Auswertung]] — die ausgezählte Verbindung Journal → Wiki
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]]
 - [[Open Float & Liquidity Pools]]
+- [[Signal-Following & Crowd Liquidity Risk]]

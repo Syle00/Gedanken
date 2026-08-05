@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">56</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">26</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">137</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">57</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">138</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">9</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -46,6 +46,7 @@
 <li><a href="#2026-08-02-setup-root-aufraumung-nach-obsidian-vault-integration">[2026-08-02] setup | Root-Aufräumung nach Obsidian-Vault-Integration</a></li>
 <li><a href="#2026-08-02-lint-curriculum-zuordnung-monat-4-breaker-block">[2026-08-02] lint | Curriculum-Zuordnung Monat 4 (Breaker Block)</a></li>
 <li><a href="#2026-08-02-synthesis-smart-money-concepts-smc-als-wurzelseite-raw-wiki-verlinkung">[2026-08-02] synthesis | Smart Money Concepts (SMC) als Wurzelseite + raw/-Wiki-Verlinkung</a></li>
+<li><a href="#2026-08-05-ingest-youtube-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth">[2026-08-05] ingest | YouTube: ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth</a></li>
 <li><a href="#2026-08-02-setup-trading-journal-export-einsortiert-nach-rawjournal">[2026-08-02] setup | Trading-Journal-Export einsortiert nach raw/journal/</a></li>
 <li><a href="#2026-08-02-ingest-opening-range-theory-1st-presented-fvg-logic-mentorship-2025-lektion-06">[2026-08-02] ingest | Opening Range Theory - 1st Presented FVG Logic (MentorShip 2025, Lektion 06)</a></li>
 <li><a href="#2026-08-02-ingest-mentorship-2025-lektionen-01030405">[2026-08-02] ingest | MentorShip 2025, Lektionen 01/03/04/05</a></li>
@@ -135,6 +136,27 @@
 <li>Nutzerhinweis: Alle ICT-Study-Notes gehören zusammen und bauen aufeinander auf; Oberbegriff des gesamten Konzepts ist <strong>Smart Money Concepts (SMC)</strong>. Die Ordnertrennung (Core Content 2016 / 2026 / lose Rohnotizen) ist Herkunft des Materials, keine inhaltliche Trennung.</li>
 <li>Seite erstellt: wiki/concepts/Smart Money Concepts (SMC).md — Wurzel-/Einstiegsseite: gemeinsame Grundannahme (algorithmische Price Delivery), 5 Bausteingruppen (Rahmen, Liquidität, PD Arrays, Struktur, Kontext), Verweis auf die Modelle, Lernpfad Core Content 2016 → 2026 → Kurz Notizen, Einordnung des Verhältnisses der Jahrgänge (2026 präzisiert, ersetzt nicht).</li>
 <li>Frontmatter-Migration in allen 83 wiki/sources/-Seiten: das Feld <code>raw</code> enthält jetzt einen Obsidian-Wikilink auf den Dateinamen der Rohquelle statt eines Pfad-Strings; der Pfad bleibt verlustfrei im neuen Feld <code>raw_path</code> erhalten. Grund: der Pfad-String erzeugte in Obsidian keine Graph-Kante, dadurch hingen raw/ und wiki/ als getrennte Inseln im Graphen (Nutzerfrage "warum ist der core content und 2026 study nicht mit index verbunden?"). tools/build_site.py liest nur tags/created/updated/sources — die Website bleibt unverändert.</li>
+</ul>
+<h2 id="2026-08-05-ingest-youtube-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth">[2026-08-05] ingest | YouTube: ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth</h2>
+<ul>
+<li>Neuer Kanal für automatischen YouTube-Ingest eingerichtet: <code>yt-video-text-md</code> (pip) zieht Transkripte;
+  das Paket selbst ist auf diesem Windows-Rechner defekt (PyPI-Namenskollision bei seiner
+  <code>whisper</code>-Abhängigkeit — die <em>echte</em> <code>openai-whisper</code> heißt anders, das installierte <code>whisper</code> bricht
+  beim Import via <code>ctypes.CDLL</code>). Umgangen, indem direkt gegen die darunterliegende
+  <code>youtube-transcript-api</code> gescriptet wurde (kein Whisper-Fallback nötig, da YouTube-Auto-Captions
+  vorhanden waren).</li>
+<li>Quelle: https://www.youtube.com/watch?v=HFWqQelvrJw (Kanal The Inner Circle Trader, veröffentlicht
+  2026-08-05). Transkript gespeichert unter <code>raw/trading-ict/2026/yt-HFWqQelvrJw-transcript.md</code>.</li>
+<li>⚠️ Auto-Captions decken nur <strong>~39 von 52 Minuten</strong> ab (brechen nach der Reversal-Bestätigung ab,
+  vor der wiederholten Trade-Recording-Passage) — als Limitation auf der Source-Seite vermerkt statt
+  stillschweigend als vollständig behandelt.</li>
+<li>Nutzeranweisung befolgt: nur <strong>trading-relevantes Wissen</strong> verdichtet, Meta-/Persönlichkeits-Content
+  (Kritiker-Bashing, CFTC-Anekdote, Community-Historie) bewusst ausgefiltert.</li>
+<li>Seiten erstellt: wiki/sources/ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source).md, wiki/models/Market on Close (MOC) Macro Model.md, wiki/concepts/Signal-Following &amp; Crowd Liquidity Risk.md</li>
+<li>Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (16tel-Raster ergänzt), wiki/concepts/Institutional Order Flow (Body vs Wick).md (MOC-Order-Flow-Bestätigungsregel), wiki/models/Trading Journal &amp; DOL Checklist.md (Journaling-Haltung), wiki/models/NY PM Trend.md (Verlinkung), wiki/index.md</li>
+<li>Offener Punkt: falls die fehlenden ~13 Minuten (Trade-Recording) inhaltlich doch neue Regeln
+  enthalten (aktuell nur vermutet, dass es eine Wiederholung ist), bei Gelegenheit per Whisper
+  (echtes <code>openai-whisper</code>, nicht das kollidierende PyPI-Paket <code>whisper</code>) nachziehen.</li>
 <li>Übersprungen: wiki/sources/Kurz Notizen (Source).md (hat kein <code>raw:</code>-Feld, verweist bereits per <code>sources:</code>-Wikilinks direkt auf die Rohnotizen).</li>
 <li>Seiten aktualisiert: wiki/index.md (Einstiegs-Hinweis auf die SMC-Wurzelseite, SMC in Concepts eingetragen, 5 fehlende Katalogeinträge nachgetragen: <a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a> unter neuer Rubrik "Notizen", sowie <a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a>, <a href="../p/breakaway-gap.html">Breakaway Gap</a>, <a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a>, <a href="../p/silver-bullet-model.html">Silver Bullet Model</a> — vom Build als Index-Drift gemeldet).</li>
 </ul>

@@ -31,5 +31,6 @@ Regeln für die Nachmittags-Session (PM).
 
 - [[ICT Daily Range Session Timing]]
 - [[NY Lunch Macro Model]] — das Setup unmittelbar vor der PM-Session
+- [[Market on Close (MOC) Macro Model]] — das Setup am Ende der PM-Session (15:50–16:00 Uhr)
 - [[One Trading Setup For Life (Source)]] — PM Session Ranges als eigenständiges Konzept
 - [[SMT (Smart Money Divergence)]]

@@ -55,6 +55,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Rejection Block]] — OB-Variante über Wick-vs-Body-Liquidity-Sweep (2026-08-01)
 - [[Risikomanagement (1% pro Trade)]] — eigene Positionsgrößen-Regel: nie mehr als 1% Kontoguthaben Risiko pro Trade (2026-08-05)
 - [[Seasonal Tendency]] — Historisch wiederkehrende saisonale Preistendenzen (2026-08-01)
+- [[Signal-Following & Crowd Liquidity Risk]] — Warum öffentliches Teilen von Live-Levels die eigene Edge zerstört; Operator- vs. Konzept-Fehler (2026-08-05)
 - [[Smart Money Concepts (SMC)]] — **Wurzelseite**: Dachbegriff über allen ICT-Study-Notes, thematischer Einstieg (2026-08-02)
 - [[SMT (Smart Money Divergence)]] — Divergenz zwischen korrelierten Märkten, Cross-Asset-Check (2026-08-01)
 - [[Suspension Block]] — FVG mit VII auf beiden Seiten, eine der stärksten PD Arrays (2026-08-03)
@@ -78,6 +79,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Day Trade Routine]] — Täglicher Analyse-Ablauf vor dem Trading (2026-08-01)
 - [[London Session Profiles]] — 4 London-Profile + Wann London vermeiden/ideal ist (2026-08-01)
 - [[Market Maker Manipulation Templates]] — Katalog wiederkehrender Weekly-Manipulation-Profile (2026-08-01)
+- [[Market on Close (MOC) Macro Model]] — 15:50–16:00-Macro, Dealing-Range-Fib bis 16tel, Order-Flow-Entry, ES-Beispiel auf 2 Ticks (2026-08-05)
 - [[Missed Entry Trade Management Playbook]] — Wick-Entry, CISD-Reentry-Skalierung, Event-Horizon-Exits (2026-08-01)
 - [[Meine Strategien (Übersicht)]] — Einstiegspunkt für alle live-getradeten, vollständig geregelten Strategien (aktuell: Silver Bullet) (2026-08-05)
 - [[No-Bias Engagement Routine]] — Vorgehen ohne klaren Bias zu Handelsbeginn (2026-08-01)
@@ -137,6 +139,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[NQ Futures Weekly Range Market Wizardry (Source)]], [[Post US Holiday Monday Followup (Source)]]
 - [[Trading Complex Opening Ranges With Fed Impact 07-14-2026 (Source)]]
 - [[Chain Of Custody Of Price With Daily Inefficiencies (Source)]] — Quadranten/Oktanten-Raster auf BISI/SIBI inkl. VII, definiert den Suspension Block (2026-08-03)
+- [[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]] — YouTube 2026-08-05: MOC Macro Model, 16tel-Fib-Level, Candlestick-only Order-Flow-Bestätigung, Signal-Following-Risiko (2026-08-05)
 
 ### MentorShip 2025
 
