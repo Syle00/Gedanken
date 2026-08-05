@@ -10,10 +10,9 @@ er vor jedem Walk-Forward-Fold aufgerufen und liefert Attribut-Name/Wert-Paare, 
 Strategie-Klasse gesetzt werden (z.B. ein frisch gefittetes Modell) -- ersetzt die
 In-Sample-Grid-Search fuer Strategien, deren "Parameter" kein Skalar ist.
 
-Die `title`/`col_label`/`col_width`/`value_fmt`/`is_col_label`/`is_col_width`/`is_value_fmt`/
-`header_prefix`-Parameter sind reine Text-/Format-Overrides mit generischen Defaults; sie
-existieren, damit backtest_walkforward.py (SilverBulletStrategy, Skalarparameter
-stop_buffer_pct) Wort-fuer-Wort dieselbe Ausgabe wie vor dem Refactor erzeugt. Ohne sie
+Der optionale `fmt`-Dict-Parameter ist ein reiner Text-/Format-Override mit generischen
+Defaults; er existiert, damit backtest_walkforward.py (SilverBulletStrategy, Skalarparameter
+stop_buffer_pct) Wort-fuer-Wort dieselbe Ausgabe wie vor dem Refactor erzeugt. Ohne ihn
 faellt man auf eine generische Beschriftung zurueck (siehe Defaults unten).
 """
 from __future__ import annotations
@@ -36,9 +35,13 @@ def run(df: pd.DataFrame, strategy_cls, bt_kwargs: dict, param_name: str | None 
 
 def parameter_sensitivity(df, strategy_cls, param_name: str, candidates: list,
                            bt_kwargs: dict, baseline=None, baseline_value=None,
-                           title: str | None = None, col_label: str = "value",
-                           col_width: int = 8, value_fmt=None) -> None:
-    print(f"1. Parameter-Sensitivitaet ({title if title is not None else param_name})")
+                           fmt: dict | None = None) -> None:
+    fmt = fmt or {}
+    title = fmt.get("title", param_name)
+    col_label = fmt.get("col_label", "value")
+    col_width = fmt.get("col_width", 8)
+    value_fmt = fmt.get("value_fmt")
+    print(f"1. Parameter-Sensitivitaet ({title})")
     print(f"   {col_label:>{col_width}}  {'Trades':>7}  {'WinRate%':>9}  {'ProfitFactor':>13}  {'Expectancy%':>12}")
     for value in candidates:
         stats = baseline if (baseline is not None and value == baseline_value) else \
@@ -57,8 +60,11 @@ def slice_days(df: pd.DataFrame, days: list) -> pd.DataFrame:
 
 def walk_forward(df, strategy_cls, param_name: str | None, candidates: list | None,
                   bt_kwargs: dict, n_folds: int = 6, on_fold_train=None,
-                  is_col_label: str | None = None, is_col_width: int = 16,
-                  is_value_fmt=None) -> list[float]:
+                  fmt: dict | None = None) -> list[float]:
+    fmt = fmt or {}
+    is_col_label = fmt.get("col_label")
+    is_col_width = fmt.get("col_width", 16)
+    is_value_fmt = fmt.get("value_fmt")
     all_days = sorted(set(df.index.date))
     fold_len = len(all_days) // n_folds
     if fold_len < 2:
@@ -106,7 +112,8 @@ def walk_forward(df, strategy_cls, param_name: str | None, candidates: list | No
     return oos_returns
 
 
-def monte_carlo(baseline, n_sims: int = 1000, seed: int = 42, header_prefix: str = "") -> None:
+def monte_carlo(baseline, n_sims: int = 1000, seed: int = 42, fmt: dict | None = None) -> None:
+    header_prefix = (fmt or {}).get("header_prefix", "")
     returns = baseline._trades["ReturnPct"].tolist()
     n = len(returns)
     print(f"3. Monte Carlo ({header_prefix}n={n} Trades, {n_sims} Resamples der Trade-Reihenfolge)")

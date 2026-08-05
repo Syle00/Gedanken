@@ -33,18 +33,18 @@ def main(argv=None) -> int:
           "Ergebnisse (siehe Docstring).\n")
 
     baseline = run(df, SilverBulletStrategy, BT_KWARGS, "stop_buffer_pct", 0.1)
-    # title/col_label/col_width/value_fmt/is_*-Overrides reproduzieren wortwoertlich das
-    # Format der Vorgaenger-Version (siehe validate.py-Docstring) -- fuer den
-    # Byte-Identisch-Regressionscheck in Task 7 notwendig.
+    # fmt reproduziert wortwoertlich das Format der Vorgaenger-Version (siehe
+    # validate.py-Docstring) -- fuer den Byte-Identisch-Regressionscheck in Task 7 notwendig.
+    pct_value_fmt = lambda v: f"{v:.2f}"  # noqa: E731
     parameter_sensitivity(df, SilverBulletStrategy, "stop_buffer_pct", STOP_BUFFER_CANDIDATES,
                            BT_KWARGS, baseline=baseline, baseline_value=0.1,
-                           title="stop_buffer_pct, Anteil der FVG-Groesse als SL-Puffer",
-                           col_label="pct", col_width=6, value_fmt=lambda v: f"{v:.2f}")
+                           fmt={"title": "stop_buffer_pct, Anteil der FVG-Groesse als SL-Puffer",
+                                "col_label": "pct", "col_width": 6, "value_fmt": pct_value_fmt})
     print()
     walk_forward(df, SilverBulletStrategy, "stop_buffer_pct", STOP_BUFFER_CANDIDATES, BT_KWARGS,
-                 is_col_label="IS bester pct", is_col_width=13, is_value_fmt=lambda v: f"{v:.2f}")
+                 fmt={"col_label": "IS bester pct", "col_width": 13, "value_fmt": pct_value_fmt})
     print()
-    monte_carlo(baseline, header_prefix="Baseline stop_buffer_pct=0.10, ")
+    monte_carlo(baseline, fmt={"header_prefix": "Baseline stop_buffer_pct=0.10, "})
     return 0
 
 
