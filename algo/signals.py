@@ -90,6 +90,26 @@ def signal_direction_autocorr(history: list[dict]) -> float | None:
     return max(-1.0, min(1.0, 2 * (pct - 0.5)))
 
 
+def signal_stat_arb(mnq_history: list[dict], es_history: list[dict], target_day: date,
+                    window: int = 20) -> float | None:
+    """Mean-Reversion-Signal: Z-Score des MNQ/ES=F-Tagesrendite-Spreads ueber die letzten
+    `window` gemeinsamen Handelstage vor target_day. Lief MNQ zuletzt deutlich staerker als
+    ES (positiver Spread), erwartet das Signal eine Rueckkehr zum Mittel (negatives
+    Vorzeichen), und umgekehrt -- klassisches Stat-Arb-Paar-Signal (siehe Spec Phase 1)."""
+    mnq_by_day = {r["day"]: r["ret_pct"] for r in mnq_history if r["day"] < target_day}
+    es_by_day = {r["day"]: r["ret_pct"] for r in es_history if r["day"] < target_day}
+    common_days = sorted(set(mnq_by_day) & set(es_by_day))[-window:]
+    if len(common_days) < 10:
+        return None
+    spreads = [mnq_by_day[d] - es_by_day[d] for d in common_days]
+    mean_spread = statistics.mean(spreads)
+    stdev_spread = statistics.stdev(spreads) if len(spreads) > 1 else 0.0
+    if stdev_spread == 0:
+        return 0.0
+    z = (spreads[-1] - mean_spread) / stdev_spread
+    return max(-1.0, min(1.0, -z / 3))
+
+
 def _demo() -> None:
     hist = []
     for i in range(70):
@@ -113,7 +133,14 @@ def _demo() -> None:
     assert signal_direction_autocorr(trending_up) == 1.0  # immer bullish nach bullish
     assert signal_range_autocorr(trending_up) is not None
     assert signal_range_autocorr(trending_up[:10]) is None  # zu wenig Historie
-    print("signals calendar+autocorr demo ok")
+    mnq_spread = [{"day": date(2026, 5, 1) + timedelta(days=i), "ret_pct": 2.0}
+                  for i in range(19)] + [{"day": date(2026, 5, 20), "ret_pct": 10.0}]
+    es_spread = [{"day": date(2026, 5, 1) + timedelta(days=i), "ret_pct": 2.0}
+                 for i in range(20)]
+    z_signal = signal_stat_arb(mnq_spread, es_spread, date(2026, 5, 21))
+    assert z_signal is not None and z_signal < -0.5  # MNQ lief stark ab -> Mean-Reversion bearish
+    assert signal_stat_arb(mnq_spread[:5], es_spread[:5], date(2026, 5, 21)) is None
+    print("signals calendar+autocorr+statarb demo ok")
 
 
 if __name__ == "__main__":
