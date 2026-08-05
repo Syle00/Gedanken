@@ -22,6 +22,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from backtest_seasonal import load_rows, turn_of_month  # noqa: E402
+from backtest_fred_events import load_fred, nearest_on_or_before  # noqa: E402
 
 SIGNAL_NAMES = ["weekday", "turn_of_month", "range_autocorr", "direction_autocorr",
                 "stat_arb_spread", "vix_regime", "dgs10_change", "walcl_trend"]
@@ -110,6 +111,81 @@ def signal_stat_arb(mnq_history: list[dict], es_history: list[dict], target_day:
     return max(-1.0, min(1.0, -z / 3))
 
 
+def signal_vix_regime(history: list[dict], target_day: date, vix: dict) -> float | None:
+    """VIX-Tagesaenderung als schwaches Richtungssignal (negative Korrelation VIX-Spike vs.
+    MNQ-Rendite, siehe backtest_fred_events.py Punkt 2 -- Rohkorrelation, kein bestaetigter
+    Fund, das Modell gewichtet es selbst)."""
+    v_today = nearest_on_or_before(vix, target_day - timedelta(days=1))
+    v_prev = nearest_on_or_before(vix, target_day - timedelta(days=2))
+    if v_today is None or v_prev is None:
+        return None
+    delta = v_today - v_prev
+    return max(-1.0, min(1.0, -delta / 5))
+
+
+def signal_dgs10_change(history: list[dict], target_day: date, dgs10: dict) -> float | None:
+    """10J-Renditeaenderung (siehe backtest_fred_events.py Punkt 3, Rohkorrelation)."""
+    d_today = nearest_on_or_before(dgs10, target_day - timedelta(days=1))
+    d_prev = nearest_on_or_before(dgs10, target_day - timedelta(days=2), lookback=10)
+    if d_today is None or d_prev is None:
+        return None
+    delta = d_today - d_prev
+    return max(-1.0, min(1.0, -delta * 5))
+
+
+def signal_walcl_trend(history: list[dict], target_day: date, walcl: dict) -> float | None:
+    """Fed-Bilanz waechst/schrumpft (woechentliche Reihe, siehe backtest_fred_events.py
+    Punkt 4 -- wachsende Bilanz historisch mit hoeherer Wochenrendite assoziiert)."""
+    v_now = nearest_on_or_before(walcl, target_day - timedelta(days=1), lookback=10)
+    v_prev = nearest_on_or_before(walcl, target_day - timedelta(days=8), lookback=10)
+    if v_now is None or v_prev is None:
+        return None
+    return 1.0 if v_now > v_prev else -1.0
+
+
+def _row_features(mnq_rows: list[dict], es_rows: list[dict], i: int,
+                   vix: dict, dgs10: dict, walcl: dict) -> list[float]:
+    history = mnq_rows[:i + 1]
+    target_day = mnq_rows[i + 1]["day"]
+    values = {
+        "weekday": signal_weekday(history, target_day),
+        "turn_of_month": signal_turn_of_month(history, target_day),
+        "range_autocorr": signal_range_autocorr(history),
+        "direction_autocorr": signal_direction_autocorr(history),
+        "stat_arb_spread": signal_stat_arb(history, es_rows, target_day),
+        "vix_regime": signal_vix_regime(history, target_day, vix),
+        "dgs10_change": signal_dgs10_change(history, target_day, dgs10),
+        "walcl_trend": signal_walcl_trend(history, target_day, walcl),
+    }
+    return [0.0 if values[name] is None else values[name] for name in SIGNAL_NAMES]
+
+
+def build_features(mnq_rows: list[dict], es_rows: list[dict],
+                    min_history: int = 25) -> tuple[list[list[float]], list[int], list[date]]:
+    """Eine Zeile pro Tag i (min_history <= i < len(mnq_rows)-1): X[i] aus Signalen bis
+    Tag i, y[i] = Richtung von Tag i+1 (1=bullish, 0=bearish), target_days[i] = Tag i+1.
+    Fehlende Signalwerte werden als 0.0 imputiert, keine Zeile wird deswegen verworfen."""
+    vix, dgs10, walcl = load_fred("VIXCLS"), load_fred("DGS10"), load_fred("WALCL")
+    X, y, target_days = [], [], []
+    for i in range(min_history, len(mnq_rows) - 1):
+        X.append(_row_features(mnq_rows, es_rows, i, vix, dgs10, walcl))
+        y.append(1 if mnq_rows[i + 1]["bullish"] else 0)
+        target_days.append(mnq_rows[i + 1]["day"])
+    return X, y, target_days
+
+
+def signal_snapshot(mnq_rows: list[dict], es_rows: list[dict],
+                     min_history: int = 25) -> dict[date, dict[str, float]]:
+    """Wie build_features(), aber als {Tag: {Signalname: Wert}} fuer Anzeige (z.B.
+    algo/dashboard.py Text-Panel) statt als Matrix fuers Modell."""
+    vix, dgs10, walcl = load_fred("VIXCLS"), load_fred("DGS10"), load_fred("WALCL")
+    out = {}
+    for i in range(min_history, len(mnq_rows) - 1):
+        target_day = mnq_rows[i + 1]["day"]
+        out[target_day] = dict(zip(SIGNAL_NAMES, _row_features(mnq_rows, es_rows, i, vix, dgs10, walcl)))
+    return out
+
+
 def _demo() -> None:
     hist = []
     for i in range(70):
@@ -141,6 +217,20 @@ def _demo() -> None:
     assert z_signal is not None and z_signal < -0.5  # MNQ lief stark ab -> Mean-Reversion bearish
     assert signal_stat_arb(mnq_spread[:5], es_spread[:5], date(2026, 5, 21)) is None
     print("signals calendar+autocorr+statarb demo ok")
+
+    real_mnq = load_rows("MNQ")
+    real_es = load_rows("ES")
+    if len(real_mnq) > 30 and len(real_es) > 10:
+        X, y, days = build_features(real_mnq, real_es)
+        assert len(X) == len(y) == len(days)
+        assert all(len(row) == len(SIGNAL_NAMES) for row in X)
+        assert all(v in (0, 1) for v in y)
+        snap = signal_snapshot(real_mnq, real_es)
+        assert set(snap) == set(days)
+        print(f"build_features Integrationscheck ok: n={len(X)} Zeilen")
+    else:
+        print("build_features Integrationscheck uebersprungen (zu wenig echte Daten -- "
+              "erwartet vor Task 1 Step 5)")
 
 
 if __name__ == "__main__":
