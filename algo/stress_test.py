@@ -70,7 +70,8 @@ def run_window(name: str, start: date, end: date) -> None:
     pf = stats["Profit Factor"]
     pf_str = f"{pf:.3f}" if pf == pf else "n/a"
     print(f"-- {name} ({start} bis {end}, n={len(df)} Tage, NQ=F-Proxy, keine echte "
-          f"MNQ-P&L) --")
+          f"MNQ-P&L, margin=0.05 (20x Hebel), Tages-Fallback (intraday=False) OHNE "
+          f"Stop-Loss -- die Drawdown-Zahl unten ist Hebel-Mechanik, kein Modellversagen) --")
     print(f"   Trades={stats['# Trades']}  Max-Drawdown={stats['Max. Drawdown [%]']:.1f}%  "
           f"Profit-Factor={pf_str}")
 

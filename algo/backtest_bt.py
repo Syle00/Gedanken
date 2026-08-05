@@ -35,9 +35,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def load_series(symbol: str | None) -> pd.DataFrame:
-    days = find_days()
-    if symbol:
-        days = [d for d in days if d[1] == symbol]
+    days = find_days(symbol or "MNQ")
     bars: list[Bar] = []
     for _, _, path in days:
         bars.extend(load(path))

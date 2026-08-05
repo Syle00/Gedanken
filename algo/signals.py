@@ -111,7 +111,7 @@ def signal_stat_arb(mnq_history: list[dict], es_history: list[dict], target_day:
     return max(-1.0, min(1.0, -z / 3))
 
 
-def signal_vix_regime(history: list[dict], target_day: date, vix: dict) -> float | None:
+def signal_vix_regime(_history: list[dict], target_day: date, vix: dict) -> float | None:
     """VIX-Tagesaenderung als schwaches Richtungssignal (negative Korrelation VIX-Spike vs.
     MNQ-Rendite, siehe backtest_fred_events.py Punkt 2 -- Rohkorrelation, kein bestaetigter
     Fund, das Modell gewichtet es selbst)."""
@@ -123,7 +123,7 @@ def signal_vix_regime(history: list[dict], target_day: date, vix: dict) -> float
     return max(-1.0, min(1.0, -delta / 5))
 
 
-def signal_dgs10_change(history: list[dict], target_day: date, dgs10: dict) -> float | None:
+def signal_dgs10_change(_history: list[dict], target_day: date, dgs10: dict) -> float | None:
     """10J-Renditeaenderung (siehe backtest_fred_events.py Punkt 3, Rohkorrelation)."""
     d_today = nearest_on_or_before(dgs10, target_day - timedelta(days=1))
     d_prev = nearest_on_or_before(dgs10, target_day - timedelta(days=2), lookback=10)
@@ -133,7 +133,7 @@ def signal_dgs10_change(history: list[dict], target_day: date, dgs10: dict) -> f
     return max(-1.0, min(1.0, -delta * 5))
 
 
-def signal_walcl_trend(history: list[dict], target_day: date, walcl: dict) -> float | None:
+def signal_walcl_trend(_history: list[dict], target_day: date, walcl: dict) -> float | None:
     """Fed-Bilanz waechst/schrumpft (woechentliche Reihe, siehe backtest_fred_events.py
     Punkt 4 -- wachsende Bilanz historisch mit hoeherer Wochenrendite assoziiert)."""
     v_now = nearest_on_or_before(walcl, target_day - timedelta(days=1), lookback=10)

@@ -162,5 +162,10 @@ def _demo() -> None:
 
 
 if __name__ == "__main__":
-    _demo()
-    sys.exit(main())
+    # Selbstcheck nur ohne Argumente (kein echter Fetch-Aufruf moeglich, start/end sind
+    # Pflichtargumente) -- sonst druckt jeder normale Datenabruf "... demo ok" mit rein,
+    # anders als jedes andere Skript in diesem Plan (siehe dashboard.py --selftest).
+    if len(sys.argv) == 1:
+        _demo()
+    else:
+        sys.exit(main())

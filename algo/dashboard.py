@@ -35,7 +35,7 @@ from analyze_ohlc import Bar  # noqa: E402
 from rules import plan_trade  # noqa: E402
 from backtest_bt import load_series  # noqa: E402
 from backtest_seasonal import load_rows  # noqa: E402
-from backtest_ensemble import fit_model, bias_series, _passes_bias_filter  # noqa: E402
+from backtest_ensemble import fit_model, bias_series, _passes_bias_filter, EnsembleStrategy  # noqa: E402
 from signals import signal_snapshot, SIGNAL_NAMES  # noqa: E402
 from stress_test import WINDOWS, load_daily_df  # noqa: E402
 
@@ -49,7 +49,14 @@ def _snapshot(times, closes, equity, drawdown, markers, trades, wins) -> dict:
 def simulate(bars: list[Bar], bias: dict, intraday: bool) -> list[dict]:
     """Ein Frame pro Bar. Bei `intraday=False` (Stress-Fenster, Tages-Bars) haelt die
     Simulation eine Position solange der Bias uebereinstimmt (analog
-    EnsembleStrategy.next()); bei `intraday=True` nutzt sie plan_trade() + Bias-Filter."""
+    EnsembleStrategy.next()); bei `intraday=True` nutzt sie plan_trade() + Bias-Filter.
+
+    Abweichung von EnsembleStrategy.next() im intraday-Zweig (bewusst, nur fuers
+    Anschauungsfenster in Kauf genommen): EnsembleStrategy platziert eine LIMIT-Order
+    (self.buy(limit=setup.entry, ...)), die nie fuellen muss, wenn der Preis nicht mehr
+    zum Level zurueckkehrt. Hier unten wird stattdessen sofort auf dem Signal-Bar zu
+    setup.entry gefuellt (Sofort-Fill-Naeherung) -- Trades/WinRate aus diesem Pfad sind
+    darum NICHT direkt mit validate_ensemble.py vergleichbar."""
     times, closes, equity, drawdown, markers = [], [], [1.0], [0.0], []
     trades = wins = 0
     position = None  # (side, entry, stop, target) fuer intraday, oder "long"/"short" fuer daily
@@ -82,11 +89,16 @@ def simulate(bars: list[Bar], bias: dict, intraday: bool) -> list[dict]:
             else:
                 equity.append(equity[-1])
                 if day_bias in ("long", "short"):
-                    setup = plan_trade(hist, bar.t)
+                    # stop_buffer_pct explizit mitgeben statt rules.py's Default (0.1) zu
+                    # erben -- sonst driftet die Anzeige unbemerkt von EnsembleStrategy ab,
+                    # sobald deren stop_buffer_pct anderswo (z.B. Walk-Forward) variiert wird.
+                    setup = plan_trade(hist, bar.t, stop_buffer_pct=EnsembleStrategy.stop_buffer_pct)
                     key = (setup.t.date(), setup.window) if setup else None
                     if (setup is not None and key not in taken
                             and _passes_bias_filter(setup.side, day_bias)):
                         taken.add(key)
+                        # Sofort-Fill auf dem Signal-Bar (siehe Docstring oben) -- weicht
+                        # von EnsembleStrategy.next()'s Limit-Order bewusst ab.
                         position = (setup.side, setup.entry, setup.stop, setup.target)
                         markers.append((bar.t, setup.entry, setup.side))
         else:
@@ -172,7 +184,8 @@ def render(frames: list[dict], bias: dict, snapshot: dict) -> None:
         sig_lines = [f"  {name}: {'+' if sig.get(name, 0) > 0.05 else '-' if sig.get(name, 0) < -0.05 else 'o'}"
                      for name in SIGNAL_NAMES]
         win_rate = 100 * f["wins"] / f["trades"] if f["trades"] else 0.0
-        lines = [f"Tages-Bias: {day_bias}", f"Trades: {f['trades']}  WinRate: {win_rate:.1f}%",
+        lines = [f"Tages-Bias: {day_bias}",
+                 f"Trades (Sofort-Fill-Naeherung): {f['trades']}  WinRate: {win_rate:.1f}%",
                  "Signale:"] + sig_lines
         ax_text.axis("off")
         ax_text.text(0.0, 1.0, "\n".join(lines), fontsize=9, va="top", family="monospace")
@@ -189,7 +202,9 @@ def main(argv=None) -> int:
                                   formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("symbol", nargs="?", default=None)
     ap.add_argument("--days", type=int, default=5)
-    ap.add_argument("--daily", action="store_true")
+    ap.add_argument("--daily", action="store_true",
+                     help="1 Frame/Tag (5m-Bars werden zu Tages-OHLC resampled) statt "
+                          "1 Frame/5m-Kerze; Stress-Fenster (--stress) sind ohnehin immer taeglich")
     ap.add_argument("--stress", default=None, help="Fenstername aus stress_test.WINDOWS")
     ap.add_argument("--selftest", action="store_true",
                      help="nur den Reversal-Timing-Regressionscheck laufen lassen, kein Fenster")
@@ -243,6 +258,12 @@ def main(argv=None) -> int:
         df = load_series(a.symbol)
         all_days = sorted(set(df.index.date))[-a.days:]
         df = df[[d in set(all_days) for d in df.index.date]]
+        if a.daily:
+            # Echtes 1-Frame/Tag statt Tages-Halte-Logik ueber 5m-Kerzen laufen zu lassen
+            # (das war der urspruengliche Bug: --daily aenderte nur intraday=False, lud
+            # aber weiter 5m-Bars) -- Resampling analog fetch_yfinance.py's 4h-Aggregation.
+            df = df.resample("1D").agg(
+                {"Open": "first", "High": "max", "Low": "min", "Close": "last"}).dropna()
         bars = [Bar(t, o, h, l, c) for t, o, h, l, c in
                 zip(df.index, df.Open, df.High, df.Low, df.Close)]
         frames = simulate(bars, bias, intraday=not a.daily)

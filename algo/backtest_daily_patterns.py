@@ -33,7 +33,7 @@ def find_1d_days(symbol: str = "MNQ") -> list[tuple]:
             day = datetime.strptime(day_dir.name, "%d.%m.%Y").date()
         except ValueError:
             continue
-        files = list(day_dir.glob(f"{symbol} * 1d.csv"))
+        files = sorted(day_dir.glob(f"{symbol} * 1d.csv"))
         if files:
             out.append((day, files[0]))
     return sorted(out)

@@ -44,8 +44,13 @@ _tf_min = TF_MINUTES[BASE_TF]
 CFG.update(min_age=max(3, round(15 / _tf_min)), confirm=max(2, round(5 / _tf_min)))
 
 
-def find_days() -> list[tuple[date, str, Path]]:
-    """(Handelstag, Symbol, Pfad zur BASE_TF-Datei) fuer jeden Tagesordner."""
+def find_days(symbol: str = "MNQ") -> list[tuple[date, str, Path]]:
+    """(Handelstag, Symbol, Pfad zur BASE_TF-Datei) fuer jeden Tagesordner, nur `symbol`.
+
+    Ohne Symbolfilter mischen sich MNQ- und ES-Bars desselben Tagesordners (seit Task 1
+    liegen beide nebeneinander) zu einer einzigen, preislich unsinnigen Reihe -- siehe
+    find_1d_days() in backtest_daily_patterns.py fuer dasselbe Muster.
+    """
     out = []
     for day_dir in sorted(DATA_DIR.glob("*/*/*")):
         if not day_dir.is_dir():
@@ -54,8 +59,7 @@ def find_days() -> list[tuple[date, str, Path]]:
             day = datetime.strptime(day_dir.name, "%d.%m.%Y").date()
         except ValueError:
             continue
-        for f in sorted(day_dir.glob(f"* {day.isoformat()} {BASE_TF}.csv")):
-            symbol = f.name.split(" ")[0]
+        for f in sorted(day_dir.glob(f"{symbol} {day.isoformat()} {BASE_TF}.csv")):
             out.append((day, symbol, f))
     return out
 
@@ -249,14 +253,12 @@ def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("symbol", nargs="?", default=None, help="Nur dieses Symbol (default: alle)")
+    ap.add_argument("symbol", nargs="?", default="MNQ", help="Symbol (default: MNQ)")
     ap.add_argument("-o", "--out", help="Ausgabedatei (default: stdout)")
     a = ap.parse_args(argv)
     sys.stdout.reconfigure(encoding="utf-8")
 
-    days = find_days()
-    if a.symbol:
-        days = [d for d in days if d[1] == a.symbol]
+    days = find_days(a.symbol)
     rows = [(day, sym, analyze_day(day, path)) for day, sym, path in days]
     rows = [r for r in rows if r[2]]
 

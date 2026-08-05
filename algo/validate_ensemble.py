@@ -9,6 +9,7 @@ Aufruf:
 """
 from __future__ import annotations
 
+import inspect
 import sys
 from pathlib import Path
 
@@ -23,10 +24,17 @@ from validate import run, walk_forward, monte_carlo  # noqa: E402
 BT_KWARGS = dict(cash=100_000, margin=0.05, commission=0.0002)
 
 
-MIN_HISTORY = 25  # muss zu backtest_ensemble.bias_series()'s Default passen
+MIN_HISTORY = 25
+# Muss zu backtest_ensemble.bias_series()'s Default passen -- echte Kopplung statt nur ein
+# Kommentar, damit eine kuenftige Aenderung an bias_series() hier laut crasht statt still
+# zu driften (siehe Ledger-Klasse find_days()/on_fold_train: stille Divergenz war schon
+# zweimal die Ursache eines Bugs in diesem Plan).
+assert MIN_HISTORY == inspect.signature(bias_series).parameters["min_history"].default, (
+    "MIN_HISTORY driftet von backtest_ensemble.bias_series()'s min_history-Default ab"
+)
 
 
-def _make_fold_hook(es_rows: list[dict], mnq_rows: list[dict]):
+def _make_fold_hook(mnq_rows: list[dict], es_rows: list[dict]):
     def on_fold_train(train_df: pd.DataFrame) -> dict:
         train_days = set(train_df.index.date)
         fold_mnq = [r for r in mnq_rows if r["day"] in train_days]
@@ -64,11 +72,13 @@ def main(argv=None) -> int:
     model = fit_model(mnq_rows, es_rows)
     EnsembleStrategy.bias = bias_series(model, mnq_rows, es_rows)
     EnsembleStrategy.intraday = True
+    print("Baseline: In-Sample-Fit (Modell sah diese Tage im Training) -- obere Schranke, "
+          "nicht erwartete Performance. Belastbar sind nur die Walk-Forward-Zahlen unten.")
     baseline = run(df, EnsembleStrategy, BT_KWARGS)
     print(baseline)
     print()
     walk_forward(df, EnsembleStrategy, None, None, BT_KWARGS,
-                 on_fold_train=_make_fold_hook(es_rows, mnq_rows))
+                 on_fold_train=_make_fold_hook(mnq_rows, es_rows))
     print()
     monte_carlo(baseline)
     return 0
