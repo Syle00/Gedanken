@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Makro-FRED-Zusammenhaenge (Eigene Daten, laufend) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">55</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">137</span></a></li>
+<li class="active"><a href="../index.html#synthesis">Synthese<span class="count">8</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Synthese</div><ul class="pagelist">
+<li><a href="../p/journal-auswertung.html">Journal-Auswertung</a></li>
+<li class="here"><a href="../p/makro-fred-zusammenhaenge-eigene-daten-laufend.html">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</a></li>
+<li><a href="../p/mentorship-2025.html">MentorShip 2025</a></li>
+<li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
+<li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a></li>
+<li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#synthesis">Synthese</a></div>
+  <h1>Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span> <span class="tag">makro</span> <span class="tag">fred</span></div><div class="dates">erstellt 2026-08-05 · aktualisiert 2026-08-05</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">backtest_fred_events.py</span>, <span class="broken" title="Seite existiert noch nicht">fetch_fred.py</span></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#nicht-getestet-cpi-fomc-reaktionstag">Nicht getestet: CPI-/FOMC-Reaktionstag</a></li>
+<li><a href="#1-vix-niveau-regime-sanity-check">1. VIX-Niveau-Regime (Sanity-Check)</a></li>
+<li><a href="#2-vix-tagesanderung-vs-mnq-tagesrendite">2. VIX-Tagesänderung vs. MNQ-Tagesrendite</a></li>
+<li><a href="#3-dgs10-tagesanderung-10j-rendite-vs-mnq-tagesrendite">3. DGS10-Tagesänderung (10J-Rendite) vs. MNQ-Tagesrendite</a></li>
+<li><a href="#4-walcl-fed-bilanzsumme-wochentlich-vs-mnq-wochenrendite">4. WALCL (Fed-Bilanzsumme, wöchentlich) vs. MNQ-Wochenrendite</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="makro-fred-zusammenhaenge-eigene-daten-laufend">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</h1>
+<p>Ursprüngliche Frage: MNQ-Reaktion an CPI-/FOMC-Tagen. <strong>Bewusst nicht gebaut</strong> — siehe
+Abschnitt "Nicht getestet" unten, statt eines Tests mit falsch datierten Ereignissen.</p>
+<blockquote>
+<p><strong>Datenbank</strong>: <code>raw/marktdaten/fred/*.csv</code> (via <code>algo/fetch_fred.py</code>), ausgewertet von
+<code>algo/backtest_fred_events.py</code>. Skript einfach erneut laufen lassen, sobald <code>raw/marktdaten/</code>
+und die FRED-CSVs wachsen; diese Seite wird danach von Hand nachgezogen (kein Auto-Write).</p>
+<p><strong>Lösch-statt-Markier-Regel</strong>: wie bei <a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a> — stellt
+sich eine Zahl hier mit mehr Daten als Rauschen heraus, wird sie entfernt statt mit ⚠️ stehen
+gelassen.</p>
+</blockquote>
+<p>Stand: 147 MNQ-Handelstage (2026-01-02 bis 2026-08-04). Kleines Fenster (7 Monate) — alle
+Zahlen unten sind offene Hypothesen, keine belastbaren Ergebnisse.</p>
+<h2 id="nicht-getestet-cpi-fomc-reaktionstag">Nicht getestet: CPI-/FOMC-Reaktionstag</h2>
+<ul>
+<li><strong>CPIAUCSL</strong>: FREDs <code>date</code>-Feld ist der Referenzmonat, nicht das Veröffentlichungsdatum
+  (das liegt ~2-3 Wochen später). Ohne verifizierten Release-Kalender wäre jeder
+  "Reaktionstag" falsch datiert.</li>
+<li><strong>DFF</strong> (Effective Fed Funds Rate) schwankt täglich in Basispunkten ohne FOMC-Bezug —
+  reiner Marktzins, kein Zielsatz. Gegen Änderungstage zu testen wäre Rauschen als Ereignis
+  verkauft.</li>
+<li><strong>DFEDTARU</strong> (oberes Zielband) ändert sich nur bei echten FOMC-Entscheidungen — sauber,
+  aber im MNQ-Fenster gab es laut FRED <strong>keine einzige Änderung</strong> (Rate blieb bei 3,75-4,00 %
+  konstant), also n=0 zum Testen. Ein Termin-Kalender (auch "Hold"-Meetings sind Events)
+  müsste aus einer verifizierten Quelle kommen — nicht aus geratenem Trainingswissen.</li>
+</ul>
+<p>Offene Frage für später: eine verifizierte FOMC-Terminliste (z.B. vom Fed selbst) als
+<code>raw/</code>-Quelle ablegen, dann sauber testbar.</p>
+<h2 id="1-vix-niveau-regime-sanity-check">1. VIX-Niveau-Regime (Sanity-Check)</h2>
+<table>
+<thead>
+<tr>
+<th>VIX-Terzil</th>
+<th>n</th>
+<th>Median-Range</th>
+<th>Ø|Tagesrendite|</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>niedrig (14,5-17,0)</td>
+<td>49</td>
+<td>447,0</td>
+<td>0,79 %</td>
+</tr>
+<tr>
+<td>mittel (17,1-18,9)</td>
+<td>49</td>
+<td>528,0</td>
+<td>1,20 %</td>
+</tr>
+<tr>
+<td>hoch (19,1-31,1)</td>
+<td>49</td>
+<td>476,0</td>
+<td>1,25 %</td>
+</tr>
+</tbody>
+</table>
+<p>Erwartung (hoher VIX → größere Range) bestätigt sich nur zwischen niedrig und
+mittel/hoch, nicht monoton hoch &gt; mittel — mit n=49 je Terzil im aktuellen Fenster nicht
+robust genug für eine klare Aussage.</p>
+<h2 id="2-vix-tagesanderung-vs-mnq-tagesrendite">2. VIX-Tagesänderung vs. MNQ-Tagesrendite</h2>
+<p>Korrelation <strong>-0,743</strong> (n=146). Deutlich negativ wie erwartet (VIX-Spike = Down-Tag) —
+plausibilisiert die Datenpipeline, ist aber kein eigenständiger Fund (bekannter Zusammenhang).</p>
+<h2 id="3-dgs10-tagesanderung-10j-rendite-vs-mnq-tagesrendite">3. DGS10-Tagesänderung (10J-Rendite) vs. MNQ-Tagesrendite</h2>
+<p>Korrelation <strong>-0,281</strong> (n=146). Schwach negativ — steigende Zinsen drücken tendenziell
+MNQ, im aktuellen Fenster aber deutlich schwächer als der VIX-Zusammenhang.</p>
+<h2 id="4-walcl-fed-bilanzsumme-wochentlich-vs-mnq-wochenrendite">4. WALCL (Fed-Bilanzsumme, wöchentlich) vs. MNQ-Wochenrendite</h2>
+<table>
+<thead>
+<tr>
+<th>Bilanz-Trend</th>
+<th>n</th>
+<th>Ø-Wochenrendite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>wächst</td>
+<td>21</td>
+<td>+0,71 %</td>
+</tr>
+<tr>
+<td>schrumpft</td>
+<td>6</td>
+<td>+0,46 %</td>
+</tr>
+</tbody>
+</table>
+<p>Unausgeglichene Gruppengrößen (n=21 vs. 6) — im aktuellen Fenster kein klarer
+Unterschied, zu wenig Schrumpf-Wochen für eine Aussage.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Makro-FRED-Zusammenhaenge (Eigene Daten, laufend).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

@@ -24,7 +24,7 @@
 <li><a href="../index.html#concepts">Konzepte<span class="count">55</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">137</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">7</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">8</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
@@ -83,6 +83,7 @@
 <li><a href="#2026-08-04-synthesis-montag-gegenprobe-ndog-detektor">[2026-08-04] synthesis | Montag-Gegenprobe + NDOG-Detektor</a></li>
 <li><a href="#2026-08-04-synthesis-nwog-backtest-gegen-die-bestehende-wiki-regel">[2026-08-04] synthesis | NWOG-Backtest gegen die bestehende Wiki-Regel</a></li>
 <li><a href="#2026-08-04-synthesis-tgif-backtest-median-trifft-einzelwochen-kaum">[2026-08-04] synthesis | TGIF-Backtest: Median trifft, Einzelwochen kaum</a></li>
+<li><a href="#2026-08-05-synthesis-fred-wirtschaftsdaten-angebunden-makro-backtest">[2026-08-05] synthesis | FRED-Wirtschaftsdaten angebunden + Makro-Backtest</a></li>
 </ul>
 </div>
 </details>
@@ -532,6 +533,16 @@
 <li>algo/backtest_tgif.py prueft die 20-30%-Weekly-Range-Retracement-These aus wiki/concepts/TGIF (Thank God its Friday).md gegen n=27 Wochen.</li>
 <li>Ergebnis: exakte Trefferquote nur 3,7%, Median trifft mit 22,1% fast genau -- aber die Verteilung ist bimodal (37% kaum Retracement, 48% deutlich mehr als erwartet), kein echtes Clustering um 20-30%.</li>
 <li>Seiten aktualisiert: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md (neuer Abschnitt 6), wiki/concepts/TGIF (Thank God its Friday).md (Backtest-Abschnitt ergaenzt)</li>
+</ul>
+<h2 id="2026-08-05-synthesis-fred-wirtschaftsdaten-angebunden-makro-backtest">[2026-08-05] synthesis | FRED-Wirtschaftsdaten angebunden + Makro-Backtest</h2>
+<ul>
+<li>Nutzerauftrag: FRED-API-Key verbinden und Wirtschaftsdaten nutzen; danach "NQ-Reaktion an CPI-/FOMC-Tagen" backtesten.</li>
+<li>algo/fetch_fred.py neu: laedt FRED-Serien nach raw/marktdaten/fred/<series_id>.csv (date,value), Key liegt in algo/.secrets.yaml (gitignored, gleiches Muster wie journal/.secrets.yaml fuer den Imgur-Key). Starter-Set gezogen: DFF, CPIAUCSL, UNRATE, VIXCLS, DGS10, WALCL.</li>
+<li><strong>Bewusst NICHT gebaut</strong>: der urspruenglich gewuenschte CPI-/FOMC-Reaktionstag-Test. Grund: FREDs <code>date</code>-Feld bei CPIAUCSL ist der Referenzmonat, nicht das Veroeffentlichungsdatum; DFF schwankt taeglich ohne FOMC-Bezug (reines Marktzins-Rauschen); DFEDTARU (sauberer Zielsatz-Indikator) zeigt im MNQ-Datenfenster (02.01.-04.08.2026) <strong>keine einzige</strong> Aenderung, also n=0. Ein echter FOMC-Terminkalender (auch Hold-Meetings sind Events) haette aus Trainingswissen geraten werden muessen -- bewusst nicht getan, um keine falsch datierten Ereignisse als Backtest-Ergebnis auszugeben.</li>
+<li>Stattdessen algo/backtest_fred_events.py: VIX-Niveau-Regime (Sanity-Check), VIX-Aenderung vs. MNQ-Rendite (Korrelation -0,743), DGS10-Aenderung vs. MNQ-Rendite (-0,281), WALCL-Trend vs. MNQ-Wochenrendite (n=21 vs. 6, kein klarer Unterschied).</li>
+<li>Seite erstellt: wiki/synthesis/Makro-FRED-Zusammenhaenge (Eigene Daten, laufend).md</li>
+<li>Seiten aktualisiert: wiki/index.md, .gitignore (algo/.secrets.yaml ergaenzt)</li>
+<li>Offener Punkt fuer spaeter: verifizierte FOMC-Terminliste als eigene raw/-Quelle ablegen, dann ist der urspruengliche Test sauber baubar.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

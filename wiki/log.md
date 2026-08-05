@@ -407,3 +407,12 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - algo/backtest_tgif.py prueft die 20-30%-Weekly-Range-Retracement-These aus wiki/concepts/TGIF (Thank God its Friday).md gegen n=27 Wochen.
 - Ergebnis: exakte Trefferquote nur 3,7%, Median trifft mit 22,1% fast genau -- aber die Verteilung ist bimodal (37% kaum Retracement, 48% deutlich mehr als erwartet), kein echtes Clustering um 20-30%.
 - Seiten aktualisiert: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md (neuer Abschnitt 6), wiki/concepts/TGIF (Thank God its Friday).md (Backtest-Abschnitt ergaenzt)
+
+## [2026-08-05] synthesis | FRED-Wirtschaftsdaten angebunden + Makro-Backtest
+- Nutzerauftrag: FRED-API-Key verbinden und Wirtschaftsdaten nutzen; danach "NQ-Reaktion an CPI-/FOMC-Tagen" backtesten.
+- algo/fetch_fred.py neu: laedt FRED-Serien nach raw/marktdaten/fred/<series_id>.csv (date,value), Key liegt in algo/.secrets.yaml (gitignored, gleiches Muster wie journal/.secrets.yaml fuer den Imgur-Key). Starter-Set gezogen: DFF, CPIAUCSL, UNRATE, VIXCLS, DGS10, WALCL.
+- **Bewusst NICHT gebaut**: der urspruenglich gewuenschte CPI-/FOMC-Reaktionstag-Test. Grund: FREDs `date`-Feld bei CPIAUCSL ist der Referenzmonat, nicht das Veroeffentlichungsdatum; DFF schwankt taeglich ohne FOMC-Bezug (reines Marktzins-Rauschen); DFEDTARU (sauberer Zielsatz-Indikator) zeigt im MNQ-Datenfenster (02.01.-04.08.2026) **keine einzige** Aenderung, also n=0. Ein echter FOMC-Terminkalender (auch Hold-Meetings sind Events) haette aus Trainingswissen geraten werden muessen -- bewusst nicht getan, um keine falsch datierten Ereignisse als Backtest-Ergebnis auszugeben.
+- Stattdessen algo/backtest_fred_events.py: VIX-Niveau-Regime (Sanity-Check), VIX-Aenderung vs. MNQ-Rendite (Korrelation -0,743), DGS10-Aenderung vs. MNQ-Rendite (-0,281), WALCL-Trend vs. MNQ-Wochenrendite (n=21 vs. 6, kein klarer Unterschied).
+- Seite erstellt: wiki/synthesis/Makro-FRED-Zusammenhaenge (Eigene Daten, laufend).md
+- Seiten aktualisiert: wiki/index.md, .gitignore (algo/.secrets.yaml ergaenzt)
+- Offener Punkt fuer spaeter: verifizierte FOMC-Terminliste als eigene raw/-Quelle ablegen, dann ist der urspruengliche Test sauber baubar.

@@ -234,6 +234,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Muster-Validierung (laufend)]] — **generiert** von `algo/backtest_ohlc.py`, wird bei jedem neuen Handelstag neu geschrieben: FVG/VII-Füllraten, Sweep-/Struktur-/Macro-Statistik über alle Tage in `raw/marktdaten/`, Stand 3 Tage — noch nicht belastbar (2026-08-04)
 - [[Statistische Muster jenseits der ICT-Konzepte (laufend)]] — **generiert**, nicht-kalendarische Datenexploration: Range-Autokorrelation r=0,305 (n=147), schwaches Richtungs-Momentum, kein Rundzahl-Magnetismus (2026-08-04)
 - [[Seasonal Tendency (Eigene Daten, laufend)]] — **generiert**, eigene Datenbank (`algo/seasonal_tendency.json`) für Wochentag/Turn-of-Month/Woche-im-Monat/Monat: Montag groß+bullish (78,6%, n=28), Turn-of-Month extern+eigen bestätigt, gegen externe Nasdaq-Quellen gehalten (2026-08-04)
+- [[Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)]] — **generiert**, FRED-Wirtschaftsdaten (VIX/DGS10/WALCL) gegen MNQ: VIX-Änderung korreliert -0,743 mit Tagesrendite, DGS10 -0,281; CPI-/FOMC-Reaktionstest bewusst nicht gebaut (kein verifizierbares Release-Datum) (2026-08-05)
 
 ## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)
 
