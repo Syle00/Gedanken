@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -102,15 +102,47 @@ def simulate(bars: list[Bar], bias: dict, intraday: bool) -> list[dict]:
                 ret = (bar.c - bar.o) / bar.o if position == "long" else (bar.o - bar.c) / bar.o
                 equity.append(equity[-1] * (1 + ret))
             else:
+                # Position war bereits vor diesem Bar flat (nicht erst durch den Close-Zweig
+                # oben geworden) -- analog EnsembleStrategy.next(), das nach einem Close in
+                # derselben Aufruf sofort zurueckkehrt und den Reentry erst beim naechsten
+                # next()-Aufruf (naechster Bar) frisch bewertet.
                 equity.append(equity[-1])
-            if position is None and day_bias in ("long", "short"):
-                position = day_bias
-                markers.append((bar.t, bar.o, day_bias))
+                if day_bias in ("long", "short"):
+                    position = day_bias
+                    markers.append((bar.t, bar.o, day_bias))
 
         peak = max(peak, equity[-1])
         drawdown.append((peak - equity[-1]) / peak)
         frames.append(_snapshot(times, closes, equity, drawdown, markers, trades, wins))
     return frames
+
+
+def _test_reversal_timing() -> None:
+    """Regressionscheck fuer den Task-11-Fix: bei einem direkten Bias-Flip (long -> short)
+    schliesst simulate() die Position, eroeffnet die neue Gegenrichtung aber ERST beim
+    naechsten Bar -- nicht mehr im selben Iterationsschritt (analog EnsembleStrategy.next(),
+    das nach einem Close sofort zurueckkehrt)."""
+    day1 = datetime(2026, 1, 5, 9, 30)
+    day2 = datetime(2026, 1, 6, 9, 30)
+    day3 = datetime(2026, 1, 7, 9, 30)
+    bars = [
+        Bar(day1, 100, 105, 99, 102),
+        Bar(day2, 102, 103, 95, 96),
+        Bar(day3, 96, 98, 90, 91),
+    ]
+    bias = {day1.date(): "long", day2.date(): "short", day3.date(): "short"}
+
+    frames = simulate(bars, bias, intraday=False)
+    markers = frames[-1]["markers"]
+
+    assert len(markers) == 3, f"erwarte 3 Marker (open/exit/open), bekam {markers}"
+    assert markers[0][2] == "long" and markers[0][0] == day1
+    assert markers[1][2] == "exit" and markers[1][0] == day2, (
+        "Reversal-Bar muss NUR den Exit markieren, kein Reentry im selben Bar")
+    assert markers[2][2] == "short" and markers[2][0] == day3, (
+        "Reentry in Gegenrichtung darf erst am naechsten Bar erfolgen")
+    assert frames[-1]["trades"] == 1
+    print("_test_reversal_timing: OK")
 
 
 def render(frames: list[dict], bias: dict, snapshot: dict) -> None:
@@ -159,8 +191,14 @@ def main(argv=None) -> int:
     ap.add_argument("--days", type=int, default=5)
     ap.add_argument("--daily", action="store_true")
     ap.add_argument("--stress", default=None, help="Fenstername aus stress_test.WINDOWS")
+    ap.add_argument("--selftest", action="store_true",
+                     help="nur den Reversal-Timing-Regressionscheck laufen lassen, kein Fenster")
     a = ap.parse_args(args)
     sys.stdout.reconfigure(encoding="utf-8")
+
+    if a.selftest:
+        _test_reversal_timing()
+        return 0
 
     if a.stress and a.stress not in WINDOWS:
         print(f"Unbekanntes Stress-Fenster: {a.stress} (verfuegbar: {', '.join(WINDOWS)})")
