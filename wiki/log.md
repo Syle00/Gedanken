@@ -58,6 +58,25 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Offener Punkt: falls die fehlenden ~13 Minuten (Trade-Recording) inhaltlich doch neue Regeln
   enthalten (aktuell nur vermutet, dass es eine Wiederholung ist), bei Gelegenheit per Whisper
   (echtes `openai-whisper`, nicht das kollidierende PyPI-Paket `whisper`) nachziehen.
+- Nachtrag 2026-08-05: `whisper`-Paket neu installiert (`pip uninstall whisper` → `pip install
+  openai-whisper`), dazu `ffmpeg` per `winget install Gyan.FFmpeg` nachgerüstet — beides zusammen
+  ermöglicht jetzt vollständige Audio-Transkription als Fallback, wenn YouTube-Auto-Captions
+  abbrechen. Whisper-Volltranskription des obigen Videos läuft als Hintergrund-Job.
+
+## [2026-08-05] ingest | YouTube: ICT Price Action Chronicles - Market On Close Macro (Grundlagen-Lecture)
+- Zweites, vom Nutzer verlinktes Video: https://www.youtube.com/watch?v=PP1-i0ti_tQ (Kanal The Inner
+  Circle Trader, veröffentlicht 2026-08-04). Stellt sich als die **Grundlagen-Lecture** heraus, auf
+  die das zuvor ingestete Video mehrfach verweist ("gestrige MOC-Lecture") — Review der PM-Session
+  vom Montag, 2026-08-03 (NQ).
+- Transkript gespeichert unter `raw/trading-ict/2026/yt-PP1-i0ti_tQ-transcript.md` (Auto-Captions,
+  ~32 von 37:49 Minuten, endet aber an einer runden Stelle — ICTs übliche Verabschiedung ist noch
+  enthalten).
+- Seiten erstellt: wiki/sources/ICT Price Action Chronicles - Market On Close Macro (Source).md
+- Seiten substanziell erweitert: wiki/models/Market on Close (MOC) Macro Model.md (Abschnitt "Zwei
+  Ranges, nicht eine", präzises Relative-Equal-Lows/Highs-Kriterium, Wick-vs-FVG-Vorrangregel,
+  Stop-Loss-Philosophie/Drawdown-Toleranz, zweites Zahlenbeispiel NQ 2026-08-03), wiki/concepts/Fair
+  Value Gap (FVG).md (Präzisierung der Wick-schlägt-FVG-Regel), wiki/models/Missed Entry Trade
+  Management Playbook.md (Exit-Präzision-vs-Entry-Präzision-Abschnitt), wiki/index.md.
 - Übersprungen: wiki/sources/Kurz Notizen (Source).md (hat kein `raw:`-Feld, verweist bereits per `sources:`-Wikilinks direkt auf die Rohnotizen).
 - Seiten aktualisiert: wiki/index.md (Einstiegs-Hinweis auf die SMC-Wurzelseite, SMC in Concepts eingetragen, 5 fehlende Katalogeinträge nachgetragen: [[Kurz Notizen (Source)]] unter neuer Rubrik "Notizen", sowie [[Balanced Price Range (BPR)]], [[Breakaway Gap]], [[DXY Correlation (Risk On_Off)]], [[Silver Bullet Model]] — vom Build als Index-Drift gemeldet).
 

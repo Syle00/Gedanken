@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">57</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">138</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">139</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">9</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -47,6 +47,7 @@
 <li><a href="#2026-08-02-lint-curriculum-zuordnung-monat-4-breaker-block">[2026-08-02] lint | Curriculum-Zuordnung Monat 4 (Breaker Block)</a></li>
 <li><a href="#2026-08-02-synthesis-smart-money-concepts-smc-als-wurzelseite-raw-wiki-verlinkung">[2026-08-02] synthesis | Smart Money Concepts (SMC) als Wurzelseite + raw/-Wiki-Verlinkung</a></li>
 <li><a href="#2026-08-05-ingest-youtube-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth">[2026-08-05] ingest | YouTube: ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth</a></li>
+<li><a href="#2026-08-05-ingest-youtube-ict-price-action-chronicles-market-on-close-macro-grundlagen-lecture">[2026-08-05] ingest | YouTube: ICT Price Action Chronicles - Market On Close Macro (Grundlagen-Lecture)</a></li>
 <li><a href="#2026-08-02-setup-trading-journal-export-einsortiert-nach-rawjournal">[2026-08-02] setup | Trading-Journal-Export einsortiert nach raw/journal/</a></li>
 <li><a href="#2026-08-02-ingest-opening-range-theory-1st-presented-fvg-logic-mentorship-2025-lektion-06">[2026-08-02] ingest | Opening Range Theory - 1st Presented FVG Logic (MentorShip 2025, Lektion 06)</a></li>
 <li><a href="#2026-08-02-ingest-mentorship-2025-lektionen-01030405">[2026-08-02] ingest | MentorShip 2025, Lektionen 01/03/04/05</a></li>
@@ -157,6 +158,26 @@
 <li>Offener Punkt: falls die fehlenden ~13 Minuten (Trade-Recording) inhaltlich doch neue Regeln
   enthalten (aktuell nur vermutet, dass es eine Wiederholung ist), bei Gelegenheit per Whisper
   (echtes <code>openai-whisper</code>, nicht das kollidierende PyPI-Paket <code>whisper</code>) nachziehen.</li>
+<li>Nachtrag 2026-08-05: <code>whisper</code>-Paket neu installiert (<code>pip uninstall whisper</code> → <code>pip install
+  openai-whisper</code>), dazu <code>ffmpeg</code> per <code>winget install Gyan.FFmpeg</code> nachgerüstet — beides zusammen
+  ermöglicht jetzt vollständige Audio-Transkription als Fallback, wenn YouTube-Auto-Captions
+  abbrechen. Whisper-Volltranskription des obigen Videos läuft als Hintergrund-Job.</li>
+</ul>
+<h2 id="2026-08-05-ingest-youtube-ict-price-action-chronicles-market-on-close-macro-grundlagen-lecture">[2026-08-05] ingest | YouTube: ICT Price Action Chronicles - Market On Close Macro (Grundlagen-Lecture)</h2>
+<ul>
+<li>Zweites, vom Nutzer verlinktes Video: https://www.youtube.com/watch?v=PP1-i0ti_tQ (Kanal The Inner
+  Circle Trader, veröffentlicht 2026-08-04). Stellt sich als die <strong>Grundlagen-Lecture</strong> heraus, auf
+  die das zuvor ingestete Video mehrfach verweist ("gestrige MOC-Lecture") — Review der PM-Session
+  vom Montag, 2026-08-03 (NQ).</li>
+<li>Transkript gespeichert unter <code>raw/trading-ict/2026/yt-PP1-i0ti_tQ-transcript.md</code> (Auto-Captions,
+  ~32 von 37:49 Minuten, endet aber an einer runden Stelle — ICTs übliche Verabschiedung ist noch
+  enthalten).</li>
+<li>Seiten erstellt: wiki/sources/ICT Price Action Chronicles - Market On Close Macro (Source).md</li>
+<li>Seiten substanziell erweitert: wiki/models/Market on Close (MOC) Macro Model.md (Abschnitt "Zwei
+  Ranges, nicht eine", präzises Relative-Equal-Lows/Highs-Kriterium, Wick-vs-FVG-Vorrangregel,
+  Stop-Loss-Philosophie/Drawdown-Toleranz, zweites Zahlenbeispiel NQ 2026-08-03), wiki/concepts/Fair
+  Value Gap (FVG).md (Präzisierung der Wick-schlägt-FVG-Regel), wiki/models/Missed Entry Trade
+  Management Playbook.md (Exit-Präzision-vs-Entry-Präzision-Abschnitt), wiki/index.md.</li>
 <li>Übersprungen: wiki/sources/Kurz Notizen (Source).md (hat kein <code>raw:</code>-Feld, verweist bereits per <code>sources:</code>-Wikilinks direkt auf die Rohnotizen).</li>
 <li>Seiten aktualisiert: wiki/index.md (Einstiegs-Hinweis auf die SMC-Wurzelseite, SMC in Concepts eingetragen, 5 fehlende Katalogeinträge nachgetragen: <a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a> unter neuer Rubrik "Notizen", sowie <a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a>, <a href="../p/breakaway-gap.html">Breakaway Gap</a>, <a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a>, <a href="../p/silver-bullet-model.html">Silver Bullet Model</a> — vom Build als Index-Drift gemeldet).</li>
 </ul>

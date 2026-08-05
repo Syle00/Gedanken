@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-01
-sources: ["[[Fair Valuation (Source)]]"]
+sources: ["[[Fair Valuation (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]"]
 ---
 
 # Fair Value Gap (FVG)
@@ -53,6 +53,9 @@ Erst wenn alle drei Ebenen übereinstimmen, gilt der Preis als "im fairen Bereic
   besonders stark und einseitig ("onesided").
 - **Wick schlägt FVG**: Im Daily Chart gilt — liegt oberhalb/unterhalb eines FVG bereits die nächste
   Wick, ist die Wick das relevantere nächste Level, nicht das FVG.
+- **Präzisierung (2026, MOC-Grundlagen-Lecture)**: Teilt sich ein Wick den Preisbereich direkt mit
+  einem FVG (Wick links vom FVG, beide überlappen), hat der **gesamte Wick** Vorrang — nicht nur der
+  FVG-Anteil. Details und Beispiel: [[Market on Close (MOC) Macro Model]].
 - **2-Gap-Regel**: Treten zwei Gaps unmittelbar hintereinander auf, wird für den Stop Loss das
   **erste** der beiden Gaps genutzt.
 - Bildet sich ein sehr großes Displacement genau an einem Quadranten eines FVG oder einer Wick, wird

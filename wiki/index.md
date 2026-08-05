@@ -79,7 +79,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Day Trade Routine]] — Täglicher Analyse-Ablauf vor dem Trading (2026-08-01)
 - [[London Session Profiles]] — 4 London-Profile + Wann London vermeiden/ideal ist (2026-08-01)
 - [[Market Maker Manipulation Templates]] — Katalog wiederkehrender Weekly-Manipulation-Profile (2026-08-01)
-- [[Market on Close (MOC) Macro Model]] — 15:50–16:00-Macro, Dealing-Range-Fib bis 16tel, Order-Flow-Entry, ES-Beispiel auf 2 Ticks (2026-08-05)
+- [[Market on Close (MOC) Macro Model]] — 15:50–16:00-Macro, zwei Ranges (Daily + Final-Hour), Dealing-Range-Fib bis 16tel, Order-Flow-Entry, SL-/Exit-Philosophie, ES- und NQ-Beispiel je auf wenige Ticks genau (2026-08-05)
 - [[Missed Entry Trade Management Playbook]] — Wick-Entry, CISD-Reentry-Skalierung, Event-Horizon-Exits (2026-08-01)
 - [[Meine Strategien (Übersicht)]] — Einstiegspunkt für alle live-getradeten, vollständig geregelten Strategien (aktuell: Silver Bullet) (2026-08-05)
 - [[No-Bias Engagement Routine]] — Vorgehen ohne klaren Bias zu Handelsbeginn (2026-08-01)
@@ -139,7 +139,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[NQ Futures Weekly Range Market Wizardry (Source)]], [[Post US Holiday Monday Followup (Source)]]
 - [[Trading Complex Opening Ranges With Fed Impact 07-14-2026 (Source)]]
 - [[Chain Of Custody Of Price With Daily Inefficiencies (Source)]] — Quadranten/Oktanten-Raster auf BISI/SIBI inkl. VII, definiert den Suspension Block (2026-08-03)
-- [[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]] — YouTube 2026-08-05: MOC Macro Model, 16tel-Fib-Level, Candlestick-only Order-Flow-Bestätigung, Signal-Following-Risiko (2026-08-05)
+- [[ICT Price Action Chronicles - Market On Close Macro (Source)]] — YouTube 2026-08-04: Grundlagen-Lecture zum MOC Macro (NQ, 2026-08-03), zwei Ranges, Relative-Equal-Kriterium, Wick-vs-FVG-Vorrang, SL-/Exit-Philosophie (2026-08-05)
+- [[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]] — YouTube 2026-08-05: MOC Macro Model am ES angewendet, 16tel-Fib-Level, Candlestick-only Order-Flow-Bestätigung, Signal-Following-Risiko (2026-08-05)
 
 ### MentorShip 2025
 

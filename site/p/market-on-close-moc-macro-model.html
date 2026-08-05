@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">57</span></a></li>
 <li class="active"><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">138</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">139</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">9</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -62,13 +62,17 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#models">Modelle</a></div>
   <h1>Market on Close (MOC) Macro Model</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2026</span> <span class="tag">macro</span> <span class="tag">sessions</span> <span class="tag">moc</span></div><div class="dates">erstellt 2026-08-05 · aktualisiert 2026-08-05</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2026</span> <span class="tag">macro</span> <span class="tag">sessions</span> <span class="tag">moc</span></div><div class="dates">erstellt 2026-08-05 · aktualisiert 2026-08-05</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a>, <a href="../p/ict-price-action-chronicles-market-on-close-macro-source.html">ICT Price Action Chronicles - Market On Close Macro (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#grundidee">Grundidee</a></li>
+<li><a href="#zwei-ranges-nicht-eine">Zwei Ranges, nicht eine</a></li>
 <li><a href="#ablauf">Ablauf</a></li>
 <li><a href="#fib-feinraster-quadrant-oktant-16tel">Fib-Feinraster: Quadrant → Oktant → 16tel</a></li>
-<li><a href="#zahlenbeispiel-es-2026-08-04">Zahlenbeispiel (ES, 2026-08-04)</a></li>
+<li><a href="#relative-equal-lowshighs-prazises-kriterium">Relative Equal Lows/Highs — präzises Kriterium</a></li>
+<li><a href="#wick-vs-fvg-vorrang-bei-geteiltem-bereich">Wick vs. FVG — Vorrang bei geteiltem Bereich</a></li>
+<li><a href="#stop-loss-philosophie-drawdown-toleranz-statt-tick-prazision">Stop-Loss-Philosophie: Drawdown-Toleranz statt Tick-Präzision</a></li>
+<li><a href="#zahlenbeispiele">Zahlenbeispiele</a></li>
 <li><a href="#risikohinweis-aus-der-quelle">Risikohinweis aus der Quelle</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -87,6 +91,18 @@ NASDAQ-exklusiv</strong>: das Beispiel läuft am E-Mini S&amp;P (ES), dieselbe L
 <p>Bei einem Tag, der bereits <strong>lange in eine Richtung gelaufen ist</strong> ("long in the tooth"), wird vor
 dem Close eher <strong>Konsolidierung oder ein Retracement</strong> erwartet als eine weitere Fortsetzung.</p>
 </blockquote>
+<h2 id="zwei-ranges-nicht-eine">Zwei Ranges, nicht eine</h2>
+<p>Die Grundlagen-Lecture (<a href="../p/ict-price-action-chronicles-market-on-close-macro-source.html">ICT Price Action Chronicles - Market On Close Macro (Source)</a>) trennt
+explizit zwei Ebenen, die leicht verwechselt werden:</p>
+<ol>
+<li><strong>Daily Range</strong> (grob): Morning-Low bis Post-13:30-Uhr-High. Liefert die <strong>groben
+   Oktanten-/Quadranten-Level</strong> — im NQ-Beispiel den ersten Oktant bei 28.883,00.</li>
+<li><strong>Final Hour RTH Dealing Range</strong> (fein): High und Low, die sich <strong>innerhalb</strong> der letzten Stunde
+   (15:00–16:00 Uhr) selbst neu bilden. Genau <strong>diese</strong> kleinere Range wird gefibbt (Anker High → Low,
+   0,5-Extension-Level) und liefert das eigentliche 10-Minuten-Ziel des MOC-Fensters.</li>
+</ol>
+<p>Beide Ranges werden parallel verfolgt — die große gibt den Kontext (wie weit kann es realistisch
+gehen), die kleine liefert das konkrete Preisziel.</p>
 <h2 id="ablauf">Ablauf</h2>
 <ol>
 <li><strong>Dealing Range bestimmen</strong>: PM-Opening-Range-Low (13:30 Uhr) bis Tageshoch — das ist der große
@@ -143,14 +159,43 @@ dem Close eher <strong>Konsolidierung oder ein Retracement</strong> erwartet als
 </tr>
 </tbody>
 </table>
-<h2 id="zahlenbeispiel-es-2026-08-04">Zahlenbeispiel (ES, 2026-08-04)</h2>
+<h2 id="relative-equal-lowshighs-prazises-kriterium">Relative Equal Lows/Highs — präzises Kriterium</h2>
+<p>Aus der Grundlagen-Lecture: das dem aktuellen Preis <strong>nähere</strong> Low muss <strong>höher</strong> sein als das
+<strong>weiter entfernte</strong> Low, sonst ist es kein High-Probability-Draw-Kandidat (spiegelbildlich für
+Highs: das nähere High muss <strong>niedriger</strong> sein). Nur wenn diese Reihenfolge stimmt, gilt der Pool
+als valides Ziel für den MOC-Move.</p>
+<h2 id="wick-vs-fvg-vorrang-bei-geteiltem-bereich">Wick vs. FVG — Vorrang bei geteiltem Bereich</h2>
+<p>Teilt sich ein <strong>Wick</strong> den Preisbereich mit einem <strong>FVG</strong> (Wick liegt links vom FVG, beide
+überlappen), hat der <strong>gesamte Wick Vorrang</strong> — nicht nur das FVG. Präzisiert die bestehende Regel
+"Wick schlägt FVG" auf <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>. Bleiben die Candle-Bodies dabei konsequent in der
+unteren Hälfte dieses Wicks (Premium-Sensitivität, siehe
+<a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a>), gilt die Zone als <strong>formidabler Widerstand</strong> —
+klassische Support/Resistance-Logik erklärt das laut ICT nicht, nur die Body-vs-Wick-Lesart.</p>
+<h2 id="stop-loss-philosophie-drawdown-toleranz-statt-tick-prazision">Stop-Loss-Philosophie: Drawdown-Toleranz statt Tick-Präzision</h2>
+<ul>
+<li><strong>SL-Anker</strong>: an die <strong>High-Probability-Wick</strong> (Confluence aus Oktant <strong>und</strong> Quadrant der
+  Dealing Range) plus 1–2 Ticks — nicht an klassische Support/Resistance-Level.</li>
+<li>Bewusste <strong>Toleranz für Drawdown</strong>: solange die Wick-Bodies die Zone respektieren, darf der Preis
+  bis knapp an den SL heranlaufen, ohne dass das Setup ungültig wird.</li>
+<li><strong>Exit-Präzision ist unwichtiger als Entry-Präzision</strong>: einen Teil der Position bereits <strong>über</strong>
+  50 % der erwarteten Range zu schließen zählt laut ICT bereits als "Präzision" — nicht das exakte
+  Tick-Ziel zu treffen. Verluste/Stop-outs sind Lerngelegenheiten, kein Grund, das Setup infrage zu
+  stellen. Siehe <a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a> für das allgemeine Exit-Schema.</li>
+</ul>
+<h2 id="zahlenbeispiele">Zahlenbeispiele</h2>
+<p><strong>ES, 2026-08-04</strong> (Folgevideo):</p>
 <ul>
 <li>Short-Entry am projizierten Midpoint: <strong>7.786,00</strong></li>
 <li>Projiziertes 16tel-Level (Ziel/Reversal): <strong>7.761,75</strong></li>
 <li>Tatsächliches Tagestief: <strong>7.761,25</strong> — Abweichung <strong>2 Ticks</strong></li>
 </ul>
-<p>Diente ICT als Präzisionsnachweis: die Level wurden <strong>vor</strong> dem Move berechnet, nicht im Nachhinein
-angepasst.</p>
+<p><strong>NQ, 2026-08-03</strong> (Grundlagen-Lecture):</p>
+<ul>
+<li>Erster Oktant der Daily Range: <strong>28.883,00</strong></li>
+<li>Projiziertes 0,5-Extension-Level der Final-Hour-Dealing-Range: <strong>28.870,75</strong></li>
+</ul>
+<p>Diente ICT beide Male als Präzisionsnachweis: die Level wurden <strong>vor</strong> dem Move berechnet, nicht im
+Nachhinein angepasst.</p>
 <h2 id="risikohinweis-aus-der-quelle">Risikohinweis aus der Quelle</h2>
 <p>Fills sind bei öffentlich geteilten Levels <strong>nicht garantiert</strong> — bei genug Followern, die dieselbe
 enge Zone anlaufen, bekommt nicht jeder eine Füllung zum selben Preis (Marktmechanik, keine
@@ -164,8 +209,9 @@ Verschwörung). Siehe <a href="../p/signal-following-crowd-liquidity-risk.html">
 <li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a>, <a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
 <li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
 <li><a href="../p/ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a></li>
+<li><a href="../p/ict-price-action-chronicles-market-on-close-macro-source.html">ICT Price Action Chronicles - Market On Close Macro (Source)</a> — Grundlagen-Lecture (Vortag)</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a><span class="cat">Konzepte</span></li><li><a href="../p/ny-pm-trend.html">NY PM Trend</a><span class="cat">Modelle</span></li><li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">9</span></h2><ul><li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-price-action-chronicles-market-on-close-macro-source.html">ICT Price Action Chronicles - Market On Close Macro (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a><span class="cat">Konzepte</span></li><li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a><span class="cat">Modelle</span></li><li><a href="../p/ny-pm-trend.html">NY PM Trend</a><span class="cat">Modelle</span></li><li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/models/Market on Close (MOC) Macro Model.md</code></footer>
 </article>
 </main>
