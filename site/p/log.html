@@ -21,8 +21,8 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">55</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">25</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">56</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">26</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">137</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">8</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
@@ -85,6 +85,8 @@
 <li><a href="#2026-08-04-synthesis-tgif-backtest-median-trifft-einzelwochen-kaum">[2026-08-04] synthesis | TGIF-Backtest: Median trifft, Einzelwochen kaum</a></li>
 <li><a href="#2026-08-05-synthesis-fred-wirtschaftsdaten-angebunden-makro-backtest">[2026-08-05] synthesis | FRED-Wirtschaftsdaten angebunden + Makro-Backtest</a></li>
 <li><a href="#2026-08-05-synthesis-silver-bullet-trade-management-regel-mindestziel-partial-breakeven">[2026-08-05] synthesis | Silver-Bullet-Trade-Management-Regel (Mindestziel + Partial + Breakeven)</a></li>
+<li><a href="#2026-08-05-setup-wikimodelsmeine-strategien-ubersicht-angelegt-positionsgroen-regel-1-tagesrisiko">[2026-08-05] setup | wiki/models/Meine Strategien (Übersicht) angelegt + Positionsgrößen-Regel (1% Tagesrisiko)</a></li>
+<li><a href="#2026-08-05-setup-korrektur-risiko-regel-gilt-pro-trade-nicht-pro-tag">[2026-08-05] setup | Korrektur: Risiko-Regel gilt PRO TRADE, nicht pro Tag</a></li>
 </ul>
 </div>
 </details>
@@ -553,6 +555,24 @@
 <li>Seite aktualisiert: wiki/models/Silver Bullet Model.md (neuer Abschnitt "Trade Management", ausdruecklich als eigene Ausfuehrungsregel markiert, keine ICT-Quellenaussage).</li>
 <li>Verifiziert: algo/rules.py-Demo (Entry/Target-Abstand 11,5 &gt;= 10, unveraendert bestanden), algo/backtest_ensemble.py-Demo, sowie ein voller Backtest-Lauf ueber die komplette MNQ-Historie ohne Fehler (Positionsgroessen ~65-75 Kontrakte, Partial-Portion rundungssicher).</li>
 <li>Dashboard (algo/dashboard.py::simulate) bewusst NICHT angepasst: die Intraday-Simulation dort ist laut eigenem Docstring ohnehin nur eine Sofort-Fill-Naeherung fuer die Anschauung, nicht die offizielle Kennzahlenquelle (das bleibt algo/validate_ensemble.py ueber EnsembleStrategy) -- die neue Regel wirkt dort nur indirekt ueber den ohnehin geteilten <code>plan_trade</code>-Mindestziel-Filter.</li>
+</ul>
+<h2 id="2026-08-05-setup-wikimodelsmeine-strategien-ubersicht-angelegt-positionsgroen-regel-1-tagesrisiko">[2026-08-05] setup | wiki/models/Meine Strategien (Übersicht) angelegt + Positionsgrößen-Regel (1% Tagesrisiko)</h2>
+<ul>
+<li>Nutzerauftrag: eine Übersichtsseite für die eigenen (live-getradeten, vollständig geregelten) Strategien anlegen, dazu je Strategie eine eigene Wiki-Seite, damit der Algo-Backtest beim Backtesten verbindlich darauf zugreifen kann. Zusaetzlich: Positionsgroesse haengt vom Kontoguthaben ab, feste Regel "nie mehr als 1% pro Tag".</li>
+<li>Seite erstellt: wiki/models/Meine Strategien (Übersicht).md — Abgrenzung zur allgemeinen ICT-Konzeptbibliothek, Tabelle der vollstaendig geregelten Strategien (aktuell nur <a href="../p/silver-bullet-model.html">Silver Bullet Model</a>), Liste der noch unfertigen Backtest-Explorationen (TGIF, NDOG/NWOG, ORG-C.E., Midnight Range, saisonale Muster) als Kandidaten fuer spaetere eigene Seiten.</li>
+<li>Seite erstellt: wiki/concepts/Risikomanagement (1% Tagesrisiko).md — Regel gilt PRO TAG (kumulativ ueber alle Trades desselben Tages), nicht pro Trade; Formel + Implementierungsverweis.</li>
+<li>algo/backtest_ensemble.py: neue reine Funktion <code>_risk_size(equity, max_pct, risk_used, entry, stop)</code> (mit Selfcheck in <code>_demo()</code>), <code>EnsembleStrategy.max_daily_risk_pct = 0.01</code>, <code>_risk_used</code>/<code>_risk_day</code>-Tracking (Reset bei Tageswechsel), Positionsgroesse beim Entry jetzt <code>_risk_size(...)</code> statt Backtesting.py-Default-Fraktionierung; Trade wird uebersprungen, wenn das Tagesbudget bereits ausgeschoepft ist.</li>
+<li>Seiten aktualisiert: wiki/models/Silver Bullet Model.md (Trade-Management-Abschnitt um Positionsgroessen-Verweis ergaenzt, Verwandt-Liste), wiki/index.md (neue Eintraege Concepts + Models).</li>
+<li>Verifiziert: algo/backtest_ensemble.py-Demo bestanden (_risk_size-Testfaelle: volles Budget -&gt; 100 Einheiten, 90% verbraucht -&gt; 10 Einheiten, Budget aufgebraucht -&gt; 0); voller Backtest-Lauf ueber die komplette MNQ-Historie bestaetigte bereits vorher das Partial/Breakeven-Verhalten (z.B. Trade-Paar Entry 29473.75: Teil 1 profitabel geschlossen, Rest exakt am Entry-Preis mit nur Commission-Verlust gestoppt).</li>
+<li><strong>Nachtrag im Backtest entdeckt (kein Nutzerfehler)</strong>: bei sehr engem Stop verlangte die 1%-Regel rechnerisch mehr Kontrakte, als das Konto-Margin (20x Hebel) hergibt -- der Broker cancelte die Order dann stillschweigend (Trade faellt komplett weg statt kleiner). Fix: <code>EnsembleStrategy.leverage = 20</code> kappt die Groesse zusaetzlich.</li>
+</ul>
+<h2 id="2026-08-05-setup-korrektur-risiko-regel-gilt-pro-trade-nicht-pro-tag">[2026-08-05] setup | Korrektur: Risiko-Regel gilt PRO TRADE, nicht pro Tag</h2>
+<ul>
+<li>Nutzerkorrektur: "korigiere nivht 1% pro tag sondern pro trade!" -- die zuvor implementierte kumulative Tagesbudget-Logik war falsch verstanden.</li>
+<li>algo/backtest_ensemble.py: <code>_risk_size()</code> verliert den <code>risk_used</code>-Parameter (kein Tages-Tracking mehr noetig, da jeder Trade unabhaengig bemessen wird), <code>EnsembleStrategy.max_daily_risk_pct</code> -&gt; <code>max_risk_pct</code>, <code>_risk_day</code>/<code>_risk_used</code>-State aus <code>init()</code>/<code>next()</code> entfernt (ponytail: Loeschen statt Flag behalten, da die Semantik jetzt trivial pro-Trade ist). Demo-Assertions entsprechend angepasst und bestanden.</li>
+<li>Seite umbenannt: wiki/concepts/Risikomanagement (1% Tagesrisiko).md -&gt; wiki/concepts/Risikomanagement (1% pro Trade).md (alte Datei geloescht, alle Wikilinks in wiki/index.md, wiki/models/Meine Strategien (Übersicht).md, wiki/models/Silver Bullet Model.md nachgezogen). Korrektur-Hinweis auf der neuen Seite selbst vermerkt (kein stillschweigendes Ueberschreiben).</li>
+<li>Nutzerauftrag Teil 2: "lese dir den core content nochmal durch dort sind bestimmte regeln hinterlegt ... money managemnnt alles im corecontent hinterlegt diese regeln übernimmst du 1zu1". Durchsucht: gesamtes raw/trading-ict/ (Core Content + alle Jahrgaenge/Mentorships) per Volltextsuche (mehrere Begriffsvarianten: %, risk, drawdown, money management, position size, Konto, Verlust, Kapital, R:R) sowie graphify-Query "money management risk management drawdown prevention position sizing per trade" -- <strong>keine explizite Prozent-/Money-Management-Regel im Text gefunden</strong>. Naechstliegende Treffer: raw/2026/Chain Of Custody Of Price With Daily Inefficiencies.md ("Partials an Key-Leveln um Risiko zu minimieren", deckt sich mit dem bereits umgesetzten Partial-Teil) und wiki/models/Missed Entry Trade Management Playbook.md (Skalierungs-/Exit-Schema, aber ohne %-Bezug zum Konto).</li>
+<li><strong>Nicht "1:1 uebernommen"</strong>, weil textuell nichts Konkretes zum Uebernehmen gefunden wurde -- auf wiki/concepts/Risikomanagement (1% pro Trade).md als offener Punkt vermerkt (moeglich, dass die Regel nur in einem der vielen Screenshots steht, nicht im Fließtext). Rueckfrage an den Nutzer noetig, wo genau im Core Content die Drawdown-/Money-Management-Regeln stehen.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

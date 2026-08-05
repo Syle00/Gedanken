@@ -56,6 +56,8 @@ Zusatzregel zur reinen Entry-Logik oben, so wie im Algo-Backtest (`algo/rules.py
   `EnsembleStrategy.partial_portion` — die genaue Aufteilung war nicht vorgegeben).
 - **Breakeven:** sobald das Partial genommen wurde, wandert der Stop auf den Entry-Preis. Der
   Rest der Position läuft drawdown-frei bis Stop oder Target weiter.
+- **Positionsgröße:** richtet sich nach dem Kontoguthaben, nicht nach fixer Kontraktzahl —
+  siehe [[Risikomanagement (1% pro Trade)]] (`EnsembleStrategy._risk_size`).
 
 Diese Regel ist reines Trade-Management, keine ICT-Quellenaussage — sie ergänzt, ersetzt aber
 nicht die Entry-Kriterien aus dem Abschnitt oben.
@@ -76,3 +78,4 @@ nicht die Entry-Kriterien aus dem Abschnitt oben.
 - [[Modell 22]] — ebenfalls ein MSS+SIBI/IFVG-basierter Trigger
 - [[NY PM Trend]], [[ICT Daily Range Session Timing]], [[ICT Killzones]]
 - [[Kurz Notizen (Source)]], [[ICT Silver Bullet (Source)]]
+- [[Meine Strategien (Übersicht)]], [[Risikomanagement (1% pro Trade)]]

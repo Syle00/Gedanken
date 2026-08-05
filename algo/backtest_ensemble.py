@@ -10,6 +10,13 @@ Richtung zeigt (Open/Close-Fallback fuer Perioden ohne Intraday-Daten).
 Bei ~150 Handelstagen und 8 Features ist Overfitting trotz L2-Regularisierung ein reales
 Risiko -- jedes Ergebnis hier ist eine Groessenordnungs-Schaetzung, siehe algo/validate.py
 fuer die Walk-Forward-Validierung mit Per-Fold-Refit (kein statischer Fit auf allen Daten).
+
+Trade Management + Position Sizing (Nutzerregeln, siehe wiki/models/Silver Bullet Model.md
+und wiki/concepts/Risikomanagement (1% pro Trade).md): Mindestziel 10 Punkte (rules.py),
+Partial am ersten Swing-Punkt in Traderichtung + Stop auf Breakeven danach (_manage_partial),
+Positionsgroesse so bemessen, dass ein Stop-Out max. 1% Kontoguthaben PRO TRADE kostet
+(_risk_size) -- nicht kumulativ pro Tag (Korrektur vom urspruenglich falsch verstandenen
+Tagesbudget).
 """
 from __future__ import annotations
 
@@ -62,6 +69,15 @@ def _passes_bias_filter(setup_side: str, day_bias: str) -> bool:
     return day_bias in ("long", "short") and (setup_side == "long") == (day_bias == "long")
 
 
+def _risk_size(equity: float, max_pct: float, entry: float, stop: float) -> int:
+    """Nutzerregel: nie mehr als `max_pct` des Kontoguthabens Risiko PRO TRADE -- siehe
+    wiki/concepts/Risikomanagement (1% pro Trade).md. Groesse wird so gewaehlt, dass ein
+    Stop-Out genau dieses Budget ausschoepft, nicht mehr."""
+    budget = equity * max_pct
+    stop_dist = abs(entry - stop)
+    return max(0, int(budget / stop_dist))
+
+
 class EnsembleStrategy(Strategy):
     bias: dict = {}            # date -> "long"/"short"/"neutral", vor bt.run() gesetzt
     stop_buffer_pct = 0.1
@@ -69,6 +85,12 @@ class EnsembleStrategy(Strategy):
     partial_portion = 0.5      # Anteil, der am ersten Swing-Punkt in Traderichtung geschlossen
                                 # wird (Nutzerregel; Split selbst nicht vorgegeben -> 50/50
                                 # als ponytail: Default, bei Bedarf anpassbar)
+    max_risk_pct = 0.01        # Nutzerregel: nie mehr als 1% Kontoguthaben Risiko PRO TRADE
+    leverage = 20               # muss zu Backtest(margin=...) passen (0.05 -> 20x); Strategy
+                                 # hat keinen direkten Zugriff auf den margin-Wert des Brokers,
+                                 # ohne diese Kappung fordert _risk_size bei engem Stop mehr
+                                 # Kontrakte an als das Margin hergibt -> Order wird sonst vom
+                                 # Broker stillschweigend gecancelt statt kleiner gefuellt
     intraday = True
 
     def init(self):
@@ -108,13 +130,19 @@ class EnsembleStrategy(Strategy):
         key = (setup.t.date(), setup.window)
         if key in self._taken:
             return
+
+        size = _risk_size(self.equity, self.max_risk_pct, setup.entry, setup.stop)
+        size = min(size, int(self.equity * self.leverage / setup.entry))
+        if size < 1:
+            return  # 1%-Risiko-Budget oder Margin-Obergrenze ergibt 0 Kontrakte
+
         self._taken.add(key)
         self._active = {"side": setup.side, "entry": setup.entry, "entry_t": setup.t,
                          "partial_done": False}
         if setup.side == "long":
-            self.buy(limit=setup.entry, sl=setup.stop, tp=setup.target)
+            self.buy(size=size, limit=setup.entry, sl=setup.stop, tp=setup.target)
         else:
-            self.sell(limit=setup.entry, sl=setup.stop, tp=setup.target)
+            self.sell(size=size, limit=setup.entry, sl=setup.stop, tp=setup.target)
 
     def _manage_partial(self, hist: list[Bar]) -> None:
         """Nutzerregel: Partial am ersten Swing-Hoch (long) bzw. Swing-Tief (short) NACH dem
@@ -144,7 +172,12 @@ def _demo() -> None:
     assert _passes_bias_filter("long", "short") is False
     assert _passes_bias_filter("short", "long") is False
     assert _passes_bias_filter("long", "neutral") is False
-    print("backtest_ensemble _passes_bias_filter demo ok")
+
+    # 1% von 100_000 = 1000 Risiko-Budget, Stop 10 Punkte entfernt -> 100 Einheiten
+    assert _risk_size(100_000, 0.01, 100, 90) == 100
+    # 1% von 100_000 = 1000 Risiko-Budget, Stop 100 Punkte entfernt -> nur noch 10 Einheiten
+    assert _risk_size(100_000, 0.01, 100, 0) == 10
+    print("backtest_ensemble _passes_bias_filter/_risk_size demo ok")
 
 
 if __name__ == "__main__":
