@@ -54,10 +54,9 @@ def find_days() -> list[tuple[date, str, Path]]:
             day = datetime.strptime(day_dir.name, "%d.%m.%Y").date()
         except ValueError:
             continue
-        for f in day_dir.glob(f"* {day.isoformat()} {BASE_TF}.csv"):
+        for f in sorted(day_dir.glob(f"* {day.isoformat()} {BASE_TF}.csv")):
             symbol = f.name.split(" ")[0]
             out.append((day, symbol, f))
-            break
     return out
 
 
