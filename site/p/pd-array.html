@@ -109,21 +109,20 @@
 und praktisch jedes ICT-Modell.</p>
 <h2 id="kernregeln">Kernregeln</h2>
 <ul>
-<li>Eine PD Array ist <strong>einmalig nutzbar</strong>: Sobald Price hineingetradet ist <em>und</em> davon reagiert hat,
-  gilt sie als verbraucht und wird nicht erneut verwendet. Beispiel: Bullish Order Block im Premium
-  wird angelaufen, Preis reagiert und tradet zurück ins Discount → OB ist "aufgebraucht".</li>
+<li>Eine PD Array ist <strong>einmalig nutzbar</strong> — Verbrauchsbedingung ist aber eine <strong>echte Reaktion</strong>,
+  nicht bloßer Kontakt: Sobald Preis hineingetradet ist <em>und</em> tatsächlich reagiert (umkehrt), gilt
+  sie als verbraucht und wird nicht erneut verwendet. Ein bloßer <strong>Stop-out</strong>, bevor eine solche
+  Reaktion stattfindet, zählt <strong>nicht</strong> als Reaktion — die Array bleibt gültig, ein erneuter Bruch
+  desselben Levels darf als Reentry genutzt werden (2026-Ergänzung, Whisper-Nachtrag:
+  <a href="../p/ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a>).
+  Beispiel: Bullish Order Block im Premium wird angelaufen, Preis reagiert und tradet zurück ins
+  Discount → OB ist "aufgebraucht"; wird die Position dagegen nur gestoppt, ohne dass Preis wirklich
+  reagiert, bleibt der OB gültig für ein erneutes Setup.</li>
 </ul>
 <figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 183.png" alt="image 183" loading="lazy"></figure>
 
 <p><em>Bullish OB wird angelaufen, Preis reagiert und tradet zurück ins Discount — die PD Array ist danach
-verbraucht.</em></p>
-<blockquote>
-<p><strong>Ausnahme (2026-Ergänzung, Whisper-Nachtrag)</strong>: ein bloßer <strong>Stop-out</strong> ist keine "echte Reaktion".
-Wird eine Position an einer PD Array gestoppt, bevor Preis tatsächlich in die erwartete Richtung
-reagiert, gilt die Array <strong>nicht als verbraucht</strong> — ein erneuter Bruch desselben Levels darf als
-Reentry genutzt werden. Quelle:
-<a href="../p/ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a>.</p>
-</blockquote>
+verbraucht. Ein bloßer Stop-out ohne echte Reaktion verbraucht sie dagegen nicht.</em></p>
 <ul>
 <li>Zielauswahl: Die <strong>Discount PD Array liegt immer einen Timeframe niedriger</strong> als das Premium-High,
   das sie bedient — als Target gilt immer der nächst-niedrigere Timeframe.</li>

@@ -547,3 +547,14 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
      tatsaechlich reagiert) verbraucht eine PD Array nicht -- Reentry am selben Level bleibt gueltig.
      Ergaenzung auf wiki/concepts/PD Array.md.
 - Seiten aktualisiert: wiki/sources/ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source).md, wiki/concepts/Signal-Following & Crowd Liquidity Risk.md, wiki/concepts/PD Array.md, wiki/index.md.
+
+## [2026-08-05] lint | Korrektur: PD Array las sich selbstwidersprüchlich
+- Nutzerhinweis: der Stop-out-Reentry-Zusatz von oben stand als separater "Ausnahme"-Blockquote
+  zwischen der Kernregel-Zeile und ihrer Bildunterschrift auf wiki/concepts/PD Array.md -- las sich
+  dadurch wie ein Widerspruch zur eingangs fett gesetzten Regel "einmalig nutzbar", obwohl beide
+  Aussagen inhaltlich vereinbar sind (Verbrauchsbedingung war immer schon "reagiert hat", nicht
+  bloss "hineingetradet").
+- Kein echter Quellen-Widerspruch (beide Fakten stammen letztlich aus derselben Videoserie), daher
+  keine ⚠️-Markierung noetig -- stattdessen zu einer einzigen zusammenhaengenden Regel
+  zusammengezogen, Bildunterschrift ergaenzt statt separatem Blockquote.
+- Seite aktualisiert: wiki/concepts/PD Array.md.

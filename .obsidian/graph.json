@@ -1,6 +1,6 @@
 {
   "collapse-filter": false,
-  "search": "moc",
+  "search": "pd array",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": false,
@@ -17,6 +17,6 @@
   "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 0.8236919923638265,
-  "close": true
+  "scale": 0.2711923296270763,
+  "close": false
 }

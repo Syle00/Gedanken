@@ -13,19 +13,19 @@ und praktisch jedes ICT-Modell.
 
 ## Kernregeln
 
-- Eine PD Array ist **einmalig nutzbar**: Sobald Price hineingetradet ist *und* davon reagiert hat,
-  gilt sie als verbraucht und wird nicht erneut verwendet. Beispiel: Bullish Order Block im Premium
-  wird angelaufen, Preis reagiert und tradet zurück ins Discount → OB ist "aufgebraucht".
+- Eine PD Array ist **einmalig nutzbar** — Verbrauchsbedingung ist aber eine **echte Reaktion**,
+  nicht bloßer Kontakt: Sobald Preis hineingetradet ist *und* tatsächlich reagiert (umkehrt), gilt
+  sie als verbraucht und wird nicht erneut verwendet. Ein bloßer **Stop-out**, bevor eine solche
+  Reaktion stattfindet, zählt **nicht** als Reaktion — die Array bleibt gültig, ein erneuter Bruch
+  desselben Levels darf als Reentry genutzt werden (2026-Ergänzung, Whisper-Nachtrag:
+  [[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]).
+  Beispiel: Bullish Order Block im Premium wird angelaufen, Preis reagiert und tradet zurück ins
+  Discount → OB ist "aufgebraucht"; wird die Position dagegen nur gestoppt, ohne dass Preis wirklich
+  reagiert, bleibt der OB gültig für ein erneutes Setup.
 
 ![[image 183.png]]
 *Bullish OB wird angelaufen, Preis reagiert und tradet zurück ins Discount — die PD Array ist danach
-verbraucht.*
-
-> **Ausnahme (2026-Ergänzung, Whisper-Nachtrag)**: ein bloßer **Stop-out** ist keine "echte Reaktion".
-> Wird eine Position an einer PD Array gestoppt, bevor Preis tatsächlich in die erwartete Richtung
-> reagiert, gilt die Array **nicht als verbraucht** — ein erneuter Bruch desselben Levels darf als
-> Reentry genutzt werden. Quelle:
-> [[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]].
+verbraucht. Ein bloßer Stop-out ohne echte Reaktion verbraucht sie dagegen nicht.*
 
 - Zielauswahl: Die **Discount PD Array liegt immer einen Timeframe niedriger** als das Premium-High,
   das sie bedient — als Target gilt immer der nächst-niedrigere Timeframe.

@@ -92,6 +92,7 @@
 <li><a href="#2026-08-05-setup-korrektur-risiko-regel-gilt-pro-trade-nicht-pro-tag">[2026-08-05] setup | Korrektur: Risiko-Regel gilt PRO TRADE, nicht pro Tag</a></li>
 <li><a href="#2026-08-05-synthesis-ensemble-backtest-ausgewertet-commission-modell-frisst-den-edge">[2026-08-05] synthesis | Ensemble-Backtest ausgewertet: Commission-Modell frisst den Edge</a></li>
 <li><a href="#2026-08-05-ingest-whisper-nachtrag-zu-ict-price-action-chronicles-moc-crushing-hfwqqelvrjw">[2026-08-05] ingest | Whisper-Nachtrag zu ICT Price Action Chronicles - MOC Crushing (HFWqQelvrJw)</a></li>
+<li><a href="#2026-08-05-lint-korrektur-pd-array-las-sich-selbstwiderspruchlich">[2026-08-05] lint | Korrektur: PD Array las sich selbstwidersprüchlich</a></li>
 </ul>
 </div>
 </details>
@@ -690,6 +691,18 @@
      tatsaechlich reagiert) verbraucht eine PD Array nicht -- Reentry am selben Level bleibt gueltig.
      Ergaenzung auf wiki/concepts/PD Array.md.</li>
 <li>Seiten aktualisiert: wiki/sources/ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source).md, wiki/concepts/Signal-Following &amp; Crowd Liquidity Risk.md, wiki/concepts/PD Array.md, wiki/index.md.</li>
+</ul>
+<h2 id="2026-08-05-lint-korrektur-pd-array-las-sich-selbstwiderspruchlich">[2026-08-05] lint | Korrektur: PD Array las sich selbstwidersprüchlich</h2>
+<ul>
+<li>Nutzerhinweis: der Stop-out-Reentry-Zusatz von oben stand als separater "Ausnahme"-Blockquote
+  zwischen der Kernregel-Zeile und ihrer Bildunterschrift auf wiki/concepts/PD Array.md -- las sich
+  dadurch wie ein Widerspruch zur eingangs fett gesetzten Regel "einmalig nutzbar", obwohl beide
+  Aussagen inhaltlich vereinbar sind (Verbrauchsbedingung war immer schon "reagiert hat", nicht
+  bloss "hineingetradet").</li>
+<li>Kein echter Quellen-Widerspruch (beide Fakten stammen letztlich aus derselben Videoserie), daher
+  keine ⚠️-Markierung noetig -- stattdessen zu einer einzigen zusammenhaengenden Regel
+  zusammengezogen, Bildunterschrift ergaenzt statt separatem Blockquote.</li>
+<li>Seite aktualisiert: wiki/concepts/PD Array.md.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
