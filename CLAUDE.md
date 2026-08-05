@@ -113,11 +113,38 @@ maschinenlokale Configs — siehe `.gitignore`.
 Build → `git add -A` → Commit → Push. Schlägt der Build fehl, entsteht kein Commit. Gibt es
 nichts zu committen, endet das Skript ohne Leer-Commit.
 
+## Kontinuierliches Wachstum (autonom, nicht nur beim Ingest)
+
+Das Wiki wächst **laufend, in jeder Session** — nicht nur bei explizitem "ingest" oder
+"importiere". Sobald während irgendeiner Aufgabe (Backtest, Debugging, Rückfrage, Korrektur
+des Nutzers, Recherche) eine neue Erkenntnis, Regel oder Verbindung entsteht, die über den
+aktuellen Chatverlauf hinaus Wert hat, wird sie **sofort** ins Wiki übernommen — nicht erst
+auf Nachfrage. Das gilt für neue Fakten genauso wie für Korrekturen bestehender Seiten.
+
+- **Rein logisch strukturiert**: neue Erkenntnisse landen an der Stelle, die die bestehende
+  Kategorie-Struktur (`concepts/`, `models/`, `sources/`, `synthesis/`, plus Domänen-eigene
+  Unterordner) vorsieht — kein loses Sammelbecken, keine Datei "Sonstiges" oder "Notizen". Passt
+  keine bestehende Seite, wird eine neue in der passenden Kategorie angelegt und in
+  `wiki/index.md` verlinkt, nach denselben Seitenkonventionen wie beim Ingest (Frontmatter,
+  Wikilinks, Widerspruchsmarkierung, Verlinkung mit verwandten Seiten).
+- Jede Erweiterung bekommt einen `wiki/log.md`-Eintrag (passender Typ, z.B. `synthesis`,
+  `query`, oder ein neuer treffender Typ), damit nachvollziehbar bleibt, wann und warum eine
+  Seite entstand oder sich änderte.
+- Push (`.\push.ps1`) bleibt weiterhin **manuell** — der Nutzer löst ihn selbst aus (siehe
+  Versionskontrolle). Autonom ist das *Schreiben* ins Wiki, nicht das Veröffentlichen.
+
 ## Operationen
 
 ### Ingest (neue Quelle verarbeiten)
 
-1. Quelle lesen (aus `raw/`).
+1. Quelle lesen (aus `raw/`) — **inklusive aller eingebetteten Bilder und PDFs**: jedes PNG/JPG
+   wird tatsächlich angesehen (das Read-Tool rendert Bilder visuell, nicht nur als Dateiname),
+   jede PDF-Seite gelesen. Text, Diagramme, Zahlen und Chart-Markierungen aus Bildern fließen
+   wörtlich bzw. sinngemäß ins Wiki ein, wenn sie inhaltlich relevant sind — Content steckt bei
+   vielen Notion-Exporten überwiegend in den Screenshots, nicht im Fließtext (siehe
+   `wiki/log.md`, Market-Maker-Primer-Nachtrag). Ist ein Bild nicht lesbar (zu unscharf,
+   abgeschnitten, reines Rauschen, Wasserzeichen-verdeckt): das **explizit sagen** ("ich kann
+   das nicht sehen") statt zu raten oder das Bild stillschweigend zu überspringen.
 2. Kernaussagen herausarbeiten (was ist neu, was wichtig, was widerspricht Bestehendem) — das wird
    **nicht vorab besprochen, sondern am Ende berichtet**.
 3. Seite unter `wiki/sources/<Quellname>.md` anlegen: Zusammenfassung, Kernpunkte, Zitate/Verweise auf `raw/`-Original.
@@ -183,7 +210,8 @@ mit einfachen Tools grep-bar bleibt:
 - Seiten aktualisiert: wiki/index.md
 ```
 
-Mögliche Typen: `ingest`, `query`, `lint`, `synthesis`.
+Mögliche Typen: `ingest`, `query`, `lint`, `synthesis`, `setup` (auch für autonome
+Wiki-Erweiterungen außerhalb eines formalen Ingest, siehe "Kontinuierliches Wachstum" oben).
 
 ## Domänenkontext: trading-ict
 

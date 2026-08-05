@@ -132,7 +132,10 @@ class EnsembleStrategy(Strategy):
             return
 
         size = _risk_size(self.equity, self.max_risk_pct, setup.entry, setup.stop)
-        size = min(size, int(self.equity * self.leverage / setup.entry))
+        # ponytail: 0.95-Puffer auf die Margin-Obergrenze -- die Order fuellt ggf. erst
+        # Bars spaeter zum Limit-Preis, exaktes Ausreizen der Margin liess den Broker die
+        # Order sonst gelegentlich stornieren (Rundungs-/Timing-Randfall)
+        size = min(size, int(self.equity * self.leverage * 0.95 / setup.entry))
         if size < 1:
             return  # 1%-Risiko-Budget oder Margin-Obergrenze ergibt 0 Kontrakte
 
