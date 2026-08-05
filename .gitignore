@@ -21,6 +21,8 @@ wiki/graphify-out/
 # --- Zugangsdaten ---
 # imgur Client-ID fuer den Screenshot-Upload. Gehoert nie ins Repo, auch nicht ins private.
 journal/.secrets.yaml
+# FRED-API-Key (stlouisfed.org). Gehoert nie ins Repo, auch nicht ins private.
+algo/.secrets.yaml
 
 # --- Python ---
 __pycache__/
