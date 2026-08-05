@@ -18,6 +18,7 @@ Aufruf:
     python algo/dashboard.py MNQ --days 10
     python algo/dashboard.py MNQ --daily                 # 1 Frame/Tag
     python algo/dashboard.py MNQ --daily --stress covid  # Stress-Fenster aus stress_test.py
+    python algo/dashboard.py MNQ --days 10 --save out.gif  # GIF statt Live-Fenster
 """
 from __future__ import annotations
 
@@ -157,7 +158,7 @@ def _test_reversal_timing() -> None:
     print("_test_reversal_timing: OK")
 
 
-def render(frames: list[dict], bias: dict, snapshot: dict) -> None:
+def render(frames: list[dict], bias: dict, snapshot: dict, save: str | None = None) -> None:
     fig, (ax_price, ax_equity, ax_dd, ax_text) = plt.subplots(
         4, 1, figsize=(11, 9), gridspec_kw={"height_ratios": [3, 2, 1, 1.5]})
     fig.suptitle("Ensemble-Backtest -- Live-Replay (Anschauung, keine offizielle Kennzahl)")
@@ -192,7 +193,13 @@ def render(frames: list[dict], bias: dict, snapshot: dict) -> None:
 
     anim = FuncAnimation(fig, draw, frames=len(frames), interval=30, repeat=False)
     plt.tight_layout()
-    plt.show()
+    if save:
+        # ponytail: kein Live-Fenster in dieser Umgebung (kein Desktop-Zugriff) -- GIF statt
+        # plt.show(), Framerate grob gedrosselt sonst wird die Datei bei vielen Frames riesig
+        anim.save(save, writer="pillow", fps=max(1, min(20, len(frames) // 5 or 1)))
+        print(f"gespeichert: {save}")
+    else:
+        plt.show()
     return anim
 
 
@@ -208,6 +215,8 @@ def main(argv=None) -> int:
     ap.add_argument("--stress", default=None, help="Fenstername aus stress_test.WINDOWS")
     ap.add_argument("--selftest", action="store_true",
                      help="nur den Reversal-Timing-Regressionscheck laufen lassen, kein Fenster")
+    ap.add_argument("--save", default=None,
+                     help="Animation als GIF speichern statt live anzuzeigen (z.B. out.gif)")
     a = ap.parse_args(args)
     sys.stdout.reconfigure(encoding="utf-8")
 
@@ -271,7 +280,7 @@ def main(argv=None) -> int:
     if not frames:
         print("Keine Bars im gewaehlten Zeitraum -- nichts zu zeigen.")
         return 1
-    render(frames, bias, snapshot)
+    render(frames, bias, snapshot, save=a.save)
     return 0
 
 
