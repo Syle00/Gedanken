@@ -60,6 +60,36 @@ def signal_turn_of_month(history: list[dict], target_day: date) -> float | None:
     return max(-1.0, min(1.0, 2 * (tom["window"]["bullish_pct"] / 100 - 0.5)))
 
 
+def signal_range_autocorr(history: list[dict]) -> float | None:
+    """Volatilitaets-Kontext-Feature, KEIN Richtungssignal: wie weit liegt die Range des
+    letzten Tages ueber/unter dem Median der letzten 20 Tage -- nutzt die bestaetigte
+    Range-Autokorrelation (r=0,305, n=146, siehe backtest_daily_patterns.py Punkt 2)."""
+    if len(history) < 21:
+        return None
+    recent = [r["range"] for r in history[-21:-1]]
+    med = statistics.median(recent)
+    if med == 0:
+        return 0.0
+    ratio = history[-1]["range"] / med - 1
+    return max(-1.0, min(1.0, ratio))
+
+
+def signal_direction_autocorr(history: list[dict]) -> float | None:
+    """Momentum-Signal aus der bedingten Wahrscheinlichkeit "bullish nach bullish"/"nach
+    bearish" (58,8%/51,5%, n=80/66, siehe backtest_daily_patterns.py Punkt 3) -- nutzt die
+    historische Bedingte-Wahrscheinlichkeit aus `history`, nicht eine feste Zahl, damit
+    sich das Signal mit mehr Daten anpasst."""
+    if len(history) < 15:
+        return None
+    last_bullish = history[-1]["bullish"]
+    pairs = list(zip(history[:-1], history[1:]))
+    same = [p[1]["bullish"] for p in pairs if p[0]["bullish"] == last_bullish]
+    if len(same) < 10:
+        return None
+    pct = sum(same) / len(same)
+    return max(-1.0, min(1.0, 2 * (pct - 0.5)))
+
+
 def _demo() -> None:
     hist = []
     for i in range(70):
@@ -77,7 +107,13 @@ def _demo() -> None:
     assert signal_weekday(hist, monday) == 1.0
     assert signal_weekday(hist, friday) == -1.0
     assert signal_weekday(hist[:5], monday) is None  # zu wenig Historie
-    print("signals calendar demo ok")
+    trending_up = [{"day": date(2026, 4, 1) + timedelta(days=i), "open": 100 + i,
+                     "close": 101 + i, "high": 102 + i, "low": 99 + i, "range": 3.0,
+                     "ret_pct": 1.0, "bullish": True} for i in range(21)]
+    assert signal_direction_autocorr(trending_up) == 1.0  # immer bullish nach bullish
+    assert signal_range_autocorr(trending_up) is not None
+    assert signal_range_autocorr(trending_up[:10]) is None  # zu wenig Historie
+    print("signals calendar+autocorr demo ok")
 
 
 if __name__ == "__main__":
