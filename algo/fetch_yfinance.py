@@ -60,11 +60,14 @@ def flatten(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def write_day(tf: str, day, rows: pd.DataFrame) -> Path | None:
+def symbol_prefix(symbol: str) -> str:
+    return symbol.split("=")[0]
+
+
+def write_day(symbol: str, tf: str, day, rows: pd.DataFrame) -> Path | None:
     dest = (DATA_DIR / f"{day:%Y}" / f"{day:%m}" / f"{day:%d.%m.%Y}"
-            / f"MNQ {day.isoformat()} {tf}.csv")
+            / f"{symbol_prefix(symbol)} {day.isoformat()} {tf}.csv")
     if dest.exists():
-        # raw/ ist unveraenderlich -- bestehende Exporte (z.B. von TradingView) nie ueberschreiben.
         print(f"  = {dest.relative_to(DATA_DIR)} existiert bereits, uebersprungen")
         return None
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -79,17 +82,17 @@ def write_day(tf: str, day, rows: pd.DataFrame) -> Path | None:
     return dest
 
 
-def download_interval(tf: str, start: str, end: str) -> pd.DataFrame:
+def download_interval(symbol: str, tf: str, start: str, end: str) -> pd.DataFrame:
     """Intraday-TFs (1m/5m/15m) in CHUNK_DAYS-Haeppchen anfragen (yfinance lehnt einen
     Request sonst komplett ab, wenn die Spanne aelter als sein Limit ist -- nicht nur
     den zu alten Teil); ein Chunk ausserhalb des jeweiligen Fensters liefert leer zurueck."""
     if tf not in CHUNK_DAYS:
-        return flatten(yf.download(SYMBOL, start=start, end=end, interval=tf, progress=False))
+        return flatten(yf.download(symbol, start=start, end=end, interval=tf, progress=False))
     cur, end_d = date.fromisoformat(start), date.fromisoformat(end)
     chunks = []
     while cur < end_d:
         nxt = min(cur + timedelta(days=CHUNK_DAYS[tf]), end_d)
-        df = flatten(yf.download(SYMBOL, start=cur.isoformat(), end=nxt.isoformat(),
+        df = flatten(yf.download(symbol, start=cur.isoformat(), end=nxt.isoformat(),
                                   interval=tf, progress=False))
         if not df.empty:
             chunks.append(df)
@@ -97,7 +100,7 @@ def download_interval(tf: str, start: str, end: str) -> pd.DataFrame:
     return pd.concat(chunks) if chunks else pd.DataFrame()
 
 
-def fetch(start: str, end: str) -> list[Path]:
+def fetch(start: str, end: str, symbol: str = SYMBOL) -> list[Path]:
     written = []
     hourly = None
     end_day = date.fromisoformat(end)
@@ -109,12 +112,12 @@ def fetch(start: str, end: str) -> list[Path]:
         # ueberschreibt nie, ein solcher Stumpf bliebe also dauerhaft in raw/ liegen.
         if day >= end_day:
             return
-        f = write_day(tf, day, rows)
+        f = write_day(symbol, tf, day, rows)
         if f:
             written.append(f)
 
     for tf in INTERVALS:
-        df = download_interval(tf, start, end)
+        df = download_interval(symbol, tf, start, end)
         if df.empty:
             print(f"  ! {tf}: keine Daten (yfinance-Limit fuer diesen Zeitraum?)")
             continue
@@ -139,14 +142,25 @@ def fetch(start: str, end: str) -> list[Path]:
 
 
 def main(argv=None) -> int:
-    args = argv if argv is not None else sys.argv[1:]
-    if len(args) != 2:
-        print("Nutzung: python algo/fetch_yfinance.py <start YYYY-MM-DD> <end YYYY-MM-DD (exklusiv)>")
-        return 1
-    files = fetch(*args)
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__,
+                                  formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("start")
+    ap.add_argument("end", help="exklusiv")
+    ap.add_argument("--symbol", default=SYMBOL)
+    a = ap.parse_args(argv)
+    files = fetch(a.start, a.end, a.symbol)
     print(f"{len(files)} Datei(en) geschrieben.")
     return 0
 
 
+def _demo() -> None:
+    assert symbol_prefix("MNQ=F") == "MNQ"
+    assert symbol_prefix("ES=F") == "ES"
+    assert symbol_prefix("NQ=F") == "NQ"
+    print("fetch_yfinance symbol_prefix demo ok")
+
+
 if __name__ == "__main__":
+    _demo()
     sys.exit(main())

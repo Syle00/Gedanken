@@ -32,9 +32,9 @@ WEEKDAY_NAMES = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
 OUT_PATH = Path(__file__).resolve().parent / "seasonal_tendency.json"
 
 
-def load_rows() -> list[dict]:
+def load_rows(symbol: str = "MNQ") -> list[dict]:
     rows = []
-    for day, path in find_1d_days():
+    for day, path in find_1d_days(symbol):
         bars = load(path)
         if not bars:
             continue

@@ -24,7 +24,7 @@ DATA_DIR = ROOT / "raw" / "marktdaten"
 WEEKDAY_NAMES = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
 
 
-def find_1d_days() -> list[tuple]:
+def find_1d_days(symbol: str = "MNQ") -> list[tuple]:
     out = []
     for day_dir in sorted(DATA_DIR.glob("*/*/*")):
         if not day_dir.is_dir():
@@ -33,7 +33,7 @@ def find_1d_days() -> list[tuple]:
             day = datetime.strptime(day_dir.name, "%d.%m.%Y").date()
         except ValueError:
             continue
-        files = list(day_dir.glob("* 1d.csv"))
+        files = list(day_dir.glob(f"{symbol} * 1d.csv"))
         if files:
             out.append((day, files[0]))
     return sorted(out)
