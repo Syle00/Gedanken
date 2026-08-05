@@ -53,8 +53,12 @@ def _active_window(day: date, when: datetime) -> tuple[str, datetime] | None:
     return None
 
 
-def plan_trade(bars: list[Bar], when: datetime) -> TradeSetup | None:
-    """Silver-Bullet-Setup zum Zeitpunkt `when`, oder None. Nur bars[t<=when] werden benutzt."""
+def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1) -> TradeSetup | None:
+    """Silver-Bullet-Setup zum Zeitpunkt `when`, oder None. Nur bars[t<=when] werden benutzt.
+
+    `stop_buffer_pct` (Anteil der FVG-Groesse als SL-Puffer) ist optimierbar/testbar --
+    siehe algo/backtest_walkforward.py (Parameter-Sensitivitaet, PLAN.md "Stop-Puffer
+    vergroessern/testen")."""
     win = _active_window(when.date(), when)
     if win is None:
         return None
@@ -71,7 +75,7 @@ def plan_trade(bars: list[Bar], when: datetime) -> TradeSetup | None:
 
     side = "long" if fvg["side"] == "bullish" else "short"
     entry = fvg["ce"]
-    buffer = 0.1 * fvg["size"]
+    buffer = stop_buffer_pct * fvg["size"]
     stop = fvg["lo"] - buffer if side == "long" else fvg["hi"] + buffer
 
     levels = untouched_levels(hist, CFG["swing"])

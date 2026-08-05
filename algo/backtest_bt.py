@@ -49,6 +49,10 @@ def load_series(symbol: str | None) -> pd.DataFrame:
 
 
 class SilverBulletStrategy(Strategy):
+    # Klassen-Attribut statt Konstante, damit bt.optimize() es variieren kann
+    # (siehe algo/backtest_walkforward.py).
+    stop_buffer_pct = 0.1
+
     def init(self):
         self._taken: set[tuple] = set()  # (Tag, Fenstername) -- ein Versuch pro Fenster/Tag
 
@@ -59,7 +63,7 @@ class SilverBulletStrategy(Strategy):
         hist = [Bar(t, o, h, l, c) for t, o, h, l, c in
                 zip(self.data.index, self.data.Open, self.data.High,
                     self.data.Low, self.data.Close)]
-        setup = plan_trade(hist, when)
+        setup = plan_trade(hist, when, stop_buffer_pct=self.stop_buffer_pct)
         if setup is None:
             return
         key = (setup.t.date(), setup.window)
