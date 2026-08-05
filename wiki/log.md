@@ -525,3 +525,25 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - **Hauptbefund**: Netto-Verlust (-885,67$) + Commissions (19.757$) = brutto ca. +18.870$ (+18,9%) -- die Kommissionen fressen praktisch den gesamten Edge auf. `BT_KWARGS = dict(commission=0.0002)` (backtest_walkforward.py, validate_ensemble.py, stress_test.py, backtest_bt.py) rechnet Prozent-vom-Notional statt Futures-Fixbetrag/Kontrakt (real MNQ ca. 0,50-1,50$ Roundtrip) -- bei 12-70 Kontrakten Positionsgroesse und dem neuen Partial-Taking (3 statt 2 Commission-Events/Trade) verzerrt das massiv.
 - Seite erstellt: wiki/synthesis/Ensemble-Strategie — Backtest-Ergebnis & Commission-Verzerrung (laufend).md -- inkl. Warnung vor Ueberinterpretation (n=34, reiner In-Sample-Lauf, kein Walk-Forward), Liste bereits widerlegter Ansaetze (Basis-Silver-Bullet, TGIF, NWOG, Rundzahl-Magnetismus) und bereits im Bias-Modell enthaltener Signale (Montags-Effekt, Range-Autokorrelation -- nicht doppelt vorschlagen), sowie priorisierte naechste Schritte (Commission-Fix zuerst, dann Walk-Forward fuer die aktuelle Regelmenge, Stress-Test-Ergebnisse auswerten, Partial-Portion/Mindestziel sensitivitaetstesten).
 - Seiten aktualisiert: wiki/index.md.
+
+## [2026-08-05] ingest | Whisper-Nachtrag zu ICT Price Action Chronicles - MOC Crushing (HFWqQelvrJw)
+- Nutzerauftrag: die im vorherigen Batch entdeckte, bereits fertige Whisper-Volltranskription
+  (raw/trading-ict/2026/yt-HFWqQelvrJw-audio.txt, Hintergrund-Job aus einer frueheren Session)
+  einarbeiten, um die dort vermerkte Luecke im Quellenmaterial zu schliessen.
+- Ergebnis der Pruefung: die Whisper-Transkription deckt inhaltlich dieselbe Analyse ab, die bereits
+  ueber die Auto-Captions dokumentiert war (identische Zahlen 7.786,00/7.761,75/7.761,25), und geht
+  danach in Halluzinations-Text ("You" x25) ueber -- ein typisches Whisper-Artefakt bei Stille auf
+  der Tonspur. Das bestaetigt (statt nur zu vermuten) ICTs eigene Aussage, der fehlende Rest sei die
+  stumme Trade-Recording-Wiederholung ohne neue Regeln. Luecke auf der Source-Seite von "nicht
+  verifiziert" auf "verifiziert geschlossen" umgestellt.
+- 2 genuin neue Inhalte in der Whisper-Spur gefunden (in den Auto-Captions nicht enthalten, da diese
+  schon vorher abbrachen):
+  1. Konkrete Mechanik hinter dem Signal-Following-Risiko (Spread-Widening, gezielte Mini-Runs auf
+     bekannte Level, "schon 0,25% der Reichweite reicht") und der regulatorische Hintergrund
+     (CFTC-Kontakt in den 1990ern wegen unlizenzierter Trade-Empfehlungen -- Grund, warum ICT
+     grundsaetzlich keine direkten Signale gibt). Eingearbeitet in
+     wiki/concepts/Signal-Following & Crowd Liquidity Risk.md.
+  2. Praezisierung zur PD-Array-Wiederverwendbarkeit: ein blosser Stop-out (ohne dass Preis
+     tatsaechlich reagiert) verbraucht eine PD Array nicht -- Reentry am selben Level bleibt gueltig.
+     Ergaenzung auf wiki/concepts/PD Array.md.
+- Seiten aktualisiert: wiki/sources/ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source).md, wiki/concepts/Signal-Following & Crowd Liquidity Risk.md, wiki/concepts/PD Array.md, wiki/index.md.

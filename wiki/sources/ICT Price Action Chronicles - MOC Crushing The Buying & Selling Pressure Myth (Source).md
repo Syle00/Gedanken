@@ -2,6 +2,7 @@
 tags: [source, ict, trading-ict, 2026, youtube, moc, order-flow]
 created: 2026-08-05
 updated: 2026-08-05
+raw_audio_transcript: "raw/trading-ict/2026/yt-HFWqQelvrJw-audio.txt"
 sources: []
 ---
 
@@ -12,9 +13,16 @@ Quelle: https://www.youtube.com/watch?v=HFWqQelvrJw
 
 > Transkript liegt unter `raw/trading-ict/2026/yt-HFWqQelvrJw-transcript.md` (automatisch generierte
 > YouTube-Untertitel, per `youtube-transcript-api` gezogen). Deckt nur die ersten **~39 von 52
-> Minuten** ab — die Auto-Captions brechen danach ab (kein Whisper-Fallback genutzt, siehe
-> `wiki/log.md`). Der fehlende Teil ist laut ICT die **Trade-Recording-Wiederholung** derselben
-> Execution, keine neuen Regeln — inhaltlich also vermutlich keine Lücke, aber nicht verifiziert.
+> Minuten** ab — die Auto-Captions brechen danach ab.
+>
+> ✅ **2026-08-05 nachgetragen**: zusätzlich liegt jetzt eine vollständige Whisper-Transkription der
+> Audiospur unter `raw/trading-ict/2026/yt-HFWqQelvrJw-audio.txt` vor (Hintergrund-Job aus einer
+> früheren Session). Sie deckt inhaltlich dieselbe Analyse noch einmal ab (identische Zahlen: Entry
+> 7.786,00, Ziel 7.761,75, Tagestief 7.761,25) und endet danach in Whisper-Halluzinationen
+> ("You You You…") statt in echtem Text — ein typisches Anzeichen für **Stille auf der Tonspur**.
+> Das bestätigt (statt nur zu vermuten) ICTs eigene Aussage: der fehlende Teil ist die stumme
+> Trade-Recording-Wiederholung ohne Kommentar, keine neuen Regeln. Die Lücke ist damit **verifiziert
+> geschlossen**, nicht nur angenommen.
 
 Review am Vortages-Schluss (Dienstag, 2026-08-04, RTH) am **E-Mini S&P (ES)** — ICT betont explizit,
 dass das Setup **nicht NASDAQ-exklusiv** ist, sondern genauso auf ES funktioniert.
@@ -35,8 +43,12 @@ dass das Setup **nicht NASDAQ-exklusiv** ist, sondern genauso auf ES funktionier
 - **Konkretes Zahlenbeispiel (ES)**: Short-Entry um **7.786,00**, projiziertes 16tel-Level bei
   **7.761,75**, tatsächliches Tagestief **7.761,25** — Abweichung **2 Ticks**.
 - **Signal-Following-Risiko**: warum ICT öffentlich keine Live-Signale/Stop-Losse mehr teilt (Crowd
-  sucht dieselbe Liquidität, eigene Orders werden zur Zielscheibe) — neue Konzept-Seite
-  [[Signal-Following & Crowd Liquidity Risk]].
+  sucht dieselbe Liquidität, eigene Orders werden zur Zielscheibe) — Konzept-Seite
+  [[Signal-Following & Crowd Liquidity Risk]], per Whisper-Nachtrag um die konkrete Mechanik
+  (manuelle Intervention, CFTC-Hintergrund) erweitert.
+- **PD-Array-Reentry nach Stop-out** (Whisper-Nachtrag): wird eine Position gestoppt, bevor die PD
+  Array eine echte Reaktion zeigt, gilt sie **nicht als verbraucht** — ein erneuter Bruch desselben
+  Levels darf als Reentry-Signal genutzt werden. Präzisierung auf [[PD Array]].
 - **Journaling-Haltung**: Journal muss nicht erschöpfend sein, nur was für den eigenen Wissensstand
   gerade salient ist — Ergänzung auf [[Trading Journal & DOL Checklist]].
 - Operator-Fehler vs. Konzept-Fehler: schlägt ein Setup fehl, liegt das (laut ICT) fast immer an
@@ -44,9 +56,12 @@ dass das Setup **nicht NASDAQ-exklusiv** ist, sondern genauso auf ES funktionier
 
 ## Bewusst ausgefiltert (nicht trading-relevant)
 
-Große Teile des Transkripts sind Meta-Kommentar (Kritik an Kritikern, CFTC-Anekdote aus den 90ern,
-Bemerkungen zu früherer Mentorship/Paywall-Community, Humor/Ansprache ans Publikum). Diese Abschnitte
-wurden für die Wiki-Verdichtung bewusst nicht übernommen — sie enthalten keine Handelsregeln.
+Große Teile des Transkripts sind Meta-Kommentar (Kritik an Kritikern, Bemerkungen zu früherer
+Mentorship/Paywall-Community, Humor/Ansprache ans Publikum, Geburtstags-Anekdote). Diese Abschnitte
+wurden für die Wiki-Verdichtung bewusst nicht übernommen — sie enthalten keine Handelsregeln. Die
+**CFTC-Anekdote** (regulatorischer Grund, warum ICT keine direkten Trade-Signale gibt) ist die
+Ausnahme: die wurde übernommen, siehe [[Signal-Following & Crowd Liquidity Risk]] — sie erklärt
+*warum* eine Handelsregel (keine Live-Signale) überhaupt existiert.
 
 ## Verwandt
 

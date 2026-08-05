@@ -98,6 +98,8 @@
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#die-mechanik">Die Mechanik</a></li>
+<li><a href="#konkrete-mechanik-manuelle-intervention-whisper-nachtrag">Konkrete Mechanik: manuelle Intervention (Whisper-Nachtrag)</a></li>
+<li><a href="#regulatorischer-hintergrund-cftc-whisper-nachtrag">Regulatorischer Hintergrund (CFTC, Whisper-Nachtrag)</a></li>
 <li><a href="#praktische-konsequenz">Praktische Konsequenz</a></li>
 <li><a href="#operator-fehler-vs-konzept-fehler">Operator-Fehler vs. Konzept-Fehler</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
@@ -124,11 +126,35 @@ von der Qualität des zugrundeliegenden Konzepts.</p>
 <p><strong>Diminishing Return</strong>: je größer die Followerschaft, desto geringer der Nutzen, live zu
 signalisieren — ab einem gewissen Punkt ist es reiner Nachteil.</p>
 </blockquote>
+<h2 id="konkrete-mechanik-manuelle-intervention-whisper-nachtrag">Konkrete Mechanik: manuelle Intervention (Whisper-Nachtrag)</h2>
+<p>Aus der vollständigen Audiospur (siehe Quelle) präzisiert ICT, <strong>wie</strong> ein öffentlich geteiltes Level
+gezielt angreifbar wird — kein diffuses Marktrisiko, sondern konkrete Mechanismen:</p>
+<ul>
+<li><strong>Spread-Widening</strong>: kurzzeitig wird der Spread über einer bekannten, dicht gedrängten
+  Liquiditätszone verbreitert.</li>
+<li><strong>Gezielte Mini-Runs</strong>: kurze, kleine Preisläufe genau bis knapp über/unter das bekannte Level,
+  um dort geparkte Limit-Orders zu triggern, bevor der Preis wieder zurückdreht — beschrieben am
+  eigenen Beispiel: eine eigene Partial-Limit-Order wirkte, als hätte sie "gerade eben" gefüllt,
+  bevor der Preis sofort zurückdrehte.</li>
+<li><strong>Bereits kleine Beteiligung reicht</strong>: ICT schätzt, dass schon <strong>ein Bruchteil eines Prozents</strong>
+  seiner Reichweite (er nennt als Beispiel ein Viertel Prozent), der auf ein geteiltes Level Orders
+  legt, genug konzentrierte, sichtbare Liquidität erzeugt, um sie manuell angreifbar zu machen —
+  das Prinzip gilt genauso für kleinere Discord-/Signal-Service-Betreiber mit wenigen hundert
+  Followern.</li>
+</ul>
+<h2 id="regulatorischer-hintergrund-cftc-whisper-nachtrag">Regulatorischer Hintergrund (CFTC, Whisper-Nachtrag)</h2>
+<p>ICT nennt explizit den Grund, warum er grundsätzlich <strong>keine direkten Handelsempfehlungen</strong> gibt,
+sondern nur Preis-Analyse lehrt: die <strong>Commodity Futures Trading Commission (CFTC)</strong> kontaktierte
+ihn in den 1990ern, weil er ohne entsprechende Lizenz öffentlich Trade-Meinungen geäußert hatte. Seit
+diesem Vorfall trennt er strikt zwischen "Ich zeige/erkläre Preisverhalten" (erlaubt) und "Ich sage
+dir, wann du einsteigen sollst" (vermieden) — deckt sich mit dem bestehenden Grundsatz "du gehst nie
+in einen Trade, weil ich es dir sage" unten.</p>
 <h2 id="praktische-konsequenz">Praktische Konsequenz</h2>
 <ul>
 <li><strong>Analyse privat halten</strong>, nicht öffentlich Entries/Stops/Targets in Echtzeit teilen.</li>
-<li>Wird ein Stop einmal gesetzt, <strong>nicht mehr nachziehen</strong>, nachdem die Position offen ist — Disziplin
-  schlägt Reaktion auf kurzfristiges Noise.</li>
+<li>Wird ein Stop einmal gesetzt bzw. nachgezogen, <strong>nicht mehr zurückändern</strong>, nachdem die Position
+  offen ist — Disziplin schlägt Reaktion auf kurzfristiges Noise, auch wenn der bereits nachgezogene
+  Stop danach getroffen wird.</li>
 <li>Bei geteilten Signalen mit vielen Followern: <strong>nicht jeder bekommt eine Füllung</strong> zum selben Preis
   — reine Marktmechanik (begrenzte Liquidität an einem Preis), kein Bug.</li>
 </ul>

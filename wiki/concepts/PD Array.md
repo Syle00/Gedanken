@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[Blending IPDA Data Ranges & PD Arrays (Source)]]"]
+updated: 2026-08-05
+sources: ["[[Blending IPDA Data Ranges & PD Arrays (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
 ---
 
 # PD Array
@@ -20,6 +20,12 @@ und praktisch jedes ICT-Modell.
 ![[image 183.png]]
 *Bullish OB wird angelaufen, Preis reagiert und tradet zurück ins Discount — die PD Array ist danach
 verbraucht.*
+
+> **Ausnahme (2026-Ergänzung, Whisper-Nachtrag)**: ein bloßer **Stop-out** ist keine "echte Reaktion".
+> Wird eine Position an einer PD Array gestoppt, bevor Preis tatsächlich in die erwartete Richtung
+> reagiert, gilt die Array **nicht als verbraucht** — ein erneuter Bruch desselben Levels darf als
+> Reentry genutzt werden. Quelle:
+> [[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]].
 
 - Zielauswahl: Die **Discount PD Array liegt immer einen Timeframe niedriger** als das Premium-High,
   das sie bedient — als Target gilt immer der nächst-niedrigere Timeframe.
