@@ -876,3 +876,26 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   wiki/concepts/Trendline Phantoms (3 Drives Pattern).md, wiki/concepts/Order Block.md,
   wiki/concepts/Buy & Sell Program.md, wiki/concepts/Open Float & Liquidity Pools.md,
   wiki/models/Three Timeframe Framing.md
+
+## [2026-08-06] ingest | rtIcbG6twrI + bz4QNPcpmWE (offen, IP-Block)
+- Auftrag: `/yt-ict-ingest` fuer zwei konkret genannte Videos — `rtIcbG6twrI` (13.07.2026, "How To
+  Probe Low Probability RTH Opening Ranges", ~51 Min) und `bz4QNPcpmWE` (14.07.2026, "Part 2 - How
+  To Probe Low Probability RTH Opening Ranges", ~15 Min, selber Trading-Tag, Teil 2). Beide noch
+  nicht ingested, Metadaten via `yt-dlp` geprueft.
+- **Abbruchgrund**: `youtube_transcript_api._errors.IpBlocked` bei beiden Videos — derselbe
+  IP-Block auf dem lokalen Rechner wie beim Month-05-Abbruch oben, weiterhin aktiv. Keine
+  raw/wiki-Dateien angelegt (kein Content vorhanden, nichts erfunden).
+- **Skill erweitert**: `.claude/skills/yt-ict-ingest/SKILL.md` bekommt einen expliziten
+  `IpBlocked`-Abschnitt — bei diesem Fehler den Batch sofort abbrechen (nicht pro Video retryen,
+  das verlaengert den Block nur), verbleibende Videos im Bericht als "nicht versucht" auflisten.
+- **Automatischer Check-Versuch gescheitert**: eine einmalige Cloud-Routine (fuer 2026-08-07,
+  07:00 UTC) sollte pruefen, ob wenigstens die Cloud-Sandbox-IP frei ist, und bei Erfolg den
+  kompletten Ingest inkl. manuellem Publish-Ersatz fuer `push.ps1` (das Skript ist PowerShell-only,
+  laeuft nicht in der Linux-Sandbox) durchziehen. Anlage schlug fehl: claude.ai hat keinen
+  verbundenen GitHub-Account fuer Cloud-Routinen ("Connect your GitHub account before saving a
+  routine..."). Nutzer muesste `/web-setup` ausfuehren, danach kann die Routine nachtraeglich
+  angelegt werden.
+- **Fuer den naechsten Anlauf**: lokal `python tools/fetch_yt_transcript.py rtIcbG6twrI` erneut
+  versuchen, sobald der Block vermutlich abgelaufen ist; bei Erfolg regulaerem `/yt-ict-ingest`-Skill
+  folgen (inkl. `push.ps1`). Alternativ nach `/web-setup` die Cloud-Routine wie oben beschrieben
+  neu anlegen.

@@ -104,6 +104,7 @@
 <li><a href="#2026-08-06-ingest-youtube-ict-price-action-chronicles-the-science-of-anticipation-in-price-action">[2026-08-06] ingest | YouTube: ICT Price Action Chronicles - The Science Of Anticipation In Price Action</a></li>
 <li><a href="#2026-08-06-setup-youtube-quellenseiten-in-eigenen-ordner-ausgelagert">[2026-08-06] setup | YouTube-Quellenseiten in eigenen Ordner ausgelagert</a></li>
 <li><a href="#2026-08-06-ingest-core-content-playlist-batch-month-01-12-115-videos-zweiter-anlauf-erneut-abgebrochen">[2026-08-06] ingest | Core-Content-Playlist-Batch (Month 01-12, ~115 Videos) — zweiter Anlauf, erneut abgebrochen</a></li>
+<li><a href="#2026-08-06-ingest-rticbg6twri-bz4qnpcpmwe-offen-ip-block">[2026-08-06] ingest | rtIcbG6twrI + bz4QNPcpmWE (offen, IP-Block)</a></li>
 </ul>
 </div>
 </details>
@@ -1042,6 +1043,30 @@
   wiki/concepts/Trendline Phantoms (3 Drives Pattern).md, wiki/concepts/Order Block.md,
   wiki/concepts/Buy &amp; Sell Program.md, wiki/concepts/Open Float &amp; Liquidity Pools.md,
   wiki/models/Three Timeframe Framing.md</li>
+</ul>
+<h2 id="2026-08-06-ingest-rticbg6twri-bz4qnpcpmwe-offen-ip-block">[2026-08-06] ingest | rtIcbG6twrI + bz4QNPcpmWE (offen, IP-Block)</h2>
+<ul>
+<li>Auftrag: <code>/yt-ict-ingest</code> fuer zwei konkret genannte Videos — <code>rtIcbG6twrI</code> (13.07.2026, "How To
+  Probe Low Probability RTH Opening Ranges", ~51 Min) und <code>bz4QNPcpmWE</code> (14.07.2026, "Part 2 - How
+  To Probe Low Probability RTH Opening Ranges", ~15 Min, selber Trading-Tag, Teil 2). Beide noch
+  nicht ingested, Metadaten via <code>yt-dlp</code> geprueft.</li>
+<li><strong>Abbruchgrund</strong>: <code>youtube_transcript_api._errors.IpBlocked</code> bei beiden Videos — derselbe
+  IP-Block auf dem lokalen Rechner wie beim Month-05-Abbruch oben, weiterhin aktiv. Keine
+  raw/wiki-Dateien angelegt (kein Content vorhanden, nichts erfunden).</li>
+<li><strong>Skill erweitert</strong>: <code>.claude/skills/yt-ict-ingest/SKILL.md</code> bekommt einen expliziten
+  <code>IpBlocked</code>-Abschnitt — bei diesem Fehler den Batch sofort abbrechen (nicht pro Video retryen,
+  das verlaengert den Block nur), verbleibende Videos im Bericht als "nicht versucht" auflisten.</li>
+<li><strong>Automatischer Check-Versuch gescheitert</strong>: eine einmalige Cloud-Routine (fuer 2026-08-07,
+  07:00 UTC) sollte pruefen, ob wenigstens die Cloud-Sandbox-IP frei ist, und bei Erfolg den
+  kompletten Ingest inkl. manuellem Publish-Ersatz fuer <code>push.ps1</code> (das Skript ist PowerShell-only,
+  laeuft nicht in der Linux-Sandbox) durchziehen. Anlage schlug fehl: claude.ai hat keinen
+  verbundenen GitHub-Account fuer Cloud-Routinen ("Connect your GitHub account before saving a
+  routine..."). Nutzer muesste <code>/web-setup</code> ausfuehren, danach kann die Routine nachtraeglich
+  angelegt werden.</li>
+<li><strong>Fuer den naechsten Anlauf</strong>: lokal <code>python tools/fetch_yt_transcript.py rtIcbG6twrI</code> erneut
+  versuchen, sobald der Block vermutlich abgelaufen ist; bei Erfolg regulaerem <code>/yt-ict-ingest</code>-Skill
+  folgen (inkl. <code>push.ps1</code>). Alternativ nach <code>/web-setup</code> die Cloud-Routine wie oben beschrieben
+  neu anlegen.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

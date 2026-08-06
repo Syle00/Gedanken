@@ -30,6 +30,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from backtest_ohlc import find_days  # noqa: E402
 from analyze_ohlc import Bar, load  # noqa: E402
 from rules import plan_trade  # noqa: E402
+from pnl import risk_size, POINT_VALUE, real_pnl, flag_dubious, dubious_pct  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -50,6 +51,8 @@ class SilverBulletStrategy(Strategy):
     # Klassen-Attribut statt Konstante, damit bt.optimize() es variieren kann
     # (siehe algo/backtest_walkforward.py).
     stop_buffer_pct = 0.1
+    max_risk_pct = 0.01        # Nutzerregel, siehe wiki/concepts/Risikomanagement (1% pro Trade).md
+    point_value = POINT_VALUE["MNQ"]
 
     def init(self):
         self._taken: set[tuple] = set()  # (Tag, Fenstername) -- ein Versuch pro Fenster/Tag
@@ -67,11 +70,14 @@ class SilverBulletStrategy(Strategy):
         key = (setup.t.date(), setup.window)
         if key in self._taken:
             return
+        size = risk_size(self.equity, self.max_risk_pct, setup.entry, setup.stop, self.point_value)
+        if size < 1:
+            return  # 1%-Risiko-Budget reicht bei diesem Stop-Abstand fuer keinen Kontrakt
         self._taken.add(key)
         if setup.side == "long":
-            self.buy(limit=setup.entry, sl=setup.stop, tp=setup.target)
+            self.buy(size=size, limit=setup.entry, sl=setup.stop, tp=setup.target)
         else:
-            self.sell(limit=setup.entry, sl=setup.stop, tp=setup.target)
+            self.sell(size=size, limit=setup.entry, sl=setup.stop, tp=setup.target)
 
 
 def main(argv=None):
@@ -91,6 +97,12 @@ def main(argv=None):
     print(stats)
     print()
     print(stats._trades)
+
+    trades = flag_dubious(stats._trades)
+    trades = real_pnl(trades, "MNQ")
+    print(f"\nEchte $-P&L (MNQ, ${POINT_VALUE['MNQ']:.0f}/Punkt): "
+          f"{trades['RealPnL_USD'].sum():+.2f} USD  "
+          f"(mehrdeutige Trades: {dubious_pct(trades):.1f}%, konservativ als Verlust gewertet)")
 
     if a.plot:
         out = ROOT / "algo" / "backtest_bt.html"
