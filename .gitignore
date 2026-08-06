@@ -33,6 +33,9 @@ __pycache__/
 # Konsolen-Mitschnitt (Progress-Bars) eines Hintergrundlaufs, keine Historie wert --
 # Ergebnisse werden nach Abschluss in algo/PLAN.md verdichtet.
 algo/walkforward_result.txt
+# Debug-Redirects von Testlaeufen im Repo-Root (z.B. "python ... > out.log"), versehentlich
+# committet waehrend des 2026-08-06-Praezisions-Audits -- keine Historie wert.
+/*.log
 
 # --- OS ---
 Thumbs.db
