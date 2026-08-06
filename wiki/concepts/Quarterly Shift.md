@@ -66,10 +66,18 @@ erst, nachdem das alte High genommen wurde.*
 *Nach dem Sweep eines Shortterm-Highs wird nicht einmal ein neues High geschaffen — Hinweis auf
 einen bevorstehenden Shift.*
 
+## Anwendung auf Zinsen/DXY (2016er Video-Ergänzung)
+
+[[Macro Economic To Micro Technical (Source)]] wendet dieselbe 3–4-Monats-Kadenz auf die
+Bonds/DXY-Beziehung an: alle 3–4 Monate zeigt der 30-Year-Bond-Futures (bzw. eine 10Y-vs-30Y-SMT-
+Divergenz) einen Wechsel im Zinstrend, der 1–2 Wochen später im DXY und den major FX-Paaren sichtbar
+wird. Siehe [[SMT (Smart Money Divergence)]] für die Mechanik.
+
 ## Verwandt
 
 - [[Open Float & Liquidity Pools]]
 - [[IPDA Data Ranges]]
 - [[One Shot One Kill Model]]
+- [[SMT (Smart Money Divergence)]]
 - [[Buy & Sell Program]] — Underlying/Benchmark-Divergenz als eigenständige Methode, ein laufendes
   Akkumulations-/Distributionsprogramm um einen Quarterly Shift herum zu erkennen
