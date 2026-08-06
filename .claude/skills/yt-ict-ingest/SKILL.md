@@ -46,6 +46,14 @@ transcript. Note the video as skipped in the batch report/log with the reason. A
 would need `ffmpeg` on PATH — check with `where ffmpeg` / `ffmpeg -version` first; if missing,
 report that instead of attempting it silently.
 
+**If it fails with `youtube_transcript_api._errors.IpBlocked`**: this is an IP-level ban, not a
+per-video issue — retrying the same or a different video will not help and risks prolonging the
+ban. **Stop the batch immediately after the first occurrence** — do not attempt the remaining
+videos "just in case." Report to the user which video(s) never got attempted because of the abort,
+so nothing is silently skipped. Do not fabricate a transcript and do not write a `raw/` or
+`wiki/`-page for the failed video. If the user wants a later retry checked automatically, use the
+`schedule` skill for a one-time future run of this same ingest rather than looping/retrying inline.
+
 ## 3. Filter to trading-relevant content ("meine Regeln")
 
 ICT's videos mix genuinely new trading rules with a large amount of non-trading content. Read the
