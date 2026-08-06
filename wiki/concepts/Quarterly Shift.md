@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-02
+updated: 2026-08-06
 sources: ["[[Open Float (Source)]]", "[[Quarterly Shifts & IPDA Data Ranges (Source)]]"]
 ---
 
@@ -19,6 +19,9 @@ Rahmen einer Makroanalyse.
 - Marker werden nach Trading-Monaten gesetzt: liegt ein Shift z.B. im November, geht man einen
   vollen Trading-Monat zurück auf den 1. Oktober als ersten Marker und arbeitet von dort chronologisch
   vorwärts.
+- **Präzise Marker-Regel** (Begleitvideo zu [[Quarterly Shifts & IPDA Data Ranges (Source)]]): der
+  Marker sitzt auf dem ersten Handelstag des **zuletzt vollständig abgeschlossenen Kalendermonats** —
+  nicht auf dem laufenden Monat. Analyse im November → Marker auf den 1. Oktober.
 
 ![[image 49.png]]
 *USDX Daily über ein Jahr ausgemalt: alle ca. 4 Monate ein markanter Shift.*
@@ -29,6 +32,19 @@ Rahmen einer Makroanalyse.
 ![[image 52.png]]
 *Lookback-Beispiel: anhaltend bullisher Kontext trotz Shift — Liquidität liegt weiterhin unter der
 Sellside.*
+
+## Cast Forward (Vorwärts-Projektion)
+
+Nach dem Lookback (60/40/20 Handelstage zurück vom Marker, siehe [[IPDA Data Ranges]]) wird
+symmetrisch nach vorne projiziert:
+
+- 20/40/60 Handelstage **rechts** vom Marker markieren das Zeitfenster, in dem der nächste
+  Quarterly Shift erwartet wird — die Summe aus bereits verstrichener Zeit seit dem letzten Shift
+  und der Projektion bleibt bei ~60 Handelstagen. Lag der letzte Shift schon 40 Tage zurück, wird
+  nur noch 20 Tage weiter projiziert.
+- Praxisbeleg (USDX/EURUSD, Marker 1.12.2015): das nächste bedeutende Hoch im EURUSD fiel exakt auf
+  die 60-Tage-Cast-Forward-Marke — die Fenster taugen also nicht nur rückwärts (Liquiditätssuche),
+  sondern auch vorwärts zur Zeitprognose des nächsten Shifts.
 
 ## Shift-Timing erkennen
 
@@ -55,3 +71,5 @@ einen bevorstehenden Shift.*
 - [[Open Float & Liquidity Pools]]
 - [[IPDA Data Ranges]]
 - [[One Shot One Kill Model]]
+- [[Buy & Sell Program]] — Underlying/Benchmark-Divergenz als eigenständige Methode, ein laufendes
+  Akkumulations-/Distributionsprogramm um einen Quarterly Shift herum zu erkennen

@@ -108,10 +108,11 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Quarterly Shift</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/open-float-source.html">Open Float (Source)</a>, <a href="../p/quarterly-shifts-ipda-data-ranges-source.html">Quarterly Shifts &amp; IPDA Data Ranges (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-06</div><div class="srcline"><span>Quellen:</span> <a href="../p/open-float-source.html">Open Float (Source)</a>, <a href="../p/quarterly-shifts-ipda-data-ranges-source.html">Quarterly Shifts &amp; IPDA Data Ranges (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#terminologie-marker-methodik">Terminologie &amp; Marker-Methodik</a></li>
+<li><a href="#cast-forward-vorwarts-projektion">Cast Forward (Vorwärts-Projektion)</a></li>
 <li><a href="#shift-timing-erkennen">Shift-Timing erkennen</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -129,6 +130,9 @@ Rahmen einer Makroanalyse.</p>
 <li>Marker werden nach Trading-Monaten gesetzt: liegt ein Shift z.B. im November, geht man einen
   vollen Trading-Monat zurück auf den 1. Oktober als ersten Marker und arbeitet von dort chronologisch
   vorwärts.</li>
+<li><strong>Präzise Marker-Regel</strong> (Begleitvideo zu <a href="../p/quarterly-shifts-ipda-data-ranges-source.html">Quarterly Shifts &amp; IPDA Data Ranges (Source)</a>): der
+  Marker sitzt auf dem ersten Handelstag des <strong>zuletzt vollständig abgeschlossenen Kalendermonats</strong> —
+  nicht auf dem laufenden Monat. Analyse im November → Marker auf den 1. Oktober.</li>
 </ul>
 <figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 49.png" alt="image 49" loading="lazy"><figcaption>USDX Daily über ein Jahr ausgemalt: alle ca. 4 Monate ein markanter Shift.</figcaption></figure>
 
@@ -140,6 +144,18 @@ Rahmen einer Makroanalyse.</p>
 
 <p><em>Lookback-Beispiel: anhaltend bullisher Kontext trotz Shift — Liquidität liegt weiterhin unter der
 Sellside.</em></p>
+<h2 id="cast-forward-vorwarts-projektion">Cast Forward (Vorwärts-Projektion)</h2>
+<p>Nach dem Lookback (60/40/20 Handelstage zurück vom Marker, siehe <a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a>) wird
+symmetrisch nach vorne projiziert:</p>
+<ul>
+<li>20/40/60 Handelstage <strong>rechts</strong> vom Marker markieren das Zeitfenster, in dem der nächste
+  Quarterly Shift erwartet wird — die Summe aus bereits verstrichener Zeit seit dem letzten Shift
+  und der Projektion bleibt bei ~60 Handelstagen. Lag der letzte Shift schon 40 Tage zurück, wird
+  nur noch 20 Tage weiter projiziert.</li>
+<li>Praxisbeleg (USDX/EURUSD, Marker 1.12.2015): das nächste bedeutende Hoch im EURUSD fiel exakt auf
+  die 60-Tage-Cast-Forward-Marke — die Fenster taugen also nicht nur rückwärts (Liquiditätssuche),
+  sondern auch vorwärts zur Zeitprognose des nächsten Shifts.</li>
+</ul>
 <h2 id="shift-timing-erkennen">Shift-Timing erkennen</h2>
 <ul>
 <li>Ein großer bullischer Impuls-Swing, der zusätzlich ein altes High sweept, bedeutet: ein alter
@@ -166,8 +182,10 @@ einen bevorstehenden Shift.</em></p>
 <li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
 <li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
 <li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a> — Underlying/Benchmark-Divergenz als eigenständige Methode, ein laufendes
+  Akkumulations-/Distributionsprogramm um einen Quarterly Shift herum zu erkennen</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">14</span></h2><ul><li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a><span class="cat">Konzepte</span></li><li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a><span class="cat">Konzepte</span></li><li><a href="../p/month-05-source.html">Month 05 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a><span class="cat">Modelle</span></li><li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a><span class="cat">Konzepte</span></li><li><a href="../p/open-float-source.html">Open Float (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/quarterly-shifts-ipda-data-ranges-source.html">Quarterly Shifts &amp; IPDA Data Ranges (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/reeinforced-liquidity-pools-when-to-anticipate-raids-source.html">Reeinforced Liquidity Pools - When to anticipate Raids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a><span class="cat">Konzepte</span></li><li><a href="../p/stock-mega-trades.html">Stock Mega-Trades</a><span class="cat">Modelle</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">15</span></h2><ul><li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a><span class="cat">Konzepte</span></li><li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a><span class="cat">Konzepte</span></li><li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a><span class="cat">Konzepte</span></li><li><a href="../p/month-05-source.html">Month 05 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a><span class="cat">Modelle</span></li><li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a><span class="cat">Konzepte</span></li><li><a href="../p/open-float-source.html">Open Float (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/quarterly-shifts-ipda-data-ranges-source.html">Quarterly Shifts &amp; IPDA Data Ranges (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/reeinforced-liquidity-pools-when-to-anticipate-raids-source.html">Reeinforced Liquidity Pools - When to anticipate Raids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a><span class="cat">Konzepte</span></li><li><a href="../p/stock-mega-trades.html">Stock Mega-Trades</a><span class="cat">Modelle</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Quarterly Shift.md</code></footer>
 </article>
 </main>

@@ -108,11 +108,12 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Buy &amp; Sell Program</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">mentorship-2020</span> <span class="tag">orderflow</span> <span class="tag">bias</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-05</div><div class="srcline"><span>Quellen:</span> <a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a>, <a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">ICT Algorithmic Time &amp; Price Grids (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">mentorship-2020</span> <span class="tag">orderflow</span> <span class="tag">bias</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-06</div><div class="srcline"><span>Quellen:</span> <a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a>, <a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">ICT Algorithmic Time &amp; Price Grids (Source)</a>, <a href="../p/quarterly-shifts-ipda-data-ranges-source.html">Quarterly Shifts &amp; IPDA Data Ranges (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#die-zwei-kriterien">Die zwei Kriterien</a></li>
 <li><a href="#visuelle-signatur-2026-erganzung">Visuelle Signatur (2026-Ergänzung)</a></li>
+<li><a href="#smt-basierte-erkennung-via-underlyingbenchmark-2017-mentorship">SMT-basierte Erkennung via Underlying/Benchmark (2017 Mentorship)</a></li>
 <li><a href="#bezug-zum-order-block">Bezug zum Order Block</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -150,6 +151,30 @@ Candles ohne nennenswerten Pullback</strong> — im Gegensatz zum <a href="../p/
 große, schnelle Candles läuft. Beide Signaturen sind gleichermaßen schwer gegen den Trend zu
 handeln, sehen aber unterschiedlich aus (langsam-stetig vs. schnell-explosiv). Quelle:
 <a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">ICT Algorithmic Time &amp; Price Grids (Source)</a>.</p>
+<h2 id="smt-basierte-erkennung-via-underlyingbenchmark-2017-mentorship">SMT-basierte Erkennung via Underlying/Benchmark (2017 Mentorship)</h2>
+<p>Eine ältere, eigenständige Methode aus dem Begleitvideo zu
+<a href="../p/quarterly-shifts-ipda-data-ranges-source.html">Quarterly Shifts &amp; IPDA Data Ranges (Source)</a> (2017er Mentorship), um auf dem <strong>Daily-Chart</strong>
+zu erkennen, ob der Algorithmus gerade akkumuliert oder distribuiert — komplementär zu den
+Candle-Kriterien oben, funktional verwandt mit <a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a>. <strong>Underlying</strong> =
+das gehandelte Asset, <strong>Benchmark</strong> = ein korreliertes Vergleichsasset (z.B. USDX für
+Forex-Paare).</p>
+<p>Grundprinzip: verglichen wird, ob Underlying und Benchmark bei einem neuen Extrem (Higher
+High/Lower Low) <strong>gemeinsam mitziehen</strong> oder ob eines der beiden es <strong>verweigert</strong> — die
+Verweigerung ist das Signal. Ein Buy Program (Akkumulation) zeigt sich z.B. daran, dass der
+Benchmark ein neues Lower Low macht, während das Underlying sich weigert (Higher Low statt Lower
+Low) — relative Stärke im Underlying. Bei invers korrelierten Benchmarks (z.B. USDX zu EURUSD)
+kippt die Lesart entsprechend um.</p>
+<p>Konkretes Beispiel aus dem Video: GBPUSD macht ein Lower Low (sammelt Sellside-Liquidity unter
+einem alten Tief ein), während USDX zeitgleich ein Lower High macht (keine neue Dollar-Stärke) →
+Erwartung eines Turtle-Soup-Long im GBPUSD. Spiegelbildlich für ein Sell Program: macht das
+Underlying ein neues Higher High, während der Benchmark sich weigert, ein entsprechendes Extrem zu
+bilden, deutet das auf einen bevorstehenden Turtle-Soup-Sell hin (Liquidity Grab statt echter
+Fortsetzung). Es gibt insgesamt vier gespiegelte Bedingungspaare pro Richtung (positiv wie invers
+korrelierte Benchmarks) — das Kernmuster ist immer dieselbe Divergenz-Logik: <strong>eine Seite bestätigt
+das neue Extrem, die andere verweigert es</strong>.</p>
+<p>Diese Methode ist ausdrücklich an <a href="../p/quarterly-shift.html">Quarterly Shift</a> gekoppelt: die 60/40/20-Handelstage-Fenster
+(siehe <a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a>) dienen dabei sowohl als Lookback für die institutionelle Orderflow-
+Richtung als auch als Cast-Forward-Fenster für den Zeitpunkt des nächsten Shifts.</p>
 <h2 id="bezug-zum-order-block">Bezug zum Order Block</h2>
 <p>Kriterium 1 ist der Grund, warum eine Down-Close-Candle in einem Buy Program als Support wirkt —
 dieselbe Mechanik, die <a href="../p/order-block.html">Order Block</a> und <a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a> beschreiben, hier
@@ -161,8 +186,10 @@ aber als <strong>Programm-Erkennungsmerkmal</strong> statt als Entry-Signal.</p>
 <li><a href="../p/order-block.html">Order Block</a>, <a href="../p/breaker-block.html">Breaker Block</a>, <a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
 <li><a href="../p/weekly-range-trading-model.html">Weekly Range Trading Model</a> — nutzt „Buy-/Sell-Programm" auf Wochenebene</li>
 <li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a> — verwandte Divergenz-Logik zwischen korrelierten Assets</li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a>, <a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">10</span></h2><ul><li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a><span class="cat">Konzepte</span></li><li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a><span class="cat">Konzepte</span></li><li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a><span class="cat">Konzepte</span></li><li><a href="../p/cisd-mini-serie-source.html">CISD Mini Serie (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/graded-price-swings.html">Graded Price Swings</a><span class="cat">Modelle</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">12</span></h2><ul><li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a><span class="cat">Konzepte</span></li><li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a><span class="cat">Konzepte</span></li><li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a><span class="cat">Konzepte</span></li><li><a href="../p/cisd-mini-serie-source.html">CISD Mini Serie (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/graded-price-swings.html">Graded Price Swings</a><span class="cat">Modelle</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li><li><a href="../p/quarterly-shift.html">Quarterly Shift</a><span class="cat">Konzepte</span></li><li><a href="../p/quarterly-shifts-ipda-data-ranges-source.html">Quarterly Shifts &amp; IPDA Data Ranges (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Buy &amp; Sell Program.md</code></footer>
 </article>
 </main>

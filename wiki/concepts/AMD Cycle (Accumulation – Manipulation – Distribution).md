@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-06
-sources: ["[[How Market Makers Condition The Market 2 (Source)]]", "[[How Market Makers Condition The Market (Source)]]", "[[What To Focus On Right Now (Source)]]", "[[Midnight ET Principles In Relationship To PreMarket Session (Source)]]", "[[Accumulation - Manipulation - Distribution (Source)]]", "[[Time and Price (Source)]]", "[[ICT Mentorship Core Content - Month 1 - How Market Makers Condition The Market (Source)]]"]
+sources: ["[[How Market Makers Condition The Market 2 (Source)]]", "[[How Market Makers Condition The Market (Source)]]", "[[What To Focus On Right Now (Source)]]", "[[Midnight ET Principles In Relationship To PreMarket Session (Source)]]", "[[Accumulation - Manipulation - Distribution (Source)]]", "[[Time and Price (Source)]]", "[[ICT Mentorship Core Content - Month 1 - How Market Makers Condition The Market (Source)]]", "[[Institutional Sponsorship (Source)]]"]
 ---
 
 # AMD Cycle (Accumulation – Manipulation – Distribution)
@@ -156,6 +156,16 @@ die ausführlichere Video-Fassung der bislang "sehr knappen" Notion-Quelle:
 - **Weekly-Range-Analogie**: Sonntagsopen = Consolidation, Montag = Expansion, Reversal
   Montag/Dienstag, Konsolidierung Mitte der Woche, danach erneut Retracement oder Reversal —
   derselbe AMD-Zyklus fraktal auf Wochenebene, siehe [[Weekly Range Trading Model]].
+
+## Namensursprung "Power Three" (2016er Video-Zitat)
+
+Aus dem [[Institutional Sponsorship (Source)|Institutional-Sponsorship-Begleitvideo]] — die früheste
+im Vault dokumentierte Formulierung des Po3-Prinzips, hier ausdrücklich auf die **Tageskerze**
+(Open-High-Low-Close) bezogen: bei bullischem Bias nahe oder unter dem Opening Price kaufen und den
+Trade bis zum **Tagesschluss** laufen lassen — Ziel ist ein höherer Close als der Vortag, Tag für
+Tag. ICT nennt das explizit einfach zu verstehen, aber schwer konsequent umzusetzen. Deckungsgleich
+mit der oben dokumentierten Monthly/Weekly/Daily-Opening-Price-Regel, hier nur auf eine einzelne
+Tageskerze herunterskaliert statt auf den Kalendermonat/die Kalenderwoche.
 
 ## Verwandt
 
