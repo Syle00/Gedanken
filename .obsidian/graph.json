@@ -1,6 +1,6 @@
 {
   "collapse-filter": false,
-  "search": "core content month 1",
+  "search": "",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": false,
@@ -17,6 +17,6 @@
   "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 0.3622227416713039,
+  "scale": 0.08570148378656349,
   "close": true
 }
