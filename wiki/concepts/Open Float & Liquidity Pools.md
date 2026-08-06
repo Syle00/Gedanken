@@ -91,8 +91,34 @@ Open Float = das aktuelle Interesse (Open Interest) **über und unter** dem Mark
 Pending Orders (Buy Stops/Sell Stops) — das gesamte Long/Short-Interesse im Markt an einem
 bestimmten High/Low.
 
+## Hierarchie der Referenz-Levels (Begleitvideo-Ergänzung)
+
+Aus dem Begleitvideo zu [[Open Float (Source)]]: Protective Stops konzentrieren sich nicht nur am
+20/40/60-Tage-Level, sondern an mehreren gestaffelten Zeitrahmen gleichzeitig — je länger der
+Zeitrahmen, desto größer i.d.R. der resultierende Move nach dem Run:
+
+- Weekly High/Low, Monthly High/Low
+- 3-Monats-High/Low (= Quarterly-Bezug, siehe [[Quarterly Shift]])
+- 6-Monats-High/Low
+- 12-Monats-High/Low
+
+Praxishinweis: ein 12-Monats-Hoch/Tief kann auch **schnell** erreicht werden, wenn der Preis schon
+nah dran notiert — die Zeitangabe ist nur der Lookback-Horizont der Marke, kein Wartezeitraum bis
+zum nächsten Run.
+
+## Intermediate-Term High/Low
+
+Ein **Intermediate-Term High** ist ein Hoch, dem sowohl links **als auch rechts** ein niedrigeres
+Short-Term-High vorausgeht bzw. folgt (Analogie: Kopf einer Schulter-Kopf-Schulter-Formation).
+Spiegelbildlich für ein **Intermediate-Term Low**. Eine Kette **fallender** Intermediate-Term-Highs
+bei gleichzeitig fallenden Intermediate-Term-Lows liefert direktionalen Bias auf dem Daily-Chart —
+jede Rally scheitert daran, ein neues Hoch zu etablieren, jeder Sell-off unterbietet das vorherige
+Tief. Vertiefung erwartet in [[Institutional Swing Point]] (Begleitvideo „Defining Institutional
+Swing Points" zu Month 05 — YouTube-Fetch aktuell blockiert, siehe `wiki/log.md`).
+
 ## Verwandt
 
 - [[IPDA Data Ranges]], [[PD Array]]
 - [[SMT (Smart Money Divergence)]]
 - [[Quarterly Shift]] — alle 3 Monate findet ein größerer Liquidity Run statt
+- [[Institutional Swing Point]] — vertieft die Intermediate-Term-High/Low-Definition (noch offen)

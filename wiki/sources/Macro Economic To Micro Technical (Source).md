@@ -1,10 +1,12 @@
 ---
 tags: [source, ict, trading-ict]
 created: 2026-08-01
-updated: 2026-08-02
+updated: 2026-08-06
 raw: "[[Macro Economic To Micro Technical]]"
 raw_path: "raw/trading-ict/Core Content/Macro Economic To Micro Technical.md"
 curriculum: "[[Month 03 (Source)]]"
+video: "https://www.youtube.com/watch?v=MJwWUd_FM-k"
+video_transcript: "raw/trading-ict/2016/yt-MJwWUd_FM-k-transcript.md"
 ---
 
 # Macro Economic To Micro Technical (Source)
