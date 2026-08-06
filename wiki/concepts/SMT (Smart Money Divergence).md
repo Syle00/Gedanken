@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-02
+updated: 2026-08-06
 sources: ["[[Bond Mega-Trades (Source)]]", "[[Commodity Mega-Trades (Source)]]", "[[Institutional Marketstructure (Source)]]", "[[Macro Economic To Micro Technical (Source)]]", "[[Qualifying Trade Conditions With 10 Year Yields (Source)]]", "[[SMT Smart Money Technique (Source)]]"]
 ---
 
@@ -79,6 +79,22 @@ widerspiegeln. Ist das nicht der Fall, handelt es sich um reine Manipulation, um
   gesamte Rest-Markt mit; trenden die Yields klar, bewegt sich auch der übrige Markt.
 - Kombiniert mit [[Quarterly Shift]] und Seasonal Tendency ergibt sich die vollständige
   Qualifikations-Checkliste für einen HTF-Trade.
+
+## Warum Bonds statt Fundamentalreports (2016er Video-Ergänzung)
+
+Aus [[Macro Economic To Micro Technical (Source)]] — die methodische Begründung, warum ICT den
+Bond-Markt statt Bank-Research nutzt: Banken verraten in ihren Reports nicht ihre eigenen Absichten
+("wie ein Footballteam, das seine Spielzüge verrät"), daher wird das **3–6-Monats-Zinsbild rein
+visuell aus dem Kursverlauf des 30-Year-Treasury-Bond-Futures** abgelesen (Referenzpunkt: US-
+Hypothekenzins), ergänzt durch den 10-Year Note. Mechanik: Bond-Kurs fällt → Zinsen steigen → DXY
+steigt (und umgekehrt) — ein Bullish-OB-Retest im DXY, der zeitgleich mit einem Bearish-OB-Retest im
+Bond-Markt zusammenfällt, bestätigt bevorstehende Dollarstärke.
+
+**Lag-Beobachtung**: Eine 10Y-vs-30Y-Divergenz (10Y Higher High, 30Y kein Higher High) läuft dem
+DXY- und FX-Move typischerweise **1–2 Wochen voraus** — im dokumentierten September-2016-Beispiel
+bestätigten DXY, USDCHF, USDCAD, EURUSD, GBPUSD, USDJPY, NZDUSD und AUDUSD alle denselben Rhythmus
+aus erster und letzter Septemberwoche. Dieselbe **3–4-Monats-Kadenz** wie in [[Quarterly Shift]],
+hier auf die Zins-/DXY-Beziehung angewendet.
 
 ## Verwandt
 

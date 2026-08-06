@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-06
-sources: ["[[Open Float (Source)]]", "[[Quarterly Shifts & IPDA Data Ranges (Source)]]"]
+sources: ["[[Open Float (Source)]]", "[[Quarterly Shifts & IPDA Data Ranges (Source)]]", "[[Macro Economic To Micro Technical (Source)]]"]
 ---
 
 # Quarterly Shift
