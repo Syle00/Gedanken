@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[How To Use Intermarket Analysis (Source)]]", "[[Interest Rate Differentials (Source)]]", "[[Using 10 Year Notes In HTF Analysis (Source)]]", "[[ICTCross Currency Relationships und HTF Institutional Order Flow (Source)]]"]
+updated: 2026-08-06
+sources: ["[[How To Use Intermarket Analysis (Source)]]", "[[Interest Rate Differentials (Source)]]", "[[Using 10 Year Notes In HTF Analysis (Source)]]", "[[ICTCross Currency Relationships und HTF Institutional Order Flow (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Interest Rate Effects On Currency Trades (Source)]]"]
 ---
 
 # Intermarket Relationships
@@ -59,6 +59,30 @@ Markt.*
 *USDX läuft im Chart entgegengesetzt zu den Bonds — Divergenz als Warnsignal für fehlende
 Trending Conditions.*
 
+## Interest Rate Triad: Order-Block-Validierung über Bond-Divergenz (2022er Video-Ergänzung)
+
+Aus [[ICT Mentorship Core Content - Month 04 - Interest Rate Effects On Currency Trades (Source)]]
+— konkrete Technik, um einen Order Block/Liquidity Pool/FVG auf dem Dollar Index (oder einer
+anderen Benchmark) zu **bestätigen**, bevor man ihn handelt:
+
+- **Interest Rate Triad** = die drei US-Zins-Futures-Märkte **30-Year Treasury Bond**, **10-Year
+  Note**, **5-Year Note** (kostenlos z.B. auf barchart.com einsehbar).
+- **Smart-Money-Distribution** (bearish für die Benchmark): Benchmark macht ein **höheres Hoch**,
+  aber **mindestens eine** der drei Zins-Märkte macht dabei ein **niedrigeres Hoch** (Failure
+  Swing) — Divergenz signalisiert, dass die Rally nicht durch neue Käufe, sondern durch
+  Distribution getrieben ist.
+- **Smart-Money-Akkumulation** (bullish): Benchmark macht ein **niedrigeres Tief**, aber
+  mindestens einer der drei Zins-Märkte macht ein **höheres Tief**.
+- Es muss **nicht** bei allen drei Märkten gleichzeitig auftreten — **eine** Divergenz unter dreien
+  reicht bereits als Bestätigungssignal.
+- **Workflow**: trifft Preis auf der Benchmark (z.B. Dollar Index) einen vorab identifizierten
+  Order Block/Liquidity Pool/FVG, wird die Interest Rate Triad geprüft — zeigt sie eine passende
+  Divergenz, gilt der Level als von Smart Money bestätigt; zeigt sie **keine** Divergenz, wird das
+  Setup **verworfen** statt gehandelt.
+- Kausalkette: Zinsmärkte (fallend im Chart = Zinsen steigen) → treibt Dollar Index → treibt
+  Fremdwährungen invers — bestätigt dieselbe "Money seeks Yields"-Logik wie oben, nur jetzt als
+  **Timing-/Validierungswerkzeug** statt als reine Bias-Quelle.
+
 ## Cross Currency: Paarauswahl über News und EURGBP
 
 Aus dem [[ICTCross Currency Relationships und HTF Institutional Order Flow (Source)|Market Maker Primer]]
@@ -80,3 +104,4 @@ dem Chart.
 - [[Bond Mega-Trades]], [[Commodity Mega-Trades]]
 - [[Open Float & Liquidity Pools]] — OI-Drop als gemeinsames Signal
 - [[Quarterly Shift]]
+- [[Order Block]] — Ziel der Interest-Rate-Triad-Validierung

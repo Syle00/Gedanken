@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[Reclaimed ICT Orderblock (Source)]]"]
+updated: 2026-08-06
+sources: ["[[Reclaimed ICT Orderblock (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Reclaimed ICT Orderblock (Source)]]"]
 ---
 
 # Reclaimed Order Block
@@ -47,7 +47,26 @@ zuvor Price verkauft hat, wird in der Sell Side der Curve zu einem reclaimed Sho
 ![[ICT Mentorship Dez2016 - Reclaimed Block Chart Example (Downtrend).png]]
 *Downtrend-Beispiel: reclaimed Block als Short-Fortsetzung nach kurzem Gegenbounce.*
 
+## Curve-Matching-Logik (2022er Video-Ergänzung)
+
+Aus [[ICT Mentorship Core Content - Month 04 - Reclaimed ICT Orderblock (Source)]] — dieselbe
+Mechanik nochmals hergeleitet, mit dem konkreten Bild eines Market-Maker-Buy-Modells:
+
+- Die **Sell-Seite der Kurve** (Preis fällt zum HTF-Support) enthält bereits mehrere kleine
+  Zwischenerholungen — jede davon ist ein normaler Bullish Order Block, entstanden durch frühes,
+  gestaffeltes Hedging (Smart Money kann Positionen wegen ihrer Größe nicht in einer Transaktion
+  aufbauen).
+- Sobald die **Buy-Seite der Kurve** beginnt (Preis dreht am HTF-Support nach oben), wird für **jede
+  neue Kaufgelegenheit** der jeweils passende Down-Candle-Level von der Sell-Seite als Reclaimed
+  Block herangezogen — die Blöcke "matchen" sich 1:1 zwischen beiden Kurvenhälften.
+- Spiegelbildlich für ein Market-Maker-Sell-Modell mit Up-Candles auf der Buy-Seite, die auf der
+  Sell-Seite als Reclaimed Shorts genutzt werden.
+- Praktische Konsequenz: wer die Sell-Seite der Kurve im Nachhinein durchgeht und **jeden**
+  Down-Candle mit kurzer Gegenreaktion markiert, hat damit bereits die komplette Liste künftiger
+  Reclaimed-Long-Level für die Buy-Seite vorbereitet.
+
 ## Verwandt
 
 - [[Order Block]], [[CISD (Change in State of Delivery)]]
 - [[New Week Opening Gap (NWOG) Bias]] (MMBM/MMSM)
+- [[Propulsion Block]] — verwandte, aber unterschiedliche zweite Rücklauf-Bewegung in denselben Order Block

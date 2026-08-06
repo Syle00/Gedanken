@@ -14,6 +14,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Buy & Sell Program]] — Zwei Kriterien, an denen ein Buy-/Sell-Programm erkannt wird; visuelle Signatur ergänzt (2026-08-05)
 - [[Dealing Range]] — Premium/Discount-Rahmen; je mehr Timeframes übereinstimmen, desto besser (2026-08-02)
 - [[Drei-Ebenen-Marktperspektive]] — Big Picture/Intermediate/Short-Term-Framework, 7 Kriterien für ein High-Reward-Setup (2026-08-06)
+- [[Elemente eines Trade-Setups (4 Preis-Zustände)]] — Expansion/Retracement/Reversal/Consolidation ↔ je ein ICT-Tool, strikte Übergangsregel (2026-08-06)
 - [[Erwartungswert & Reward-to-Risk-Modell]] — Mindest-RR nach Trefferquote, bestätigt die 1-%-Risiko-Regel im ICT-Quellenmaterial (2026-08-06)
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]] — 4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition (2026-08-01)
 - [[Asian Range]] — 19–24 Uhr NY, Highest High/Lowest Low; Konsolidierung = Trendtag, nur mit Bias nutzbar (2026-08-02)
@@ -30,6 +31,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Enigma FVG Projection]] — FIB-Technik zur Antizipation von FVG-Expansion (VII/C.E) (2026-08-01)
 - [[Equilibrium Vs. Discount]] — Dealing-Range-Konstruktion, EQ, verschachteltes Premium/Discount (2026-08-01)
 - [[Event Horizon]] — 50%-Punkt zwischen zwei Liquidity Pools für Partials (2026-08-01)
+- [[External vs. Internal Range Liquidity]] — Entry an Internal (OB/FVG in der Range), Exit an External (Stops außerhalb) (2026-08-06)
 - [[Fair Value Gap (FVG)]] — Preiszone ohne Trading zwischen zwei Candles (2026-08-01)
 - [[FOMC (Federal Open Market Committee)]] — US-Zinsgremium, häufigster News-Katalysator in Weekly-Profilen (2026-08-01)
 - [[ICT Daily Range Session Timing]] — Session-Ablauf, der die Daily Range formt (2026-08-01)
@@ -44,6 +46,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD (2026-08-01)
 - [[Market Maker Trap - False Breakout]] — false breakouts neutralisieren gezielt eine Seite gebracketer Stops, seriell wiederholend (2026-08-06)
 - [[Market Maker Trap - False Flag]] — Bull-/Bear-Flag-Fake in HTF-Premium/Discount-Zonen, Body-vs-Wick-Erkennung (2026-08-06)
+- [[Market Protraction]] — 3 zeitgetaktete Fake-Ausschläge/Tag (0, ~4-5, ~7 Uhr NY), Judas Swing als eine Ausprägung (2026-08-06)
 - [[Market Reversal Types]] — Katalog der 8 ICT-Reversal-Typen (PDH/PDL, ITH/ITL, NY Reversal...) (2026-08-01)
 - [[Mitigation Block]] — Order-Block-Variante nach einem Failure Swing (2026-08-01)
 - [[Market Structure Shift (MSS)]] — MSS vs. MSB, Pflichtbedingung Liq-Sweep vor dem Swing-Bruch (2026-08-02)
@@ -57,6 +60,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Partial Profit-Taking & R-Multiple-Skalierung]] — erstes Partial bei 3:1 sichern, Rest bis 9–15R laufen lassen (2026-08-06)
 - [[PD Array]] — Premium/Discount-Array, Grundbaustein jedes ICT-Setups (2026-08-01)
 - [[Premium vs. Carrying Charge Market]] — Futures-Kurven-Analyse (Contango/Backwardation) (2026-08-01)
+- [[Propulsion Block]] — OB-Variante: zweite Down-/Up-Candle in bereits validierten OB, Mean Threshold quasi nie verletzt (2026-08-06)
 - [[Quarterly Shift]] — Alle 3–4 Monate markanter Liquidity-Shift, Underlying/Benchmark (2026-08-01)
 - [[Reclaimed Order Block]] — OB-Variante im MMXM-Modell nach Displacement+Retracement (2026-08-01)
 - [[Rejection Block]] — OB-Variante über Wick-vs-Body-Liquidity-Sweep (2026-08-01)
@@ -123,6 +127,10 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Day Trade Routine (Source)]], [[Ideal Swings Conditions For Any Market (Source)]]
 - [[ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)]], [[ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)]], [[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]], [[ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)]]
 - [[ICT Mentorship Core Content - Month 02 - How To Mitigate Losing Trades Effectively (Source)]], [[ICT Mentorship Core Content - Month 02 - The Secrets To Selecting High Reward Setups (Source)]], [[ICT Mentorship Core Content - Month 02 - Market Maker Trap False Flag (Source)]], [[ICT Mentorship Core Content - Month 02 - Market Maker Trap False Breakouts (Source)]]
+- [[ICT Mentorship Core Content - Month 1 - Elements Of A Trade Setup (Source)]], [[ICT Mentorship Core Content - Month 1 - How Market Makers Condition The Market (Source)]], [[ICT Mentorship Core Content - Month 1 - What To Focus On Right Now (Source)]], [[ICT Mentorship Core Content - Month 1 - Equilibrium Vs. Discount (Source)]]
+- [[ICT Mentorship Core Content - Month 1 - Equilibrium Vs. Premium (Source)]], [[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]], [[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]], [[ICT Mentorship Core Content - Month 1 - Impulse Price Swings & Market Protraction (Source)]]
+- [[ICT Mentorship Core Content - Month 04 - Interest Rate Effects On Currency Trades (Source)]], [[ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts & Price Delivery (Source)]], [[ICT Mentorship Core Content - Month 04 - Orderblocks (Source)]], [[ICT Mentorship Core Content - Month 04 - Mitigation Blocks (Source)]]
+- [[ICT Mentorship Core Content - Month 04 - ICT Breaker Block (Source)]], [[ICT Mentorship Core Content - Month 04 - ICT Rejection Block (Source)]], [[ICT Mentorship Core Content - Month 04 - Reclaimed ICT Orderblock (Source)]], [[ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)]]
 - [[Institutional Marketstructure (Source)]], [[Institutional Order Flow (Source)]], [[Institutional Sponsorship (Source)]]
 - [[Integrating Daytrades With HTF Trade Entries (Source)]], [[Interest Rate Differentials (Source)]]
 - [[Intraday Profiles f. London (Source)]], [[Intraweek Market Reversals & Overlapping Models (Source)]]

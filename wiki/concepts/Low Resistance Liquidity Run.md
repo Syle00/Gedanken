@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-05
-sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[ICT Algorithmic Time & Price Grids (Source)]]"]
+updated: 2026-08-06
+sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[ICT Algorithmic Time & Price Grids (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]]"]
 ---
 
 # Low Resistance Liquidity Run
@@ -59,8 +59,26 @@ US-Feiertags-Wochenenden** (z.B. 4. Juli auf Sa/So: Montag meist schwierige, sch
 Action → am Montag lieber nicht traden, erst Dienstag wieder einsteigen) und **vor
 Zinsentscheiden/FOMC-Meetings**.
 
+### Mechanik (2022er Video-Ergänzung)
+
+Aus [[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]] — die konkrete
+Preis-Struktur-Erklärung, warum manche Highs/Lows "verteidigt" sind:
+
+- **High Resistance**: liegen zwischen dem aktuellen Preis und dem anvisierten alten High/Low
+  bereits **viele weitere Zwischenhochs/-tiefs**, muss Preis erst durch all diese Widerstände, bevor
+  das eigentliche Ziel überhaupt erreichbar wird — solche Levels sind gut verteidigt und werden
+  meist nur durch einen echten Katalysator gebrochen (NFP, FOMC, unerwartete Zinsentscheidung,
+  Black-Swan-Ereignis), nicht durch normale Preisbewegung.
+- **Low Resistance**: läuft Preis dagegen **einseitig glatt** (wenig Retracement) von einem
+  gebrochenen Level weg, bleibt jeder neu gebildete Short-Term-Swing bis zum nächsten Extrem
+  "unbelastet" von Zwischenständen — solche Runs sind die bevorzugten Trade-Bedingungen, weil jeder
+  Rücklauf zum letzten Swing praktisch widerstandsfrei zum nächsten alten High/Low durchläuft.
+- Je **mehr Preisaktion** (Candles, Konsolidierung) um ein Level herum stattgefunden hat, desto
+  stärker ist es institutionell verteidigt — Faustregel für die Einschätzung ohne zusätzliche Tools.
+
 ## Verwandt
 
 - [[PD Array]], [[Equilibrium Vs. Discount]]
 - [[Open Float & Liquidity Pools]]
 - [[One Shot One Kill Model]]
+- [[External vs. Internal Range Liquidity]] — dieselbe Unterscheidung, aus Range-Perspektive statt Preis-Struktur-Perspektive

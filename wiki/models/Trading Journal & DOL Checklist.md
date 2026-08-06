@@ -1,8 +1,8 @@
 ---
 tags: [model, ict, trading-ict, routine]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[What To Focus On Right Now (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
+updated: 2026-08-06
+sources: ["[[What To Focus On Right Now (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[ICT Mentorship Core Content - Month 1 - What To Focus On Right Now (Source)]]"]
 ---
 
 # Trading Journal & DOL Checklist
@@ -50,6 +50,28 @@ Die acht Punkte, die im Journal seit Anfang 2026 als Checkboxen geführt werden,
 
 Das ist der Punkt, an dem Analyse und Ausführung auseinanderfallen: das Setup wird erkannt, der
 Trigger aber nicht abgewartet.
+
+## Chart-Lookback je Timeframe (2022er Video-Ergänzung)
+
+Aus [[ICT Mentorship Core Content - Month 1 - What To Focus On Right Now (Source)]] — konkrete
+Vorgaben, wie viel Historie pro Timeframe sichtbar sein soll:
+
+| Timeframe | Mindest-Lookback |
+|---|---|
+| Daily | 9–12 Monate |
+| 4H | 3 Monate |
+| 1H | 3 Wochen |
+| 15M | 3–4 Tage |
+
+- **Zwei getrennte Chart-Sets führen**: ein Analyse-Set (die obige Timeframe-Kaskade, wird nicht
+  überladen) und ein separates Executable-Set (der Chart, auf dem tatsächlich getradet wird) — nie
+  beides auf demselben Chart mischen, sonst zu unübersichtlich.
+- Zusätzlich zu den bereits gelisteten Punkten: **Tag der Woche** notieren, an dem Weekly/Daily
+  High/Low entstehen (nicht nur Uhrzeit/Session) — Beispiel aus der Quelle: bildet sich das
+  Wochen-High an einem Mittwoch, wird es an Donnerstag/Freitag oft als Range-Grenze respektiert
+  (Rückkehr in die durch Mittwoch-High/-Low definierte Range).
+- Bewusst **keine Preisprognosen** in diesem frühen Stadium versuchen — nur dokumentieren, was
+  bereits passiert ist.
 
 ## Journaling-Haltung (2026-Ergänzung, MOC-Video)
 

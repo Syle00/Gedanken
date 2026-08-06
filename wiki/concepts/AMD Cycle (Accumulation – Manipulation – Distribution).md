@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[How Market Makers Condition The Market 2 (Source)]]", "[[How Market Makers Condition The Market (Source)]]", "[[What To Focus On Right Now (Source)]]", "[[Midnight ET Principles In Relationship To PreMarket Session (Source)]]", "[[Accumulation - Manipulation - Distribution (Source)]]", "[[Time and Price (Source)]]"]
+updated: 2026-08-06
+sources: ["[[How Market Makers Condition The Market 2 (Source)]]", "[[How Market Makers Condition The Market (Source)]]", "[[What To Focus On Right Now (Source)]]", "[[Midnight ET Principles In Relationship To PreMarket Session (Source)]]", "[[Accumulation - Manipulation - Distribution (Source)]]", "[[Time and Price (Source)]]", "[[ICT Mentorship Core Content - Month 1 - How Market Makers Condition The Market (Source)]]"]
 ---
 
 # AMD Cycle (Accumulation – Manipulation – Distribution)
@@ -139,8 +139,27 @@ jedem Timeframe, und jeder Timeframe liefert eine andere **Ebene des Bias**:
 *„ICT Power Of 3 — Monthly Open": Der Monthly Chart liefert den Macro Institutional Bias; gekauft
 wird at or below, verkauft at or above dem Monthly Opening Price.*
 
+## Marktparadigma: "Market Efficiency Paradigm" (2022er Video-Ergänzung)
+
+Aus [[ICT Mentorship Core Content - Month 1 - How Market Makers Condition The Market (Source)]] —
+die ausführlichere Video-Fassung der bislang "sehr knappen" Notion-Quelle:
+
+- Zwei Gruppen: die **kleine Smart-Money-Gruppe** (treibt den Markt, "drive shaft") und die
+  **große Gruppe unwissender/spekulativer Trader** (glaubt fälschlich, durch ihre schiere Masse
+  Preis zu treiben — die "Fassade" von Supply/Demand, Trendlinien, Indikator-Crossovers).
+- Der Markt ist **nicht effizient für Spekulanten**, sondern effizient **für Smart Money** — jede
+  Analyse sollte aus deren Perspektive erfolgen, nicht aus der des Retail-Konsenses.
+- **Strikte Zustandsreihenfolge** (siehe auch [[Elemente eines Trade-Setups (4 Preis-Zustände)]]):
+  aus einer Consolidation folgt **immer zuerst Expansion** — nie direkt Retracement, nie direkt
+  Reversal. Nach der Expansion folgt entweder Retracement (zurück zum Order Block, dann erneute
+  Bewegung in dieselbe Richtung) oder Reversal (dann erneute Expansion, dann wieder Consolidation).
+- **Weekly-Range-Analogie**: Sonntagsopen = Consolidation, Montag = Expansion, Reversal
+  Montag/Dienstag, Konsolidierung Mitte der Woche, danach erneut Retracement oder Reversal —
+  derselbe AMD-Zyklus fraktal auf Wochenebene, siehe [[Weekly Range Trading Model]].
+
 ## Verwandt
 
+- [[Elemente eines Trade-Setups (4 Preis-Zustände)]] — dieselbe Zustandslogik, zustandsbasiert statt session-zeit-gebunden
 - [[Judas Swing]] — die Manipulationsphase im Tagesablauf
 - [[Asian Range]] — die Accumulation-Phase des Tages
 - [[PD Array]] — DOL ist im Kern das nächste anvisierte PD-Array-Ziel

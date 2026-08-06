@@ -605,3 +605,42 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   zuvor separate 2026er-Sammel-Bullet mit allen 8 Einzelverweisen auf einen einzelnen Verweis auf
   die neue Sprungseite reduziert (Redundanz vermieden, Navigationsmuster jetzt konsistent mit den
   uebrigen Monaten).
+
+## [2026-08-06] ingest | Core Content Month 01 & Month 04 (YouTube-Playlists, 16 von 22 Videos)
+- Nutzerauftrag: "hole dir auch month 1 & 4" -- Analog zu Month 02 recherchiert, ob es fuer weitere
+  Core-Content-Monate YouTube-Playlists gibt. Kanal-Playlist-Liste durchsucht: "2016 ICT Private
+  Mentorship Core Content Month 01" (PLVgHx4Z63paYzh3KwUFX0UHQUf31CAEXk, 8 Videos) und "...Month 04"
+  (PLVgHx4Z63pabb9rl1nyG58TG8PG8yzuao, 14 Videos) gefunden.
+- Month 01: alle 8 Videos erfolgreich geholt und verarbeitet. Anders als bei Month 02 (komplette
+  Luecke) hat Month 01 bereits 5 Notion-Lectures -- die 8 Videos sind teils Vollversionen
+  derselben 5 Themen (deutlich ausfuehrlicher, u.a. die zuvor "sehr knappe"
+  How-Market-Makers-Condition-The-Market-Quelle), teils komplett neue Themen (Elements Of A Trade
+  Setup, Equilibrium Vs. Premium, Liquidity Runs, Impulse Price Swings & Market Protraction).
+- Month 04: von 14 Videos wurden 8 erfolgreich geholt, **6 scheiterten an einem YouTube-IP-Rate-Limit**
+  (`IpBlocked` von `youtube_transcript_api` nach ca. 16 Requests in dieser Session) -- betroffen:
+  ICT Vacuum Block, Liquidity Voids, Liquidity Pools, ICT Fair Value Gaps FVG, Divergence Phantoms,
+  Double Bottom Double Top. Kein inhaltliches Problem, offen fuer spaeteren Retry (Video-IDs und
+  Retry-Befehl auf wiki/sources/Month 04 (Source).md notiert).
+- **Wichtigster Einzelfund**: die Notion-Rohdatei `Reeinforced Liquidity Pools - When to anticipate
+  Raids` war leer (0 Byte, seit 2026-08-02 als Luecke vermerkt) -- das YouTube-Video "Reinforcing
+  Liquidity Concepts & Price Delivery" fuellt exakt diese Luecke und fuehrt das bislang fehlende
+  Konzept External/Internal Range Liquidity ein.
+- 16 neue Source-Seiten erstellt (8x `Month 1 - ...`, 8x `Month 04 - ...`, volles Namensschema wie
+  bei Month 02, da mehrere Titel mit bereits ingesteten Notion-Quellen kollidieren wuerden).
+- 4 neue Konzept-Seiten: wiki/concepts/Elemente eines Trade-Setups (4 Preis-Zustaende).md (die 4
+  Preiszustaende Expansion/Retracement/Reversal/Consolidation, je einem ICT-Tool zugeordnet, mit
+  strikter Uebergangsregel: aus Consolidation folgt immer zuerst Expansion), wiki/concepts/Market
+  Protraction.md (3 zeitgetaktete taegliche Fake-Ausschlaege, Judas Swing als eine Auspraegung
+  davon), wiki/concepts/External vs. Internal Range Liquidity.md, wiki/concepts/Propulsion Block.md
+  (weitere Order-Block-Variante).
+- 11 bestehende Seiten angereichert (jeweils mit neuem Abschnitt, keine Ueberschreibung): AMD
+  Cycle, Trading Journal & DOL Checklist, Equilibrium Vs. Discount (inkl. neuem
+  Premium-Spiegelbild-Abschnitt), Fair Value Gap (FVG), Low Resistance Liquidity Run (High-
+  Resistance-Mechanik), Order Block, Mitigation Block (M/W-Pattern, A-B-C-Punkte), Breaker Block,
+  Rejection Block, Reclaimed Order Block, Intermarket Relationships (Interest Rate Triad als
+  Order-Block-Validierung).
+- wiki/sources/Month 1 (Source).md und wiki/sources/Month 04 (Source).md um "YouTube-Ergaenzung"-
+  Abschnitte erweitert (gleiches Format wie die urspruengliche Lecture-Liste, mit Verweis, welches
+  Video welche Notion-Lecture vervollstaendigt vs. komplett neu ist).
+- Seiten aktualisiert: wiki/index.md (4 neue Concepts, 16 neue Sources in die Core-Content-Liste
+  eingereiht).

@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-05
-sources: ["[[Fair Valuation (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
+updated: 2026-08-06
+sources: ["[[Fair Valuation (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]]"]
 ---
 
 # Fair Value Gap (FVG)
@@ -63,6 +63,23 @@ Erst wenn alle drei Ebenen übereinstimmen, gilt der Preis als "im fairen Bereic
 
 ![[Kurz Notizen - Breakaway Gap Example.png]]
 *Großes Displacement an einem FVG-/Wick-Quadranten — im Lower Timeframe entsteht daraus oft ein Breakaway Gap.*
+
+## Akkumulation/Distribution am FVG (2022er Video-Ergänzung)
+
+Aus [[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]] — Market-Maker-Perspektive
+auf denselben Preisbereich, unabhängig von der Retail-Premium/Discount-Sicht:
+
+- Eine Liquidity-Void-/FVG-Zone entsteht, wenn Preis **nur in eine Richtung** durchhandelt (keine
+  Gegenbewegung innerhalb der Range) — das ist gleichzeitig die Zone, in der Market Maker
+  Positionen **aufgebaut** haben (Accumulation, bei Long-Bias am unteren Ende) und später **wieder
+  abbauen** (Distribution, am oberen Ende, sobald Preis dorthin zurückkehrt).
+- Dieselbe FVG kann also aus zwei Blickwinkeln relevant sein: Discount-Ende = Fair Value für
+  Market-Maker-Käufe, Premium-Ende (weiterer, später entstandener FVG näher an alten Highs) = Fair
+  Value für deren Verkäufe/Gewinnmitnahme.
+- Praktische Konsequenz: mehrere überlappende Prüfungen sollten in dieselbe Richtung zeigen —
+  Position in der Gesamtrange (unteres Drittel), Position relativ zum EQ (unter 50 %) **und** Nähe
+  zu einem [[Order Block]]/[[PD Array]] — erst wenn alle drei übereinstimmen, gilt der Bereich als
+  hochwahrscheinliche Akkumulationszone.
 
 ## Immediate Rebalance (2026-Ergänzung)
 

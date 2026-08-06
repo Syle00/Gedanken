@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]", "[[Kurz Notizen (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]"]
+updated: 2026-08-06
+sources: ["[[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]", "[[Kurz Notizen (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Orderblocks (Source)]]"]
 ---
 
 # Order Block
@@ -77,9 +77,31 @@ High-Probability-Buyside.*
 - In einem laufenden bullishen Trend ist **jede Down-Closing-Candle** ein potenzieller OB+.
 - Im Higher Timeframe kommen bearishe OBs kaum vor — wenn doch, meist nur zur Profitsicherung.
 
+## Rally-Away-Faustregel & HTF-Verfeinerung (2022er Video-Ergänzung)
+
+Aus [[ICT Mentorship Core Content - Month 04 - Orderblocks (Source)]]:
+
+- Nach der Validierung sollte Preis idealerweise **2–3× die eigene Range** wegrallieren, bevor das
+  Retracement zurück zum OB erwartet wird — ein zu kleiner Wegzug (< 2×) macht den OB weniger
+  verlässlich als Referenzpunkt.
+- **Verfeinerung auf Nested Order Blocks**: entsteht während des Wegzugs eine **neue**, näher am
+  aktuellen Preis liegende Down-/Up-Candle, die dieselbe Support-/Resistance-Prämisse bestätigt,
+  wird diese zum bevorzugten (verfeinerten) Entry-Level — der ursprüngliche OB bleibt als
+  Backup-Level gültig, wird aber nicht mehr priorisiert.
+- **Monthly → Weekly → Daily-Kaskade**: derselbe OB wird auf jeder tieferen Timeframe neu gesucht
+  und verfeinert (vgl. [[Risiko-Verfeinerung über Timeframes]] für dieselbe Technik im
+  Reward-/Risiko-Kontext).
+- **Multi-Candle-OB-Bestätigung**: zwei aufeinanderfolgende Down-Candles (bzw. Up-Candles bearish)
+  zählen als **ein** zusammengesetzter Order Block, wenn beide zusammen von der validierenden
+  Candle durchhandelt werden — bereits an anderer Stelle im Wiki dokumentiert (MentorShip 2022),
+  hier durch ein zweites, unabhängiges Beispiel bestätigt.
+- Entry/Exit-Rahmen: Order Block = [[External vs. Internal Range Liquidity|Internal Range
+  Liquidity]] (Kauf-/Verkaufspunkt), altes High/Low = External Range Liquidity (Ziel).
+
 ## Verwandt
 
 - [[PD Array]], [[Institutional Order Flow (Body vs Wick)]]
-- [[Breaker Block]], [[Rejection Block]], [[Reclaimed Order Block]], [[Mitigation Block]]
+- [[Breaker Block]], [[Rejection Block]], [[Reclaimed Order Block]], [[Mitigation Block]], [[Propulsion Block]]
 - [[Fair Value Gap (FVG)]], [[CISD (Change in State of Delivery)]]
+- [[External vs. Internal Range Liquidity]]
 - [[Kurz Notizen (Source)]]
