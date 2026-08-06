@@ -15,8 +15,9 @@ Trade Management + Position Sizing (Nutzerregeln, siehe wiki/models/Silver Bulle
 und wiki/concepts/Risikomanagement (1% pro Trade).md): Mindestziel 10 Punkte (rules.py),
 Partial am ersten Swing-Punkt in Traderichtung + Stop auf Breakeven danach (_manage_partial),
 Positionsgroesse so bemessen, dass ein Stop-Out max. 1% Kontoguthaben PRO TRADE kostet
-(_risk_size) -- nicht kumulativ pro Tag (Korrektur vom urspruenglich falsch verstandenen
-Tagesbudget).
+(pnl.risk_size) -- nicht kumulativ pro Tag (Korrektur vom urspruenglich falsch verstandenen
+Tagesbudget). Punktwert-Bug im 2026-08-06-Audit gefixt: die alte lokale _risk_size vergass
+den Punktwert-Faktor, reales Risiko war dadurch doppelt so hoch wie beabsichtigt.
 """
 from __future__ import annotations
 
@@ -32,6 +33,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import Bar, swings, CFG  # noqa: E402
 from rules import plan_trade  # noqa: E402
 from signals import build_features  # noqa: E402
+from pnl import risk_size, POINT_VALUE  # noqa: E402
 
 BIAS_LONG_THRESHOLD = 0.55
 BIAS_SHORT_THRESHOLD = 0.45
@@ -69,15 +71,6 @@ def _passes_bias_filter(setup_side: str, day_bias: str) -> bool:
     return day_bias in ("long", "short") and (setup_side == "long") == (day_bias == "long")
 
 
-def _risk_size(equity: float, max_pct: float, entry: float, stop: float) -> int:
-    """Nutzerregel: nie mehr als `max_pct` des Kontoguthabens Risiko PRO TRADE -- siehe
-    wiki/concepts/Risikomanagement (1% pro Trade).md. Groesse wird so gewaehlt, dass ein
-    Stop-Out genau dieses Budget ausschoepft, nicht mehr."""
-    budget = equity * max_pct
-    stop_dist = abs(entry - stop)
-    return max(0, int(budget / stop_dist))
-
-
 class EnsembleStrategy(Strategy):
     bias: dict = {}            # date -> "long"/"short"/"neutral", vor bt.run() gesetzt
     stop_buffer_pct = 0.1
@@ -86,6 +79,7 @@ class EnsembleStrategy(Strategy):
                                 # wird (Nutzerregel; Split selbst nicht vorgegeben -> 50/50
                                 # als ponytail: Default, bei Bedarf anpassbar)
     max_risk_pct = 0.01        # Nutzerregel: nie mehr als 1% Kontoguthaben Risiko PRO TRADE
+    point_value = POINT_VALUE["MNQ"]  # $/Punkt, siehe pnl.POINT_VALUE
     leverage = 20               # muss zu Backtest(margin=...) passen (0.05 -> 20x); Strategy
                                  # hat keinen direkten Zugriff auf den margin-Wert des Brokers,
                                  # ohne diese Kappung fordert _risk_size bei engem Stop mehr
@@ -131,7 +125,7 @@ class EnsembleStrategy(Strategy):
         if key in self._taken:
             return
 
-        size = _risk_size(self.equity, self.max_risk_pct, setup.entry, setup.stop)
+        size = risk_size(self.equity, self.max_risk_pct, setup.entry, setup.stop, self.point_value)
         # ponytail: 0.95-Puffer auf die Margin-Obergrenze -- die Order fuellt ggf. erst
         # Bars spaeter zum Limit-Preis, exaktes Ausreizen der Margin liess den Broker die
         # Order sonst gelegentlich stornieren (Rundungs-/Timing-Randfall)
@@ -176,11 +170,11 @@ def _demo() -> None:
     assert _passes_bias_filter("short", "long") is False
     assert _passes_bias_filter("long", "neutral") is False
 
-    # 1% von 100_000 = 1000 Risiko-Budget, Stop 10 Punkte entfernt -> 100 Einheiten
-    assert _risk_size(100_000, 0.01, 100, 90) == 100
-    # 1% von 100_000 = 1000 Risiko-Budget, Stop 100 Punkte entfernt -> nur noch 10 Einheiten
-    assert _risk_size(100_000, 0.01, 100, 0) == 10
-    print("backtest_ensemble _passes_bias_filter/_risk_size demo ok")
+    # Kontraktgroessen-Logik selbst ist in pnl.py::demo() getestet -- hier nur die Verdrahtung:
+    # EnsembleStrategy.point_value muss MNQ's echten Punktwert tragen, sonst reproduziert sich
+    # der 2026-08-06-Audit-Fund (reales Risiko doppelt so hoch wie beabsichtigt).
+    assert EnsembleStrategy.point_value == POINT_VALUE["MNQ"] == 2.0
+    print("backtest_ensemble _passes_bias_filter/point_value-Verdrahtung demo ok")
 
 
 if __name__ == "__main__":
