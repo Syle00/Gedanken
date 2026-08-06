@@ -738,3 +738,27 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Seiten aktualisiert: wiki/index.md, wiki/concepts/PD Array.md, wiki/concepts/New Week Opening Gap
   (NWOG) Bias.md, wiki/concepts/Smart Money Concepts (SMC).md, wiki/concepts/Open Float & Liquidity
   Pools.md, wiki/sources/NQ Futures Weekly Range Market Wizardry (Source).md.
+
+## [2026-08-06] query | Bias-Gegenprobe mit den neuen Month-04-Konzepten (REH/REL, Vacuum Block)
+- Nutzerfrage: "aufgrund der neuen Infos was hältst du von meinem Bias für heute? bist du anderer
+  Meinung, habe ich Liq oder PD arrays übersehen?" -- die frisch ingesteten Month-04-Konzepte
+  ([[Open Float & Liquidity Pools#REH / REL (Relative Equal Highs / Lows)]],
+  [[Breakaway Gap#Vacuum Block = Breakaway Gap durch ein Volatilitäts-Event]]) direkt auf den
+  laufenden 06.08.-Bias angewendet statt nur allgemein zu antworten.
+- **Wichtige Selbstkorrektur:** die im 06.08.-Journal-Eintrag zuvor notierte "Doppel-Top
+  02.07.+05.07."-Lesart von 30.094,00 war selbst ein Datenfehler (Artefakt der bekannten
+  1d-Datei-Duplizierung, siehe 2026-08-04-Eintrag oben) -- gegen eine saubere 1m/15m-Aggregation
+  neu geprüft: 30.094,00 ist ein **einzelner** Treffer vom 06.07., kein Doppel-Top.
+- **Übersehene Liquidität gefunden**: eine echte **REH-Zone 30.062,50-30.094,00** (drei Hochs
+  06.07./10.07./15.07. innerhalb 32 Punkten, seit dem 15.07. komplett unangetastet) -- die
+  eigentlich bessere Buyside-Liquidität gegenüber dem einzelnen, falsch datierten "26.-Juli-High".
+- **Übersehenes PD Array gefunden**: der Übernachtgap 04.08.-Close (29.044,00) → 05.08.-Open
+  (29.781,25), 737 Punkte ohne einen einzigen Trade dazwischen -- ein Lehrbuch-Vacuum-Block. War
+  bereits als "NDOG 05.08" notiert, aber nie mit der Vacuum-Block-Logik durchgerechnet. Deckt sich
+  fast exakt mit der bereits gefundenen Daily-BISI-Range (28.965,00-29.775,50, C.E. 29.370,25) --
+  zwei unabhängige Methoden treffen sich auf derselben Zone. Liefert außerdem die bislang fehlende
+  **Invalidierungszahl**: Bias bullish intakt, solange kein Close unter C.E. 29.370,25.
+- Bias-Verdikt: weiterhin Bullish, keine Änderung -- die neuen Funde bestätigen/verfeinern die
+  bestehende Struktur, widersprechen ihr nicht.
+- Seite aktualisiert: journal/entries/2026-08-06 MNQ Daily Bias.md (Korrektur + neuer Abschnitt
+  "Nachtrag 2026-08-06"), journal/journal.csv (liquidity_ziel, pd_arrays).

@@ -11,8 +11,8 @@ modus: live
 kw: 2026-W32
 wochentag: Donnerstag
 modell: "kein Trade (No-Trading-Tag laut eigener Regel)"
-liquidity_ziel: "Buyside 30.094,00 (User nannte '26 Juli' — tatsächlich Doppel-Hoch 02.07+05.07, siehe Korrektur); näher: Daily-BISI-Oberkante ~29.775,50"
-pd_arrays: [New Week Opening Gap (NWOG) Bias, New Day Opening Gap (NDOG), IFVG (Inverse Fair Value Gap), BISI & SIBI (Buyside-Sellside Imbalance), Market Structure Shift (MSS), Judas Swing, Silver Bullet Model]
+liquidity_ziel: "REH-Cluster 30.062,50-30.094,00 (06.07/10.07/15.07, User nannte fälschlich '26 Juli Doppel-Top'); näher: Daily-BISI-Oberkante ~29.775,50; Invalidierung: Close unter BISI-C.E. 29.370,25"
+pd_arrays: [New Week Opening Gap (NWOG) Bias, New Day Opening Gap (NDOG), IFVG (Inverse Fair Value Gap), BISI & SIBI (Buyside-Sellside Imbalance), Market Structure Shift (MSS), Judas Swing, Silver Bullet Model, Open Float & Liquidity Pools, Breakaway Gap]
 fehler: []
 ---
 
@@ -67,16 +67,46 @@ Fremd-Historie enthalten (siehe `wiki/log.md`, 2026-08-04) und nicht direkt verg
 
 **Korrekturen ⚠️**
 
-1. **"High vom 26 Juli 30.094,00" — Datum falsch, Level real.** 30.094,00 ist exakt der Doppel-Top-
-   High vom **02.07. und 05.07.** (beide Tage treffen den Wert auf den Tick). Der tatsächliche
-   Handelstag-High vom 26.07. liegt bei **28.763,75** — das ist zufällig derselbe Level wie der
-   "Montags-High 27.07" aus dem Buyside-Cluster im 03.08.-Eintrag (`journal/entries/2026-08-03 MNQ
-   Daily Bias.md`), Verwechslungsgefahr zwischen den beiden Daten naheliegend. Als fernes DOL bleibt
-   30.094,00 grundsätzlich gültig (deutlich über dem aktuellen Preis, kein Widerspruch zur Bullish-
-   These), nur die Datumsangabe war falsch.
+1. **"High vom 26 Juli 30.094,00" — Datum falsch, Level real, aber kein Doppel-Top.**
+   > ⚠️ **Selbstkorrektur zur ersten Prüfung oben:** dort wurde 30.094,00 als "Doppel-Top 02.07+05.07"
+   > eingeordnet. Das war ein Datenfehler — die zugrundeliegenden 1d-Dateien duplizieren bekanntermaßen
+   > Kerzen über mehrere Tagesordner hinweg (siehe `wiki/log.md`, 2026-08-04). Gegen eine saubere
+   > 1m/15m-Aggregation (eigene Handelstag-Grenze 18:00 NY) neu geprüft: 30.094,00 ist ein **einzelner**
+   > Treffer vom **Montag 06.07.**, nicht 02./05.07. und nicht 26.07. (dessen echter Handelstag-High
+   > liegt bei 28.763,75, identisch mit dem "Montags-High 27.07" aus dem 03.08.-Eintrag).
 2. **Dienstag-NY-AM-Sellside — nicht unabhängig verifiziert.** Der genaue Level dieser Liquidität
    wurde hier nicht nachgerechnet (kein konkreter Preis im Text genannt); offen für den nächsten
    Durchgang.
+
+---
+
+## Nachtrag 2026-08-06 (auf Nutzerfrage: Bias-Einschätzung + übersehene Liq/PD-Arrays)
+
+Angewandt: die neuen Konzepte aus dem Month-04-Ingest vom selben Tag ([[Open Float & Liquidity
+Pools#REH / REL (Relative Equal Highs / Lows)]], [[Breakaway Gap#Vacuum Block = Breakaway Gap durch
+ein Volatilitäts-Event]], [[Double Top & Bottom (Algorithmische Range-Projektion)]]).
+
+**Bias-Einschätzung: weiterhin Bullish, keine Änderung.** Preis (Stand ~02:35 NY, nur Asia-Ende
+gelaufen) hält sich über der Daily-BISI-Zone und über dem IFVG-C.E. — nichts an der bisherigen
+Struktur widerspricht der These. Kein Trade heute ohnehin richtig (News-Regel).
+
+**Übersehen: eine echte REH-Zone statt eines (falschen) Doppel-Tops.** Mit sauberer Aggregation
+zeigen sich **drei** Hochs innerhalb von nur 32 Punkten, alle seit Mitte Juli unangetastet:
+**06.07. 30.094,00 · 10.07. 30.076,75 · 15.07. 30.062,50** → **REH-Cluster 30.062,50–30.094,00**.
+Das ist die eigentliche, besser belegte Buyside-Liquidität — nicht der einzelne (und falsch
+datierte) "26.-Juli-High". Kein Tages-High seit dem 15.07. kam auch nur in die Nähe (höchstes
+Zwischenhoch: 29.990,75 am 05.08.) — die Zone ist vollständig frisch.
+
+**Übersehen: der 04.08.→05.08.-Übernachtgap als eigenständiger Vacuum Block.** Handelstag-Close
+04.08. lag bei **29.044,00**, Handelstag-Open 05.08. (18:00 NY) bei **29.781,25** — ein **737-Punkte-
+Gap ganz ohne Trades dazwischen**, klassischer Vacuum Block/Breakaway Gap. Bereits als "NDOG 05.08"
+im Tape-Reading-Eintrag vom 05.08. notiert, aber nie mit der Vacuum-Block-Logik durchgerechnet.
+Deckt sich fast exakt mit der bereits gefundenen Daily-BISI-Range (28.965,00–29.775,50, C.E.
+29.370,25) — zwei verschiedene Methoden (3-Kerzen-FVG vs. Close→Open-Gap) kommen auf dieselbe Zone,
+das stärkt die Lesart zusätzlich. Preis hat den Gap bereits **teilweise gefüllt** (heutiges Tief
+29.454,25 liegt schon innerhalb) — nach Vacuum-Block-Logik bliebe die bullishe These intakt,
+**solange kein Close unter dem C.E. 29.370,25 erfolgt**; das liefert die bislang fehlende
+Invalidierungszahl für den heutigen Bias.
 
 ---
 
@@ -107,4 +137,4 @@ Fremd-Historie enthalten (siehe `wiki/log.md`, 2026-08-04) und nicht direkt verg
 
 ## Verwandt
 
-[[New Week Opening Gap (NWOG) Bias]], [[New Day Opening Gap (NDOG)]], [[IFVG (Inverse Fair Value Gap)]], [[BISI & SIBI (Buyside-Sellside Imbalance)]], [[Market Structure Shift (MSS)]], [[Judas Swing]], [[Silver Bullet Model]]
+[[New Week Opening Gap (NWOG) Bias]], [[New Day Opening Gap (NDOG)]], [[IFVG (Inverse Fair Value Gap)]], [[BISI & SIBI (Buyside-Sellside Imbalance)]], [[Market Structure Shift (MSS)]], [[Judas Swing]], [[Silver Bullet Model]], [[Open Float & Liquidity Pools]], [[Breakaway Gap]]
