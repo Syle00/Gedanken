@@ -644,3 +644,25 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   Video welche Notion-Lecture vervollstaendigt vs. komplett neu ist).
 - Seiten aktualisiert: wiki/index.md (4 neue Concepts, 16 neue Sources in die Core-Content-Liste
   eingereiht).
+
+## [2026-08-06] ingest | Daily Bias 06.08. (Journal, live)
+- Nutzer: "ich habe meinen heutigen bias gemacht" -- `raw/Daily Bias 06.08.md` nach
+  `raw/journal/Daily Bias 2026-08-06.md` verschoben (Konvention analog 08-03/08-04), verarbeitet
+  zu `journal/entries/2026-08-06 MNQ Daily Bias.md` + Zeile in `journal/journal.csv`.
+- Frische Marktdaten gezogen (`algo/fetch_yfinance.py 2026-08-05 2026-08-07`, da fuer 06.08. noch
+  nichts vorlag) statt den bekanntermassen fehlerhaften 1d/4h/1h-Cache zu nutzen. Fuer die Daily-
+  FVG-Rekonstruktion (IFVG/BISI) zusaetzlich eigene 1m-Aggregation mit der Handelstag-Grenze
+  (18:00 NY) gebaut, weil die pro-Tag benannten 1d-Dateien Fremd-Historie enthalten.
+- **Bestaetigt**: NDOG-Open 29.576,00 exakt; Unemployment/Jobless-Claims heute + NFP morgen (per
+  TradingEconomics-Kalender); Montag 03.08. weiterhin Wochentief (28.723,25); Daily-IFVG-C.E. vom
+  16.07 (rekonstruiert: 29.220,00-29.396,75, C.E. 29.308,38) am 05.08. mit Close 29.904,00 klar
+  respektiert.
+- **Korrektur**: der genannte DOL "High vom 26 Juli 30.094,00" -- der Level 30.094,00 stimmt exakt,
+  aber er stammt vom Doppel-Top **02.07./05.07.**, nicht vom 26.07. (dessen echter Handelstag-High
+  liegt bei 28.763,75, zufaellig identisch mit dem bereits bekannten "Montags-High 27.07" aus dem
+  03.08.-Eintrag -- vermutlich daher die Verwechslung). Level als fernes DOL weiterhin gueltig,
+  nur das Datum war falsch; im Journal-Eintrag als ⚠️ vermerkt statt still korrigiert.
+- Tag laeuft zum Zeitpunkt des Eintrags erst bis 02:05 NY (Asia-Ende) -- `bias_korrekt` und die
+  volle Session-Auswertung bleiben offen fuer einen Nachtrag morgen (Muster wie beim 08.03.-Eintrag,
+  der am 08.04. nachgetragen wurde). Kein Trade geplant: eigene Regel verbietet Handel an Tagen mit
+  Jobless-Claims + NFP am Folgetag.
