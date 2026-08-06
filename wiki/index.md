@@ -13,6 +13,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Algorithmic Time & Price Grid]] — Preis-Achse (Octant/Quadrant) × Zeit-Achse (Macro-Startzeiten); PD Array am Kreuzungspunkt = höchste Bestätigung, fraktale Wiederholung (2026-08-05)
 - [[Buy & Sell Program]] — Zwei Kriterien, an denen ein Buy-/Sell-Programm erkannt wird; visuelle Signatur ergänzt (2026-08-05)
 - [[Dealing Range]] — Premium/Discount-Rahmen; je mehr Timeframes übereinstimmen, desto besser (2026-08-02)
+- [[Drei-Ebenen-Marktperspektive]] — Big Picture/Intermediate/Short-Term-Framework, 7 Kriterien für ein High-Reward-Setup (2026-08-06)
+- [[Erwartungswert & Reward-to-Risk-Modell]] — Mindest-RR nach Trefferquote, bestätigt die 1-%-Risiko-Regel im ICT-Quellenmaterial (2026-08-06)
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]] — 4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition (2026-08-01)
 - [[Asian Range]] — 19–24 Uhr NY, Highest High/Lowest Low; Konsolidierung = Trendtag, nur mit Bias nutzbar (2026-08-02)
 - [[Balanced Price Range (BPR)]] — Verhalten innerhalb eines FVG, eine Timeframe tiefer betrachtet (2026-08-02)
@@ -40,6 +42,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[IPDA Data Ranges]] — 20/40/60-Tage-Lookback des Interbank Price Delivery Algorithmus (2026-08-01)
 - [[Judas Swing]] — Der False Run zwischen 0:00 und 5:00 NY, bullishe/bearishe Ausführung (2026-08-02)
 - [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD (2026-08-01)
+- [[Market Maker Trap - False Breakout]] — false breakouts neutralisieren gezielt eine Seite gebracketer Stops, seriell wiederholend (2026-08-06)
+- [[Market Maker Trap - False Flag]] — Bull-/Bear-Flag-Fake in HTF-Premium/Discount-Zonen, Body-vs-Wick-Erkennung (2026-08-06)
 - [[Market Reversal Types]] — Katalog der 8 ICT-Reversal-Typen (PDH/PDL, ITH/ITL, NY Reversal...) (2026-08-01)
 - [[Mitigation Block]] — Order-Block-Variante nach einem Failure Swing (2026-08-01)
 - [[Market Structure Shift (MSS)]] — MSS vs. MSB, Pflichtbedingung Liq-Sweep vor dem Swing-Bruch (2026-08-02)
@@ -50,12 +54,14 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Optimal Trade Entry (OTE)]] — Retracement-Entry 62/70,5/79 % mit Targets und protectetem SL (2026-08-02)
 - [[Order Block]] — Basiskonzept + Validierungsregeln für alle OB-Varianten (2026-08-01)
 - [[ORG (Opening Range Gap) & 1st Presented FVG]] — C.E-Bias-Bestätigung über Wicks und ORG (2026-08-01)
+- [[Partial Profit-Taking & R-Multiple-Skalierung]] — erstes Partial bei 3:1 sichern, Rest bis 9–15R laufen lassen (2026-08-06)
 - [[PD Array]] — Premium/Discount-Array, Grundbaustein jedes ICT-Setups (2026-08-01)
 - [[Premium vs. Carrying Charge Market]] — Futures-Kurven-Analyse (Contango/Backwardation) (2026-08-01)
 - [[Quarterly Shift]] — Alle 3–4 Monate markanter Liquidity-Shift, Underlying/Benchmark (2026-08-01)
 - [[Reclaimed Order Block]] — OB-Variante im MMXM-Modell nach Displacement+Retracement (2026-08-01)
 - [[Rejection Block]] — OB-Variante über Wick-vs-Body-Liquidity-Sweep (2026-08-01)
-- [[Risikomanagement (1% pro Trade)]] — eigene Positionsgrößen-Regel: nie mehr als 1% Kontoguthaben Risiko pro Trade (2026-08-05)
+- [[Risikomanagement (1% pro Trade)]] — eigene Positionsgrößen-Regel: nie mehr als 1% Kontoguthaben Risiko pro Trade; jetzt auch als ICT-Quellenregel bestätigt (2026-08-06)
+- [[Risiko-Verfeinerung über Timeframes]] — HTF-Level auf tiefere Timeframes umgeframed, Stop schrumpft ohne Zielverlust (2026-08-06)
 - [[Seasonal Tendency]] — Historisch wiederkehrende saisonale Preistendenzen (2026-08-01)
 - [[Signal-Following & Crowd Liquidity Risk]] — Warum öffentliches Teilen von Live-Levels die eigene Edge zerstört; manuelle Intervention (Spread-Widening, Mini-Runs), CFTC-Hintergrund, Operator- vs. Konzept-Fehler (2026-08-05)
 - [[Smart Money Concepts (SMC)]] — **Wurzelseite**: Dachbegriff über allen ICT-Study-Notes, thematischer Einstieg (2026-08-02)
@@ -65,6 +71,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Trading All Time Highs (ATH)]] — Continuation-Checkliste am ATH und die 3 Stages, an denen Smart Money oben verkauft (2026-08-02)
 - [[Trendline Phantoms (3 Drives Pattern)]] — Retail-Trendline-Falle, 3-Drives-Angriffsziel (2026-08-01)
 - [[Turtle Soup]] — Fehlausbruch-Setup mit Rückkehr in FVG/Retracement (2026-08-01)
+- [[Verlust-Mitigation durch reduzierte Re-Entry-Size]] — nach Stop-out mit halber Size re-entrien, R2 gleicht vollen Verlust aus (2026-08-06)
 - [[Volume Imbalance (VII)]] — Lücke Close→Open; bestimmt die FVG-Grenzen und ist selbst eine PD Array (2026-08-02)
 
 ## Models
@@ -148,6 +155,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Algorithmic Time & Price Grids (Source)]] — YouTube 2026-07-31: vollständige Herleitung des Time-&-Price-Grid-Konzepts, ~200-Handle-Move in 10 Min (2026-08-05)
 - [[Part 1 High Precision Secrets To Intraday Price Action (Source)]] — YouTube 2026-08-01: Daily-Low-Projektion über Konvergenz zweier Fib-Messungen, 3-Tage-Intraday-Lookback (2026-08-05)
 - [[Part 2 High Precision Secrets To Intraday Price Action (Source)]] — YouTube 2026-08-01: ORG-Partial-Leiter bis −1,0 STD, Fulcrum Point, Single-Contract-Probe + Pyramiding in Drawdown (2026-08-05)
+- **Core Content Month 02 (8 Videos, YouTube 2022-08-27 bis 2022-08-30)** — schließt die Lücke, die [[Core Content 2016 (Source)]] im Notion-Export offen ließ:
+  [[ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)]], [[ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)]], [[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]], [[ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)]], [[ICT Mentorship Core Content - Month 02 - How To Mitigate Losing Trades Effectively (Source)]], [[ICT Mentorship Core Content - Month 02 - The Secrets To Selecting High Reward Setups (Source)]], [[ICT Mentorship Core Content - Month 02 - Market Maker Trap False Flag (Source)]], [[ICT Mentorship Core Content - Month 02 - Market Maker Trap False Breakouts (Source)]] (2026-08-06)
 
 ### MentorShip 2025
 

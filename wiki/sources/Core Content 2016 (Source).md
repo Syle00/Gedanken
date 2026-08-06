@@ -1,7 +1,7 @@
 ---
 tags: [source, ict, trading-ict, curriculum]
 created: 2026-08-01
-updated: 2026-08-02
+updated: 2026-08-06
 raw: "[[Core Content 2016]]"
 raw_path: "raw/trading-ict/Core Content/Core Content 2016.md"
 ---
@@ -25,7 +25,11 @@ das auf ihre Monats-Seite zurückverweist.
 | [[Month 10 (Source)]] | Futures-Spezifika & Opening Range | 4 |
 | [[Month 11 (Source)]] | Mega-Trades | 3 |
 
-> ℹ️ Ein „Month 02" existiert im Original nicht — die Sprungliste geht von Monat 1 direkt auf Monat 3.
+> ✅ **Lücke geschlossen (2026-08-06)**: ein „Month 02" existiert im Notion-Export nicht — die
+> Sprungliste sprang ursprünglich von Monat 1 direkt auf Monat 3. Inhaltlich nachgereicht über
+> 8 YouTube-Videos derselben Mentorship (Core Content Month 02, Aug. 2022), ingested unter
+> `raw/trading-ict/2026/yt-*-transcript.md`. Navigation: siehe die achtteilige Serie ab
+> [[ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)]].
 
 ## Lücken im Rohmaterial
 

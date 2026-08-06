@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Erwartungswert &amp; Reward-to-Risk-Modell — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">66</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">152</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">9</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li class="here"><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Erwartungswert &amp; Reward-to-Risk-Modell</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">money-management</span> <span class="tag">risikomanagement</span></div><div class="dates">erstellt 2026-08-06 · aktualisiert 2026-08-06</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-mentorship-core-content-month-02-growing-small-accounts-source.html">ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)</a>, <a href="../p/ict-mentorship-core-content-month-02-how-traders-make-10-per-month-source.html">ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)</a>, <a href="../p/ict-mentorship-core-content-month-02-no-fear-of-losing-source.html">ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#mindest-rr-nach-trefferquote-break-even-tabelle">Mindest-RR nach Trefferquote (Break-even-Tabelle)</a></li>
+<li><a href="#konkrete-rechenbeispiele-no-fear-of-losing">Konkrete Rechenbeispiele (No Fear Of Losing)</a></li>
+<li><a href="#bestatigt-risiko-prozentsatz-regel-existiert-im-ict-quellenmaterial">✅ Bestätigt: Risiko-Prozentsatz-Regel existiert im ICT-Quellenmaterial</a></li>
+<li><a href="#partial-taking-gehort-zur-rechnung">Partial-Taking gehört zur Rechnung</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="erwartungswert-reward-to-risk-modell">Erwartungswert &amp; Reward-to-Risk-Modell</h1>
+<p>Kernthese aus Core Content Month 02: <strong>Trefferquote ist zweitrangig — was Profitabilität erzeugt,
+ist ein Mindest-Reward-to-Risk plus kleines, definiertes Risiko pro Trade.</strong> Hohe Genauigkeit
+(80–90 %) wird explizit <em>nicht</em> verlangt; die Rechnung geht auch bei 25–30 % Trefferquote auf.</p>
+<h2 id="mindest-rr-nach-trefferquote-break-even-tabelle">Mindest-RR nach Trefferquote (Break-even-Tabelle)</h2>
+<p>Aus <a href="../p/ict-mentorship-core-content-month-02-growing-small-accounts-source.html">ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Trefferquote</th>
+<th>Mindest-RR für Profitabilität</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>75 %</td>
+<td>deutlich unter 1:1 (sehr niedrig)</td>
+</tr>
+<tr>
+<td>60 %</td>
+<td>niedrig, aber &gt; 75-%-Fall</td>
+</tr>
+<tr>
+<td>50 %</td>
+<td>ca. 1:1 (Dollar für Dollar)</td>
+</tr>
+<tr>
+<td>40 %</td>
+<td>ca. 1,5:1</td>
+</tr>
+<tr>
+<td>33 %</td>
+<td>ca. 2:1</td>
+</tr>
+<tr>
+<td>25 %</td>
+<td>3:1 (untere Grenze)</td>
+</tr>
+</tbody>
+</table>
+<p>Faustregel: bei 25 % Trefferquote (<strong>drei von vier Trades sind Verlierer</strong>) reicht ein konsequentes
+3:1-RR bereits für Netto-Profitabilität.</p>
+<h2 id="konkrete-rechenbeispiele-no-fear-of-losing">Konkrete Rechenbeispiele (No Fear Of Losing)</h2>
+<p>Basis: hypothetisches 5.000-$-Konto, Sample von 10 Trades/Monat.</p>
+<table>
+<thead>
+<tr>
+<th>Trefferquote</th>
+<th>Risiko/Trade</th>
+<th>RR-Ziel</th>
+<th>Monatsrendite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30 %</td>
+<td>1 %</td>
+<td>3:1</td>
+<td>~2 %</td>
+</tr>
+<tr>
+<td>30 %</td>
+<td>1 %</td>
+<td>5:1</td>
+<td>~8 %</td>
+</tr>
+<tr>
+<td>30 %</td>
+<td>2 %</td>
+<td>5:1</td>
+<td>~15 %</td>
+</tr>
+<tr>
+<td>40 %</td>
+<td>2 %</td>
+<td>5:1</td>
+<td>~28 %</td>
+</tr>
+<tr>
+<td>50 %</td>
+<td>2 %</td>
+<td>5:1</td>
+<td>~40 %</td>
+</tr>
+<tr>
+<td><strong>50 %</strong></td>
+<td><strong>1 %</strong></td>
+<td><strong>5:1</strong></td>
+<td><strong>~20 % — als "optimales Trading-Ziel" bezeichnet</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ Diese Prozentsätze sind ICTs eigene hypothetische Modellrechnung (Marketing-nahe Beispiele
+aus einem 2022er Mentorship-Video), keine Backtest-Ergebnisse. Nicht 1:1 als erwartbare
+Realrendite übernehmen — als <strong>Denkmodell für die RR/Risiko-Relation</strong> verwenden, nicht als
+Renditeversprechen.</p>
+</blockquote>
+<h2 id="bestatigt-risiko-prozentsatz-regel-existiert-im-ict-quellenmaterial">✅ Bestätigt: Risiko-Prozentsatz-Regel existiert im ICT-Quellenmaterial</h2>
+<p><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a> vermerkte bislang als offenen Punkt, dass im durchsuchten
+Core-Content-Text keine explizite Prozent-Regel zur Positionsgröße auffindbar war. Dieses
+YouTube-Nachtrag-Material (Core Content Month 02, im Notion-Export fehlend — siehe
+<a href="../p/ict-mentorship-core-content-month-02-growing-small-accounts-source.html">ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)</a>) liefert sie
+jetzt explizit:</p>
+<ul>
+<li><strong>Growing Small Accounts</strong>: "well-defined risk, two percent ideally if you're a new trader,
+  but no more than two percent on an average."</li>
+<li><strong>No Fear Of Losing</strong>: "we're talking about one percent […] one percent makes millionaires"
+  — 1 % Risiko/Trade bei 50 % Trefferquote und 5:1-RR als <strong>"optimal trading goal"</strong>.</li>
+</ul>
+<p>Deckt sich mit der bereits implementierten 1-%-pro-Trade-Regel — Quelle war nur zuvor nicht im
+ingesteten Textmaterial, sondern in diesem Video-Nachtrag.</p>
+<h2 id="partial-taking-gehort-zur-rechnung">Partial-Taking gehört zur Rechnung</h2>
+<p>Wird ein Teil der Position bereits bei 3:1 realisiert ("pay the trader"), ist der Rest der
+Position quasi risikofrei und kann auf höhere HTF-Liquiditätsziele laufen — siehe
+<a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a> für das konkrete Skalierungsmodell, das auf
+dieser Erwartungswert-Logik aufbaut.</p>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/meine-strategien-uebersicht.html">Meine Strategien (Übersicht)</a></li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">8</span></h2><ul><li><a href="../p/ict-mentorship-core-content-month-02-growing-small-accounts-source.html">ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-02-how-traders-make-10-per-month-source.html">ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-02-no-fear-of-losing-source.html">ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a><span class="cat">Konzepte</span></li><li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a><span class="cat">Konzepte</span></li><li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a><span class="cat">Konzepte</span></li><li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Erwartungswert &amp; Reward-to-Risk-Modell.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

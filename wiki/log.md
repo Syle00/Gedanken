@@ -558,3 +558,37 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   keine ⚠️-Markierung noetig -- stattdessen zu einer einzigen zusammenhaengenden Regel
   zusammengezogen, Bildunterschrift ergaenzt statt separatem Blockquote.
 - Seite aktualisiert: wiki/concepts/PD Array.md.
+
+## [2026-08-06] ingest | ICT Mentorship Core Content Month 02 (8 YouTube-Videos)
+- Auftrag: `/yt-ict-ingest` mit direktem Playlist-Link (PLVgHx4Z63paZvjqerfbn320myZ06L1MOB,
+  "corecontent month 2") statt des ueblichen Channel-Scan-Fensters -- alle 8 Videos der Playlist
+  per `yt-dlp --flat-playlist` aufgelistet, gegen `raw/trading-ict/2026/yt-*-transcript.md` und
+  `wiki/log.md` abgeglichen: keines der 8 war bereits ingested.
+- **Fund**: die Playlist ist exakt "Core Content Month 02" -- ein Monat, der laut
+  [[Core Content 2016 (Source)]] im Notion-Export komplett fehlt (Sprungliste ging bisher direkt
+  von Monat 1 zu Monat 3). Schliesst damit eine seit dem Erst-Ingest (2026-08-01) offen notierte
+  Luecke. Hub-Seite entsprechend von ⚠️ auf ✅ aktualisiert.
+- Alle 8 Auto-Caption-Transkripte per `tools/fetch_yt_transcript.py` geholt, volle Abdeckung
+  (780-940 Zeichen/Minute je Video, keine Abbruchstelle wie beim fruehreren MOC-Video).
+- 8 Source-Seiten erstellt (je `wiki/sources/ICT Mentorship Core Content - Month 02 - <Titel>
+  (Source).md`): Growing Small Accounts, Framing Low Risk Trade Setups, How Traders Make 10% Per
+  Month, No Fear Of Losing, How To Mitigate Losing Trades Effectively, The Secrets To Selecting
+  High Reward Setups, Market Maker Trap False Flag, Market Maker Trap False Breakouts.
+- 7 neue Konzept-Seiten erstellt: wiki/concepts/Erwartungswert & Reward-to-Risk-Modell.md,
+  wiki/concepts/Risiko-Verfeinerung ueber Timeframes.md, wiki/concepts/Partial Profit-Taking & R-
+  Multiple-Skalierung.md, wiki/concepts/Verlust-Mitigation durch reduzierte Re-Entry-Size.md,
+  wiki/concepts/Drei-Ebenen-Marktperspektive.md, wiki/concepts/Market Maker Trap - False Flag.md,
+  wiki/concepts/Market Maker Trap - False Breakout.md.
+- **Wichtigster Fund**: [[Risikomanagement (1% pro Trade)]] hatte seit 2026-08-05 einen offenen
+  Punkt ("keine explizite Prozent-Regel im ICT-Quellenmaterial gefunden") -- dieser Batch liefert
+  die Quelle explizit ("No Fear Of Losing": 1% Risiko/Trade bei 50% Trefferquote + 5:1 RR als
+  "optimal trading goal"; "Growing Small Accounts": max. 2% fuer neue Trader). Seite von offenem
+  Punkt auf ✅ bestaetigt umgestellt, ohne die bestehende Regel inhaltlich zu aendern (Zahl deckt
+  sich exakt).
+- Seiten aktualisiert: wiki/index.md (7 neue Concepts + 8 neue Sources), wiki/sources/Core
+  Content 2016 (Source).md (Luecken-Hinweis auf ✅ umgestellt), wiki/concepts/Risikomanagement
+  (1% pro Trade).md (offener Punkt geschlossen).
+- Bewusst ausgefiltert je Video: Meta-Kommentar/Kritiker-Verteidigung (v.a. im 64-Minuten-Video
+  "Secrets To Selecting High Reward Setups"), Wiederholungen bereits erfasster Rhetorik,
+  generische Google-Bildquellen ohne eigene Chart-Analyse. Details je Source-Seite unter
+  "Bewusst ausgefiltert".

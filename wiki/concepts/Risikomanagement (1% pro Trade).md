@@ -1,8 +1,8 @@
 ---
 tags: [concept, risikomanagement, position-sizing, eigene-regel]
 created: 2026-08-05
-updated: 2026-08-05
-sources: []
+updated: 2026-08-06
+sources: ["[[ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)]]", "[[ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)]]"]
 ---
 
 # Risikomanagement (1% pro Trade)
@@ -46,26 +46,28 @@ Trade nicht genommen.
   verlangen, als das Konto-Margin hergibt — ohne diese Kappung hätte der Broker die Order
   einfach storniert (kompletter Trade-Ausfall) statt sie kleiner zu füllen.
 
-## Offener Punkt: Quelle der Regel
+## ✅ Quelle gefunden (2026-08-06): ICT Mentorship Core Content Month 02 (YouTube-Nachtrag)
 
-Der Nutzer verortet die Money-Management-/Drawdown-Regeln generell im ICT-Quellenmaterial
-("Core Content"). Durchsucht (Volltext + [[Smart Money Concepts (SMC)|Graphify-Query]]):
-`raw/trading-ict/` komplett (Core Content + alle Jahrgänge) nach %-Angaben, "risk",
-"drawdown", "money management", "position size", "Konto", "Verlust" — **keine explizite
-Prozent-Regel zur Positionsgröße gefunden**. Am nächsten dran:
+Der zuvor offene Punkt (keine Prozent-Regel im damals durchsuchten Core-Content-Text gefunden)
+ist jetzt geklärt: **Month 02** fehlte komplett im Notion-Export (siehe
+[[Core Content 2016 (Source)]]) und wurde erst nachträglich über YouTube-Videos ingested — dort
+steht die Regel explizit:
 
-- [[Missed Entry Trade Management Playbook]] — Skalierung/Reentry/Exit-Schema, aber ohne
-  %-Bezug zum Kontoguthaben.
-- `raw/2026/Chain Of Custody Of Price With Daily Inefficiencies.md`: *"wenn möglich nehmen wir
-  an Key Leveln ... Partials ... um unser Risiko zu minimieren"* — deckt sich mit dem
-  Partial-Teil in [[Silver Bullet Model]], aber ohne Zahl.
+- [[ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)]]: max. 2 %
+  Risiko/Trade (ideal für neue Trader).
+- [[ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)]]: **1 % Risiko/Trade**
+  bei 50 % Trefferquote + 5:1 RR als "optimales Trading-Ziel" — deckt sich exakt mit der hier
+  bereits implementierten Regel.
 
-Möglich, dass die eigentliche Money-Management-Regel nur in einem der vielen Screenshots steht
-(reiner Bildinhalt, nicht textuell erfasst) statt im Fließtext — die 1%-Regel bleibt bis zur
-Nutzer-Bestätigung/-Korrektur als **eigene, unverknüpfte Regel** hier stehen.
+Vollständige Herleitung inkl. Erwartungswert-Tabellen: [[Erwartungswert & Reward-to-Risk-Modell]].
+Ergänzend dazu die Rest der Passung: [[Missed Entry Trade Management Playbook]] (Skalierung/
+Reentry/Exit-Schema) und `raw/2026/Chain Of Custody Of Price With Daily Inefficiencies.md`
+(Partial-Taking-Hinweis) waren die zuvor bereits gefundenen, nur teilweise passenden Belege.
 
 ## Verwandt
 
 - [[Meine Strategien (Übersicht)]]
 - [[Silver Bullet Model]] — erste Strategie, die diese Regel nutzt
 - [[Missed Entry Trade Management Playbook]]
+- [[Erwartungswert & Reward-to-Risk-Modell]]
+- [[Verlust-Mitigation durch reduzierte Re-Entry-Size]]
