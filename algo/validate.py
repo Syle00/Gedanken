@@ -21,6 +21,7 @@ import random
 
 import pandas as pd
 from backtesting import Backtest
+from pnl import dubious_pct
 
 
 def run(df: pd.DataFrame, strategy_cls, bt_kwargs: dict, param_name: str | None = None,
@@ -42,7 +43,8 @@ def parameter_sensitivity(df, strategy_cls, param_name: str, candidates: list,
     col_width = fmt.get("col_width", 8)
     value_fmt = fmt.get("value_fmt")
     print(f"1. Parameter-Sensitivitaet ({title})")
-    print(f"   {col_label:>{col_width}}  {'Trades':>7}  {'WinRate%':>9}  {'ProfitFactor':>13}  {'Expectancy%':>12}")
+    print(f"   {col_label:>{col_width}}  {'Trades':>7}  {'WinRate%':>9}  {'ProfitFactor':>13}  "
+          f"{'Expectancy%':>12}  {'Dubious%':>9}")
     for value in candidates:
         stats = baseline if (baseline is not None and value == baseline_value) else \
             run(df, strategy_cls, bt_kwargs, param_name, value)
@@ -50,7 +52,7 @@ def parameter_sensitivity(df, strategy_cls, param_name: str, candidates: list,
         pf_str = f"{pf:.3f}" if pf == pf else "n/a"
         value_str = value_fmt(value) if value_fmt else str(value)
         print(f"   {value_str:>{col_width}}  {stats['# Trades']:>7}  {stats['Win Rate [%]']:>9.1f}  "
-              f"{pf_str:>13}  {stats['Expectancy [%]']:>12.3f}")
+              f"{pf_str:>13}  {stats['Expectancy [%]']:>12.3f}  {dubious_pct(stats._trades):>9.1f}")
 
 
 def slice_days(df: pd.DataFrame, days: list) -> pd.DataFrame:
@@ -77,7 +79,7 @@ def walk_forward(df, strategy_cls, param_name: str | None, candidates: list | No
     print(f"2. Walk-Forward ({n_folds} rollierende Folds, ~{fold_len} Handelstage je Fold)")
     header = is_col_label if is_col_label is not None else ("IS " + (param_name or "Modell"))
     print(f"   {'Fold':>4}  {header:>{is_col_width}}  {'OOS Trades':>10}  "
-          f"{'OOS WinRate%':>12}  {'OOS ProfitFactor':>16}  {'OOS Expectancy%':>15}")
+          f"{'OOS WinRate%':>12}  {'OOS ProfitFactor':>16}  {'OOS Expectancy%':>15}  {'OOS Dubious%':>13}")
     oos_returns = []
     for i in range(n_folds - 1):
         train, test = slice_days(df, folds[i]), slice_days(df, folds[i + 1])
@@ -98,7 +100,8 @@ def walk_forward(df, strategy_cls, param_name: str | None, candidates: list | No
         oos_pf = oos["Profit Factor"]
         oos_pf_str = f"{oos_pf:.3f}" if oos_pf == oos_pf else "n/a"
         print(f"   {i + 1:>4}  {fold_label!s:>{is_col_width}}  {oos['# Trades']:>10}  "
-              f"{oos['Win Rate [%]']:>12.1f}  {oos_pf_str:>16}  {oos['Expectancy [%]']:>15.3f}")
+              f"{oos['Win Rate [%]']:>12.1f}  {oos_pf_str:>16}  {oos['Expectancy [%]']:>15.3f}  "
+              f"{dubious_pct(oos._trades):>13.1f}")
         if oos["# Trades"] > 0:
             oos_returns.extend(oos._trades["ReturnPct"].tolist())
     if oos_returns:
@@ -117,6 +120,8 @@ def monte_carlo(baseline, n_sims: int = 1000, seed: int = 42, fmt: dict | None =
     returns = baseline._trades["ReturnPct"].tolist()
     n = len(returns)
     print(f"3. Monte Carlo ({header_prefix}n={n} Trades, {n_sims} Resamples der Trade-Reihenfolge)")
+    print(f"   Baseline mehrdeutige Trades (Stop/Ziel in derselben Kerze, Fill-Reihenfolge "
+          f"unbekannt): {dubious_pct(baseline._trades):.1f}%")
     if n < 10:
         print(f"   Zu wenig Trades (n={n}) fuer eine aussagekraeftige Verteilung.")
         return
