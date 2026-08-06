@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-05
+updated: 2026-08-06
 sources: ["[[Institutional Order Flow (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]"]
 ---
 
@@ -92,6 +92,14 @@ zu lesen, ob der antizipierte Level hält — ausdrücklich auch am Demo-Konto m
 Live-Konto verfügbar ist. Erst wenn diese Rückmeldung (Preis respektiert das Level, PD Arrays
 bilden sich wie erwartet) passt, wird die Position aufgebaut. Quelle:
 [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]].
+
+## Hedge-Book-Mechanik (2016er Video-Ergänzung)
+
+Aus dem [[Institutional Order Flow (Source)|Begleitvideo]]: Banken fahren **gleichzeitig ein Long-
+und ein Short-Buch**. Ein scharfer Gegen-Wick nach einem Order-Block-Retest muss deshalb kein neues
+Signal sein — oft ist es nur das **Glattstellen der Gegenposition** (Unwinding), während das
+Hauptbuch unangetastet bleibt. Erkennbar am Wick-zu-Body-Retracement-Muster, siehe
+[[Mitigation Block]].
 
 ## Verwandt
 

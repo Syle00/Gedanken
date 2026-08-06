@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "C:\Users\janne\OneDrive\Desktop\Ablage 1\VS Folder 1\tools\fetch_yt_transcript.py", line 62, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\janne\OneDrive\Desktop\Ablage 1\VS Folder 1\tools\fetch_yt_transcript.py", line 45, in main
+    text = get_transcript_text(args.video_id)
+  File "C:\Users\janne\OneDrive\Desktop\Ablage 1\VS Folder 1\tools\fetch_yt_transcript.py", line 34, in get_transcript_text
+    snippets = api.fetch(video_id)
+  File "C:\Users\janne\AppData\Roaming\Python\Python314\site-packages\youtube_transcript_api\_api.py", line 73, in fetch
+    .fetch(preserve_formatting=preserve_formatting)
+     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janne\AppData\Roaming\Python\Python314\site-packages\youtube_transcript_api\_transcripts.py", line 139, in fetch
+    _raise_http_errors(response, self.video_id).text,
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janne\AppData\Roaming\Python\Python314\site-packages\youtube_transcript_api\_transcripts.py", line 96, in _raise_http_errors
+    raise IpBlocked(video_id)
+youtube_transcript_api._errors.IpBlocked: 
+Could not retrieve a transcript for the video https://www.youtube.com/watch?v=_TNhWRPa6GA! This is most likely caused by:
+
+YouTube is blocking requests from your IP. This usually is due to one of the following reasons:
+- You have done too many requests and your IP has been blocked by YouTube
+- You are doing requests from an IP belonging to a cloud provider (like AWS, Google Cloud Platform, Azure, etc.). Unfortunately, most IPs from cloud providers are blocked by YouTube.
+
+Ways to work around this are explained in the "Working around IP bans" section of the README (https://github.com/jdepoix/youtube-transcript-api?tab=readme-ov-file#working-around-ip-bans-requestblocked-or-ipblocked-exception).
+
+
+If you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!
