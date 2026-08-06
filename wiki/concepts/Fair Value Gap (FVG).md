@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-06
-sources: ["[[Fair Valuation (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]]", "[[ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)]]"]
+sources: ["[[Fair Valuation (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]]", "[[ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)]]", "[[ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)]]"]
 ---
 
 # Fair Value Gap (FVG)
@@ -95,6 +95,15 @@ Wird der Low/High einer Candle **von der unmittelbar nächsten Candle** erneut a
 irgendwann später), gilt das als "Immediate Rebalance" — ein eigenständig benannter Spezialfall, der
 nur in diesem engen Zeitfenster (die direkt folgende Candle) zählt. Quelle:
 [[Part 2 High Precision Secrets To Intraday Price Action (Source)]].
+
+## Offener Rest = Stärke-Signal (2026-Ergänzung)
+
+Aus [[ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)]]: bleibt
+beim Reversal-Versuch ein kleiner Teil eines Gaps **ungeschlossen**, obwohl Preis eigentlich tiefer
+(bzw. höher, invertiert) erwartet würde, gilt das als **Unwilligkeit, dorthin zu gehen** — ein
+Stärke-Zeichen für die Gegenrichtung. Besonders am oberen Bereich eines Buyside-Imbalance/
+Sellside-Inefficiency-Gaps genutzt, als eigenständiges drittes PD Array neben Daily-IFVG und
+Wick-C.E.
 
 ## Verwandt
 

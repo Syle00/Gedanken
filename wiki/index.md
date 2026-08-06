@@ -33,7 +33,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Equilibrium Vs. Discount]] — Dealing-Range-Konstruktion, EQ, verschachteltes Premium/Discount (2026-08-01)
 - [[Event Horizon]] — 50%-Punkt zwischen zwei Liquidity Pools für Partials (2026-08-01)
 - [[External vs. Internal Range Liquidity]] — Entry an Internal (OB/FVG in der Range), Exit an External (Stops außerhalb) (2026-08-06)
-- [[Fair Value Gap (FVG)]] — Preiszone ohne Trading zwischen zwei Candles (2026-08-01)
+- [[Fair Value Gap (FVG)]] — Preiszone ohne Trading zwischen zwei Candles (2026-08-06)
 - [[FOMC (Federal Open Market Committee)]] — US-Zinsgremium, häufigster News-Katalysator in Weekly-Profilen (2026-08-01)
 - [[ICT Daily Range Session Timing]] — Session-Ablauf, der die Daily Range formt (2026-08-01)
 - [[ICT Killzones]] — Die vier Handelsfenster mit idealen Paaren und Pip-Erwartung (2026-08-02)
@@ -92,7 +92,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Commodity Mega-Trades]] — Mega-Trade-Methodik für Rohstoff-Sektoren (2026-08-01)
 - [[Graded Price Swings]] — Range in Viertel graden (25/50/75 %), Reaktion je Level, laut Quelle das zweite Modell neben MMXM (2026-08-02)
 - [[High Probability Daytrade Setups]] — Entry-Modell rund um Session-Highs/Lows (2026-08-01)
-- [[ICT Day Trade Routine]] — Täglicher Analyse-Ablauf vor dem Trading (2026-08-01)
+- [[ICT Day Trade Routine]] — Täglicher Analyse-Ablauf vor dem Trading (2026-08-06)
 - [[London Session Profiles]] — 4 London-Profile + Wann London vermeiden/ideal ist (2026-08-01)
 - [[Market Maker Manipulation Templates]] — Katalog wiederkehrender Weekly-Manipulation-Profile (2026-08-01)
 - [[Market on Close (MOC) Macro Model]] — 15:50–16:00-Macro, zwei Ranges (Daily + Final-Hour), Dealing-Range-Fib bis 16tel, Order-Flow-Entry, SL-/Exit-Philosophie, ES- und NQ-Beispiel je auf wenige Ticks genau (2026-08-05)
@@ -170,6 +170,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Algorithmic Time & Price Grids (Source)]] — YouTube 2026-07-31: vollständige Herleitung des Time-&-Price-Grid-Konzepts, ~200-Handle-Move in 10 Min (2026-08-05)
 - [[Part 1 High Precision Secrets To Intraday Price Action (Source)]] — YouTube 2026-08-01: Daily-Low-Projektion über Konvergenz zweier Fib-Messungen, 3-Tage-Intraday-Lookback (2026-08-05)
 - [[Part 2 High Precision Secrets To Intraday Price Action (Source)]] — YouTube 2026-08-01: ORG-Partial-Leiter bis −1,0 STD, Fulcrum Point, Single-Contract-Probe + Pyramiding in Drawdown (2026-08-05)
+- [[ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)]] — YouTube 2026-08-06: Live-Long in NQ, offener Gap-Rest als Stärke-Signal, NFP-Woche-Feinregel für Anfänger (2026-08-06)
 - **Core Content Month 02 (8 YouTube-Videos, 2022-08-27 bis 2022-08-30)** — schließt die im
   Notion-Export offene Lücke, eingeordnet wie jeder andere Monat über [[Month 02 (Source)]]
   (Curriculum-Sprungseite, listet alle 8 Lectures samt Ziel-Konzeptseite) (2026-08-06)

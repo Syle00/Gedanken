@@ -787,3 +787,22 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - `python tools/build_site.py` zur Bestaetigung gelaufen: 286 Seiten, keine neuen unaufgeloesten
   Links, kein Index-Drift im Month-05-Umfeld.
 - Ergebnis: kein Handlungsbedarf, Wiki zu Month 05 bereits konsistent und vollstaendig.
+
+## [2026-08-06] ingest | YouTube: ICT Price Action Chronicles - The Science Of Anticipation In Price Action
+- Nutzer verlinkte direkt ein neues, ~4h altes Video: https://www.youtube.com/watch?v=tByaPnk3fc4
+  (Kanal The Inner Circle Trader, veroeffentlicht 2026-08-06, 51:20). Transkript unter
+  `raw/trading-ict/2026/yt-tByaPnk3fc4-transcript.md`, vollstaendige Auto-Caption-Abdeckung.
+- Live-Long-Execution in NQ waehrend NFP-Woche direkt nach dem FOMC-Rally, aufgebaut auf drei
+  zusammenfallenden PD Arrays (Daily-IFVG, oberer Bereich eines Buyside-FVGs, C.E. eines
+  Daily-Wicks).
+- Seiten erstellt: wiki/sources/ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source).md
+- Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (neuer Abschnitt "Offener Rest =
+  Staerke-Signal" — ungeschlossener Gap-Rest bei erwarteter Gegenbewegung gilt als Unwilligkeits-
+  Signal), wiki/models/ICT Day Trade Routine.md (NFP-Woche-Feinregel fuer Anfaenger: sauberste
+  Preisaktion Montag-Mittwoch bis ca. 11 Uhr NY-Zeit), wiki/index.md
+- Bewusst ausgefiltert: Fundamentalanalyse-Kritik/NFP-Datenqualitaet, Chris-Lori-Abgrenzung
+  (Plagiatsvorwuerfe), private Anekdoten (Rehfuetterung, Hunde, Backen), allgemeine
+  Motivations-Rhetorik ohne neue konkrete Regel.
+- Keine Core-Content-Playlist-Batchaktion durchgefuehrt: Nutzer hat den urspruenglich gestarteten
+  12-Playlist-Batch (2016/2017 Core Content Month 01-12 YouTube-Videos, ~115 Videos) abgebrochen
+  und stattdessen dieses Einzelvideo angefragt.
