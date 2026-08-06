@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-06
-sources: ["[[Fair Valuation (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]]"]
+sources: ["[[Fair Valuation (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]]", "[[ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)]]"]
 ---
 
 # Fair Value Gap (FVG)
@@ -80,6 +80,14 @@ auf denselben Preisbereich, unabhängig von der Retail-Premium/Discount-Sicht:
   Position in der Gesamtrange (unteres Drittel), Position relativ zum EQ (unter 50 %) **und** Nähe
   zu einem [[Order Block]]/[[PD Array]] — erst wenn alle drei übereinstimmen, gilt der Bereich als
   hochwahrscheinliche Akkumulationszone.
+
+## FVG × Liquidity Void × Turtle Soup — dasselbe Level, drei Blickwinkel
+
+Aus [[ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)]]: ein FVG auf
+höherem Timeframe zeigt sich auf tieferem Timeframe oft als [[Liquidity Void]] (mehrere Candles
+statt einer einzelnen Lücke), und ein Fehlausbruch unter/über ein altes Tief/Hoch genau an diesem
+Level kombiniert es mit [[Turtle Soup]] zu einer einzigen, mehrfach bestätigten Zone. Je mehr dieser
+Blickwinkel am selben Preis zusammenfallen, desto höher die Wahrscheinlichkeit.
 
 ## Immediate Rebalance (2026-Ergänzung)
 

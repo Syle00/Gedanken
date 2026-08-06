@@ -20,11 +20,11 @@ Alle 6 Lectures haben eine Source-Seite, Reihenfolge wie im Original:
 5. [[Reclaimed ICT Orderblock (Source)]] → [[Reclaimed Order Block]]
 6. [[Mitigation Blocks (Source)]] → [[Mitigation Block]]
 
-## YouTube-Ergänzung (2026-08-06, bisher 8 von 14 Lectures)
+## YouTube-Ergänzung (2026-08-06, vollständig — 14 von 14 Lectures)
 
 Die YouTube-Playlist "2016 ICT Private Mentorship Core Content Month 04" hat **14** Videos — fast
 alle Notion-Lectures als Vollversion, plus mehrere komplett neue Themen (u.a. schließt sie die
-oben als leer vermerkte Rohdatei #4). 8 Videos sind bereits ingested:
+oben als leer vermerkte Rohdatei #4). Alle 14 Videos sind ingested:
 
 1. [[ICT Mentorship Core Content - Month 04 - Interest Rate Effects On Currency Trades (Source)]] → [[Intermarket Relationships]] *(neu, kein Notion-Gegenstück)*
 2. [[ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts & Price Delivery (Source)]] → [[External vs. Internal Range Liquidity]] *(schließt Lücke von Lecture 4 oben)*
@@ -34,9 +34,13 @@ oben als leer vermerkte Rohdatei #4). 8 Videos sind bereits ingested:
 6. [[ICT Mentorship Core Content - Month 04 - ICT Rejection Block (Source)]] → [[Rejection Block]] *(Vollversion zu Lecture 3 oben)*
 7. [[ICT Mentorship Core Content - Month 04 - Reclaimed ICT Orderblock (Source)]] → [[Reclaimed Order Block]] *(Vollversion zu Lecture 5 oben)*
 8. [[ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)]] → [[Propulsion Block]] *(neu, kein Notion-Gegenstück)*
+9. [[ICT Mentorship Core Content - Month 04 - ICT Vacuum Block (Source)]] → [[Breakaway Gap]] *(neu, kein Notion-Gegenstück — ICT ordnet den Vacuum Block selbst als Breakaway-Gap-Sonderfall ein)*
+10. [[ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)]] → [[Liquidity Void]] *(neu, kein Notion-Gegenstück)*
+11. [[ICT Mentorship Core Content - Month 04 - Liquidity Pools (Source)]] → [[Open Float & Liquidity Pools]] *(Vertiefung: Sweep-Größen, Stop-Weiten, Pairing-Logik)*
+12. [[ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)]] → [[Fair Value Gap (FVG)]] *(Vertiefung: FVG × Liquidity Void × Turtle Soup)*
+13. [[ICT Mentorship Core Content - Month 04 - Divergence Phantoms (Source)]] → [[Momentum-Divergenz als Retail-Falle (Divergence Phantoms)]] *(neu, kein Notion-Gegenstück)*
+14. [[ICT Mentorship Core Content - Month 04 - Double Bottom Double Top (Source)]] → [[Double Top & Bottom (Algorithmische Range-Projektion)]] *(neu, kein Notion-Gegenstück)*
 
-> ⚠️ **6 Videos noch offen** (YouTube-Transcript-API meldete `IpBlocked` nach den ersten ~16 Requests
-> in dieser Session — technisches Rate-Limit, kein inhaltliches Problem): ICT Vacuum Block
-> (`shPGUz9pU-A`), Liquidity Voids (`HTQgH11W37o`), Liquidity Pools (`Gnw54f9v6SA`), ICT Fair Value
-> Gaps FVG (`FgacYSN9QEo`), Divergence Phantoms (`Xae0VrbkyFk`), Double Bottom Double Top
-> (`owq30ATPU5s`). Bei Gelegenheit erneut versuchen (`python tools/fetch_yt_transcript.py <id>`).
+> ✅ Die zuvor 6 offenen Videos (YouTube-Transcript-API meldete am 2026-08-06 `IpBlocked` nach den
+> ersten ~16 Requests derselben Session — technisches Rate-Limit, kein inhaltliches Problem) wurden
+> am selben Tag in einer neuen Session erfolgreich nachgeholt (#9-14 oben).

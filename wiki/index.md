@@ -27,6 +27,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[CISD (Change in State of Delivery)]] — Down-/Up-Close-Candles als struktureller Support/Resistance (2026-08-01)
 - [[COT (Commitment of Traders) Data]] — Positionierungsdaten großer Player, 12-Monats-Hedging-Methode (2026-08-01)
 - [[Daily High & Low Projektion (Konvergenz)]] — Fib-0,5-Extension, 3-Tage-Wick-Projektion und Fulcrum Point kombiniert für High-Probability-Daily-Extreme (2026-08-05)
+- [[Double Top & Bottom (Algorithmische Range-Projektion)]] — Measured-Move-Projektion über die Range zwischen zwei Peaks/Tälern hinaus, Extreme statt Mitte = hohe Wahrscheinlichkeit (2026-08-06)
 - [[DXY Correlation (Risk On_Off)]] — Risk-On/Risk-Off-Faustregel über den Dollar Index (2026-08-02)
 - [[Enigma FVG Projection]] — FIB-Technik zur Antizipation von FVG-Expansion (VII/C.E) (2026-08-01)
 - [[Equilibrium Vs. Discount]] — Dealing-Range-Konstruktion, EQ, verschachteltes Premium/Discount (2026-08-01)
@@ -43,6 +44,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Intermarket Relationships]] — Bonds/Stocks/Commodities/Currencies-Korrelationsregeln (2026-08-01)
 - [[IPDA Data Ranges]] — 20/40/60-Tage-Lookback des Interbank Price Delivery Algorithmus (2026-08-01)
 - [[Judas Swing]] — Der False Run zwischen 0:00 und 5:00 NY, bullishe/bearishe Ausführung (2026-08-02)
+- [[Liquidity Void]] — LTF-Erscheinung eines FVG, einseitige Preislieferung, Common-Gap-Präzisions-Entry (2026-08-06)
 - [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD (2026-08-01)
 - [[Market Maker Trap - False Breakout]] — false breakouts neutralisieren gezielt eine Seite gebracketer Stops, seriell wiederholend (2026-08-06)
 - [[Market Maker Trap - False Flag]] — Bull-/Bear-Flag-Fake in HTF-Premium/Discount-Zonen, Body-vs-Wick-Erkennung (2026-08-06)
@@ -52,6 +54,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Market Structure Shift (MSS)]] — MSS vs. MSB, Pflichtbedingung Liq-Sweep vor dem Swing-Bruch (2026-08-02)
 - [[Midnight Opening Range]] — 0:00–0:30 NY, Fib + negative STD fürs Daily High/Low, max. Manipulation −1 STD (2026-08-02)
 - [[Modell 22]] — 2026er Turtle-Soup-Trigger über MSS+SIBI, linkes-IFVG-Regel (2026-08-01)
+- [[Momentum-Divergenz als Retail-Falle (Divergence Phantoms)]] — Typ-1- vs. Typ-2-Divergenz, Smart Money nutzt Retail-Divergenz-Signale zum Stop-Run, Abgrenzung zu SMT (2026-08-06)
 - [[New Week Opening Gap (NWOG) Bias]] — Wöchentliche Bias-Regel + Intraweek-Reversal-Muster (2026-08-01)
 - [[Open Float & Liquidity Pools]] — Wo liegen die Stops der großen Funds, OI-Bestätigung (2026-08-01)
 - [[Optimal Trade Entry (OTE)]] — Retracement-Entry 62/70,5/79 % mit Targets und protectetem SL (2026-08-02)
@@ -131,6 +134,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Mentorship Core Content - Month 1 - Equilibrium Vs. Premium (Source)]], [[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]], [[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]], [[ICT Mentorship Core Content - Month 1 - Impulse Price Swings & Market Protraction (Source)]]
 - [[ICT Mentorship Core Content - Month 04 - Interest Rate Effects On Currency Trades (Source)]], [[ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts & Price Delivery (Source)]], [[ICT Mentorship Core Content - Month 04 - Orderblocks (Source)]], [[ICT Mentorship Core Content - Month 04 - Mitigation Blocks (Source)]]
 - [[ICT Mentorship Core Content - Month 04 - ICT Breaker Block (Source)]], [[ICT Mentorship Core Content - Month 04 - ICT Rejection Block (Source)]], [[ICT Mentorship Core Content - Month 04 - Reclaimed ICT Orderblock (Source)]], [[ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)]]
+- [[ICT Mentorship Core Content - Month 04 - ICT Vacuum Block (Source)]], [[ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)]], [[ICT Mentorship Core Content - Month 04 - Liquidity Pools (Source)]], [[ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)]]
+- [[ICT Mentorship Core Content - Month 04 - Divergence Phantoms (Source)]], [[ICT Mentorship Core Content - Month 04 - Double Bottom Double Top (Source)]]
 - [[Institutional Marketstructure (Source)]], [[Institutional Order Flow (Source)]], [[Institutional Sponsorship (Source)]]
 - [[Integrating Daytrades With HTF Trade Entries (Source)]], [[Interest Rate Differentials (Source)]]
 - [[Intraday Profiles f. London (Source)]], [[Intraweek Market Reversals & Overlapping Models (Source)]]

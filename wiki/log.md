@@ -666,3 +666,34 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   volle Session-Auswertung bleiben offen fuer einen Nachtrag morgen (Muster wie beim 08.03.-Eintrag,
   der am 08.04. nachgetragen wurde). Kein Trade geplant: eigene Regel verbietet Handel an Tagen mit
   Jobless-Claims + NFP am Folgetag.
+
+## [2026-08-06] ingest | Core Content Month 04 -- die 6 zuvor an IpBlocked gescheiterten Videos
+- Nutzerauftrag (`/yt-ict-ingest`): "core content montth 4 beschädifte datein auch updaten" -- die
+  am selben Tag zuvor an `IpBlocked` gescheiterten 6 Videos (siehe Log-Eintrag "Core Content Month
+  01 & Month 04") erneut versuchen. Rate-Limit war in der neuen Session nicht mehr aktiv, alle 6
+  Transkripte sofort erfolgreich geholt (`python tools/fetch_yt_transcript.py <id>`), volle
+  Abdeckung, keine Abbrueche.
+- Betroffene Videos: ICT Vacuum Block (`shPGUz9pU-A`), Liquidity Voids (`HTQgH11W37o`), Liquidity
+  Pools (`Gnw54f9v6SA`), ICT Fair Value Gaps FVG (`FgacYSN9QEo`), Divergence Phantoms
+  (`Xae0VrbkyFk`), Double Bottom Double Top (`owq30ATPU5s`) -- damit ist die Playlist "2016 ICT
+  Private Mentorship Core Content Month 04" jetzt vollstaendig (14 von 14).
+- 6 neue Source-Seiten erstellt (`wiki/sources/ICT Mentorship Core Content - Month 04 - <Titel>
+  (Source).md`, #9-14 der YouTube-Ergaenzung).
+- **3 neue Konzeptseiten**: [[Liquidity Void]] (LTF-Erscheinung eines FVG, einseitige
+  Preislieferung, Common-Gap-Praezisions-Entry), [[Momentum-Divergenz als Retail-Falle (Divergence
+  Phantoms)]] (Typ-1- vs. Typ-2-/Hidden-Divergenz, korrekt Nick van Nice statt George Lane
+  zugeschrieben, explizite Abgrenzung zu [[SMT (Smart Money Divergence)]] als Cross-Asset- statt
+  Cross-Indicator-Konzept), [[Double Top & Bottom (Algorithmische Range-Projektion)]]
+  (Measured-Move-Projektion ueber Doppel-Extreme hinaus, Extreme-vs.-Mitte-Wahrscheinlichkeitsregel).
+- **3 bestehende Konzeptseiten vertieft**: [[Breakaway Gap]] (neuer Abschnitt "Vacuum Block" --
+  ICT ordnet den Vacuum Block selbst ausdruecklich als Breakaway-Gap-Sonderfall ein, inkl.
+  synthetischer Candle-Behandlung, Teilfuellung am Order Block, Tageszeit-Abhaengigkeit),
+  [[Open Float & Liquidity Pools]] (konkrete Sweep-Groessen 10-20 Pips, Stop-Weite 30-50 Pips,
+  25-Pip-Invalidierungsschwelle, Pairing-Logik Sellside-Stops↔Kaeufe), [[Fair Value Gap (FVG)]]
+  (neuer Abschnitt zur Ueberlappung FVG × Liquidity Void × Turtle Soup).
+- `wiki/sources/Month 04 (Source).md` aktualisiert: Warnhinweis zu den 6 offenen Videos durch die
+  vollstaendige 14-Punkte-Liste ersetzt (Status von "8 von 14" auf "vollstaendig" gestellt).
+- Seiten aktualisiert: wiki/index.md (6 neue Sources, 3 neue Concepts eingetragen).
+- Bewusst ausgefiltert je Video: Feiertagswoche-Ankuendigung (Dezember 2016, 2x wiederholt), lange
+  persoenliche Herkunftsgeschichte im Divergence-Phantoms-Video (eigener Handelsbeginn 1992) --
+  nur die daraus abgeleitete Regel uebernommen, nicht die Anekdote.
