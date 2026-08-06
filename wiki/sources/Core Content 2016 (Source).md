@@ -15,6 +15,7 @@ das auf ihre Monats-Seite zurückverweist.
 | Monat | Thema | Lectures |
 |---|---|---|
 | [[Month 1 (Source)]] | Marktmechanik-Grundlagen | 5 |
+| [[Month 02 (Source)]] | Risiko-/Money-Management, Setup-Selektion | 8 |
 | [[Month 03 (Source)]] | Institutioneller Order Flow | 5 |
 | [[Month 04 (Source)]] | Order-Block-Vertiefung | 6 |
 | [[Month 05 (Source)]] | IPDA, Open Float, Intermarket | 9 |
@@ -28,8 +29,8 @@ das auf ihre Monats-Seite zurückverweist.
 > ✅ **Lücke geschlossen (2026-08-06)**: ein „Month 02" existiert im Notion-Export nicht — die
 > Sprungliste sprang ursprünglich von Monat 1 direkt auf Monat 3. Inhaltlich nachgereicht über
 > 8 YouTube-Videos derselben Mentorship (Core Content Month 02, Aug. 2022), ingested unter
-> `raw/trading-ict/2026/yt-*-transcript.md`. Navigation: siehe die achtteilige Serie ab
-> [[ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)]].
+> `raw/trading-ict/2026/yt-*-transcript.md`. Eingeordnet wie jeder andere Monat über die neue
+> Curriculum-Sprungseite [[Month 02 (Source)]].
 
 ## Lücken im Rohmaterial
 

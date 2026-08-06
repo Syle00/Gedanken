@@ -4,6 +4,7 @@ created: 2026-08-06
 updated: 2026-08-06
 raw: "[[yt-vWDElb65YHg-transcript]]"
 raw_path: "raw/trading-ict/2026/yt-vWDElb65YHg-transcript.md"
+curriculum: "[[Month 02 (Source)]]"
 ---
 
 # ICT Mentorship Core Content - Month 02 - How To Mitigate Losing Trades Effectively (Source)
@@ -34,6 +35,7 @@ hinaus.
 
 ## Verwandt
 
+- [[Month 02 (Source)]] — Curriculum-Übersicht dieser Lecture-Reihe
 - [[Verlust-Mitigation durch reduzierte Re-Entry-Size]]
 - [[ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)]]
 - [[Risikomanagement (1% pro Trade)]]

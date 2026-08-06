@@ -4,6 +4,7 @@ created: 2026-08-06
 updated: 2026-08-06
 raw: "[[yt-bftKgceXqYo-transcript]]"
 raw_path: "raw/trading-ict/2026/yt-bftKgceXqYo-transcript.md"
+curriculum: "[[Month 02 (Source)]]"
 ---
 
 # ICT Mentorship Core Content - Month 02 - The Secrets To Selecting High Reward Setups (Source)
@@ -39,6 +40,7 @@ Mentees.
 
 ## Verwandt
 
+- [[Month 02 (Source)]] — Curriculum-Übersicht dieser Lecture-Reihe
 - [[Drei-Ebenen-Marktperspektive]]
 - [[Three Timeframe Framing]]
 - [[COT (Commitment of Traders) Data]], [[Intermarket Relationships]], [[Seasonal Tendency]]

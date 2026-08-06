@@ -4,6 +4,7 @@ created: 2026-08-06
 updated: 2026-08-06
 raw: "[[yt-cRbPS3uxkj4-transcript]]"
 raw_path: "raw/trading-ict/2026/yt-cRbPS3uxkj4-transcript.md"
+curriculum: "[[Month 02 (Source)]]"
 ---
 
 # ICT Mentorship Core Content - Month 02 - Market Maker Trap False Flag (Source)
@@ -31,6 +32,7 @@ Bull-/Bear-Flag-Illustrationen (nicht eigene Charts, keine Detailanalyse nötig)
 
 ## Verwandt
 
+- [[Month 02 (Source)]] — Curriculum-Übersicht dieser Lecture-Reihe
 - [[Market Maker Trap - False Flag]]
 - [[ICT Mentorship Core Content - Month 02 - Market Maker Trap False Breakouts (Source)]] —
   Schwestervideo, gleiche Kategorie "Market Maker Trap".

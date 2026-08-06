@@ -4,6 +4,7 @@ created: 2026-08-06
 updated: 2026-08-06
 raw: "[[yt-Zsg8IeBtfu0-transcript]]"
 raw_path: "raw/trading-ict/2026/yt-Zsg8IeBtfu0-transcript.md"
+curriculum: "[[Month 02 (Source)]]"
 ---
 
 # ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)
@@ -34,6 +35,7 @@ Serie, kein Meta-Kommentar).
 
 ## Verwandt
 
+- [[Month 02 (Source)]] — Curriculum-Übersicht dieser Lecture-Reihe
 - [[Risiko-Verfeinerung über Timeframes]]
 - [[ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)]] — liefert das
   Ausgangs-Setup (1H-Framing) für dieses Video.

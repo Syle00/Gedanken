@@ -4,6 +4,7 @@ created: 2026-08-06
 updated: 2026-08-06
 raw: "[[yt-pv2-R-STviA-transcript]]"
 raw_path: "raw/trading-ict/2026/yt-pv2-R-STviA-transcript.md"
+curriculum: "[[Month 02 (Source)]]"
 ---
 
 # ICT Mentorship Core Content - Month 02 - Market Maker Trap False Breakouts (Source)
@@ -34,6 +35,7 @@ for month three") ohne neuen fachlichen Inhalt.
 
 ## Verwandt
 
+- [[Month 02 (Source)]] — Curriculum-Übersicht dieser Lecture-Reihe
 - [[Market Maker Trap - False Breakout]]
 - [[ICT Mentorship Core Content - Month 02 - Market Maker Trap False Flag (Source)]]
 - [[Turtle Soup]], [[Open Float & Liquidity Pools]]

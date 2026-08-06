@@ -4,6 +4,7 @@ created: 2026-08-06
 updated: 2026-08-06
 raw: "[[yt-pctqB3UD6dk-transcript]]"
 raw_path: "raw/trading-ict/2026/yt-pctqB3UD6dk-transcript.md"
+curriculum: "[[Month 02 (Source)]]"
 ---
 
 # ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)
@@ -37,6 +38,7 @@ mehrfache Wiederholung der bereits in Video 1 erklärten Compounding-Logik.
 
 ## Verwandt
 
+- [[Month 02 (Source)]] — Curriculum-Übersicht dieser Lecture-Reihe
 - [[Partial Profit-Taking & R-Multiple-Skalierung]]
 - [[ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)]]
 - [[ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)]]

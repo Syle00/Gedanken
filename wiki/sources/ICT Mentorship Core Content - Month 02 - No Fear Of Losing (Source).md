@@ -4,6 +4,7 @@ created: 2026-08-06
 updated: 2026-08-06
 raw: "[[yt-pFdW8wdR9sQ-transcript]]"
 raw_path: "raw/trading-ict/2026/yt-pFdW8wdR9sQ-transcript.md"
+curriculum: "[[Month 02 (Source)]]"
 ---
 
 # ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)
@@ -34,6 +35,7 @@ wurde auf die Kernaussage verdichtet statt wörtlich referiert.
 
 ## Verwandt
 
+- [[Month 02 (Source)]] — Curriculum-Übersicht dieser Lecture-Reihe
 - [[Erwartungswert & Reward-to-Risk-Modell]]
 - [[Risikomanagement (1% pro Trade)]]
 - [[ICT Mentorship Core Content - Month 02 - How To Mitigate Losing Trades Effectively (Source)]]

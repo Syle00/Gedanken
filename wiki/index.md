@@ -127,7 +127,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Low Resistance Liquidity Runs Part 1 (Source)]], [[Low Resistance Liquidity Runs Part 2 (Source)]]
 - [[Macro Economic To Micro Technical (Source)]], [[Market Maker Manipulation Templates (Source)]], [[Market Maker Trap Trendline Phantoms (Source)]]
 - [[Mitigation Blocks (Source)]]
-- [[Month 1 (Source)]], [[Month 03 (Source)]], [[Month 04 (Source)]], [[Month 05 (Source)]], [[Month 06 - Swing Trading Model (Source)]], [[Month 07 - Weekly (Source)]], [[Month 08 - Daytrades (Source)]], [[Month 9 - Scalping-Daytrades (Source)]], [[Month 10 (Source)]], [[Month 11 (Source)]]
+- [[Month 1 (Source)]], [[Month 02 (Source)]], [[Month 03 (Source)]], [[Month 04 (Source)]], [[Month 05 (Source)]], [[Month 06 - Swing Trading Model (Source)]], [[Month 07 - Weekly (Source)]], [[Month 08 - Daytrades (Source)]], [[Month 9 - Scalping-Daytrades (Source)]], [[Month 10 (Source)]], [[Month 11 (Source)]]
 - [[NY PM Trend (Source)]]
 - [[One Shot One Kill Model (Source)]], [[Open Float (Source)]]
 - [[Premium Vs. Carrying Charge Market (Source)]], [[Projecting Daily Highs & Lows (Source)]]
@@ -155,8 +155,9 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Algorithmic Time & Price Grids (Source)]] — YouTube 2026-07-31: vollständige Herleitung des Time-&-Price-Grid-Konzepts, ~200-Handle-Move in 10 Min (2026-08-05)
 - [[Part 1 High Precision Secrets To Intraday Price Action (Source)]] — YouTube 2026-08-01: Daily-Low-Projektion über Konvergenz zweier Fib-Messungen, 3-Tage-Intraday-Lookback (2026-08-05)
 - [[Part 2 High Precision Secrets To Intraday Price Action (Source)]] — YouTube 2026-08-01: ORG-Partial-Leiter bis −1,0 STD, Fulcrum Point, Single-Contract-Probe + Pyramiding in Drawdown (2026-08-05)
-- **Core Content Month 02 (8 Videos, YouTube 2022-08-27 bis 2022-08-30)** — schließt die Lücke, die [[Core Content 2016 (Source)]] im Notion-Export offen ließ:
-  [[ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)]], [[ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)]], [[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]], [[ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)]], [[ICT Mentorship Core Content - Month 02 - How To Mitigate Losing Trades Effectively (Source)]], [[ICT Mentorship Core Content - Month 02 - The Secrets To Selecting High Reward Setups (Source)]], [[ICT Mentorship Core Content - Month 02 - Market Maker Trap False Flag (Source)]], [[ICT Mentorship Core Content - Month 02 - Market Maker Trap False Breakouts (Source)]] (2026-08-06)
+- **Core Content Month 02 (8 YouTube-Videos, 2022-08-27 bis 2022-08-30)** — schließt die im
+  Notion-Export offene Lücke, eingeordnet wie jeder andere Monat über [[Month 02 (Source)]]
+  (Curriculum-Sprungseite, listet alle 8 Lectures samt Ziel-Konzeptseite) (2026-08-06)
 
 ### MentorShip 2025
 

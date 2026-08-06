@@ -592,3 +592,16 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   "Secrets To Selecting High Reward Setups"), Wiederholungen bereits erfasster Rhetorik,
   generische Google-Bildquellen ohne eigene Chart-Analyse. Details je Source-Seite unter
   "Bewusst ausgefiltert".
+
+## [2026-08-06] setup | Month 02 als Curriculum-Sprungseite eingeordnet
+- Nutzerauftrag: die 8 neuen Month-02-Videos wie die uebrigen Core-Content-Monate ueber eine
+  eigene "Month NN (Source)"-Sprungseite einordnen statt nur als lose 2026er-YouTube-Quellen.
+- wiki/sources/Month 02 (Source).md neu angelegt nach demselben Muster wie Month 1/03/04/...:
+  Tabellen-Zeile in wiki/sources/Core Content 2016 (Source).md ergaenzt, alle 8 Lecture-Seiten um
+  `curriculum: "[[Month 02 (Source)]]"`-Frontmatter-Feld und einen Verweis in ihrer
+  Verwandt-Sektion ergaenzt (analog zu z.B. wiki/sources/Institutional Order Flow (Source).md ->
+  Month 03).
+- wiki/index.md: [[Month 02 (Source)]] in die bestehende Month-1..11-Aufzaehlung eingereiht; der
+  zuvor separate 2026er-Sammel-Bullet mit allen 8 Einzelverweisen auf einen einzelnen Verweis auf
+  die neue Sprungseite reduziert (Redundanz vermieden, Navigationsmuster jetzt konsistent mit den
+  uebrigen Monaten).

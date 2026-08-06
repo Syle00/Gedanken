@@ -4,6 +4,7 @@ created: 2026-08-06
 updated: 2026-08-06
 raw: "[[yt-mjVHmE1gVMg-transcript]]"
 raw_path: "raw/trading-ict/2026/yt-mjVHmE1gVMg-transcript.md"
+curriculum: "[[Month 02 (Source)]]"
 ---
 
 # ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)
@@ -42,6 +43,7 @@ Selbstbezug auf eigene frühe Trading-Fehler ohne neue konkrete Regel, King-Kong
 
 ## Verwandt
 
+- [[Month 02 (Source)]] — Curriculum-Übersicht dieser Lecture-Reihe
 - [[Erwartungswert & Reward-to-Risk-Modell]]
 - [[ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)]] — nutzt
   dasselbe AUDUSD-0.7512-Beispiel, verfeinert den Stop auf tiefere Timeframes.
