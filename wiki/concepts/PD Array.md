@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-05
+updated: 2026-08-06
 sources: ["[[Blending IPDA Data Ranges & PD Arrays (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
 ---
 
@@ -56,5 +56,5 @@ laut Quelle nicht als bedeutend — der bestehende Bias bleibt maßgeblich.
 - [[IPDA Data Ranges]] — Lookback-Fenster, in denen PD Arrays gesucht werden
 - [[Chain of Custody (Q-Validation)]] — Q-Level als zusätzliche Validierung einer PD Array
 - [[Kurz Notizen (Source)]]
-- ⚠️ Noch offen: eigene Seiten für Order Block, Fair Value Gap (FVG), Liquidity Pool als konkrete
-  PD-Array-Typen — bislang nur implizit über Quellen wie [[Reeinforced Orderblock Theory]] referenziert.
+- ✅ **Erledigt (2026-08-06)**: eigene Seiten für die konkreten PD-Array-Typen existieren inzwischen
+  — [[Order Block]], [[Fair Value Gap (FVG)]], [[Open Float & Liquidity Pools|Liquidity Pool]].

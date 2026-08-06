@@ -64,6 +64,27 @@ und die Kehrseite jeder Liquidity-Pool-Aussage:
   Buyside-Liquidity wird mit **Verkaufs-/Gewinnmitnahme-Orders** gepaart — dieselbe Rolle wie ein
   Market Maker/Liquidity Provider.
 
+## REH / REL (Relative Equal Highs / Lows)
+
+Aus dem 2026er-Material mehrfach als DOL-Bezeichnung verwendet, ohne dort selbst definiert zu sein
+(`raw/trading-ict/2026/Enigma FVG Projections.md`, `Midnight ET Principles In Relationship To
+PreMarket Session.md`, `NQ Futures Weekly Range Market Wizardry.md`). Kein eigenes YouTube-Video auf
+dem echten Kanal [@InnerCircleTrader](https://www.youtube.com/@InnerCircleTrader) gefunden — eine
+Suche förderte nur ein gleichnamiges Video auf einem **anderen** Kanal ("The Inner Circle Trader AKA
+The ALGO Trader", andere Channel-ID) zutage, das bewusst **nicht** genutzt wurde, da es nicht der
+Vault-Konvention (nur der verifizierte Original-Kanal zählt als Quelle) entspricht.
+
+- **REH = Relative Equal High(s)**, **REL = Relative Equal Low(s)**: mehrere Hochs bzw. Tiefs, die
+  **nahezu**, aber nicht exakt auf demselben Preis liegen (im Gegensatz zu echten "Equal Highs/Lows").
+  Genau wie ein exaktes Doppel-Top/-Bottom (siehe
+  [[Double Top & Bottom (Algorithmische Range-Projektion)]]) baut sich dort ein Pool aus
+  Stop-Liquidity auf — Buy Stops über einem REH-Cluster, Sell Stops unter einem REL-Cluster.
+  Funktional identisch zur allgemeinen Liquidity-Pool-Logik oben, nur mit gelockerter
+  "exakt gleich"-Anforderung.
+- Alle drei 2026er-Belegstellen nutzen den Begriff konsistent als **DOL-Kandidat** (Draw on
+  Liquidity) — z.B. "ein DOL mit REL ist vorhanden" bei mehrfach per Wick genommenen, aber nicht
+  exakt identischen Tiefs.
+
 ## Präzisere Definition (Open Float)
 
 Open Float = das aktuelle Interesse (Open Interest) **über und unter** dem Marktpreis in Form von

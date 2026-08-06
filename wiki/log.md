@@ -697,3 +697,44 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Bewusst ausgefiltert je Video: Feiertagswoche-Ankuendigung (Dezember 2016, 2x wiederholt), lange
   persoenliche Herkunftsgeschichte im Divergence-Phantoms-Video (eigener Handelsbeginn 1992) --
   nur die daraus abgeleitete Regel uebernommen, nicht die Anekdote.
+
+## [2026-08-06] lint | Veraltete Offene-Punkte-Markierungen bereinigt + REH/REL definiert
+- Nutzerauftrag: "prüfe gegen ob fehlerhafte seiten bestehen und ergänze und erneuere diese durch
+  yt ict, sodass alles aktuell ist" -- systematischer Durchgang durch `wiki/index.md`
+  "Offene Punkte", alle ⚠️-Marker in `wiki/concepts` und `wiki/sources`, und den Build-Report
+  (`python tools/build_site.py`) auf unaufgeloeste Links / Index-Drift.
+- **4 Seiten trugen veraltete ⚠️-Hinweise auf laengst erledigte Luecken** (verweisen auf Seiten, die
+  inzwischen existieren, aber nie zurueckgemeldet wurden):
+  - [[PD Array]]: behauptete, Order Block/FVG/Liquidity-Pool-Seiten fehlten -- alle drei existieren
+    seit 2026-08-01/06. Korrigiert zu ✅ mit Links.
+  - [[New Week Opening Gap (NWOG) Bias]]: behauptete, "PD Array" habe keine eigene Seite -- hat sie
+    seit 2026-08-01 ([[PD Array]]). Korrigiert zu ✅.
+  - [[Smart Money Concepts (SMC)]]: fuehrte Suspensionblock (geloest seit 2026-08-03) weiterhin als
+    offen. Korrigiert, REH/REL-Link ergaenzt.
+  - `wiki/sources/NQ Futures Weekly Range Market Wizardry (Source).md`: identischer veralteter
+    Suspensionblock/REH-REL-Hinweis, korrigiert.
+- **REH/REL erstmals definiert** (tauchte in 3 bereits ingesteten 2026er-Rohdateien unerklaert auf:
+  `Enigma FVG Projections.md`, `Midnight ET Principles In Relationship To PreMarket Session.md`,
+  `NQ Futures Weekly Range Market Wizardry.md`). Versuch, ein passendes YouTube-Video auf dem
+  echten Kanal zu finden: `yt-dlp`-Suche ergab ein exakt passendes Video ("How To Identify ICT
+  Relative Equal Highs And Lows For The Draw On Liquidity"), aber auf einem **anderen** Kanal
+  ("The Inner Circle Trader AKA The ALGO Trader", Channel-ID `UCh5...`, nicht die verifizierte
+  `UCtjxa77NqamhVC8atV85Rog` von @InnerCircleTrader) -- bewusst **nicht genutzt**, um keine
+  Fremdkanal-Inhalte als Original-ICT-Quelle auszugeben. Stattdessen Definition (Relative Equal
+  High/Low = nahezu, aber nicht exakt gleiche Hochs/Tiefs als Liquidity-Pool-Cluster) direkt aus
+  den drei konsistenten Belegstellen abgeleitet und als neuer Abschnitt auf
+  [[Open Float & Liquidity Pools]] ergaenzt.
+- **2 weitere Offene-Punkte-Zeilen in `wiki/index.md` waren ebenfalls veraltet**: "Reeinforced
+  Liquidity Pools" (leere Rohdatei) war bereits am selben Tag frueher ueber das YouTube-Video
+  [[ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts & Price Delivery (Source)]]
+  geschlossen worden, aber nie als ✅ zurueckgemeldet; "Basics & Opening Range Concept" (nur
+  Bild-Embeds) war laut `wiki/sources/Basics & Opening Range Concept (Source).md` bereits am
+  2026-08-01/02 visuell geprueft und korrekt dokumentiert -- beide Zeilen jetzt auf ✅ gestellt.
+- Build-Report vor/nach verglichen: keine neuen unaufgeloesten Links durch die Aenderungen; ein
+  Index-Drift-Fehler durch einen `#Anchor`-Link in `wiki/index.md` selbst verursacht und behoben
+  (Anchor-Links sind fuer Konzeptseiten-Querverweise gedacht, nicht fuer die Index-Zeilen).
+- Keine echten Quellen-Widersprueche gefunden -- alle Korrekturen waren stale Status-Marker, keine
+  inhaltlichen Fehler.
+- Seiten aktualisiert: wiki/index.md, wiki/concepts/PD Array.md, wiki/concepts/New Week Opening Gap
+  (NWOG) Bias.md, wiki/concepts/Smart Money Concepts (SMC).md, wiki/concepts/Open Float & Liquidity
+  Pools.md, wiki/sources/NQ Futures Weekly Range Market Wizardry (Source).md.

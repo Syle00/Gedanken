@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, bias]
 created: 2026-08-01
-updated: 2026-08-02
+updated: 2026-08-06
 sources: ["[[Essentials To ICT Daytrading (Source)]]", "[[Intraweek Market Reversals & Overlapping Models (Source)]]"]
 ---
 
@@ -56,10 +56,8 @@ Candle, Dienstag erreicht die PD.*
 
 ## Offene Punkte
 
-- ⚠️ "Discount PD Array" und "PD Array" sind hier vorausgesetzt, aber noch nicht als eigene
-  Konzept-Seite erfasst — Kandidat für eine spätere `wiki/concepts/PD Array.md` Seite (taucht in
-  `raw/trading-ict/Core Content/` mehrfach auf, z.B. in "Blending IPDA Data Ranges & PD Arrays.md",
-  "Equilibrium Vs. Discount.md").
+- ✅ **Erledigt (2026-08-06)**: "PD Array" hat inzwischen eine eigene Seite ([[PD Array]]),
+  "Discount PD Array" ist über [[Equilibrium Vs. Discount]] abgedeckt.
 
 ## Backtest gegen echte Daten
 

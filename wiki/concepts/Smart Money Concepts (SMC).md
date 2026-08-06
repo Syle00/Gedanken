@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, core, smc, root]
 created: 2026-08-02
-updated: 2026-08-02
+updated: 2026-08-06
 sources: ["[[Core Content 2016 (Source)]]", "[[2026 ICT Study (Source)]]", "[[Kurz Notizen (Source)]]", "[[MentorShip 2025]]"]
 ---
 
@@ -109,6 +109,5 @@ Oberbegriff und Einstiegspunkt.
 
 - [[../index|Katalog aller Wiki-Seiten]]
 - ✅ Inzwischen definiert: **MSS** → [[Market Structure Shift (MSS)]] (MentorShip 2022),
-  **VII** → [[Volume Imbalance (VII)]].
-- ⚠️ Noch offen (aus dem 2026er Material): **Suspensionblock**, **REH/REL** — siehe „Offene Punkte"
-  im Index.
+  **VII** → [[Volume Imbalance (VII)]], **Suspensionblock** → [[Suspension Block]],
+  **REH/REL** → [[Open Float & Liquidity Pools#REH / REL (Relative Equal Highs / Lows)]].

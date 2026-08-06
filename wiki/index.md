@@ -281,11 +281,18 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
   "VII" → [[Volume Imbalance (VII)]] (mündlich geklärt: Volume Imbalance, Lücke Close→Open).
 - ✅ **Erledigt (2026-08-03)**: "Suspensionblock" → [[Suspension Block]] (FVG mit VII auf beiden
   Seiten, aus [[Chain Of Custody Of Price With Daily Inefficiencies (Source)]]).
-- ⚠️ "REH"/"REL" tauchen im 2026er-Content auf, sind aber nicht eigenständig definiert — bei
-  weiterem Ingest von `raw/trading-ict/2026/` präzisieren.
-- `raw/trading-ict/Core Content/Reeinforced Liquidity Pools -      When to anticipate Raids.md` ist
-  leer (0 Byte) — falls der Nutzer den Inhalt nachreicht, erneut ingesten.
-- `raw/trading-ict/Core Content/Basics & Opening Range Concept.md` enthält nur Bild-Embeds ohne Text
-  — bei Bedarf visuell nachprüfen und Konzept-Seite ergänzen.
+- ✅ **Erledigt (2026-08-06)**: "REH"/"REL" aus dem 2026er-Content definiert → neuer Abschnitt auf
+  [[Open Float & Liquidity Pools]]. Kein Video auf dem echten Kanal @InnerCircleTrader gefunden (nur
+  auf einem gleichnamigen Fremdkanal, bewusst nicht genutzt) — Definition stattdessen aus den drei
+  bereits ingesteten 2026er-Belegstellen abgeleitet.
+- ✅ **Erledigt (2026-08-06)**: `raw/trading-ict/Core Content/Reeinforced Liquidity Pools -
+  When to anticipate Raids.md` war leer (0 Byte) — inzwischen über das YouTube-Video
+  [[ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts & Price Delivery (Source)]]
+  geschlossen (siehe [[External vs. Internal Range Liquidity]]).
+- ✅ **Erledigt**: `raw/trading-ict/Core Content/Basics & Opening Range Concept.md` (nur
+  Bild-Embeds) wurde visuell geprüft → [[Basics & Opening Range Concept (Source)]].
 - `raw/Where teams and agents work together.md` wurde bewusst übersprungen (fehlgeschlagener
   Notion-Clip ohne echten Inhalt).
+- Lint-Durchgang 2026-08-06: mehrere Konzeptseiten enthielten veraltete ⚠️-Hinweise auf Seiten, die
+  inzwischen längst existieren ([[PD Array]], [[New Week Opening Gap (NWOG) Bias]],
+  [[Smart Money Concepts (SMC)]]) — korrigiert, siehe `wiki/log.md`.

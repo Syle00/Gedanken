@@ -1,7 +1,7 @@
 ---
 tags: [source, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-02
+updated: 2026-08-06
 raw: "[[NQ Futures Weekly Range Market Wizardry]]"
 raw_path: "raw/trading-ict/2026/NQ Futures Weekly Range Market Wizardry.md"
 ---
@@ -17,7 +17,8 @@ NQ-Futures-Fallstudie — Zwei-DOL-Methode und TGIF eingearbeitet in
 
 ## Offene Punkte
 
-- ⚠️ "Suspensionblock", "REH"/"REL" nicht klar definiert — bei weiterem 2026-Content-Ingest prüfen.
+- ✅ **Geklärt (2026-08-06)**: "Suspensionblock" → [[Suspension Block]] (bereits seit 2026-08-03).
+  "REH"/"REL" → [[Open Float & Liquidity Pools#REH / REL (Relative Equal Highs / Lows)]].
 
 ## Bilder aus der Rohquelle
 

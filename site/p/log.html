@@ -98,6 +98,7 @@
 <li><a href="#2026-08-06-ingest-core-content-month-01-month-04-youtube-playlists-16-von-22-videos">[2026-08-06] ingest | Core Content Month 01 &amp; Month 04 (YouTube-Playlists, 16 von 22 Videos)</a></li>
 <li><a href="#2026-08-06-ingest-daily-bias-0608-journal-live">[2026-08-06] ingest | Daily Bias 06.08. (Journal, live)</a></li>
 <li><a href="#2026-08-06-ingest-core-content-month-04-die-6-zuvor-an-ipblocked-gescheiterten-videos">[2026-08-06] ingest | Core Content Month 04 -- die 6 zuvor an IpBlocked gescheiterten Videos</a></li>
+<li><a href="#2026-08-06-lint-veraltete-offene-punkte-markierungen-bereinigt-rehrel-definiert">[2026-08-06] lint | Veraltete Offene-Punkte-Markierungen bereinigt + REH/REL definiert</a></li>
 </ul>
 </div>
 </details>
@@ -852,6 +853,48 @@
 <li>Bewusst ausgefiltert je Video: Feiertagswoche-Ankuendigung (Dezember 2016, 2x wiederholt), lange
   persoenliche Herkunftsgeschichte im Divergence-Phantoms-Video (eigener Handelsbeginn 1992) --
   nur die daraus abgeleitete Regel uebernommen, nicht die Anekdote.</li>
+</ul>
+<h2 id="2026-08-06-lint-veraltete-offene-punkte-markierungen-bereinigt-rehrel-definiert">[2026-08-06] lint | Veraltete Offene-Punkte-Markierungen bereinigt + REH/REL definiert</h2>
+<ul>
+<li>Nutzerauftrag: "prüfe gegen ob fehlerhafte seiten bestehen und ergänze und erneuere diese durch
+  yt ict, sodass alles aktuell ist" -- systematischer Durchgang durch <code>wiki/index.md</code>
+  "Offene Punkte", alle ⚠️-Marker in <code>wiki/concepts</code> und <code>wiki/sources</code>, und den Build-Report
+  (<code>python tools/build_site.py</code>) auf unaufgeloeste Links / Index-Drift.</li>
+<li><strong>4 Seiten trugen veraltete ⚠️-Hinweise auf laengst erledigte Luecken</strong> (verweisen auf Seiten, die
+  inzwischen existieren, aber nie zurueckgemeldet wurden):</li>
+<li><a href="../p/pd-array.html">PD Array</a>: behauptete, Order Block/FVG/Liquidity-Pool-Seiten fehlten -- alle drei existieren
+    seit 2026-08-01/06. Korrigiert zu ✅ mit Links.</li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a>: behauptete, "PD Array" habe keine eigene Seite -- hat sie
+    seit 2026-08-01 (<a href="../p/pd-array.html">PD Array</a>). Korrigiert zu ✅.</li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a>: fuehrte Suspensionblock (geloest seit 2026-08-03) weiterhin als
+    offen. Korrigiert, REH/REL-Link ergaenzt.</li>
+<li><code>wiki/sources/NQ Futures Weekly Range Market Wizardry (Source).md</code>: identischer veralteter
+    Suspensionblock/REH-REL-Hinweis, korrigiert.</li>
+<li><strong>REH/REL erstmals definiert</strong> (tauchte in 3 bereits ingesteten 2026er-Rohdateien unerklaert auf:
+  <code>Enigma FVG Projections.md</code>, <code>Midnight ET Principles In Relationship To PreMarket Session.md</code>,
+  <code>NQ Futures Weekly Range Market Wizardry.md</code>). Versuch, ein passendes YouTube-Video auf dem
+  echten Kanal zu finden: <code>yt-dlp</code>-Suche ergab ein exakt passendes Video ("How To Identify ICT
+  Relative Equal Highs And Lows For The Draw On Liquidity"), aber auf einem <strong>anderen</strong> Kanal
+  ("The Inner Circle Trader AKA The ALGO Trader", Channel-ID <code>UCh5...</code>, nicht die verifizierte
+  <code>UCtjxa77NqamhVC8atV85Rog</code> von @InnerCircleTrader) -- bewusst <strong>nicht genutzt</strong>, um keine
+  Fremdkanal-Inhalte als Original-ICT-Quelle auszugeben. Stattdessen Definition (Relative Equal
+  High/Low = nahezu, aber nicht exakt gleiche Hochs/Tiefs als Liquidity-Pool-Cluster) direkt aus
+  den drei konsistenten Belegstellen abgeleitet und als neuer Abschnitt auf
+  <a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a> ergaenzt.</li>
+<li><strong>2 weitere Offene-Punkte-Zeilen in <code>wiki/index.md</code> waren ebenfalls veraltet</strong>: "Reeinforced
+  Liquidity Pools" (leere Rohdatei) war bereits am selben Tag frueher ueber das YouTube-Video
+  <a href="../p/ict-mentorship-core-content-month-04-reinforcing-liquidity-concepts-price-delivery-source.html">ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts &amp; Price Delivery (Source)</a>
+  geschlossen worden, aber nie als ✅ zurueckgemeldet; "Basics &amp; Opening Range Concept" (nur
+  Bild-Embeds) war laut <code>wiki/sources/Basics &amp; Opening Range Concept (Source).md</code> bereits am
+  2026-08-01/02 visuell geprueft und korrekt dokumentiert -- beide Zeilen jetzt auf ✅ gestellt.</li>
+<li>Build-Report vor/nach verglichen: keine neuen unaufgeloesten Links durch die Aenderungen; ein
+  Index-Drift-Fehler durch einen <code>#Anchor</code>-Link in <code>wiki/index.md</code> selbst verursacht und behoben
+  (Anchor-Links sind fuer Konzeptseiten-Querverweise gedacht, nicht fuer die Index-Zeilen).</li>
+<li>Keine echten Quellen-Widersprueche gefunden -- alle Korrekturen waren stale Status-Marker, keine
+  inhaltlichen Fehler.</li>
+<li>Seiten aktualisiert: wiki/index.md, wiki/concepts/PD Array.md, wiki/concepts/New Week Opening Gap
+  (NWOG) Bias.md, wiki/concepts/Smart Money Concepts (SMC).md, wiki/concepts/Open Float &amp; Liquidity
+  Pools.md, wiki/sources/NQ Futures Weekly Range Market Wizardry (Source).md.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
