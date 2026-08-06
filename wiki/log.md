@@ -827,3 +827,52 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Keine Core-Content-Playlist-Batchaktion durchgefuehrt: Nutzer hat den urspruenglich gestarteten
   12-Playlist-Batch (2016/2017 Core Content Month 01-12 YouTube-Videos, ~115 Videos) abgebrochen
   und stattdessen dieses Einzelvideo angefragt.
+
+## [2026-08-06] ingest | Core-Content-Playlist-Batch (Month 01-12, ~115 Videos) — zweiter Anlauf, erneut abgebrochen
+
+- Nutzerauftrag: `/yt-ict-ingest lade alle core content videos und playlisten` — der oben
+  vermerkte 12-Playlist-Batch wurde erneut gestartet, diesmal per parallelen Sub-Agenten (einer
+  pro Monat). Alle 12 Core-Content-Playlists identifiziert (2016: Month 01-04, 2017: Month 05-12,
+  115 Videos total, Playlist-IDs siehe YouTube-Kanal "Playlists"-Tab).
+- **Wichtiger Fund**: Month 01, 02 und 04 (30 Videos) waren bereits **vollstaendig aus einer
+  frueheren Session** ingested (siehe eigene Log-Eintraege "ingest | ICT Mentorship Core Content
+  Month 02" und "ingest | Core Content Month 01 & Month 04") — jeweils durch den zugewiesenen
+  Sub-Agenten verifiziert statt blind uebernommen, keine Duplikate erzeugt.
+- **Month 03 (8/8 Videos) neu vollstaendig ingested**: 3 neue Source-Seiten (Timeframe Selection &
+  Defining Setups, The Next Setup - Anticipatory Skill Development, Market Maker Trap Head
+  Shoulders Pattern), 5 bestehende Source-Seiten angereichert (Institutional Order Flow,
+  Institutional Sponsorship, Institutional Marketstructure, Macro Economic To Micro Technical,
+  Market Maker Trap Trendline Phantoms), 1 neue Konzeptseite ([[Market Maker Trap - Head &
+  Shoulders]]), 8 weitere Konzept-/Modellseiten aktualisiert (u.a. [[Institutional Sponsorship]],
+  [[AMD Cycle (Accumulation – Manipulation – Distribution)]], [[SMT (Smart Money Divergence)]],
+  [[Quarterly Shift]], [[Order Block]], [[Three Timeframe Framing]]).
+- **Month 05 (2/18 Videos) teilweise ingested**, dann abgebrochen: [[Quarterly Shifts & IPDA Data
+  Ranges (Source)]] und [[Open Float (Source)]] angereichert, dazu [[Quarterly Shift]] (Cast-
+  Forward-Mechanik), [[Buy & Sell Program]] (Underlying/Benchmark-SMT-Methode) und [[Open Float &
+  Liquidity Pools]] (Stop-Level-Hierarchie, Intermediate-Term High/Low) aktualisiert. Die
+  restlichen 16 Videos sind unbearbeitet.
+- **Month 06-12 (0/62 Videos)**: nicht begonnen.
+- **Abbruchgrund**: YouTube hat die IP-Adresse dieser Maschine auf dem Caption-/Subtitle-Endpunkt
+  block­iert (`IpBlocked`/HTTP 429), ausgeloest durch 6+ parallele Sub-Agenten, die gleichzeitig
+  `yt-dlp`/`youtube_transcript_api` aufgerufen haben. Drei Cooldown-Runden (20+15+15 Minuten) haben
+  den Block nicht aufgehoben; ein laengerer Cooldown-Versuch (90 Minuten) wurde gestartet, dann auf
+  Nutzerwunsch ("fertig" → Batch abbrechen) gestoppt, bevor er greifen konnte.
+- **Für den naechsten Anlauf**: Fetches strikt seriell (ein Video nach dem anderen, mit Pause)
+  statt parallel ueber mehrere Sub-Agenten durchfuehren, um den IP-Block gar nicht erst
+  auszuloesen. Offene Video-Listen (Month 05 Rest + Month 06-12 komplett) liegen als TSV im
+  Scratchpad dieser Session, muessten fuer einen Folgeauftrag neu aus den Playlists gezogen werden.
+- Seiten erstellt: wiki/sources/ICT Mentorship Core Content - Month 03 - Timeframe Selection &
+  Defining Setups (Source).md, wiki/sources/ICT Mentorship Core Content - Month 03 - The Next Setup
+  - Anticipatory Skill Development (Source).md, wiki/sources/ICT Mentorship Core Content - Month 03
+  - Market Maker Trap Head Shoulders Pattern (Source).md, wiki/concepts/Market Maker Trap - Head &
+  Shoulders.md
+- Seiten aktualisiert: wiki/index.md, wiki/sources/Institutional Order Flow (Source).md, wiki/sources/Institutional
+  Sponsorship (Source).md, wiki/sources/Institutional Marketstructure (Source).md, wiki/sources/Macro
+  Economic To Micro Technical (Source).md, wiki/sources/Market Maker Trap Trendline Phantoms (Source).md,
+  wiki/sources/Month 03 (Source).md, wiki/sources/Quarterly Shifts & IPDA Data Ranges (Source).md,
+  wiki/sources/Open Float (Source).md, wiki/concepts/Institutional Sponsorship.md, wiki/concepts/AMD
+  Cycle (Accumulation – Manipulation – Distribution).md, wiki/concepts/Institutional Order Flow (Body
+  vs Wick).md, wiki/concepts/SMT (Smart Money Divergence).md, wiki/concepts/Quarterly Shift.md,
+  wiki/concepts/Trendline Phantoms (3 Drives Pattern).md, wiki/concepts/Order Block.md,
+  wiki/concepts/Buy & Sell Program.md, wiki/concepts/Open Float & Liquidity Pools.md,
+  wiki/models/Three Timeframe Framing.md
