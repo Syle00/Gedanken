@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core, fvg, pd-array]
 created: 2026-08-02
 updated: 2026-08-05
-sources: ["[[Enigma FVG Projections (Source)]]", "[[Alltime Highs und TGIF (Source)]]", "[[Market Review NQ July 31, 2026 (Source)]]"]
+sources: ["[[Enigma FVG Projections (Source)]]", "[[Alltime Highs und TGIF (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]"]
 ---
 
 # Volume Imbalance (VII)
@@ -52,7 +52,7 @@ den Wicks.
 
 Liegt an einer BISI/SIBI zusätzlich eine VII, zählt für die Gültigkeit eines Levels-Tests **nicht
 irgendeine berührende Candle**, sondern ausschließlich diejenige Candle, die die VII tatsächlich
-erzeugt hat. Quelle: [[Market Review NQ July 31, 2026 (Source)]].
+erzeugt hat. Quelle: [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]].
 
 ## Als eigenständige PD Array
 

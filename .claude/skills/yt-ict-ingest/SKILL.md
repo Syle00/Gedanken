@@ -60,7 +60,13 @@ examples, and named concepts — drop:
 
 ## 4. Write wiki pages (same conventions as any ingest, see `CLAUDE.md`)
 
-- `wiki/sources/<Title> (Source).md`: frontmatter, `Quelle:`/`Kanal:`/date/length line, a
+- `wiki/sources/youtube/<upload_date> - <Title> (Source).md` (e.g.
+  `wiki/sources/youtube/2026-08-01 - ICT 2026 Smart Money Concepts Lecture (Source).md`) — own
+  subfolder so YouTube source pages sort chronologically in a plain directory listing instead of
+  being mixed alphabetically into the generic `wiki/sources/` pool. Still counts as category
+  "Quellen" for `build_site.py` (category = first path segment under `wiki/`, so one extra level
+  of nesting doesn't matter) and `[[Title (Source)]]` wikilinks still resolve vault-wide by
+  filename regardless of folder. Content: frontmatter, `Quelle:`/`Kanal:`/date/length line, a
   blockquote noting the raw transcript path and any coverage gap (auto-captions can cut off before
   the video ends — check the raw file's word count against the stated video length), a
   `## Kernaussagen (trading-relevant, gefiltert)` section (bullets, link out to concept/model pages

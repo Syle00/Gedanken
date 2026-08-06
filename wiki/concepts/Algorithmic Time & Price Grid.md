@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, 2026, core, pd-array]
 created: 2026-08-05
 updated: 2026-08-05
-sources: ["[[ICT Algorithmic Time & Price Grids (Source)]]"]
+sources: ["[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]"]
 ---
 
 # Algorithmic Time & Price Grid
@@ -44,4 +44,4 @@ Octant-/Quadrant-Kreuzungen mit Macro-Startzeiten (u.a. 9:50–10:10-, 10:50-11:
 - [[Chain of Custody (Q-Validation)]] — liefert die Octant/Quadrant/16tel-Feinheit dieses Rasters
 - [[Low Resistance Liquidity Run]], [[Buy & Sell Program]]
 - [[IFVG (Inverse Fair Value Gap)]], [[Suspension Block]]
-- [[ICT Algorithmic Time & Price Grids (Source)]]
+- [[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]

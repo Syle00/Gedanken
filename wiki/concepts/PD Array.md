@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-06
-sources: ["[[Blending IPDA Data Ranges & PD Arrays (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
+sources: ["[[Blending IPDA Data Ranges & PD Arrays (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
 ---
 
 # PD Array
@@ -18,7 +18,7 @@ und praktisch jedes ICT-Modell.
   sie als verbraucht und wird nicht erneut verwendet. Ein bloßer **Stop-out**, bevor eine solche
   Reaktion stattfindet, zählt **nicht** als Reaktion — die Array bleibt gültig, ein erneuter Bruch
   desselben Levels darf als Reentry genutzt werden (2026-Ergänzung, Whisper-Nachtrag:
-  [[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]).
+  [[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]).
   Beispiel: Bullish Order Block im Premium wird angelaufen, Preis reagiert und tradet zurück ins
   Discount → OB ist "aufgebraucht"; wird die Position dagegen nur gestoppt, ohne dass Preis wirklich
   reagiert, bleibt der OB gültig für ein erneutes Setup.

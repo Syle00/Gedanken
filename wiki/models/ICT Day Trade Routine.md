@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, routine]
 created: 2026-08-01
 updated: 2026-08-06
-sources: ["[[ICT Day Trade Routine (Source)]]", "[[ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)]]"]
+sources: ["[[ICT Day Trade Routine (Source)]]", "[[2026-08-06 - ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)|ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)]]"]
 ---
 
 # ICT Day Trade Routine
@@ -43,7 +43,7 @@ Täglicher Analyse-Ablauf vor dem Trading.
 - **Montag**: normalerweise der am schwierigsten zu handelnde Tag. Ausnahme: in einer **NFP-Woche**
   (News am Freitag) ist der Montag vergleichsweise einfach zu handeln.
 - **NFP-Woche für Anfänger** (2026-Ergänzung, siehe
-  [[ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)]]): saubere,
+  [[2026-08-06 - ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)|ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)]]): saubere,
   gut handelbare Preisaktion in einer NFP-Woche findet sich **Montag bis Mittwoch, bis ca. 11:00 Uhr
   NY-Zeit** — außerhalb dieses Fensters (und an Donnerstag/Freitag) für unerfahrene Trader meiden.
 - **Nach einem Bank Holiday**: Preis ist "auf der Jagd" — es entstehen typischerweise schnelle,

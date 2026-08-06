@@ -12,7 +12,7 @@ Quelle: https://www.youtube.com/watch?v=PP1-i0ti_tQ
 
 Review der PM-Session vom **Montag, 3. August 2026** (NQ). Das ist die **Grundlagen-Lecture**, auf
 die ICT im später veröffentlichten Folgevideo
-([[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]],
+([[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]],
 2026-08-05) mehrfach als "die gestrige MOC-Lecture" verweist — die beiden Videos gehören inhaltlich
 zusammen, dieses hier liefert die Basisregeln, das andere die ES-Anwendung am Folgetag.
 
@@ -55,6 +55,6 @@ Motivationsfloskeln ohne konkrete Handelsregel.
 ## Verwandt
 
 - [[Market on Close (MOC) Macro Model]]
-- [[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]] — Folgevideo, wendet dieselben Regeln am ES an
+- [[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]] — Folgevideo, wendet dieselben Regeln am ES an
 - [[Fair Value Gap (FVG)]], [[Missed Entry Trade Management Playbook]]
 - [[Institutional Order Flow (Body vs Wick)]], [[Chain of Custody (Q-Validation)]]

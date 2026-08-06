@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, 2026, pd-array]
 created: 2026-08-05
 updated: 2026-08-05
-sources: ["[[Part 1 High Precision Secrets To Intraday Price Action (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
+sources: ["[[2026-08-01 - Part 1 High Precision Secrets To Intraday Price Action (Source)|Part 1 High Precision Secrets To Intraday Price Action (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
 ---
 
 # Daily High & Low Projektion (Konvergenz)
@@ -10,7 +10,7 @@ sources: ["[[Part 1 High Precision Secrets To Intraday Price Action (Source)]]",
 Methode zur Antizipation von Daily High **und** Low über die **Konvergenz mehrerer unabhängig
 berechneter Fib-Projektionen** — nicht über eine einzelne PD Array.
 
-## Daily High (bestätigt in [[Market Review NQ July 31, 2026 (Source)]] und hier erneut)
+## Daily High (bestätigt in [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]] und hier erneut)
 
 Fib von Pre-Market-Low (7:00–9:00 Uhr NY) auf Pre-Market-High, **0,5-Extension** oberhalb der Range
 = projizierter Daily High. Praxisbeispiel NQ 2026-07-31: Ziel 28.723, tatsächlicher Daily High traf
@@ -33,7 +33,7 @@ wirkt als **Scharnierpunkt (Fulcrum)** — der vorangegangene Rally-Leg wird ged
 dieses Scharnier gespiegelt, was denselben Preisabstand **unterhalb** des Fulcrum-Tiefs als weiteres
 Low-Ziel liefert (klassische 1:1-Measured-Move-Projektion unter neuem Namen). Als dritter,
 unabhängiger Datenpunkt in die Konvergenz-Betrachtung einbeziehen. Quelle:
-[[Part 2 High Precision Secrets To Intraday Price Action (Source)]].
+[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]].
 
 ## Kernprinzip
 
@@ -48,5 +48,5 @@ um eine konkrete Rechenvorschrift für Tages-Extremwerte.
 
 - [[IPDA Data Ranges]] — 3-Tage-Lookback für Intraday
 - [[PD Array]], [[Chain of Custody (Q-Validation)]]
-- [[Market Review NQ July 31, 2026 (Source)]], [[Algorithmic Time & Price Grid]]
-- [[Part 1 High Precision Secrets To Intraday Price Action (Source)]]
+- [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]], [[Algorithmic Time & Price Grid]]
+- [[2026-08-01 - Part 1 High Precision Secrets To Intraday Price Action (Source)|Part 1 High Precision Secrets To Intraday Price Action (Source)]]

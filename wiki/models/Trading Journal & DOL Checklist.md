@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, routine]
 created: 2026-08-01
 updated: 2026-08-06
-sources: ["[[What To Focus On Right Now (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[ICT Mentorship Core Content - Month 1 - What To Focus On Right Now (Source)]]"]
+sources: ["[[What To Focus On Right Now (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[ICT Mentorship Core Content - Month 1 - What To Focus On Right Now (Source)]]"]
 ---
 
 # Trading Journal & DOL Checklist

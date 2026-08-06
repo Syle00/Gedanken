@@ -12,7 +12,7 @@ Quelle: https://www.youtube.com/watch?v=4SJlJdIANCo
 
 > Transkript unter `raw/trading-ict/2026/yt-4SJlJdIANCo-transcript.md` (Auto-Captions,
 > `youtube-transcript-api`). Längstes und dichtestes Video der Woche: derselbe NQ-Handelstag wie
-> [[Market Review NQ July 31, 2026 (Source)]], aber als ausführliche Lehrsequenz mit vollständiger
+> [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]], aber als ausführliche Lehrsequenz mit vollständiger
 > Candle-für-Candle-Herleitung des Titel-Konzepts.
 
 ## Kernaussagen (trading-relevant, gefiltert)
@@ -45,6 +45,6 @@ neue Regel).
 ## Verwandt
 
 - [[Algorithmic Time & Price Grid]] — vollständige Konzeptseite
-- [[Market Review NQ July 31, 2026 (Source)]] — derselbe Handelstag, komplementäre Perspektive
+- [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]] — derselbe Handelstag, komplementäre Perspektive
 - [[Low Resistance Liquidity Run]], [[Buy & Sell Program]], [[PD Array]]
 - [[Chain of Custody (Q-Validation)]], [[Suspension Block]]

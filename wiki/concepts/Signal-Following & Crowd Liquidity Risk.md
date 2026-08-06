@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, 2026, risiko, psychologie]
 created: 2026-08-05
 updated: 2026-08-05
-sources: ["[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
+sources: ["[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
 ---
 
 # Signal-Following & Crowd Liquidity Risk
@@ -73,4 +73,4 @@ Lernkurve.
 - [[Risikomanagement (1% pro Trade)]] — Positionsgrößen-Regel, unabhängig von diesem Konzept
 - [[Market on Close (MOC) Macro Model]] — Ursprungskontext (öffentliches MOC-Beispiel mit Fill-Risiko)
 - [[Trading Journal & DOL Checklist]]
-- [[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]
+- [[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]

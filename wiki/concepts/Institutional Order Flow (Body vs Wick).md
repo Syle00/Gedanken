@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-05
-sources: ["[[Institutional Order Flow (Source)]]", "[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[Predicting Session Low & High With Executions (Source)]]", "[[Market Review NQ July 31, 2026 (Source)]]"]
+sources: ["[[Institutional Order Flow (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]"]
 ---
 
 # Institutional Order Flow (Body vs Wick)
@@ -91,7 +91,7 @@ Vor dem eigentlichen Einstieg einen einzelnen (Micro-)Kontrakt platzieren, um am
 zu lesen, ob der antizipierte Level hält — ausdrücklich auch am Demo-Konto möglich, wenn kein
 Live-Konto verfügbar ist. Erst wenn diese Rückmeldung (Preis respektiert das Level, PD Arrays
 bilden sich wie erwartet) passt, wird die Position aufgebaut. Quelle:
-[[Market Review NQ July 31, 2026 (Source)]].
+[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]].
 
 ## Verwandt
 
@@ -100,4 +100,4 @@ bilden sich wie erwartet) passt, wird die Position aufgebaut. Quelle:
 - [[Order Block]], [[Market Reversal Types]]
 - [[Market on Close (MOC) Macro Model]], [[Volume Imbalance (VII)]], [[IFVG (Inverse Fair Value Gap)]]
 - [[Kurz Notizen (Source)]]
-- [[Predicting Session Low & High With Executions (Source)]]
+- [[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]]

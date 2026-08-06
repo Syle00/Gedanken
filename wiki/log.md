@@ -471,10 +471,10 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Neues Skript `tools/fetch_yt_transcript.py`: zieht Metadaten via `yt-dlp` und Auto-Captions via
   `youtube_transcript_api`, schreibt `raw/trading-ict/2026/yt-<id>-transcript.md` im Format der
   ersten beiden manuellen Ingests. Für 5 Videos gelaufen (42–61k Zeichen Transkript je Video).
-- **5 Quellenseiten erstellt**: [[Predicting Session Low & High With Executions (Source)]],
-  [[Market Review NQ July 31, 2026 (Source)]], [[ICT Algorithmic Time & Price Grids (Source)]],
-  [[Part 1 High Precision Secrets To Intraday Price Action (Source)]],
-  [[Part 2 High Precision Secrets To Intraday Price Action (Source)]] — jeweils mit Abschnitt
+- **5 Quellenseiten erstellt**: [[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]],
+  [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]], [[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]],
+  [[2026-08-01 - Part 1 High Precision Secrets To Intraday Price Action (Source)|Part 1 High Precision Secrets To Intraday Price Action (Source)]],
+  [[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]] — jeweils mit Abschnitt
   "Bewusst ausgefiltert" (Familienanekdoten, Kritiker-Abwehr, Motivations-/Persona-Rhetorik).
 - **2 neue Konzeptseiten**: [[Algorithmic Time & Price Grid]] (Preis×Zeit-Raster, fraktale
   Wiederholung, IFVG-Rückkehr zur First Utilization), [[Daily High & Low Projektion (Konvergenz)]]
@@ -803,6 +803,27 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Bewusst ausgefiltert: Fundamentalanalyse-Kritik/NFP-Datenqualitaet, Chris-Lori-Abgrenzung
   (Plagiatsvorwuerfe), private Anekdoten (Rehfuetterung, Hunde, Backen), allgemeine
   Motivations-Rhetorik ohne neue konkrete Regel.
+
+## [2026-08-06] setup | YouTube-Quellenseiten in eigenen Ordner ausgelagert
+- Nutzerwunsch: YouTube-Ingest-Seiten sollen nicht mehr flach zwischen allen anderen
+  `wiki/sources/`-Quellen (Notion-Exporte etc.) liegen, sondern in einem eigenen, nach Datum
+  sortierten Ordner.
+- `.claude/skills/yt-ict-ingest/SKILL.md` angepasst: kuenftige Ingests schreiben nach
+  `wiki/sources/youtube/<upload_date> - <Title> (Source).md` statt `wiki/sources/<Title> (Source).md`.
+  `build_site.py` kategorisiert weiterhin per erstem Pfadsegment unter `wiki/` (= `sources`), eine
+  Ordnerebene mehr aendert daran nichts.
+- Alle 8 bereits bestehenden YouTube-Quellenseiten dorthin verschoben und umbenannt (Datum aus dem
+  "veroeffentlicht **YYYY-MM-DD**"-Textmuster extrahiert): ICT Algorithmic Time & Price Grids,
+  Market Review NQ July 31 2026, Part 1 + Part 2 High Precision Secrets To Intraday Price Action,
+  Predicting Session Low & High With Executions, die drei ICT Price Action Chronicles-Folgen.
+  Alle referenzierenden `[[...]]`-Wikilinks vault-weit (index.md, log.md, betroffene
+  concepts-/models-Seiten) auf `[[<neuer Dateiname>|<alter Anzeigename>]]` umgestellt, damit der
+  sichtbare Linktext gleich bleibt. Build zur Verifikation gelaufen: keine neuen unaufgeloesten
+  Links.
+- Abgrenzung: die 31 "ICT Mentorship Core Content - Month..."-Seiten, die ebenfalls einen
+  `yt-*-transcript`-Pfad im Text erwaehnen, sind Notion-Core-Content-Seiten mit einem
+  Querverweis auf ein Begleitvideo, keine eigenstaendigen YouTube-Ingests — unangetastet gelassen.
+- Seiten aktualisiert: wiki/index.md (8 Sources-Zeilen umverlinkt)
 - Keine Core-Content-Playlist-Batchaktion durchgefuehrt: Nutzer hat den urspruenglich gestarteten
   12-Playlist-Batch (2016/2017 Core Content Month 01-12 YouTube-Videos, ~115 Videos) abgebrochen
   und stattdessen dieses Einzelvideo angefragt.

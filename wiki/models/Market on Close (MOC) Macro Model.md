@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, 2026, macro, sessions, moc]
 created: 2026-08-05
 updated: 2026-08-05
-sources: ["[[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]"]
+sources: ["[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]]"]
 ---
 
 # Market on Close (MOC) Macro Model
@@ -23,7 +23,7 @@ Ab **15:00 Uhr** (Beginn der letzten RTH-Stunde) wird beobachtet, wie sich Preis
 
 ## Zwei Ranges, nicht eine
 
-Die Grundlagen-Lecture ([[ICT Price Action Chronicles - Market On Close Macro (Source)]]) trennt
+Die Grundlagen-Lecture ([[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]]) trennt
 explizit zwei Ebenen, die leicht verwechselt werden:
 
 1. **Daily Range** (grob): Morning-Low bis Post-13:30-Uhr-High. Liefert die **groben
@@ -124,5 +124,5 @@ Verschwörung). Siehe [[Signal-Following & Crowd Liquidity Risk]].
 - [[Dealing Range]], [[Equilibrium Vs. Discount]], [[Chain of Custody (Q-Validation)]]
 - [[Institutional Order Flow (Body vs Wick)]], [[IFVG (Inverse Fair Value Gap)]]
 - [[Signal-Following & Crowd Liquidity Risk]]
-- [[ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]
-- [[ICT Price Action Chronicles - Market On Close Macro (Source)]] — Grundlagen-Lecture (Vortag)
+- [[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]
+- [[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]] — Grundlagen-Lecture (Vortag)

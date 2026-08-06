@@ -102,6 +102,7 @@
 <li><a href="#2026-08-06-query-bias-gegenprobe-mit-den-neuen-month-04-konzepten-rehrel-vacuum-block">[2026-08-06] query | Bias-Gegenprobe mit den neuen Month-04-Konzepten (REH/REL, Vacuum Block)</a></li>
 <li><a href="#2026-08-06-lint-core-content-month-05-widerspruchspruefung-yt-ict-ingest">[2026-08-06] lint | Core Content Month 05 -- Widerspruchspruefung (/yt-ict-ingest)</a></li>
 <li><a href="#2026-08-06-ingest-youtube-ict-price-action-chronicles-the-science-of-anticipation-in-price-action">[2026-08-06] ingest | YouTube: ICT Price Action Chronicles - The Science Of Anticipation In Price Action</a></li>
+<li><a href="#2026-08-06-setup-youtube-quellenseiten-in-eigenen-ordner-ausgelagert">[2026-08-06] setup | YouTube-Quellenseiten in eigenen Ordner ausgelagert</a></li>
 </ul>
 </div>
 </details>
@@ -619,10 +620,10 @@
 <li>Neues Skript <code>tools/fetch_yt_transcript.py</code>: zieht Metadaten via <code>yt-dlp</code> und Auto-Captions via
   <code>youtube_transcript_api</code>, schreibt <code>raw/trading-ict/2026/yt-&lt;id&gt;-transcript.md</code> im Format der
   ersten beiden manuellen Ingests. Für 5 Videos gelaufen (42–61k Zeichen Transkript je Video).</li>
-<li><strong>5 Quellenseiten erstellt</strong>: <a href="../p/predicting-session-low-high-with-executions-source.html">Predicting Session Low &amp; High With Executions (Source)</a>,
-  <a href="../p/market-review-nq-july-31-2026-source.html">Market Review NQ July 31, 2026 (Source)</a>, <a href="../p/ict-algorithmic-time-price-grids-source.html">ICT Algorithmic Time &amp; Price Grids (Source)</a>,
-  <a href="../p/part-1-high-precision-secrets-to-intraday-price-action-source.html">Part 1 High Precision Secrets To Intraday Price Action (Source)</a>,
-  <a href="../p/part-2-high-precision-secrets-to-intraday-price-action-source.html">Part 2 High Precision Secrets To Intraday Price Action (Source)</a> — jeweils mit Abschnitt
+<li><strong>5 Quellenseiten erstellt</strong>: <a href="../p/2026-07-29-predicting-session-low-high-with-executions-source.html">Predicting Session Low &amp; High With Executions (Source)</a>,
+  <a href="../p/2026-07-31-market-review-nq-july-31-2026-source.html">Market Review NQ July 31, 2026 (Source)</a>, <a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">ICT Algorithmic Time &amp; Price Grids (Source)</a>,
+  <a href="../p/2026-08-01-part-1-high-precision-secrets-to-intraday-price-action-source.html">Part 1 High Precision Secrets To Intraday Price Action (Source)</a>,
+  <a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">Part 2 High Precision Secrets To Intraday Price Action (Source)</a> — jeweils mit Abschnitt
   "Bewusst ausgefiltert" (Familienanekdoten, Kritiker-Abwehr, Motivations-/Persona-Rhetorik).</li>
 <li><strong>2 neue Konzeptseiten</strong>: <a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a> (Preis×Zeit-Raster, fraktale
   Wiederholung, IFVG-Rückkehr zur First Utilization), <a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a>
@@ -966,6 +967,28 @@
 <li>Bewusst ausgefiltert: Fundamentalanalyse-Kritik/NFP-Datenqualitaet, Chris-Lori-Abgrenzung
   (Plagiatsvorwuerfe), private Anekdoten (Rehfuetterung, Hunde, Backen), allgemeine
   Motivations-Rhetorik ohne neue konkrete Regel.</li>
+</ul>
+<h2 id="2026-08-06-setup-youtube-quellenseiten-in-eigenen-ordner-ausgelagert">[2026-08-06] setup | YouTube-Quellenseiten in eigenen Ordner ausgelagert</h2>
+<ul>
+<li>Nutzerwunsch: YouTube-Ingest-Seiten sollen nicht mehr flach zwischen allen anderen
+  <code>wiki/sources/</code>-Quellen (Notion-Exporte etc.) liegen, sondern in einem eigenen, nach Datum
+  sortierten Ordner.</li>
+<li><code>.claude/skills/yt-ict-ingest/SKILL.md</code> angepasst: kuenftige Ingests schreiben nach
+  <code>wiki/sources/youtube/&lt;upload_date&gt; - &lt;Title&gt; (Source).md</code> statt <code>wiki/sources/&lt;Title&gt; (Source).md</code>.
+  <code>build_site.py</code> kategorisiert weiterhin per erstem Pfadsegment unter <code>wiki/</code> (= <code>sources</code>), eine
+  Ordnerebene mehr aendert daran nichts.</li>
+<li>Alle 8 bereits bestehenden YouTube-Quellenseiten dorthin verschoben und umbenannt (Datum aus dem
+  "veroeffentlicht <strong>YYYY-MM-DD</strong>"-Textmuster extrahiert): ICT Algorithmic Time &amp; Price Grids,
+  Market Review NQ July 31 2026, Part 1 + Part 2 High Precision Secrets To Intraday Price Action,
+  Predicting Session Low &amp; High With Executions, die drei ICT Price Action Chronicles-Folgen.
+  Alle referenzierenden <code>&lt;span class="broken" title="Seite existiert noch nicht"&gt;...&lt;/span&gt;</code>-Wikilinks vault-weit (index.md, log.md, betroffene
+  concepts-/models-Seiten) auf <code>&lt;span class="broken" title="Seite existiert noch nicht"&gt;&amp;lt;alter Anzeigename&amp;gt;&lt;/span&gt;</code> umgestellt, damit der
+  sichtbare Linktext gleich bleibt. Build zur Verifikation gelaufen: keine neuen unaufgeloesten
+  Links.</li>
+<li>Abgrenzung: die 31 "ICT Mentorship Core Content - Month..."-Seiten, die ebenfalls einen
+  <code>yt-*-transcript</code>-Pfad im Text erwaehnen, sind Notion-Core-Content-Seiten mit einem
+  Querverweis auf ein Begleitvideo, keine eigenstaendigen YouTube-Ingests — unangetastet gelassen.</li>
+<li>Seiten aktualisiert: wiki/index.md (8 Sources-Zeilen umverlinkt)</li>
 <li>Keine Core-Content-Playlist-Batchaktion durchgefuehrt: Nutzer hat den urspruenglich gestarteten
   12-Playlist-Batch (2016/2017 Core Content Month 01-12 YouTube-Videos, ~115 Videos) abgebrochen
   und stattdessen dieses Einzelvideo angefragt.</li>

@@ -12,13 +12,13 @@ Quelle: https://www.youtube.com/watch?v=DRTvbkKmuAw
 
 > Transkript unter `raw/trading-ict/2026/yt-DRTvbkKmuAw-transcript.md` (Auto-Captions,
 > `youtube-transcript-api`). Samstags-Rückblick, der denselben Handelstag wie
-> [[Market Review NQ July 31, 2026 (Source)]] (Freitag 2026-07-31/NQ) noch einmal detaillierter
+> [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]] (Freitag 2026-07-31/NQ) noch einmal detaillierter
 > herleitet — Reaktion auf Zuschauerfragen aus dem Vortagesvideo. Teil 1 einer zweiteiligen Serie,
-> siehe [[Part 2 High Precision Secrets To Intraday Price Action (Source)]].
+> siehe [[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]].
 
 ## Kernaussagen (trading-relevant, gefiltert)
 
-Überschneidet sich stark mit [[Market Review NQ July 31, 2026 (Source)]] (Pre-Market-7:00–9:00-
+Überschneidet sich stark mit [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]] (Pre-Market-7:00–9:00-
 Range, Octant/Quadrant-Raster, 0,5-Extension-Ziel 28.723 für den Daily High, dort bereits
 dokumentiert). Neue Inhalte:
 
@@ -41,8 +41,8 @@ Motivationsrhetorik zu Prediction-vs-Reaction (bereits dokumentiert), Wrestling-
 
 ## Verwandt
 
-- [[Market Review NQ July 31, 2026 (Source)]] — derselbe Handelstag, Ursprungsquelle für den
+- [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]] — derselbe Handelstag, Ursprungsquelle für den
   Daily-High-Wert
 - [[Daily High & Low Projektion (Konvergenz)]], [[IPDA Data Ranges]]
 - [[Algorithmic Time & Price Grid]], [[PD Array]]
-- [[Part 2 High Precision Secrets To Intraday Price Action (Source)]]
+- [[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]

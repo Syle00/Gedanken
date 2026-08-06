@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, 2026, execution]
 created: 2026-08-01
 updated: 2026-08-05
-sources: ["[[Missed Entry How To Navigate The Same Trade Idea (Source)]]", "[[ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
+sources: ["[[Missed Entry How To Navigate The Same Trade Idea (Source)]]", "[[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
 ---
 
 # Missed Entry / Trade Management Playbook
@@ -72,4 +72,4 @@ als [[CISD (Change in State of Delivery)|CISD]]/[[Rejection Block]] identifizier
 - [[Judas Swing]]
 - [[Market on Close (MOC) Macro Model]]
 - [[Institutional Order Flow (Body vs Wick)]], [[ORG (Opening Range Gap) & 1st Presented FVG]]
-- [[Part 2 High Precision Secrets To Intraday Price Action (Source)]]
+- [[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]

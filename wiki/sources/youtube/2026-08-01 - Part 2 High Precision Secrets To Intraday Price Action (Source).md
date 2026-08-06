@@ -12,7 +12,7 @@ Quelle: https://www.youtube.com/watch?v=BD7kqmgdBU8
 
 > Transkript unter `raw/trading-ict/2026/yt-BD7kqmgdBU8-transcript.md` (Auto-Captions,
 > `youtube-transcript-api`). Direkte Fortsetzung von
-> [[Part 1 High Precision Secrets To Intraday Price Action (Source)]] (setzt inhaltlich exakt dort
+> [[2026-08-01 - Part 1 High Precision Secrets To Intraday Price Action (Source)|Part 1 High Precision Secrets To Intraday Price Action (Source)]] (setzt inhaltlich exakt dort
 > fort) — Fokus wechselt von der Daily-Low-Projektion zur **Opening Range Gap als konkretes
 > Handelssetup mit vollständigem Skalierungsschema**.
 
@@ -47,6 +47,6 @@ St.-Jude-Charity-Werbehinweis für Prop-Firm-Partner.
 
 ## Verwandt
 
-- [[Part 1 High Precision Secrets To Intraday Price Action (Source)]] — direkte Fortsetzung
+- [[2026-08-01 - Part 1 High Precision Secrets To Intraday Price Action (Source)|Part 1 High Precision Secrets To Intraday Price Action (Source)]] — direkte Fortsetzung
 - [[ORG (Opening Range Gap) & 1st Presented FVG]], [[Missed Entry Trade Management Playbook]]
 - [[Daily High & Low Projektion (Konvergenz)]], [[Fair Value Gap (FVG)]]

@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, mentorship-2020, orderflow, bias]
 created: 2026-08-02
 updated: 2026-08-05
-sources: ["[[CISD Mini Serie - Lecture 1 (Source)]]", "[[ICT Algorithmic Time & Price Grids (Source)]]"]
+sources: ["[[CISD Mini Serie - Lecture 1 (Source)]]", "[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]"]
 ---
 
 # Buy & Sell Program
@@ -42,7 +42,7 @@ Ein laufendes Buy Program zeigt sich optisch als **eng getaktete Folge kleiner, 
 Candles ohne nennenswerten Pullback** — im Gegensatz zum [[Low Resistance Liquidity Run]], der über
 große, schnelle Candles läuft. Beide Signaturen sind gleichermaßen schwer gegen den Trend zu
 handeln, sehen aber unterschiedlich aus (langsam-stetig vs. schnell-explosiv). Quelle:
-[[ICT Algorithmic Time & Price Grids (Source)]].
+[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]].
 
 ## Bezug zum Order Block
 

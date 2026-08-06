@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
 updated: 2026-08-05
-sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]", "[[Market Review NQ July 31, 2026 (Source)]]", "[[Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
+sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
 ---
 
 # ORG (Opening Range Gap) & 1st Presented FVG
@@ -48,7 +48,7 @@ Hours** umgestellt wird. Darüber ein **Fib 0–1** für die Key Level. Pre Mark
 
 - **70-%-Regel (2026-Ergänzung)**: bis **10:00 Uhr NY** (also innerhalb der ersten 30 Minuten nach
   9:30-Opening) ist es zu **70 %** wahrscheinlich, dass Preis zum C.E. des ORG zurückläuft — Quelle:
-  [[Market Review NQ July 31, 2026 (Source)]].
+  [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]].
 - Das Premium/Discount-Konzept mit C.E-Respekt gilt genauso für die ORG.
 - Bei bearishem Bias + starkem Close unterhalb des C.E + Premium-Sensitivität am C.E der ORG wird
   erwartet, dass dieses Verhalten anhält, bis ein [[AMD Cycle (Accumulation – Manipulation – Distribution)|DOL]]
