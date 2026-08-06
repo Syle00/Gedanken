@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict]
 created: 2026-08-01
-updated: 2026-08-02
+updated: 2026-08-06
 sources: ["[[Market Maker Trap Trendline Phantoms (Source)]]"]
 ---
 
@@ -22,6 +22,20 @@ Passt strukturell zum MMXM-Modell (siehe [[New Week Opening Gap (NWOG) Bias]]).
 ![[image 29.png]]
 *Beispiel für ein 3-Drives-Pattern: drei Spitzen an der Trendline als bevorzugtes Angriffsziel für
 Smart Money.*
+
+## Allgemeine Fade-Regel für jede diagonale Trendlinie (2016er Video-Ergänzung)
+
+Aus dem [[Market Maker Trap Trendline Phantoms (Source)|Begleitvideo]] — nicht auf das 3-Drives-
+Pattern beschränkt, sondern die generelle These: Preis "kennt" keine Trendlinie, er reagiert nur auf
+tatsächliche Liquidity-Pools.
+
+- **Aufsteigende "Support"-Trendline** (3 Berührungspunkte, Retail sieht Long-Setups): der
+  **Hochpunkt zwischen Berührung 2 und 3** wird zum Short-Ziel (Bearish Order Block oder Turtle Soup
+  über dem Hoch) — dort verkauft Smart Money in die Retail-Käufer hinein.
+- **Fallende "Resistance"-Trendline** (spiegelbildlich): der **Tiefpunkt zwischen Berührung 2 und 3**
+  wird zum Long-Ziel.
+- Zusätzliches Liquiditätsziel: die Stop-Losses der Trendline-Trader liegen dicht unter/über
+  Berührungspunkt 2 — ein zweites Ziel neben dem offensichtlichen Punkt 3.
 
 ## Als Entry-Bedingung: die Buyside muss nicht genommen werden
 

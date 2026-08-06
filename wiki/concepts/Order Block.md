@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-06
-sources: ["[[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]", "[[Kurz Notizen (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Orderblocks (Source)]]"]
+sources: ["[[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]", "[[Kurz Notizen (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Orderblocks (Source)]]", "[[ICT Mentorship Core Content - Month 03 - The Next Setup - Anticipatory Skill Development (Source)]]"]
 ---
 
 # Order Block
@@ -72,6 +72,12 @@ High-Probability-Buyside.*
 
 ## HTF-Nutzung & Bias
 
+- **Praktische Monthly-Range-Methode** (2016er Video-Ergänzung, siehe
+  [[ICT Mentorship Core Content - Month 03 - The Next Setup - Anticipatory Skill Development
+  (Source)]]): auf dem Monthly die letzte Down-Close-Candle suchen, davor die letzte Up-Close-Candle
+  mit Low über deren High — beide zusammen definieren die aktuell relevante Range. Bricht Preis über
+  die Down-Candle, wird sie zum Bullish OB; bricht Preis unter die Up-Candle, wird sie zum Bearish
+  OB. Dieselben zwei Punkte anschließend auf Weekly/Daily kaskadieren, um den Entry zu verfeinern.
 - Sehr wichtig: Order Blocks über Monthly → Weekly → Daily für den Bias nutzen — was ist
   wahrscheinlicher?
 - In einem laufenden bullishen Trend ist **jede Down-Closing-Candle** ein potenzieller OB+.

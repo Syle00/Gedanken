@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, timeframes, workflow]
 created: 2026-08-02
 updated: 2026-08-02
-sources: ["[[Essentials To ICT Market Structure (Source)]]", "[[ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)]]", "[[ICT 2022 - Episode 05 Intraday Orderflow & Swing H-L 8.30-13.30 (Source)]]", "[[ICT 2022 - Episode 08 Institutionel Orderflow (Source)]]"]
+sources: ["[[Essentials To ICT Market Structure (Source)]]", "[[ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)]]", "[[ICT 2022 - Episode 05 Intraday Orderflow & Swing H-L 8.30-13.30 (Source)]]", "[[ICT 2022 - Episode 08 Institutionel Orderflow (Source)]]", "[[ICT Mentorship Core Content - Month 03 - Timeframe Selection & Defining Setups (Source)]]"]
 ---
 
 # Three Timeframe Framing
@@ -99,6 +99,16 @@ Timeframe entscheidet, welche Struktur überhaupt gilt.*
 Das ist die inhaltliche Begründung dafür, warum die Timeframe-Wahl **vor** der Bias-Frage steht: Ein
 Bias ist nur innerhalb einer Marktstruktur überhaupt sinnvoll, und die Marktstruktur hängt am
 gewählten Timeframe.
+
+## Ursprüngliche Single-Chart-Rollenverteilung (2016er Video-Ergänzung)
+
+Aus [[ICT Mentorship Core Content - Month 03 - Timeframe Selection & Defining Setups (Source)]] —
+eine gröbere, ältere Fassung derselben Grundidee, ein Chart pro Handelsstil statt der Drei-Chart-
+Tripel: **Monthly** = Position Trading, **Weekly** = Swing Trading (~1–2 Trades/Quartal),
+**Daily** = ICTs erklärter Lieblings-Chart (liefert sowohl HTF-Referenzlevel als auch genug
+Struktur für kurzfristiges Trading), **4H oder kürzer** = Day Trading. Empfehlung: Analyse immer mit
+dem Daily beginnen, selbst wenn das Ziel Day Trading ist — es liefert den Directional Bias, den die
+kürzeren Timeframes dann nur noch verfeinern.
 
 ## Verwandt
 
