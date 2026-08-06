@@ -762,3 +762,28 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   bestehende Struktur, widersprechen ihr nicht.
 - Seite aktualisiert: journal/entries/2026-08-06 MNQ Daily Bias.md (Korrektur + neuer Abschnitt
   "Nachtrag 2026-08-06"), journal/journal.csv (liquidity_ziel, pd_arrays).
+
+## [2026-08-06] lint | Core Content Month 05 -- Widerspruchspruefung (`/yt-ict-ingest`)
+- Nutzerauftrag: "ziehe den corecontent month 5, aktualisiere das wiki, sodass kein Widerspruch
+  offen ist". Beide Kandidaten fuer "Month 5" im Vault geprueft:
+  - **Core Content 2016, Month 05** (`raw/trading-ict/Core Content/Month 05.md`, 9 Lectures: IPDA/
+    Quarterly Shift, Open Float, Intermarket-Analyse) -- bereits am 2026-08-01/02 vollstaendig
+    ingested, alle 9/9 Sub-Seiten unter `wiki/sources/` vorhanden, `wiki/sources/Month 05
+    (Source).md` verlinkt alle neun korrekt.
+  - **MentorShip 2025, Lektion 05** (`raw/trading-ict/MentorShip 2025/05 Advanced ICT Liquidity
+    Concepts.md`) -- ebenfalls bereits am 2026-08-02 ingested als
+    [[Advanced ICT Liquidity Concepts (Source)]], Inhalte bereits in [[IPDA Data Ranges]],
+    [[Breakaway Gap]] und [[ORG (Opening Range Gap) & 1st Presented FVG]] eingearbeitet
+    (60-Tage-PD-Gueltigkeit, 4-ORG-Regel, ATH-Body-Close-Regel).
+  - Kein neues Rohmaterial zu ziehen -- beide Quellen waren vollstaendig.
+- **Widerspruchspruefung**: alle Konzeptseiten im Themenumfeld von Month 05 durchsucht ([[IPDA
+  Data Ranges]], [[PD Array]], [[Breakaway Gap]], [[Open Float & Liquidity Pools]], [[Quarterly
+  Shift]], [[Intermarket Relationships]], [[ORG (Opening Range Gap) & 1st Presented FVG]], [[SMT
+  (Smart Money Divergence)]]) sowie vault-weiter Grep nach `⚠️`/"Widerspruch". Keine offenen
+  Widersprueche zu Month-05-Inhalten gefunden -- die einzigen bestehenden ⚠️-Marker im Vault
+  betreffen andere, unabhaengige Themen ([[ICT Killzones]] AM-Session-Zeitfenster, die bereits
+  aufgeloeste London-Opening-Range-Doppelbedeutung auf der ORG-Seite, [[TGIF (Thank God its
+  Friday)]] quelleninterner Widerspruch, [[Judas Swing]]).
+- `python tools/build_site.py` zur Bestaetigung gelaufen: 286 Seiten, keine neuen unaufgeloesten
+  Links, kein Index-Drift im Month-05-Umfeld.
+- Ergebnis: kein Handlungsbedarf, Wiki zu Month 05 bereits konsistent und vollstaendig.

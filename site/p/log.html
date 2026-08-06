@@ -100,6 +100,7 @@
 <li><a href="#2026-08-06-ingest-core-content-month-04-die-6-zuvor-an-ipblocked-gescheiterten-videos">[2026-08-06] ingest | Core Content Month 04 -- die 6 zuvor an IpBlocked gescheiterten Videos</a></li>
 <li><a href="#2026-08-06-lint-veraltete-offene-punkte-markierungen-bereinigt-rehrel-definiert">[2026-08-06] lint | Veraltete Offene-Punkte-Markierungen bereinigt + REH/REL definiert</a></li>
 <li><a href="#2026-08-06-query-bias-gegenprobe-mit-den-neuen-month-04-konzepten-rehrel-vacuum-block">[2026-08-06] query | Bias-Gegenprobe mit den neuen Month-04-Konzepten (REH/REL, Vacuum Block)</a></li>
+<li><a href="#2026-08-06-lint-core-content-month-05-widerspruchspruefung-yt-ict-ingest">[2026-08-06] lint | Core Content Month 05 -- Widerspruchspruefung (/yt-ict-ingest)</a></li>
 </ul>
 </div>
 </details>
@@ -921,6 +922,32 @@
   bestehende Struktur, widersprechen ihr nicht.</li>
 <li>Seite aktualisiert: journal/entries/2026-08-06 MNQ Daily Bias.md (Korrektur + neuer Abschnitt
   "Nachtrag 2026-08-06"), journal/journal.csv (liquidity_ziel, pd_arrays).</li>
+</ul>
+<h2 id="2026-08-06-lint-core-content-month-05-widerspruchspruefung-yt-ict-ingest">[2026-08-06] lint | Core Content Month 05 -- Widerspruchspruefung (<code>/yt-ict-ingest</code>)</h2>
+<ul>
+<li>Nutzerauftrag: "ziehe den corecontent month 5, aktualisiere das wiki, sodass kein Widerspruch
+  offen ist". Beide Kandidaten fuer "Month 5" im Vault geprueft:</li>
+<li><strong>Core Content 2016, Month 05</strong> (<code>raw/trading-ict/Core Content/Month 05.md</code>, 9 Lectures: IPDA/
+    Quarterly Shift, Open Float, Intermarket-Analyse) -- bereits am 2026-08-01/02 vollstaendig
+    ingested, alle 9/9 Sub-Seiten unter <code>wiki/sources/</code> vorhanden, <code>wiki/sources/Month 05
+    (Source).md</code> verlinkt alle neun korrekt.</li>
+<li><strong>MentorShip 2025, Lektion 05</strong> (<code>raw/trading-ict/MentorShip 2025/05 Advanced ICT Liquidity
+    Concepts.md</code>) -- ebenfalls bereits am 2026-08-02 ingested als
+    <a href="../p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a>, Inhalte bereits in <a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a>,
+    <a href="../p/breakaway-gap.html">Breakaway Gap</a> und <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a> eingearbeitet
+    (60-Tage-PD-Gueltigkeit, 4-ORG-Regel, ATH-Body-Close-Regel).</li>
+<li>Kein neues Rohmaterial zu ziehen -- beide Quellen waren vollstaendig.</li>
+<li><strong>Widerspruchspruefung</strong>: alle Konzeptseiten im Themenumfeld von Month 05 durchsucht ([[IPDA
+  Data Ranges]], <a href="../p/pd-array.html">PD Array</a>, <a href="../p/breakaway-gap.html">Breakaway Gap</a>, <a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a>, [[Quarterly
+  Shift]], <a href="../p/intermarket-relationships.html">Intermarket Relationships</a>, <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>, [[SMT
+  (Smart Money Divergence)]]) sowie vault-weiter Grep nach <code>⚠️</code>/"Widerspruch". Keine offenen
+  Widersprueche zu Month-05-Inhalten gefunden -- die einzigen bestehenden ⚠️-Marker im Vault
+  betreffen andere, unabhaengige Themen (<a href="../p/ict-killzones.html">ICT Killzones</a> AM-Session-Zeitfenster, die bereits
+  aufgeloeste London-Opening-Range-Doppelbedeutung auf der ORG-Seite, [[TGIF (Thank God its
+  Friday)]] quelleninterner Widerspruch, <a href="../p/judas-swing.html">Judas Swing</a>).</li>
+<li><code>python tools/build_site.py</code> zur Bestaetigung gelaufen: 286 Seiten, keine neuen unaufgeloesten
+  Links, kein Index-Drift im Month-05-Umfeld.</li>
+<li>Ergebnis: kein Handlungsbedarf, Wiki zu Month 05 bereits konsistent und vollstaendig.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
