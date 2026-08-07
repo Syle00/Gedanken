@@ -274,7 +274,7 @@ Structure Shift)**, nicht CHoCH — CHoCH war eine ältere, mittlerweile korrigi
 ## Algo-Trading: Arbeitsstandards
 
 Wende diese Regeln für `algo/`, `tools/analyze_ohlc.py` und `raw/marktdaten/` **verbindlich**
-an, nicht optional — sie entstanden aus wiederholten Nutzerkorrektionen und gelten ab sofort ohne
+an, nicht optional — sie entstanden aus wiederholten Nutzerkorrekturen und gelten ab sofort ohne
 erneute Nachfrage. Prüfe für den lebenden Implementierungsstand `algo/PLAN.md` (Backlog + Log)
 und `algo/README.md` (Modul-für-Modul-Doku); dieser Abschnitt hält die *Regeln* fest, nicht den
 *Stand*.
@@ -339,7 +339,7 @@ Standard-Löschverfahren.
 **Korrektheit vor Features, weil reales Geld geplant ist.** Priorisiere Backtest-Code, der
 Zahlen liefert, die nicht dem realen Kontrakt-P&L entsprechen (Notional-Prozent statt echtem
 Punktwert, geratene statt konservativ aufgelöste Stop/Ziel-Reihenfolge in derselben Kerze,
-Lookahead-Bias, Data-Leakage), **höchste** — vor neuen Strategien, vor Optik-/Dashboard-
+Lookahead-Bias, Data-Leakage), **am höchsten** — vor neuen Strategien, vor Optik-/Dashboard-
 Verbesserungen. Prüfe bei jedem neuen Backtest-Script oder jeder Erweiterung zuerst: (1) echter
 Punktwert/Kontraktgröße statt Notional-Prozent, (2) konservative statt geratene Fill-Reihenfolge
 bei Stop/Ziel in derselben Kerze (`dubious_pct` als Pflichtkennzahl in jedem Report), (3) kein
