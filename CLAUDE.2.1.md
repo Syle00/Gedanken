@@ -398,19 +398,20 @@ aber mit dem ersten Broker-Zugangsdaten-File.
 
 ## Protokoll- und Datenartefakte
 
-Damit "laufende Daten verbessern den Algo" ein Mechanismus bleibt, keine Absicht:
+Halte diese Artefakte gepflegt, damit "laufende Daten verbessern den Algo" ein Mechanismus
+bleibt, keine Absicht:
 
 - `algo/PLAN.md` — Backlog + chronologisches Log (Datum, Ereignis) für alles, was in `algo/`
-  passiert: neue Thesen, Backtest-Ergebnisse, Bugfixes mit Zahlen-Auswirkung. Primäres
-  Protokoll für die Algo-Arbeit, feingranularer als `wiki/log.md`.
-- `wiki/synthesis/*.md` mit `(laufend)` im Namen — aggregierte, sich mit wachsendem
-  Datenbestand aktualisierende Auswertungsseiten (z.B. `Muster-Validierung (laufend).md`,
-  `Statistische Muster jenseits der ICT-Konzepte (laufend).md`). Werden bei jedem neuen
-  Backtest-Lauf überschrieben/erweitert, nicht als Schnappschuss stehen gelassen.
+  passiert: neue Thesen, Backtest-Ergebnisse, Bugfixes mit Zahlen-Auswirkung. Führe es als
+  primäres Protokoll für die Algo-Arbeit, feingranularer als `wiki/log.md`.
+- `wiki/synthesis/*.md` mit `(laufend)` im Namen — aggregierte Auswertungsseiten, die sich mit
+  wachsendem Datenbestand aktualisieren (z.B. `Muster-Validierung (laufend).md`,
+  `Statistische Muster jenseits der ICT-Konzepte (laufend).md`). Überschreibe/erweitere sie bei
+  jedem neuen Backtest-Lauf, lass sie nicht als Schnappschuss stehen.
 - `algo/seasonal_tendency.json` — versionierte Kennzahlen-Datenbank (Wochentag/Monat/
   Turn-of-Month/Woche-im-Monat), gedacht für Jahr-über-Jahr-Vergleiche statt Neuberechnung bei
   jeder Frage.
-- `algo/README.md` — ein Abschnitt pro Modul (Was/Wie/Warum/bekannte Grenzen), gepflegt bei
+- `algo/README.md` — ein Abschnitt pro Modul (Was/Wie/Warum/bekannte Grenzen). Pflege ihn bei
   jeder inhaltlichen Code-Änderung, damit der Nutzer ohne Code-Lesen nachschlagen kann.
 - `algo/live/<datum>/` + `algo/live/<datum>-status-log.md` — transiente Live-Ziehung
   (gitignored) plus versioniertes Text-Protokoll der `/algo-live-status`-Läufe.
@@ -421,9 +422,9 @@ Damit "laufende Daten verbessern den Algo" ein Mechanismus bleibt, keine Absicht
 für die Modul-für-Modul-Doku, `algo/PLAN.md` für Stand/Backlog/Log). Kernkomponenten: `pnl.py`
 (Punktwert-Präzisionsschicht), `rules.py`/`signals.py` (Regel-/Signal-Schicht),
 `backtest_bt.py`/`backtest_ensemble.py` (Trade-Simulation), `validate.py`/`stress_test.py`
-(Validierung), `live_status.py` (Live-Loop), `selfcheck.py` (Regressionscheck). Symbol-Punktwerte
-aktuell: MNQ=$2, NQ=$20, ES=$50 — ein neues Symbol braucht einen neuen Eintrag in `pnl.py`, bevor
-`real_pnl`/`risk_size` dafür nutzbar sind.
+(Validierung), `live_status.py` (Live-Loop), `selfcheck.py` (Regressionscheck). Aktuelle
+Symbol-Punktwerte: MNQ=$2, NQ=$20, ES=$50 — trage für ein neues Symbol zuerst einen neuen Eintrag
+in `pnl.py` ein, bevor du `real_pnl`/`risk_size` dafür nutzt.
 
 ## graphify
 
