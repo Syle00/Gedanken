@@ -7,10 +7,12 @@ Laedt dieselben 5m-Tagesdateien wie algo/backtest_ohlc.py (find_days()), haengt 
 durchgehenden Reihe zusammen und laesst pro Kerze plan_trade(hist_bis_hier, t) laufen -- exakt
 derselbe Kein-Lookahead-Vertrag wie in rules.py, hier nur als Strategy.next() verdrahtet.
 
-# ponytail: `backtesting` preist alles wie eine Aktie (P&L = Preisdifferenz * Stueckzahl,
-# margin/cash statt Punktwert). MNQ ist eigentlich $2/Punkt -- Sharpe/Return% sind darum eine
-# Naeherung, keine echte $-P&L. Fuer echte Punktwert-Ergebnisse: eigene Kennzahl aus
-# stats._trades (EntryPrice/ExitPrice-Differenz je Trade) statt stats.Equity Final.
+# `backtesting` preist alles wie eine Aktie (P&L = Preisdifferenz * Stueckzahl, margin/cash
+# statt Punktwert). MNQ ist eigentlich $2/Punkt -- Sharpe/Return%/Equity Final der Lib bleiben
+# darum Naeherungen. Die echte Zahl liefert algo/pnl.py aus stats._trades: die "Echte $-P&L"-
+# Zeile unten ist netto (Punktwert-P&L minus Commission), nicht stats["Equity Final"].
+# ponytail: self.equity ist beim Sizing weiterhin in Lib-Punkteinheiten -- siehe die
+# dokumentierte Grenze in pnl.risk_size(), Fix braucht Startkapital-Tracking.
 
 Aufruf:
     python algo/backtest_bt.py MNQ
@@ -52,7 +54,10 @@ class SilverBulletStrategy(Strategy):
     # (siehe algo/backtest_walkforward.py).
     stop_buffer_pct = 0.1
     max_risk_pct = 0.01        # Nutzerregel, siehe wiki/concepts/Risikomanagement (1% pro Trade).md
-    point_value = POINT_VALUE["MNQ"]
+    point_value = POINT_VALUE["MNQ"]  # main() ueberschreibt das passend zum CLI-Symbol
+    leverage = 20               # muss zu Backtest(margin=...) in main() passen (0.05 -> 20x),
+                                 # siehe EnsembleStrategy.leverage -- ohne diesen Deckel
+                                 # stornierte der Broker Orders mit engem Stop stillschweigend
 
     def init(self):
         self._taken: set[tuple] = set()  # (Tag, Fenstername) -- ein Versuch pro Fenster/Tag
@@ -70,9 +75,10 @@ class SilverBulletStrategy(Strategy):
         key = (setup.t.date(), setup.window)
         if key in self._taken:
             return
-        size = risk_size(self.equity, self.max_risk_pct, setup.entry, setup.stop, self.point_value)
+        size = risk_size(self.equity, self.max_risk_pct, setup.entry, setup.stop, self.point_value,
+                          max_notional=self.equity * self.leverage)
         if size < 1:
-            return  # 1%-Risiko-Budget reicht bei diesem Stop-Abstand fuer keinen Kontrakt
+            return  # 1%-Risiko-Budget oder Margin-Obergrenze ergibt 0 Kontrakte
         self._taken.add(key)
         if setup.side == "long":
             self.buy(size=size, limit=setup.entry, sl=setup.stop, tp=setup.target)
@@ -89,9 +95,13 @@ def main(argv=None):
     a = ap.parse_args(argv)
     sys.stdout.reconfigure(encoding="utf-8")
 
-    df = load_series(a.symbol)
-    print(f"{len(df)} Kerzen, {df.index[0]} bis {df.index[-1]}")
+    sym = a.symbol or "MNQ"  # gleicher Default wie load_series()
+    df = load_series(sym)
+    print(f"{sym}: {len(df)} Kerzen, {df.index[0]} bis {df.index[-1]}")
 
+    # Punktwert muss zum tatsaechlich geladenen Symbol passen -- fest verdrahtetes "MNQ" hiess
+    # bei `backtest_bt.py ES` 25x zu grosse Positionen (Fund 3 des Final Review).
+    SilverBulletStrategy.point_value = POINT_VALUE[sym]
     bt = Backtest(df, SilverBulletStrategy, cash=100_000, margin=0.05, commission=0.0002)
     stats = bt.run()
     print(stats)
@@ -99,8 +109,8 @@ def main(argv=None):
     print(stats._trades)
 
     trades = flag_dubious(stats._trades)
-    trades = real_pnl(trades, "MNQ")
-    print(f"\nEchte $-P&L (MNQ, ${POINT_VALUE['MNQ']:.0f}/Punkt): "
+    trades = real_pnl(trades, sym)
+    print(f"\nEchte $-P&L netto ({sym}, ${POINT_VALUE[sym]:.0f}/Punkt, nach Commission): "
           f"{trades['RealPnL_USD'].sum():+.2f} USD  "
           f"(mehrdeutige Trades: {dubious_pct(trades):.1f}%, konservativ als Verlust gewertet)")
 
