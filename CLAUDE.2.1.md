@@ -148,7 +148,7 @@ Das gesamte Vault liegt in einem privaten Git-Repo (`raw/` inkl. aller PNGs, `wi
 maschinenlokale Configs, transiente Live-Daten (`algo/live/*/`) und Secrets
 (`algo/.secrets.yaml`) **nicht** — siehe `.gitignore`.
 
-Veröffentliche Änderungen ausschließlich über `.\push.ps1 [-Message "..."] [-NoPush]`: Build →
+`.\push.ps1 [-Message "..."] [-NoPush]` ist der einzige Weg, Änderungen zu veröffentlichen: Build →
 `git add -A` → Commit → Push. Schlägt der Build fehl, entsteht kein Commit. Gibt es nichts zu
 committen, endet das Skript ohne Leer-Commit. Beachte: `push.ps1` deckt nur das Wiki/Site-Artefakt ab —
 Code-Änderungen in `algo/`/`tools/` werden mitcommittet, aber nicht separat validiert (kein CI).
