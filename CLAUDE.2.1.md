@@ -245,13 +245,13 @@ tatsächlichen Dateibestand.
 
 ## `index.md`-Format
 
-Gruppiert nach Kategorie (`## Concepts`, `## Models`, `## Sources`, `## Synthesis`), pro Zeile:
+Gruppiere nach Kategorie (`## Concepts`, `## Models`, `## Sources`, `## Synthesis`), pro Zeile:
 `- [[Seitenname]] — Ein-Zeilen-Zusammenfassung (Datum)`
 
 ## `log.md`-Format
 
-Append-only, neueste Einträge unten. Jeder Eintrag beginnt mit einem festen Präfix, damit er
-mit einfachen Tools grep-bar bleibt:
+Führe es append-only, neueste Einträge unten. Beginne jeden Eintrag mit einem festen Präfix,
+damit er mit einfachen Tools grep-bar bleibt:
 
 ```
 ## [2026-08-01] ingest | Essentials To ICT Daytrading
@@ -266,9 +266,9 @@ Wiki-Erweiterungen außerhalb eines formalen Ingest, siehe "Kontinuierliches Wac
 
 `raw/trading-ict/` enthält ICT-(Inner-Circle-Trader-)Konzepte zu Market Structure, Liquidity,
 Order Blocks, IPDA-Datenbereichen und konkreten Trade-Modellen — vermutlich aus einem
-Mentorship-/Kursexport (Notion). Diese Notizen sind bereits recht dicht; beim Ingest lohnt es
-sich, pro Datei mehrere verwandte Konzept-Seiten zu extrahieren statt 1:1 eine Quelle = eine Seite.
-Terminologie-Fix: der kurzfristige Retracement-Break heißt im gesamten Vault **MSS (Market
+Mentorship-/Kursexport (Notion). Diese Notizen sind bereits recht dicht: Extrahiere beim Ingest
+pro Datei mehrere verwandte Konzept-Seiten, statt 1:1 eine Quelle auf eine Seite abzubilden.
+Terminologie-Fix: Nenne den kurzfristigen Retracement-Break im gesamten Vault **MSS (Market
 Structure Shift)**, nicht CHoCH — CHoCH war eine ältere, mittlerweile korrigierte Bezeichnung.
 
 ## Algo-Trading: Arbeitsstandards
