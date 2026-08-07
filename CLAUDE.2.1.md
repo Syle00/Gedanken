@@ -39,7 +39,7 @@ Projekte.
 
 ## Layer 1 — `raw/` (unveränderlich)
 
-Rohquellen, nach Themenbereich sortiert. Du liest daraus, du änderst hier **nie** etwas.
+Sortiere Rohquellen nach Themenbereich ab. Lies daraus, ändere hier **nie** etwas.
 
 ```
 raw/
@@ -58,16 +58,16 @@ raw/
                         raw/gesundheit/, raw/buch-xyz/, raw/firma-abc/
 ```
 
-> ⚠️ **Bildnamen sind vault-weit eindeutig zu halten.** Obsidian *und* `tools/build_site.py`
-> lösen `![[bild.png]]` allein über den Dateinamen auf — zwei gleichnamige Bilder in
-> verschiedenen Ordnern führen dazu, dass stillschweigend das falsche angezeigt wird.
-> Notion-Exporte liefern generische Namen (`image 1.png`, `image 2.png`, …) und kollidieren
-> daher zwangsläufig. Beim Ingest eines neuen Exports: Assets in den Domänenordner legen und
-> kollidierende Namen mit einem Domänen-Präfix versehen.
+> ⚠️ **Halte Bildnamen vault-weit eindeutig.** Obsidian *und* `tools/build_site.py` lösen
+> `![[bild.png]]` allein über den Dateinamen auf — zwei gleichnamige Bilder in verschiedenen
+> Ordnern führen dazu, dass stillschweigend das falsche angezeigt wird. Notion-Exporte liefern
+> generische Namen (`image 1.png`, `image 2.png`, …) und kollidieren daher zwangsläufig. Lege
+> beim Ingest eines neuen Exports Assets in den Domänenordner und versieh kollidierende Namen
+> mit einem Domänen-Präfix.
 
-Neue Rohquellen (Artikel, PDFs, Notizen, Screenshots) legt der Nutzer hier ab, thematisch
-in einem eigenen Unterordner pro Domäne. Wenn eine neue Domäne beginnt, lege den Ordner an,
-aber frag nicht extra nach — folge dem gleichen Muster wie `trading-ict/`.
+Der Nutzer legt neue Rohquellen (Artikel, PDFs, Notizen, Screenshots) hier ab, thematisch in
+einem eigenen Unterordner pro Domäne. Beginnt eine neue Domäne, lege den Ordner an, ohne extra
+nachzufragen — folge dem gleichen Muster wie `trading-ict/`.
 
 ## Layer 2 — `wiki/` (von dir gepflegt)
 
@@ -81,18 +81,18 @@ wiki/
   synthesis/              Übergreifende Thesen, Vergleiche, offene Fragen, die mehrere Quellen verbinden
 ```
 
-Für neue Domänen (nicht-Trading) entstehen bei Bedarf eigene Top-Level-Unterordner in `wiki/`
-mit passenden Kategorien (z.B. `wiki/gesundheit/`, mit eigenen Konzept-/Entitäts-Seiten) —
-das obige Schema ist das Trading-spezifische Beispiel, kein starres Gesetz.
+Lege für neue Domänen (nicht-Trading) bei Bedarf eigene Top-Level-Unterordner in `wiki/` mit
+passenden Kategorien an (z.B. `wiki/gesundheit/`, mit eigenen Konzept-/Entitäts-Seiten) — das
+obige Schema ist das Trading-spezifische Beispiel, kein starres Gesetz.
 
 ### Seitenkonventionen
 
-- Dateiname = Seitentitel, z.B. `wiki/concepts/Order Block.md`.
-- `wiki/sources/`-Seiten dürfen **nicht** denselben Dateinamen wie ihre `raw/`-Quelle tragen
-  (sonst sind Obsidian-Wikilinks zwischen Original und Zusammenfassung mehrdeutig). Konvention:
-  Suffix `(Source)` anhängen, z.B. `raw/trading-ict/Core Content/Essentials To ICT Daytrading.md`
+- Nutze den Dateinamen als Seitentitel, z.B. `wiki/concepts/Order Block.md`.
+- Vergib `wiki/sources/`-Seiten **nicht** denselben Dateinamen wie ihrer `raw/`-Quelle (sonst
+  sind Obsidian-Wikilinks zwischen Original und Zusammenfassung mehrdeutig). Hänge stattdessen
+  den Suffix `(Source)` an, z.B. `raw/trading-ict/Core Content/Essentials To ICT Daytrading.md`
   → `wiki/sources/Essentials To ICT Daytrading (Source).md`.
-- Jede Seite bekommt YAML-Frontmatter:
+- Gib jeder Seite YAML-Frontmatter mit:
   ```yaml
   ---
   tags: [concept, ict, liquidity]
@@ -101,15 +101,15 @@ das obige Schema ist das Trading-spezifische Beispiel, kein starres Gesetz.
   sources: ["[[Essentials To ICT Daytrading]]"]
   ---
   ```
-- Verlinke mit Obsidian-Wikilinks: `[[Seitenname]]`. Verlinke großzügig — auch auf Seiten,
-  die noch nicht existieren (das markiert eine Lücke, kein Fehler).
-- Bei Widersprüchen zwischen **Primärquellen**: nicht stillschweigend überschreiben, sondern im
-  Text markieren, z.B. `> ⚠️ Widerspruch zu [[Andere Quelle]]: dort wird X behauptet, hier Y.`
-  Das gilt für zwei gleichwertige Lehrmeinungen (z.B. zwei ICT-Vorlesungen). **Nicht** für
-  eigene Backtest-Funde — siehe [[Algo-Trading: Arbeitsstandards]], dort gilt eine bewusste
-  Ausnahme (Löschen statt Markieren).
-- Bilder aus `raw/trading-ict/assets/` können direkt per `![[bilddatei.png]]` eingebunden
-  werden (Obsidian löst Wikilinks vault-weit nach Dateinamen auf, Ordnerpfad ist egal).
+- Verlinke mit Obsidian-Wikilinks: `[[Seitenname]]`. Verlinke großzügig — auch auf Seiten, die
+  noch nicht existieren (das markiert eine Lücke, keinen Fehler).
+- Markiere Widersprüche zwischen **Primärquellen** im Text, statt sie still zu überschreiben,
+  z.B. `> ⚠️ Widerspruch zu [[Andere Quelle]]: dort wird X behauptet, hier Y.` Wende das nur bei
+  zwei gleichwertigen Lehrmeinungen an (z.B. zwei ICT-Vorlesungen). Wende es **nicht** auf eigene
+  Backtest-Funde an — siehe [[Algo-Trading: Arbeitsstandards]], dort gilt eine bewusste Ausnahme
+  (Löschen statt Markieren).
+- Binde Bilder aus `raw/trading-ict/assets/` direkt per `![[bilddatei.png]]` ein (Obsidian löst
+  Wikilinks vault-weit nach Dateinamen auf, der Ordnerpfad ist egal).
 
 ## Layer 3 — `site/` (generiert, nie von Hand bearbeiten)
 
