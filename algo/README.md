@@ -153,6 +153,16 @@ expliziter Zukunftswunsch (siehe `project_algo_precision_audit`-Memory), aktuell
 unbemerkt einen der hier gefixten Bugs reproduziert. Ausloese-Mechanik (Erinnerung/Loop) ist
 Teil von Teilprojekt B.
 
+## `backtest_common.py` -- Geteilte Helfer fuer die Explorationsskripte
+
+**Was:** `find_1d_days()`, `load_rows()`, `pearson()`, `write_result()`. Verhindert, dass
+Stat-Skripte sich gegenseitig nur wegen einer Funktion importieren (vorher: `pearson()` 4x
+dupliziert, `load_rows()`/`find_1d_days()` nur ueber Seiteneingaenge importierbar).
+**Audit 2026-08-07:** Entduplizierung + Korrektheits-Audit, siehe
+`docs/superpowers/specs/2026-08-07-algo-backtest-dedup-audit-design.md`. Ein Bug gefunden und
+behoben: `backtest_seasonal.py::turn_of_month()` zaehlte Tage an Monatsuebergaengen doppelt
+(seit 2026-08-06 dokumentiert, jetzt gefixt).
+
 ## Exploratorische Skripte (`backtest_daily_patterns.py`, `backtest_fred_events.py`,
 `backtest_ndog.py`, `backtest_nwog.py`, `backtest_ohlc.py`, `backtest_org_ce.py`,
 `backtest_seasonal.py`, `backtest_tgif.py`, `backtest_fvg_specialness.py`,
@@ -161,8 +171,14 @@ Teil von Teilprojekt B.
 **Was:** Reine statistische Zaehl-/Korrelationsskripte (Wochentag-Effekt, Turn-of-Month,
 NDOG/NWOG-Bias, TGIF, FVG-Besonderheiten, Midnight-Range-STD/Judas-Swing, FRED-Events) --
 nutzen NICHT die `backtesting`-Engine (bestaetigt per Grep, 2026-08-06), daher betrifft sie der
-Punktwert-Layer aus `pnl.py` nicht.
-**Audit 2026-08-06:** Alle 11 Skripte bestehen die Lookahead-Checkliste (keine Funde). Doppelzaehlung in `backtest_seasonal.py::turn_of_month()` erkannt (ueberlappende `rs[:-1]`- und `nrs[3:]`-Slices), ist statistisches Problem kein Lookahead-Verstoß -- separat zu behandeln.
+Punktwert-Layer aus `pnl.py` nicht. Jedes Skript trennt seit 2026-08-07 `run() -> dict` (reine
+Berechnung, importierbar) von `main()` (Konsolenausgabe + `write_result()`) -- CLI-Verhalten
+unveraendert. Ergebnis landet in `algo/results/<skriptname>.json` (Ausnahme:
+`backtest_seasonal.py`, das schreibt weiterhin nur `algo/seasonal_tendency.json`).
+**Audit 2026-08-06:** Alle 11 Skripte bestehen die Lookahead-Checkliste (keine Funde).
+**Audit 2026-08-07:** Doppelzaehlungs-Bug in `backtest_seasonal.py::turn_of_month()` behoben
+(siehe oben), sonst keine weiteren Bugs gefunden. `pearson()`-Duplikat (4x) und
+`load_rows()`/`find_1d_days()`-Seiteneingaenge in `backtest_common.py` konsolidiert.
 
 ## Security-Scan
 
