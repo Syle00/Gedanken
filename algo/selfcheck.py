@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """Buendelt alle demo()-Selbstchecks aus dem Praezisions-Audit
-(docs/superpowers/specs/2026-08-06-algo-backtest-precision-audit-design.md) zu einem
-Kommando -- gedacht als schneller taeglicher Regressions-Check (Sekunden, kein neuer
-Backtest-Lauf, buendelt nur bestehende kleine Checks). Die Ausloese-Mechanik (Erinnerung/Loop)
-ist Teil von Teilprojekt B, nicht dieses Moduls.
+(docs/superpowers/specs/2026-08-06-algo-backtest-precision-audit-design.md) und den
+Schnittstellen-Check der 11 entduplizierten Explorationsskripte
+(docs/superpowers/specs/2026-08-07-algo-backtest-dedup-audit-design.md) zu einem
+Kommando -- gedacht als schneller Regressions-Check, kein neuer inhaltlicher Backtest.
 
 Aufruf:
     python algo/selfcheck.py
 """
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -20,12 +21,55 @@ from pnl import demo as pnl_demo  # noqa: E402
 from rules import demo as rules_demo  # noqa: E402
 from signals import _demo as signals_demo  # noqa: E402
 from backtest_ensemble import _demo as ensemble_demo  # noqa: E402
+from backtest_common import demo as backtest_common_demo  # noqa: E402
+
+
+def _results_demo() -> None:
+    """run() liefert ein dict, write_result() schreibt gueltiges JSON -- fuer jedes der 11
+    im Dedup-Audit (2026-08-07) umgebauten Skripte. Kein Zahlen-Assert, nur Interface."""
+    import backtest_daily_patterns
+    import backtest_nwog
+    import backtest_tgif
+    import backtest_ndog
+    import backtest_fred_events
+    import backtest_org_ce
+    import backtest_fvg_specialness
+    import backtest_midnight_range_std
+    import backtest_midnight_range_judas
+    import backtest_ohlc
+    import backtest_seasonal
+    from backtest_common import RESULTS_DIR, write_result
+
+    checks = [
+        ("backtest_daily_patterns", backtest_daily_patterns.run),
+        ("backtest_nwog", backtest_nwog.run),
+        ("backtest_tgif", backtest_tgif.run),
+        ("backtest_ndog", backtest_ndog.run),
+        ("backtest_fred_events", backtest_fred_events.run),
+        ("backtest_org_ce", backtest_org_ce.run),
+        ("backtest_fvg_specialness", backtest_fvg_specialness.run),
+        ("backtest_midnight_range_std", backtest_midnight_range_std.run),
+        ("backtest_midnight_range_judas", backtest_midnight_range_judas.run),
+        ("backtest_ohlc", lambda: backtest_ohlc.run("MNQ")),
+    ]
+    for name, call in checks:
+        result = call()
+        assert isinstance(result, dict), f"{name}.run() liefert kein dict"
+        write_result(name, result)
+        path = RESULTS_DIR / f"{name}.json"
+        assert path.exists(), f"{name}: {path} wurde nicht geschrieben"
+        json.loads(path.read_text(encoding="utf-8"))  # wirft bei ungueltigem JSON
+
+    assert isinstance(backtest_seasonal.run(), dict), "backtest_seasonal.run() liefert kein dict"
+
 
 CHECKS = [
     ("pnl", pnl_demo),
     ("rules", rules_demo),
     ("signals", signals_demo),
     ("backtest_ensemble", ensemble_demo),
+    ("backtest_common", backtest_common_demo),
+    ("dedup", _results_demo),
 ]
 
 
