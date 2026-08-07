@@ -33,9 +33,13 @@ def find_days(symbol: str = "MNQ") -> list[tuple]:
     """(Tag, Datei) -- 1m bevorzugt, sonst 5m als naechstbeste Aufloesung, nur `symbol`.
 
     Bugfix 2026-08-07: die alte Version filterte nicht nach Symbol (glob '* {tf}.csv') --
-    bei Tagesordnern mit sowohl ES- als auch MNQ-Dateien (z.B. 23.07.2026) griff sie
-    nicht-deterministisch mal die eine, mal die andere Datei. Reproduziert am hartkodierten
-    2026-07-23-Regressionscheck (erwartet C.E.=28984.00, lieferte den ES-Wert statt MNQ).
+    bei Tagesordnern mit sowohl ES- als auch MNQ-Dateien (z.B. 23.07.2026) griff sie faktisch
+    deterministisch zugunsten von ES (alphabetisch vor MNQ, kein sorted() auf die
+    Kandidatenliste) -- nicht "nicht-deterministisch"/zufaellig, wie zwischenzeitlich hier
+    dokumentiert. Gemessen: 40 von 45 betroffenen Tagen lieferten die ES- statt der
+    MNQ-Datei (~89 % der Tage rechneten auf dem falschen Instrument). Reproduziert am
+    hartkodierten 2026-07-23-Regressionscheck (erwartet C.E.=28984.00, lieferte den ES-Wert
+    statt MNQ).
     """
     out = []
     for day_dir in sorted(DATA_DIR.glob("*/*/*")):
@@ -72,6 +76,14 @@ def run() -> dict:
             h = sum(1 for r in sub if r["filled_30m"])
             by_min_gap[min_gap] = {"hit_n": h, "n": len(sub), "hit_pct": 100 * h / len(sub)}
 
+    # Regressionscheck: 2026-07-23 ist gegen den manuell im Journal genannten Wert
+    # verifiziert (28.984,00) -- bricht der Detektor, faellt das hier zuerst auf. Liegt in
+    # run() (nicht main()), damit selfcheck.py's dedup-Check (ruft nur run() auf) ihn
+    # mitausfuehrt -- war vor 2026-08-08 in main() und damit von selfcheck.py nie erreichbar.
+    known = next((r for d, r in results if d.isoformat() == "2026-07-23"), None)
+    if known is not None:
+        assert abs(known["ce"] - 28984.00) < 0.01, known
+
     return {"n_days": len(results),
             "hit_n": len(hit), "hit_pct": 100 * len(hit) / len(results) if results else 0.0,
             "days": results, "by_min_gap": by_min_gap}
@@ -83,12 +95,6 @@ def main() -> None:
     if not results:
         print("keine Tage mit vollstaendigen ORG-Daten gefunden")
         return
-
-    # Regressionscheck: 2026-07-23 ist gegen den manuell im Journal genannten Wert
-    # verifiziert (28.984,00) -- bricht der Detektor, faellt das hier zuerst auf.
-    known = next((r for d, r in results if d.isoformat() == "2026-07-23"), None)
-    if known is not None:
-        assert abs(known["ce"] - 28984.00) < 0.01, known
 
     print(f"{result['n_days']} Tage mit ORG-Daten, C.E. gefuellt in 9:30-10:00: "
           f"{result['hit_n']}/{result['n_days']} = {result['hit_pct']:.1f}%\n")

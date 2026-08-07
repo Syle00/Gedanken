@@ -177,7 +177,12 @@ unveraendert. Ergebnis landet in `algo/results/<skriptname>.json` (Ausnahme:
 `backtest_seasonal.py`, das schreibt weiterhin nur `algo/seasonal_tendency.json`).
 **Audit 2026-08-06:** Alle 11 Skripte bestehen die Lookahead-Checkliste (keine Funde).
 **Audit 2026-08-07:** Doppelzaehlungs-Bug in `backtest_seasonal.py::turn_of_month()` behoben
-(siehe oben), sonst keine weiteren Bugs gefunden. `pearson()`-Duplikat (4x) und
+(siehe oben). Waehrend Task 8 ein zweiter echter Bug gefunden und gefixt: `find_days()` in
+`backtest_org_ce.py` filterte nicht nach Symbol und griff faktisch deterministisch zugunsten
+von ES statt MNQ (40/45 betroffene Tage), betraf/behob implizit auch die vier
+Downstream-Konsumenten `backtest_fvg_specialness.py`/`backtest_midnight_range_std.py`/
+`backtest_midnight_range_judas.py`/`explore_patterns.py` -- Details im `algo/PLAN.md`-Log
+vom 2026-08-07. Sonst keine weiteren Bugs gefunden. `pearson()`-Duplikat (4x) und
 `load_rows()`/`find_1d_days()`-Seiteneingaenge in `backtest_common.py` konsolidiert.
 
 ## Security-Scan

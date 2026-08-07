@@ -59,6 +59,8 @@ def run() -> dict:
     for day, path in find_days():
         bars = load(path)
         gaps = fvgs(bars)
+        # nur FVGs, die tatsaechlich zu dieser Datei/diesem Handelstag gehoeren, nicht
+        # zufaellige Lookback-Reste vom Rand der CSV.
         gaps = [g for g in gaps if g["t"].date() in {day, day - timedelta(days=1)}]
         if not gaps:
             continue
@@ -78,6 +80,7 @@ def run() -> dict:
             if not tagged:
                 groups["rest"].append(g)
 
+    # Sanity-Check: hoechstens ein "1. FVG nach X" pro Tag, sonst ist classify() kaputt.
     assert len(groups["first_930"]) <= days_used, groups["first_930"]
     assert len(groups["first_midnight"]) <= days_used, groups["first_midnight"]
 

@@ -26,7 +26,14 @@ from backtest_common import demo as backtest_common_demo  # noqa: E402
 
 def _results_demo() -> None:
     """run() liefert ein dict, write_result() schreibt gueltiges JSON -- fuer jedes der 11
-    im Dedup-Audit (2026-08-07) umgebauten Skripte. Kein Zahlen-Assert, nur Interface."""
+    im Dedup-Audit (2026-08-07) umgebauten Skripte. Kein Zahlen-Assert, nur Interface.
+
+    Schreibt in ein Tempdir (gleiches Muster wie backtest_common.py::demo()), NIE nach
+    algo/results/: main() jedes Skripts persistiert dort bewusst eine kompakte
+    Zusammenfassung, nicht den vollen run()-Dict hier -- ein direkter write_result()-Aufruf
+    gegen das echte RESULTS_DIR wuerde die committeten JSONs mit einem anderen Schema
+    ueberschreiben."""
+    import tempfile
     import backtest_daily_patterns
     import backtest_nwog
     import backtest_tgif
@@ -38,7 +45,7 @@ def _results_demo() -> None:
     import backtest_midnight_range_judas
     import backtest_ohlc
     import backtest_seasonal
-    from backtest_common import RESULTS_DIR, write_result
+    import backtest_common
 
     checks = [
         ("backtest_daily_patterns", backtest_daily_patterns.run),
@@ -52,13 +59,17 @@ def _results_demo() -> None:
         ("backtest_midnight_range_judas", backtest_midnight_range_judas.run),
         ("backtest_ohlc", lambda: backtest_ohlc.run("MNQ")),
     ]
-    for name, call in checks:
-        result = call()
-        assert isinstance(result, dict), f"{name}.run() liefert kein dict"
-        write_result(name, result)
-        path = RESULTS_DIR / f"{name}.json"
-        assert path.exists(), f"{name}: {path} wurde nicht geschrieben"
-        json.loads(path.read_text(encoding="utf-8"))  # wirft bei ungueltigem JSON
+    orig_results_dir = backtest_common.RESULTS_DIR
+    with tempfile.TemporaryDirectory() as tmp:
+        backtest_common.RESULTS_DIR = Path(tmp)
+        for name, call in checks:
+            result = call()
+            assert isinstance(result, dict), f"{name}.run() liefert kein dict"
+            backtest_common.write_result(name, result)
+            path = backtest_common.RESULTS_DIR / f"{name}.json"
+            assert path.exists(), f"{name}: {path} wurde nicht geschrieben"
+            json.loads(path.read_text(encoding="utf-8"))  # wirft bei ungueltigem JSON
+    backtest_common.RESULTS_DIR = orig_results_dir
 
     assert isinstance(backtest_seasonal.run(), dict), "backtest_seasonal.run() liefert kein dict"
 

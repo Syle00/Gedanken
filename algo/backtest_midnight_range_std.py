@@ -98,10 +98,11 @@ def run() -> dict:
         day_high.append(dh)
         day_low.append(dl)
 
-    exceed_1std = sum(1 for k in london_low if k > 1.0) / len(london_low)
+    exceed_1std = (sum(1 for k in london_low if k > 1.0) / len(london_low)) if london_low else None
 
     return {"days_used": days_used, "london_high": london_high, "london_low": london_low,
-            "day_high": day_high, "day_low": day_low, "exceed_1std_pct": 100 * exceed_1std}
+            "day_high": day_high, "day_low": day_low,
+            "exceed_1std_pct": 100 * exceed_1std if exceed_1std is not None else None}
 
 
 def main() -> None:
@@ -114,8 +115,9 @@ def main() -> None:
     report("Tages-Low unter Range-Tief", result["day_low"])
     report("Tages-High ueber Range-Hoch", result["day_high"])
 
-    print(f"\nLondon-Low geht bei {result['exceed_1std_pct']:.1f}% der Tage ueber -1 STD "
-          f"hinaus (These behauptet: das soll waehrend London selten/nie passieren).")
+    if result["exceed_1std_pct"] is not None:
+        print(f"\nLondon-Low geht bei {result['exceed_1std_pct']:.1f}% der Tage ueber -1 STD "
+              f"hinaus (These behauptet: das soll waehrend London selten/nie passieren).")
 
     write_result("backtest_midnight_range_std", {
         "days_used": result["days_used"], "exceed_1std_pct": result["exceed_1std_pct"],
