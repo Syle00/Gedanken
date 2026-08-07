@@ -144,39 +144,39 @@ Abhängigkeiten mit `python -m pip install -r tools/requirements.txt` (nur `mark
 ## Versionskontrolle
 
 Das gesamte Vault liegt in einem privaten Git-Repo (`raw/` inkl. aller PNGs, `wiki/`, `site/`,
-`algo/`). Nicht versioniert werden abgeleitete Artefakte (`graphify-out/`), der
-Notion-Export-ZIP, maschinenlokale Configs, transiente Live-Daten (`algo/live/*/`) und Secrets
-(`algo/.secrets.yaml`) — siehe `.gitignore`.
+`algo/`). Versioniere abgeleitete Artefakte (`graphify-out/`), den Notion-Export-ZIP,
+maschinenlokale Configs, transiente Live-Daten (`algo/live/*/`) und Secrets
+(`algo/.secrets.yaml`) **nicht** — siehe `.gitignore`.
 
-`.\push.ps1 [-Message "..."] [-NoPush]` ist der einzige Weg, Änderungen zu veröffentlichen:
-Build → `git add -A` → Commit → Push. Schlägt der Build fehl, entsteht kein Commit. Gibt es
-nichts zu committen, endet das Skript ohne Leer-Commit. `push.ps1` deckt nur das
-Wiki/Site-Artefakt ab — Code-Änderungen in `algo/`/`tools/` werden davon mitcommittet, aber
-nicht separat validiert (kein CI); vor sicherheitsrelevanten Änderungen (IBKR-Keys,
-Order-Ausführung) gilt ein eigener Review-Schritt, siehe unten.
+Veröffentliche Änderungen ausschließlich über `.\push.ps1 [-Message "..."] [-NoPush]`: Build →
+`git add -A` → Commit → Push. Schlägt der Build fehl, erzeuge keinen Commit. Gibt es nichts zu
+committen, beende ohne Leer-Commit. Beachte: `push.ps1` deckt nur das Wiki/Site-Artefakt ab —
+Code-Änderungen in `algo/`/`tools/` werden mitcommittet, aber nicht separat validiert (kein CI).
+Führe vor sicherheitsrelevanten Änderungen (IBKR-Keys, Order-Ausführung) den eigenen
+Review-Schritt aus, siehe unten.
 
 ## Kontinuierliches Wachstum (autonom, nicht nur beim Ingest)
 
-Das Wiki wächst **laufend, in jeder Session** — nicht nur bei explizitem "ingest" oder
-"importiere". Sobald während irgendeiner Aufgabe (Backtest, Debugging, Rückfrage, Korrektur
-des Nutzers, Recherche) eine neue Erkenntnis, Regel oder Verbindung entsteht, die über den
-aktuellen Chatverlauf hinaus Wert hat, wird sie **sofort** ins Wiki übernommen — nicht erst
-auf Nachfrage. Das gilt für neue Fakten genauso wie für Korrekturen bestehender Seiten. Für
-`algo/`-spezifische Erkenntnisse (neue Trading-These, Backtest-Ergebnis, Bugfix mit
-Zahlen-Auswirkung) gilt zusätzlich das strengere Protokoll unter
-[[Algo-Trading: Arbeitsstandards]] — dort ist Loggen nicht optional, sondern Standardverfahren.
+Erweitere das Wiki **laufend, in jeder Session** — nicht nur bei explizitem "ingest" oder
+"importiere". Übernimm jede neue Erkenntnis, Regel oder Verbindung, die über den aktuellen
+Chatverlauf hinaus Wert hat, **sofort** ins Wiki, sobald sie während irgendeiner Aufgabe
+(Backtest, Debugging, Rückfrage, Korrektur des Nutzers, Recherche) entsteht — nicht erst auf
+Nachfrage. Wende das auf neue Fakten genauso an wie auf Korrekturen bestehender Seiten. Wende
+für `algo/`-spezifische Erkenntnisse (neue Trading-These, Backtest-Ergebnis, Bugfix mit
+Zahlen-Auswirkung) zusätzlich das strengere Protokoll unter [[Algo-Trading: Arbeitsstandards]]
+an — dort ist Loggen nicht optional, sondern Standardverfahren.
 
-- **Rein logisch strukturiert**: neue Erkenntnisse landen an der Stelle, die die bestehende
+- **Strukturiere rein logisch**: Platziere neue Erkenntnisse an der Stelle, die die bestehende
   Kategorie-Struktur (`concepts/`, `models/`, `sources/`, `synthesis/`, plus Domänen-eigene
   Unterordner) vorsieht — kein loses Sammelbecken, keine Datei "Sonstiges" oder "Notizen". Passt
-  keine bestehende Seite, wird eine neue in der passenden Kategorie angelegt und in
-  `wiki/index.md` verlinkt, nach denselben Seitenkonventionen wie beim Ingest (Frontmatter,
-  Wikilinks, Widerspruchsmarkierung, Verlinkung mit verwandten Seiten).
-- Jede Erweiterung bekommt einen `wiki/log.md`-Eintrag (passender Typ, z.B. `synthesis`,
+  keine bestehende Seite, lege eine neue in der passenden Kategorie an und verlinke sie in
+  `wiki/index.md`, nach denselben Seitenkonventionen wie beim Ingest (Frontmatter, Wikilinks,
+  Widerspruchsmarkierung, Verlinkung mit verwandten Seiten).
+- Hänge jeder Erweiterung einen `wiki/log.md`-Eintrag an (passender Typ, z.B. `synthesis`,
   `query`, oder ein neuer treffender Typ), damit nachvollziehbar bleibt, wann und warum eine
   Seite entstand oder sich änderte.
-- Push (`.\push.ps1`) bleibt weiterhin **manuell** — der Nutzer löst ihn selbst aus (siehe
-  Versionskontrolle). Autonom ist das *Schreiben* ins Wiki, nicht das Veröffentlichen.
+- Löse Push (`.\push.ps1`) weiterhin nur **manuell** aus — das macht der Nutzer selbst (siehe
+  Versionskontrolle). Sei autonom beim *Schreiben* ins Wiki, nicht beim Veröffentlichen.
 
 ## Operationen
 
