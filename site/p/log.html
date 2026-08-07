@@ -105,6 +105,7 @@
 <li><a href="#2026-08-06-setup-youtube-quellenseiten-in-eigenen-ordner-ausgelagert">[2026-08-06] setup | YouTube-Quellenseiten in eigenen Ordner ausgelagert</a></li>
 <li><a href="#2026-08-06-ingest-core-content-playlist-batch-month-01-12-115-videos-zweiter-anlauf-erneut-abgebrochen">[2026-08-06] ingest | Core-Content-Playlist-Batch (Month 01-12, ~115 Videos) — zweiter Anlauf, erneut abgebrochen</a></li>
 <li><a href="#2026-08-06-ingest-rticbg6twri-bz4qnpcpmwe-offen-ip-block">[2026-08-06] ingest | rtIcbG6twrI + bz4QNPcpmWE (offen, IP-Block)</a></li>
+<li><a href="#2026-08-07-ingest-daily-bias-0708-journal-live-org-3006-korrektur-tgif-zahlen">[2026-08-07] ingest | Daily Bias 07.08. (Journal, live) -- ORG-30.06.-Korrektur + TGIF-Zahlen</a></li>
 </ul>
 </div>
 </details>
@@ -1067,6 +1068,47 @@
   versuchen, sobald der Block vermutlich abgelaufen ist; bei Erfolg regulaerem <code>/yt-ict-ingest</code>-Skill
   folgen (inkl. <code>push.ps1</code>). Alternativ nach <code>/web-setup</code> die Cloud-Routine wie oben beschrieben
   neu anlegen.</li>
+</ul>
+<h2 id="2026-08-07-ingest-daily-bias-0708-journal-live-org-3006-korrektur-tgif-zahlen">[2026-08-07] ingest | Daily Bias 07.08. (Journal, live) -- ORG-30.06.-Korrektur + TGIF-Zahlen</h2>
+<ul>
+<li>Nutzer: "neuer bias fuer heute in raw" -- <code>raw/Daily Bias 07.08.md</code> nach
+  <code>raw/journal/Daily Bias 2026-08-07.md</code> verschoben (Konvention analog 08-03/08-04/08-06), verarbeitet
+  zu <code>journal/entries/2026-08-07 MNQ Daily Bias.md</code> + Zeile in <code>journal/journal.csv</code>
+  (id <code>2026-08-07-01</code>, Bias <strong>Neutral/kein Bias</strong>, explizit wegen NFP).</li>
+<li><strong>Marktdaten waren beim ersten Zugriff veraltet</strong>: die zuvor gecachten 05.08./06.08.-Dateien
+  brachen bei 02:05 bzw. 08:05 NY ab, obwohl beide Tage laengst vorbei sind -- <code>write_day()</code> in
+  <code>algo/fetch_yfinance.py</code> ueberschreibt nie bestehende Dateien, ein mitten im Handelstag gezogener
+  Stand bleibt also dauerhaft stehen. Ebenso die 04.08.-Datei (nur 23 Kerzen bis 01:50 NY). Alle drei
+  vor der Pruefung geloescht und neu gezogen (<code>algo/fetch_yfinance.py</code>), sonst waeren mehrere
+  Aussagen unten gegen unvollstaendige Handelstage geprueft worden. <strong>Fuer kuenftige Live-Eintraege
+  festgehalten</strong>: bei "gestern"/"vorgestern"-Bezuegen auf einen mittlerweile abgeschlossenen Tag
+  immer pruefen, ob die lokale Datei den vollen Tag abdeckt (Spanne bis ca. 17:00 NY), nicht
+  ungeprueft dem Cache vertrauen.</li>
+<li><strong>Bestaetigt</strong>: Close 06.08. (29.504,50) ueber IFVG-C.E. (29.308,38) und BISI-C.E. (29.370,25);
+  Retracement in London/Premarket (Tagestief 29.241,00 um 09:30 NY); NWOG KW29 (29.956,75) am 05.08.
+  um 28,25 Punkte ueberschossen (Hoch 29.985,00); ORG 06.08. (29.335,25-29.572,25) vollstaendig
+  gefuellt (Hoch 06.08. 29.686,25 &gt; Gap-Oberkante); ORG 04.08. (28.927,25-29.234,25, C.E. 29.080,75)
+  seit dem 05.08. unberuehrt, weiterhin gueltiger DOL-Kandidat.</li>
+<li><strong>Korrektur</strong>: die Behauptung "ORG vom Donnerstag 30.06. ist offen" stimmt nicht -- <code>org_gap()</code>
+  gegen die 5m-Serie zeigt das ORG 30.06. (30.020,00-30.047,00, nur 27 Punkte) bereits am
+  <strong>01.07. um 16:00 NY</strong> vollstaendig gefuellt, seit ueber fuenf Wochen erledigt. Gegenprobe bewusst
+  zusaetzlich gegen die 5m-Serie statt nur gegen die 1h-Cache-Datei gemacht, da Letztere laut
+  Log-Eintrag [2026-08-04] fuer Fremd-Historie bekannt ist.</li>
+<li><strong>Praezisiert</strong>: der im 06.08.-Eintrag gesetzte Invalidierungslevel ("Close unter BISI-C.E.
+  29.370,25") war als Handelstag-Close gemeint -- intraday schlossen am 06.08. zwischen 09:05-09:30 NY
+  fuenf 5m-Kerzen knapp darunter (tiefster Close 29.334,75), auf Handelstag-Basis aber unverletzt
+  (Close 29.504,50). Als Praezisierung im neuen Eintrag vermerkt, keine Aenderung am Bias.</li>
+<li><strong>TGIF-Frage des Nutzers mit Zahlen beantwortet</strong>: Weekly-Range KW32 High 30.073,25 (05.08.)
+  / Low 28.313,00 (03.08.), Range 1.760,25 Punkte. <a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a>-Zielzone
+  (20-30 % Retracement vom Hoch) liegt bei 29.545,17-29.721,20 -- letzter Preis (07.08., 06:20 NY)
+  29.603,75 liegt <strong>bereits darin</strong>, obwohl der Freitag gerade erst begonnen hat. Seine Beobachtung
+  ("Retracement schon ueber die letzten beiden Tage bekommen") ist damit zahlenmaessig gedeckt.</li>
+<li>Offene Frage ohne Antwort: "2 Drives Pattern?" -- keine Wiki-Seite zu dem Begriff, aus den
+  vorliegenden Daten nicht rekonstruierbar. Vorgemerkt fuer eine Seite beim dritten Auftreten
+  (Konvention wie bei "Bellweather Chart").</li>
+<li>Keine eigene <code>wiki/sources/</code>-Seite angelegt (gleiche Begruendung wie beim 08-03.-Eintrag: ein
+  Daily Bias ist Journal, keine Lehrquelle).</li>
+<li>Seiten aktualisiert: <code>journal/entries/2026-08-07 MNQ Daily Bias.md</code>, <code>journal/journal.csv</code>.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
