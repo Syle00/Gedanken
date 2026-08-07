@@ -1,3 +1,14 @@
+#!/usr/bin/env python3
+"""Grossflaechige Version von explore_patterns.py: dieselben vier Fragen (Wochentag-Effekt,
+Range-/Richtungs-Autokorrelation, Rundzahl-Magnetismus), aber auf allen verfuegbaren 1d-Baren
+(volle Globex-Session, kein RTH-Ausschnitt) statt nur den ~34 Tagen mit 1m/5m-Aufloesung --
+1d hat bei yfinance kein 30/60-Tage-Limit, deshalb reicht die Stichprobe hier bis Jan. 2026
+zurueck (n~150 statt ~34). Nur "Stunde des Extrems" braucht Intraday-Aufloesung und bleibt
+explore_patterns.py vorbehalten.
+
+Aufruf:
+    python algo/backtest_daily_patterns.py
+"""
 from __future__ import annotations
 
 import statistics
