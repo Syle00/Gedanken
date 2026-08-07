@@ -52,14 +52,18 @@ def run() -> dict:
     med_gap = statistics.median(abs_gaps)
     small = [g for g in gaps if abs(g["gap"]) <= med_gap]
     big = [g for g in gaps if abs(g["gap"]) > med_gap]
+    small_gap_fill_n = sum(1 for g in small if g["filled"])
+    big_gap_fill_n = sum(1 for g in big if g["filled"])
     same_dir = sum(1 for g in gaps if (g["gap"] > 0) == (g["day_ret"] > 0))
 
     return {
         "n_days": len(gaps), "gap_range_corr": corr, "fill_pct": 100 * filled / len(gaps),
         "fill_n": filled, "median_abs_gap": med_gap,
-        "small_gap_fill_pct": 100 * sum(1 for g in small if g["filled"]) / len(small),
+        "small_gap_fill_n": small_gap_fill_n,
+        "small_gap_fill_pct": 100 * small_gap_fill_n / len(small),
         "small_gap_n": len(small),
-        "big_gap_fill_pct": 100 * sum(1 for g in big if g["filled"]) / len(big),
+        "big_gap_fill_n": big_gap_fill_n,
+        "big_gap_fill_pct": 100 * big_gap_fill_n / len(big),
         "big_gap_n": len(big),
         "same_dir_pct": 100 * same_dir / len(gaps), "same_dir_n": same_dir,
     }
@@ -73,12 +77,10 @@ def main() -> None:
     print(f"1. Korrelation |NDOG-Gap| vs. Tagesrange: r={result['gap_range_corr']:.3f} (n={n})")
 
     print(f"\n2. NDOG-Fill-Quote (selber Tag): {result['fill_n']}/{n} = {result['fill_pct']:.1f}%")
-    small_count = int(result['small_gap_n'] * result['small_gap_fill_pct'] / 100)
-    big_count = int(result['big_gap_n'] * result['big_gap_fill_pct'] / 100)
     print(f"   Kleine Gaps (<= Median {result['median_abs_gap']:.1f} Pkt.): "
-          f"{small_count}/{result['small_gap_n']} = {result['small_gap_fill_pct']:.1f}% (n={result['small_gap_n']})")
+          f"{result['small_gap_fill_n']}/{result['small_gap_n']} = {result['small_gap_fill_pct']:.1f}% (n={result['small_gap_n']})")
     print(f"   Grosse Gaps (> Median {result['median_abs_gap']:.1f} Pkt.): "
-          f"{big_count}/{result['big_gap_n']} = {result['big_gap_fill_pct']:.1f}% (n={result['big_gap_n']})")
+          f"{result['big_gap_fill_n']}/{result['big_gap_n']} = {result['big_gap_fill_pct']:.1f}% (n={result['big_gap_n']})")
 
     print(f"\n3. Gap-Richtung = Tagesrichtung (Fortsetzung statt Fade): "
           f"{result['same_dir_n']}/{n} = {result['same_dir_pct']:.1f}%")
