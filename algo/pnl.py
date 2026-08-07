@@ -18,13 +18,20 @@ POINT_VALUE = {"MNQ": 2.0, "NQ": 20.0, "ES": 50.0}
 
 
 def real_pnl(trades: pd.DataFrame, symbol: str) -> pd.DataFrame:
-    """Kopie von `trades` mit zusaetzlicher Spalte 'RealPnL_USD' = (ExitPrice - EntryPrice) *
-    Size * Punktwert[symbol]. `Size` traegt bei backtesting.py bereits das Vorzeichen (negativ
-    bei Short), daher kein separates Side-Handling noetig."""
+    """Kopie von `trades` mit zusaetzlicher Spalte 'RealPnL_USD' = NETTO-Ergebnis in Dollar,
+    also (ExitPrice - EntryPrice) * Size * Punktwert[symbol] MINUS der von der Lib gebuchten
+    'Commission'. `Size` traegt bei backtesting.py bereits das Vorzeichen (negativ bei Short),
+    daher kein separates Side-Handling noetig.
+
+    Die Kommission wird abgezogen, weil sie sonst komplett unter den Tisch fiel: im
+    MNQ-Lauf vom 2026-08-06 lagen ~$13.3k Kommission gegen ~$1.1k Brutto-Punktwert-P&L --
+    die als "echt" beworbene Zahl war dadurch um eine Groessenordnung zu optimistisch
+    (Fund 2 des Final Review)."""
     if symbol not in POINT_VALUE:
         raise ValueError(f"Kein Punktwert fuer {symbol!r} hinterlegt (POINT_VALUE: {list(POINT_VALUE)})")
     out = trades.copy()
-    out["RealPnL_USD"] = (out["ExitPrice"] - out["EntryPrice"]) * out["Size"] * POINT_VALUE[symbol]
+    out["RealPnL_USD"] = ((out["ExitPrice"] - out["EntryPrice"]) * out["Size"] * POINT_VALUE[symbol]
+                          - out["Commission"])
     return out
 
 
@@ -34,10 +41,19 @@ def flag_dubious(trades: pd.DataFrame) -> pd.DataFrame:
     unterscheiden (siehe UserWarning "same bar its parent stop/limit order was turned into a
     trade"). Wertet sie konservativ: 'ExitPrice' wird auf den Stop-Preis ('SL') gesetzt, statt
     der von der Lib gewaehlten (moeglicherweise zu optimistischen) 'ExitPrice' zu vertrauen.
-    Muss VOR real_pnl() aufgerufen werden, damit die $-Berechnung den korrigierten Exit sieht."""
+    Muss VOR real_pnl() aufgerufen werden, damit die $-Berechnung den korrigierten Exit sieht.
+
+    Bewusst pauschal: die Korrektur greift bei JEDEM Same-Bar-Trade, auch bei solchen, deren
+    Reihenfolge aus den Kursdaten eindeutig aufloesbar waere -- die Lib gibt die Information
+    nicht her, und im Zweifel lieber zu pessimistisch als zu optimistisch. Trades ohne Stop
+    (SL = NaN) bleiben unangetastet, sonst wuerde ExitPrice zu NaN und der Trade faende in
+    real_pnl() gar nicht mehr statt, statt als Verlust zu zaehlen. Nur 'ExitPrice' (und damit
+    'RealPnL_USD') spiegelt die Korrektur -- die Lib-Spalten 'PnL'/'ReturnPct' bleiben auf dem
+    unkorrigierten Stand und duerfen nach diesem Aufruf nicht mehr als Wahrheit gelten."""
     out = trades.copy()
     out["Dubious"] = out["EntryTime"] == out["ExitTime"]
-    out.loc[out["Dubious"], "ExitPrice"] = out.loc[out["Dubious"], "SL"]
+    correctable = out["Dubious"] & out["SL"].notna()
+    out.loc[correctable, "ExitPrice"] = out.loc[correctable, "SL"]
     return out
 
 
@@ -49,19 +65,39 @@ def dubious_pct(trades: pd.DataFrame) -> float:
 
 
 def risk_size(equity: float, max_risk_pct: float, entry: float, stop: float,
-              point_value: float) -> int:
+              point_value: float, max_notional: float | None = None) -> int:
     """Kontraktzahl, sodass ein Stop-Out genau `max_risk_pct` von `equity` in ECHTEN Dollar
     kostet: budget_usd = equity * max_risk_pct; realer Verlust pro Kontrakt bei Stop-Out =
     |entry-stop| (Punkte) * point_value ($/Punkt). Ohne point_value wuerde 1 Punkt wie $1
     behandelt -- bei MNQ ($2/Punkt) laege das reale Risiko dann beim Doppelten des
     beabsichtigten Budgets (Fund vom 2026-08-06-Audit, siehe frueheres
-    algo/backtest_ensemble.py::_risk_size vor diesem Fix)."""
+    algo/backtest_ensemble.py::_risk_size vor diesem Fix).
+
+    `max_notional` (optional, = equity * Hebel) deckelt das Ergebnis zusaetzlich auf
+    int(max_notional * 0.95 / entry) Kontrakte. Ohne diesen Deckel fordert ein enger Stop mehr
+    Kontrakte an, als die Margin hergibt, und die `backtesting`-Lib STORNIERT die Order
+    stillschweigend ("Broker canceled the order due to insufficient margin") statt sie kleiner
+    zu fuellen -- ein systematischer Bias gegen genau die Setups mit engem Stop (Fund 1 des
+    Final Review: 60 von 99 Setups fielen so weg). Der 0.95-Puffer faengt ab, dass die Order
+    ggf. erst Bars spaeter zum Limit-Preis fuellt und die Margin dann knapper ist.
+
+    ⚠️ Grenze: `equity` kommt an beiden Aufrufstellen aus `backtesting.Strategy.self.equity` und
+    ist in den ROHEN Preispunkt-Einheiten der Lib denominiert (intern $1/Punkt), nicht in echten
+    Dollar. Beim Startkapital stimmen beide ueberein, danach driften sie mit jedem Trade
+    auseinander (echtes Konto bewegt sich um ×point_value). Nach einem realen Drawdown budgetiert
+    diese Funktion daher 1% eines zu hoch angesetzten Eigenkapitals -- das reale Risiko pro Trade
+    kriecht ueber die 1% hinaus. Die 1%-Zahl ist exakt fuer den ersten Trade und eine
+    Groessenordnung fuer alle folgenden; ein echter Fix braucht Startkapital-Tracking in der
+    Strategy (offen, Fund 5 des Final Review)."""
     budget_usd = equity * max_risk_pct
     stop_dist_pts = abs(entry - stop)
     if stop_dist_pts == 0:
         return 0
     risk_per_contract_usd = stop_dist_pts * point_value
-    return max(0, int(budget_usd / risk_per_contract_usd))
+    size = int(budget_usd / risk_per_contract_usd)
+    if max_notional is not None:
+        size = min(size, int(max_notional * 0.95 / entry))
+    return max(0, size)
 
 
 def demo() -> None:
@@ -72,15 +108,23 @@ def demo() -> None:
         "ExitPrice":  [105.0, 105.0, 95.0],
         "Size": [1, 1, -1],
         "SL": [95.0, 95.0, 105.0],
+        "Commission": [1.0, 1.0, 2.0],
     })
     tagged = flag_dubious(trades)
     assert tagged["Dubious"].tolist() == [False, True, False]
     assert tagged.loc[1, "ExitPrice"] == 95.0  # mehrdeutiger Trade -> Exit auf Stop gesetzt
 
     priced = real_pnl(tagged, "MNQ")
-    # Trade 0: (105-100)*1*$2 = $10. Trade 1 (mehrdeutig, Exit auf Stop=95): (95-100)*1*$2 = -$10.
-    # Trade 2 (Short, Size=-1): (95-100)*-1*$2 = $10.
-    assert priced["RealPnL_USD"].tolist() == [10.0, -10.0, 10.0]
+    # Netto = Punktwert-P&L minus Commission.
+    # Trade 0: (105-100)*1*$2 - $1 = $9. Trade 1 (mehrdeutig, Exit auf Stop=95): -$10 - $1 = -$11.
+    # Trade 2 (Short, Size=-1): (95-100)*-1*$2 - $2 = $8.
+    assert priced["RealPnL_USD"].tolist() == [9.0, -11.0, 8.0]
+
+    # Same-Bar-Trade OHNE Stop: ExitPrice bleibt stehen, statt zu NaN zu werden (der Trade
+    # zaehlte sonst in der $-Summe gar nicht mehr mit).
+    no_sl = trades.copy()
+    no_sl.loc[1, "SL"] = float("nan")
+    assert flag_dubious(no_sl).loc[1, "ExitPrice"] == 105.0
 
     assert abs(dubious_pct(trades) - 100 / 3) < 1e-6  # 1 von 3 Trades ist mehrdeutig
 
@@ -97,6 +141,15 @@ def demo() -> None:
     assert risk_size(100_000, 0.01, 100, 90, 2.0) == 50
     assert risk_size(100_000, 0.01, 100, 0, 2.0) == 5
     assert risk_size(100_000, 0.01, 100, 100, 2.0) == 0  # Stop-Abstand 0 -> keine Kontrakte
+
+    # Margin-Deckel (Fund 1 des Final Review): ein sehr enger Stop (0.1 Punkte) laesst das
+    # 1%-Budget 5000 Kontrakte tragen -- das Notional (5000 * 100 = $500k) sprengt die Margin,
+    # die Lib storniert die Order dann kommentarlos. Mit max_notional wird stattdessen gedeckelt.
+    assert risk_size(100_000, 0.01, 100, 99.9, 2.0) == 5000
+    assert risk_size(100_000, 0.01, 100, 99.9, 2.0, max_notional=100_000) == 950  # 100k*0.95/100
+    # Deckel greift nur nach oben: passt die Risiko-Groesse ins Notional, bleibt sie unveraendert.
+    assert risk_size(100_000, 0.01, 100, 90, 2.0, max_notional=100_000 * 20) == 50
+    assert risk_size(100_000, 0.01, 100, 99.9, 2.0, max_notional=0) == 0
 
     print("pnl demo ok")
 
