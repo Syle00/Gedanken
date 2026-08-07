@@ -1,0 +1,413 @@
+# Gedanken 2.0 — Wissenssystem + autonomer Handelsalgorithmus
+
+> Diese Datei ist eine Weiterentwicklung von `CLAUDE.md` (Stand 2026-08-07), keine Ersetzung.
+> `CLAUDE.md` bleibt die aktive, geladene Projektinstruktion. `CLAUDE.2.0.md` schreibt fest, was
+> seit ihrer letzten Fassung an Arbeitsweise, Standards und Zielbild dazugekommen ist — vieles
+> davon lag bisher nur in Cross-Session-Memory, nicht im Repo selbst. Sobald der Nutzer diese
+> Fassung freigibt, ersetzt sie `CLAUDE.md` per Umbenennung; bis dahin existieren beide.
+
+## Layer 0 — Übergeordnetes Ziel: autonomer IBKR-Handelsalgorithmus
+
+**Das ist das Ziel von allem in diesem Repo** — Wiki, `raw/marktdaten/`, `tools/analyze_ohlc.py`,
+`algo/`: ein Handelsalgorithmus für MNQ, der **selbstständig und allein über Interactive Brokers**
+(TWS/IB-Gateway-API) handelt. Kein Signal-Geber für einen Menschen, kein Backtest-Selbstzweck —
+am Ende steht eine laufende, autonome, profitable Ausführung mit echtem Geld. Alles andere in
+diesem Dokument (Wiki-System, Datenpflege, Backtesting) ist **Unterbau für dieses eine Ziel**,
+keine eigenständigen Ziele. Diese Priorität steht über allen anderen Layern unten — bei einem
+Zielkonflikt (z.B. "schöneres Wiki" vs. "korrekterer Backtest") gewinnt das Backtest-Ziel, siehe
+[[Algo-Trading: Arbeitsstandards]] unten.
+
+Der Weg dahin führt über **echte, wachsende Datenbasis statt vorschneller Regeln**: aus den
+täglich wachsenden OHLC-Daten in `raw/marktdaten/` einen regelbasierten, statistisch validierten
+Handelsalgorithmus ableiten, der sich per IBKR-API selbstständig ausführt. Der aktuelle
+Umsetzungsstand, die Backlog-Punkte und das laufende Log stehen in `algo/PLAN.md` — dieses
+Dokument dupliziert das nicht, sondern hält den *Rahmen* fest, in dem `algo/PLAN.md` sich bewegt.
+
+Das gesamte Wiki-System (Layer 1–3 unten) existiert, weil die ICT/SMC-Konzepte im Vault die
+Quelle für testbare Handelsregeln sind: eine Wiki-Seite wie [[Silver Bullet Model]] ist erst dann
+fertig verarbeitet, wenn sie — sobald genug Daten vorliegen — als `algo/rules.py`-Regel
+kodiert und gegen `raw/marktdaten/` gebacktestet wurde. "Wissen sammeln" und "Algo bauen" sind
+im Alltag zwei verschränkte Tätigkeiten, keine getrennten Projekte.
+
+## Layer 1 — `raw/` (unveränderlich)
+
+Rohquellen, nach Themenbereich sortiert. Du liest daraus, du änderst hier **nie** etwas.
+
+```
+raw/
+  trading-ict/
+    Core Content/     ICT-Trading-Notizen (Notion-Export), unangetastet
+    2026/              Weitere ICT-Notizen (2026er Jahrgang)
+    assets/            Chart-/Screenshot-PNGs, per Obsidian-Wikilink referenziert
+  journal/            Trading-Logbuch (Notion-Export): Daily Bias / Weekly Bias /
+                        Trade Execution / Tape Reading, Juni 2025 – 2026
+    Journal.md         Notion-Datenbanktabelle: alle Einträge mit Datum, Bias, Tags
+    assets/            Screenshots; kollidierende Namen tragen das Präfix "journal-"
+  marktdaten/          OHLC-Rohdaten für den Algo (siehe Layer 0), TradingView-Exporte +
+                        yfinance-Nachlad, Jahr/Monat/Tag verschachtelt — **wie Gold behandeln**,
+                        siehe [[Algo-Trading: Arbeitsstandards]]
+  <neue-domäne>/       Weitere Themenbereiche entstehen hier bei Bedarf, z.B.
+                        raw/gesundheit/, raw/buch-xyz/, raw/firma-abc/
+```
+
+> ⚠️ **Bildnamen sind vault-weit eindeutig zu halten.** Obsidian *und* `tools/build_site.py`
+> lösen `![[bild.png]]` allein über den Dateinamen auf — zwei gleichnamige Bilder in
+> verschiedenen Ordnern führen dazu, dass stillschweigend das falsche angezeigt wird.
+> Notion-Exporte liefern generische Namen (`image 1.png`, `image 2.png`, …) und kollidieren
+> daher zwangsläufig. Beim Ingest eines neuen Exports: Assets in den Domänenordner legen und
+> kollidierende Namen mit einem Domänen-Präfix versehen.
+
+Neue Rohquellen (Artikel, PDFs, Notizen, Screenshots) legt der Nutzer hier ab, thematisch
+in einem eigenen Unterordner pro Domäne. Wenn eine neue Domäne beginnt, lege den Ordner an,
+aber frag nicht extra nach — folge dem gleichen Muster wie `trading-ict/`.
+
+## Layer 2 — `wiki/` (von dir gepflegt)
+
+```
+wiki/
+  index.md            Katalog aller Wiki-Seiten, nach Kategorie, mit 1-Zeilen-Zusammenfassung
+  log.md               Chronologisches, append-only Änderungsprotokoll
+  concepts/            Konzept-Seiten (z.B. "Order Block", "Liquidity Pool", "IPDA")
+  models/               Setup-/Modell-Seiten (konkrete Trade-Modelle, z.B. "One Shot One Kill")
+  sources/               Eine Seite pro ingesteter Rohquelle: Zusammenfassung + Kernpunkte + Link zur raw/-Datei
+  synthesis/              Übergreifende Thesen, Vergleiche, offene Fragen, die mehrere Quellen verbinden
+```
+
+Für neue Domänen (nicht-Trading) entstehen bei Bedarf eigene Top-Level-Unterordner in `wiki/`
+mit passenden Kategorien (z.B. `wiki/gesundheit/`, mit eigenen Konzept-/Entitäts-Seiten) —
+das obige Schema ist das Trading-spezifische Beispiel, kein starres Gesetz.
+
+### Seitenkonventionen
+
+- Dateiname = Seitentitel, z.B. `wiki/concepts/Order Block.md`.
+- `wiki/sources/`-Seiten dürfen **nicht** denselben Dateinamen wie ihre `raw/`-Quelle tragen
+  (sonst sind Obsidian-Wikilinks zwischen Original und Zusammenfassung mehrdeutig). Konvention:
+  Suffix `(Source)` anhängen, z.B. `raw/trading-ict/Core Content/Essentials To ICT Daytrading.md`
+  → `wiki/sources/Essentials To ICT Daytrading (Source).md`.
+- Jede Seite bekommt YAML-Frontmatter:
+  ```yaml
+  ---
+  tags: [concept, ict, liquidity]
+  created: 2026-08-01
+  updated: 2026-08-01
+  sources: ["[[Essentials To ICT Daytrading]]"]
+  ---
+  ```
+- Verlinke mit Obsidian-Wikilinks: `[[Seitenname]]`. Verlinke großzügig — auch auf Seiten,
+  die noch nicht existieren (das markiert eine Lücke, kein Fehler).
+- Bei Widersprüchen zwischen **Primärquellen**: nicht stillschweigend überschreiben, sondern im
+  Text markieren, z.B. `> ⚠️ Widerspruch zu [[Andere Quelle]]: dort wird X behauptet, hier Y.`
+  Das gilt für zwei gleichwertige Lehrmeinungen (z.B. zwei ICT-Vorlesungen). **Nicht** für
+  eigene Backtest-Funde — siehe [[Algo-Trading: Arbeitsstandards]], dort gilt eine bewusste
+  Ausnahme (Löschen statt Markieren).
+- Bilder aus `raw/trading-ict/assets/` können direkt per `![[bilddatei.png]]` eingebunden
+  werden (Obsidian löst Wikilinks vault-weit nach Dateinamen auf, Ordnerpfad ist egal).
+
+## Layer 3 — `site/` (generiert, nie von Hand bearbeiten)
+
+Eine statische, wikipedia-artige HTML-Ansicht des `wiki/`-Layers, erzeugt von
+`tools/build_site.py`. Gedacht für die lokale Nutzung: `site/index.html` im Browser öffnen.
+
+```
+site/
+  index.html          Startseite: alle Seiten nach Kategorie, mit Kurzbeschreibung
+  p/<slug>.html       Eine Seite pro Wiki-Seite
+  style.css           Light/Dark, Serifen-Lesespalte, Sidebar
+  search.js           Clientseitige Volltextsuche (Tastenkürzel: / oder Strg+K)
+  search-index.js     Suchindex (bewusst .js statt .json — file:// blockiert fetch auf JSON)
+```
+
+Was der Generator aus dem Wiki macht:
+
+- **Wikilinks** werden wie in Obsidian vault-weit über den Dateinamen aufgelöst, inklusive
+  Alias (`[[Seite|Kurzform]]`). Zeigt ein Link auf eine Rohquelle `X`, greift automatisch die
+  Wiki-Seite `X (Source)`.
+- **Bilder** werden nicht kopiert, sondern relativ nach `raw/` referenziert — das hält `site/`
+  bei ~2 MB statt 190 MB. Eine `![[bild.png]]`-Zeile plus direkt folgende `*Kursivzeile*` wird
+  zu `<figure>` mit Bildunterschrift.
+- **Backlinks** („Was zeigt hierher") entstehen automatisch pro Seite.
+- **Unauflösbare Links** brechen den Build nicht ab, sondern werden grau markiert und am Ende
+  aufgelistet — sie sind laut Seitenkonvention gewollte Lücken.
+
+Der Build ist reproduzierbar: `site/` darf jederzeit gelöscht und neu erzeugt werden.
+Abhängigkeiten: `python -m pip install -r tools/requirements.txt` (nur `markdown` + `pyyaml`).
+
+## Versionskontrolle
+
+Das gesamte Vault liegt in einem privaten Git-Repo (`raw/` inkl. aller PNGs, `wiki/`, `site/`,
+`algo/`). Nicht versioniert werden abgeleitete Artefakte (`graphify-out/`), der
+Notion-Export-ZIP, maschinenlokale Configs, transiente Live-Daten (`algo/live/*/`) und Secrets
+(`algo/.secrets.yaml`) — siehe `.gitignore`.
+
+`.\push.ps1 [-Message "..."] [-NoPush]` ist der einzige Weg, Änderungen zu veröffentlichen:
+Build → `git add -A` → Commit → Push. Schlägt der Build fehl, entsteht kein Commit. Gibt es
+nichts zu committen, endet das Skript ohne Leer-Commit. `push.ps1` deckt nur das
+Wiki/Site-Artefakt ab — Code-Änderungen in `algo/`/`tools/` werden davon mitcommittet, aber
+nicht separat validiert (kein CI); vor sicherheitsrelevanten Änderungen (IBKR-Keys,
+Order-Ausführung) gilt ein eigener Review-Schritt, siehe unten.
+
+## Kontinuierliches Wachstum (autonom, nicht nur beim Ingest)
+
+Das Wiki wächst **laufend, in jeder Session** — nicht nur bei explizitem "ingest" oder
+"importiere". Sobald während irgendeiner Aufgabe (Backtest, Debugging, Rückfrage, Korrektur
+des Nutzers, Recherche) eine neue Erkenntnis, Regel oder Verbindung entsteht, die über den
+aktuellen Chatverlauf hinaus Wert hat, wird sie **sofort** ins Wiki übernommen — nicht erst
+auf Nachfrage. Das gilt für neue Fakten genauso wie für Korrekturen bestehender Seiten. Für
+`algo/`-spezifische Erkenntnisse (neue Trading-These, Backtest-Ergebnis, Bugfix mit
+Zahlen-Auswirkung) gilt zusätzlich das strengere Protokoll unter
+[[Algo-Trading: Arbeitsstandards]] — dort ist Loggen nicht optional, sondern Standardverfahren.
+
+- **Rein logisch strukturiert**: neue Erkenntnisse landen an der Stelle, die die bestehende
+  Kategorie-Struktur (`concepts/`, `models/`, `sources/`, `synthesis/`, plus Domänen-eigene
+  Unterordner) vorsieht — kein loses Sammelbecken, keine Datei "Sonstiges" oder "Notizen". Passt
+  keine bestehende Seite, wird eine neue in der passenden Kategorie angelegt und in
+  `wiki/index.md` verlinkt, nach denselben Seitenkonventionen wie beim Ingest (Frontmatter,
+  Wikilinks, Widerspruchsmarkierung, Verlinkung mit verwandten Seiten).
+- Jede Erweiterung bekommt einen `wiki/log.md`-Eintrag (passender Typ, z.B. `synthesis`,
+  `query`, oder ein neuer treffender Typ), damit nachvollziehbar bleibt, wann und warum eine
+  Seite entstand oder sich änderte.
+- Push (`.\push.ps1`) bleibt weiterhin **manuell** — der Nutzer löst ihn selbst aus (siehe
+  Versionskontrolle). Autonom ist das *Schreiben* ins Wiki, nicht das Veröffentlichen.
+
+## Operationen
+
+### Ingest (neue Quelle verarbeiten)
+
+1. Quelle lesen (aus `raw/`) — **inklusive aller eingebetteten Bilder und PDFs**: jedes PNG/JPG
+   wird tatsächlich angesehen (das Read-Tool rendert Bilder visuell, nicht nur als Dateiname),
+   jede PDF-Seite gelesen. Text, Diagramme, Zahlen und Chart-Markierungen aus Bildern fließen
+   wörtlich bzw. sinngemäß ins Wiki ein, wenn sie inhaltlich relevant sind — Content steckt bei
+   vielen Notion-Exporten überwiegend in den Screenshots, nicht im Fließtext. Ist ein Bild nicht
+   lesbar (zu unscharf, abgeschnitten, reines Rauschen, Wasserzeichen-verdeckt): das **explizit
+   sagen** ("ich kann das nicht sehen") statt zu raten oder das Bild stillschweigend zu
+   überspringen.
+2. Kernaussagen herausarbeiten (was ist neu, was wichtig, was widerspricht Bestehendem) — das wird
+   **nicht vorab besprochen, sondern am Ende berichtet**.
+3. Seite unter `wiki/sources/<Quellname>.md` anlegen: Zusammenfassung, Kernpunkte, Zitate/Verweise auf `raw/`-Original.
+4. Relevante `wiki/concepts/` und `wiki/models/` Seiten anlegen oder aktualisieren, Querverweise setzen.
+5. `wiki/index.md` aktualisieren (neue Seiten eintragen).
+6. Eintrag an `wiki/log.md` anhängen.
+7. **`.\push.ps1 -Message "ingest | <Quellname>"` selbst ausführen** — baut die HTML-Website neu,
+   erstellt einen lokalen Checkpoint-Commit und pusht ins private GitHub-Repo. Ohne diesen
+   Schritt ist der Ingest nicht abgeschlossen. Das gehört zum Ingest dazu und wird **nicht
+   erst erfragt**; bei einem Batch genügt ein Aufruf am Schluss.
+
+**Ohne Rückfragen, im Batch.** Eine Aufforderung wie „injeziere den neuen Kontent" oder „importiere"
+ist die vollständige Freigabe für alles, was an neuem Material vorliegt — nicht nur für eine Quelle.
+Nicht nachfragen, welche Quelle zuerst drankommt oder was betont werden soll; einfach durcharbeiten
+und am Ende berichten. Bei einem Batch genügt ein einziger `push.ps1`-Aufruf am Ende.
+
+Entscheidungen, die sonst eine Rückfrage wären, werden nach den Konventionen dieses Vaults selbst
+getroffen und **im Bericht sowie in `wiki/log.md` offengelegt** — insbesondere:
+
+- **Widerspruch zu einer Bestandsseite**: markieren statt still überschreiben (siehe
+  Seitenkonventionen). Bestätigt eine neue Quelle eine bislang offene Frage, den Marker von `⚠️` auf
+  `✅` umstellen und die Begründung dazuschreiben, statt ihn zu löschen.
+- **Große Exporte**: kollidierende Bildnamen bekommen ein Domänen-Präfix. Sind es zu viele Bilder
+  für durchgehend sprechende Namen, seiten- und positionsbezogen nummerieren
+  (`<Domäne> - <Seitenkürzel> <NN>.png`) und die Beschreibung in die Bildunterschrift der Wiki-Seite
+  legen. Die Abweichung im Log vermerken.
+- **Leere oder reine Container-Seiten** im Export: nicht als Rohdateien anlegen, sondern in die
+  Index-Datei der Reihe falten und als leer kennzeichnen.
+
+### Query (Frage beantworten)
+
+1. `wiki/index.md` lesen, um relevante Seiten zu finden.
+2. Relevante `wiki/`-Seiten (und bei Bedarf `raw/`-Originale) lesen. Betrifft die Frage den
+   aktuellen/zukünftigen Marktstand: **nicht** aus `raw/marktdaten/` oder einem älteren
+   Live-Lauf beantworten, siehe [[Algo-Trading: Arbeitsstandards]] → Frische Daten.
+3. Antwort synthetisieren, mit Verweisen auf Quellseiten.
+4. Wenn die Antwort eigenständigen Wert hat (Vergleich, Analyse, neue Verbindung): dem Nutzer
+   anbieten, sie als neue Seite unter `wiki/synthesis/` abzulegen, damit sie ins Wiki einfließt
+   statt im Chatverlauf zu verschwinden.
+
+### Lint (Wiki-Gesundheitscheck)
+
+Auf Anfrage: Widersprüche zwischen Seiten suchen, veraltete Aussagen markieren, verwaiste
+Seiten (keine eingehenden Links) finden, erwähnte aber fehlende Konzept-Seiten identifizieren,
+fehlende Querverweise ergänzen. Ergebnisse als Liste vorschlagen, nicht automatisch löschen.
+
+Als Startpunkt dafür `python tools/build_site.py` laufen lassen: der Build meldet ohne
+zusätzlichen Aufwand unauflösbare Wikilinks, verwaiste Seiten und die Drift zwischen
+`wiki/index.md` und dem tatsächlichen Dateibestand.
+
+## `index.md`-Format
+
+Gruppiert nach Kategorie (`## Concepts`, `## Models`, `## Sources`, `## Synthesis`), pro Zeile:
+`- [[Seitenname]] — Ein-Zeilen-Zusammenfassung (Datum)`
+
+## `log.md`-Format
+
+Append-only, neueste Einträge unten. Jeder Eintrag beginnt mit einem festen Präfix, damit er
+mit einfachen Tools grep-bar bleibt:
+
+```
+## [2026-08-01] ingest | Essentials To ICT Daytrading
+- Seiten erstellt: wiki/sources/Essentials To ICT Daytrading.md, wiki/concepts/IPDA.md
+- Seiten aktualisiert: wiki/index.md
+```
+
+Mögliche Typen: `ingest`, `query`, `lint`, `synthesis`, `setup` (auch für autonome
+Wiki-Erweiterungen außerhalb eines formalen Ingest, siehe "Kontinuierliches Wachstum" oben).
+
+## Domänenkontext: trading-ict
+
+`raw/trading-ict/` enthält ICT-(Inner-Circle-Trader-)Konzepte zu Market Structure, Liquidity,
+Order Blocks, IPDA-Datenbereichen und konkreten Trade-Modellen — vermutlich aus einem
+Mentorship-/Kursexport (Notion). Diese Notizen sind bereits recht dicht; beim Ingest lohnt es
+sich, pro Datei mehrere verwandte Konzept-Seiten zu extrahieren statt 1:1 eine Quelle = eine Seite.
+Terminologie-Fix: der kurzfristige Retracement-Break heißt im gesamten Vault **MSS (Market
+Structure Shift)**, nicht CHoCH — CHoCH war eine ältere, mittlerweile korrigierte Bezeichnung.
+
+## Algo-Trading: Arbeitsstandards
+
+Diese Regeln sind für `algo/`, `tools/analyze_ohlc.py` und `raw/marktdaten/` **verbindlich**,
+nicht optional — sie entstanden aus wiederholten Nutzerkorrekturen und gelten ab sofort ohne
+erneute Nachfrage. Der lebende Implementierungsstand steht in `algo/PLAN.md` (Backlog + Log)
+und `algo/README.md` (Modul-für-Modul-Doku); dieser Abschnitt hält die *Regeln* fest, nicht den
+*Stand*.
+
+**Zeit vor Preis.** Der Nutzer geht davon aus, dass ein oder mehrere Algorithmen den Preis zu
+bestimmten Uhrzeiten steuern (ICT-These "Time before Price"). Eine leicht falsche Zeitzuordnung
+macht jede Musteranalyse wertlos, selbst wenn die OHLC-Werte an sich stimmen — Preis-Ungenauigkeiten
+sind zweitrangig, Zeit-Fehler nicht. Bei jeder Datenpipeline (Download, Resampling,
+Zeitzonen-Konvertierung) Timestamps aktiv gegen eine unabhängige Quelle verifizieren (z.B.
+bestehende TradingView-Exporte gegenprüfen), bevor Daten als fertig gemeldet werden.
+Datetime64-Auflösung immer explizit über `.as_unit("s")` setzen, nie über manuelle Division —
+ein stiller Pandas-Versionswechsel in der Auflösung (ns/us/s) ist genau der Fehlertyp, der hier
+am meisten schadet (siehe `algo/fetch_yfinance.py`).
+
+**Marktdaten wie Gold behandeln (Nulltoleranz).** Bei jedem Download, Import oder jeder
+Bearbeitung von `raw/marktdaten/`: (1) Zeit gegen unabhängige Quelle geprüft? (2) Vollständig —
+keine fehlenden Tage/Kerzen/Timeframes stillschweigend hingenommen, Lücken explizit aufgelistet?
+Bei jedem Zweifel (Daten wirken fehlerhaft, lückenhaft, inkonsistent) **aktiv und ungefragt
+Bescheid geben**, auch wenn der Rest der Aufgabe erledigt ist. Lieber einmal zu oft warnen als
+einen fehlerhaften Datenpunkt durchrutschen lassen.
+
+**Frische Live-Daten bei Zukunftsfragen.** Fragt der Nutzer nach dem aktuellen oder zukünftigen
+Marktstand, **immer zuerst `python algo/live_status.py` neu ausführen** — nie auf zuvor
+gelesene `raw/marktdaten/`-CSVs oder einen älteren Live-Lauf im selben Gespräch verlassen, auch
+bei Wiederholung der Frage. Bekannte Grenze: yfinance kann bei MNQ=F/ES=F mehrere Stunden hinter
+der echten NY-Zeit zurückliegen — liegt `price.t` >15-20 Min hinter der aktuellen NY-Zeit (bei
+5m-TF), das aktiv melden statt die Daten stillschweigend als aktuell auszugeben.
+
+**Ziel ist die volle Daily Range, nicht nur Bias.** Über reine Richtungsvorhersage (bullish/
+bearish) hinaus: konkrete OHLC-Zielzonen für die Tagesrange benennen, gestützt auf PD Arrays
+(Order Blocks, FVGs, NDOG/NWOG, Liquidity Pools), Session-Ranges (Asia/London/NY Killzones) und
+wiederkehrende Zeitfenster-Muster. Explizit nach Mustern suchen, die auf algorithmisches
+Verhalten hindeuten, und diese benennen statt nur Levels aufzulisten. NDOG/NWOG gelten dabei als
+besonders relevante PD Arrays — bei jeder Analyse (insbesondere `/algo-live-status`) die
+konkreten Opening-/Closing-Preise mit hinterlegen, nicht nur die Gap-Größe.
+
+**Jede neue These wird automatisch geloggt und gebacktestet, ohne zu fragen.** Nennt der Nutzer
+eine neue Trading-These oder Beobachtung (Frage oder Aussage), passiert unaufgefordert: (1)
+Eintrag in `algo/PLAN.md`s Log-Tabelle, (2) wenn irgend möglich ein Backtest-Script dafür bauen
+oder erweitern und gegen alle verfügbaren Daten in `raw/marktdaten/` laufen lassen (Reuse-first:
+auf `tools/analyze_ohlc.py`-Detektoren und dem `find_days()`-Muster aufbauen, nicht jedes Mal
+neu erfinden; ein eigener Dateiname `algo/backtest_<these>.py` pro These), (3) Ergebnis ehrlich
+berichten, auch wenn es der Nutzer-These widerspricht — Zahlen werden nicht geschönt, um
+Zustimmung zu simulieren. Grund: jede ICT-These ist im Rahmen dieses Projekts kein
+Meinungsstück, sondern eine falsifizierbare Behauptung über ein Regelwerk, die geprüft werden
+muss statt nur besprochen zu werden.
+
+**Proaktiv gegenprüfen, offene Hypothesen halten, Falsifiziertes löschen.** Ständig
+gegenprüfen und Vorschläge machen, nicht nur auf explizite Backtest-Aufträge reagieren — taucht
+eine Zahl/These im Gespräch auf, aktiv prüfen statt zu warten. Unsichere Nutzeraussagen ("ich
+weiß nicht genau, ob...") als offene Hypothese in der passenden `wiki/synthesis/`-Seite (Muster
+"(laufend)" im Namen) festhalten und bei neuen Daten aktualisieren. **Bewusste Ausnahme von der
+generellen Widerspruchsregel** (siehe Seitenkonventionen oben): eigene Backtest-Ergebnisse sind
+keine zwei gleichwertigen Meinungen, sondern eine nachprüfbare Zahl — stellt sich ein früherer
+Fund mit mehr Daten als Rauschen heraus, wird er **entfernt**, nicht als „⚠️ widerlegt"
+stehengelassen. Ausdrücklich anders: eine vom Nutzer explizit als "weiter beobachten" markierte
+These (z.B. die ORG-C.E.-70%-These, aktuell 35-43% im eigenen Backtest) bleibt trotz
+widersprechender Zahlen aktiv bestehen und wird in jedem neuen Bericht kommentiert, statt als
+erledigt/widerlegt abgehakt zu werden — der Nutzer entscheidet hier explizit gegen das
+Standard-Löschverfahren.
+
+**Korrektheit vor Features, weil reales Geld geplant ist.** Backtest-Code, der Zahlen liefert,
+die nicht dem realen Kontrakt-P&L entsprechen (Notional-Prozent statt echtem Punktwert, geratene
+statt konservativ aufgelöste Stop/Ziel-Reihenfolge in derselben Kerze, Lookahead-Bias,
+Data-Leakage), hat **höchste Priorität** — vor neuen Strategien, vor Optik-/Dashboard-
+Verbesserungen. Bei jedem neuen Backtest-Script oder jeder Erweiterung zuerst prüfen: (1) echter
+Punktwert/Kontraktgröße statt Notional-Prozent, (2) konservative statt geratene Fill-Reihenfolge
+bei Stop/Ziel in derselben Kerze (`dubious_pct` als Pflichtkennzahl in jedem Report), (3) kein
+Lookahead in Signalen/Modellen (nur `bars[t<=when]`). Gefundene Bugs werden **direkt repariert**,
+ohne vorherige Freigabeschleife pro Einzelfund — ein Bericht am Ende reicht. Optik-Wünsche (z.B.
+"Bloomberg-Terminal-Look" für `dashboard.py`) sind explizit nachrangig und werden nur auf
+separate Anfrage umgesetzt. `algo/selfcheck.py` bündelt die Regressions-Selbstchecks (`pnl`,
+`rules`, `signals`, `backtest_ensemble`) — vor größeren Refactors laufen lassen.
+
+**Marktdaten-Lücken nachträglich schließbar.** Fehlt in einem ingesteten Export ein Zeitabschnitt
+(z.B. ein ganzer Monat in `raw/trading-ict/Core Content/`), vor dem Nachfragen beim Nutzer
+prüfen, ob der YouTube-Kanal `@InnerCircleTrader` dieselben Inhalte als Video-Reihe hat
+(Suchmuster `"ICT Mentorship Core Content - Month <NN>"`) — das `yt-ict-ingest`-Skill deckt den
+technischen Ablauf ab.
+
+## Algo-Trading: Roadmap zur IBKR-Anbindung
+
+Reihenfolge, in der das Projekt sich Richtung Layer-0-Ziel bewegt — jede Stufe baut auf der
+vorherigen auf, keine wird übersprungen:
+
+1. **Datensammlung (laufend, nie abgeschlossen).** `raw/marktdaten/` wächst täglich
+   (TradingView-Export + `algo/fetch_yfinance.py`-Nachlad), begrenzt durch yfinance-Limits
+   (1m ~30 Tage, 5m/15m ~60 Tage, 1d unbegrenzt zurück). Mehr Historie in Intraday-Auflösung
+   braucht perspektivisch eine zweite Datenquelle (Kandidat: IBKR selbst, sobald die
+   API-Anbindung aus Punkt 4 steht — historische Daten und Live-Order-Ausführung über denselben
+   Broker zu beziehen vermeidet Datenquellen-Drift zwischen Backtest und Live-Betrieb).
+2. **Regel-Schicht (laufend).** Wiki-Konzepte (`wiki/models/`) werden zu deterministischen
+   Python-Regeln (`algo/rules.py::plan_trade` als erstes Beispiel: Silver Bullet Model). Jede
+   neue Regel folgt [[Algo-Trading: Arbeitsstandards]] — kein Lookahead, Reuse bestehender
+   Detektoren aus `tools/analyze_ohlc.py`.
+3. **Validierung (Standardwerkzeug für jede Regel, nicht optional).** Einzelbacktest
+   (`backtest_bt.py`) reicht nicht — Parameter-Sensitivität, Walk-Forward (rollierende Folds,
+   Out-of-Sample ohne Refit) und Monte-Carlo-Resampling (`validate.py`) laufen für jede Regel,
+   bevor eine Zahl als belastbar gilt. Stress-Test gegen historische Krisenfenster
+   (`stress_test.py`) für Verhaltenscharakterisierung unter Extrembedingungen. Erst wenn eine
+   Regel hier über mehrere Verfahren hinweg konsistent (nicht zwingend profitabel, aber
+   *verstanden*) abschneidet, ist sie reif für den nächsten Schritt.
+4. **IBKR-Adapter, dünn und broker-unabhängig gehalten.** `algo/broker_ibkr.py` (noch nicht
+   angelegt): Order-Ausführung über TWS/IB-Gateway-API (`ib_insync` oder offizielles `ibapi`)
+   hinter einer schmalen Schnittstelle (`place_order`, `get_position`, `cancel`) — die
+   Regel-Schicht bleibt broker-unabhängig, damit sie weiter isoliert testbar bleibt. Wird erst
+   nach Punkt 2+3 begonnen, nicht parallel.
+5. **Paper-Trading zuerst, ausnahmslos.** Der Adapter läuft zuerst gegen ein IBKR-Paper-Trading-
+   Konto. Kein Übergang zu echtem Kapital ohne expliziten, gesonderten Freigabeschritt durch den
+   Nutzer — das ist keine Formalie, sondern eine harte Sperre in diesem Projekt: Live-Handel mit
+   echtem Geld wird nie stillschweigend aus einer anderen Aufgabe heraus aktiviert.
+6. **Live-Betrieb, nach expliziter Freigabe.** Erst danach: laufende Ausführung, mit
+   kontinuierlichem Monitoring (`algo/dashboard.py`-Nachfolger oder eigenes Live-Reporting) und
+   demselben Korrektheits-Standard wie im Backtest (echter $-P&L, keine Notional-Näherung).
+
+**Security-Gate.** Sobald echte IBKR-Keys ins Spiel kommen (spätestens Punkt 4), Secret-Scan von
+"einmalig/gelegentlich" auf ein festes Intervall umstellen (mind. wöchentlich, vor jedem
+Live-Übergang zwingend) — aktuell (Stand 2026-08-07) ohne Live-Keys unnötiger Aufwand, das
+kippt aber mit dem ersten Broker-Zugangsdaten-File.
+
+## Protokoll- und Datenartefakte
+
+Damit "laufende Daten verbessern den Algo" ein Mechanismus bleibt, keine Absicht:
+
+- `algo/PLAN.md` — Backlog + chronologisches Log (Datum, Ereignis) für alles, was in `algo/`
+  passiert: neue Thesen, Backtest-Ergebnisse, Bugfixes mit Zahlen-Auswirkung. Primäres
+  Protokoll für die Algo-Arbeit, feingranularer als `wiki/log.md`.
+- `wiki/synthesis/*.md` mit `(laufend)` im Namen — aggregierte, sich mit wachsendem
+  Datenbestand aktualisierende Auswertungsseiten (z.B. `Muster-Validierung (laufend).md`,
+  `Statistische Muster jenseits der ICT-Konzepte (laufend).md`). Werden bei jedem neuen
+  Backtest-Lauf überschrieben/erweitert, nicht als Schnappschuss stehen gelassen.
+- `algo/seasonal_tendency.json` — versionierte Kennzahlen-Datenbank (Wochentag/Monat/
+  Turn-of-Month/Woche-im-Monat), gedacht für Jahr-über-Jahr-Vergleiche statt Neuberechnung bei
+  jeder Frage.
+- `algo/README.md` — ein Abschnitt pro Modul (Was/Wie/Warum/bekannte Grenzen), gepflegt bei
+  jeder inhaltlichen Code-Änderung, damit der Nutzer ohne Code-Lesen nachschlagen kann.
+- `algo/live/<datum>/` + `algo/live/<datum>-status-log.md` — transiente Live-Ziehung
+  (gitignored) plus versioniertes Text-Protokoll der `/algo-live-status`-Läufe.
+
+## Domänenkontext: algo (MNQ-Backtesting)
+
+`algo/` enthält den gesamten Backtesting-/Validierungs-Stack für Layer 0 (siehe `algo/README.md`
+für die Modul-für-Modul-Doku, `algo/PLAN.md` für Stand/Backlog/Log). Kernkomponenten: `pnl.py`
+(Punktwert-Präzisionsschicht), `rules.py`/`signals.py` (Regel-/Signal-Schicht),
+`backtest_bt.py`/`backtest_ensemble.py` (Trade-Simulation), `validate.py`/`stress_test.py`
+(Validierung), `live_status.py` (Live-Loop), `selfcheck.py` (Regressionscheck). Symbol-Punktwerte
+aktuell: MNQ=$2, NQ=$20, ES=$50 — ein neues Symbol braucht einen neuen Eintrag in `pnl.py`, bevor
+`real_pnl`/`risk_size` dafür nutzbar sind.
