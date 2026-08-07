@@ -108,7 +108,7 @@ def main(argv=None):
     print()
     print(stats._trades)
 
-    trades = flag_dubious(stats._trades)
+    trades = flag_dubious(stats._trades, df)
     trades = real_pnl(trades, sym)
     print(f"\nEchte $-P&L netto ({sym}, ${POINT_VALUE[sym]:.0f}/Punkt, nach Commission): "
           f"{trades['RealPnL_USD'].sum():+.2f} USD  "

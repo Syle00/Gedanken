@@ -35,25 +35,39 @@ def real_pnl(trades: pd.DataFrame, symbol: str) -> pd.DataFrame:
     return out
 
 
-def flag_dubious(trades: pd.DataFrame) -> pd.DataFrame:
-    """Markiert Trades, deren entry- und Exit-Zeit in derselben Kerze liegen (Spalte
-    'Dubious') -- bei diesen kann die `backtesting`-Lib die Fill-Reihenfolge von SL/TP nicht
-    unterscheiden (siehe UserWarning "same bar its parent stop/limit order was turned into a
-    trade"). Wertet sie konservativ: 'ExitPrice' wird auf den Stop-Preis ('SL') gesetzt, statt
-    der von der Lib gewaehlten (moeglicherweise zu optimistischen) 'ExitPrice' zu vertrauen.
-    Muss VOR real_pnl() aufgerufen werden, damit die $-Berechnung den korrigierten Exit sieht.
+def flag_dubious(trades: pd.DataFrame, bars: pd.DataFrame) -> pd.DataFrame:
+    """Markiert Trades, deren Entry- und Exit-Zeit in derselben Kerze liegen UND deren SL/TP
+    beide in der High/Low-Spanne der Entry-Kerze liegen (Spalte 'Dubious') -- nur dann kann die
+    `backtesting`-Lib die Fill-Reihenfolge tatsaechlich nicht unterscheiden (siehe UserWarning
+    "same bar its parent stop/limit order was turned into a trade"). Wertet sie konservativ:
+    'ExitPrice' wird auf den Stop-Preis ('SL') gesetzt, statt der von der Lib gewaehlten
+    (moeglicherweise zu optimistischen) 'ExitPrice' zu vertrauen. `bars` = dieselbe OHLC-Reihe,
+    die an `Backtest()` ging (Spalten 'High'/'Low', Position = 'EntryBar'). Muss VOR real_pnl()
+    aufgerufen werden, damit die $-Berechnung den korrigierten Exit sieht.
 
-    Bewusst pauschal: die Korrektur greift bei JEDEM Same-Bar-Trade, auch bei solchen, deren
-    Reihenfolge aus den Kursdaten eindeutig aufloesbar waere -- die Lib gibt die Information
-    nicht her, und im Zweifel lieber zu pessimistisch als zu optimistisch. Trades ohne Stop
-    (SL = NaN) bleiben unangetastet, sonst wuerde ExitPrice zu NaN und der Trade faende in
-    real_pnl() gar nicht mehr statt, statt als Verlust zu zaehlen. Nur 'ExitPrice' (und damit
-    'RealPnL_USD') spiegelt die Korrektur -- die Lib-Spalten 'PnL'/'ReturnPct' bleiben auf dem
-    unkorrigierten Stand und duerfen nach diesem Aufruf nicht mehr als Wahrheit gelten."""
+    Bar-Range-Check statt Pauschal-Korrektur (Code-Review-Fund 2026-08-07, siehe
+    docs/superpowers/specs/2026-08-06-algo-backtest-precision-audit-design.md:45 -- die
+    urspruengliche Design-Signatur hatte `bars` bereits vorgesehen, die erste Implementierung
+    liess den Parameter faelschlich weg): liegt nur das TP im Bar-Range, das SL aber nie, ist
+    die Reihenfolge laut Lib-Quelle selbst eindeutig ("stop and TP go in the same price
+    direction", backtesting.py::_process_orders) -- ein echter Gewinn-Trade wurde von der
+    Pauschal-Version faelschlich zum Verlust am Stop-Preis umgewertet. Trades ohne Stop oder
+    ohne Ziel (SL/TP = NaN) bleiben unangetastet, sonst wuerde ExitPrice zu NaN und der Trade
+    faende in real_pnl() gar nicht mehr statt, statt korrekt bewertet zu werden. Nur
+    'ExitPrice' (und damit 'RealPnL_USD') spiegelt die Korrektur -- die Lib-Spalten
+    'PnL'/'ReturnPct' bleiben auf dem unkorrigierten Stand und duerfen nach diesem Aufruf nicht
+    mehr als Wahrheit gelten."""
     out = trades.copy()
-    out["Dubious"] = out["EntryTime"] == out["ExitTime"]
-    correctable = out["Dubious"] & out["SL"].notna()
-    out.loc[correctable, "ExitPrice"] = out.loc[correctable, "SL"]
+    same_bar = out["EntryTime"] == out["ExitTime"]
+    entry_high = bars["High"].to_numpy()[out["EntryBar"].to_numpy()]
+    entry_low = bars["Low"].to_numpy()[out["EntryBar"].to_numpy()]
+    both_touchable = (
+        out["SL"].notna() & out["TP"].notna()
+        & (entry_low <= out["SL"]) & (out["SL"] <= entry_high)
+        & (entry_low <= out["TP"]) & (out["TP"] <= entry_high)
+    )
+    out["Dubious"] = same_bar & both_touchable
+    out.loc[out["Dubious"], "ExitPrice"] = out.loc[out["Dubious"], "SL"]
     return out
 
 
@@ -108,9 +122,14 @@ def demo() -> None:
         "ExitPrice":  [105.0, 105.0, 95.0],
         "Size": [1, 1, -1],
         "SL": [95.0, 95.0, 105.0],
+        "TP": [110.0, 110.0, 85.0],
+        "EntryBar": [0, 1, 2],
         "Commission": [1.0, 1.0, 2.0],
     })
-    tagged = flag_dubious(trades)
+    # Kerze 1 (Trade 1's Entry-Kerze): High/Low umschliessen SOWOHL SL=95 ALS AUCH TP=110 ->
+    # echte Ambiguitaet, Lib kann Reihenfolge nicht bestimmen.
+    bars = pd.DataFrame({"High": [101.0, 115.0, 106.0], "Low": [99.0, 90.0, 94.0]})
+    tagged = flag_dubious(trades, bars)
     assert tagged["Dubious"].tolist() == [False, True, False]
     assert tagged.loc[1, "ExitPrice"] == 95.0  # mehrdeutiger Trade -> Exit auf Stop gesetzt
 
@@ -124,9 +143,23 @@ def demo() -> None:
     # zaehlte sonst in der $-Summe gar nicht mehr mit).
     no_sl = trades.copy()
     no_sl.loc[1, "SL"] = float("nan")
-    assert flag_dubious(no_sl).loc[1, "ExitPrice"] == 105.0
+    assert flag_dubious(no_sl, bars).loc[1, "ExitPrice"] == 105.0
 
-    assert abs(dubious_pct(trades) - 100 / 3) < 1e-6  # 1 von 3 Trades ist mehrdeutig
+    # Same-Bar-Trade, aber NICHT ambig: TP=108 liegt in der Entry-Kerze (Low=95/High=110),
+    # SL=90 nie (< Low=95) -- laut Lib-Quelle "not ambiguous", TP war eindeutig zuerst dran.
+    # Vorherige Pauschal-Version haette diesen Gewinn-Trade faelschlich zum Verlust gemacht.
+    not_ambig = pd.DataFrame({
+        "EntryTime": pd.to_datetime(["2026-01-01 10:15"]),
+        "ExitTime":  pd.to_datetime(["2026-01-01 10:15"]),
+        "EntryPrice": [100.0], "ExitPrice": [108.0], "Size": [1],
+        "SL": [90.0], "TP": [108.0], "EntryBar": [0], "Commission": [1.0],
+    })
+    not_ambig_bars = pd.DataFrame({"High": [110.0], "Low": [95.0]})
+    result = flag_dubious(not_ambig, not_ambig_bars)
+    assert result.loc[0, "Dubious"] == False
+    assert result.loc[0, "ExitPrice"] == 108.0  # unangetastet, kein falscher Verlust
+
+    assert abs(dubious_pct(trades) - 100 / 3) < 1e-6  # 1 von 3 Trades ist same-bar (Rohmetrik)
 
     try:
         real_pnl(trades, "GC")

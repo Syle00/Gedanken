@@ -20,6 +20,7 @@ from backtest_bt import load_series  # noqa: E402
 from backtest_ensemble import EnsembleStrategy, fit_model, bias_series  # noqa: E402
 from backtest_seasonal import load_rows  # noqa: E402
 from validate import run, walk_forward, monte_carlo  # noqa: E402
+from pnl import POINT_VALUE  # noqa: E402
 
 BT_KWARGS = dict(cash=100_000, margin=0.05, commission=0.0002)
 
@@ -72,6 +73,10 @@ def main(argv=None) -> int:
     model = fit_model(mnq_rows, es_rows)
     EnsembleStrategy.bias = bias_series(model, mnq_rows, es_rows)
     EnsembleStrategy.intraday = True
+    # Ohne diese Zeile blieb point_value beim Klassen-Default POINT_VALUE["MNQ"] = $2 stehen --
+    # bei `validate_ensemble.py ES` waere das Sizing in risk_size() 25x zu klein (Code-Review-
+    # Fund 2026-08-07, derselbe Bug wie 2026-08-06 in backtest_bt.py, hier beim Audit uebersehen).
+    EnsembleStrategy.point_value = POINT_VALUE[symbol or "MNQ"]
     print("Baseline: In-Sample-Fit (Modell sah diese Tage im Training) -- obere Schranke, "
           "nicht erwartete Performance. Belastbar sind nur die Walk-Forward-Zahlen unten.")
     baseline = run(df, EnsembleStrategy, BT_KWARGS)
