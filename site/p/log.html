@@ -24,7 +24,7 @@
 <li><a href="../index.html#concepts">Konzepte<span class="count">74</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">179</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">9</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
@@ -106,6 +106,7 @@
 <li><a href="#2026-08-06-ingest-core-content-playlist-batch-month-01-12-115-videos-zweiter-anlauf-erneut-abgebrochen">[2026-08-06] ingest | Core-Content-Playlist-Batch (Month 01-12, ~115 Videos) — zweiter Anlauf, erneut abgebrochen</a></li>
 <li><a href="#2026-08-06-ingest-rticbg6twri-bz4qnpcpmwe-offen-ip-block">[2026-08-06] ingest | rtIcbG6twrI + bz4QNPcpmWE (offen, IP-Block)</a></li>
 <li><a href="#2026-08-07-ingest-daily-bias-0708-journal-live-org-3006-korrektur-tgif-zahlen">[2026-08-07] ingest | Daily Bias 07.08. (Journal, live) -- ORG-30.06.-Korrektur + TGIF-Zahlen</a></li>
+<li><a href="#2026-08-07-synthesis-kw32-2026-weekly-review">[2026-08-07] synthesis | KW32 2026 — Weekly Review</a></li>
 </ul>
 </div>
 </details>
@@ -1109,6 +1110,30 @@
 <li>Keine eigene <code>wiki/sources/</code>-Seite angelegt (gleiche Begruendung wie beim 08-03.-Eintrag: ein
   Daily Bias ist Journal, keine Lehrquelle).</li>
 <li>Seiten aktualisiert: <code>journal/entries/2026-08-07 MNQ Daily Bias.md</code>, <code>journal/journal.csv</code>.</li>
+</ul>
+<h2 id="2026-08-07-synthesis-kw32-2026-weekly-review">[2026-08-07] synthesis | KW32 2026 — Weekly Review</h2>
+<ul>
+<li>Nutzerfrage: Einschätzung zu Bias der Woche (Weekly + alle Daily Bias) + wo Fehler gemacht wurden.</li>
+<li>Erste Fassung fälschlich aus <code>raw/journal/</code> (rohe Notion-Notizen) und eigener 1m-CSV-Nachrechnung
+  gebaut — dabei nicht bemerkt, dass ein bereits bestehendes, präziseres System existiert:
+  <code>journal/entries/</code> (<code>trading-journal</code>-Skill), das jeden Bias-Eintrag schon einzeln gegen frisch
+  gezogene Marktdaten geprüft hat (<code>bias_korrekt</code>-Feld, benannte Fehlercodes). Nach Fund komplett
+  neu geschrieben auf Basis dieser vier bereits verifizierten Einträge:
+  <code>journal/entries/2026-08-03 MNQ Weekly Bias.md</code>, <code>2026-08-03 MNQ Daily Bias.md</code>,
+  <code>2026-08-06 MNQ Daily Bias.md</code>, <code>2026-08-07 MNQ Daily Bias.md</code>.</li>
+<li>Seite erstellt: wiki/synthesis/KW32 2026 — Weekly Review.md — zieht den wochenübergreifenden
+  roten Faden, den es einzeln pro Tag zwar schon gibt, aber noch nicht zusammengefasst
+  (<code>journal/index.md</code> → Berichte war für diese Woche leer).</li>
+<li>Kernbefund: Weekly Bias (bullish, DOL 29.363,50) und Montag beide <code>bias_korrekt: true</code>, DOL um
+  201–710 Punkte überschossen; Donnerstag laut Journal fehlerfrei (<code>fehler: []</code>). Echte Fehler
+  waren kleiner als "Bias falsch": Bias-Inkonsistenz am Montag (Weekly sagt "gute PA", Daily 33 Min.
+  später "schwierig" — beides wiki-gedeckt, der Wechsel selbst ist der Fehler), fehlende
+  Invalidierungslevel im Erstentwurf (nachträglich ergänzt), und am Freitag ein veraltetes
+  ORG-Level (30.06., tatsächlich seit 01.07. gefüllt) als Sorge stehengelassen.</li>
+<li>Für Dienstag/Mittwoch existiert kein Daily-Bias-Eintrag in <code>journal/entries/</code> (nur ein
+  Trade-Log bzw. ein Tape-Reading-Eintrag) — auf der neuen Seite als Datenlücke vermerkt, nicht als
+  Fehler gewertet, da unklar ist, ob an diesen Tagen bewusst kein Daily-Bias-Format genutzt wurde.</li>
+<li>Seiten aktualisiert: wiki/index.md.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

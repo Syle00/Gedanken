@@ -939,3 +939,26 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Keine eigene `wiki/sources/`-Seite angelegt (gleiche Begruendung wie beim 08-03.-Eintrag: ein
   Daily Bias ist Journal, keine Lehrquelle).
 - Seiten aktualisiert: `journal/entries/2026-08-07 MNQ Daily Bias.md`, `journal/journal.csv`.
+
+## [2026-08-07] synthesis | KW32 2026 — Weekly Review
+- Nutzerfrage: Einschätzung zu Bias der Woche (Weekly + alle Daily Bias) + wo Fehler gemacht wurden.
+- Erste Fassung fälschlich aus `raw/journal/` (rohe Notion-Notizen) und eigener 1m-CSV-Nachrechnung
+  gebaut — dabei nicht bemerkt, dass ein bereits bestehendes, präziseres System existiert:
+  `journal/entries/` (`trading-journal`-Skill), das jeden Bias-Eintrag schon einzeln gegen frisch
+  gezogene Marktdaten geprüft hat (`bias_korrekt`-Feld, benannte Fehlercodes). Nach Fund komplett
+  neu geschrieben auf Basis dieser vier bereits verifizierten Einträge:
+  `journal/entries/2026-08-03 MNQ Weekly Bias.md`, `2026-08-03 MNQ Daily Bias.md`,
+  `2026-08-06 MNQ Daily Bias.md`, `2026-08-07 MNQ Daily Bias.md`.
+- Seite erstellt: wiki/synthesis/KW32 2026 — Weekly Review.md — zieht den wochenübergreifenden
+  roten Faden, den es einzeln pro Tag zwar schon gibt, aber noch nicht zusammengefasst
+  (`journal/index.md` → Berichte war für diese Woche leer).
+- Kernbefund: Weekly Bias (bullish, DOL 29.363,50) und Montag beide `bias_korrekt: true`, DOL um
+  201–710 Punkte überschossen; Donnerstag laut Journal fehlerfrei (`fehler: []`). Echte Fehler
+  waren kleiner als "Bias falsch": Bias-Inkonsistenz am Montag (Weekly sagt "gute PA", Daily 33 Min.
+  später "schwierig" — beides wiki-gedeckt, der Wechsel selbst ist der Fehler), fehlende
+  Invalidierungslevel im Erstentwurf (nachträglich ergänzt), und am Freitag ein veraltetes
+  ORG-Level (30.06., tatsächlich seit 01.07. gefüllt) als Sorge stehengelassen.
+- Für Dienstag/Mittwoch existiert kein Daily-Bias-Eintrag in `journal/entries/` (nur ein
+  Trade-Log bzw. ein Tape-Reading-Eintrag) — auf der neuen Seite als Datenlücke vermerkt, nicht als
+  Fehler gewertet, da unklar ist, ob an diesen Tagen bewusst kein Daily-Bias-Format genutzt wurde.
+- Seiten aktualisiert: wiki/index.md.
