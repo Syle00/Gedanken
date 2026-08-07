@@ -6,12 +6,12 @@
 > an. Vieles davon lag vorher nur in Cross-Session-Memory, nicht im Repo selbst. Diese Fassung
 > läuft aktuell in der Testphase; bei Bedarf benenne einfach `CLAUDE.1.0.md` zurück zu
 > `CLAUDE.md`.
->
-> ## Sprache
->
-> Antworte in diesem Projekt immer auf Deutsch, unabhängig von der Sprache der
-> Nutzereingabe — gilt für Chat-Antworten und Berichte, nicht für Code selbst
-> (Bezeichner/Kommentare folgen den üblichen Code-Konventionen).
+
+## Sprache
+
+Antworte in diesem Projekt immer auf Deutsch, unabhängig von der Sprache der
+Nutzereingabe — gilt für Chat-Antworten und Berichte, nicht für Code selbst
+(Bezeichner/Kommentare folgen den üblichen Code-Konventionen).
 
 ## Layer 0 — Übergeordnetes Ziel: autonomer IBKR-Handelsalgorithmus
 
