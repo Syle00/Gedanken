@@ -45,7 +45,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#synthesis">Synthese</a></div>
   <h1>Seasonal Tendency (Eigene Daten, laufend)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span> <span class="tag">seasonal</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-04</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">backtest_seasonal.py</span>, <span class="broken" title="Seite existiert noch nicht">seasonal_tendency.json</span></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span> <span class="tag">seasonal</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-07</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">backtest_seasonal.py</span>, <span class="broken" title="Seite existiert noch nicht">seasonal_tendency.json</span></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#wochentag">Wochentag</a></li>
@@ -141,6 +141,15 @@ liegen überhaupt im TOM-Fenster. Die übrigen 21 „reinen" Montage (kein TOM-O
 <h2 id="turn-of-month">Turn-of-Month</h2>
 <p>Extern sehr gut belegtes Phänomen (Kunkel/Compton/Beyer 2003, McConnell/Xu 2008 — siehe Links
 unten). Fenster = letzter Handelstag des Monats + erste 3 Handelstage des Folgemonats.</p>
+<blockquote>
+<p>✅ Korrektur (2026-08-07): Die <code>Rest des Monats</code>-Zeile war durch einen Doppelzaehlungs-Bug in
+<code>turn_of_month()</code> (<code>algo/backtest_seasonal.py</code>) verzerrt — die alte Akkumulation zaehlte Tage
+4..Monatsende jedes Monats zweifach (<code>rs[:-1]</code> der eigenen Iteration UND <code>nrs[3:]</code> der
+Vor-Iteration ueberschnitten sich). Erkennbar allein an der Summe: Fenster (n=28) + Rest
+(n=221) = 249, mehr als die damals 147 Handelstage insgesamt. Fix: <code>rest</code> wird jetzt direkt
+als Komplement von <code>tom_days</code> ueber alle <code>rows</code> berechnet. Zahlen unten aktualisiert (Stand
+150 Handelstage, 2026-01-02 bis 2026-08-07) — Fenster+Rest = 150 stimmt jetzt exakt.</p>
+</blockquote>
 <table>
 <thead>
 <tr>
@@ -154,17 +163,17 @@ unten). Fenster = letzter Handelstag des Monats + erste 3 Handelstage des Folgem
 <tbody>
 <tr>
 <td>TOM-Fenster</td>
-<td>28</td>
-<td><strong>64,3</strong></td>
-<td><strong>+0,341 %</strong></td>
-<td>544,47</td>
+<td>29</td>
+<td><strong>62,1</strong></td>
+<td><strong>+0,419 %</strong></td>
+<td>580,64</td>
 </tr>
 <tr>
 <td>Rest des Monats</td>
-<td>221</td>
-<td>52,5</td>
-<td>+0,070 %</td>
-<td>577,97</td>
+<td>121</td>
+<td>52,9</td>
+<td>+0,071 %</td>
+<td>562,39</td>
 </tr>
 </tbody>
 </table>

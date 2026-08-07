@@ -45,14 +45,14 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#synthesis">Synthese</a></div>
   <h1>Muster-Validierung (laufend)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">trading-ict</span> <span class="tag">marktdaten</span> <span class="tag">backtest</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-04</div><div class="srcline"><span>Quellen:</span> <a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">trading-ict</span> <span class="tag">marktdaten</span> <span class="tag">backtest</span></div><div class="dates">erstellt 2026-08-07 · aktualisiert 2026-08-07</div><div class="srcline"><span>Quellen:</span> <a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#abdeckung-nutzerwunsch-alle-pd-arrays-das-gesamte-wiki">Abdeckung (Nutzerwunsch: alle PD Arrays, das gesamte Wiki)</a></li>
 <li><a href="#fair-value-gap-ce-fuellung">Fair Value Gap / C.E-Fuellung</a></li>
 <li><a href="#volume-imbalance-vii">Volume Imbalance (VII)</a></li>
 <li><a href="#liquidity-sweeps">Liquidity Sweeps</a></li>
-<li><a href="#market-structure-breaks-boschoch-cisd">Market Structure Breaks (BOS/CHoCH → CISD)</a></li>
+<li><a href="#market-structure-breaks-bosmss-cisd">Market Structure Breaks (BOS/MSS → CISD)</a></li>
 <li><a href="#macro-fenster-expansion">Macro-Fenster-Expansion</a></li>
 <li><a href="#pro-tag">Pro Tag</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
@@ -61,14 +61,11 @@
 </details>
   <div class="content"><h1 id="muster-validierung-laufend">Muster-Validierung (laufend)</h1>
 <p><strong>Generiert</strong> von <code>algo/backtest_ohlc.py</code> aus allen Handelstagen in <code>raw/marktdaten/</code>. Prueft ICT-Behauptungen aus dem Wiki gegen die tatsaechlichen Daten, statt sie als gegeben zu uebernehmen. Wird bei jedem neuen Handelstag neu ausgefuehrt — siehe <span class="broken" title="Seite existiert noch nicht">Algo-Projekt</span>.</p>
-<blockquote>
-<p>⚠️ <strong>Nur 3 Handelstag(e) in der Datenbasis.</strong> Jede Prozentzahl unten ist bei dieser Stichprobengroesse <strong>statistisch nicht belastbar</strong> — sie zeigt den aktuellen Stand, keine bestaetigte Regel. Als Faustwert gilt: unter ~20-30 Tagen kann jede Zahl durch einen einzigen ungewoehnlichen Tag komplett kippen. Diese Seite wird bei jedem neuen Tag automatisch aktualisiert; erst beobachten, ob sich die Werte stabilisieren, bevor daraus eine Handelsregel wird.</p>
-</blockquote>
-<p>Datenbasis: 3 Handelstag(e) — 2026-07-31, 2026-08-03, 2026-08-04 (5m-Basis).</p>
+<p>Datenbasis: 43 Handelstag(e) — 2026-06-08, 2026-06-09, 2026-06-10, 2026-06-11, 2026-06-12, 2026-06-15, 2026-06-16, 2026-06-17, 2026-06-18, 2026-06-22, 2026-06-23, 2026-06-24, 2026-06-25, 2026-06-26, 2026-06-29, 2026-06-30, 2026-07-01, 2026-07-02, 2026-07-06, 2026-07-07, 2026-07-08, 2026-07-09, 2026-07-10, 2026-07-13, 2026-07-14, 2026-07-15, 2026-07-16, 2026-07-17, 2026-07-20, 2026-07-21, 2026-07-22, 2026-07-23, 2026-07-24, 2026-07-27, 2026-07-28, 2026-07-29, 2026-07-30, 2026-07-31, 2026-08-03, 2026-08-04, 2026-08-05, 2026-08-06, 2026-08-07 (5m-Basis).</p>
 <h2 id="abdeckung-nutzerwunsch-alle-pd-arrays-das-gesamte-wiki">Abdeckung (Nutzerwunsch: alle PD Arrays, das gesamte Wiki)</h2>
 <p>Diese Seite soll perspektivisch jede pruefbare Wiki-Behauptung gegen echte Daten testen. Stand jetzt automatisch pruefbar (Detektoren existieren in <code>tools/analyze_ohlc.py</code>):</p>
 <ul>
-<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a> (inkl. C.E-Fuellung), <a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a>, <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a> (ueber FVG-Detektor), Liquidity Sweeps / <a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a>, <a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a> / BOS-CHoCH / <a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a> (als Struktur-Proxy), <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a>-Expansion.</li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a> (inkl. C.E-Fuellung), <a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a>, <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a> (ueber FVG-Detektor), Liquidity Sweeps / <a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a>, <a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a> / BOS-MSS / <a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a> (als Struktur-Proxy), <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a>-Expansion.</li>
 </ul>
 <p><strong>Noch ohne eigenen Detektor</strong> (Backlog in <code>algo/PLAN.md</code>, wird nach und nach ergaenzt statt in einem Schritt geraten): <a href="../p/order-block.html">Order Block</a> + Varianten (<a href="../p/breaker-block.html">Breaker Block</a>, <a href="../p/rejection-block.html">Rejection Block</a>, <a href="../p/mitigation-block.html">Mitigation Block</a>, <a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a>), <a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a>, <a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a>, <a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a>, <a href="../p/new-week-opening-gap-nwog-bias.html">NWOG/NDOG</a>, <a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a>, <a href="../p/breakaway-gap.html">Breakaway Gap</a>, <a href="../p/suspension-block.html">Suspension Block</a>, <a href="../p/judas-swing.html">Judas Swing</a> als eigenes Zeitfenster (bislang nur ueber Sweeps sichtbar, nicht als benanntes Ereignis), <a href="../p/quarterly-shift.html">Quarterly Shift</a>, <a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a> (braucht ein zweites Symbol, bisher wird nur MNQ erfasst).</p>
 <h2 id="fair-value-gap-ce-fuellung">Fair Value Gap / C.E-Fuellung</h2>
@@ -84,30 +81,30 @@
 <tbody>
 <tr>
 <td>Anzahl</td>
-<td>84</td>
-<td>9</td>
+<td>1826</td>
+<td>186</td>
 </tr>
 <tr>
 <td>C.E erreicht (Preis beruehrt die 50%-Linie)</td>
 <td>88%</td>
-<td>78%</td>
+<td>74%</td>
 </tr>
 <tr>
 <td>Komplett gefuellt (ganze Luecke geschlossen)</td>
-<td>87%</td>
-<td>67%</td>
+<td>85%</td>
+<td>68%</td>
 </tr>
 </tbody>
 </table>
 <p>„C.E erreicht" und „komplett gefuellt" sind unterschiedliche Ereignisse — die 70%-Zahl, die kursiert, bezieht sich vermutlich auf ersteres. Diese Seite zaehlt beide getrennt, um genau diese Vermischung sichtbar zu machen. Siehe <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>, <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>.</p>
 <h2 id="volume-imbalance-vii">Volume Imbalance (VII)</h2>
-<p>346 VII (Close→Open-Luecke zwischen zwei Kerzen), 95% davon wieder komplett gefuellt. Siehe <a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a>.</p>
+<p>6892 VII (Close→Open-Luecke zwischen zwei Kerzen), 96% davon wieder komplett gefuellt. Siehe <a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a>.</p>
 <h2 id="liquidity-sweeps">Liquidity Sweeps</h2>
-<p>25 Sweeps insgesamt, davon 56% mit sofortiger Rueckeroberung (<code>bars_back == 0</code>) — der Rest brauchte laenger, siehe <code>confirm</code>-Fenster in <a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a>.</p>
-<h2 id="market-structure-breaks-boschoch-cisd">Market Structure Breaks (BOS/CHoCH → CISD)</h2>
-<p>39 Structure Breaks insgesamt: 24 BOS (Fortsetzung), 15 CHoCH (Richtungswechsel) — 38% der Breaks waren ein Richtungswechsel. Jeder Break ist ein potenzieller <a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a>; siehe dort fuer die Bedingung (Imbalance muss enthalten sein), die dieser Zaehler noch nicht prueft.</p>
+<p>437 Sweeps insgesamt, davon 60% mit sofortiger Rueckeroberung (<code>bars_back == 0</code>) — der Rest brauchte laenger, siehe <code>confirm</code>-Fenster in <a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a>.</p>
+<h2 id="market-structure-breaks-bosmss-cisd">Market Structure Breaks (BOS/MSS → CISD)</h2>
+<p>706 Structure Breaks insgesamt: 400 BOS (Fortsetzung), 306 MSS (Richtungswechsel) — 43% der Breaks waren ein Richtungswechsel. Jeder Break ist ein potenzieller <a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a>; siehe dort fuer die Bedingung (Imbalance muss enthalten sein), die dieser Zaehler noch nicht prueft.</p>
 <h2 id="macro-fenster-expansion">Macro-Fenster-Expansion</h2>
-<p>5 von 38 Macro-Fenstern (XX:50–XX+1:10) waren Expansion (&gt;1,5x Tages-Median) = 13%. Bei 24 Fenstern/Tag waere ein Gleichverteilungs-Erwartungswert bei ~keinem besonderen Fenster — dass es ueberhaupt planbare Haeufungen gibt (z.B. <a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a>), ist erst ab mehr Tagen pruefbar.</p>
+<p>180 von 766 Macro-Fenstern (XX:50–XX+1:10) waren Expansion (&gt;1,5x Tages-Median) = 23%. Bei 24 Fenstern/Tag waere ein Gleichverteilungs-Erwartungswert bei ~keinem besonderen Fenster — dass es ueberhaupt planbare Haeufungen gibt (z.B. <a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a>), ist erst ab mehr Tagen pruefbar.</p>
 <h2 id="pro-tag">Pro Tag</h2>
 <table>
 <thead>
@@ -116,11 +113,307 @@
 <th>FVGs (groß)</th>
 <th>C.E erreicht</th>
 <th>Sweeps</th>
-<th>BOS/CHoCH</th>
+<th>BOS/MSS</th>
 <th>Macro-Expansionen</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>2026-06-08</td>
+<td>2</td>
+<td>50%</td>
+<td>8</td>
+<td>12/4</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-06-09</td>
+<td>14</td>
+<td>57%</td>
+<td>8</td>
+<td>13/8</td>
+<td>7/18</td>
+</tr>
+<tr>
+<td>2026-06-10</td>
+<td>3</td>
+<td>100%</td>
+<td>12</td>
+<td>12/6</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-06-11</td>
+<td>5</td>
+<td>80%</td>
+<td>12</td>
+<td>7/8</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-06-12</td>
+<td>2</td>
+<td>100%</td>
+<td>14</td>
+<td>6/12</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-06-15</td>
+<td>2</td>
+<td>50%</td>
+<td>5</td>
+<td>11/8</td>
+<td>3/18</td>
+</tr>
+<tr>
+<td>2026-06-16</td>
+<td>5</td>
+<td>60%</td>
+<td>11</td>
+<td>10/10</td>
+<td>4/18</td>
+</tr>
+<tr>
+<td>2026-06-17</td>
+<td>3</td>
+<td>67%</td>
+<td>14</td>
+<td>4/11</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-06-18</td>
+<td>2</td>
+<td>50%</td>
+<td>10</td>
+<td>12/8</td>
+<td>2/18</td>
+</tr>
+<tr>
+<td>2026-06-22</td>
+<td>3</td>
+<td>67%</td>
+<td>14</td>
+<td>7/9</td>
+<td>4/18</td>
+</tr>
+<tr>
+<td>2026-06-23</td>
+<td>3</td>
+<td>67%</td>
+<td>10</td>
+<td>10/5</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-06-24</td>
+<td>8</td>
+<td>50%</td>
+<td>9</td>
+<td>7/8</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-06-25</td>
+<td>9</td>
+<td>78%</td>
+<td>13</td>
+<td>10/8</td>
+<td>6/18</td>
+</tr>
+<tr>
+<td>2026-06-26</td>
+<td>1</td>
+<td>100%</td>
+<td>14</td>
+<td>8/11</td>
+<td>2/18</td>
+</tr>
+<tr>
+<td>2026-06-29</td>
+<td>5</td>
+<td>60%</td>
+<td>11</td>
+<td>11/5</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-06-30</td>
+<td>5</td>
+<td>60%</td>
+<td>11</td>
+<td>11/5</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-07-01</td>
+<td>4</td>
+<td>100%</td>
+<td>9</td>
+<td>11/6</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-07-02</td>
+<td>4</td>
+<td>50%</td>
+<td>7</td>
+<td>9/9</td>
+<td>7/18</td>
+</tr>
+<tr>
+<td>2026-07-06</td>
+<td>3</td>
+<td>67%</td>
+<td>10</td>
+<td>10/6</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-07-07</td>
+<td>3</td>
+<td>100%</td>
+<td>13</td>
+<td>6/9</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-07-08</td>
+<td>2</td>
+<td>100%</td>
+<td>7</td>
+<td>10/8</td>
+<td>4/18</td>
+</tr>
+<tr>
+<td>2026-07-09</td>
+<td>5</td>
+<td>100%</td>
+<td>12</td>
+<td>13/3</td>
+<td>3/18</td>
+</tr>
+<tr>
+<td>2026-07-10</td>
+<td>6</td>
+<td>100%</td>
+<td>13</td>
+<td>12/4</td>
+<td>4/18</td>
+</tr>
+<tr>
+<td>2026-07-13</td>
+<td>1</td>
+<td>100%</td>
+<td>15</td>
+<td>7/9</td>
+<td>3/18</td>
+</tr>
+<tr>
+<td>2026-07-14</td>
+<td>4</td>
+<td>100%</td>
+<td>10</td>
+<td>5/9</td>
+<td>3/18</td>
+</tr>
+<tr>
+<td>2026-07-15</td>
+<td>8</td>
+<td>75%</td>
+<td>16</td>
+<td>8/12</td>
+<td>3/18</td>
+</tr>
+<tr>
+<td>2026-07-16</td>
+<td>3</td>
+<td>67%</td>
+<td>8</td>
+<td>12/2</td>
+<td>3/18</td>
+</tr>
+<tr>
+<td>2026-07-17</td>
+<td>6</td>
+<td>50%</td>
+<td>12</td>
+<td>8/10</td>
+<td>4/18</td>
+</tr>
+<tr>
+<td>2026-07-20</td>
+<td>5</td>
+<td>100%</td>
+<td>7</td>
+<td>9/5</td>
+<td>5/18</td>
+</tr>
+<tr>
+<td>2026-07-21</td>
+<td>2</td>
+<td>100%</td>
+<td>7</td>
+<td>10/5</td>
+<td>4/18</td>
+</tr>
+<tr>
+<td>2026-07-22</td>
+<td>1</td>
+<td>100%</td>
+<td>12</td>
+<td>13/5</td>
+<td>4/18</td>
+</tr>
+<tr>
+<td>2026-07-23</td>
+<td>5</td>
+<td>40%</td>
+<td>6</td>
+<td>10/6</td>
+<td>4/18</td>
+</tr>
+<tr>
+<td>2026-07-24</td>
+<td>3</td>
+<td>100%</td>
+<td>11</td>
+<td>10/8</td>
+<td>4/18</td>
+</tr>
+<tr>
+<td>2026-07-27</td>
+<td>9</td>
+<td>67%</td>
+<td>7</td>
+<td>10/5</td>
+<td>6/18</td>
+</tr>
+<tr>
+<td>2026-07-28</td>
+<td>3</td>
+<td>100%</td>
+<td>10</td>
+<td>10/9</td>
+<td>2/18</td>
+</tr>
+<tr>
+<td>2026-07-29</td>
+<td>8</td>
+<td>88%</td>
+<td>14</td>
+<td>8/7</td>
+<td>7/18</td>
+</tr>
+<tr>
+<td>2026-07-30</td>
+<td>4</td>
+<td>50%</td>
+<td>9</td>
+<td>8/7</td>
+<td>3/18</td>
+</tr>
 <tr>
 <td>2026-07-31</td>
 <td>6</td>
@@ -139,11 +432,35 @@
 </tr>
 <tr>
 <td>2026-08-04</td>
-<td>0</td>
-<td>–</td>
+<td>4</td>
+<td>50%</td>
+<td>4</td>
+<td>10/7</td>
+<td>3/18</td>
+</tr>
+<tr>
+<td>2026-08-05</td>
+<td>2</td>
+<td>50%</td>
+<td>7</td>
+<td>9/5</td>
+<td>6/18</td>
+</tr>
+<tr>
+<td>2026-08-06</td>
+<td>4</td>
+<td>100%</td>
+<td>10</td>
+<td>4/5</td>
+<td>3/18</td>
+</tr>
+<tr>
+<td>2026-08-07</td>
+<td>6</td>
+<td>83%</td>
 <td>1</td>
-<td>1/1</td>
-<td>0/3</td>
+<td>4/5</td>
+<td>2/11</td>
 </tr>
 </tbody>
 </table>

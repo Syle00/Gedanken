@@ -45,7 +45,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#synthesis">Synthese</a></div>
   <h1>Statistische Muster jenseits der ICT-Konzepte (laufend)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-04</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">explore_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_daily_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_ndog.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_nwog.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_tgif.py</span></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">explore_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_daily_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_ndog.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_nwog.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_tgif.py</span></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#1-range-autokorrelation-echtes-volatility-clustering">1. Range-Autokorrelation: echtes Volatility Clustering</a></li>
@@ -62,11 +62,22 @@
   <div class="content"><h1 id="statistische-muster-jenseits-der-ict-konzepte-laufend">Statistische Muster jenseits der ICT-Konzepte (laufend)</h1>
 <p>Reine Datenexploration ohne vorab formulierte ICT-These — Gegenstück zu den <code>backtest_*.py</code>-
 Skripten, die eine konkrete Nutzeraussage prüfen. Ziel: Muster finden, die (noch) nicht als
-benanntes Konzept im Wiki stehen. Zwei Stichproben: <code>algo/explore_patterns.py</code> (n≈34 Tage,
+benanntes Konzept im Wiki stehen. Zwei Stichproben: <code>algo/explore_patterns.py</code> (n=43 Tage,
 1m/5m-Auflösung, RTH 9:30–16:00) und <code>algo/backtest_daily_patterns.py</code> (n=147 Tage, 1d-Bars,
 volle Globex-Session, 2026-01-02 bis 2026-08-04 — die 1d-Auflösung hat bei yfinance kein
 30/60-Tage-Limit, deshalb die deutlich größere Stichprobe).</p>
 <blockquote>
+<p>✅ Korrektur (2026-08-08): Die <code>explore_patterns.py</code>-Zahlen unten (n≈34, r=-0,07, 33,3 %)
+waren durch einen Bug in der gemeinsam genutzten <code>find_days()</code> (<code>algo/backtest_org_ce.py</code>)
+verzerrt — ohne Symbol-Filter griff sie faktisch deterministisch zugunsten von ES statt MNQ
+(alphabetisch vor MNQ, kein <code>sorted()</code> auf die Kandidatenliste), 40 von 45 betroffenen Tagen
+lieferten die ES- statt der MNQ-Datei. <code>explore_patterns.py</code> lief also grossteils auf dem
+falschen Instrument. Fix (Task 8, 2026-08-07): <code>find_days(symbol="MNQ")</code> filtert jetzt
+korrekt. Zahlen unten auf einen frischen Lauf mit echten MNQ-Daten aktualisiert (n=43 statt
+≈34 — die Differenz ist ueberwiegend seit 2026-08-04 gewachsener <code>raw/marktdaten/</code>-Bestand,
+nicht der Bug selbst). Details: <code>algo/PLAN.md</code>-Log vom 2026-08-07. Die <code>backtest_daily_patterns.py</code>-Zahlen
+(n=147, Punkt 1–3 grosse Stichprobe) nutzen <code>find_1d_days()</code> aus <code>backtest_common.py</code>, einen
+anderen, vom Bug nicht betroffenen Pfad — die bleiben unveraendert.</p>
 <p><strong>Alle kalendarischen Muster</strong> (Wochentag, Turn-of-Month, Woche-im-Monat, Monatszahlen)
 stehen jetzt auf der eigenen Datenbank-Seite
 <a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a>, inkl. Abgleich gegen externe Quellen. Diese
@@ -77,15 +88,16 @@ Rauschen herausstellt, wird hier <strong>gelöscht statt nur markiert</strong> �
 widersprüchlichen ICT-Primärquellen (dort bleibt beides stehen, siehe Seitenkonvention in
 <span class="broken" title="Seite existiert noch nicht">CLAUDE</span>), weil es hier keine zwei gleichwertigen Lehrmeinungen gibt, sondern eine
 einzige nachpruefbare Zahl.</p>
-<p>⚠️ Bei der kleinen Stichprobe (n≈34) zeigten sich unten teils andere Vorzeichen als bei der
-großen (n=147, siehe Punkt 1 und Punkt 2 unten) — ein Hinweis, dass n≈34 für
-Autokorrelations-Aussagen zu instabil ist. Wo beide vorliegen, zählt die n=147-Zahl mehr.</p>
+<p>⚠️ Bei der kleinen Stichprobe (n=43) bleiben Punkt 1 und Punkt 2 deutlich schwächer als bei
+der großen (n=147, siehe unten) — ein Hinweis, dass n=43 für Autokorrelations-Aussagen zu
+instabil ist. Wo beide vorliegen, zählt die n=147-Zahl mehr.</p>
 </blockquote>
 <h2 id="1-range-autokorrelation-echtes-volatility-clustering">1. Range-Autokorrelation: echtes Volatility Clustering</h2>
 <p>Pearson r = <strong>0,305</strong> (n=146) zwischen der Tagesrange und der Range des Vortags — ein
 moderater, positiver Zusammenhang. Auf einen Tag mit großer Range folgt statistisch eher
 wieder ein Tag mit großer Range (und umgekehrt), nicht das Gegenteil. Bei der kleinen
-Stichprobe war das noch nicht sichtbar (r=-0,07, im Rauschen) — auch das erst ab n=147 klar.</p>
+Stichprobe zeigt sich derselbe Trend, aber viel schwächer (r=0,038, n=42) — deutlich klarer
+erst ab n=147.</p>
 <p><strong>Praktische Lesart</strong>: nach einem ungewöhnlich großen Tag eher mit einem weiteren
 Expansions-Tag rechnen statt automatisch eine ruhigere Konsolidierung zu erwarten.</p>
 <h2 id="2-richtungs-autokorrelation-schwaches-momentum">2. Richtungs-Autokorrelation: schwaches Momentum</h2>
@@ -94,8 +106,9 @@ Expansions-Tag rechnen statt automatisch eine ruhigere Konsolidierung zu erwarte
 <li>Nach bearishem Tag: 51,5 % bullish am nächsten Tag (n=66) — praktisch Zufall.</li>
 </ul>
 <p>Schwächer als der Range-Effekt, aber in dieselbe Richtung (Fortsetzung statt Umkehr), zumindest
-nach bullishen Tagen. Bei n≈34 zeigte sich hier fälschlich das Gegenteil (33,3 % nach bullish —
-Reversion) — noch ein Beleg, dass die kleine Stichprobe nicht tragfähig war.</p>
+nach bullishen Tagen. Bei der kleinen Stichprobe (n=43) zeigt sich ein schwächeres,
+uneindeutiges Signal (47,1 % nach bullish, n=17; 40,0 % nach bearish, n=25) — bei diesem n
+im Rauschen, kein klarer Widerspruch mehr zur großen Stichprobe.</p>
 <h2 id="3-rundzahl-magnetismus-kein-effekt">3. Rundzahl-Magnetismus: kein Effekt</h2>
 <p>Durchschnittlicher Abstand von Tages-High/-Low zur nächsten 50-Punkte-Marke: <strong>12,25 Punkte</strong>
 (n=294) gegen 12,5 Punkte, die bei Gleichverteilung zu erwarten wären. Praktisch identisch —
