@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, macro, news-driven, hypothesis]
 created: 2026-08-07
 updated: 2026-08-07
-sources: ["[[FOMC (Federal Open Market Committee)]]", "raw/journal/Daily Bias 2026-08-07.md", "raw/marktdaten/2026/08/07.08.2026/MNQ 2026-08-07 1m.csv"]
+sources: ["[[FOMC (Federal Open Market Committee)]]", "raw/journal/Daily Bias 2026-08-07.md", "raw/marktdaten/2026/08/07.08.2026/MNQ 2026-08-07 1m.csv", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]"]
 ---
 
 # Two Stage News Delivery (FOMC & NFP)
@@ -64,6 +64,24 @@ Das deckt sich mit der bestehenden Linie in [[Low Resistance Liquidity Run]] (FO
 High-Resistance/Chop-Kandidat) und mit der bereits im Journal notierten Vorsicht, an NFP-Tagen
 keinen belastbaren Daily Bias zu halten (siehe `raw/journal/Daily Bias 2026-08-07.md`).
 
+## Primärquellenbestätigung (ICT selbst, 2026-08-07)
+
+Dieselbe NFP-Instanz wurde von ICT im selben Video live nacherzählt (siehe
+[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll
+& NQ Futures (Source)]], nicht als eigene 2. Instanz zu zählen — es ist derselbe Handelstag, nur aus
+Primärquellen-statt Rohdatensicht):
+
+- ICT bestätigt exakt den hier dokumentierten Ablauf: Stage-1-Rallye vom 8:30-Print bis in die
+  Macro-Zeit (8:50–9:10), danach ein Reversal, das er selbst zum Teilgewinn-Mitnehmen einer Long-
+  Position nutzt.
+- Er benennt den Mechanismus explizit als **"two-stage delivery like FOMC"** und beschreibt NFP damit
+  aus eigener Wahrnehmung als generell zweistufig — deckt sich mit der oben unter "Generalisiertes
+  Muster" formulierten Arbeitshypothese, jetzt zusätzlich durch die Primärquelle (statt nur eigene
+  Datenanalyse) gestützt.
+- Der Reversal-Punkt wird von ICT über eine **Standard-Deviation-Projektion der Pre-Market-Range**
+  (7:00–8:30) antizipiert, nicht nur über die Uhrzeit allein — siehe
+  [[Central Bank Dealers Range (CBDR)]] für dieselbe Projektionstechnik.
+
 ## Nächste Schritte
 
 - Bei jedem künftigen NFP (1. Freitag im Monat) und FOMC-Termin dieselbe Zwei-Stufen-Prüfung
@@ -83,3 +101,5 @@ keinen belastbaren Daily Bias zu halten (siehe `raw/journal/Daily Bias 2026-08-0
 - [[Silver Bullet Model]], [[NY Lunch Macro Model]] — das Stage-2-Zeitfenster
 - [[External vs. Internal Range Liquidity]] — der Pre-Market-Pool als External Liquidity
 - [[Low Resistance Liquidity Run]] — FOMC/NFP als Chop-Kandidat
+- [[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]] — Primärquellenbestätigung
+- [[ICT Macros & Leading Candles]], [[Central Bank Dealers Range (CBDR)]]

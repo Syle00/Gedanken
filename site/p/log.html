@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">75</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">179</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">180</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -108,6 +108,7 @@
 <li><a href="#2026-08-07-ingest-daily-bias-0708-journal-live-org-3006-korrektur-tgif-zahlen">[2026-08-07] ingest | Daily Bias 07.08. (Journal, live) -- ORG-30.06.-Korrektur + TGIF-Zahlen</a></li>
 <li><a href="#2026-08-07-synthesis-kw32-2026-weekly-review">[2026-08-07] synthesis | KW32 2026 — Weekly Review</a></li>
 <li><a href="#2026-08-07-synthesis-two-stage-news-delivery-fomc-nfp-neue-hypothese-aus-live-beobachtung">[2026-08-07] synthesis | Two Stage News Delivery (FOMC &amp; NFP) — neue Hypothese aus Live-Beobachtung</a></li>
+<li><a href="#2026-08-07-ingest-youtube-case-study-with-nonfarm-payroll-nq-futures">[2026-08-07] ingest | YouTube: Case Study With NonFarm Payroll &amp; NQ Futures</a></li>
 </ul>
 </div>
 </details>
@@ -1162,6 +1163,38 @@
 <li>Offen: Backtest-Kandidat, sobald ≥3 Instanzen vorliegen und eine NFP-/FOMC-Terminliste im Repo
   existiert (aktuell nicht vorhanden) — <code>algo/backtest_fred_events.py</code> deckt reguläre FRED-Serien
   ab, aber keine Event-Zeitstempel auf Minutenbasis.</li>
+<li>Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).</li>
+</ul>
+<h2 id="2026-08-07-ingest-youtube-case-study-with-nonfarm-payroll-nq-futures">[2026-08-07] ingest | YouTube: Case Study With NonFarm Payroll &amp; NQ Futures</h2>
+<ul>
+<li>Einzelvideo per <code>/yt-ict-ingest &lt;URL&gt;</code>: https://www.youtube.com/watch?v=hIusATccCcM (Kanal The
+  Inner Circle Trader, veröffentlicht 2026-08-07, Länge 57:47). Noch nicht ingestet (geprüft gegen
+  <code>raw/trading-ict/2026/</code> und dieses Log).</li>
+<li>Transkript gespeichert unter <code>raw/trading-ict/2026/yt-hIusATccCcM-transcript.md</code>. ⚠️ Deckt nur
+  ~2.200 Wörter gesprochenen Text ab, deutlich weniger als für 57:47 zu erwarten — laut ICTs
+  eigener Aussage im Video liegt das an echten stillen Passagen (Screen-Recording ohne Narration
+  während der Autofahrt, spätere Annotation zu Hause), nicht an einer Auto-Caption-Lücke.</li>
+<li><strong>Dieselbe NFP-Instanz wie im selben Log bereits dokumentiert</strong> ([[Two Stage News Delivery (FOMC
+  &amp; NFP)]], Eintrag weiter oben mit Datenanalyse aus <code>raw/marktdaten/</code>): ICT erzählt hier live
+  denselben Handelstag aus Primärquellensicht nach — als Bestätigung verlinkt, nicht als 2. Instanz
+  gezählt.</li>
+<li><strong>Bestehende Definition erweitert statt Duplikat angelegt</strong>: der Begriff "Mohawk" tauchte im
+  Wiki bereits auf (<code>wiki/concepts/Institutional Order Flow (Body vs Wick).md</code>, aus dem
+  2026-07-29-Ingest, dort nur für Wicks an einem IFVG). Dieses Video nutzt denselben Begriff
+  generalisiert für jede Wick-Toleranz an einer PD-Array-/Range-Grenze — die bestehende Sektion
+  erweitert statt einer neuen Konzeptseite (ursprünglich fälschlich als eigene Seite
+  <code>Mohawk (Range Tolerance).md</code> angelegt, nach Fund der bestehenden Definition wieder gelöscht und
+  zusammengeführt).</li>
+<li>Seiten erstellt: <code>wiki/sources/youtube/2026-08-07 - Case Study With NonFarm Payroll &amp; NQ Futures
+  (Source).md</code></li>
+<li>Seiten aktualisiert: <code>wiki/concepts/Institutional Order Flow (Body vs Wick).md</code> (Mohawk-Regel
+  generalisiert), <code>wiki/concepts/Two Stage News Delivery (FOMC &amp; NFP).md</code> (Primärquellenbestätigung
+  durch ICT selbst, Verweis auf STD-Projektion), <code>wiki/concepts/ICT Macros &amp; Leading Candles.md</code>
+  (Macro-Zeit als Reversal-Check für laufende Positionen), <code>wiki/concepts/Central Bank Dealers
+  Range (CBDR).md</code> (STD-Projektionstechnik verallgemeinert auf Pre-News-Ranges, nicht nur
+  CBDR/Asia), <code>wiki/index.md</code>.</li>
+<li>Bewusst ausgefiltert: Geburtstag/Familienanekdote, Meta-Kommentare gegen X-Kritiker,
+  Selbstpromotion des eigenen X-Feeds.</li>
 <li>Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).</li>
 </ul></div>
   

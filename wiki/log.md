@@ -989,3 +989,34 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   existiert (aktuell nicht vorhanden) — `algo/backtest_fred_events.py` deckt reguläre FRED-Serien
   ab, aber keine Event-Zeitstempel auf Minutenbasis.
 - Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-07] ingest | YouTube: Case Study With NonFarm Payroll & NQ Futures
+- Einzelvideo per `/yt-ict-ingest <URL>`: https://www.youtube.com/watch?v=hIusATccCcM (Kanal The
+  Inner Circle Trader, veröffentlicht 2026-08-07, Länge 57:47). Noch nicht ingestet (geprüft gegen
+  `raw/trading-ict/2026/` und dieses Log).
+- Transkript gespeichert unter `raw/trading-ict/2026/yt-hIusATccCcM-transcript.md`. ⚠️ Deckt nur
+  ~2.200 Wörter gesprochenen Text ab, deutlich weniger als für 57:47 zu erwarten — laut ICTs
+  eigener Aussage im Video liegt das an echten stillen Passagen (Screen-Recording ohne Narration
+  während der Autofahrt, spätere Annotation zu Hause), nicht an einer Auto-Caption-Lücke.
+- **Dieselbe NFP-Instanz wie im selben Log bereits dokumentiert** ([[Two Stage News Delivery (FOMC
+  & NFP)]], Eintrag weiter oben mit Datenanalyse aus `raw/marktdaten/`): ICT erzählt hier live
+  denselben Handelstag aus Primärquellensicht nach — als Bestätigung verlinkt, nicht als 2. Instanz
+  gezählt.
+- **Bestehende Definition erweitert statt Duplikat angelegt**: der Begriff "Mohawk" tauchte im
+  Wiki bereits auf (`wiki/concepts/Institutional Order Flow (Body vs Wick).md`, aus dem
+  2026-07-29-Ingest, dort nur für Wicks an einem IFVG). Dieses Video nutzt denselben Begriff
+  generalisiert für jede Wick-Toleranz an einer PD-Array-/Range-Grenze — die bestehende Sektion
+  erweitert statt einer neuen Konzeptseite (ursprünglich fälschlich als eigene Seite
+  `Mohawk (Range Tolerance).md` angelegt, nach Fund der bestehenden Definition wieder gelöscht und
+  zusammengeführt).
+- Seiten erstellt: `wiki/sources/youtube/2026-08-07 - Case Study With NonFarm Payroll & NQ Futures
+  (Source).md`
+- Seiten aktualisiert: `wiki/concepts/Institutional Order Flow (Body vs Wick).md` (Mohawk-Regel
+  generalisiert), `wiki/concepts/Two Stage News Delivery (FOMC & NFP).md` (Primärquellenbestätigung
+  durch ICT selbst, Verweis auf STD-Projektion), `wiki/concepts/ICT Macros & Leading Candles.md`
+  (Macro-Zeit als Reversal-Check für laufende Positionen), `wiki/concepts/Central Bank Dealers
+  Range (CBDR).md` (STD-Projektionstechnik verallgemeinert auf Pre-News-Ranges, nicht nur
+  CBDR/Asia), `wiki/index.md`.
+- Bewusst ausgefiltert: Geburtstag/Familienanekdote, Meta-Kommentare gegen X-Kritiker,
+  Selbstpromotion des eigenen X-Feeds.
+- Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).

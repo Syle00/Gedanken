@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-05
-sources: ["[[From Vision To Execution (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]"]
+updated: 2026-08-07
+sources: ["[[From Vision To Execution (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]"]
 ---
 
 # ICT Macros & Leading Candles
@@ -34,9 +34,21 @@ Unabhängig vom regulären 20-Minuten-Macro-Raster (xx:50–x0:10) ist **8:30 Uh
 News-Release-Zeitpunkt (z.B. viele US-Konjunkturdaten) und dadurch verlässlich volatil — auch ohne
 dass ein Macro-Fenster dort offiziell benannt ist. Quelle: [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]].
 
+## Macro-Zeit als Reversal-Check nach News-Expansion (2026-Ergänzung)
+
+Aus [[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm
+Payroll & NQ Futures (Source)]]: an einem NFP-Freitag rallyt Preis nach dem 8:30-Print bis in die
+Macro-Zeit **8:50–9:10** hinein. Diese Macro-Zeit dient hier nicht als Entry-Trigger, sondern als
+**Prüfpunkt für eine bereits laufende Position** — läuft eine Long-Position mit deutlicher
+Stage-1-Expansion (siehe [[Two Stage News Delivery (FOMC & NFP)]]) genau in eine Macro-Zeit hinein,
+ist das der Moment, Teilgewinne zu sichern, bevor ein Reversal einsetzt. Bestätigt zusätzlich per
+Standard-Deviation-Projektion der Pre-News-Range (siehe [[Central Bank Dealers Range (CBDR)]]).
+
 ## Verwandt
 
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]]
 - [[Fair Value Gap (FVG)]], [[IPDA Data Ranges]]
 - [[Modell 22]] — Displacement nach [[Turtle Soup]] muss laut Quelle konsequent in die Zukunft
   ausgemalt werden, relevant für spätere Price-Runs (reclaimed FVG oder IFVG).
+- [[Two Stage News Delivery (FOMC & NFP)]], [[Central Bank Dealers Range (CBDR)]]
+- [[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]

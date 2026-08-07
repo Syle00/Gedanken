@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[Central Banks Dealers Range (Source)]]", "[[Filling The Numbers (Source)]]", "[[Projecting Daily Highs & Lows (Source)]]"]
+updated: 2026-08-07
+sources: ["[[Central Banks Dealers Range (Source)]]", "[[Filling The Numbers (Source)]]", "[[Projecting Daily Highs & Lows (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]"]
 ---
 
 # Central Bank Dealers Range (CBDR)
@@ -50,8 +50,18 @@ Down-Close-Tag.*
   per Fib **3 STD in die Gegenrichtung** projiziert — als Richtwert, der nah am tatsächlichen
   Tages-High/Low liegt.
 
+## Technik auch auf Nicht-CBDR-Ranges übertragbar (2026-Ergänzung)
+
+Aus [[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm
+Payroll & NQ Futures (Source)]]: dieselbe STD-Projektionstechnik wird nicht nur auf die klassische
+CBDR/Asia-Range angewendet, sondern auf **jede vorab definierte Range vor einem High-Impact-Event** —
+im Beispiel die Pre-Market-[[Dealing Range]] 7:00–8:30 NY vor dem 8:30-NFP-Print. Highest High/Lowest
+Low dieser Range wird als STD-Basis genommen, um einen wahrscheinlichen Umkehrpunkt (hier −2,05 STD)
+während der folgenden [[ICT Macros & Leading Candles|Macro-Zeit]] zu antizipieren.
+
 ## Verwandt
 
 - [[ICT Daily Range Session Timing]]
 - [[Equilibrium Vs. Discount]]
 - [[PD Array]]
+- [[Dealing Range]], [[ICT Macros & Leading Candles]], [[Two Stage News Delivery (FOMC & NFP)]]

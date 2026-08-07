@@ -22,7 +22,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[BISI & SIBI (Buyside-Sellside Imbalance)]] — Richtungs-Bezeichnung für FVG-Typen (2026-08-01)
 - [[Breakaway Gap]] — Displacement am FVG-Quadranten/Wick, LTF-Umdeutung des FVG (2026-08-02)
 - [[Breaker Block]] — Order-Block-Variante, fokussiert auf gejagte Stop-Losses (2026-08-01)
-- [[Central Bank Dealers Range (CBDR)]] — 14–20-Uhr-Range mit STD-Projektion fürs Tages-High/Low (2026-08-01)
+- [[Central Bank Dealers Range (CBDR)]] — 14–20-Uhr-Range mit STD-Projektion fürs Tages-High/Low, Technik auch auf Pre-News-Ranges übertragbar (2026-08-01, erg. 2026-08-07)
 - [[Chain of Custody (Q-Validation)]] — Q-Level validieren PD Arrays entlang der antizipierten Dealing Range (2026-08-01)
 - [[CISD (Change in State of Delivery)]] — Down-/Up-Close-Candles als struktureller Support/Resistance (2026-08-01)
 - [[COT (Commitment of Traders) Data]] — Positionierungsdaten großer Player, 12-Monats-Hedging-Methode (2026-08-01)
@@ -37,9 +37,9 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[FOMC (Federal Open Market Committee)]] — US-Zinsgremium, häufigster News-Katalysator in Weekly-Profilen (2026-08-01)
 - [[ICT Daily Range Session Timing]] — Session-Ablauf, der die Daily Range formt (2026-08-01)
 - [[ICT Killzones]] — Die vier Handelsfenster mit idealen Paaren und Pip-Erwartung (2026-08-02)
-- [[ICT Macros & Leading Candles]] — Session-Zeitfenster mit auffälligen Referenz-Candles (2026-08-01)
+- [[ICT Macros & Leading Candles]] — Session-Zeitfenster mit auffälligen Referenz-Candles, auch als Reversal-Check für laufende Positionen nutzbar (2026-08-01, erg. 2026-08-07)
 - [[IFVG (Inverse Fair Value Gap)]] — FVG, das nach Durchhandeln die Polarität wechselt (2026-08-01)
-- [[Institutional Order Flow (Body vs Wick)]] — Volumen steckt in Candle Bodys, nicht Wicks (2026-08-01)
+- [[Institutional Order Flow (Body vs Wick)]] — Volumen steckt in Candle Bodys, nicht Wicks; "Mohawk"-Wick-Toleranzregel jetzt auch für BISI/SIBI-Range-Grenzen (2026-08-01, erg. 2026-08-07)
 - [[Institutional Sponsorship]] — Smart Money schützt einen High-Probability-Price-Swing (2026-08-01)
 - [[Intermarket Relationships]] — Bonds/Stocks/Commodities/Currencies-Korrelationsregeln (2026-08-01)
 - [[IPDA Data Ranges]] — 20/40/60-Tage-Lookback des Interbank Price Delivery Algorithmus (2026-08-01)
@@ -79,7 +79,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Trading All Time Highs (ATH)]] — Continuation-Checkliste am ATH und die 3 Stages, an denen Smart Money oben verkauft (2026-08-02)
 - [[Trendline Phantoms (3 Drives Pattern)]] — Retail-Trendline-Falle, 3-Drives-Angriffsziel (2026-08-01)
 - [[Turtle Soup]] — Fehlausbruch-Setup mit Rückkehr in FVG/Retracement (2026-08-01)
-- [[Two Stage News Delivery (FOMC & NFP)]] — ⚠️ offene Hypothese: News-Reaktion in zwei zeitlich getrennten, teils gegenläufigen Stages statt einer Bewegung, live an NFP 07.08.2026 beobachtet (2026-08-07)
+- [[Two Stage News Delivery (FOMC & NFP)]] — ⚠️ offene Hypothese: News-Reaktion in zwei zeitlich getrennten, teils gegenläufigen Stages statt einer Bewegung, live an NFP 07.08.2026 beobachtet, jetzt primärquellenbestätigt durch ICT selbst (2026-08-07)
 - [[Verlust-Mitigation durch reduzierte Re-Entry-Size]] — nach Stop-out mit halber Size re-entrien, R2 gleicht vollen Verlust aus (2026-08-06)
 - [[Volume Imbalance (VII)]] — Lücke Close→Open; bestimmt die FVG-Grenzen und ist selbst eine PD Array (2026-08-02)
 
@@ -177,6 +177,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - **Core Content Month 02 (8 YouTube-Videos, 2022-08-27 bis 2022-08-30)** — schließt die im
   Notion-Export offene Lücke, eingeordnet wie jeder andere Monat über [[Month 02 (Source)]]
   (Curriculum-Sprungseite, listet alle 8 Lectures samt Ziel-Konzeptseite) (2026-08-06)
+- [[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]] — YouTube 2026-08-07: Live-Nacherzählung der NFP-Fallstudie vom selben Tag, Pre-Market-STD-Projektion, generalisierte "Mohawk"-Regel (2026-08-07)
 
 ### MentorShip 2025
 

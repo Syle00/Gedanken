@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-06
-sources: ["[[Institutional Order Flow (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]"]
+updated: 2026-08-07
+sources: ["[[Institutional Order Flow (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]"]
 ---
 
 # Institutional Order Flow (Body vs Wick)
@@ -77,13 +77,22 @@ und Einbettung ins Setup: [[Market on Close (MOC) Macro Model]].
 > Schlägt diese Regel in der Praxis fehl, ist laut Quelle fast immer der **Bias falsch angenommen**
 > worden — nicht die Regel selbst defekt. Siehe [[Signal-Following & Crowd Liquidity Risk]].
 
-## "Mohawk"-Wick am IFVG (2026-Ergänzung)
+## "Mohawk"-Wick — Toleranzregel für Wick-Ausbrüche (2026-Ergänzung)
 
-Ein Wick an einem [[IFVG (Inverse Fair Value Gap)|IFVG]], dessen Candle-Bodies sich **nicht**
-innerhalb der IFVG-Zone halten können (Bodies bleiben komplett außerhalb/oberhalb, nur der Wick
-taucht kurz hinein) — benannt nach der Optik (schmaler Wick, Bodies "frisiert" außen dran vorbei.
-Gilt als bullisches Bestätigungssignal für einen Reversal: die Bodies "wollen" nicht in die Zone,
-also fehlt Verkaufsdruck dort. Spiegelbildlich für bearishe Reversals (Bodies bleiben unterhalb).
+Ein Wick, der kurz **außerhalb** einer PD-Array-Grenze auftaucht, während die Candle-Bodys auf der
+"richtigen" Seite bleiben — benannt nach der Optik (schmaler Wick, Bodies "frisiert" außen dran
+vorbei). Ursprünglich am [[IFVG (Inverse Fair Value Gap)|IFVG]] beobachtet: Bodies bleiben komplett
+außerhalb/oberhalb der IFVG-Zone, nur der Wick taucht kurz hinein — gilt als bullisches
+Bestätigungssignal für einen Reversal, weil die Bodies "nicht in die Zone wollen" und dort folglich
+Verkaufsdruck fehlt. Spiegelbildlich für bearishe Reversals (Bodies bleiben unterhalb).
+
+**Generalisiert auf Range-Grenzen** (aus [[2026-08-07 - Case Study With NonFarm Payroll & NQ
+Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]): dieselbe Toleranzregel
+gilt auch am Rand einer [[BISI & SIBI (Buyside-Sellside Imbalance)|BISI-/SIBI-Range]] — Preis darf
+kurz mit dem Wick über die Range-Grenze hinauslaufen ("wie ein Kind, das beim Ausmalen ein kleines
+Stück über den Rand hinaus malt"), solange **kein Body außerhalb schließt**. Erst ein Body-Close
+jenseits der Grenze widerlegt die Range; ein reiner Wick-Ausbruch macht sie nicht ungültig und die
+darauf aufbauende Erwartung (z.B. Rallye-Fortsetzung) bleibt gültig.
 
 ## Order-Flow-Testeinsatz (Single-Contract-Probe, 2026-Ergänzung)
 
