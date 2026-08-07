@@ -282,8 +282,8 @@ und `algo/README.md` (Modul-für-Modul-Doku); dieser Abschnitt hält die *Regeln
 
 **Zeit vor Preis.** Der Nutzer geht davon aus, dass ein oder mehrere Algorithmen den Preis zu
 bestimmten Uhrzeiten steuern (ICT-These "Time before Price"). Eine leicht falsche Zeitzuordnung
-macht jede Musteranalyse wertlos, selbst wenn die OHLC-Werte an sich stimmen — behandle
-Preis-Ungenauigkeiten als zweitrangig, Zeit-Fehler nicht. Verifiziere bei jeder Datenpipeline
+macht jede Musteranalyse wertlos, selbst wenn die OHLC-Werte an sich stimmen —
+ Verifiziere bei jeder Datenpipeline
 (Download, Resampling, Zeitzonen-Konvertierung) Timestamps aktiv gegen eine unabhängige Quelle
 (z.B. bestehende TradingView-Exporte gegenprüfen), bevor du Daten als fertig meldest. Setze die
 Datetime64-Auflösung immer explizit über `.as_unit("s")`, nie über manuelle Division — ein
