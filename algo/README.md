@@ -8,21 +8,33 @@ Zielgruppe ist der Nutzer selbst, ohne dass er den Code lesen muss.
 > Praezisions-Audit 2026-08-06: siehe
 > `docs/superpowers/specs/2026-08-06-algo-backtest-precision-audit-design.md` fuer den vollen
 > Hintergrund. Kernaenderung: `algo/pnl.py` bringt echten Dollar-P&L (Punktwert statt
-> Notional-Prozent) und konservative Behandlung mehrdeutiger Trades in jeden Report.
+> Notional-Prozent, netto nach Commission). Beim Umgang mit mehrdeutigen Trades sauber
+> unterscheiden: der **Anteil** solcher Trades (`dubious_pct`) steht in jedem Report
+> (`backtest_bt.py`, `validate.py`, `stress_test.py`) -- die **konservative Preiskorrektur**
+> (`flag_dubious`, Exit auf den Stop) fliesst dagegen nur in die "Echte $-P&L"-Zeile von
+> `backtest_bt.py` ein. WinRate/ProfitFactor/Return in `validate.py` und `stress_test.py`
+> bleiben unkorrigiert, `dubious_pct` sagt dort nur, wie gross die Unsicherheit ist.
 
 ## `pnl.py` -- Praezisions-Layer
 
 **Was:** Rechnet aus den rohen Preis-Trades der `backtesting`-Bibliothek den echten
 Dollar-Gewinn/Verlust (`real_pnl`), markiert Trades mit unklarer Stop/Ziel-Reihenfolge
 (`flag_dubious`, `dubious_pct`) und berechnet Risiko-basierte Kontraktgroessen (`risk_size`).
-**Wie:** Punktwert-Tabelle nur fuer genutzte Symbole (MNQ=$2, NQ=$20, ES=$50). Mehrdeutige
-Trades (Entry- und Exit-Zeit in derselben Kerze) werden konservativ als haetten sie den Stop
-getroffen bewertet, nicht dem optimistischen Ergebnis der Lib vertraut.
+**Wie:** Punktwert-Tabelle nur fuer genutzte Symbole (MNQ=$2, NQ=$20, ES=$50). `real_pnl` zieht
+die Commission ab, liefert also ein NETTO-Ergebnis. Mehrdeutige Trades (Entry- und Exit-Zeit in
+derselben Kerze) werden konservativ als haetten sie den Stop getroffen bewertet, nicht dem
+optimistischen Ergebnis der Lib vertraut. `risk_size` deckelt die Kontraktzahl optional per
+`max_notional` (= Equity x Hebel) -- ohne diesen Deckel storniert die Lib Orders mit engem Stop
+kommentarlos wegen fehlender Margin, was systematisch gegen genau diese Setups selektiert.
 **Warum:** Die `backtesting`-Lib rechnet P&L wie eine Aktie (Preisdifferenz * Stueckzahl ohne
 Punktwert) -- fuer MNQ ($2/Punkt) war dadurch sowohl die reale Positionsgroesse als auch der
 reale Dollar-Gewinn falsch (siehe Bug-Funde unten).
 **Bekannte Grenzen:** Punktwert-Tabelle deckt nur MNQ/NQ/ES ab; ein neues Symbol braucht einen
 neuen Eintrag, bevor `real_pnl`/`risk_size` dafuer nutzbar sind (wirft sonst `ValueError`).
+Ausserdem budgetiert `risk_size` gegen `Strategy.self.equity`, und das ist in den rohen
+Preispunkt-Einheiten der Lib denominiert, nicht in echten Dollar -- die 1 %-Zahl stimmt exakt
+fuer den ersten Trade und ist danach eine Naeherung (nach einem Drawdown eher zu gross). Details
+im Docstring von `risk_size`.
 
 ## `rules.py` -- Silver-Bullet-Regel (Signal-Schicht)
 
@@ -58,8 +70,17 @@ Setup wird eine Bracket-Order (Limit + SL + TP) platziert.
 Lib nutzte ihren Default (~99,99 % Kontoguthaben als Notional), nicht die im Wiki festgelegte
 1-%-Risiko-Regel. Jetzt: `pnl.risk_size()` bestimmt die Kontraktzahl, `main()` druckt zusaetzlich
 den echten $-P&L (`pnl.real_pnl`) und den Anteil mehrdeutiger Trades.
+**Bugs gefixt (Final Review 2026-08-06):** (a) ohne Margin-Deckel stornierte der Broker 60 von
+99 Setups kommentarlos -- ausgerechnet die mit engem Stop, also ein systematischer Bias; jetzt
+laeuft das Sizing ueber `pnl.risk_size(..., max_notional=equity*leverage)` wie im Ensemble.
+(b) Symbol wird nicht mehr ignoriert: `backtest_bt.py ES` nutzt jetzt ES' $50/Punkt statt MNQs
+$2/Punkt (vorher 25x zu grosse Positionen bei falscher Beschriftung).
 **Bekannte Grenzen:** Nutzt weiterhin `backtesting`s Equity-/Drawdown-Tracking in rohen
 Preispunkten (Sharpe/Return% sind Naeherungen), nur `RealPnL_USD` ist der echte Dollar-Wert.
+Limit-Orders verfallen ausserdem nie: ein Setup, dessen Entry-Preis erst Wochen spaeter beruehrt
+wird, fuellt trotzdem noch -- obwohl `rules.py` strikt intraday und fensterbezogen plant. Das
+erklaert die letzte verbleibende Margin-Stornierung eines Laufs und ist ein offener Punkt
+(braucht Order-Verfall am Fenster-/Tagesende, aendert die Trade-Population).
 
 ## `backtest_ensemble.py` -- RenTec-artiges Ensemble
 
