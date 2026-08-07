@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import load, at  # noqa: E402
 from backtest_org_ce import find_days  # noqa: E402
+from backtest_common import write_result  # noqa: E402
 
 BUCKETS = [0.5, 1.0, 1.5, 2.0, 3.0, 5.0, float("inf")]
 
@@ -78,7 +79,7 @@ def report(name: str, ks: list[float]) -> None:
         print(f"  {label:<12}{c:>4}  ({100 * c / len(ks):.1f}%)")
 
 
-def main() -> None:
+def run() -> dict:
     london_high, london_low, day_high, day_low = [], [], [], []
     days_used = 0
     for day, path in find_days():
@@ -97,17 +98,34 @@ def main() -> None:
         day_high.append(dh)
         day_low.append(dl)
 
-    print(f"{days_used} Handelstage mit Midnight-Range-Daten.")
-    print("\n-- Waehrend London (1:00-5:00 NY) -- These: 'max. Manipulation bis -1 STD' --")
-    report("London-Low unter Range-Tief", london_low)
-    report("London-High ueber Range-Hoch", london_high)
-    print("\n-- Ganzer Tag (0:30-17:00 NY) --")
-    report("Tages-Low unter Range-Tief", day_low)
-    report("Tages-High ueber Range-Hoch", day_high)
+    exceed_1std = (sum(1 for k in london_low if k > 1.0) / len(london_low)) if london_low else None
 
-    exceed_1std = sum(1 for k in london_low if k > 1.0) / len(london_low)
-    print(f"\nLondon-Low geht bei {100 * exceed_1std:.1f}% der Tage ueber -1 STD hinaus "
-          f"(These behauptet: das soll waehrend London selten/nie passieren).")
+    return {"days_used": days_used, "london_high": london_high, "london_low": london_low,
+            "day_high": day_high, "day_low": day_low,
+            "exceed_1std_pct": 100 * exceed_1std if exceed_1std is not None else None}
+
+
+def main() -> None:
+    result = run()
+    print(f"{result['days_used']} Handelstage mit Midnight-Range-Daten.")
+    print("\n-- Waehrend London (1:00-5:00 NY) -- These: 'max. Manipulation bis -1 STD' --")
+    report("London-Low unter Range-Tief", result["london_low"])
+    report("London-High ueber Range-Hoch", result["london_high"])
+    print("\n-- Ganzer Tag (0:30-17:00 NY) --")
+    report("Tages-Low unter Range-Tief", result["day_low"])
+    report("Tages-High ueber Range-Hoch", result["day_high"])
+
+    if result["exceed_1std_pct"] is not None:
+        print(f"\nLondon-Low geht bei {result['exceed_1std_pct']:.1f}% der Tage ueber -1 STD "
+              f"hinaus (These behauptet: das soll waehrend London selten/nie passieren).")
+
+    write_result("backtest_midnight_range_std", {
+        "days_used": result["days_used"], "exceed_1std_pct": result["exceed_1std_pct"],
+        "london_low_median": statistics.median(result["london_low"]) if result["london_low"] else None,
+        "london_high_median": statistics.median(result["london_high"]) if result["london_high"] else None,
+        "day_low_median": statistics.median(result["day_low"]) if result["day_low"] else None,
+        "day_high_median": statistics.median(result["day_high"]) if result["day_high"] else None,
+    })
 
 
 if __name__ == "__main__":

@@ -24,11 +24,11 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from backtest_seasonal import load_rows  # noqa: E402
+from backtest_common import load_rows, write_result  # noqa: E402
 from backtest_nwog import group_weeks  # noqa: E402
 
 
-def main() -> None:
+def run() -> dict:
     rows = load_rows()
     weeks_raw = group_weeks(rows)
     weeks = [w for w in weeks_raw if w[0]["day"].weekday() == 0 and len(w) >= 3]
@@ -51,28 +51,45 @@ def main() -> None:
         results.append({"week_start": w[0]["day"], "bullish": bullish,
                          "retrace_pct": retrace_pct, "in_zone": 20 <= retrace_pct <= 30})
 
-    print(f"{len(results)} Wochen mit TGIF-Daten.\n")
-
     hits = sum(1 for r in results if r["in_zone"])
-    print(f"1. Freitag-Close im 20-30%-Retracement-Fenster: {hits}/{len(results)} = "
-          f"{100 * hits / len(results):.1f}%")
-
     retraces = [r["retrace_pct"] for r in results]
-    print(f"\n2. Verteilung des tatsaechlichen Retracements (Median "
-          f"{statistics.median(retraces):.1f}%, Mittelwert {statistics.mean(retraces):.1f}%):")
+    wide = sum(1 for r in retraces if 15 <= r <= 35)
     buckets = [10, 20, 30, 40, 50, 70, 100]
+    bucket_counts = []
     prev = 0
     for b in buckets:
         c = sum(1 for r in retraces if prev <= r < b)
-        print(f"   {prev:>3}-{b:<3}%: {c:>3}  ({100 * c / len(retraces):.1f}%)")
+        bucket_counts.append([prev, b, c])
         prev = b
 
-    print(f"\n   Wochen bullish (Montag->vorletzter Tag): "
-          f"{sum(1 for r in results if r['bullish'])}/{len(results)}")
+    return {
+        "n_weeks": len(results), "hits": hits, "hit_pct": 100 * hits / len(results),
+        "median_retrace_pct": statistics.median(retraces),
+        "mean_retrace_pct": statistics.mean(retraces), "bucket_counts": bucket_counts,
+        "bullish_weeks": sum(1 for r in results if r["bullish"]),
+        "wide_hits": wide, "wide_pct": 100 * wide / len(retraces),
+    }
 
-    wide = sum(1 for r in retraces if 15 <= r <= 35)
+
+def main() -> None:
+    result = run()
+    n = result["n_weeks"]
+    print(f"{n} Wochen mit TGIF-Daten.\n")
+
+    print(f"1. Freitag-Close im 20-30%-Retracement-Fenster: {result['hits']}/{n} = "
+          f"{result['hit_pct']:.1f}%")
+
+    print(f"\n2. Verteilung des tatsaechlichen Retracements (Median "
+          f"{result['median_retrace_pct']:.1f}%, Mittelwert {result['mean_retrace_pct']:.1f}%):")
+    for prev, b, c in result["bucket_counts"]:
+        print(f"   {prev:>3}-{b:<3}%: {c:>3}  ({100 * c / n:.1f}%)")
+
+    print(f"\n   Wochen bullish (Montag->vorletzter Tag): {result['bullish_weeks']}/{n}")
+
     print(f"\n3. Grosszuegigeres Fenster (15-35%, statt exakt 20-30%): "
-          f"{wide}/{len(retraces)} = {100 * wide / len(retraces):.1f}%")
+          f"{result['wide_hits']}/{n} = {result['wide_pct']:.1f}%")
+
+    write_result("backtest_tgif", result)
 
 
 if __name__ == "__main__":

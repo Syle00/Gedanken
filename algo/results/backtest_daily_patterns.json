@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-08-07T20:42:19.487998+00:00",
+  "n_days": 150,
+  "date_range": [
+    "2026-01-02",
+    "2026-08-07"
+  ],
+  "weekday": {
+    "Mo": {
+      "n": 28,
+      "median_range": 551.0,
+      "bullish_pct": 78.6
+    },
+    "Di": {
+      "n": 31,
+      "median_range": 510.0,
+      "bullish_pct": 48.4
+    },
+    "Mi": {
+      "n": 31,
+      "median_range": 509.0,
+      "bullish_pct": 51.6
+    },
+    "Do": {
+      "n": 31,
+      "median_range": 476.0,
+      "bullish_pct": 48.4
+    },
+    "Fr": {
+      "n": 29,
+      "median_range": 462.75,
+      "bullish_pct": 48.3
+    }
+  },
+  "range_autocorr": 0.3045613307425415,
+  "range_autocorr_n": 149,
+  "after_bull_pct": 58.02469135802469,
+  "after_bull_n": 81,
+  "after_bear_pct": 51.470588235294116,
+  "after_bear_n": 68,
+  "round_number_avg_dist": 12.236666666666666,
+  "round_number_n": 300
+}

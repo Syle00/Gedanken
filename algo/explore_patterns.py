@@ -27,6 +27,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import load, at  # noqa: E402
+from backtest_common import pearson  # noqa: E402
 from backtest_org_ce import find_days  # noqa: E402
 
 WEEKDAY_NAMES = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
@@ -44,17 +45,6 @@ def day_stats(bars, day) -> dict | None:
         "high": hi_bar.h, "low": lo_bar.l,
         "high_hour": hi_bar.t.hour, "low_hour": lo_bar.t.hour,
     }
-
-
-def pearson(xs: list[float], ys: list[float]) -> float | None:
-    n = len(xs)
-    if n < 3:
-        return None
-    mx, my = statistics.mean(xs), statistics.mean(ys)
-    cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
-    sx = sum((x - mx) ** 2 for x in xs) ** 0.5
-    sy = sum((y - my) ** 2 for y in ys) ** 0.5
-    return cov / (sx * sy) if sx > 0 and sy > 0 else None
 
 
 def main() -> None:

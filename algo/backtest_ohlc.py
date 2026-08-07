@@ -31,6 +31,9 @@ from analyze_ohlc import (  # noqa: E402
     TF_MINUTES, CFG,
 )
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from backtest_common import write_result  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "raw" / "marktdaten"
 BASE_TF = "5m"
@@ -249,6 +252,17 @@ def report(rows: list[tuple[date, str, dict]]) -> list[str]:
     return L
 
 
+def run(symbol: str = "MNQ") -> dict:
+    days = find_days(symbol)
+    rows = [(day, sym, analyze_day(day, path)) for day, sym, path in days]
+    rows = [r for r in rows if r[2]]
+    agg = {}
+    for _, _, r in rows:
+        for k, v in r.items():
+            agg[k] = agg.get(k, 0) + v
+    return {"symbol": symbol, "n_days": len(rows), "rows": rows, "agg": agg}
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description=__doc__,
@@ -258,17 +272,17 @@ def main(argv=None):
     a = ap.parse_args(argv)
     sys.stdout.reconfigure(encoding="utf-8")
 
-    days = find_days(a.symbol)
-    rows = [(day, sym, analyze_day(day, path)) for day, sym, path in days]
-    rows = [r for r in rows if r[2]]
-
-    lines = report(rows)
+    result = run(a.symbol)
+    lines = report(result["rows"])
     text = "\n".join(lines)
     if a.out:
         Path(a.out).write_text(text, encoding="utf-8")
-        print(f"geschrieben: {a.out} ({len(rows)} Handelstag(e))")
+        print(f"geschrieben: {a.out} ({result['n_days']} Handelstag(e))")
     else:
         print(text)
+
+    write_result("backtest_ohlc", {"symbol": result["symbol"], "n_days": result["n_days"],
+                                    "agg": result["agg"]})
 
 
 if __name__ == "__main__":

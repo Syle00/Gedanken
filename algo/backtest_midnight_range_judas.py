@@ -32,6 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import load, at, fvgs  # noqa: E402
 from backtest_org_ce import find_days  # noqa: E402
 from backtest_midnight_range_std import session_range  # noqa: E402
+from backtest_common import write_result  # noqa: E402
 
 # (Label, Range-Fenster, Test-Fenster) -- alle drei per Rohquelle als eigene Opening Range
 # mit "1. presented FVG" bestaetigt (siehe algo/PLAN.md-Log).
@@ -103,8 +104,8 @@ def report(name: str, results: list[dict], range_label: str, window_label: str) 
             print(f"     {label:<12}{c:>4}  ({100 * c / len(manip_ks):.1f}%)")
 
 
-def run_backtest(label: str, range_hm: tuple, range_end_hm: tuple,
-                  test_start_hm: tuple, test_end_hm: tuple, use_fvg: bool = False) -> None:
+def compute_session(label: str, range_hm: tuple, range_end_hm: tuple,
+                     test_start_hm: tuple, test_end_hm: tuple, use_fvg: bool = False) -> dict:
     low_results, high_results = [], []
     either_count = both_count = days_used = 0
     for day, path in find_days():
@@ -126,31 +127,53 @@ def run_backtest(label: str, range_hm: tuple, range_end_hm: tuple,
 
     range_label = f"{range_hm[0]:02d}:{range_hm[1]:02d}-{range_end_hm[0]:02d}:{range_end_hm[1]:02d}"
     window_label = f"{test_start_hm[0]:02d}:{test_start_hm[1]:02d}-{test_end_hm[0]:02d}:{test_end_hm[1]:02d}"
-    print(f"\n{'=' * 70}\n{label} (Range {range_label}"
-          f"{' , groesstes FVG darin' if use_fvg else ''}, Testfenster {window_label}) "
-          f"-- {days_used} Tage")
-    report("Sellside (unter Range-Low)", low_results, range_label, window_label)
-    report("Buyside (ueber Range-High)", high_results, range_label, window_label)
+    return {"label": label, "range_label": range_label, "window_label": window_label,
+            "use_fvg": use_fvg, "days_used": days_used, "low_results": low_results,
+            "high_results": high_results, "either_count": either_count, "both_count": both_count}
 
-    if days_used == 0:
+
+def print_session(data: dict) -> None:
+    print(f"\n{'=' * 70}\n{data['label']} (Range {data['range_label']}"
+          f"{' , groesstes FVG darin' if data['use_fvg'] else ''}, Testfenster {data['window_label']}) "
+          f"-- {data['days_used']} Tage")
+    report("Sellside (unter Range-Low)", data["low_results"], data["range_label"], data["window_label"])
+    report("Buyside (ueber Range-High)", data["high_results"], data["range_label"], data["window_label"])
+
+    if data["days_used"] == 0:
         return
-    set_in_range = sum(1 for r in low_results + high_results if r["status"] == "no_extension")
+    days_used = data["days_used"]
+    set_in_range = sum(1 for r in data["low_results"] + data["high_results"]
+                        if r["status"] == "no_extension")
     print(f"\nInsgesamt {set_in_range}/{2 * days_used} Seiten "
           f"({100 * set_in_range / (2 * days_used):.1f}%) im Testfenster ueberhaupt nicht "
-          f"durchbrochen -- fuer diese haelt die These 'High/Low in {range_label} gesetzt' woertlich.")
-    print(f"Pro Tag (High ODER Low): an {either_count}/{days_used} Tagen "
-          f"({100 * either_count / days_used:.1f}%) wurde mindestens eine Seite nicht "
-          f"durchbrochen -- an {both_count}/{days_used} Tagen beide.")
+          f"durchbrochen -- fuer diese haelt die These 'High/Low in {data['range_label']} gesetzt' woertlich.")
+    print(f"Pro Tag (High ODER Low): an {data['either_count']}/{days_used} Tagen "
+          f"({100 * data['either_count'] / days_used:.1f}%) wurde mindestens eine Seite nicht "
+          f"durchbrochen -- an {data['both_count']}/{days_used} Tagen beide.")
 
 
-def main() -> None:
-    for label, r_start, r_end, t_start, t_end in SESSIONS:
-        run_backtest(label, r_start, r_end, t_start, t_end)
+def run() -> dict:
+    sessions = [compute_session(label, r_start, r_end, t_start, t_end)
+                for label, r_start, r_end, t_start, t_end in SESSIONS]
     # Zusatzthese: nicht die rohe Kerzen-Range, sondern das groesste FVG *innerhalb* der
     # Midnight Range als STD-Basiseinheit (wiki: "gerade beim 1. presented Displacement
     # werden diese Level ueber die London Session hinweg respektiert").
-    run_backtest("Midnight/London ORG -- groesstes FVG statt Kerzen-Range",
-                 (0, 0), (0, 30), (0, 30), (5, 0), use_fvg=True)
+    sessions.append(compute_session(
+        "Midnight/London ORG -- groesstes FVG statt Kerzen-Range",
+        (0, 0), (0, 30), (0, 30), (5, 0), use_fvg=True))
+    return {"sessions": sessions}
+
+
+def main() -> None:
+    result = run()
+    for data in result["sessions"]:
+        print_session(data)
+
+    summary = [{"label": s["label"], "days_used": s["days_used"],
+                "either_pct": 100 * s["either_count"] / s["days_used"] if s["days_used"] else None,
+                "both_pct": 100 * s["both_count"] / s["days_used"] if s["days_used"] else None}
+               for s in result["sessions"]]
+    write_result("backtest_midnight_range_judas", {"sessions": summary})
 
 
 if __name__ == "__main__":

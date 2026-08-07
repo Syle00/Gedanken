@@ -36,7 +36,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from backtest_seasonal import load_rows  # noqa: E402
+from backtest_common import load_rows, write_result  # noqa: E402
 from backtest_nwog import group_weeks  # noqa: E402
 
 FRED_DIR = Path(__file__).resolve().parent.parent / "raw" / "marktdaten" / "fred"
@@ -59,35 +59,27 @@ def nearest_on_or_before(series: dict[date, float], d: date, lookback: int = 5) 
     return None
 
 
-def main() -> None:
+def run() -> dict:
     rows = load_rows()
-    print(f"{len(rows)} MNQ-Handelstage ({rows[0]['day']} bis {rows[-1]['day']}).\n")
-
-    print("Hinweis: CPI-/FOMC-Reaktionstest bewusst NICHT gebaut -- FRED liefert kein "
-          "Release-Datum fuer CPI und im Datenfenster gab es keine FOMC-Zielsatzaenderung "
-          "(n=0). Details im Modul-Docstring. Stattdessen VIX/DGS10/WALCL-Zusammenhaenge:\n")
-
     vix = load_fred("VIXCLS")
     dgs10 = load_fred("DGS10")
     walcl = load_fred("WALCL")
 
-    # 1. VIX-Niveau-Regime
     with_vix = [(r, nearest_on_or_before(vix, r["day"])) for r in rows]
     with_vix = [(r, v) for r, v in with_vix if v is not None]
     with_vix.sort(key=lambda t: t[1])
     n = len(with_vix)
     tercile = n // 3
     low, mid, high = with_vix[:tercile], with_vix[tercile:-tercile], with_vix[-tercile:]
-    print(f"1. VIX-Niveau-Regime (n={n}, Terzile):")
+    regimes = {}
     for name, bucket in [("niedrig", low), ("mittel", mid), ("hoch", high)]:
         ranges = [r["range"] for r, _ in bucket]
         abs_rets = [abs(r["ret_pct"]) for r, _ in bucket]
-        vix_range = f"{bucket[0][1]:.1f}-{bucket[-1][1]:.1f}"
-        print(f"   VIX {name:>7} ({vix_range:>11}): n={len(bucket):>2}  "
-              f"Median-Range={statistics.median(ranges):>7.1f}  "
-              f"Avg|Rendite|={statistics.mean(abs_rets):.2f}%")
+        regimes[name] = {
+            "n": len(bucket), "vix_range": [bucket[0][1], bucket[-1][1]],
+            "median_range": statistics.median(ranges), "avg_abs_ret_pct": statistics.mean(abs_rets),
+        }
 
-    # 2. VIX-Aenderung vs. MNQ-Rendite
     vix_delta, mnq_ret = [], []
     prev_vix = None
     for r in rows:
@@ -98,10 +90,7 @@ def main() -> None:
         if v is not None:
             prev_vix = v
     corr_vix = statistics.correlation(vix_delta, mnq_ret) if len(vix_delta) >= 2 else None
-    print(f"\n2. VIX-Tagesaenderung vs. MNQ-Tagesrendite: n={len(vix_delta)}  "
-          f"Korrelation={corr_vix:+.3f}" if corr_vix is not None else "\n2. zu wenig Daten")
 
-    # 3. DGS10-Aenderung vs. MNQ-Rendite
     dgs_delta, mnq_ret2 = [], []
     prev_dgs = None
     for r in rows:
@@ -112,10 +101,7 @@ def main() -> None:
         if v is not None:
             prev_dgs = v
     corr_dgs = statistics.correlation(dgs_delta, mnq_ret2) if len(dgs_delta) >= 2 else None
-    print(f"3. DGS10-Tagesaenderung vs. MNQ-Tagesrendite: n={len(dgs_delta)}  "
-          f"Korrelation={corr_dgs:+.3f}" if corr_dgs is not None else "3. zu wenig Daten")
 
-    # 4. WALCL (woechentlich) wachsend/schrumpfend vs. MNQ-Wochenrendite
     weeks = [w for w in group_weeks(rows) if len(w) >= 2]
     grow, shrink = [], []
     prev_walcl = None
@@ -127,13 +113,56 @@ def main() -> None:
         if prev_walcl is not None:
             (grow if v > prev_walcl else shrink).append(week_ret)
         prev_walcl = v
-    print(f"\n4. WALCL-Trend vs. MNQ-Wochenrendite:")
-    if grow:
-        print(f"   Bilanz waechst  (n={len(grow):>2}): Avg-Wochenrendite {statistics.mean(grow):+.2f}%")
-    if shrink:
-        print(f"   Bilanz schrumpft(n={len(shrink):>2}): Avg-Wochenrendite {statistics.mean(shrink):+.2f}%")
-    if not grow or not shrink:
+
+    return {
+        "n_days": len(rows), "first_day": rows[0]["day"], "last_day": rows[-1]["day"],
+        "vix_regimes": regimes,
+        "vix_delta_corr": corr_vix, "vix_delta_n": len(vix_delta),
+        "dgs10_delta_corr": corr_dgs, "dgs10_delta_n": len(dgs_delta),
+        "walcl_grow_avg_week_ret": statistics.mean(grow) if grow else None, "walcl_grow_n": len(grow),
+        "walcl_shrink_avg_week_ret": statistics.mean(shrink) if shrink else None,
+        "walcl_shrink_n": len(shrink),
+    }
+
+
+def main() -> None:
+    result = run()
+    print(f"{result['n_days']} MNQ-Handelstage ({result['first_day']} bis {result['last_day']}).\n")
+
+    print("Hinweis: CPI-/FOMC-Reaktionstest bewusst NICHT gebaut -- FRED liefert kein "
+          "Release-Datum fuer CPI und im Datenfenster gab es keine FOMC-Zielsatzaenderung "
+          "(n=0). Details im Modul-Docstring. Stattdessen VIX/DGS10/WALCL-Zusammenhaenge:\n")
+
+    vix_n = sum(s["n"] for s in result["vix_regimes"].values())
+    print(f"1. VIX-Niveau-Regime (n={vix_n}, Terzile):")
+    for name, s in result["vix_regimes"].items():
+        vix_range = f"{s['vix_range'][0]:.1f}-{s['vix_range'][1]:.1f}"
+        print(f"   VIX {name:>7} ({vix_range:>11}): n={s['n']:>2}  "
+              f"Median-Range={s['median_range']:>7.1f}  Avg|Rendite|={s['avg_abs_ret_pct']:.2f}%")
+
+    if result["vix_delta_corr"] is not None:
+        print(f"\n2. VIX-Tagesaenderung vs. MNQ-Tagesrendite: n={result['vix_delta_n']}  "
+              f"Korrelation={result['vix_delta_corr']:+.3f}")
+    else:
+        print("\n2. zu wenig Daten")
+
+    if result["dgs10_delta_corr"] is not None:
+        print(f"3. DGS10-Tagesaenderung vs. MNQ-Tagesrendite: n={result['dgs10_delta_n']}  "
+              f"Korrelation={result['dgs10_delta_corr']:+.3f}")
+    else:
+        print("3. zu wenig Daten")
+
+    print("\n4. WALCL-Trend vs. MNQ-Wochenrendite:")
+    if result["walcl_grow_avg_week_ret"] is not None:
+        print(f"   Bilanz waechst  (n={result['walcl_grow_n']:>2}): "
+              f"Avg-Wochenrendite {result['walcl_grow_avg_week_ret']:+.2f}%")
+    if result["walcl_shrink_avg_week_ret"] is not None:
+        print(f"   Bilanz schrumpft(n={result['walcl_shrink_n']:>2}): "
+              f"Avg-Wochenrendite {result['walcl_shrink_avg_week_ret']:+.2f}%")
+    if result["walcl_grow_avg_week_ret"] is None or result["walcl_shrink_avg_week_ret"] is None:
         print("   zu wenig Wochen fuer beide Gruppen im aktuellen Fenster")
+
+    write_result("backtest_fred_events", result)
 
 
 if __name__ == "__main__":

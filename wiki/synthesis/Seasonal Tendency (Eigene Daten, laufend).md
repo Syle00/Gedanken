@@ -1,7 +1,7 @@
 ---
 tags: [synthesis, algo, backtest, generiert, seasonal]
 created: 2026-08-04
-updated: 2026-08-04
+updated: 2026-08-07
 sources: ["[[../../algo/backtest_seasonal.py]]", "[[../../algo/seasonal_tendency.json]]"]
 ---
 
@@ -57,10 +57,18 @@ liegen überhaupt im TOM-Fenster. Die übrigen 21 „reinen" Montage (kein TOM-O
 Extern sehr gut belegtes Phänomen (Kunkel/Compton/Beyer 2003, McConnell/Xu 2008 — siehe Links
 unten). Fenster = letzter Handelstag des Monats + erste 3 Handelstage des Folgemonats.
 
+> ✅ Korrektur (2026-08-07): Die `Rest des Monats`-Zeile war durch einen Doppelzaehlungs-Bug in
+> `turn_of_month()` (`algo/backtest_seasonal.py`) verzerrt — die alte Akkumulation zaehlte Tage
+> 4..Monatsende jedes Monats zweifach (`rs[:-1]` der eigenen Iteration UND `nrs[3:]` der
+> Vor-Iteration ueberschnitten sich). Erkennbar allein an der Summe: Fenster (n=28) + Rest
+> (n=221) = 249, mehr als die damals 147 Handelstage insgesamt. Fix: `rest` wird jetzt direkt
+> als Komplement von `tom_days` ueber alle `rows` berechnet. Zahlen unten aktualisiert (Stand
+> 150 Handelstage, 2026-01-02 bis 2026-08-07) — Fenster+Rest = 150 stimmt jetzt exakt.
+
 | | n | Bullish % | Ø-Tagesrendite | Ø-Range |
 |---|---|---|---|---|
-| TOM-Fenster | 28 | **64,3** | **+0,341 %** | 544,47 |
-| Rest des Monats | 221 | 52,5 | +0,070 % | 577,97 |
+| TOM-Fenster | 29 | **62,1** | **+0,419 %** | 580,64 |
+| Rest des Monats | 121 | 52,9 | +0,071 % | 562,39 |
 
 Bislang der robusteste Fund auf dieser Seite: extern **und** in den eigenen Daten bestätigt.
 Nicht größer in der Range, aber deutlich einseitiger bullish.

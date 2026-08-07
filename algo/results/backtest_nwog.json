@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-08-07T21:04:28.201289+00:00",
+  "n_weeks": 28,
+  "gap_range_corr": 0.2346224792575112,
+  "intact_pct": 7.142857142857143,
+  "intact_n": 2,
+  "intact_after_monday_pct": 10.714285714285714,
+  "intact_after_monday_n": 3,
+  "same_dir_pct": 50.0,
+  "same_dir_n": 14,
+  "high_day_counts": {
+    "Mo": 4,
+    "Di": 7,
+    "Mi": 9,
+    "Do": 2,
+    "Fr": 6
+  },
+  "low_day_counts": {
+    "Mo": 9,
+    "Di": 8,
+    "Mi": 4,
+    "Do": 0,
+    "Fr": 7
+  }
+}

@@ -31,21 +31,10 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from backtest_seasonal import load_rows  # noqa: E402
+from backtest_common import load_rows, pearson, write_result  # noqa: E402
 
 
-def pearson(xs: list[float], ys: list[float]) -> float | None:
-    n = len(xs)
-    if n < 3:
-        return None
-    mx, my = statistics.mean(xs), statistics.mean(ys)
-    cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
-    sx = sum((x - mx) ** 2 for x in xs) ** 0.5
-    sy = sum((y - my) ** 2 for y in ys) ** 0.5
-    return cov / (sx * sy) if sx > 0 and sy > 0 else None
-
-
-def main() -> None:
+def run() -> dict:
     rows = load_rows()
     gaps = []
     for i in range(1, len(rows)):
@@ -55,27 +44,48 @@ def main() -> None:
         gaps.append({"day": rows[i]["day"], "gap": gap, "filled": filled,
                       "range": rows[i]["range"], "day_ret": rows[i]["close"] - rows[i]["open"]})
 
-    print(f"{len(gaps)} Handelstage mit NDOG-Daten.\n")
-
     abs_gaps = [abs(g["gap"]) for g in gaps]
     ranges = [g["range"] for g in gaps]
     corr = pearson(abs_gaps, ranges)
-    print(f"1. Korrelation |NDOG-Gap| vs. Tagesrange: r={corr:.3f} (n={len(gaps)})")
 
     filled = sum(1 for g in gaps if g["filled"])
-    print(f"\n2. NDOG-Fill-Quote (selber Tag): {filled}/{len(gaps)} = "
-          f"{100 * filled / len(gaps):.1f}%")
     med_gap = statistics.median(abs_gaps)
     small = [g for g in gaps if abs(g["gap"]) <= med_gap]
     big = [g for g in gaps if abs(g["gap"]) > med_gap]
-    for label, sub, op in (("Kleine Gaps", small, "<="), ("Grosse Gaps", big, ">")):
-        f = sum(1 for g in sub if g["filled"])
-        print(f"   {label} ({op} Median {med_gap:.1f} Pkt.): "
-              f"{f}/{len(sub)} = {100 * f / len(sub):.1f}% (n={len(sub)})")
-
+    small_gap_fill_n = sum(1 for g in small if g["filled"])
+    big_gap_fill_n = sum(1 for g in big if g["filled"])
     same_dir = sum(1 for g in gaps if (g["gap"] > 0) == (g["day_ret"] > 0))
+
+    return {
+        "n_days": len(gaps), "gap_range_corr": corr, "fill_pct": 100 * filled / len(gaps),
+        "fill_n": filled, "median_abs_gap": med_gap,
+        "small_gap_fill_n": small_gap_fill_n,
+        "small_gap_fill_pct": 100 * small_gap_fill_n / len(small),
+        "small_gap_n": len(small),
+        "big_gap_fill_n": big_gap_fill_n,
+        "big_gap_fill_pct": 100 * big_gap_fill_n / len(big),
+        "big_gap_n": len(big),
+        "same_dir_pct": 100 * same_dir / len(gaps), "same_dir_n": same_dir,
+    }
+
+
+def main() -> None:
+    result = run()
+    n = result["n_days"]
+    print(f"{n} Handelstage mit NDOG-Daten.\n")
+
+    print(f"1. Korrelation |NDOG-Gap| vs. Tagesrange: r={result['gap_range_corr']:.3f} (n={n})")
+
+    print(f"\n2. NDOG-Fill-Quote (selber Tag): {result['fill_n']}/{n} = {result['fill_pct']:.1f}%")
+    print(f"   Kleine Gaps (<= Median {result['median_abs_gap']:.1f} Pkt.): "
+          f"{result['small_gap_fill_n']}/{result['small_gap_n']} = {result['small_gap_fill_pct']:.1f}% (n={result['small_gap_n']})")
+    print(f"   Grosse Gaps (> Median {result['median_abs_gap']:.1f} Pkt.): "
+          f"{result['big_gap_fill_n']}/{result['big_gap_n']} = {result['big_gap_fill_pct']:.1f}% (n={result['big_gap_n']})")
+
     print(f"\n3. Gap-Richtung = Tagesrichtung (Fortsetzung statt Fade): "
-          f"{same_dir}/{len(gaps)} = {100 * same_dir / len(gaps):.1f}%")
+          f"{result['same_dir_n']}/{n} = {result['same_dir_pct']:.1f}%")
+
+    write_result("backtest_ndog", result)
 
 
 if __name__ == "__main__":

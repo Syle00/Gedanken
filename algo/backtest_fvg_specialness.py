@@ -26,6 +26,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import load, fvgs, at  # noqa: E402
 from backtest_org_ce import find_days  # noqa: E402
+from backtest_common import write_result  # noqa: E402
 
 
 def classify(day, gaps):
@@ -51,7 +52,7 @@ def stats(gaps: list[dict]) -> dict:
     }
 
 
-def main() -> None:
+def run() -> dict:
     groups: dict[str, list[dict]] = {"first_930": [], "first_midnight": [],
                                       "first_of_hour": [], "rest": []}
     days_used = 0
@@ -83,11 +84,17 @@ def main() -> None:
     assert len(groups["first_930"]) <= days_used, groups["first_930"]
     assert len(groups["first_midnight"]) <= days_used, groups["first_midnight"]
 
-    print(f"{days_used} Handelstage mit FVG-Daten.\n")
+    return {"days_used": days_used, "group_stats": {name: stats(gaps) for name, gaps in groups.items()}}
+
+
+def main() -> None:
+    result = run()
+    print(f"{result['days_used']} Handelstage mit FVG-Daten.\n")
     print(f"{'Gruppe':<16}{'n':>6}{'Fill%':>8}{'CE-Hit%':>10}{'AvgSize':>10}")
-    for name, gaps in groups.items():
-        s = stats(gaps)
+    for name, s in result["group_stats"].items():
         print(f"{name:<16}{s['n']:>6}{s['filled']:>8.1f}{s['ce_hit']:>10.1f}{s['avg_size']:>10.2f}")
+
+    write_result("backtest_fvg_specialness", result)
 
 
 if __name__ == "__main__":

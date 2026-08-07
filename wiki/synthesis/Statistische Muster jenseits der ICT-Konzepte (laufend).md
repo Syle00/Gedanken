@@ -1,7 +1,7 @@
 ---
 tags: [synthesis, algo, backtest, generiert]
 created: 2026-08-04
-updated: 2026-08-04
+updated: 2026-08-08
 sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_ndog.py]]", "[[../../algo/backtest_nwog.py]]", "[[../../algo/backtest_tgif.py]]"]
 ---
 
@@ -9,10 +9,22 @@ sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_pat
 
 Reine Datenexploration ohne vorab formulierte ICT-These — Gegenstück zu den `backtest_*.py`-
 Skripten, die eine konkrete Nutzeraussage prüfen. Ziel: Muster finden, die (noch) nicht als
-benanntes Konzept im Wiki stehen. Zwei Stichproben: `algo/explore_patterns.py` (n≈34 Tage,
+benanntes Konzept im Wiki stehen. Zwei Stichproben: `algo/explore_patterns.py` (n=43 Tage,
 1m/5m-Auflösung, RTH 9:30–16:00) und `algo/backtest_daily_patterns.py` (n=147 Tage, 1d-Bars,
 volle Globex-Session, 2026-01-02 bis 2026-08-04 — die 1d-Auflösung hat bei yfinance kein
 30/60-Tage-Limit, deshalb die deutlich größere Stichprobe).
+
+> ✅ Korrektur (2026-08-08): Die `explore_patterns.py`-Zahlen unten (n≈34, r=-0,07, 33,3 %)
+> waren durch einen Bug in der gemeinsam genutzten `find_days()` (`algo/backtest_org_ce.py`)
+> verzerrt — ohne Symbol-Filter griff sie faktisch deterministisch zugunsten von ES statt MNQ
+> (alphabetisch vor MNQ, kein `sorted()` auf die Kandidatenliste), 40 von 45 betroffenen Tagen
+> lieferten die ES- statt der MNQ-Datei. `explore_patterns.py` lief also grossteils auf dem
+> falschen Instrument. Fix (Task 8, 2026-08-07): `find_days(symbol="MNQ")` filtert jetzt
+> korrekt. Zahlen unten auf einen frischen Lauf mit echten MNQ-Daten aktualisiert (n=43 statt
+> ≈34 — die Differenz ist ueberwiegend seit 2026-08-04 gewachsener `raw/marktdaten/`-Bestand,
+> nicht der Bug selbst). Details: `algo/PLAN.md`-Log vom 2026-08-07. Die `backtest_daily_patterns.py`-Zahlen
+> (n=147, Punkt 1–3 grosse Stichprobe) nutzen `find_1d_days()` aus `backtest_common.py`, einen
+> anderen, vom Bug nicht betroffenen Pfad — die bleiben unveraendert.
 
 > **Alle kalendarischen Muster** (Wochentag, Turn-of-Month, Woche-im-Monat, Monatszahlen)
 > stehen jetzt auf der eigenen Datenbank-Seite
@@ -26,16 +38,17 @@ volle Globex-Session, 2026-01-02 bis 2026-08-04 — die 1d-Auflösung hat bei yf
 > [[../../CLAUDE.md]]), weil es hier keine zwei gleichwertigen Lehrmeinungen gibt, sondern eine
 > einzige nachpruefbare Zahl.
 
-> ⚠️ Bei der kleinen Stichprobe (n≈34) zeigten sich unten teils andere Vorzeichen als bei der
-> großen (n=147, siehe Punkt 1 und Punkt 2 unten) — ein Hinweis, dass n≈34 für
-> Autokorrelations-Aussagen zu instabil ist. Wo beide vorliegen, zählt die n=147-Zahl mehr.
+> ⚠️ Bei der kleinen Stichprobe (n=43) bleiben Punkt 1 und Punkt 2 deutlich schwächer als bei
+> der großen (n=147, siehe unten) — ein Hinweis, dass n=43 für Autokorrelations-Aussagen zu
+> instabil ist. Wo beide vorliegen, zählt die n=147-Zahl mehr.
 
 ## 1. Range-Autokorrelation: echtes Volatility Clustering
 
 Pearson r = **0,305** (n=146) zwischen der Tagesrange und der Range des Vortags — ein
 moderater, positiver Zusammenhang. Auf einen Tag mit großer Range folgt statistisch eher
 wieder ein Tag mit großer Range (und umgekehrt), nicht das Gegenteil. Bei der kleinen
-Stichprobe war das noch nicht sichtbar (r=-0,07, im Rauschen) — auch das erst ab n=147 klar.
+Stichprobe zeigt sich derselbe Trend, aber viel schwächer (r=0,038, n=42) — deutlich klarer
+erst ab n=147.
 
 **Praktische Lesart**: nach einem ungewöhnlich großen Tag eher mit einem weiteren
 Expansions-Tag rechnen statt automatisch eine ruhigere Konsolidierung zu erwarten.
@@ -46,8 +59,9 @@ Expansions-Tag rechnen statt automatisch eine ruhigere Konsolidierung zu erwarte
 - Nach bearishem Tag: 51,5 % bullish am nächsten Tag (n=66) — praktisch Zufall.
 
 Schwächer als der Range-Effekt, aber in dieselbe Richtung (Fortsetzung statt Umkehr), zumindest
-nach bullishen Tagen. Bei n≈34 zeigte sich hier fälschlich das Gegenteil (33,3 % nach bullish —
-Reversion) — noch ein Beleg, dass die kleine Stichprobe nicht tragfähig war.
+nach bullishen Tagen. Bei der kleinen Stichprobe (n=43) zeigt sich ein schwächeres,
+uneindeutiges Signal (47,1 % nach bullish, n=17; 40,0 % nach bearish, n=25) — bei diesem n
+im Rauschen, kein klarer Widerspruch mehr zur großen Stichprobe.
 
 ## 3. Rundzahl-Magnetismus: kein Effekt
 
