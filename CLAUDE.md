@@ -411,3 +411,13 @@ für die Modul-für-Modul-Doku, `algo/PLAN.md` für Stand/Backlog/Log). Kernkomp
 (Validierung), `live_status.py` (Live-Loop), `selfcheck.py` (Regressionscheck). Symbol-Punktwerte
 aktuell: MNQ=$2, NQ=$20, ES=$50 — ein neues Symbol braucht einen neuen Eintrag in `pnl.py`, bevor
 `real_pnl`/`risk_size` dafür nutzbar sind.
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+Rules:
+- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- For broad navigation use `wiki/index.md` (the curated catalog) rather than raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
