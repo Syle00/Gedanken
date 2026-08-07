@@ -30,6 +30,7 @@ from backtesting import Backtest
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from backtest_seasonal import load_rows  # noqa: E402
 from backtest_ensemble import EnsembleStrategy, fit_model, bias_series  # noqa: E402
+from pnl import dubious_pct  # noqa: E402
 
 BT_KWARGS = dict(cash=100_000, margin=0.05, commission=0.0002)
 
@@ -73,7 +74,11 @@ def run_window(name: str, start: date, end: date) -> None:
           f"MNQ-P&L, margin=0.05 (20x Hebel), Tages-Fallback (intraday=False) OHNE "
           f"Stop-Loss -- die Drawdown-Zahl unten ist Hebel-Mechanik, kein Modellversagen) --")
     print(f"   Trades={stats['# Trades']}  Max-Drawdown={stats['Max. Drawdown [%]']:.1f}%  "
-          f"Profit-Factor={pf_str}")
+          f"Profit-Factor={pf_str}  Dubious%={dubious_pct(stats._trades):.1f}")
+    print("   Hinweis (2026-08-06-Audit): pnl.real_pnl() wird hier bewusst NICHT aufgerufen -- "
+          "der Tages-Fallback-Modus sized ueber Equity-Fraction (~99.99%), nicht ueber echte "
+          "Kontrakte, ein $-Betrag waere darum irrefuehrend genau. Offener Punkt fuer einen "
+          "eigenen Spec, falls dieser Modus je fuer echten Handel genutzt wird.")
 
 
 def main(argv=None) -> int:
