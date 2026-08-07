@@ -2,10 +2,10 @@
 
 > Diese Datei ist deine aktive Projektinstruktion. Seit 2026-08-07 ist sie die Weiterentwicklung
 > der Vorgängerfassung `CLAUDE.1.0.md` (im Repo-Root, unverändert als Rollback-Punkt erhalten) —
-> wende zusätzlich zu 1.0 auch die hier neu hinzugekommene Arbeitsweise, Standards und Zielbild
-> an. Vieles davon lag vorher nur in Cross-Session-Memory, nicht im Repo selbst. Diese Fassung
-> läuft aktuell in der Testphase; bei Bedarf benenne einfach `CLAUDE.1.0.md` zurück zu
-> `CLAUDE.md`.
+> sie hält fest, was gegenüber 1.0 an Arbeitsweise, Standards und Zielbild dazugekommen ist.
+> Vieles davon lag vorher nur in Cross-Session-Memory, nicht im Repo selbst. Diese Fassung
+> läuft aktuell in der Testphase; bei Bedarf lässt sich `CLAUDE.1.0.md` einfach zurück auf
+> `CLAUDE.md` benennen.
 
 ## Sprache
 
@@ -31,7 +31,7 @@ aktuellen Umsetzungsstand, die Backlog-Punkte und das laufende Log `algo/PLAN.md
 Dokument dupliziert das nicht, sondern hält den *Rahmen* fest, in dem sich `algo/PLAN.md` bewegt.
 
 Behandle das gesamte Wiki-System (Layer 1–3 unten) als Quelle für testbare Handelsregeln, weil
-die ICT/SMC-Konzepte im Vault dafür da sind: Gilt eine Wiki-Seite wie [[Silver Bullet Model]] erst
+die ICT/SMC-Konzepte im Vault dafür da sind: Eine Wiki-Seite wie [[Silver Bullet Model]] gilt erst
 dann als fertig verarbeitet, wenn du sie — sobald genug Daten vorliegen — als
 `algo/rules.py`-Regel kodiert und gegen `raw/marktdaten/` gebacktestet hast. Behandle "Wissen
 sammeln" und "Algo bauen" im Alltag als zwei verschränkte Tätigkeiten, nicht als getrennte
@@ -39,7 +39,7 @@ Projekte.
 
 ## Layer 1 — `raw/` (unveränderlich)
 
-Sortiere Rohquellen nach Themenbereich. Lies daraus, ändere hier **nie** etwas.
+In `raw/` liegen Rohquellen nach Themenbereich sortiert. Lies daraus, ändere hier **nie** etwas.
 
 ```
 raw/
@@ -134,7 +134,7 @@ Der Generator verarbeitet das Wiki so:
 - **Bilder** kopiert er nicht, sondern referenziert sie relativ nach `raw/` — das hält `site/`
   bei ~2 MB statt 190 MB. Eine `![[bild.png]]`-Zeile plus direkt folgende `*Kursivzeile*` wird
   zu `<figure>` mit Bildunterschrift.
-- **Backlinks** ("Was zeigt hierher") erzeugt er automatisch pro Seite.
+- **Backlinks** („Was zeigt hierher") erzeugt er automatisch pro Seite.
 - **Unauflösbare Links** lassen den Build nicht abbrechen — er markiert sie grau und listet sie
   am Ende auf; sie sind laut Seitenkonvention gewollte Lücken.
 
@@ -176,7 +176,8 @@ an — dort ist Loggen nicht optional, sondern Standardverfahren.
   `query`, oder ein neuer treffender Typ), damit nachvollziehbar bleibt, wann und warum eine
   Seite entstand oder sich änderte.
 - Lass Push (`.\push.ps1`) weiterhin nur **manuell** auslösen — das übernimmt der Nutzer selbst (siehe
-  Versionskontrolle). Sei autonom beim *Schreiben* ins Wiki, nicht beim Veröffentlichen.
+  Versionskontrolle); einzige Ausnahme ist Ingest-Schritt 7, den du dort selbst ausführst. Sei
+  autonom beim *Schreiben* ins Wiki, nicht beim Veröffentlichen.
 
 ## Operationen
 
@@ -250,7 +251,7 @@ Gruppiere nach Kategorie (`## Concepts`, `## Models`, `## Sources`, `## Synthesi
 
 ## `log.md`-Format
 
-Führe es append-only, neueste Einträge unten. Beginne jeden Eintrag mit einem festen Präfix,
+Führe `log.md` append-only, neueste Einträge unten. Beginne jeden Eintrag mit einem festen Präfix,
 damit er mit einfachen Tools grep-bar bleibt:
 
 ```
@@ -291,7 +292,7 @@ meisten schadet (siehe `algo/fetch_yfinance.py`).
 
 **Marktdaten wie Gold behandeln (Nulltoleranz).** Prüfe bei jedem Download, Import oder jeder
 Bearbeitung von `raw/marktdaten/`: (1) Ist die Zeit gegen eine unabhängige Quelle geprüft? (2)
-Ist es vollständig — keine fehlenden Tage/Kerzen/Timeframes stillschweigend hinnehmen, Lücken
+Sind die Daten vollständig — keine fehlenden Tage/Kerzen/Timeframes stillschweigend hinnehmen, Lücken
 explizit auflisten? Melde dich bei jedem Zweifel (Daten wirken fehlerhaft, lückenhaft,
 inkonsistent) **aktiv und ungefragt**, auch wenn der Rest der Aufgabe erledigt ist. Warne lieber
 einmal zu oft, als einen fehlerhaften Datenpunkt durchrutschen zu lassen.
@@ -312,15 +313,15 @@ NDOG/NWOG dabei als besonders relevante PD Arrays — hinterlege bei jeder Analy
 `/algo-live-status`) die konkreten Opening-/Closing-Preise, nicht nur die Gap-Größe.
 
 **Jede neue These wird automatisch geloggt und gebacktestet, ohne zu fragen.** Nennt der Nutzer
-eine neue Trading-These oder Beobachtung (Frage oder Aussage), tu unaufgefordert: (1) Trage sie
+eine neue Trading-These oder Beobachtung (Frage oder Aussage), gehe unaufgefordert so vor: (1) Trage sie
 in `algo/PLAN.md`s Log-Tabelle ein, (2) baue oder erweitere, wenn irgend möglich, ein
 Backtest-Script dafür und lass es gegen alle verfügbaren Daten in `raw/marktdaten/` laufen
 (Reuse-first: baue auf `tools/analyze_ohlc.py`-Detektoren und dem `find_days()`-Muster auf,
 erfinde nicht jedes Mal neu; nutze einen eigenen Dateinamen `algo/backtest_<these>.py` pro
-These), (3) berichte das Ergebnis ehrlich, auch wenn es der Nutzer-These widerspricht — schöne
-Zahlen nicht, um Zustimmung zu simulieren. Grund: Behandle jede ICT-These im Rahmen dieses
-Projekts nicht als Meinungsstück, sondern als falsifizierbare Behauptung über ein Regelwerk, die
-geprüft werden muss statt nur besprochen zu werden.
+These), (3) berichte das Ergebnis ehrlich, auch wenn es der Nutzer-These widerspricht — beschönige
+Zahlen nicht, um Zustimmung zu simulieren. Grund: Jede ICT-These ist im Rahmen dieses Projekts
+kein Meinungsstück, sondern eine falsifizierbare Behauptung über ein Regelwerk, die geprüft
+werden muss statt nur besprochen zu werden.
 
 **Proaktiv gegenprüfen, offene Hypothesen halten, Falsifiziertes löschen.** Prüfe ständig gegen
 und mach Vorschläge, statt nur auf explizite Backtest-Aufträge zu reagieren — taucht eine
@@ -336,10 +337,10 @@ trotz widersprechender Zahlen aktiv bestehen und kommentiere sie in jedem neuen 
 sie als erledigt/widerlegt abzuhaken — der Nutzer entscheidet hier explizit gegen das
 Standard-Löschverfahren.
 
-**Korrektheit vor Features, weil reales Geld geplant ist.** Priorisiere Backtest-Code, der
+**Korrektheit vor Features, weil reales Geld geplant ist.** **Behebe** Backtest-Code, der
 Zahlen liefert, die nicht dem realen Kontrakt-P&L entsprechen (Notional-Prozent statt echtem
 Punktwert, geratene statt konservativ aufgelöste Stop/Ziel-Reihenfolge in derselben Kerze,
-Lookahead-Bias, Data-Leakage), **am höchsten** — vor neuen Strategien, vor Optik-/Dashboard-
+Lookahead-Bias, Data-Leakage), **mit höchster Priorität** — vor neuen Strategien, vor Optik-/Dashboard-
 Verbesserungen. Prüfe bei jedem neuen Backtest-Script oder jeder Erweiterung zuerst: (1) echter
 Punktwert/Kontraktgröße statt Notional-Prozent, (2) konservative statt geratene Fill-Reihenfolge
 bei Stop/Ziel in derselben Kerze (`dubious_pct` als Pflichtkennzahl in jedem Report), (3) kein
