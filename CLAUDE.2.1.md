@@ -1,33 +1,41 @@
 # Gedanken 2.0 — Wissenssystem + autonomer Handelsalgorithmus
 
-> Diese Datei ist die aktive Projektinstruktion, seit 2026-08-07 Weiterentwicklung der
-> Vorgängerfassung `CLAUDE.1.0.md` (im Repo-Root, unverändert erhalten als Rollback-Punkt). Sie
-> schreibt fest, was gegenüber 1.0 an Arbeitsweise, Standards und Zielbild dazugekommen ist —
-> vieles davon lag vorher nur in Cross-Session-Memory, nicht im Repo selbst. Läuft aktuell in der
-> Testphase; bei Bedarf einfach `CLAUDE.1.0.md` zurück auf `CLAUDE.md` benennen.
+> Diese Datei ist deine aktive Projektinstruktion. Seit 2026-08-07 ist sie die Weiterentwicklung
+> der Vorgängerfassung `CLAUDE.1.0.md` (im Repo-Root, unverändert als Rollback-Punkt erhalten) —
+> wende zusätzlich zu 1.0 auch die hier neu hinzugekommene Arbeitsweise, Standards und Zielbild
+> an. Vieles davon lag vorher nur in Cross-Session-Memory, nicht im Repo selbst. Diese Fassung
+> läuft aktuell in der Testphase; bei Bedarf benenne einfach `CLAUDE.1.0.md` zurück zu
+> `CLAUDE.md`.
+>
+> ## Sprache
+>
+> Antworte in diesem Projekt immer auf Deutsch, unabhängig von der Sprache der
+> Nutzereingabe — gilt für Chat-Antworten und Berichte, nicht für Code selbst
+> (Bezeichner/Kommentare folgen den üblichen Code-Konventionen).
 
 ## Layer 0 — Übergeordnetes Ziel: autonomer IBKR-Handelsalgorithmus
 
-**Das ist das Ziel von allem in diesem Repo** — Wiki, `raw/marktdaten/`, `tools/analyze_ohlc.py`,
-`algo/`: ein Handelsalgorithmus für MNQ, der **selbstständig und allein über Interactive Brokers**
-(TWS/IB-Gateway-API) handelt. Kein Signal-Geber für einen Menschen, kein Backtest-Selbstzweck —
-am Ende steht eine laufende, autonome, profitable Ausführung mit echtem Geld. Alles andere in
-diesem Dokument (Wiki-System, Datenpflege, Backtesting) ist **Unterbau für dieses eine Ziel**,
-keine eigenständigen Ziele. Diese Priorität steht über allen anderen Layern unten — bei einem
-Zielkonflikt (z.B. "schöneres Wiki" vs. "korrekterer Backtest") gewinnt das Backtest-Ziel, siehe
-[[Algo-Trading: Arbeitsstandards]] unten.
+**Verfolge als Ziel von allem in diesem Repo** — Wiki, `raw/marktdaten/`, `tools/analyze_ohlc.py`,
+`algo/` — einen Handelsalgorithmus für MNQ, der **selbstständig und allein über Interactive
+Brokers** (TWS/IB-Gateway-API) handelt. Baue keinen Signal-Geber für einen Menschen und betreibe
+kein Backtesting als Selbstzweck — das Ziel ist eine laufende, autonome, profitable Ausführung mit
+echtem Geld. Behandle alles andere in diesem Dokument (Wiki-System, Datenpflege, Backtesting) als
+**Unterbau für dieses eine Ziel**, nicht als eigenständiges Ziel. Gewichte diese Priorität über
+allen anderen Layern unten — bei einem Zielkonflikt (z.B. "schöneres Wiki" vs. "korrekterer
+Backtest") entscheide zugunsten des Backtest-Ziels, siehe [[Algo-Trading: Arbeitsstandards]] unten.
 
-Der Weg dahin führt über **echte, wachsende Datenbasis statt vorschneller Regeln**: aus den
-täglich wachsenden OHLC-Daten in `raw/marktdaten/` einen regelbasierten, statistisch validierten
-Handelsalgorithmus ableiten, der sich per IBKR-API selbstständig ausführt. Der aktuelle
-Umsetzungsstand, die Backlog-Punkte und das laufende Log stehen in `algo/PLAN.md` — dieses
-Dokument dupliziert das nicht, sondern hält den *Rahmen* fest, in dem `algo/PLAN.md` sich bewegt.
+Leite den Algorithmus über **echte, wachsende Datenbasis statt vorschneller Regeln** ab: baue aus
+den täglich wachsenden OHLC-Daten in `raw/marktdaten/` einen regelbasierten, statistisch
+validierten Handelsalgorithmus, der sich per IBKR-API selbstständig ausführt. Prüfe für den
+aktuellen Umsetzungsstand, die Backlog-Punkte und das laufende Log `algo/PLAN.md` — dieses
+Dokument dupliziert das nicht, sondern hält den *Rahmen* fest, in dem sich `algo/PLAN.md` bewegt.
 
-Das gesamte Wiki-System (Layer 1–3 unten) existiert, weil die ICT/SMC-Konzepte im Vault die
-Quelle für testbare Handelsregeln sind: eine Wiki-Seite wie [[Silver Bullet Model]] ist erst dann
-fertig verarbeitet, wenn sie — sobald genug Daten vorliegen — als `algo/rules.py`-Regel
-kodiert und gegen `raw/marktdaten/` gebacktestet wurde. "Wissen sammeln" und "Algo bauen" sind
-im Alltag zwei verschränkte Tätigkeiten, keine getrennten Projekte.
+Behandle das gesamte Wiki-System (Layer 1–3 unten) als Quelle für testbare Handelsregeln, weil
+die ICT/SMC-Konzepte im Vault dafür da sind: Gilt eine Wiki-Seite wie [[Silver Bullet Model]] erst
+dann als fertig verarbeitet, wenn du sie — sobald genug Daten vorliegen — als
+`algo/rules.py`-Regel kodiert und gegen `raw/marktdaten/` gebacktestet hast. Behandle "Wissen
+sammeln" und "Algo bauen" im Alltag als zwei verschränkte Tätigkeiten, nicht als getrennte
+Projekte.
 
 ## Layer 1 — `raw/` (unveränderlich)
 
