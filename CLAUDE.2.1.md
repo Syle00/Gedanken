@@ -39,7 +39,7 @@ Projekte.
 
 ## Layer 1 — `raw/` (unveränderlich)
 
-Sortiere Rohquellen nach Themenbereich ab. Lies daraus, ändere hier **nie** etwas.
+Sortiere Rohquellen nach Themenbereich. Lies daraus, ändere hier **nie** etwas.
 
 ```
 raw/
