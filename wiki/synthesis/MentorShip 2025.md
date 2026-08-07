@@ -89,7 +89,9 @@ Siehe [[Institutional Order Flow (Body vs Wick)]].
   [[TGIF - Thank God its Friday (Source)]]: dort steht dieselbe „Daily"-Formulierung in der
   Einleitung, die operative Definition (Fib) und die Chartbeschriftungen sagen aber **Weekly Range**.
   Wiederkehrende lose Sprechweise, kein Verschreiber. Eigene Seite: [[TGIF (Thank God its Friday)]].
-- **Lektion 02** (Trading FOMC Two Stage Delivery) liegt noch nicht in `raw/`.
+- **Lektion 02** (Trading FOMC Two Stage Delivery) liegt noch nicht in `raw/`. Die These selbst
+  hat aber inzwischen eine erste unabhängige, datengeprüfte Live-Beobachtung bekommen — siehe
+  [[Two Stage News Delivery (FOMC & NFP)]] (2026-08-07, NFP statt FOMC, n=1, weiter offen).
 - **Ohne eigene Seite**, obwohl in dieser Reihe verwendet: *Immediate Rebalance*, *Bear Trap*,
   *Reclaimed FVG* (es gibt bislang nur [[Reclaimed Order Block]]).
   ✅ *VII* ist seit 2026-08-02 geklärt → [[Volume Imbalance (VII)]].

@@ -31,8 +31,12 @@ Weekly-Manipulation-Profilen — siehe insbesondere:
 - [[Low Resistance Liquidity Run]] — FOMC-Wochen gelten als High-Resistance-Liquidity-Run-Kandidat
   (Chop/Seek-&-Destroy) statt eines glatten Runs.
 - [[London Session Profiles]] — unerwartete FOMC-News zählen zu den Gründen, die Session zu meiden.
+- [[Two Stage News Delivery (FOMC & NFP)]] — Arbeitshypothese: News-Reaktion läuft in zwei
+  zeitlich getrennten, teils gegenläufigen Stages statt einer einzelnen Bewegung (bislang an
+  einem NFP-Termin beobachtet, für FOMC selbst noch unbelegt).
 
 ## Verwandt
 
 - [[Intermarket Relationships]]
 - [[Market Maker Manipulation Templates]]
+- [[Two Stage News Delivery (FOMC & NFP)]]

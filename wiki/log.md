@@ -962,3 +962,30 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   Trade-Log bzw. ein Tape-Reading-Eintrag) — auf der neuen Seite als Datenlücke vermerkt, nicht als
   Fehler gewertet, da unklar ist, ob an diesen Tagen bewusst kein Daily-Bias-Format genutzt wurde.
 - Seiten aktualisiert: wiki/index.md.
+
+## [2026-08-07] synthesis | Two Stage News Delivery (FOMC & NFP) — neue Hypothese aus Live-Beobachtung
+- Nutzerbeobachtung während des NFP-Termins 07.08.2026: Preis nahm zuerst Sellside (Pre-Market-Tief),
+  dann an der 8:30-News Buyside, um dann in einer "2. Stage" gegen 10:12 erneut massiv Sellside zu
+  nehmen — Frage, ob das dasselbe Zwei-Stufen-Muster ist, das sonst FOMC zugeschrieben wird.
+- Gegen `raw/marktdaten/2026/08/07.08.2026/MNQ 2026-08-07 1m.csv` verifiziert statt ungeprüft
+  übernommen: Pre-Market-Sellside-Pool 29.596–29.612 (04:00–08:00), Sweep auf
+  29.596,00 um 08:29, Stage 1 = Rally auf 29.854,50 bis 08:49, Stage 2 = zweiter, tieferer Sweep auf
+  29.564,25 um 10:12 (unterbietet Stage 1). Nutzerangabe "5:53 Low 29.600,50" strukturell bestätigt
+  (Preiszone exakt getroffen um 04:05 sowie mehrfach retestet), Zeitstempel weicht vom CSV-Feed ab —
+  als Diskrepanz vermerkt statt stillschweigend übernommen.
+- Anlass: [[MentorShip 2025]] listet seit dem ersten Ingest **Lektion 02 "Trading FOMC Two Stage
+  Delivery"** als fehlende Rohquelle — bislang nur der Titel bekannt, kein Inhalt. Diese Beobachtung
+  ist die erste konkrete, datengeprüfte Instanz des Musters im Wiki, allerdings an einem NFP- statt
+  FOMC-Termin.
+- Seite erstellt: wiki/concepts/Two Stage News Delivery (FOMC & NFP).md — als offene Hypothese
+  (n=1) markiert, mit Beobachtungstabelle, generalisiertem 4-Schritt-Muster (Pool → Stage 1 an der
+  News → Pause → Stage 2 im Silver-Bullet/Lunch-Macro-Fenster) und der Anweisung, das Muster bei
+  jedem künftigen NFP/FOMC-Termin gegenzuprüfen und hier nachzutragen.
+- Seiten aktualisiert: wiki/concepts/FOMC (Federal Open Market Committee).md (Verweis unter
+  Relevanz + Verwandt), wiki/synthesis/MentorShip 2025.md (offener Punkt zu Lektion 02 um den
+  Verweis auf die neue Hypothesenseite ergänzt, weiterhin offen da Primärquelle fehlt),
+  wiki/index.md.
+- Offen: Backtest-Kandidat, sobald ≥3 Instanzen vorliegen und eine NFP-/FOMC-Terminliste im Repo
+  existiert (aktuell nicht vorhanden) — `algo/backtest_fred_events.py` deckt reguläre FRED-Serien
+  ab, aber keine Event-Zeitstempel auf Minutenbasis.
+- Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Risiko-Verfeinerung über Timeframes — Gedanken</title>
+<title>Two Stage News Delivery (FOMC &amp; NFP) — Gedanken</title>
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -89,7 +89,7 @@
 <li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
 <li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
 <li><a href="../p/rejection-block.html">Rejection Block</a></li>
-<li class="here"><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
 <li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
 <li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
 <li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
@@ -100,7 +100,7 @@
 <li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
 <li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
 <li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
-<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li class="here"><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
 <li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
 <li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
 </ul></div>
@@ -109,74 +109,125 @@
 <article>
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
-  <h1>Risiko-Verfeinerung über Timeframes</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">risikomanagement</span> <span class="tag">timeframes</span></div><div class="dates">erstellt 2026-08-06 · aktualisiert 2026-08-06</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-mentorship-core-content-month-02-framing-low-risk-trade-setups-source.html">ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)</a>, <a href="../p/ict-mentorship-core-content-month-02-how-traders-make-10-per-month-source.html">ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)</a></div></div>
+  <h1>Two Stage News Delivery (FOMC &amp; NFP)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">macro</span> <span class="tag">news-driven</span> <span class="tag">hypothesis</span></div><div class="dates">erstellt 2026-08-07 · aktualisiert 2026-08-07</div><div class="srcline"><span>Quellen:</span> <a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a>, raw/journal/Daily Bias 2026-08-07.md, raw/marktdaten/2026/08/07.08.2026/MNQ 2026-08-07 1m.csv</div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#ablauf-beispiel-audusd-07512-level">Ablauf (Beispiel AUDUSD, 0.7512-Level)</a></li>
-<li><a href="#voraussetzung">Voraussetzung</a></li>
+<li><a href="#beobachtete-instanz-nfp-2026-08-07-mnq">Beobachtete Instanz: NFP 2026-08-07 (MNQ)</a></li>
+<li><a href="#generalisiertes-muster-arbeitshypothese">Generalisiertes Muster (Arbeitshypothese)</a></li>
+<li><a href="#warum-das-relevant-ist">Warum das relevant ist</a></li>
+<li><a href="#nachste-schritte">Nächste Schritte</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
 </details>
-  <div class="content"><h1 id="risiko-verfeinerung-uber-timeframes">Risiko-Verfeinerung über Timeframes</h1>
-<p>Technik, um den Stop-Loss eines HTF-Setups zu verkleinern, <strong>ohne das Ziel oder die
-institutionelle Prämisse zu ändern</strong>: dieselbe HTF-<a href="../p/pd-array.html">PD Array</a> (z.B. ein daily Bullish
-<a href="../p/order-block.html">Order Block</a>) wird auf sukzessiv tieferen Timeframes erneut lokalisiert — dort entsteht
-jeweils ein frischerer, näher am Preis liegender Order Block auf demselben institutionellen
-Level, der einen deutlich engeren Stop erlaubt.</p>
-<h2 id="ablauf-beispiel-audusd-07512-level">Ablauf (Beispiel AUDUSD, 0.7512-Level)</h2>
+  <div class="content"><h1 id="two-stage-news-delivery-fomc-nfp">Two Stage News Delivery (FOMC &amp; NFP)</h1>
+<blockquote>
+<p>⚠️ <strong>Offene Hypothese, n=1.</strong> Noch nicht über mehrere Events verifiziert — bei jedem künftigen
+FOMC- und NFP-Termin gegenprüfen und diese Seite nachführen (siehe [[Algo: proaktiv
+gegenprüfen]] in <code>wiki/log.md</code>-Konvention).</p>
+</blockquote>
+<p>Beobachtung des Nutzers: der große Newsdriver liefert Preis nicht in einem Zug, sondern in
+<strong>zwei zeitlich getrennten Stages</strong>, die in entgegengesetzte Richtungen laufen können — die
+erste unmittelbar an der News, die zweite deutlich später (in etwa im Fenster der
+<a href="../p/silver-bullet-model.html">NY-AM-Silver-Bullet</a>-/<a href="../p/ny-lunch-macro-model.html">Lunch-Macro</a>-Session).
+Bislang war das nur als fehlende Quelle bekannt: <strong>Lektion 02 der <a href="../p/mentorship-2025.html">MentorShip 2025</a>-Reihe</strong>
+heißt <em>"Trading FOMC Two Stage Delivery"</em>, liegt aber nicht in <code>raw/</code>. Diese Seite trägt die
+erste live beobachtete, datengeprüfte Instanz des Musters — für FOMC noch unbelegt, aber am
+07.08.2026 explizit an einem <strong>NFP</strong>-Termin beobachtet, was nahelegt, dass es kein
+FOMC-exklusives Muster ist, sondern generell für High-Impact-Red-News gilt.</p>
+<h2 id="beobachtete-instanz-nfp-2026-08-07-mnq">Beobachtete Instanz: NFP 2026-08-07 (MNQ)</h2>
+<p>Gegen die 1-Minuten-Daten aus <code>raw/marktdaten/2026/08/07.08.2026/MNQ 2026-08-07 1m.csv</code> geprüft:</p>
 <table>
 <thead>
 <tr>
-<th>Timeframe</th>
-<th>Order Block / Entry</th>
-<th>Stop-Abstand</th>
+<th>Zeit (NY)</th>
+<th>Preis</th>
+<th>Ereignis</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Daily</td>
-<td>HTF-Referenzlevel 0.7512 (Bullish OB)</td>
-<td>— (nur Kontext)</td>
+<td>~04:00–08:00</td>
+<td>Range 29.596–29.612</td>
+<td>Pre-Market-Sellside-Pool bildet sich (mehrfach getestete Tiefs)</td>
 </tr>
 <tr>
-<td>1H</td>
-<td>Entry 0.7542</td>
-<td>20 Pips</td>
+<td><strong>08:29</strong> (unmittelbar vor dem 8:30-Print)</td>
+<td>Low <strong>29.596,00</strong></td>
+<td>Sellside-Sweep der Pre-Market-Range — erster Griff der News</td>
 </tr>
 <tr>
-<td>15M</td>
-<td>Entry 0.7520</td>
-<td>17 Pips</td>
+<td><strong>08:30–08:49</strong></td>
+<td>High <strong>29.854,50</strong></td>
+<td><strong>Stage 1</strong>: massive Buyside-Expansion, +258 Punkte in 19 Minuten</td>
 </tr>
 <tr>
-<td>5M</td>
-<td>Entry ~0.7515</td>
-<td>&lt; 10 Pips (konkret 8 Pips)</td>
+<td>09:40–10:11</td>
+<td>Preis dreht, fällt zurück Richtung 29.640</td>
+<td>Übergang / Aufbau zu Stage 2</td>
+</tr>
+<tr>
+<td><strong>10:12</strong></td>
+<td>Low <strong>29.564,25</strong></td>
+<td><strong>Stage 2</strong>: zweiter, deutlich tieferer Sellside-Sweep — unterbietet sogar das Stage-1-Tief</td>
+</tr>
+<tr>
+<td>ab ~10:20</td>
+<td>Erholung Richtung 29.720–29.750</td>
+<td>Stage 2 endet, Range beruhigt sich</td>
 </tr>
 </tbody>
 </table>
-<p>Auf jeder Stufe bleibt das <strong>Ziel identisch</strong> (die auf dem Daily/1H identifizierten Buy-Stops
-über den alten Highs) — nur der Entry rückt näher an das HTF-Level heran, wodurch derselbe
-Preis-Move ein deutlich höheres R-Multiple ergibt (im Beispiel: 3R auf dem 5M-Timeframe für
-denselben Move, der auf dem 1H nur 1R gewesen wäre).</p>
-<h2 id="voraussetzung">Voraussetzung</h2>
-<p>Funktioniert nur, wenn die tiefere Timeframe <strong>denselben Grund</strong> liefert, warum Preis dort
-reagieren sollte — d.h. es muss tatsächlich ein neuer, gültiger Order Block auf dem Weg zum
-HTF-Level sein, kein beliebig enger Stop ohne strukturelle Begründung. ICT warnt explizit vor
-"Ultra short stop-loss" ohne Verständnis, warum Preis genau dort reagieren soll.</p>
+<p>⚠️ Der Nutzer notierte den Pre-Market-Tiefpunkt als „5:53 Low 29.600,50" — die CSV-Daten zeigen
+diesen Preisbereich (29.600,5 exakt getroffen um 04:05, danach mehrfach zwischen 29.599–29.612
+zwischen 04:00 und 08:00 retestet), aber nicht exakt um 05:53. Zeit/Preis dürften vom
+Charting-Feed des Nutzers stammen und minimal von diesem Datensatz abweichen — die
+<strong>strukturelle Aussage (Pre-Market-Tief als Sellside-Pool, an der News gesweept) ist bestätigt</strong>,
+nur der exakte Zeitstempel nicht 1:1 reproduzierbar.</p>
+<h2 id="generalisiertes-muster-arbeitshypothese">Generalisiertes Muster (Arbeitshypothese)</h2>
+<ol>
+<li><strong>Vor der News</strong> baut sich ein erkennbarer Liquidity Pool auf (hier: Pre-Market-Low als
+   <a href="../p/external-vs-internal-range-liquidity.html">External Range Liquidity</a>).</li>
+<li><strong>Stage 1 — an der News selbst</strong> (8:30 bei NFP, 14:00 bei FOMC): Sweep der naheliegenden
+   Pool-Seite, dann scharfe Umkehr und Expansion in die Gegenrichtung. Läuft wie ein
+   verschärfter <a href="../p/judas-swing.html">Judas Swing</a> / <a href="../p/market-protraction.html">Market Protraction</a>-Ausschlag, nur größenordnungsmäßig
+   stärker als die üblichen getakteten Fensters.</li>
+<li><strong>Pause/Konsolidierung</strong> in den ~45–60 Minuten danach.</li>
+<li><strong>Stage 2 — zeitlich versetzt</strong> (hier ~1h42min nach der News, im Fenster von
+   <a href="../p/ny-lunch-macro-model.html">10-Uhr-Linie</a>/Silver-Bullet-NY-AM): zweite, oft stärkere Bewegung in
+   die <strong>Gegenrichtung von Stage 1</strong>, die das Stage-1-Extrem unterbietet/überbietet. Das ist die
+   eigentliche „Two Stage Delivery" — zwei getrennte algorithmische Lieferungen, keine einzelne
+   News-Reaktion.</li>
+</ol>
+<h2 id="warum-das-relevant-ist">Warum das relevant ist</h2>
+<p>Falls sich das Muster bestätigt, heißt das für <a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a>- und
+NFP-Tage: <strong>die unmittelbare News-Reaktion (Stage 1) ist nicht zwangsläufig die Tagesrichtung.</strong>
+Das deckt sich mit der bestehenden Linie in <a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a> (FOMC-Wochen =
+High-Resistance/Chop-Kandidat) und mit der bereits im Journal notierten Vorsicht, an NFP-Tagen
+keinen belastbaren Daily Bias zu halten (siehe <code>raw/journal/Daily Bias 2026-08-07.md</code>).</p>
+<h2 id="nachste-schritte">Nächste Schritte</h2>
+<ul>
+<li>Bei jedem künftigen NFP (1. Freitag im Monat) und FOMC-Termin dieselbe Zwei-Stufen-Prüfung
+  fahren und hier eintragen (Datum, Stage-1-/Stage-2-Zeiten, Preise, Richtung).</li>
+<li>Sobald ≥3 Instanzen vorliegen: Kandidat für ein <code>algo/backtest_*.py</code>-Skript, das NFP-/FOMC-Termine
+  gegen <code>raw/marktdaten/</code> automatisiert auf dieses Zwei-Stufen-Muster prüft (Datumsliste der
+  Termine fehlt aktuell noch im Repo).</li>
+<li>Bei Gelegenheit prüfen, ob Lektion 02 der MentorShip-2025-Reihe („Trading FOMC Two Stage
+  Delivery") doch noch als Notion-Export auftaucht — würde diese Hypothese direkt mit
+  Primärquelle unterlegen.</li>
+</ul>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
-<li><a href="../p/three-timeframe-framing.html">Three Timeframe Framing</a> — verwandt, aber andere Fragestellung: dort geht es um die
-  <strong>Rollenverteilung</strong> (Kontext/Framing/Timing) je Timeframe-Tripel, hier um das gezielte
-  <strong>Verkleinern des Stops</strong> durch Wechsel auf tiefere Timeframes bei gleichbleibendem Ziel.</li>
-<li><a href="../p/order-block.html">Order Block</a>, <a href="../p/pd-array.html">PD Array</a></li>
-<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a> — engerer Stop bei gleichem Ziel treibt das R-Multiple</li>
-<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/mentorship-2025.html">MentorShip 2025</a> — Lektion 02, die namensgebende fehlende Quelle</li>
+<li><a href="../p/market-protraction.html">Market Protraction</a>, <a href="../p/judas-swing.html">Judas Swing</a> — verwandte getaktete Manipulationsfenster</li>
+<li><a href="../p/silver-bullet-model.html">Silver Bullet Model</a>, <a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a> — das Stage-2-Zeitfenster</li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a> — der Pre-Market-Pool als External Liquidity</li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a> — FOMC/NFP als Chop-Kandidat</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/ict-mentorship-core-content-month-02-framing-low-risk-trade-setups-source.html">ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-02-how-traders-make-10-per-month-source.html">ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/month-02-source.html">Month 02 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/order-block.html">Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a><span class="cat">Konzepte</span></li></ul></section>
-  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Risiko-Verfeinerung über Timeframes.md</code></footer>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">3</span></h2><ul><li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/mentorship-2025.html">MentorShip 2025</a><span class="cat">Synthese</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Two Stage News Delivery (FOMC &amp; NFP).md</code></footer>
 </article>
 </main>
 </div>

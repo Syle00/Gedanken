@@ -79,6 +79,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Trading All Time Highs (ATH)]] — Continuation-Checkliste am ATH und die 3 Stages, an denen Smart Money oben verkauft (2026-08-02)
 - [[Trendline Phantoms (3 Drives Pattern)]] — Retail-Trendline-Falle, 3-Drives-Angriffsziel (2026-08-01)
 - [[Turtle Soup]] — Fehlausbruch-Setup mit Rückkehr in FVG/Retracement (2026-08-01)
+- [[Two Stage News Delivery (FOMC & NFP)]] — ⚠️ offene Hypothese: News-Reaktion in zwei zeitlich getrennten, teils gegenläufigen Stages statt einer Bewegung, live an NFP 07.08.2026 beobachtet (2026-08-07)
 - [[Verlust-Mitigation durch reduzierte Re-Entry-Size]] — nach Stop-out mit halber Size re-entrien, R2 gleicht vollen Verlust aus (2026-08-06)
 - [[Volume Imbalance (VII)]] — Lücke Close→Open; bestimmt die FVG-Grenzen und ist selbst eine PD Array (2026-08-02)
 
