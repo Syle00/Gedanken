@@ -81,10 +81,10 @@ class EnsembleStrategy(Strategy):
     max_risk_pct = 0.01        # Nutzerregel: nie mehr als 1% Kontoguthaben Risiko PRO TRADE
     point_value = POINT_VALUE["MNQ"]  # $/Punkt, siehe pnl.POINT_VALUE
     leverage = 20               # muss zu Backtest(margin=...) passen (0.05 -> 20x); Strategy
-                                 # hat keinen direkten Zugriff auf den margin-Wert des Brokers,
-                                 # ohne diese Kappung fordert _risk_size bei engem Stop mehr
-                                 # Kontrakte an als das Margin hergibt -> Order wird sonst vom
-                                 # Broker stillschweigend gecancelt statt kleiner gefuellt
+                                 # hat keinen direkten Zugriff auf den margin-Wert des Brokers.
+                                 # Geht als max_notional=equity*leverage in pnl.risk_size (dort
+                                 # liegt der Deckel inkl. 0.95-Puffer, gemeinsam mit
+                                 # SilverBulletStrategy)
     intraday = True
 
     def init(self):
@@ -125,11 +125,8 @@ class EnsembleStrategy(Strategy):
         if key in self._taken:
             return
 
-        size = risk_size(self.equity, self.max_risk_pct, setup.entry, setup.stop, self.point_value)
-        # ponytail: 0.95-Puffer auf die Margin-Obergrenze -- die Order fuellt ggf. erst
-        # Bars spaeter zum Limit-Preis, exaktes Ausreizen der Margin liess den Broker die
-        # Order sonst gelegentlich stornieren (Rundungs-/Timing-Randfall)
-        size = min(size, int(self.equity * self.leverage * 0.95 / setup.entry))
+        size = risk_size(self.equity, self.max_risk_pct, setup.entry, setup.stop, self.point_value,
+                          max_notional=self.equity * self.leverage)
         if size < 1:
             return  # 1%-Risiko-Budget oder Margin-Obergrenze ergibt 0 Kontrakte
 
@@ -174,7 +171,16 @@ def _demo() -> None:
     # EnsembleStrategy.point_value muss MNQ's echten Punktwert tragen, sonst reproduziert sich
     # der 2026-08-06-Audit-Fund (reales Risiko doppelt so hoch wie beabsichtigt).
     assert EnsembleStrategy.point_value == POINT_VALUE["MNQ"] == 2.0
-    print("backtest_ensemble _passes_bias_filter/point_value-Verdrahtung demo ok")
+
+    # Margin-Deckel liegt seit dem Final-Review-Fix in pnl.risk_size (max_notional), nicht mehr
+    # lokal hier -- diese Zeile spiegelt den Aufruf in next() nach und haelt fest, dass leverage
+    # zu Backtest(margin=0.05) passt: enger Stop -> Risiko-Groesse waere 5000, Margin erlaubt
+    # 100k*20*0.95/25000 = 76 Kontrakte.
+    lev = EnsembleStrategy.leverage
+    assert lev == 20
+    assert risk_size(100_000, 0.01, 25_000, 24_999.9, POINT_VALUE["MNQ"],
+                     max_notional=100_000 * lev) == 76
+    print("backtest_ensemble _passes_bias_filter/point_value/Margin-Deckel demo ok")
 
 
 if __name__ == "__main__":
