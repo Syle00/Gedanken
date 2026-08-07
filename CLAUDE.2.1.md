@@ -182,63 +182,66 @@ an — dort ist Loggen nicht optional, sondern Standardverfahren.
 
 ### Ingest (neue Quelle verarbeiten)
 
-1. Quelle lesen (aus `raw/`) — **inklusive aller eingebetteten Bilder und PDFs**: jedes PNG/JPG
-   wird tatsächlich angesehen (das Read-Tool rendert Bilder visuell, nicht nur als Dateiname),
-   jede PDF-Seite gelesen. Text, Diagramme, Zahlen und Chart-Markierungen aus Bildern fließen
-   wörtlich bzw. sinngemäß ins Wiki ein, wenn sie inhaltlich relevant sind — Content steckt bei
-   vielen Notion-Exporten überwiegend in den Screenshots, nicht im Fließtext. Ist ein Bild nicht
-   lesbar (zu unscharf, abgeschnitten, reines Rauschen, Wasserzeichen-verdeckt): das **explizit
-   sagen** ("ich kann das nicht sehen") statt zu raten oder das Bild stillschweigend zu
-   überspringen.
-2. Kernaussagen herausarbeiten (was ist neu, was wichtig, was widerspricht Bestehendem) — das wird
-   **nicht vorab besprochen, sondern am Ende berichtet**.
-3. Seite unter `wiki/sources/<Quellname>.md` anlegen: Zusammenfassung, Kernpunkte, Zitate/Verweise auf `raw/`-Original.
-4. Relevante `wiki/concepts/` und `wiki/models/` Seiten anlegen oder aktualisieren, Querverweise setzen.
-5. `wiki/index.md` aktualisieren (neue Seiten eintragen).
-6. Eintrag an `wiki/log.md` anhängen.
-7. **`.\push.ps1 -Message "ingest | <Quellname>"` selbst ausführen** — baut die HTML-Website neu,
-   erstellt einen lokalen Checkpoint-Commit und pusht ins private GitHub-Repo. Ohne diesen
-   Schritt ist der Ingest nicht abgeschlossen. Das gehört zum Ingest dazu und wird **nicht
-   erst erfragt**; bei einem Batch genügt ein Aufruf am Schluss.
+1. Lies die Quelle (aus `raw/`) — **inklusive aller eingebetteten Bilder und PDFs**: Sieh dir
+   jedes PNG/JPG tatsächlich an (das Read-Tool rendert Bilder visuell, nicht nur als Dateiname),
+   und lies jede PDF-Seite. Übernimm Text, Diagramme, Zahlen und Chart-Markierungen aus Bildern
+   wörtlich bzw. sinngemäß ins Wiki, wenn sie inhaltlich relevant sind — bei vielen
+   Notion-Exporten steckt der Content überwiegend in den Screenshots, nicht im Fließtext. Ist ein
+   Bild nicht lesbar (zu unscharf, abgeschnitten, reines Rauschen, Wasserzeichen-verdeckt): sag
+   das **explizit** ("ich kann das nicht sehen"), statt zu raten oder das Bild stillschweigend
+   zu überspringen.
+2. Arbeite die Kernaussagen heraus (was ist neu, was wichtig, was widerspricht Bestehendem) —
+   bespreche das **nicht vorab, sondern berichte es am Ende**.
+3. Lege eine Seite unter `wiki/sources/<Quellname>.md` an: Zusammenfassung, Kernpunkte,
+   Zitate/Verweise auf `raw/`-Original.
+4. Lege relevante `wiki/concepts/`- und `wiki/models/`-Seiten an oder aktualisiere sie, setze
+   Querverweise.
+5. Aktualisiere `wiki/index.md` (neue Seiten eintragen).
+6. Hänge einen Eintrag an `wiki/log.md` an.
+7. **Führe `.\push.ps1 -Message "ingest | <Quellname>"` selbst aus** — das baut die HTML-Website
+   neu, erstellt einen lokalen Checkpoint-Commit und pusht ins private GitHub-Repo. Ohne diesen
+   Schritt ist der Ingest nicht abgeschlossen. Das gehört zum Ingest dazu — frag **nicht erst
+   nach**; bei einem Batch genügt ein Aufruf am Schluss.
 
-**Ohne Rückfragen, im Batch.** Eine Aufforderung wie „injeziere den neuen Kontent" oder „importiere"
-ist die vollständige Freigabe für alles, was an neuem Material vorliegt — nicht nur für eine Quelle.
-Nicht nachfragen, welche Quelle zuerst drankommt oder was betont werden soll; einfach durcharbeiten
-und am Ende berichten. Bei einem Batch genügt ein einziger `push.ps1`-Aufruf am Ende.
+**Arbeite ohne Rückfragen, im Batch.** Behandle eine Aufforderung wie „injeziere den neuen
+Kontent" oder „importiere" als vollständige Freigabe für alles, was an neuem Material vorliegt —
+nicht nur für eine Quelle. Frag nicht nach, welche Quelle zuerst drankommt oder was betont werden
+soll; arbeite einfach durch und berichte am Ende. Bei einem Batch genügt ein einziger
+`push.ps1`-Aufruf am Ende.
 
-Entscheidungen, die sonst eine Rückfrage wären, werden nach den Konventionen dieses Vaults selbst
-getroffen und **im Bericht sowie in `wiki/log.md` offengelegt** — insbesondere:
+Triff Entscheidungen, die sonst eine Rückfrage wären, selbst — nach den Konventionen dieses
+Vaults — und lege sie **im Bericht sowie in `wiki/log.md` offen**, insbesondere:
 
-- **Widerspruch zu einer Bestandsseite**: markieren statt still überschreiben (siehe
-  Seitenkonventionen). Bestätigt eine neue Quelle eine bislang offene Frage, den Marker von `⚠️` auf
-  `✅` umstellen und die Begründung dazuschreiben, statt ihn zu löschen.
-- **Große Exporte**: kollidierende Bildnamen bekommen ein Domänen-Präfix. Sind es zu viele Bilder
-  für durchgehend sprechende Namen, seiten- und positionsbezogen nummerieren
-  (`<Domäne> - <Seitenkürzel> <NN>.png`) und die Beschreibung in die Bildunterschrift der Wiki-Seite
-  legen. Die Abweichung im Log vermerken.
-- **Leere oder reine Container-Seiten** im Export: nicht als Rohdateien anlegen, sondern in die
-  Index-Datei der Reihe falten und als leer kennzeichnen.
+- **Widerspruch zu einer Bestandsseite**: Markiere ihn, statt still zu überschreiben (siehe
+  Seitenkonventionen). Bestätigt eine neue Quelle eine bislang offene Frage, stelle den Marker
+  von `⚠️` auf `✅` um und schreibe die Begründung dazu, statt ihn zu löschen.
+- **Große Exporte**: Gib kollidierenden Bildnamen ein Domänen-Präfix. Sind es zu viele Bilder für
+  durchgehend sprechende Namen, nummeriere sie seiten- und positionsbezogen
+  (`<Domäne> - <Seitenkürzel> <NN>.png`) und lege die Beschreibung in die Bildunterschrift der
+  Wiki-Seite. Vermerke die Abweichung im Log.
+- **Leere oder reine Container-Seiten** im Export: Lege sie nicht als Rohdateien an, sondern
+  falte sie in die Index-Datei der Reihe und kennzeichne sie als leer.
 
 ### Query (Frage beantworten)
 
-1. `wiki/index.md` lesen, um relevante Seiten zu finden.
-2. Relevante `wiki/`-Seiten (und bei Bedarf `raw/`-Originale) lesen. Betrifft die Frage den
-   aktuellen/zukünftigen Marktstand: **nicht** aus `raw/marktdaten/` oder einem älteren
-   Live-Lauf beantworten, siehe [[Algo-Trading: Arbeitsstandards]] → Frische Daten.
-3. Antwort synthetisieren, mit Verweisen auf Quellseiten.
-4. Wenn die Antwort eigenständigen Wert hat (Vergleich, Analyse, neue Verbindung): dem Nutzer
-   anbieten, sie als neue Seite unter `wiki/synthesis/` abzulegen, damit sie ins Wiki einfließt
-   statt im Chatverlauf zu verschwinden.
+1. Lies `wiki/index.md`, um relevante Seiten zu finden.
+2. Lies relevante `wiki/`-Seiten (und bei Bedarf `raw/`-Originale). Betrifft die Frage den
+   aktuellen/zukünftigen Marktstand: Beantworte sie **nicht** aus `raw/marktdaten/` oder einem
+   älteren Live-Lauf, siehe [[Algo-Trading: Arbeitsstandards]] → Frische Daten.
+3. Synthetisiere die Antwort, mit Verweisen auf Quellseiten.
+4. Hat die Antwort eigenständigen Wert (Vergleich, Analyse, neue Verbindung): Biete dem Nutzer
+   an, sie als neue Seite unter `wiki/synthesis/` abzulegen, damit sie ins Wiki einfließt, statt
+   im Chatverlauf zu verschwinden.
 
 ### Lint (Wiki-Gesundheitscheck)
 
-Auf Anfrage: Widersprüche zwischen Seiten suchen, veraltete Aussagen markieren, verwaiste
-Seiten (keine eingehenden Links) finden, erwähnte aber fehlende Konzept-Seiten identifizieren,
-fehlende Querverweise ergänzen. Ergebnisse als Liste vorschlagen, nicht automatisch löschen.
+Suche auf Anfrage Widersprüche zwischen Seiten, markiere veraltete Aussagen, finde verwaiste
+Seiten (keine eingehenden Links), identifiziere erwähnte aber fehlende Konzept-Seiten, ergänze
+fehlende Querverweise. Schlage Ergebnisse als Liste vor, lösche nicht automatisch.
 
-Als Startpunkt dafür `python tools/build_site.py` laufen lassen: der Build meldet ohne
-zusätzlichen Aufwand unauflösbare Wikilinks, verwaiste Seiten und die Drift zwischen
-`wiki/index.md` und dem tatsächlichen Dateibestand.
+Starte dafür `python tools/build_site.py`: der Build meldet ohne zusätzlichen Aufwand
+unauflösbare Wikilinks, verwaiste Seiten und die Drift zwischen `wiki/index.md` und dem
+tatsächlichen Dateibestand.
 
 ## `index.md`-Format
 
