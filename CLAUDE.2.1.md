@@ -273,87 +273,87 @@ Structure Shift)**, nicht CHoCH — CHoCH war eine ältere, mittlerweile korrigi
 
 ## Algo-Trading: Arbeitsstandards
 
-Diese Regeln sind für `algo/`, `tools/analyze_ohlc.py` und `raw/marktdaten/` **verbindlich**,
-nicht optional — sie entstanden aus wiederholten Nutzerkorrekturen und gelten ab sofort ohne
-erneute Nachfrage. Der lebende Implementierungsstand steht in `algo/PLAN.md` (Backlog + Log)
+Wende diese Regeln für `algo/`, `tools/analyze_ohlc.py` und `raw/marktdaten/` **verbindlich**
+an, nicht optional — sie entstanden aus wiederholten Nutzerkorrektionen und gelten ab sofort ohne
+erneute Nachfrage. Prüfe für den lebenden Implementierungsstand `algo/PLAN.md` (Backlog + Log)
 und `algo/README.md` (Modul-für-Modul-Doku); dieser Abschnitt hält die *Regeln* fest, nicht den
 *Stand*.
 
 **Zeit vor Preis.** Der Nutzer geht davon aus, dass ein oder mehrere Algorithmen den Preis zu
 bestimmten Uhrzeiten steuern (ICT-These "Time before Price"). Eine leicht falsche Zeitzuordnung
-macht jede Musteranalyse wertlos, selbst wenn die OHLC-Werte an sich stimmen — Preis-Ungenauigkeiten
-sind zweitrangig, Zeit-Fehler nicht. Bei jeder Datenpipeline (Download, Resampling,
-Zeitzonen-Konvertierung) Timestamps aktiv gegen eine unabhängige Quelle verifizieren (z.B.
-bestehende TradingView-Exporte gegenprüfen), bevor Daten als fertig gemeldet werden.
-Datetime64-Auflösung immer explizit über `.as_unit("s")` setzen, nie über manuelle Division —
-ein stiller Pandas-Versionswechsel in der Auflösung (ns/us/s) ist genau der Fehlertyp, der hier
-am meisten schadet (siehe `algo/fetch_yfinance.py`).
+macht jede Musteranalyse wertlos, selbst wenn die OHLC-Werte an sich stimmen — behandle
+Preis-Ungenauigkeiten als zweitrangig, Zeit-Fehler nicht. Verifiziere bei jeder Datenpipeline
+(Download, Resampling, Zeitzonen-Konvertierung) Timestamps aktiv gegen eine unabhängige Quelle
+(z.B. bestehende TradingView-Exporte gegenprüfen), bevor du Daten als fertig meldest. Setze die
+Datetime64-Auflösung immer explizit über `.as_unit("s")`, nie über manuelle Division — ein
+stiller Pandas-Versionswechsel in der Auflösung (ns/us/s) ist genau der Fehlertyp, der hier am
+meisten schadet (siehe `algo/fetch_yfinance.py`).
 
-**Marktdaten wie Gold behandeln (Nulltoleranz).** Bei jedem Download, Import oder jeder
-Bearbeitung von `raw/marktdaten/`: (1) Zeit gegen unabhängige Quelle geprüft? (2) Vollständig —
-keine fehlenden Tage/Kerzen/Timeframes stillschweigend hingenommen, Lücken explizit aufgelistet?
-Bei jedem Zweifel (Daten wirken fehlerhaft, lückenhaft, inkonsistent) **aktiv und ungefragt
-Bescheid geben**, auch wenn der Rest der Aufgabe erledigt ist. Lieber einmal zu oft warnen als
-einen fehlerhaften Datenpunkt durchrutschen lassen.
+**Marktdaten wie Gold behandeln (Nulltoleranz).** Prüfe bei jedem Download, Import oder jeder
+Bearbeitung von `raw/marktdaten/`: (1) Ist die Zeit gegen eine unabhängige Quelle geprüft? (2)
+Ist es vollständig — keine fehlenden Tage/Kerzen/Timeframes stillschweigend hinnehmen, Lücken
+explizit auflisten? Melde dich bei jedem Zweifel (Daten wirken fehlerhaft, lückenhaft,
+inkonsistent) **aktiv und ungefragt**, auch wenn der Rest der Aufgabe erledigt ist. Warne lieber
+einmal zu oft, als einen fehlerhaften Datenpunkt durchrutschen zu lassen.
 
-**Frische Live-Daten bei Zukunftsfragen.** Fragt der Nutzer nach dem aktuellen oder zukünftigen
-Marktstand, **immer zuerst `python algo/live_status.py` neu ausführen** — nie auf zuvor
-gelesene `raw/marktdaten/`-CSVs oder einen älteren Live-Lauf im selben Gespräch verlassen, auch
-bei Wiederholung der Frage. Bekannte Grenze: yfinance kann bei MNQ=F/ES=F mehrere Stunden hinter
-der echten NY-Zeit zurückliegen — liegt `price.t` >15-20 Min hinter der aktuellen NY-Zeit (bei
-5m-TF), das aktiv melden statt die Daten stillschweigend als aktuell auszugeben.
+**Frische Live-Daten bei Zukunftsfragen.** Führe bei einer Frage des Nutzers zum aktuellen oder
+zukünftigen Marktstand **immer zuerst `python algo/live_status.py` neu aus** — verlass dich nie
+auf zuvor gelesene `raw/marktdaten/`-CSVs oder einen älteren Live-Lauf im selben Gespräch, auch
+nicht bei Wiederholung der Frage. Bekannte Grenze: yfinance kann bei MNQ=F/ES=F mehrere Stunden
+hinter der echten NY-Zeit zurückliegen — liegt `price.t` >15-20 Min hinter der aktuellen NY-Zeit
+(bei 5m-TF), melde das aktiv, statt die Daten stillschweigend als aktuell auszugeben.
 
-**Ziel ist die volle Daily Range, nicht nur Bias.** Über reine Richtungsvorhersage (bullish/
-bearish) hinaus: konkrete OHLC-Zielzonen für die Tagesrange benennen, gestützt auf PD Arrays
-(Order Blocks, FVGs, NDOG/NWOG, Liquidity Pools), Session-Ranges (Asia/London/NY Killzones) und
-wiederkehrende Zeitfenster-Muster. Explizit nach Mustern suchen, die auf algorithmisches
-Verhalten hindeuten, und diese benennen statt nur Levels aufzulisten. NDOG/NWOG gelten dabei als
-besonders relevante PD Arrays — bei jeder Analyse (insbesondere `/algo-live-status`) die
-konkreten Opening-/Closing-Preise mit hinterlegen, nicht nur die Gap-Größe.
+**Ziel ist die volle Daily Range, nicht nur Bias.** Gehe über reine Richtungsvorhersage
+(bullish/bearish) hinaus: Benenne konkrete OHLC-Zielzonen für die Tagesrange, gestützt auf PD
+Arrays (Order Blocks, FVGs, NDOG/NWOG, Liquidity Pools), Session-Ranges (Asia/London/NY
+Killzones) und wiederkehrende Zeitfenster-Muster. Suche explizit nach Mustern, die auf
+algorithmisches Verhalten hindeuten, und benenne sie, statt nur Levels aufzulisten. Behandle
+NDOG/NWOG dabei als besonders relevante PD Arrays — hinterlege bei jeder Analyse (insbesondere
+`/algo-live-status`) die konkreten Opening-/Closing-Preise, nicht nur die Gap-Größe.
 
 **Jede neue These wird automatisch geloggt und gebacktestet, ohne zu fragen.** Nennt der Nutzer
-eine neue Trading-These oder Beobachtung (Frage oder Aussage), passiert unaufgefordert: (1)
-Eintrag in `algo/PLAN.md`s Log-Tabelle, (2) wenn irgend möglich ein Backtest-Script dafür bauen
-oder erweitern und gegen alle verfügbaren Daten in `raw/marktdaten/` laufen lassen (Reuse-first:
-auf `tools/analyze_ohlc.py`-Detektoren und dem `find_days()`-Muster aufbauen, nicht jedes Mal
-neu erfinden; ein eigener Dateiname `algo/backtest_<these>.py` pro These), (3) Ergebnis ehrlich
-berichten, auch wenn es der Nutzer-These widerspricht — Zahlen werden nicht geschönt, um
-Zustimmung zu simulieren. Grund: jede ICT-These ist im Rahmen dieses Projekts kein
-Meinungsstück, sondern eine falsifizierbare Behauptung über ein Regelwerk, die geprüft werden
-muss statt nur besprochen zu werden.
+eine neue Trading-These oder Beobachtung (Frage oder Aussage), tu unaufgefordert: (1) Trage sie
+in `algo/PLAN.md`s Log-Tabelle ein, (2) baue oder erweitere, wenn irgend möglich, ein
+Backtest-Script dafür und lass es gegen alle verfügbaren Daten in `raw/marktdaten/` laufen
+(Reuse-first: baue auf `tools/analyze_ohlc.py`-Detektoren und dem `find_days()`-Muster auf,
+erfinde nicht jedes Mal neu; nutze einen eigenen Dateinamen `algo/backtest_<these>.py` pro
+These), (3) berichte das Ergebnis ehrlich, auch wenn es der Nutzer-These widerspricht — schöne
+Zahlen nicht, um Zustimmung zu simulieren. Grund: Behandle jede ICT-These im Rahmen dieses
+Projekts nicht als Meinungsstück, sondern als falsifizierbare Behauptung über ein Regelwerk, die
+geprüft werden muss statt nur besprochen zu werden.
 
-**Proaktiv gegenprüfen, offene Hypothesen halten, Falsifiziertes löschen.** Ständig
-gegenprüfen und Vorschläge machen, nicht nur auf explizite Backtest-Aufträge reagieren — taucht
-eine Zahl/These im Gespräch auf, aktiv prüfen statt zu warten. Unsichere Nutzeraussagen ("ich
-weiß nicht genau, ob...") als offene Hypothese in der passenden `wiki/synthesis/`-Seite (Muster
-"(laufend)" im Namen) festhalten und bei neuen Daten aktualisieren. **Bewusste Ausnahme von der
-generellen Widerspruchsregel** (siehe Seitenkonventionen oben): eigene Backtest-Ergebnisse sind
-keine zwei gleichwertigen Meinungen, sondern eine nachprüfbare Zahl — stellt sich ein früherer
-Fund mit mehr Daten als Rauschen heraus, wird er **entfernt**, nicht als „⚠️ widerlegt"
-stehengelassen. Ausdrücklich anders: eine vom Nutzer explizit als "weiter beobachten" markierte
-These (z.B. die ORG-C.E.-70%-These, aktuell 35-43% im eigenen Backtest) bleibt trotz
-widersprechender Zahlen aktiv bestehen und wird in jedem neuen Bericht kommentiert, statt als
-erledigt/widerlegt abgehakt zu werden — der Nutzer entscheidet hier explizit gegen das
+**Proaktiv gegenprüfen, offene Hypothesen halten, Falsifiziertes löschen.** Prüfe ständig gegen
+und mach Vorschläge, statt nur auf explizite Backtest-Aufträge zu reagieren — taucht eine
+Zahl/These im Gespräch auf, prüfe sie aktiv, statt zu warten. Halte unsichere Nutzeraussagen
+("ich weiß nicht genau, ob...") als offene Hypothese in der passenden `wiki/synthesis/`-Seite
+(Muster "(laufend)" im Namen) fest und aktualisiere sie bei neuen Daten. **Bewusste Ausnahme von
+der generellen Widerspruchsregel** (siehe Seitenkonventionen oben): Behandle eigene
+Backtest-Ergebnisse nicht als zwei gleichwertige Meinungen, sondern als nachprüfbare Zahl —
+stellt sich ein früherer Fund mit mehr Daten als Rauschen heraus, **entferne** ihn, statt ihn als
+„⚠️ widerlegt" stehenzulassen. Ausdrücklich anders: Lass eine vom Nutzer explizit als "weiter
+beobachten" markierte These (z.B. die ORG-C.E.-70%-These, aktuell 35-43% im eigenen Backtest)
+trotz widersprechender Zahlen aktiv bestehen und kommentiere sie in jedem neuen Bericht, statt
+sie als erledigt/widerlegt abzuhaken — der Nutzer entscheidet hier explizit gegen das
 Standard-Löschverfahren.
 
-**Korrektheit vor Features, weil reales Geld geplant ist.** Backtest-Code, der Zahlen liefert,
-die nicht dem realen Kontrakt-P&L entsprechen (Notional-Prozent statt echtem Punktwert, geratene
-statt konservativ aufgelöste Stop/Ziel-Reihenfolge in derselben Kerze, Lookahead-Bias,
-Data-Leakage), hat **höchste Priorität** — vor neuen Strategien, vor Optik-/Dashboard-
-Verbesserungen. Bei jedem neuen Backtest-Script oder jeder Erweiterung zuerst prüfen: (1) echter
+**Korrektheit vor Features, weil reales Geld geplant ist.** Priorisiere Backtest-Code, der
+Zahlen liefert, die nicht dem realen Kontrakt-P&L entsprechen (Notional-Prozent statt echtem
+Punktwert, geratene statt konservativ aufgelöste Stop/Ziel-Reihenfolge in derselben Kerze,
+Lookahead-Bias, Data-Leakage), **höchste** — vor neuen Strategien, vor Optik-/Dashboard-
+Verbesserungen. Prüfe bei jedem neuen Backtest-Script oder jeder Erweiterung zuerst: (1) echter
 Punktwert/Kontraktgröße statt Notional-Prozent, (2) konservative statt geratene Fill-Reihenfolge
 bei Stop/Ziel in derselben Kerze (`dubious_pct` als Pflichtkennzahl in jedem Report), (3) kein
-Lookahead in Signalen/Modellen (nur `bars[t<=when]`). Gefundene Bugs werden **direkt repariert**,
-ohne vorherige Freigabeschleife pro Einzelfund — ein Bericht am Ende reicht. Optik-Wünsche (z.B.
-"Bloomberg-Terminal-Look" für `dashboard.py`) sind explizit nachrangig und werden nur auf
-separate Anfrage umgesetzt. `algo/selfcheck.py` bündelt die Regressions-Selbstchecks (`pnl`,
-`rules`, `signals`, `backtest_ensemble`) — vor größeren Refactors laufen lassen.
+Lookahead in Signalen/Modellen (nur `bars[t<=when]`). Repariere gefundene Bugs **direkt**, ohne
+vorherige Freigabeschleife pro Einzelfund — ein Bericht am Ende reicht. Behandle Optik-Wünsche
+(z.B. "Bloomberg-Terminal-Look" für `dashboard.py`) explizit als nachrangig und setze sie nur
+auf separate Anfrage um. Lass `algo/selfcheck.py` (bündelt die Regressions-Selbstchecks `pnl`,
+`rules`, `signals`, `backtest_ensemble`) vor größeren Refactors laufen.
 
 **Marktdaten-Lücken nachträglich schließbar.** Fehlt in einem ingesteten Export ein Zeitabschnitt
-(z.B. ein ganzer Monat in `raw/trading-ict/Core Content/`), vor dem Nachfragen beim Nutzer
-prüfen, ob der YouTube-Kanal `@InnerCircleTrader` dieselben Inhalte als Video-Reihe hat
-(Suchmuster `"ICT Mentorship Core Content - Month <NN>"`) — das `yt-ict-ingest`-Skill deckt den
-technischen Ablauf ab.
+(z.B. ein ganzer Monat in `raw/trading-ict/Core Content/`), prüfe vor dem Nachfragen beim Nutzer,
+ob der YouTube-Kanal `@InnerCircleTrader` dieselben Inhalte als Video-Reihe hat (Suchmuster
+`"ICT Mentorship Core Content - Month <NN>"`) — das `yt-ict-ingest`-Skill deckt den technischen
+Ablauf ab.
 
 ## Algo-Trading: Roadmap zur IBKR-Anbindung
 
