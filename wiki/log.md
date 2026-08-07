@@ -1020,3 +1020,22 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Bewusst ausgefiltert: Geburtstag/Familienanekdote, Meta-Kommentare gegen X-Kritiker,
   Selbstpromotion des eigenen X-Feeds.
 - Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-08] ingest | How I Develop Trading Strategies (Permutation Tests, neurotrader)
+- Quelle: `raw/How I Develop Trading Strategies  Permutation Tests and Trading Strategy
+  Development with Python.md` (YouTube-Transkript, kein ICT/SMC-Material — algo-methodology-
+  Domäne). Inhaltsgleiches Scratch-Duplikat ohne Metadaten liegt bereits laenger unter
+  `raw/md.md`, war Quelle fuer `docs/superpowers/specs/2026-08-08-algo-permutation-test-design.md`
+  (Design fuer `algo/permutation_test.py`, dort explizit als offener Folge-Schritt vermerkt) — mit
+  diesem Ingest nachgeholt.
+- Seiten erstellt: `wiki/sources/How I Develop Trading Strategies (Source).md`,
+  `wiki/concepts/Monte Carlo Permutation Test (MCPT).md`,
+  `wiki/concepts/Vier-Stufen-Strategieentwicklung (Masters).md`.
+- Seiten aktualisiert: `wiki/index.md` (neue Sources-Unterrubrik "Algo-Methodik", zwei neue
+  Concepts-Einträge).
+- Terminologie bewusst abgegrenzt: der neue Bar-Permutationstest heißt konsequent "MCPT", nicht
+  "Monte Carlo" — `algo/validate.py` nutzt diesen Begriff bereits fuer Trade-Order-Resampling,
+  ein anderes Verfahren.
+- Code-Implementierung (`algo/permutation_test.py`) bleibt offener Backlog-Punkt, nicht Teil
+  dieses Ingests — Design steht, siehe Spec.
+- Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).

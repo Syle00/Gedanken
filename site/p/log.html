@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">75</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">77</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">180</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">181</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -109,6 +109,7 @@
 <li><a href="#2026-08-07-synthesis-kw32-2026-weekly-review">[2026-08-07] synthesis | KW32 2026 — Weekly Review</a></li>
 <li><a href="#2026-08-07-synthesis-two-stage-news-delivery-fomc-nfp-neue-hypothese-aus-live-beobachtung">[2026-08-07] synthesis | Two Stage News Delivery (FOMC &amp; NFP) — neue Hypothese aus Live-Beobachtung</a></li>
 <li><a href="#2026-08-07-ingest-youtube-case-study-with-nonfarm-payroll-nq-futures">[2026-08-07] ingest | YouTube: Case Study With NonFarm Payroll &amp; NQ Futures</a></li>
+<li><a href="#2026-08-08-ingest-how-i-develop-trading-strategies-permutation-tests-neurotrader">[2026-08-08] ingest | How I Develop Trading Strategies (Permutation Tests, neurotrader)</a></li>
 </ul>
 </div>
 </details>
@@ -1195,6 +1196,26 @@
   CBDR/Asia), <code>wiki/index.md</code>.</li>
 <li>Bewusst ausgefiltert: Geburtstag/Familienanekdote, Meta-Kommentare gegen X-Kritiker,
   Selbstpromotion des eigenen X-Feeds.</li>
+<li>Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).</li>
+</ul>
+<h2 id="2026-08-08-ingest-how-i-develop-trading-strategies-permutation-tests-neurotrader">[2026-08-08] ingest | How I Develop Trading Strategies (Permutation Tests, neurotrader)</h2>
+<ul>
+<li>Quelle: <code>raw/How I Develop Trading Strategies  Permutation Tests and Trading Strategy
+  Development with Python.md</code> (YouTube-Transkript, kein ICT/SMC-Material — algo-methodology-
+  Domäne). Inhaltsgleiches Scratch-Duplikat ohne Metadaten liegt bereits laenger unter
+  <code>raw/md.md</code>, war Quelle fuer <code>docs/superpowers/specs/2026-08-08-algo-permutation-test-design.md</code>
+  (Design fuer <code>algo/permutation_test.py</code>, dort explizit als offener Folge-Schritt vermerkt) — mit
+  diesem Ingest nachgeholt.</li>
+<li>Seiten erstellt: <code>wiki/sources/How I Develop Trading Strategies (Source).md</code>,
+  <code>wiki/concepts/Monte Carlo Permutation Test (MCPT).md</code>,
+  <code>wiki/concepts/Vier-Stufen-Strategieentwicklung (Masters).md</code>.</li>
+<li>Seiten aktualisiert: <code>wiki/index.md</code> (neue Sources-Unterrubrik "Algo-Methodik", zwei neue
+  Concepts-Einträge).</li>
+<li>Terminologie bewusst abgegrenzt: der neue Bar-Permutationstest heißt konsequent "MCPT", nicht
+  "Monte Carlo" — <code>algo/validate.py</code> nutzt diesen Begriff bereits fuer Trade-Order-Resampling,
+  ein anderes Verfahren.</li>
+<li>Code-Implementierung (<code>algo/permutation_test.py</code>) bleibt offener Backlog-Punkt, nicht Teil
+  dieses Ingests — Design steht, siehe Spec.</li>
 <li>Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).</li>
 </ul></div>
   

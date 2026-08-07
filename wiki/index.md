@@ -56,6 +56,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Midnight Opening Range]] — 0:00–0:30 NY, Fib + negative STD fürs Daily High/Low, max. Manipulation −1 STD (2026-08-02)
 - [[Modell 22]] — 2026er Turtle-Soup-Trigger über MSS+SIBI, linkes-IFVG-Regel (2026-08-01)
 - [[Momentum-Divergenz als Retail-Falle (Divergence Phantoms)]] — Typ-1- vs. Typ-2-Divergenz, Smart Money nutzt Retail-Divergenz-Signale zum Stop-Run, Abgrenzung zu SMT (2026-08-06)
+- [[Monte Carlo Permutation Test (MCPT)]] — Bar-Permutation zerstört Muster statistik-erhaltend, P-Wert prüft Data-Mining-Bias einer Strategie; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[New Week Opening Gap (NWOG) Bias]] — Wöchentliche Bias-Regel + Intraweek-Reversal-Muster (2026-08-01)
 - [[Open Float & Liquidity Pools]] — Wo liegen die Stops der großen Funds, OI-Bestätigung (2026-08-01)
 - [[Optimal Trade Entry (OTE)]] — Retracement-Entry 62/70,5/79 % mit Targets und protectetem SL (2026-08-02)
@@ -81,6 +82,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Turtle Soup]] — Fehlausbruch-Setup mit Rückkehr in FVG/Retracement (2026-08-01)
 - [[Two Stage News Delivery (FOMC & NFP)]] — ⚠️ offene Hypothese: News-Reaktion in zwei zeitlich getrennten, teils gegenläufigen Stages statt einer Bewegung, live an NFP 07.08.2026 beobachtet, jetzt primärquellenbestätigt durch ICT selbst (2026-08-07)
 - [[Verlust-Mitigation durch reduzierte Re-Entry-Size]] — nach Stop-out mit halber Size re-entrien, R2 gleicht vollen Verlust aus (2026-08-06)
+- [[Vier-Stufen-Strategieentwicklung (Masters)]] — In-Sample Excellence → In-Sample MCPT → Walk-Forward → Walk-Forward MCPT, generischer Validierungsprozess; algo-methodology (2026-08-08)
 - [[Volume Imbalance (VII)]] — Lücke Close→Open; bestimmt die FVG-Grenzen und ist selbst eine PD Array (2026-08-02)
 
 ## Models
@@ -267,6 +269,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 ### Macro
 
 - [[Federal Open Market Committee (Source)]] — Fed-Referenzseite (nicht ICT-spezifisch)
+
+### Algo-Methodik
+
+- [[How I Develop Trading Strategies (Source)]] — neurotrader-Transkript: Vier-Stufen-Prozess +
+  Bar-Permutationstest (MCPT) zur Overfitting-Erkennung, kein ICT-Material (2026-08-08)
 
 ## Synthesis
 
