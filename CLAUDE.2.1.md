@@ -357,43 +357,44 @@ Ablauf ab.
 
 ## Algo-Trading: Roadmap zur IBKR-Anbindung
 
-Reihenfolge, in der das Projekt sich Richtung Layer-0-Ziel bewegt — jede Stufe baut auf der
-vorherigen auf, keine wird übersprungen:
+Folge dieser Reihenfolge, in der sich das Projekt Richtung Layer-0-Ziel bewegt — jede Stufe baut
+auf der vorherigen auf, überspringe keine:
 
-1. **Datensammlung (laufend, nie abgeschlossen).** `raw/marktdaten/` wächst täglich
+1. **Datensammlung (laufend, nie abgeschlossen).** Lass `raw/marktdaten/` täglich wachsen
    (TradingView-Export + `algo/fetch_yfinance.py`-Nachlad), begrenzt durch yfinance-Limits
-   (1m ~30 Tage, 5m/15m ~60 Tage, 1d unbegrenzt zurück). Mehr Historie in Intraday-Auflösung
-   braucht perspektivisch eine zweite Datenquelle (Kandidat: IBKR selbst, sobald die
-   API-Anbindung aus Punkt 4 steht — historische Daten und Live-Order-Ausführung über denselben
-   Broker zu beziehen vermeidet Datenquellen-Drift zwischen Backtest und Live-Betrieb).
-2. **Regel-Schicht (laufend).** Wiki-Konzepte (`wiki/models/`) werden zu deterministischen
-   Python-Regeln (`algo/rules.py::plan_trade` als erstes Beispiel: Silver Bullet Model). Jede
-   neue Regel folgt [[Algo-Trading: Arbeitsstandards]] — kein Lookahead, Reuse bestehender
+   (1m ~30 Tage, 5m/15m ~60 Tage, 1d unbegrenzt zurück). Ziehe für mehr Historie in
+   Intraday-Auflösung perspektivisch eine zweite Datenquelle heran (Kandidat: IBKR selbst,
+   sobald die API-Anbindung aus Punkt 4 steht — historische Daten und Live-Order-Ausführung über
+   denselben Broker zu beziehen vermeidet Datenquellen-Drift zwischen Backtest und Live-Betrieb).
+2. **Regel-Schicht (laufend).** Übersetze Wiki-Konzepte (`wiki/models/`) in deterministische
+   Python-Regeln (`algo/rules.py::plan_trade` als erstes Beispiel: Silver Bullet Model). Folge
+   bei jeder neuen Regel [[Algo-Trading: Arbeitsstandards]] — kein Lookahead, Reuse bestehender
    Detektoren aus `tools/analyze_ohlc.py`.
-3. **Validierung (Standardwerkzeug für jede Regel, nicht optional).** Einzelbacktest
-   (`backtest_bt.py`) reicht nicht — Parameter-Sensitivität, Walk-Forward (rollierende Folds,
-   Out-of-Sample ohne Refit) und Monte-Carlo-Resampling (`validate.py`) laufen für jede Regel,
-   bevor eine Zahl als belastbar gilt. Stress-Test gegen historische Krisenfenster
-   (`stress_test.py`) für Verhaltenscharakterisierung unter Extrembedingungen. Erst wenn eine
-   Regel hier über mehrere Verfahren hinweg konsistent (nicht zwingend profitabel, aber
-   *verstanden*) abschneidet, ist sie reif für den nächsten Schritt.
-4. **IBKR-Adapter, dünn und broker-unabhängig gehalten.** `algo/broker_ibkr.py` (noch nicht
-   angelegt): Order-Ausführung über TWS/IB-Gateway-API (`ib_insync` oder offizielles `ibapi`)
-   hinter einer schmalen Schnittstelle (`place_order`, `get_position`, `cancel`) — die
-   Regel-Schicht bleibt broker-unabhängig, damit sie weiter isoliert testbar bleibt. Wird erst
-   nach Punkt 2+3 begonnen, nicht parallel.
-5. **Paper-Trading zuerst, ausnahmslos.** Der Adapter läuft zuerst gegen ein IBKR-Paper-Trading-
-   Konto. Kein Übergang zu echtem Kapital ohne expliziten, gesonderten Freigabeschritt durch den
-   Nutzer — das ist keine Formalie, sondern eine harte Sperre in diesem Projekt: Live-Handel mit
-   echtem Geld wird nie stillschweigend aus einer anderen Aufgabe heraus aktiviert.
-6. **Live-Betrieb, nach expliziter Freigabe.** Erst danach: laufende Ausführung, mit
+3. **Validierung (Standardwerkzeug für jede Regel, nicht optional).** Verlass dich nicht auf
+   einen Einzelbacktest (`backtest_bt.py`) — lass Parameter-Sensitivität, Walk-Forward
+   (rollierende Folds, Out-of-Sample ohne Refit) und Monte-Carlo-Resampling (`validate.py`) für
+   jede Regel laufen, bevor eine Zahl als belastbar gilt. Führe Stress-Tests gegen historische
+   Krisenfenster (`stress_test.py`) für die Verhaltenscharakterisierung unter Extrembedingungen
+   durch. Bringe eine Regel erst dann zum nächsten Schritt, wenn sie hier über mehrere Verfahren
+   hinweg konsistent (nicht zwingend profitabel, aber *verstanden*) abschneidet.
+4. **IBKR-Adapter, dünn und broker-unabhängig gehalten.** Baue `algo/broker_ibkr.py` (noch nicht
+   angelegt) für die Order-Ausführung über TWS/IB-Gateway-API (`ib_insync` oder offizielles
+   `ibapi`) hinter einer schmalen Schnittstelle (`place_order`, `get_position`, `cancel`) — halte
+   die Regel-Schicht broker-unabhängig, damit sie weiter isoliert testbar bleibt. Beginne das
+   erst nach Punkt 2+3, nicht parallel dazu.
+5. **Paper-Trading zuerst, ausnahmslos.** Lass den Adapter zuerst gegen ein
+   IBKR-Paper-Trading-Konto laufen. Wechsle nie zu echtem Kapital ohne expliziten, gesonderten
+   Freigabeschritt durch den Nutzer — das ist keine Formalie, sondern eine harte Sperre in diesem
+   Projekt: Aktiviere Live-Handel mit echtem Geld nie stillschweigend aus einer anderen Aufgabe
+   heraus.
+6. **Live-Betrieb, nach expliziter Freigabe.** Betreibe erst danach die laufende Ausführung, mit
    kontinuierlichem Monitoring (`algo/dashboard.py`-Nachfolger oder eigenes Live-Reporting) und
    demselben Korrektheits-Standard wie im Backtest (echter $-P&L, keine Notional-Näherung).
 
-**Security-Gate.** Sobald echte IBKR-Keys ins Spiel kommen (spätestens Punkt 4), Secret-Scan von
-"einmalig/gelegentlich" auf ein festes Intervall umstellen (mind. wöchentlich, vor jedem
-Live-Übergang zwingend) — aktuell (Stand 2026-08-07) ohne Live-Keys unnötiger Aufwand, das
-kippt aber mit dem ersten Broker-Zugangsdaten-File.
+**Security-Gate.** Stelle den Secret-Scan, sobald echte IBKR-Keys ins Spiel kommen (spätestens
+Punkt 4), von "einmalig/gelegentlich" auf ein festes Intervall um (mind. wöchentlich, vor jedem
+Live-Übergang zwingend) — aktuell (Stand 2026-08-07) ohne Live-Keys unnötiger Aufwand, das kippt
+aber mit dem ersten Broker-Zugangsdaten-File.
 
 ## Protokoll- und Datenartefakte
 
