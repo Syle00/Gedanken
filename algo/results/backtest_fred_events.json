@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-08-07T21:19:13.718521+00:00",
+  "n_days": 150,
+  "first_day": "2026-01-02",
+  "last_day": "2026-08-07",
+  "vix_regimes": {
+    "niedrig": {
+      "n": 50,
+      "vix_range": [
+        14.49,
+        16.9
+      ],
+      "median_range": 456.25,
+      "avg_abs_ret_pct": 0.8216202838268344
+    },
+    "mittel": {
+      "n": 50,
+      "vix_range": [
+        16.99,
+        18.92
+      ],
+      "median_range": 524.625,
+      "avg_abs_ret_pct": 1.174480982868765
+    },
+    "hoch": {
+      "n": 50,
+      "vix_range": [
+        18.92,
+        31.05
+      ],
+      "median_range": 493.0,
+      "avg_abs_ret_pct": 1.2637785797268608
+    }
+  },
+  "vix_delta_corr": -0.7216486877947029,
+  "vix_delta_n": 149,
+  "dgs10_delta_corr": -0.27682127667159856,
+  "dgs10_delta_n": 149,
+  "walcl_grow_avg_week_ret": 0.7139413826402224,
+  "walcl_grow_n": 21,
+  "walcl_shrink_avg_week_ret": 0.8576645046266922,
+  "walcl_shrink_n": 6
+}
