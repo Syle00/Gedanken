@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-08-07T21:49:02.291472+00:00",
+  "symbol": "MNQ",
+  "n_days": 43,
+  "agg": {
+    "fvg_all": 1826,
+    "fvg_all_ce_hit": 1600,
+    "fvg_all_filled": 1553,
+    "fvg_big": 186,
+    "fvg_big_ce_hit": 137,
+    "fvg_big_filled": 127,
+    "vii": 6892,
+    "vii_filled": 6582,
+    "sweeps": 437,
+    "sweeps_immediate": 262,
+    "bos": 400,
+    "mss": 306,
+    "macro_windows": 766,
+    "macro_expansions": 180
+  }
+}
