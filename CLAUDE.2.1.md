@@ -113,8 +113,9 @@ obige Schema ist das Trading-spezifische Beispiel, kein starres Gesetz.
 
 ## Layer 3 — `site/` (generiert, nie von Hand bearbeiten)
 
-Eine statische, wikipedia-artige HTML-Ansicht des `wiki/`-Layers, erzeugt von
-`tools/build_site.py`. Gedacht für die lokale Nutzung: `site/index.html` im Browser öffnen.
+Bearbeite `site/` nie von Hand — es ist eine statische, wikipedia-artige HTML-Ansicht des
+`wiki/`-Layers, erzeugt von `tools/build_site.py`. Öffne `site/index.html` im Browser für die
+lokale Nutzung.
 
 ```
 site/
@@ -125,20 +126,20 @@ site/
   search-index.js     Suchindex (bewusst .js statt .json — file:// blockiert fetch auf JSON)
 ```
 
-Was der Generator aus dem Wiki macht:
+Der Generator verarbeitet das Wiki so:
 
-- **Wikilinks** werden wie in Obsidian vault-weit über den Dateinamen aufgelöst, inklusive
-  Alias (`[[Seite|Kurzform]]`). Zeigt ein Link auf eine Rohquelle `X`, greift automatisch die
+- **Wikilinks** löst er wie Obsidian vault-weit über den Dateinamen auf, inklusive Alias
+  (`[[Seite|Kurzform]]`). Zeigt ein Link auf eine Rohquelle `X`, greift automatisch die
   Wiki-Seite `X (Source)`.
-- **Bilder** werden nicht kopiert, sondern relativ nach `raw/` referenziert — das hält `site/`
+- **Bilder** kopiert er nicht, sondern referenziert sie relativ nach `raw/` — das hält `site/`
   bei ~2 MB statt 190 MB. Eine `![[bild.png]]`-Zeile plus direkt folgende `*Kursivzeile*` wird
   zu `<figure>` mit Bildunterschrift.
-- **Backlinks** („Was zeigt hierher") entstehen automatisch pro Seite.
-- **Unauflösbare Links** brechen den Build nicht ab, sondern werden grau markiert und am Ende
-  aufgelistet — sie sind laut Seitenkonvention gewollte Lücken.
+- **Backlinks** ("Was zeigt hierher") erzeugt er automatisch pro Seite.
+- **Unauflösbare Links** lassen den Build nicht abbrechen — er markiert sie grau und listet sie
+  am Ende auf; sie sind laut Seitenkonvention gewollte Lücken.
 
-Der Build ist reproduzierbar: `site/` darf jederzeit gelöscht und neu erzeugt werden.
-Abhängigkeiten: `python -m pip install -r tools/requirements.txt` (nur `markdown` + `pyyaml`).
+Lösche `site/` jederzeit und erzeuge es neu — der Build ist reproduzierbar. Installiere die
+Abhängigkeiten mit `python -m pip install -r tools/requirements.txt` (nur `markdown` + `pyyaml`).
 
 ## Versionskontrolle
 
