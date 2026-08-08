@@ -220,3 +220,9 @@ Verwandt und ebenfalls fast gratis in derselben Schleife: der `unbiased_pval` ge
 
 Die billigere, ungenauere Alternative zur reinen Bias-Schätzung ohne Permutationen ist StocBias —
 ebenfalls auf [[Training Bias & Selection Bias]].
+
+## Implementierung
+
+`algo/masters.py`: `partition_return(original_return, nlong, nshort, trend_per_return, permuted)` liefert ein `Partition`-Objekt mit `trend`, `training_bias`, `unbiased_return`, `skill` und `p_value` in einem Durchgang.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

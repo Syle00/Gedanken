@@ -149,6 +149,7 @@
 </ul>
 </li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -577,7 +578,10 @@ eine Größenordnung. Vor jeder Kapitalfreigabe relevant, siehe Roadmap-Stufe 5/
 <span class="broken" title="Seite existiert noch nicht">Algo-Trading: Arbeitsstandards</span>.</p>
 <p>Zweiter offener Punkt: Für die Live-Überwachung existiert im Projekt noch keine Grenze. Sobald
 genug OOS-Wochen vorliegen, wäre die Quantilgrenze aus Teil 1 auf <strong>Wochen- oder Monatsrenditen</strong>
-das passende Werkzeug — zusammen mit <code>orderstat_tail</code>, um zu wissen, wie sehr man ihr trauen darf.</p></div>
+das passende Werkzeug — zusammen mit <code>orderstat_tail</code>, um zu wissen, wie sehr man ihr trauen darf.</p>
+<h2 id="implementierung">Implementierung</h2>
+<p><code>algo/masters.py</code>: <code>return_bound(returns, p, upper=…)</code> für Einzelrenditen, <code>orderstat_tail(n, q, m)</code> / <code>quantile_conf(n, m, conf)</code> für das Vertrauen in diese Grenze. Drawdown: <code>drawdown()</code>, <code>dd_to_pct()</code>, <code>drawdown_bound()</code> (korrekter Doppel-Bootstrap) und <code>drawdown_bound_naive()</code> — letzteres bewusst mitgeliefert, um den Unterschied messen zu können.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a><span class="cat">Konzepte</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Grenzen für Einzelrenditen &amp; Drawdown.md</code></footer>
 </article>

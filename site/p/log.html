@@ -114,6 +114,7 @@
 <li><a href="#2026-08-08-ingest-successful-algorithmic-trading-halls-moore-pdf-kein-trading-content">[2026-08-08] ingest | Successful Algorithmic Trading (Halls-Moore, PDF, kein Trading-Content)</a></li>
 <li><a href="#2026-08-08-ingest-testing-and-tuning-market-trading-systems-masters-epub">[2026-08-08] ingest | Testing and Tuning Market Trading Systems (Masters, EPUB)</a></li>
 <li><a href="#2026-08-08-ingest-testing-and-tuning-market-trading-systems-nachtrag-vollstaendig-gelesen-seiten-zu-referenzseiten-ausgebaut">[2026-08-08] ingest | Testing and Tuning Market Trading Systems — Nachtrag: vollstaendig gelesen, Seiten zu Referenzseiten ausgebaut</a></li>
+<li><a href="#2026-08-08-setup-masters-verfahren-als-lauffaehiger-code-algomasterspy">[2026-08-08] setup | Masters-Verfahren als lauffaehiger Code (algo/masters.py)</a></li>
 </ul>
 </div>
 </details>
@@ -1363,6 +1364,30 @@
 <li>Keine Aussage des ersten Durchgangs musste zurueckgenommen werden — die Kernfunde waren richtig,
   nur zu duenn belegt.</li>
 <li>Noch nicht ausgefuehrt: push.ps1 (folgt unmittelbar).</li>
+</ul>
+<h2 id="2026-08-08-setup-masters-verfahren-als-lauffaehiger-code-algomasterspy">[2026-08-08] setup | Masters-Verfahren als lauffaehiger Code (<code>algo/masters.py</code>)</h2>
+<ul>
+<li>Anlass: Nutzerfrage, ob die Code-Beispiele des Buches lesbar und nutzbar sind.</li>
+<li>Befund: Das Buch druckt seinen C++-Code nur in <strong>Fragmenten</strong> -- die vollstaendigen .CPP-Dateien
+  liegen nicht im EPUB, Masters verweist auf seine Website. Gelesen sind alle abgedruckten
+  Fragmente; sie decken die algorithmische Substanz vollstaendig ab. Alles, was nur <em>referenziert</em>
+  wird (STATS.CPP, SVDCMP.CPP, QSORTD.CPP, GLOB_MAX.CPP, BRENTMAX.CPP, EVER_RS.CPP), ist
+  Standardnumerik mit exakten scipy/numpy-Entsprechungen -- nutzbar ist also alles.</li>
+<li>Neu: <code>algo/masters.py</code> (Bibliothek, kein CLI, keine Marktdaten) mit 20 Funktionen plus
+  Selbstcheck; eingehaengt in <code>algo/selfcheck.py</code> (jetzt 7 Checks, alle gruen).
+  <code>algo/README.md</code> um einen Modulabschnitt ergaenzt, <code>algo/requirements.txt</code> um <code>scipy&gt;=1.10</code>.</li>
+<li>Seiten aktualisiert: alle 13 Masters-Seiten haben jetzt einen Abschnitt <strong>Implementierung</strong> mit
+  der zustaendigen Funktion -- bzw. der Begruendung, warum bewusst nicht portiert wurde
+  (Elastic Net -&gt; sklearn, Differential Evolution -&gt; scipy, PARAMCOR -&gt; braucht eine
+  DE-Endpopulation).</li>
+<li>Der Selbstcheck prueft Eigenschaften statt nur Durchlauf: permutierte Bars erfuellen alle vier
+  Struktur-Bedingungen aus Kap. 7, die Multi-Markt-Permutation erhaelt die Korrelation,
+  CSCV trennt einen echten Edge (0,00) von reinem Rauschen (0,86), der Doppel-Bootstrap ist
+  konservativer als der naive (Faktor 1,34), StocBias zeigt an 400 reinen Rausch-Kandidaten
+  IS +0,2467 gegen OOS -0,0298, und die Identitaet TotalReturn = Skill + Trend + TrainingBias
+  geht exakt auf.</li>
+<li>Nebenbefund: <code>scikit-learn</code> stand in <code>algo/requirements.txt</code>, war in der Umgebung aber nicht
+  installiert -- <code>algo/selfcheck.py</code> lief dadurch gar nicht durch. Nachinstalliert.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

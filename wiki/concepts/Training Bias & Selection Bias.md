@@ -206,3 +206,9 @@ Trendanteils): [[Return-Partitionierung (Skill, Trend, Training Bias)]].
   leisten kann.
 - [[Nested Walkforward]] ist die Antwort auf denselben Befund für den Fall, dass die Auswahl nicht
   einmalig, sondern **laufend** stattfindet.
+
+## Implementierung
+
+`algo/masters.py`: `stoc_bias(returns_matrix)` liefert `(IS_return, OOS_return, bias)`. Der Selbstcheck zeigt den Effekt an reinem Rauschen: 400 Zufallskandidaten über 60 Bars ergeben IS **+0,2467** gegen OOS **−0,0298**.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

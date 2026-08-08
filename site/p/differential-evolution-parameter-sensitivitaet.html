@@ -143,6 +143,7 @@
 <li><a href="#teil-3-hessian-analyse-paramcor">Teil 3 — Hessian-Analyse (PARAMCOR)</a></li>
 <li><a href="#referenzlauf-dev_ma-auf-oex">Referenzlauf DEV_MA auf OEX</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -537,7 +538,10 @@ Evolution würde erst interessant, wenn die Regelschicht so viele Parameter beko
 nicht mehr durchläuft — und dann wäre der PARAMCOR-Teil ein billiges Nebenprodukt.</p>
 <p><strong>Sofort übertragbar, unabhängig vom Optimierer:</strong> die Kommensurabilitäts-Regel. Wer Stop-Puffer
 in Prozent, Zeitfenster in Minuten und Zielabstände in Punkten mischt, bekommt aus jeder
-abstandsbasierten Analyse Unsinn heraus.</p></div>
+abstandsbasierten Analyse Unsinn heraus.</p>
+<h2 id="implementierung">Implementierung</h2>
+<p>Bewusst <strong>nicht</strong> portiert — <code>scipy.optimize.differential_evolution</code> deckt den Optimierer ab (ohne Overinitialization und den rotierenden Hill-Climbing-Schritt; <code>polish=True</code> erfüllt einen ähnlichen Zweck). PARAMCOR entfällt mangels DE-Endpopulation. Die Sensitivitätskurven aus Teil 2 rechnet <code>algo/backtest_walkforward.py</code> bereits — bisher nur eindimensional.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">5</span></h2><ul><li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Differential Evolution &amp; Parameter-Sensitivität.md</code></footer>
 </article>

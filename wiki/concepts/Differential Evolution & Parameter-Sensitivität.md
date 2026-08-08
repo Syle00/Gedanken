@@ -350,3 +350,9 @@ nicht mehr durchläuft — und dann wäre der PARAMCOR-Teil ein billiges Nebenpr
 **Sofort übertragbar, unabhängig vom Optimierer:** die Kommensurabilitäts-Regel. Wer Stop-Puffer
 in Prozent, Zeitfenster in Minuten und Zielabstände in Punkten mischt, bekommt aus jeder
 abstandsbasierten Analyse Unsinn heraus.
+
+## Implementierung
+
+Bewusst **nicht** portiert — `scipy.optimize.differential_evolution` deckt den Optimierer ab (ohne Overinitialization und den rotierenden Hill-Climbing-Schritt; `polish=True` erfüllt einen ähnlichen Zweck). PARAMCOR entfällt mangels DE-Endpopulation. Die Sensitivitätskurven aus Teil 2 rechnet `algo/backtest_walkforward.py` bereits — bisher nur eindimensional.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

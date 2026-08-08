@@ -144,6 +144,7 @@
 <li><a href="#warnung-verhaltniskennzahlen-bootstrappen-schlecht">Warnung: Verhältniskennzahlen bootstrappen schlecht</a></li>
 <li><a href="#referenzlauf-bound_mean-auf-spx">Referenzlauf: BOUND_MEAN auf SPX</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -397,7 +398,10 @@ dem <strong>Logarithmus</strong> rechnen.</p>
 also Bar-Renditen offener Positionen (<a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a>) und keine serielle
 Korrelation (<a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a>).</p>
 <p>Grenzen um <strong>einzelne</strong> künftige Renditen statt um deren Mittelwert:
-<a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a>.</p></div>
+<a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a>.</p>
+<h2 id="implementierung">Implementierung</h2>
+<p><code>algo/masters.py</code>: <code>lower_bound_t(returns, p)</code> liefert <code>(mean, t, p_value, lower)</code> — die Nullhypothese ist genau dann verworfen, wenn <code>lower &gt; 0</code>. <code>lower_bound_bca(...)</code> delegiert an <code>scipy.stats.bootstrap(method="BCa")</code>. Bei Verhältniskennzahlen <code>statistic=log_profit_factor</code> übergeben, nie <code>profit_factor</code>.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">7</span></h2><ul><li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a><span class="cat">Konzepte</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa).md</code></footer>
 </article>

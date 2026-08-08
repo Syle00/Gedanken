@@ -140,6 +140,7 @@
 <li><a href="#ergebnis-65-sp-100-titel-19862017">Ergebnis: 65 S&amp;P-100-Titel, 1986–2017</a></li>
 <li><a href="#permutation-im-geschachtelten-fall">Permutation im geschachtelten Fall</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -427,8 +428,11 @@ Sharpe zu entscheiden, ließe sich diese Wahl mitlaufen lassen — mit dem Nachw
 Mehrwert bringt.</p>
 <p>Siehe auch <a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a> (dort die deutlich einfacher zu
 implementierende Variante CV-in-Walk-Forward) und
-<a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a>.</p></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">5</span></h2><ul><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li></ul></section>
+<a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a>.</p>
+<h2 id="implementierung">Implementierung</h2>
+<p>Nicht als eigene Funktion portiert (die Indexlogik hängt am konkreten System). Der Permutationsteil ist abgedeckt: <code>algo/masters.py::permute_multi(data, rng, offset)</code> dreimal mit den drei Segmentgrenzen aufrufen.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Nested Walkforward.md</code></footer>
 </article>
 </main>

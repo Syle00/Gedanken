@@ -192,3 +192,9 @@ das Werkzeug, mit dem in
 
 Die eine Anwendung von CV, die Masters trotz seiner Ablehnung nützlich findet, steht separat:
 [[CSCV (Combinatorially Symmetric Cross Validation)]].
+
+## Implementierung
+
+Bewusst **nicht** portiert — das Kapitel begründet, warum `algo/validate.py` richtig auf Walk-Forward setzt (`algo/masters.py::walkforward`). Für die eine zulässige Anwendung (Hyperparameter) genügt `sklearn.model_selection`.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

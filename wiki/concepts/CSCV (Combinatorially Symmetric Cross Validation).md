@@ -206,3 +206,9 @@ und die Matrix existiert gar nicht.
 
 Der Test beantwortet eine Frage, die im Vault bisher offen ist: Bringt die Parameteroptimierung
 in `rules.py`/`signals.py` überhaupt etwas, oder wäre ein zufälliger Parametersatz genauso gut?
+
+## Implementierung
+
+`algo/masters.py`: `cscv(returns_matrix, n_blocks, criter)`. Die Matrix (Kandidaten × Bars) entsteht aus `bar_returns_from_trades()` je Parametersatz.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

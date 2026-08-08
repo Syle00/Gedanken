@@ -18,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 
 from pnl import demo as pnl_demo  # noqa: E402
+from masters import demo as masters_demo  # noqa: E402
 from rules import demo as rules_demo  # noqa: E402
 from signals import _demo as signals_demo  # noqa: E402
 from backtest_ensemble import _demo as ensemble_demo  # noqa: E402
@@ -76,6 +77,7 @@ def _results_demo() -> None:
 
 CHECKS = [
     ("pnl", pnl_demo),
+    ("masters", masters_demo),
     ("rules", rules_demo),
     ("signals", signals_demo),
     ("backtest_ensemble", ensemble_demo),

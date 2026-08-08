@@ -143,6 +143,7 @@
 <li><a href="#interlude-was-unbiased-wirklich-heit">Interlude: Was „unbiased" wirklich heißt</a></li>
 <li><a href="#billige-trainings-bias-schatzung-stocbias">Billige Trainings-Bias-Schätzung (StocBias)</a></li>
 <li><a href="#abgrenzung-zu-bestehenden-vault-seiten">Abgrenzung zu bestehenden Vault-Seiten</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -330,7 +331,10 @@ Trendanteils): <a href="../p/return-partitionierung-skill-trend-training-bias.ht
   leisten kann.</li>
 <li><a href="../p/nested-walkforward.html">Nested Walkforward</a> ist die Antwort auf denselben Befund für den Fall, dass die Auswahl nicht
   einmalig, sondern <strong>laufend</strong> stattfindet.</li>
-</ul></div>
+</ul>
+<h2 id="implementierung">Implementierung</h2>
+<p><code>algo/masters.py</code>: <code>stoc_bias(returns_matrix)</code> liefert <code>(IS_return, OOS_return, bias)</code>. Der Selbstcheck zeigt den Effekt an reinem Rauschen: 400 Zufallskandidaten über 60 Bars ergeben IS <strong>+0,2467</strong> gegen OOS <strong>−0,0298</strong>.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">10</span></h2><ul><li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a><span class="cat">Konzepte</span></li><li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a><span class="cat">Konzepte</span></li><li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a><span class="cat">Konzepte</span></li><li><a href="../p/nested-walkforward.html">Nested Walkforward</a><span class="cat">Konzepte</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Training Bias &amp; Selection Bias.md</code></footer>
 </article>

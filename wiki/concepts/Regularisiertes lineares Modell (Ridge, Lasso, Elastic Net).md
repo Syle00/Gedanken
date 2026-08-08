@@ -301,3 +301,9 @@ In Python entspricht das Modell `sklearn.linear_model.ElasticNet` bzw. `ElasticN
 (`l1_ratio` = Masters' α, `alpha` = Masters' λ — **die Namen sind vertauscht**, hier liegt die
 häufigste Verwechslungsquelle). Ein Eigenbau nach Buchvorlage wäre unnötig; die Formeln oben
 dienen dem Verständnis der Stellschrauben, nicht der Reimplementierung.
+
+## Implementierung
+
+Bewusst **nicht** portiert — `sklearn.linear_model.ElasticNetCV` deckt das ab. Namensfalle beachten: sklearns `alpha` ist Masters' λ, sklearns `l1_ratio` sein α.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

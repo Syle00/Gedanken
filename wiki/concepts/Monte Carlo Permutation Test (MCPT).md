@@ -351,3 +351,9 @@ Zwei Auswertungen fallen dort fast gratis mit ab und sollten von Anfang an mitge
 `unbiased_pval` oben (nur das Maximum je Permutation mitführen).
 
 Übergeordneter Prozess: [[Vier-Stufen-Strategieentwicklung (Masters)]].
+
+## Implementierung
+
+`algo/masters.py`: `permute_prices()`, `permute_bars(preserve_oo=…)` und `permute_multi()`. Der `offset`-Parameter deckt die abschnittsweise Permutation ab, die [[Nested Walkforward]] verlangt. `algo/permutation_test.py` (die eigentliche Testschleife) ist weiterhin offener Backlog-Punkt.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

@@ -142,6 +142,7 @@
 <li><a href="#variante-mit-konservativen-open-zu-open-renditen">Variante mit konservativen Open-zu-Open-Renditen</a></li>
 <li><a href="#zwei-referenzlaufe-und-ihre-wichtigste-lehre">Zwei Referenzläufe — und ihre wichtigste Lehre</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -364,7 +365,10 @@ Datenbasis, die im Juli/August 2026 beginnt, ist das keine akademische Frage.</p
 <p>Verwandt und ebenfalls fast gratis in derselben Schleife: der <code>unbiased_pval</code> gegen Selection Bias
 (siehe <a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a> und <a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>).</p>
 <p>Die billigere, ungenauere Alternative zur reinen Bias-Schätzung ohne Permutationen ist StocBias —
-ebenfalls auf <a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>.</p></div>
+ebenfalls auf <a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>.</p>
+<h2 id="implementierung">Implementierung</h2>
+<p><code>algo/masters.py</code>: <code>partition_return(original_return, nlong, nshort, trend_per_return, permuted)</code> liefert ein <code>Partition</code>-Objekt mit <code>trend</code>, <code>training_bias</code>, <code>unbiased_return</code>, <code>skill</code> und <code>p_value</code> in einem Durchgang.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Return-Partitionierung (Skill, Trend, Training Bias).md</code></footer>
 </article>

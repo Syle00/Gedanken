@@ -246,3 +246,9 @@ Einfluss der besseren frühen Bars, auf Kosten von etwas mehr Streuung.
 
 Vorgelagerte Prüfung derselben Frage: [[Indikator-Stationarität & Entropie]].
 Vergleich mit dem Alternativverfahren: [[Cross Validation vs. Walk-Forward (Masters)]].
+
+## Implementierung
+
+`algo/masters.py`: `guard_buffer(lookback, lookahead)` liefert `OMIT`, `walkforward(n, ntrain, ntest, omit, extra)` ist der Fold-Generator. Gegen Varianz-Inflation `ntest=1, extra=LOOKAHEAD-1` setzen.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

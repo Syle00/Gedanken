@@ -179,3 +179,9 @@ Voraussetzung).
 Passt zu einer bereits im Vault stehenden Aussage: [[Vier-Stufen-Strategieentwicklung (Masters)]]
 verlangt Objective-Funktionen auf Bar-Granularität (Positions-Vektor × geshiftete Returns) — dies
 ist die ausführliche Begründung dafür.
+
+## Implementierung
+
+`algo/masters.py`: `bar_returns_from_trades(trades, bars, only_open=True)` rechnet `stats._trades` der `backtesting`-Lib in Bar-Renditen um — die Eintrittstür für alle übrigen Verfahren. Dazu `profit_factor()`, `log_profit_factor()`, `sharpe_ratio()` auf Bar-Basis.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

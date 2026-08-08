@@ -143,6 +143,7 @@
 <li><a href="#xvw-wie-gro-ist-der-unterschied-praktisch">XvW: wie groß ist der Unterschied praktisch?</a></li>
 <li><a href="#die-eine-ausnahme-cv-innerhalb-von-walk-forward">Die eine Ausnahme: CV innerhalb von Walk-Forward</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -291,7 +292,10 @@ Modell mit wählbarer Komplexität umschwenkt — Stand heute nicht der Fall. Er
 das Werkzeug, mit dem in
 <a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a> der Hyperparameter λ gewählt wird.</p>
 <p>Die eine Anwendung von CV, die Masters trotz seiner Ablehnung nützlich findet, steht separat:
-<a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a>.</p></div>
+<a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a>.</p>
+<h2 id="implementierung">Implementierung</h2>
+<p>Bewusst <strong>nicht</strong> portiert — das Kapitel begründet, warum <code>algo/validate.py</code> richtig auf Walk-Forward setzt (<code>algo/masters.py::walkforward</code>). Für die eine zulässige Anwendung (Hyperparameter) genügt <code>sklearn.model_selection</code>.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/nested-walkforward.html">Nested Walkforward</a><span class="cat">Konzepte</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Cross Validation vs. Walk-Forward (Masters).md</code></footer>
 </article>

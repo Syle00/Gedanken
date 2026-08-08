@@ -140,6 +140,7 @@
 <li><a href="#was-der-test-tatsachlich-misst-und-was-nicht">Was der Test tatsächlich misst — und was nicht</a></li>
 <li><a href="#referenzlauf-auf-spx-ma-crossover">Referenzlauf auf SPX (MA-Crossover)</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -341,7 +342,10 @@ Zusammenführung als Matrix statt als Einzelläufe.</p>
 (<a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a>) — mit Trade-Renditen hat jedes System eine andere Spaltenzahl
 und die Matrix existiert gar nicht.</p>
 <p>Der Test beantwortet eine Frage, die im Vault bisher offen ist: Bringt die Parameteroptimierung
-in <code>rules.py</code>/<code>signals.py</code> überhaupt etwas, oder wäre ein zufälliger Parametersatz genauso gut?</p></div>
+in <code>rules.py</code>/<code>signals.py</code> überhaupt etwas, oder wäre ein zufälliger Parametersatz genauso gut?</p>
+<h2 id="implementierung">Implementierung</h2>
+<p><code>algo/masters.py</code>: <code>cscv(returns_matrix, n_blocks, criter)</code>. Die Matrix (Kandidaten × Bars) entsteht aus <code>bar_returns_from_trades()</code> je Parametersatz.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">7</span></h2><ul><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/nested-walkforward.html">Nested Walkforward</a><span class="cat">Konzepte</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/CSCV (Combinatorially Symmetric Cross Validation).md</code></footer>
 </article>

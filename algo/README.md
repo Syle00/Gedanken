@@ -144,6 +144,61 @@ offizielle Kennzahl").
 ausreichend, fuer Kapitalentscheidungen nicht gedacht. Bloomberg-Terminal-artige Optik ist
 expliziter Zukunftswunsch (siehe `project_algo_precision_audit`-Memory), aktuell nicht geplant.
 
+## `masters.py` -- Validierungs-Werkzeugkasten (Masters-Buch)
+
+**Was:** Python-Portierung der Verfahren aus Timothy Masters, *Testing and Tuning Market Trading
+Systems* (Apress 2018). Reine Bibliothek -- kein Backtest, kein CLI, keine Marktdaten. Herleitungen,
+Formelnummern und Referenzzahlen stehen im Wiki unter
+`wiki/sources/Testing and Tuning Market Trading Systems (Source).md`.
+
+**Wie:** Portiert wird die algorithmische Substanz; alles, wofuer es fertige Numerik gibt (t-/
+Beta-Verteilung, BCa-Bootstrap, Sortieren, SVD), geht an `scipy`/`numpy`. Masters' Hilfsdateien
+STATS.CPP/SVDCMP.CPP/QSORTD.CPP werden also nicht nachgebaut.
+
+| Funktion | Zweck |
+|---|---|
+| `guard_buffer(lookback, lookahead)` | `min(LOOKAHEAD, LOOKBACK) - 1` -- so viele juengste Trainingsfaelle streichen |
+| `walkforward(n, ntrain, ntest, omit, extra)` | Fold-Generator mit Guard Buffer und Varianz-Inflations-Schutz |
+| `entropy` / `clean_tails` / `gap_analyze` | Indikator-Vorpruefung: Informationsgehalt und langsames Wandern |
+| `drawdown` / `dd_to_pct` / `drawdown_quantiles` | Drawdown auf Log-Renditen, absolut statt prozentual |
+| `drawdown_bound` / `drawdown_bound_naive` | korrekter Doppel-Bootstrap vs. das billige, zu optimistische Verfahren |
+| `lower_bound_t` / `lower_bound_bca` | Untergrenze fuer die **wahre** mittlere Rendite |
+| `return_bound` / `orderstat_tail` / `quantile_conf` | Quantilgrenzen fuer **einzelne** kuenftige Renditen + wie sehr man ihnen trauen darf |
+| `profit_factor` / `log_profit_factor` / `sharpe_ratio` | Kennzahlen auf Bar-Basis; PF beim Bootstrap immer logarithmiert |
+| `permute_prices` / `permute_bars` / `permute_multi` | Bar-Permutation fuer den MCPT, inkl. der Inter-Bar-Gap-Falle |
+| `cscv` | Dominanz-Test ueber viele Parametersaetze |
+| `stoc_bias` | billige Trainings-Bias-Schaetzung aus Zufallskandidaten |
+| `partition_return` | `TotalReturn = Skill + Trend + TrainingBias` |
+| `bar_returns_from_trades` | **Bruecke**: `stats._trades` der `backtesting`-Lib -> Bar-Renditen |
+
+**Warum genau so:** Die Lib `backtesting` liefert nur **Trade**-Renditen. Darauf berechnete
+Kennzahlen sind systematisch extremer als bar-basierte -- Masters' Beispiel: zwei Trades mit je
++101/-100 Punkten intern (netto je +1) ergeben trade-basiert einen Profit Factor von *unendlich*
+und bar-basiert 1,01. `bar_returns_from_trades()` ist deshalb die Eintrittstuer: erst damit sind
+`lower_bound_*`, `return_bound` und `cscv` ueberhaupt sinnvoll anwendbar.
+
+**Bekannte Grenzen:**
+
+- **Nicht portiert** (mit Absicht): CoordinateDescent/Elastic Net -> `sklearn.linear_model.ElasticNetCV`
+  (Namensfalle: sklearns `alpha` ist Masters' Lambda, `l1_ratio` sein Alpha); Differential Evolution
+  -> `scipy.optimize.differential_evolution`; PARAMCOR (Hessian-Analyse) -- haengt an einer
+  DE-Endpopulation, die es hier nicht gibt.
+- `drawdown_bound()` kostet `outer * inner` Drawdown-Berechnungen. Die Defaults (500 x 1000) sind
+  auf interaktive Nutzung ausgelegt; Masters rechnet 5000 x 10000. Fuer belastbare Zahlen hochsetzen.
+- `stoc_bias()` braucht **mehrere tausend** Zufallskandidaten, sonst ist die Schaetzung wertlos --
+  und ausschliesslich zufaellig/per Grid gezogene, keine aus gerichteter Suche.
+- `cscv()` verlangt unabhaengig erzeugte Kandidaten (Grid oder Zufall). Mit Hill-Climbing oder
+  genetischer Optimierung erzeugte Parametersaetze sind unzulaessig.
+- `bar_returns_from_trades()` bewertet Mark-to-Market **Close-zu-Close**. Intrabar-Bewegungen
+  (Stop-Durchschlaege innerhalb einer Kerze) bildet es nicht ab -- dafuer bleibt `pnl.py::flag_dubious`
+  zustaendig.
+
+**Verifikation:** `python algo/masters.py` (auch Teil von `selfcheck.py`). Die Checks pruefen
+Eigenschaften, nicht nur Durchlauf -- u.a. dass permutierte Bars strukturell gueltig bleiben (alle
+vier Bedingungen), dass die Multi-Markt-Permutation die Korrelation erhaelt, dass CSCV einen echten
+Edge (0,00) von reinem Rauschen (0,86) trennt, dass der Doppel-Bootstrap konservativer ist als der
+naive, und dass die Identitaet aus Gleichung 7-2 exakt aufgeht.
+
 ## `selfcheck.py` -- Gebuendelter Regressions-Check
 
 **Was:** Buendelt alle `demo()`/`_demo()`-Selbstchecks (`pnl`, `rules`, `signals`,

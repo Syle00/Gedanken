@@ -335,3 +335,9 @@ Einzuordnen als Vorstufe zu [[Directional Change & Hierarchische Marktstruktur]]
 also selbst schon stationaritätsbewusste Skalierung) und als Vorarbeit für
 [[Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)]] — Masters' Reihenfolge ist
 eindeutig: **erst Indikatorqualität, dann Modell.**
+
+## Implementierung
+
+`algo/masters.py`: `entropy(x, nbins)`, `clean_tails(raw, tail_frac)`, `gap_analyze(x, thresh)`. Alle drei arbeiten auf reinem numpy und lassen sich direkt auf die Detektor-Ausgaben aus `tools/analyze_ohlc.py` anwenden.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

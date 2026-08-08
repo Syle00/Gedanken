@@ -147,6 +147,7 @@
 </ul>
 </li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -574,7 +575,10 @@ Zeilen Standardbibliothek/numpy und ließen sich als Prüfschritt an <code>backt
 <p>Einzuordnen als Vorstufe zu <a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a> (ATR-adaptive,
 also selbst schon stationaritätsbewusste Skalierung) und als Vorarbeit für
 <a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a> — Masters' Reihenfolge ist
-eindeutig: <strong>erst Indikatorqualität, dann Modell.</strong></p></div>
+eindeutig: <strong>erst Indikatorqualität, dann Modell.</strong></p>
+<h2 id="implementierung">Implementierung</h2>
+<p><code>algo/masters.py</code>: <code>entropy(x, nbins)</code>, <code>clean_tails(raw, tail_frac)</code>, <code>gap_analyze(x, thresh)</code>. Alle drei arbeiten auf reinem numpy und lassen sich direkt auf die Detektor-Ausgaben aus <code>tools/analyze_ohlc.py</code> anwenden.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">5</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Indikator-Stationarität &amp; Entropie.md</code></footer>
 </article>

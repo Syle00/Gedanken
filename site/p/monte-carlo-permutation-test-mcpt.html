@@ -152,6 +152,7 @@
 <li><a href="#schwellen-und-umfang">Schwellen und Umfang</a></li>
 <li><a href="#warum-nicht-einfach-auf-2020-testen">Warum nicht einfach „auf 2020 testen"?</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -466,7 +467,10 @@ offener Backlog-Punkt in <code>algo/PLAN.md</code>.</p>
 <p>Zwei Auswertungen fallen dort fast gratis mit ab und sollten von Anfang an mitgebaut werden:
 <a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a> (nur Long-/Short-Bars mitzählen) und der
 <code>unbiased_pval</code> oben (nur das Maximum je Permutation mitführen).</p>
-<p>Übergeordneter Prozess: <a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a>.</p></div>
+<p>Übergeordneter Prozess: <a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a>.</p>
+<h2 id="implementierung">Implementierung</h2>
+<p><code>algo/masters.py</code>: <code>permute_prices()</code>, <code>permute_bars(preserve_oo=…)</code> und <code>permute_multi()</code>. Der <code>offset</code>-Parameter deckt die abschnittsweise Permutation ab, die <a href="../p/nested-walkforward.html">Nested Walkforward</a> verlangt. <code>algo/permutation_test.py</code> (die eigentliche Testschleife) ist weiterhin offener Backlog-Punkt.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">10</span></h2><ul><li><a href="../p/how-i-develop-trading-strategies-source.html">How I Develop Trading Strategies (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/nested-walkforward.html">Nested Walkforward</a><span class="cat">Konzepte</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a><span class="cat">Konzepte</span></li><li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Monte Carlo Permutation Test (MCPT).md</code></footer>
 </article>

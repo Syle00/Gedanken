@@ -279,3 +279,9 @@ Korrelation ([[Walk-Forward Guard Buffer & Varianz-Inflation]]).
 
 Grenzen um **einzelne** künftige Renditen statt um deren Mittelwert:
 [[Grenzen für Einzelrenditen & Drawdown]].
+
+## Implementierung
+
+`algo/masters.py`: `lower_bound_t(returns, p)` liefert `(mean, t, p_value, lower)` — die Nullhypothese ist genau dann verworfen, wenn `lower > 0`. `lower_bound_bca(...)` delegiert an `scipy.stats.bootstrap(method="BCa")`. Bei Verhältniskennzahlen `statistic=log_profit_factor` übergeben, nie `profit_factor`.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

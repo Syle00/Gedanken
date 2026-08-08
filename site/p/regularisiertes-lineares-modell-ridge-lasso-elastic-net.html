@@ -149,6 +149,7 @@
 <li><a href="#referenzlauf-cd_ma-auf-oex">Referenzlauf CD_MA auf OEX</a></li>
 <li><a href="#nichtlinearitat-ohne-nichtlineares-modell">Nichtlinearität ohne nichtlineares Modell</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -431,7 +432,10 @@ Kapitels ist die stärkste Formulierung dieses Prinzips im ganzen Buch.</p>
 <p>In Python entspricht das Modell <code>sklearn.linear_model.ElasticNet</code> bzw. <code>ElasticNetCV</code>
 (<code>l1_ratio</code> = Masters' α, <code>alpha</code> = Masters' λ — <strong>die Namen sind vertauscht</strong>, hier liegt die
 häufigste Verwechslungsquelle). Ein Eigenbau nach Buchvorlage wäre unnötig; die Formeln oben
-dienen dem Verständnis der Stellschrauben, nicht der Reimplementierung.</p></div>
+dienen dem Verständnis der Stellschrauben, nicht der Reimplementierung.</p>
+<h2 id="implementierung">Implementierung</h2>
+<p>Bewusst <strong>nicht</strong> portiert — <code>sklearn.linear_model.ElasticNetCV</code> deckt das ab. Namensfalle beachten: sklearns <code>alpha</code> ist Masters' λ, sklearns <code>l1_ratio</code> sein α.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net).md</code></footer>
 </article>

@@ -145,6 +145,7 @@
 </li>
 <li><a href="#konversion-auf-ein-bar-renditen-methode-5">Konversion auf Ein-Bar-Renditen (Methode 5)</a></li>
 <li><a href="#robustheitstest-gegen-nichtstationaritat">Robustheitstest gegen Nichtstationarität</a></li>
+<li><a href="#implementierung">Implementierung</a></li>
 </ul>
 </div>
 </details>
@@ -450,7 +451,10 @@ langsamer, später steiler Abfall. Der Knick sagt, <strong>wie oft das System na
 Empfindlicher wird der Test, wenn man je Fold nur die <strong>letzte</strong> Bar bewertet — das eliminiert den
 Einfluss der besseren frühen Bars, auf Kosten von etwas mehr Streuung.</p>
 <p>Vorgelagerte Prüfung derselben Frage: <a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a>.
-Vergleich mit dem Alternativverfahren: <a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a>.</p></div>
+Vergleich mit dem Alternativverfahren: <a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a>.</p>
+<h2 id="implementierung">Implementierung</h2>
+<p><code>algo/masters.py</code>: <code>guard_buffer(lookback, lookahead)</code> liefert <code>OMIT</code>, <code>walkforward(n, ntrain, ntest, omit, extra)</code> ist der Fold-Generator. Gegen Varianz-Inflation <code>ntest=1, extra=LOOKAHEAD-1</code> setzen.</p>
+<p>Selbstcheck: <code>python algo/masters.py</code> (auch in <code>algo/selfcheck.py</code>).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">10</span></h2><ul><li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a><span class="cat">Konzepte</span></li><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a><span class="cat">Konzepte</span></li><li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a><span class="cat">Konzepte</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Walk-Forward Guard Buffer &amp; Varianz-Inflation.md</code></footer>
 </article>

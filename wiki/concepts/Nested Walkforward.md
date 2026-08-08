@@ -247,3 +247,9 @@ Mehrwert bringt.
 Siehe auch [[Cross Validation vs. Walk-Forward (Masters)]] (dort die deutlich einfacher zu
 implementierende Variante CV-in-Walk-Forward) und
 [[CSCV (Combinatorially Symmetric Cross Validation)]].
+
+## Implementierung
+
+Nicht als eigene Funktion portiert (die Indexlogik hängt am konkreten System). Der Permutationsteil ist abgedeckt: `algo/masters.py::permute_multi(data, rng, offset)` dreimal mit den drei Segmentgrenzen aufrufen.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).

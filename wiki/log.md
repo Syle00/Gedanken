@@ -1177,3 +1177,26 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Keine Aussage des ersten Durchgangs musste zurueckgenommen werden — die Kernfunde waren richtig,
   nur zu duenn belegt.
 - Noch nicht ausgefuehrt: push.ps1 (folgt unmittelbar).
+
+## [2026-08-08] setup | Masters-Verfahren als lauffaehiger Code (`algo/masters.py`)
+- Anlass: Nutzerfrage, ob die Code-Beispiele des Buches lesbar und nutzbar sind.
+- Befund: Das Buch druckt seinen C++-Code nur in **Fragmenten** -- die vollstaendigen .CPP-Dateien
+  liegen nicht im EPUB, Masters verweist auf seine Website. Gelesen sind alle abgedruckten
+  Fragmente; sie decken die algorithmische Substanz vollstaendig ab. Alles, was nur *referenziert*
+  wird (STATS.CPP, SVDCMP.CPP, QSORTD.CPP, GLOB_MAX.CPP, BRENTMAX.CPP, EVER_RS.CPP), ist
+  Standardnumerik mit exakten scipy/numpy-Entsprechungen -- nutzbar ist also alles.
+- Neu: `algo/masters.py` (Bibliothek, kein CLI, keine Marktdaten) mit 20 Funktionen plus
+  Selbstcheck; eingehaengt in `algo/selfcheck.py` (jetzt 7 Checks, alle gruen).
+  `algo/README.md` um einen Modulabschnitt ergaenzt, `algo/requirements.txt` um `scipy>=1.10`.
+- Seiten aktualisiert: alle 13 Masters-Seiten haben jetzt einen Abschnitt **Implementierung** mit
+  der zustaendigen Funktion -- bzw. der Begruendung, warum bewusst nicht portiert wurde
+  (Elastic Net -> sklearn, Differential Evolution -> scipy, PARAMCOR -> braucht eine
+  DE-Endpopulation).
+- Der Selbstcheck prueft Eigenschaften statt nur Durchlauf: permutierte Bars erfuellen alle vier
+  Struktur-Bedingungen aus Kap. 7, die Multi-Markt-Permutation erhaelt die Korrelation,
+  CSCV trennt einen echten Edge (0,00) von reinem Rauschen (0,86), der Doppel-Bootstrap ist
+  konservativer als der naive (Faktor 1,34), StocBias zeigt an 400 reinen Rausch-Kandidaten
+  IS +0,2467 gegen OOS -0,0298, und die Identitaet TotalReturn = Skill + Trend + TrainingBias
+  geht exakt auf.
+- Nebenbefund: `scikit-learn` stand in `algo/requirements.txt`, war in der Umgebung aber nicht
+  installiert -- `algo/selfcheck.py` lief dadurch gar nicht durch. Nachinstalliert.

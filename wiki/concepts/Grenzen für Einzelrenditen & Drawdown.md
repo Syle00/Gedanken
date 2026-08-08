@@ -313,3 +313,9 @@ eine Größenordnung. Vor jeder Kapitalfreigabe relevant, siehe Roadmap-Stufe 5/
 Zweiter offener Punkt: Für die Live-Überwachung existiert im Projekt noch keine Grenze. Sobald
 genug OOS-Wochen vorliegen, wäre die Quantilgrenze aus Teil 1 auf **Wochen- oder Monatsrenditen**
 das passende Werkzeug — zusammen mit `orderstat_tail`, um zu wissen, wie sehr man ihr trauen darf.
+
+## Implementierung
+
+`algo/masters.py`: `return_bound(returns, p, upper=…)` für Einzelrenditen, `orderstat_tail(n, q, m)` / `quantile_conf(n, m, conf)` für das Vertrauen in diese Grenze. Drawdown: `drawdown()`, `dd_to_pct()`, `drawdown_bound()` (korrekter Doppel-Bootstrap) und `drawdown_bound_naive()` — letzteres bewusst mitgeliefert, um den Unterschied messen zu können.
+
+Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).
