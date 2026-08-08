@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Performance-Kennzahlen-Katalog — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">107</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">188</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/implementation-shortfall.html">Implementation Shortfall</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li class="here"><a href="../p/performance-kennzahlen-katalog.html">Performance-Kennzahlen-Katalog</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trader-s-dilemma-efficient-trading-frontier.html">Trader&#x27;s Dilemma &amp; Efficient Trading Frontier</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/transaktionskosten-taxonomie-kissell.html">Transaktionskosten-Taxonomie (Kissell)</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Performance-Kennzahlen-Katalog</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">kennzahlen</span> <span class="tag">risikomanagement</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/ai-in-finance-and-quantitative-analysis-source.html">AI in Finance and Quantitative Analysis (Source)</a>, <a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a>, <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#renditekennzahlen">Renditekennzahlen</a></li>
+<li><a href="#risikoadjustierte-kennzahlen">Risikoadjustierte Kennzahlen</a></li>
+<li><a href="#drawdown-kennzahlen">Drawdown-Kennzahlen</a></li>
+<li><a href="#zeitraum-und-konsistenzkennzahlen">Zeitraum- und Konsistenzkennzahlen</a></li>
+<li><a href="#was-zusatzlich-in-einen-report-gehort">Was zusätzlich in einen Report gehört</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="performance-kennzahlen-katalog">Performance-Kennzahlen-Katalog</h1>
+<p>Was eine Backtest-Auswertung ausweisen sollte, mit den Formeln. Zusammengeführt aus dem
+<code>ffn.calc_stats()</code>-Katalog in <a href="../p/ai-in-finance-and-quantitative-analysis-source.html">AI in Finance and Quantitative Analysis (Source)</a>, den
+<code>backtesting.py</code>-Kennzahlen und den methodischen Vorbehalten aus
+<a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a> (Chan) und
+<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Masters).</p>
+<blockquote>
+<p><strong>Vorbedingung, die alles andere entwertet, wenn man sie ignoriert:</strong> Alle Verhältniskennzahlen
+hier sind auf <strong>Bar-Basis</strong> zu rechnen, nicht auf Trade-Basis — sonst sind sie systematisch zu
+extrem. Masters' Beispiel: derselbe Sachverhalt ergibt trade-basiert einen Profit Factor von
+<em>unendlich</em> und bar-basiert 1,01. Siehe <a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a>.</p>
+</blockquote>
+<h2 id="renditekennzahlen">Renditekennzahlen</h2>
+<pre><code>Log-Rendite pro Bar    r(t) = log(P(t)) − log(P(t−1))
+                       ← durchgaengig verwenden: +10 %/−10 % heben sich exakt auf,
+                         Prozentrenditen erzeugen dabei ~1 % Scheingewinn
+
+Total Return           Π(1 + rᵢ) − 1
+
+CAGR                   (Endwert/Startwert)^(1/Jahre) − 1
+                       = Compound Annual Growth Rate
+
+Annualisierung von Log-Bar-Renditen bei Tages-Bars:
+                       Jahresrendite ≈ 25200 × mittlere Log-Bar-Rendite
+                       (252 Handelstage × 100 %)
+</code></pre>
+<h2 id="risikoadjustierte-kennzahlen">Risikoadjustierte Kennzahlen</h2>
+<pre><code>Sharpe Ratio           SR = (mean(r) − rf) / std(r)          annualisiert: × √252 bei Tages-Bars
+                       ← bestraft Aufwaerts- und Abwaertsvolatilitaet GLEICH
+
+Sortino Ratio          So = (mean(r) − rf) / std(r | r &lt; 0)
+                       ← nur die Abwaertsabweichung im Nenner.
+                         Immer ≥ Sharpe; die Luecke misst die Schiefe der Verteilung.
+
+Calmar Ratio           CR = CAGR / |Max Drawdown|
+                       ← setzt die Rendite ins Verhaeltnis zum SCHLIMMSTEN erlebten Verlust
+                         statt zur Volatilitaet — die fuer einen gehebelten Trader
+                         relevantere Groesse
+
+Profit Factor          PF = Σ(Gewinne) / |Σ(Verluste)|
+                       ← Masters' bevorzugtes Optimierungskriterium: hatte in seinen
+                         Tests fast immer den KLEINSTEN Trainings-Bias.
+                         Beim Bootstrappen IMMER den Logarithmus nehmen.
+
+Expectancy             E = WinRate × AvgWin − LossRate × AvgLoss
+                       ← identisch mit ICTs Erwartungswertformel, siehe unten
+
+SQN                    SQN = √n × mean(Trade-R) / std(Trade-R)     (Van Tharp)
+                       ← System Quality Number; strukturell derselbe Ausdruck wie
+                         Masters' t-Score √n·Mean/StdDev
+</code></pre>
+<p><strong>Der Zusammenhang, den man kennen sollte:</strong> <code>SQN</code> und die t-Statistik aus
+<a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a> sind dieselbe Größe. Und Chans
+kritische Werte für <code>√n × tägliche Sharpe Ratio</code> gelten damit auch hier:</p>
+<pre><code>p-Wert       0,10    0,05    0,01    0,001
+krit. Wert  1,282   1,645   2,326   3,091
+</code></pre>
+<p>Eine annualisierte Sharpe Ratio von 1,0 über 4 Jahre entspricht also
+<code>√4 × 1,0 = 2,0</code> — knapp unter dem 1-%-Niveau.</p>
+<h2 id="drawdown-kennzahlen">Drawdown-Kennzahlen</h2>
+<pre><code>Max Drawdown (MDD)     max über t von  (Hochwasserstand(t) − Equity(t)) / Hochwasserstand(t)
+
+Log-Variante           dd = max( cummax(Σr) − Σr )          absolut, auf Log-Renditen
+                       dd_pct = 100 × (1 − exp(−dd))         Umrechnung in Prozent
+                       ← Masters rechnet absolut: vermeidet die Willkuer eines Startkapitals
+                         und funktioniert auch bei negativem Eigenkapital (gehebelte Futures)
+
+Avg Drawdown           Mittel über alle Drawdown-Episoden
+Max Drawdown Duration  laengste Zeit vom Hoch bis zum Wiedererreichen des Hochs
+Avg Drawdown Days      mittlere Dauer einer Drawdown-Episode
+</code></pre>
+<blockquote>
+<p><strong>Die Drawdown-DAUER ist eine eigenständige Kennzahl</strong> und wird regelmäßig vergessen. Chan
+lehnt eine Strategie mit 30 % APR und Sharpe 0,3 allein wegen einer <strong>Drawdown-Dauer von zwei
+Jahren</strong> ab: „Very few traders have the stomach for a strategy that remains under water for two
+years." Die Tiefe sagt, wie viel man verliert; die Dauer sagt, wie lange man es aushalten muss.</p>
+</blockquote>
+<h2 id="zeitraum-und-konsistenzkennzahlen">Zeitraum- und Konsistenzkennzahlen</h2>
+<p>Aus <code>ffn.calc_stats()</code> — der Teil, den <code>algo/</code> heute gar nicht ausweist:</p>
+<pre><code>Daily / Monthly / Yearly Sharpe        dieselbe Kennzahl auf verschiedenen Aggregationsstufen
+Daily / Monthly / Yearly Skew, Kurt    Schiefe und Woelbung der Renditeverteilung
+Best / Worst Day, Month, Year          Extremwerte
+Avg Up Month / Avg Down Month          Asymmetrie der Monatsergebnisse
+Win Year % / Win 12m %                 Anteil profitabler Jahre bzw. rollierender 12-Monats-Fenster
+MTD / 3m / 6m / YTD / 1Y / 3Y / 5Y     rollierende Zeitraumrenditen
+</code></pre>
+<p><strong>Warum Skew und Kurtosis dazugehören:</strong> Sie sind die Eingangsgrößen für die
+Monte-Carlo-Leverage-Optimierung über das Pearson-System
+(<a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a>) und sie entscheiden darüber, ob ein t-Test auf die
+Renditen überhaupt zulässig ist (<a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a> — ein
+einziger wilder Ausreißer macht ihn wertlos).</p>
+<p><strong>Warum die Aggregationsstufen auseinanderfallen können:</strong> Im BTC-Beispiel der Quelle liegt der
+Daily Sharpe bei 1,18, der Monthly bei 1,38 und der Yearly bei 0,54. Solche Unterschiede sind ein
+Hinweis auf serielle Korrelation der Renditen — dieselbe Eigenschaft, die laut
+<a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a> Signifikanztests anti-konservativ macht.</p>
+<h2 id="was-zusatzlich-in-einen-report-gehort">Was zusätzlich in einen Report gehört</h2>
+<p>Über die Standardkennzahlen hinaus, aus den anderen Quellen dieses Vaults:</p>
+<table>
+<thead>
+<tr>
+<th>Kennzahl</th>
+<th>Warum</th>
+<th>Quelle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Buy-and-Hold-Vergleich</strong></td>
+<td>Pflicht bei jeder Long-only-Strategie; die Kennzahl ist dann die Information Ratio, nicht Sharpe</td>
+<td>Chan</td>
+</tr>
+<tr>
+<td><strong><code>dubious_pct</code></strong></td>
+<td>Anteil Trades mit Stop und Ziel in derselben Kerze — Maß der Ausführungsunsicherheit</td>
+<td>Projektregel, <code>algo/pnl.py</code></td>
+</tr>
+<tr>
+<td><strong>Untergrenze der mittleren Rendite</strong> (BCa)</td>
+<td>sagt, ob die Zahl überhaupt von null unterscheidbar ist</td>
+<td>Masters</td>
+</tr>
+<tr>
+<td><strong>Drawdown-Grenze</strong> (Doppel-Bootstrap)</td>
+<td>der naive Bootstrap unterschätzt Katastrophen um bis zu Faktor 13,65</td>
+<td>Masters</td>
+</tr>
+<tr>
+<td><strong>Kelly-<code>f</code> und <code>f_ruin</code></strong></td>
+<td>ist das gefahrene Leverage überhaupt vertretbar?</td>
+<td>Chan</td>
+</tr>
+<tr>
+<td><strong>P-Wert aus Permutationstest</strong></td>
+<td>trennt echte Muster von Data-Mining-Bias</td>
+<td>Masters</td>
+</tr>
+<tr>
+<td><strong>Trade-Anzahl</strong></td>
+<td>alles oben ist bei zweistelligen Trade-Zahlen nicht belastbar</td>
+<td>alle drei</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<p><code>algo/backtest_bt.py</code> nutzt bereits <code>backtesting.py</code> und bekommt damit einen Teil dieser
+Kennzahlen frei geliefert (Return, Sharpe, Sortino, Calmar, MDD, Drawdown-Dauer, Win Rate, Profit
+Factor, Expectancy, SQN). Im Report ausgewiesen wird davon bisher nur ein Ausschnitt — siehe
+<a href="../p/ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend.html">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</a>.</p>
+<p><strong>Drei konkrete Lücken:</strong></p>
+<ol>
+<li><strong>Calmar und Drawdown-Dauer fehlen.</strong> Beide sind für einen gehebelten Futures-Trader
+   aussagekräftiger als die Sharpe Ratio, und <code>backtesting.py</code> liefert sie bereits — sie werden
+   nur nicht ausgegeben.</li>
+<li><strong>Der Buy-and-Hold-Vergleich fehlt.</strong> <code>stats['Buy &amp; Hold Return [%]']</code> existiert im
+   <code>backtesting</code>-Output. Bei einer Strategie, die MNQ in einem steigenden Zeitraum handelt, ist
+   das die entscheidende Kontrollzahl — vgl. auch
+   <a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a>, die denselben Effekt
+   permutationsbasiert isoliert.</li>
+<li><strong>Skew und Kurtosis fehlen</strong> — und ohne sie lässt sich weder die Zulässigkeit des t-Tests
+   beurteilen noch die Monte-Carlo-Leverage-Optimierung durchführen.</li>
+</ol>
+<p>Alle drei sind reine Ausgabeerweiterungen ohne neue Berechnung.</p>
+<p>Verwandt im Vault: <a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a> (dieselbe Expectancy-Formel aus dem
+ICT-Material) und <a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a>.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/ai-in-finance-and-quantitative-analysis-source.html">AI in Finance and Quantitative Analysis (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/implementation-shortfall.html">Implementation Shortfall</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/transaktionskosten-taxonomie-kissell.html">Transaktionskosten-Taxonomie (Kissell)</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Performance-Kennzahlen-Katalog.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

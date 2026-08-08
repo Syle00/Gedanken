@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">103</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">107</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">186</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">188</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -116,6 +116,11 @@
 <li><a href="#2026-08-08-ingest-testing-and-tuning-market-trading-systems-nachtrag-vollstaendig-gelesen-seiten-zu-referenzseiten-ausgebaut">[2026-08-08] ingest | Testing and Tuning Market Trading Systems — Nachtrag: vollstaendig gelesen, Seiten zu Referenzseiten ausgebaut</a></li>
 <li><a href="#2026-08-08-setup-masters-verfahren-als-lauffaehiger-code-algomasterspy">[2026-08-08] setup | Masters-Verfahren als lauffaehiger Code (algo/masters.py)</a></li>
 <li><a href="#2026-08-08-ingest-algorithmic-trading-winning-strategies-and-their-rationale-ernest-chan">[2026-08-08] ingest | Algorithmic Trading: Winning Strategies and Their Rationale (Ernest Chan)</a></li>
+<li><a href="#2026-08-08-ingest-ai-in-finance-ntpu-kissell-science-of-algorithmic-trading">[2026-08-08] ingest | AI in Finance (NTPU) + Kissell: Science of Algorithmic Trading</a><ul>
+<li><a href="#ai-in-finance-and-quantitative-analysis-min-yuh-day-ntpu-10175-zeilen">AI in Finance and Quantitative Analysis (Min-Yuh Day, NTPU, 10.175 Zeilen)</a></li>
+<li><a href="#the-science-of-algorithmic-trading-and-portfolio-management-kissell-42871-zeilen">The Science of Algorithmic Trading and Portfolio Management (Kissell, 42.871 Zeilen)</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </details>
@@ -1445,6 +1450,68 @@
   decken <code>statsmodels</code>/<code>scipy</code>/<code>filterpy</code> dasselbe ab), die Aktien-/ETF-Strategien im
   Implementierungsdetail (dieses Projekt handelt ein einzelnes Futures-Instrument), der
   Plattformvergleich von 2013 und die HFT-Ausfuehrungstaktiken (setzen Kolokation voraus).</li>
+</ul>
+<h2 id="2026-08-08-ingest-ai-in-finance-ntpu-kissell-science-of-algorithmic-trading">[2026-08-08] ingest | AI in Finance (NTPU) + Kissell: Science of Algorithmic Trading</h2>
+<p>Zwei Quellen in einem Durchgang, weil beide deutlich weniger hergeben als ihre Zeilenzahl
+suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengelegt.</p>
+<h3 id="ai-in-finance-and-quantitative-analysis-min-yuh-day-ntpu-10175-zeilen">AI in Finance and Quantitative Analysis (Min-Yuh Day, NTPU, 10.175 Zeilen)</h3>
+<ul>
+<li><strong>Rund 7.600 der 10.175 Zeilen sind ein eingebetteter Literatur-Survey</strong> (Ozbayoglu/Gudelek/
+  Sezer 2020), abgedruckt als Tabellen "Datensatz / Zeitraum / Feature Set / Methode /
+  Performance-Kriterium / Referenz". Das ist eine Bibliografie von ~200 Papern -- keine Formeln,
+  keine Herleitungen, nichts Nachvollziehbares. Nicht ingestet.</li>
+<li>Das Folien-Outline kuendigt "Algorithmic Trading, <strong>Risk Management</strong>, Trading Bot,
+  Event-Based Backtesting" an (Quelle: Hilpisch 2020). <strong>Drei der vier Themen fehlen im
+  Foliensatz vollstaendig</strong>; "Risk Management" kommt nur als Kategorielabel im Survey vor. Fuer
+  den Risikoschwerpunkt dieses Ingests traegt die Quelle also nichts bei.</li>
+<li>Verwertbar war der <code>ffn.calc_stats()</code>-Kennzahlenkatalog -&gt; neue Seite
+  <code>wiki/concepts/Performance-Kennzahlen-Katalog.md</code> (Sharpe/Sortino/Calmar/SQN/MDD/
+  Drawdown-DAUER mit Formeln, plus was ein Report zusaetzlich ausweisen sollte).</li>
+<li>Lehrreicher Nebenbefund aus der Demo: der SMA-Crossover auf BTC-USD liefert 4.137 % Rendite --
+  <strong>Buy &amp; Hold im selben Zeitraum 10.879 %</strong>. Die Folien kommentieren das nicht. Es ist ein
+  Musterbeispiel fuer Chans Regel, immer gegen den richtigen Benchmark zu messen.</li>
+<li>Seiten: <code>wiki/sources/AI in Finance and Quantitative Analysis (Source).md</code>,
+  <code>wiki/concepts/Performance-Kennzahlen-Katalog.md</code>.</li>
+</ul>
+<h3 id="the-science-of-algorithmic-trading-and-portfolio-management-kissell-42871-zeilen">The Science of Algorithmic Trading and Portfolio Management (Kissell, 42.871 Zeilen)</h3>
+<ul>
+<li><strong>Qualitaetsproblem der Rohquelle:</strong> Das Quell-PDF hat eine defekte Font-Kodierung. In Formeln
+  stehen Ziffern fuer Operatoren (<code>2</code>=−, <code>1</code>=+, <code>5</code>==, <code>:</code>=., <code>,</code>=&lt;, <code>.</code>=&gt;, <code>½</code>=[). Gegen
+  <code>pdftotext</code> gegengeprueft -- steckt im PDF, nicht in unserer Pipeline. Fliesstext, Struktur und
+  Tabellenbeschriftungen sind korrekt.</li>
+<li><strong>Vorgehen:</strong> Jede uebernommene Formel wurde dekodiert UND arithmetisch verifiziert, wo das Buch
+  ein Rechenbeispiel mitliefert. Verifiziert u.a.:
+  <code>$55,000 2 $52,500 2 $100 5 $2400</code> → <code>55.000 − 52.500 − 100 = 2.400</code> ✓ und
+  <code>IS 5 $5000 2 $2400 5 $2600</code> → <code>5.000 − 2.400 = 2.600</code> ✓.
+  <strong>Formeln ohne mitgeliefertes Rechenbeispiel wurden bewusst NICHT uebernommen</strong> -- das betrifft
+  vor allem das I-Star-Market-Impact-Modell samt kalibrierten Parametern.</li>
+<li>Ingestet wurden gezielt die fuer ein Ein-Instrument-Futures-Projekt anwendbaren Teile:
+  <code>wiki/sources/The Science of Algorithmic Trading and Portfolio Management (Source).md</code>,
+  <code>wiki/concepts/Transaktionskosten-Taxonomie (Kissell).md</code>,
+  <code>wiki/concepts/Implementation Shortfall.md</code>,
+  <code>wiki/concepts/Trader's Dilemma &amp; Efficient Trading Frontier.md</code>.</li>
+<li>Kernfunde:
+  (1) <strong>Zehn getrennte Kostenkomponenten</strong> statt "Kommission und Spread", klassifiziert nach
+  fix/variabel und sichtbar/verborgen. Die verborgenen machen den groessten Anteil aus und bieten
+  das groesste Verbesserungspotenzial.
+  (2) <strong>Was eine Kostenkennzahl ist und was nicht:</strong> VWAP-Vergleich ist ein <em>Performance</em>-Proxy,
+  Schlusskurs-Vergleich ein <em>Tracking-Error</em>-Proxy -- nur der Vergleich mit dem Preis bei
+  Ordereingang ist eine echte Kostenkennzahl.
+  (3) <strong>Implementation Shortfall</strong>: im Buchbeispiel gehen bei nur 5 % Ausfuehrungsnachteil
+  <strong>52 % des Ideenwerts</strong> verloren ($2.600 von $5.000) -- weil sich die Kennzahl am erwarteten
+  Gewinn misst, nicht am Ordervolumen.
+  (4) <strong>Trader's Dilemma</strong>: Market Impact und Timing Risk sind gegenlaeufig, es gibt kein
+  gemeinsames Minimum. Strategien unterhalb der Efficient Trading Frontier sind dominiert und
+  liefern nie Best Execution.</li>
+<li><strong>Direkter Bezug zu einem offenen Backlog-Punkt:</strong> <code>algo/PLAN.md</code> haelt seit 2026-08-07 fest,
+  dass <code>commission=0.0002</code> ein Notional-Prozentmodell (Aktienlogik) statt $/Kontrakt
+  (Futures-Realitaet) ist und dadurch $46.065 Gebuehren im MNQ-Lauf erzeugt. Kissells Kapitel 3
+  ist genau die fehlende Systematik zur Korrektur.</li>
+<li>Bewusst nicht ingestet: Market-Impact-Modelle im Formeldetail (Chiffre + bei einstelligen
+  MNQ-Kontraktzahlen ohnehin ~0), Portfolio-Optimierung und Multi-Asset-Risikomodelle
+  (Ein-Instrument-Projekt), nichtparametrische Broker-Vergleichstests (im Vault durch MCPT und
+  Training/Selection Bias abgedeckt), US-Aktienmikrostruktur (Rebates/Dark Pools/Reg NMS), HFT.</li>
+<li>Seiten aktualisiert: <code>wiki/index.md</code> (4 neue Concepts, 2 neue Sources).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

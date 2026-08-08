@@ -48,6 +48,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Daily Range Session Timing]] — Session-Ablauf, der die Daily Range formt (2026-08-01)
 - [[ICT Killzones]] — Die vier Handelsfenster mit idealen Paaren und Pip-Erwartung (2026-08-02)
 - [[ICT Macros & Leading Candles]] — Session-Zeitfenster mit auffälligen Referenz-Candles, auch als Reversal-Check für laufende Positionen nutzbar (2026-08-01, erg. 2026-08-07)
+- [[Implementation Shortfall]] — Gesamtkosten der Umsetzung einer Handelsidee (Perold); im Buchbeispiel gehen 52 % des Ideenwerts in der Ausführung verloren; algo-methodology (2026-08-08)
 - [[IFVG (Inverse Fair Value Gap)]] — FVG, das nach Durchhandeln die Polarität wechselt (2026-08-01)
 - [[Indikator-Stationarität & Entropie]] — STATN-Gap-Analyse gegen langsames Wandern, relative Entropie ≥ 0,5, monotones Tail-Cleaning; algo-methodology (2026-08-08)
 - [[Institutional Order Flow (Body vs Wick)]] — Volumen steckt in Candle Bodys, nicht Wicks; "Mohawk"-Wick-Toleranzregel jetzt auch für BISI/SIBI-Range-Grenzen (2026-08-01, erg. 2026-08-07)
@@ -81,6 +82,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Order Block]] — Basiskonzept + Validierungsregeln für alle OB-Varianten (2026-08-01)
 - [[ORG (Opening Range Gap) & 1st Presented FVG]] — C.E-Bias-Bestätigung über Wicks und ORG (2026-08-01)
 - [[Partial Profit-Taking & R-Multiple-Skalierung]] — erstes Partial bei 3:1 sichern, Rest bis 9–15R laufen lassen (2026-08-06)
+- [[Performance-Kennzahlen-Katalog]] — Sharpe/Sortino/Calmar/SQN/Drawdown-Dauer mit Formeln; was ein Backtest-Report ausweisen sollte; algo-methodology (2026-08-08)
 - [[PD Array]] — Premium/Discount-Array, Grundbaustein jedes ICT-Setups (2026-08-01)
 - [[Premium vs. Carrying Charge Market]] — Futures-Kurven-Analyse (Contango/Backwardation) (2026-08-01)
 - [[Profit pro Bar vs. pro Trade]] — warum Kennzahlen auf Trade-Basis unbrauchbar sind (Profit Factor ∞ statt 1,01), Ein-Bar-Konversion; algo-methodology (2026-08-08)
@@ -101,8 +103,10 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Stop Loss bei Mean Reversion vs. Momentum]] — bei Momentum logisch zwingend, bei Mean Reversion nur GRÖSSER als der Backtest-Drawdown ansetzen; **Risikomanagement** (2026-08-08)
 - [[Suspension Block]] — FVG mit VII auf beiden Seiten, eine der stärksten PD Arrays (2026-08-03)
 - [[TGIF (Thank God its Friday)]] — Freitags-Retracement 20–30 % in die Weekly Range als Draw on Liquidity, 3 Voraussetzungen, Weekly Po3 (2026-08-02)
+- [[Trader's Dilemma & Efficient Trading Frontier]] — Market Impact und Timing Risk sind gegenläufig; dominierte Strategien liefern nie Best Execution; algo-methodology (2026-08-08)
 - [[Trading All Time Highs (ATH)]] — Continuation-Checkliste am ATH und die 3 Stages, an denen Smart Money oben verkauft (2026-08-02)
 - [[Training Bias & Selection Bias]] — zwei getrennte Verzerrungen: die Auswahl des besten Systems macht eine unverzerrte OOS-Zahl im selben Moment verzerrt; algo-methodology (2026-08-08)
+- [[Transaktionskosten-Taxonomie (Kissell)]] — zehn Kostenkomponenten, fix/variabel und sichtbar/verborgen; Grundlage für ein korrektes Futures-Kommissionsmodell; algo-methodology (2026-08-08)
 - [[Trendline Phantoms (3 Drives Pattern)]] — Retail-Trendline-Falle, 3-Drives-Angriffsziel (2026-08-01)
 - [[Turtle Soup]] — Fehlausbruch-Setup mit Rückkehr in FVG/Retracement (2026-08-01)
 - [[Two Stage News Delivery (FOMC & NFP)]] — ⚠️ offene Hypothese: News-Reaktion in zwei zeitlich getrennten, teils gegenläufigen Stages statt einer Bewegung, live an NFP 07.08.2026 beobachtet, jetzt primärquellenbestätigt durch ICT selbst (2026-08-07)
@@ -306,6 +310,10 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Quantifying Market Structure at Multiple Scales for Algorithmic Trading with Python (Source)]]
   — neurotrader-Transkript: ATR-adaptive Directional-Change-Swings + rekursive hierarchische
   Signifikanz-Levels (2026-08-08)
+- [[The Science of Algorithmic Trading and Portfolio Management (Source)]] — Kissell-Buch
+  (Elsevier 2014): Transaktionskostenanalyse, Implementation Shortfall, Trader''s Dilemma.
+  ⚠️ Formeln im Quell-PDF sind font-chiffriert — übernommene Formeln wurden dekodiert und
+  arithmetisch verifiziert (2026-08-08)
 - [[Successful Algorithmic Trading (Source)]] — Halls-Moore-Buch (208 S.): Backtesting-Bias-
   Katalog, Mean-Reversion-Statistik (ADF/Hurst/Kointegration), Kelly/VaR, Event-Driven-Engine
   (2026-08-08)
@@ -313,6 +321,9 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
   2013): **Risikomanagement-Referenz** (Kelly, CPPI, Stop-Loss-Asymmetrie, Risikoindikatoren),
   dazu Halbwertszeit/Johansen, Kalman-Filter, Roll Return und die Opening-Gap-Strategie
   (2026-08-08)
+- [[AI in Finance and Quantitative Analysis (Source)]] — NTPU-Vorlesungsfolien; **inhaltlich
+  dünn** (~7.600 der 10.175 Zeilen sind ein eingebetteter Literatur-Survey), verwertbar war der
+  `ffn`-Kennzahlenkatalog (2026-08-08)
 - [[Testing and Tuning Market Trading Systems (Source)]] — Masters-Buch (Apress 2018, 7 Kapitel),
   **Primärquelle** hinter [[Vier-Stufen-Strategieentwicklung (Masters)]] und
   [[Monte Carlo Permutation Test (MCPT)]]: Guard Buffer, Selection Bias, CSCV, Nested Walkforward,

@@ -1255,3 +1255,64 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   decken `statsmodels`/`scipy`/`filterpy` dasselbe ab), die Aktien-/ETF-Strategien im
   Implementierungsdetail (dieses Projekt handelt ein einzelnes Futures-Instrument), der
   Plattformvergleich von 2013 und die HFT-Ausfuehrungstaktiken (setzen Kolokation voraus).
+
+## [2026-08-08] ingest | AI in Finance (NTPU) + Kissell: Science of Algorithmic Trading
+Zwei Quellen in einem Durchgang, weil beide deutlich weniger hergeben als ihre Zeilenzahl
+suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengelegt.
+
+### AI in Finance and Quantitative Analysis (Min-Yuh Day, NTPU, 10.175 Zeilen)
+- **Rund 7.600 der 10.175 Zeilen sind ein eingebetteter Literatur-Survey** (Ozbayoglu/Gudelek/
+  Sezer 2020), abgedruckt als Tabellen "Datensatz / Zeitraum / Feature Set / Methode /
+  Performance-Kriterium / Referenz". Das ist eine Bibliografie von ~200 Papern -- keine Formeln,
+  keine Herleitungen, nichts Nachvollziehbares. Nicht ingestet.
+- Das Folien-Outline kuendigt "Algorithmic Trading, **Risk Management**, Trading Bot,
+  Event-Based Backtesting" an (Quelle: Hilpisch 2020). **Drei der vier Themen fehlen im
+  Foliensatz vollstaendig**; "Risk Management" kommt nur als Kategorielabel im Survey vor. Fuer
+  den Risikoschwerpunkt dieses Ingests traegt die Quelle also nichts bei.
+- Verwertbar war der `ffn.calc_stats()`-Kennzahlenkatalog -> neue Seite
+  `wiki/concepts/Performance-Kennzahlen-Katalog.md` (Sharpe/Sortino/Calmar/SQN/MDD/
+  Drawdown-DAUER mit Formeln, plus was ein Report zusaetzlich ausweisen sollte).
+- Lehrreicher Nebenbefund aus der Demo: der SMA-Crossover auf BTC-USD liefert 4.137 % Rendite --
+  **Buy & Hold im selben Zeitraum 10.879 %**. Die Folien kommentieren das nicht. Es ist ein
+  Musterbeispiel fuer Chans Regel, immer gegen den richtigen Benchmark zu messen.
+- Seiten: `wiki/sources/AI in Finance and Quantitative Analysis (Source).md`,
+  `wiki/concepts/Performance-Kennzahlen-Katalog.md`.
+
+### The Science of Algorithmic Trading and Portfolio Management (Kissell, 42.871 Zeilen)
+- **Qualitaetsproblem der Rohquelle:** Das Quell-PDF hat eine defekte Font-Kodierung. In Formeln
+  stehen Ziffern fuer Operatoren (`2`=−, `1`=+, `5`==, `:`=., `,`=<, `.`=>, `½`=[). Gegen
+  `pdftotext` gegengeprueft -- steckt im PDF, nicht in unserer Pipeline. Fliesstext, Struktur und
+  Tabellenbeschriftungen sind korrekt.
+- **Vorgehen:** Jede uebernommene Formel wurde dekodiert UND arithmetisch verifiziert, wo das Buch
+  ein Rechenbeispiel mitliefert. Verifiziert u.a.:
+  `$55,000 2 $52,500 2 $100 5 $2400` → `55.000 − 52.500 − 100 = 2.400` ✓ und
+  `IS 5 $5000 2 $2400 5 $2600` → `5.000 − 2.400 = 2.600` ✓.
+  **Formeln ohne mitgeliefertes Rechenbeispiel wurden bewusst NICHT uebernommen** -- das betrifft
+  vor allem das I-Star-Market-Impact-Modell samt kalibrierten Parametern.
+- Ingestet wurden gezielt die fuer ein Ein-Instrument-Futures-Projekt anwendbaren Teile:
+  `wiki/sources/The Science of Algorithmic Trading and Portfolio Management (Source).md`,
+  `wiki/concepts/Transaktionskosten-Taxonomie (Kissell).md`,
+  `wiki/concepts/Implementation Shortfall.md`,
+  `wiki/concepts/Trader's Dilemma & Efficient Trading Frontier.md`.
+- Kernfunde:
+  (1) **Zehn getrennte Kostenkomponenten** statt "Kommission und Spread", klassifiziert nach
+  fix/variabel und sichtbar/verborgen. Die verborgenen machen den groessten Anteil aus und bieten
+  das groesste Verbesserungspotenzial.
+  (2) **Was eine Kostenkennzahl ist und was nicht:** VWAP-Vergleich ist ein *Performance*-Proxy,
+  Schlusskurs-Vergleich ein *Tracking-Error*-Proxy -- nur der Vergleich mit dem Preis bei
+  Ordereingang ist eine echte Kostenkennzahl.
+  (3) **Implementation Shortfall**: im Buchbeispiel gehen bei nur 5 % Ausfuehrungsnachteil
+  **52 % des Ideenwerts** verloren ($2.600 von $5.000) -- weil sich die Kennzahl am erwarteten
+  Gewinn misst, nicht am Ordervolumen.
+  (4) **Trader's Dilemma**: Market Impact und Timing Risk sind gegenlaeufig, es gibt kein
+  gemeinsames Minimum. Strategien unterhalb der Efficient Trading Frontier sind dominiert und
+  liefern nie Best Execution.
+- **Direkter Bezug zu einem offenen Backlog-Punkt:** `algo/PLAN.md` haelt seit 2026-08-07 fest,
+  dass `commission=0.0002` ein Notional-Prozentmodell (Aktienlogik) statt $/Kontrakt
+  (Futures-Realitaet) ist und dadurch $46.065 Gebuehren im MNQ-Lauf erzeugt. Kissells Kapitel 3
+  ist genau die fehlende Systematik zur Korrektur.
+- Bewusst nicht ingestet: Market-Impact-Modelle im Formeldetail (Chiffre + bei einstelligen
+  MNQ-Kontraktzahlen ohnehin ~0), Portfolio-Optimierung und Multi-Asset-Risikomodelle
+  (Ein-Instrument-Projekt), nichtparametrische Broker-Vergleichstests (im Vault durch MCPT und
+  Training/Selection Bias abgedeckt), US-Aktienmikrostruktur (Rebates/Dark Pools/Reg NMS), HFT.
+- Seiten aktualisiert: `wiki/index.md` (4 neue Concepts, 2 neue Sources).
