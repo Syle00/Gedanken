@@ -12,6 +12,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Algorithmic Price Delivery Continuum]] — ICTs Timeframe-Durchlauf bei jedem Candle-Close; erklärt, wann ein FVG offen bleibt (2026-08-02)
 - [[Algorithmic Time & Price Grid]] — Preis-Achse (Octant/Quadrant) × Zeit-Achse (Macro-Startzeiten); PD Array am Kreuzungspunkt = höchste Bestätigung, fraktale Wiederholung (2026-08-05)
 - [[Buy & Sell Program]] — Zwei Kriterien, an denen ein Buy-/Sell-Programm erkannt wird; visuelle Signatur ergänzt (2026-08-05)
+- [[Datenbeschaffung für Backtests (Optionen & Grenzen)]] — warum der Engpass nicht die Datenmenge ist, sondern die Zahl unabhängiger Mustervorkommen; Quellenvergleich mit Tiefe und Kosten; „öfter testen" als Signifikanztest vs. Data Mining (2026-08-08)
 - [[Dealing Range]] — Premium/Discount-Rahmen; je mehr Timeframes übereinstimmen, desto besser (2026-08-02)
 - [[Differential Evolution & Parameter-Sensitivität]] — globaler Optimierer mit Hill-Climbing-Beimischung + Pflichtprüfung der Sensitivitätskurven (breiter Gipfel vs. schmale Spitze); algo-methodology (2026-08-08)
 - [[Directional Change & Hierarchische Marktstruktur]] — ATR-adaptive Swing-Erkennung + rekursive Hochstufung zu Signifikanz-Levels; algo-methodology, kein ICT-Konzept (2026-08-08)

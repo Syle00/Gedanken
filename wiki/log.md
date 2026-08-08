@@ -1375,3 +1375,29 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   prop-tauglich, ohne dafür entworfen worden zu sein.
 - Zahlen bewusst als Größenordnungen markiert, nicht als verbindliche Werte — Prop-Firmen ändern
   ihre Regeln häufig, die Bedingungen der gewählten Firma sind vor jeder Challenge selbst zu lesen.
+
+## [2026-08-08] synthesis | Datenbeschaffung — Optionen, Grenzen und eine geaenderte Entscheidung
+
+- Auslöser: Nutzerfrage „Wie komme ich an ähnlich viele Daten wie Two Sigma, um meine Ideen ähnlich
+  oft zu backtesten?"
+- Seite erstellt: `wiki/concepts/Datenbeschaffung für Backtests (Optionen & Grenzen).md`.
+- Seiten aktualisiert: `wiki/index.md`. Spec Revision 6, Abschnitt 4.5.
+- **Kernkorrektur an der Fragestellung:** Two Sigmas hunderte Milliarden Datenpunkte sind
+  Orderbuch-Ereignisse (tausendfach pro Sekunde). Ein ICT-Setup tritt höchstens einmal pro Tag und
+  Instrument auf. Die knappe Ressource ist deshalb nicht die Datenmenge, sondern die Zahl
+  **unabhängiger Vorkommen des eigenen Musters** — und die wächst nur mit Handelstagen mal
+  Instrumenten, nicht mit Auflösung.
+- **Warnung zur Doppeldeutigkeit von „öfter backtesten"**: Eine feste Regel gegen viele synthetische
+  Historien (Permutation/Bootstrap) ist ein Signifikanztest und beliebig oft erlaubt. Viele
+  Regelvarianten gegen eine Historie ist Data Mining und erhöht den nötigen Abschlag — Sullivan/
+  Timmermann/White (1999) haben genau diesen Fall geprüft und out-of-sample scheitern sehen.
+- **Entscheidung 7 geändert**: von „IBKR als einzige Quelle" auf **zweistufig** — tiefe
+  Fremdhistorie (Dukascopy kostenlos ab ~2003, FirstRate ab 2007) für Erkundung und
+  Strukturstatistik, IBKR ausschließlich für endgültige Validierung und Kostenkalibrierung. Der
+  ursprüngliche Grundsatz (keine Feed-Drift bei pip-genauen Größen) bleibt damit gewahrt.
+  Nebeneffekt: Starke Abweichung zwischen den Feeds ist selbst ein Robustheitstest.
+- Rechnerische Wirkung: 394 Instrumententage heute → rund 30.000 gepoolt. Faktor ~75.
+- Recherchierter Befund zu Orderbuchdaten: bei Databento sind CME-Daten 16+ Jahre tief verfügbar,
+  **die Orderbuch-Schemata aber nur einen Tag** im nutzungsbasierten Tarif — tiefe Orderbuchhistorie
+  beginnt bei rund $1.750/Monat. Genau der Teil, der den Fonds-Datenberg ausmacht, ist der teure.
+- Preise und Tiefen als Rechercheergebnis markiert, nicht getestet.

@@ -21,7 +21,7 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">111</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">112</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">190</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">11</span></a></li>
@@ -123,6 +123,7 @@
 </li>
 <li><a href="#2026-08-08-ingest-machine-learning-im-handel-zwei-videoquellen-bewertung">[2026-08-08] ingest | Machine Learning im Handel — zwei Videoquellen + Bewertung</a></li>
 <li><a href="#2026-08-08-synthesis-prop-firmen-kompatibilitat-als-anforderung">[2026-08-08] synthesis | Prop-Firmen-Kompatibilität als Anforderung</a></li>
+<li><a href="#2026-08-08-synthesis-datenbeschaffung-optionen-grenzen-und-eine-geaenderte-entscheidung">[2026-08-08] synthesis | Datenbeschaffung — Optionen, Grenzen und eine geaenderte Entscheidung</a></li>
 </ul>
 </div>
 </details>
@@ -1573,6 +1574,32 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   prop-tauglich, ohne dafür entworfen worden zu sein.</li>
 <li>Zahlen bewusst als Größenordnungen markiert, nicht als verbindliche Werte — Prop-Firmen ändern
   ihre Regeln häufig, die Bedingungen der gewählten Firma sind vor jeder Challenge selbst zu lesen.</li>
+</ul>
+<h2 id="2026-08-08-synthesis-datenbeschaffung-optionen-grenzen-und-eine-geaenderte-entscheidung">[2026-08-08] synthesis | Datenbeschaffung — Optionen, Grenzen und eine geaenderte Entscheidung</h2>
+<ul>
+<li>Auslöser: Nutzerfrage „Wie komme ich an ähnlich viele Daten wie Two Sigma, um meine Ideen ähnlich
+  oft zu backtesten?"</li>
+<li>Seite erstellt: <code>wiki/concepts/Datenbeschaffung für Backtests (Optionen &amp; Grenzen).md</code>.</li>
+<li>Seiten aktualisiert: <code>wiki/index.md</code>. Spec Revision 6, Abschnitt 4.5.</li>
+<li><strong>Kernkorrektur an der Fragestellung:</strong> Two Sigmas hunderte Milliarden Datenpunkte sind
+  Orderbuch-Ereignisse (tausendfach pro Sekunde). Ein ICT-Setup tritt höchstens einmal pro Tag und
+  Instrument auf. Die knappe Ressource ist deshalb nicht die Datenmenge, sondern die Zahl
+  <strong>unabhängiger Vorkommen des eigenen Musters</strong> — und die wächst nur mit Handelstagen mal
+  Instrumenten, nicht mit Auflösung.</li>
+<li><strong>Warnung zur Doppeldeutigkeit von „öfter backtesten"</strong>: Eine feste Regel gegen viele synthetische
+  Historien (Permutation/Bootstrap) ist ein Signifikanztest und beliebig oft erlaubt. Viele
+  Regelvarianten gegen eine Historie ist Data Mining und erhöht den nötigen Abschlag — Sullivan/
+  Timmermann/White (1999) haben genau diesen Fall geprüft und out-of-sample scheitern sehen.</li>
+<li><strong>Entscheidung 7 geändert</strong>: von „IBKR als einzige Quelle" auf <strong>zweistufig</strong> — tiefe
+  Fremdhistorie (Dukascopy kostenlos ab ~2003, FirstRate ab 2007) für Erkundung und
+  Strukturstatistik, IBKR ausschließlich für endgültige Validierung und Kostenkalibrierung. Der
+  ursprüngliche Grundsatz (keine Feed-Drift bei pip-genauen Größen) bleibt damit gewahrt.
+  Nebeneffekt: Starke Abweichung zwischen den Feeds ist selbst ein Robustheitstest.</li>
+<li>Rechnerische Wirkung: 394 Instrumententage heute → rund 30.000 gepoolt. Faktor ~75.</li>
+<li>Recherchierter Befund zu Orderbuchdaten: bei Databento sind CME-Daten 16+ Jahre tief verfügbar,
+  <strong>die Orderbuch-Schemata aber nur einen Tag</strong> im nutzungsbasierten Tarif — tiefe Orderbuchhistorie
+  beginnt bei rund $1.750/Monat. Genau der Teil, der den Fonds-Datenberg ausmacht, ist der teure.</li>
+<li>Preise und Tiefen als Rechercheergebnis markiert, nicht getestet.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

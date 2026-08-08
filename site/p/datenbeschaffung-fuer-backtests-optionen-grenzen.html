@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration) — Gedanken</title>
+<title>Datenbeschaffung für Backtests (Optionen &amp; Grenzen) — Gedanken</title>
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -49,7 +49,7 @@
 <li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
 <li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
 <li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
-<li><a href="../p/datenbeschaffung-fuer-backtests-optionen-grenzen.html">Datenbeschaffung für Backtests (Optionen &amp; Grenzen)</a></li>
+<li class="here"><a href="../p/datenbeschaffung-fuer-backtests-optionen-grenzen.html">Datenbeschaffung für Backtests (Optionen &amp; Grenzen)</a></li>
 <li><a href="../p/dealing-range.html">Dealing Range</a></li>
 <li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
 <li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
@@ -90,7 +90,7 @@
 <li><a href="../p/market-protraction.html">Market Protraction</a></li>
 <li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
 <li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
-<li class="here"><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
 <li><a href="../p/meta-labeling-lopez-de-prado.html">Meta-Labeling (López de Prado)</a></li>
 <li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
 <li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
@@ -146,68 +146,227 @@
 <article>
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
-  <h1>Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">statistics</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/successful-algorithmic-trading-source.html">Successful Algorithmic Trading (Source)</a></div></div>
+  <h1>Datenbeschaffung für Backtests (Optionen &amp; Grenzen)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">daten</span> <span class="tag">validation</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/2022-07-05-two-sigma-machine-learning-models-of-financial-data-source.html">Two Sigma — Machine Learning Models of Financial Data (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#augmented-dickey-fuller-adf-test">Augmented Dickey-Fuller (ADF) Test</a></li>
-<li><a href="#hurst-exponent">Hurst-Exponent</a></li>
-<li><a href="#kointegration-pairs-trading">Kointegration (Pairs Trading)</a></li>
-<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+<li><a href="#die-unterscheidung-an-der-alles-hangt">Die Unterscheidung, an der alles hängt</a></li>
+<li><a href="#ofter-backtesten-die-gefahrliche-doppeldeutigkeit">„Öfter backtesten" — die gefährliche Doppeldeutigkeit</a></li>
+<li><a href="#bezugsquellen">Bezugsquellen</a></li>
+<li><a href="#was-das-rechnerisch-bringt">Was das rechnerisch bringt</a></li>
+<li><a href="#der-konflikt-mit-dem-grundsatz-eine-datenquelle">Der Konflikt mit dem Grundsatz „eine Datenquelle"</a></li>
+<li><a href="#optionen-die-keine-neuen-daten-brauchen">Optionen, die keine neuen Daten brauchen</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
 </details>
-  <div class="content"><h1 id="mean-reversion-tests-adf-hurst-exponent-kointegration">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</h1>
-<p>Statistisches Werkzeug-Set, um zu prüfen, ob eine Preisreihe (oder eine Kombination mehrerer
-Preisreihen) <strong>mean-reverting</strong> statt eines reinen Random Walk (Geometric Brownian Motion, GBM)
-ist — Grundvoraussetzung für jede Mean-Reversion-Strategie. Aus
-<a href="../p/successful-algorithmic-trading-source.html">Successful Algorithmic Trading (Source)</a> (Michael Halls-Moore). Mathematisches Fundament: eine
-mean-reverting Zeitreihe lässt sich als <strong>Ornstein-Uhlenbeck-Prozess</strong> beschreiben — die Änderung
-im nächsten Zeitschritt ist proportional zum Abstand vom historischen Mittelwert
-(<code>dx_t = θ(µ − x_t)dt + σdW_t</code>).</p>
-<h2 id="augmented-dickey-fuller-adf-test">Augmented Dickey-Fuller (ADF) Test</h2>
-<p>Testet auf einen <strong>Unit Root</strong> in einem autoregressiven Modell: <code>Δy_t = α + βt + γy_{t−1} + …</code>.
-Nullhypothese: <code>γ = 0</code> (Zeitserie ist Random Walk, nicht mean-reverting). Wird <code>γ = 0</code> verworfen
-(Teststatistik <code>DFτ</code> negativer als der kritische Wert bei 1/5/10%), ist die nächste
-Preisbewegung proportional zum aktuellen Preis — Hinweis auf Mean Reversion statt Zufallslauf.
-Praxis: <code>p = 1</code> (Lag-Order) reicht meist aus, um die Nullhypothese sinnvoll zu testen (führt
-selbst aber einen zusätzlichen Parameter ein). Python: <code>statsmodels.tsa.stattools.adfuller()</code>.
-Buchbeispiel: Amazon-Aktie 2000–2015 verwirft die Nullhypothese NICHT (Teststatistik über allen
-kritischen Werten) — Amazon verhält sich in diesem Zeitraum wie GBM, nicht mean-reverting.</p>
-<h2 id="hurst-exponent">Hurst-Exponent</h2>
-<p>Alternative/ergänzende Methode über die <strong>Diffusionsrate der Log-Preis-Varianz</strong>:
-<code>⟨|log(t+τ) − log(t)|²⟩ ~ τ^(2H)</code>. Bei GBM gilt <code>H = 0,5</code>. Interpretation:</p>
+  <div class="content"><h1 id="datenbeschaffung-fur-backtests-optionen-grenzen">Datenbeschaffung für Backtests (Optionen &amp; Grenzen)</h1>
+<p>Antwort auf die Frage: <strong>Wie komme ich an ähnlich viele Daten wie ein Fonds wie Two Sigma?</strong></p>
+<h2 id="die-unterscheidung-an-der-alles-hangt">Die Unterscheidung, an der alles hängt</h2>
+<p>Two Sigmas „hunderte Milliarden Datenpunkte" sind <strong>Orderbuch-Ereignisse</strong> — jede Quote-Änderung,
+jede Stornierung, jeder Trade. Davon passieren tausende <strong>pro Sekunde und Instrument</strong>.</p>
+<p>Ein ICT-Setup ist etwas völlig anderes: Ein Silver Bullet im NY-AM-Fenster kann <strong>höchstens einmal
+pro Tag und Instrument</strong> auftreten. Selbst mit unendlicher Historie wächst die Zahl der
+Gelegenheiten nur mit der Zahl der Tage.</p>
+<blockquote>
+<p><strong>Die knappe Ressource ist nicht die Datenmenge, sondern die Zahl unabhängiger Vorkommen des
+eigenen Musters.</strong></p>
+</blockquote>
+<p>Daraus folgt: Two Sigmas Datenberg ist nicht erreichbar — <strong>und nicht nötig</strong>, weil das Muster auf
+einer gröberen Zeitskala definiert ist. Erreichbar und nötig ist eine Stichprobe, die für
+Bootstrap-Verfahren, Permutationstests und Konfidenzgrenzen ausreicht. Das sind Größenordnungen von
+Tausenden, nicht von Milliarden.</p>
+<h2 id="ofter-backtesten-die-gefahrliche-doppeldeutigkeit">„Öfter backtesten" — die gefährliche Doppeldeutigkeit</h2>
+<p>Zwei Dinge, die gleich klingen und gegensätzlich wirken:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Wirkung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Eine feste Regel gegen viele synthetische Historien</strong> (Permutation, Bootstrap)</td>
+<td><strong>Gut.</strong> Das ist ein Signifikanztest — er misst, ob das Ergebnis Zufall war. Beliebig oft möglich, ohne Strafe</td>
+</tr>
+<tr>
+<td><strong>Viele Regelvarianten gegen eine Historie</strong></td>
+<td><strong>Gefährlich.</strong> Das ist Data Mining. Jede zusätzliche Variante erhöht die Wahrscheinlichkeit eines Zufallstreffers und damit den nötigen Abschlag</td>
+</tr>
+</tbody>
+</table>
+<p>Sullivan/Timmermann/White (Journal of Finance 1999) haben genau den zweiten Fall empirisch geprüft:
+Die beste Regel aus einem großen Universum war in-sample überlegen — und in den folgenden zehn
+Jahren nicht mehr. Der Abschlag dafür ist nichtlinear (Harvey/Liu), siehe
+<a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a> und
+<a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a>.</p>
+<p><strong>Wer öfter testen will, muss also sagen, welches der beiden gemeint ist.</strong> Das erste ist kostenlos
+und bereits über <code>algo/masters.py</code> verfügbar. Das zweite muss gezählt und bestraft werden.</p>
+<h2 id="bezugsquellen">Bezugsquellen</h2>
+<blockquote>
+<p>⚠️ Preise und Historientiefe Stand 2026-08-08, recherchiert, nicht getestet. Vor einem Kauf beim
+Anbieter selbst prüfen.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Quelle</th>
+<th>Was</th>
+<th>Tiefe</th>
+<th>Kosten</th>
+<th>Haken</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dukascopy</strong></td>
+<td>Devisen-Ticks</td>
+<td>ab ~2003</td>
+<td><strong>kostenlos</strong></td>
+<td>Feed <strong>eines</strong> Brokers, weicht von IBKR ab</td>
+</tr>
+<tr>
+<td><strong>FirstRate Data</strong></td>
+<td>Futures 1-Min-Bars, ~130 aktivste Kontrakte</td>
+<td>ab <strong>2007</strong></td>
+<td>Einmalkauf, Preis nicht öffentlich</td>
+<td>Bars, keine Ticks. Zwei-Wochen-Muster gratis</td>
+</tr>
+<tr>
+<td><strong>Databento</strong></td>
+<td>CME inkl. CBOT/NYMEX/COMEX, bis Orderbuchtiefe</td>
+<td>16+ Jahre</td>
+<td>nutzungsbasiert $/GB, <strong>$125 Startguthaben</strong></td>
+<td><strong>Orderbuch-Schemata nur 1 Tag</strong> im günstigen Tarif; tiefe Orderbuchhistorie erst ab ~$1.750/Monat</td>
+</tr>
+<tr>
+<td><strong>Polygon / Massive</strong></td>
+<td>Ticks, Level 2, breite Anlageklassen</td>
+<td>mehrjährig</td>
+<td>ab ~$0–79/Monat je Klasse</td>
+<td>Tiefe je Tarif</td>
+</tr>
+<tr>
+<td><strong>TrueFX</strong></td>
+<td>Devisen-Ticks aus mehreren Quellen</td>
+<td>mehrjährig</td>
+<td>teils kostenlos</td>
+<td>Aggregat, nicht handelbarer Feed</td>
+</tr>
+<tr>
+<td><strong>LOBSTER</strong></td>
+<td>Nasdaq-Orderbuch, rekonstruiert aus ITCH</td>
+<td>seit 2013</td>
+<td>akademisch; 5 Aktien als Gratis-Muster</td>
+<td>Aktien, keine Futures/FX</td>
+</tr>
+<tr>
+<td><strong>IBKR</strong></td>
+<td>Devisen + Futures</td>
+<td>Devisen mehrjährig</td>
+<td>im Konto enthalten</td>
+<td>Abgelaufene Futures nur bis 2 Jahre nach Verfall</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Der wichtigste Befund in dieser Tabelle:</strong> Die Orderbuchdaten, mit denen Two Sigma arbeitet, sind
+auch käuflich — aber die <em>tiefe Historie</em> davon kostet vierstellig pro Monat. Genau der Teil, der
+den Fonds-Datenberg ausmacht, ist der teure.</p>
+<h2 id="was-das-rechnerisch-bringt">Was das rechnerisch bringt</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Instrumententage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Heute (<code>raw/marktdaten/</code>)</td>
+<td><strong>394</strong></td>
+</tr>
+<tr>
+<td>Devisen über Dukascopy, 3 Paare ab 2003</td>
+<td>~18.000</td>
+</tr>
+<tr>
+<td>Futures über FirstRate, 3 Kontrakte ab 2007</td>
+<td>~14.000</td>
+</tr>
+<tr>
+<td><strong>Zusammen, gepoolt</strong></td>
+<td><strong>~30.000</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Das ist rund das <strong>Fünfundsiebzigfache</strong> des heutigen Bestands. Wenn ein Setup an etwa jedem
+fünften Tag qualifiziert, ergibt das mehrere tausend unabhängige Vorkommen — genug für
+Konfidenzgrenzen, Bootstrap-Drawdownschranken und Minimum Track Record Length.</p>
+<p>Nicht genug für Deep Learning. Aber Deep Learning ist ohnehin nicht das Ziel, siehe
+<a href="../p/machine-learning-fuer-den-algo-bewertung-laufend.html">Machine Learning für den Algo — Bewertung (laufend)</a>.</p>
+<h2 id="der-konflikt-mit-dem-grundsatz-eine-datenquelle">Der Konflikt mit dem Grundsatz „eine Datenquelle"</h2>
+<p>Die Zielbild-Spec legt IBKR als <strong>einzige</strong> Quelle fest, damit Backtest und Ausführung nicht
+auseinanderdriften. Dukascopy und FirstRate sind andere Feeds — leicht andere Hochs und Tiefs, und
+damit leicht andere FVG-Grenzen und Sweep-Level.</p>
+<p><strong>Auflösung in zwei Stufen, statt den Grundsatz aufzugeben:</strong></p>
+<ol>
+<li><strong>Erkundung und Strukturstatistik</strong> auf der tiefen Fremdhistorie. Fragen wie „wie oft folgt auf
+   einen Sweep ein Strukturbruch", „gibt es Rundzahl-Häufung", „wie stark koppeln die Paare" sind
+   gegenüber kleinen Feed-Unterschieden unempfindlich.</li>
+<li><strong>Endgültige Validierung und Kostenkalibrierung</strong> ausschließlich auf IBKR-Daten. Alles, was auf
+   den Pip genau zählt — Fill-Annahmen, Spread, Stop-Abstände — wird nur dort gerechnet.</li>
+</ol>
+<p>Eine Regel gilt erst als validiert, wenn sie <strong>beide</strong> Stufen besteht. Weicht das Ergebnis zwischen
+den Feeds stark ab, ist die Regel zu empfindlich gegenüber Datendetails und damit ohnehin nicht
+handelbar — das ist ein nützlicher Nebentest, kein Ärgernis.</p>
+<h2 id="optionen-die-keine-neuen-daten-brauchen">Optionen, die keine neuen Daten brauchen</h2>
+<p>Oft mit besserem Ertrag pro Aufwand als ein Datenkauf:</p>
+<table>
+<thead>
+<tr>
+<th>Hebel</th>
+<th>Wirkung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Instrument-Pooling</strong></td>
+<td>Vervielfacht die Stichprobe ohne einen Tag Wartezeit. Siehe <a href="../p/universal-model-instrument-pooling.html">Universal Model &amp; Instrument-Pooling</a></td>
+</tr>
+<tr>
+<td><strong>Bereichsbasierte Volatilität</strong></td>
+<td>Yang-Zhang ist bis <strong>14× effizienter</strong> als Close-to-Close — dieselbe Genauigkeit mit einem Vierzehntel der Daten</td>
+</tr>
+<tr>
+<td><strong>Permutation und Bootstrap</strong></td>
+<td>Tausende synthetische Historien aus einer echten. Bereits in <code>algo/masters.py</code></td>
+</tr>
+<tr>
+<td><strong>Kennzahlen auf Bar- statt Trade-Ebene</strong></td>
+<td>Viel mehr Datenpunkte aus denselben Trades, siehe <a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></td>
+</tr>
+<tr>
+<td><strong>Fremdmarkt-Gegenprobe</strong></td>
+<td>Ein ICT-Konzept auf Märkten prüfen, für die ICT es nie gelehrt hat (Gold, Öl, Anleihen). Hält es auch dort, ist es sehr wahrscheinlich echt — das ist die stärkste verfügbare Evidenzform</td>
+</tr>
+<tr>
+<td><strong>Papierhandel vorwärts</strong></td>
+<td>Erzeugt echte, unverbrauchte Out-of-Sample-Daten. Langsam, aber unbestechlich</td>
+</tr>
+</tbody>
+</table>
+<h2 id="verwandt">Verwandt</h2>
 <ul>
-<li><code>H &lt; 0,5</code> — Zeitserie ist mean-reverting (näher an 0 = stärker mean-reverting)</li>
-<li><code>H = 0,5</code> — Zeitserie verhält sich wie GBM (Random Walk)</li>
-<li><code>H &gt; 0,5</code> — Zeitserie ist trending (näher an 1 = stärker trending)</li>
-</ul>
-<p>Python-Implementierung ist eine simple lineare Regression (<code>polyfit</code>) auf log-log-skalierten
-Lag-Varianzen. Buchbeispiel bestätigt die Definition an synthetischen Serien (GBM: H≈0,502,
-Mean-Reverting: H≈0,0002, Trending: H≈0,958) und zeigt an Amazon (H≈0,454, nahe 0,5) dieselbe
-Schlussfolgerung wie der ADF-Test: kein starkes Mean-Reversion-Signal.</p>
-<h2 id="kointegration-pairs-trading">Kointegration (Pairs Trading)</h2>
-<p>Einzelne Aktien/Instrumente verhalten sich selten mean-reverting (die meisten ähneln GBM) — aber
-ein <strong>Portfolio aus zwei oder mehr korrelierten Instrumenten</strong> kann stationär sein, selbst wenn
-keines der Einzelinstrumente es ist. Klassischer "Pairs Trade": lineares Modell
-<code>y(t) = βx(t) + ε(t)</code> zwischen zwei Instrumenten (Buchbeispiel: zwei Energie-Aktien AREX/WLL,
-die auf ähnliche Marktfaktoren reagieren). Die Residuen <code>ε(t) = y(t) − βx(t)</code> bilden eine neue
-Zeitreihe, die per ADF-Test oder Hurst-Exponent auf Stationarität geprüft wird (<strong>Cointegrated
-Augmented Dickey-Fuller Test</strong>, CADF) — ist sie stationär, gilt das Paar als kointegriert und
-handelbar (long das relativ unterbewertete, short das relativ überbewertete Instrument, bei
-Rückkehr zum Mittel schließen).</p>
-<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
-<p>Bisher kein Mean-Reversion-/Pairs-Ansatz im Vault — MNQ läuft als Single-Instrument-Strategie
-(Silver Bullet, Ensemble). Direkt anwendbar wäre der ADF-Test/Hurst-Exponent als <strong>Vorab-Check</strong>
-für jede neue MNQ-basierte These, die implizit Mean-Reversion voraussetzt (z.B. Midnight-Opening-
-Range-Manipulation-Rückkehr, ORG-C.E.-Füllung) — bisher werden solche Thesen nur über
-Trefferquoten gebacktestet (<code>algo/backtest_midnight_range_*.py</code>), nicht vorab statistisch auf
-Mean-Reversion-Charakter geprüft. Kointegration würde einen zweiten korrelierten Future
-voraussetzen (Kandidat: NQ oder ES, beide bereits in <code>algo/pnl.py</code>s Punktwert-Tabelle) — aktuell
-kein Backlog-Punkt, da das Projekt bewusst auf ein Einzelinstrument (MNQ) fokussiert ist (siehe
-<span class="broken" title="Seite existiert noch nicht">Algo-Trading: Arbeitsstandards</span>, Layer 0).</p></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a><span class="cat">Konzepte</span></li><li><a href="../p/successful-algorithmic-trading-source.html">Successful Algorithmic Trading (Source)</a><span class="cat">Quellen</span></li></ul></section>
-  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration).md</code></footer>
+<li><a href="../p/universal-model-instrument-pooling.html">Universal Model &amp; Instrument-Pooling</a> — der kostenlose Multiplikator</li>
+<li><a href="../p/machine-learning-fuer-den-algo-bewertung-laufend.html">Machine Learning für den Algo — Bewertung (laufend)</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a>, <a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a> — Back-Adjustment bei
+  Fremdquellen-Futures</li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a> — was mit einer größeren Stichprobe möglich wird</li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Datenbeschaffung für Backtests (Optionen &amp; Grenzen).md</code></footer>
 </article>
 </main>
 </div>

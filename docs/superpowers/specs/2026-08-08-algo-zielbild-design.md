@@ -6,6 +6,9 @@
 **Revision 2 (2026-08-08):** Gegengeprüft gegen den vollständigen Wiki-Bestand, den ICT Core
 Content und die akademische Literatur. Sieben inhaltliche Korrekturen, vier neue Pflichtbausteine.
 Zielmarkt auf **Forex und CME** erweitert (Nutzerentscheidung).
+**Revision 6 (2026-08-08):** Datenbeschaffung auf **zwei Stufen** umgestellt (4.5) — Entscheidung 7
+geändert. Tiefe Fremdhistorie zur Erkundung, IBKR zur Validierung. Hebt die Stichprobe von 394 auf
+rund 30.000 Instrumententage.
 **Revision 5 (2026-08-08):** **Prop-Firmen-Kompatibilität** als harte Nebenbedingung aufgenommen
 (Abschnitt 13). Kernbefund: Bei mitlaufendem Intraday-Drawdown bricht die Runner-Strategie aus 3.1,
 und eine Challenge ist mathematisch ein anderes Problem als langfristiges Wachstum.
@@ -72,7 +75,7 @@ anzupassen.
 | 4 | Signalquelle | ICT zuerst, Explorationsschicht daneben | Beide durch dasselbe Gate |
 | 5 | Zeiten | Beobachtung 24/5, Handel London + NY | Asia ist Eingangsgröße für London (CBDR, Judas), auch ohne dort zu handeln |
 | 6 | Reihenfolge | Datenschicht zuerst | Null Devisen-Kerzen vorhanden |
-| 7 | Datenquelle | IBKR, zunächst nur lesend | Keine Datenquellen-Drift zwischen Backtest und Ausführung |
+| 7 | Datenquelle | **Zweistufig**: Fremdhistorie zur Erkundung, IBKR zur Validierung | Geändert 2026-08-08, siehe 4.5. Ursprünglich „IBKR als einzige Quelle" |
 | 8 | Infrastruktur | Lokal starten, Ziel Raspberry Pi | Erzwingt Linux-/bildschirmlosen Code von Anfang an |
 | 9 | Instrumente | Siehe Abschnitt 7.1 | Löst den offenen PLAN.md-Punkt „SMT braucht zweites Symbol" |
 | 10 | Historie | Gestaffelt: 6 Monate, dann tiefer | Fehler in der Zeitlogik fällt nach einer Stunde auf, nicht nach zwölf |
@@ -241,6 +244,41 @@ innerhalb der beschlossenen Zone.
 **Betriebsauflage:** IB-Gateway trennt die Verbindung nach etwa 24 Stunden. Ein täglicher
 automatischer Neustart ist Pflicht, nicht optional. Auf dem Raspberry Pi zusätzlich: 64-Bit-Debian,
 ARM-JDK 17, `xvfb` als Ersatz-Bildschirm, IBC für die automatische Anmeldung.
+
+### 4.5 Zweistufige Datenbeschaffung — Änderung gegenüber Revision 1
+
+**Ursprüngliche Entscheidung 7 lautete: IBKR als einzige Quelle**, damit Backtest und Ausführung
+nicht auseinanderdriften. Das bleibt richtig für alles, was auf den Pip genau zählt — aber es
+deckelt die Stichprobe unnötig. Vollständige Optionsübersicht:
+[[Datenbeschaffung für Backtests (Optionen & Grenzen)]].
+
+**Der Engpass, richtig benannt:** Nicht die Datenmenge ist knapp, sondern die Zahl unabhängiger
+Vorkommen des eigenen Musters. Ein Silver Bullet im NY-AM-Fenster tritt höchstens **einmal pro Tag
+und Instrument** auf. Two Sigmas hunderte Milliarden Datenpunkte sind Orderbuch-Ereignisse — eine
+andere Einheit, tausendfach pro Sekunde. Dieser Datenberg ist weder erreichbar noch nötig; nötig
+ist eine Stichprobe im **Tausenderbereich**, die Bootstrap, Permutation und Konfidenzgrenzen trägt.
+
+| | Instrumententage |
+|---|---|
+| Heute in `raw/marktdaten/` | 394 |
+| Devisen ab ~2003 (Dukascopy, kostenlos), 3 Paare | ~18.000 |
+| Futures ab 2007 (FirstRate, Einmalkauf), 3 Kontrakte | ~14.000 |
+| **Gepoolt (12.7.1)** | **~30.000** |
+
+**Neue Regel — zwei Stufen statt einer Quelle:**
+
+1. **Erkundung und Strukturstatistik** auf tiefer Fremdhistorie. Fragen wie Sweep-zu-Strukturbruch-
+   Rate, Rundzahl-Häufung (Osler-Test aus 10.4) oder Instrumentkopplung sind gegenüber kleinen
+   Feed-Unterschieden unempfindlich.
+2. **Endgültige Validierung und Kostenkalibrierung ausschließlich auf IBKR-Daten.** Fill-Annahmen,
+   Spread, Stop-Abstände, alles Pip-genaue.
+
+Eine Regel gilt erst als validiert, wenn sie **beide** Stufen besteht. Weicht das Ergebnis
+zwischen den Feeds stark ab, ist die Regel zu empfindlich gegenüber Datendetails und damit ohnehin
+nicht handelbar — ein nützlicher Zusatztest.
+
+**Für Fremdquellen-Futures gilt zusätzlich 4.3:** Back-Adjustment-Variante explizit festlegen,
+Settlement- statt Schlusskurs, Rollover als eigener Vorgang.
 
 ---
 
@@ -772,7 +810,7 @@ Aufbau entsteht.
 |---|---|---|
 | 1 | `algo/instruments.py` | Register nach Abschnitt 7.1, mit Killzone-Zeiten je Anlageklasse |
 | 2 | `algo/broker_ibkr.py` | Nur lesend. **Keine Order-Funktion vorhanden** — nicht abgeschaltet, sondern nicht geschrieben |
-| 3 | Datenimport | 6 Monate Minutenkerzen, Devisen + Zins-Futures |
+| 3 | Datenimport | 6 Monate Minutenkerzen von IBKR (Devisen + Zins-Futures), **plus** Fremdhistorie nach 4.5 — Dukascopy ist kostenlos und kann parallel laufen |
 | 4 | DXY-Berechnung | Aus den sechs Bestandteilen, gegen Referenz geprüft |
 | 5 | `algo/verify_data.py` | Prüfroutine — der eigentliche Wert dieser Stufe |
 | 6 | `algo/observe.py` | Bestehende Detektoren über alle Instrumente, 24/5 |
