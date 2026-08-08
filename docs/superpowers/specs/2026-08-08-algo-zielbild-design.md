@@ -2,7 +2,7 @@
 
 **Datum:** 2026-08-08
 **Status:** Entwurf, wartet auf Freigabe durch Jannes
-**Entstanden aus:** Interview-Session (`/superpowers:brainstorming`), 23 Einzelentscheidungen
+**Entstanden aus:** Interview-Session (`/superpowers:brainstorming`), 25 Einzelentscheidungen
 **Revision 2 (2026-08-08):** Gegengeprüft gegen den vollständigen Wiki-Bestand, den ICT Core
 Content und die akademische Literatur. Sieben inhaltliche Korrekturen, vier neue Pflichtbausteine.
 Zielmarkt auf **Forex und CME** erweitert (Nutzerentscheidung).
@@ -79,6 +79,8 @@ anzupassen.
 | 21 | Sekundenauflösung | Nur Einstiegsverfeinerung | Sekundenhistorie existiert nicht → nicht validierbar |
 | 22 | Feiertage | Bankfeiertage + Börsenfeiertage | Ohne Zinsmärkte kann die Triad nicht bestätigen |
 | 23 | Marktumfang | Forex **und** CME, nicht entweder-oder | Siehe 2.1 |
+| 24 | Konto | **Eigenes Konto nur für den Algo**, getrennt vom manuellen Handel | Sonst kollidieren manuelle Positionen mit denen des Algos und lösen dauernd „unbekannte Position → Stopp" aus. Nebeneffekt: Die Leistung des Algos ist sauber messbar, ohne dass manuelle Trades die Zahlen verfälschen — Voraussetzung für den Annahme-Wächter (5.6) und für CPPI (5.5), das ohnehin ein Ein-Strategie-Konto verlangt |
+| 25 | Trades pro Tag | **Unbegrenzt**, bis das Risikomodul eingreift | Siehe 5.9 — eine Tagesgrenze ist eine Psychologieregel |
 
 ### 3.1 Ertragsziel — Korrektur gegenüber Revision 1
 
@@ -414,7 +416,32 @@ in die Strategiezahlen zu wandern.
 - Backtest-Berichte weisen Brutto aus; die Netto-Betrachtung erfolgt separat und wird nicht in die
   Optimierung gezogen.
 
-### 5.9 Harte Verbote
+### 5.9 Handelsfrequenz — keine Obergrenze
+
+**Es gibt keine Höchstzahl an Trades pro Tag.** Der Algo handelt so oft, wie gültige Setups
+entstehen, bis eine Schicht des Risikomodells eingreift. Das ist die direkte Anwendung des
+Prinzips aus 5.0: „Maximal zwei Trades am Tag" ist eine Psychologieregel, die einen Menschen vor
+Übermüdung und Rachehandel schützt. Ein Algorithmus wird nicht müde.
+
+Zwei Auflagen dazu:
+
+1. **Erst nach ausreichendem Backtesting.** Bis dahin gilt eine vorläufige Begrenzung, weil eine
+   unbegrenzt handelnde, unvalidierte Regel den schnellstmöglichen Weg zum Drawdown darstellt. Die
+   Aufhebung ist an dieselbe Bedingung geknüpft wie die Umstellung der Positionsgröße: gemessene
+   Verteilung statt Annahme.
+2. **Technische Sicherung gegen pathologisches Wiederholen.** Das ist ausdrücklich *keine*
+   Tagesgrenze, sondern ein Schutz gegen einen Programmfehler: Wenn dieselbe Struktur bei jedem
+   Kerzenschluss neu erkannt wird, feuert der Algo denselben Trade zwanzigmal, ohne dass es
+   zwanzig Gelegenheiten gäbe. Jedes Setup bekommt deshalb eine Kennung; ein bereits gehandeltes
+   Setup löst kein zweites Mal aus. Ohne diese Sicherung ist „unbegrenzt" kein Freiheitsgrad,
+   sondern ein Fehlerverstärker — und die Kosten aus 5.7 skalieren linear mit.
+
+**Das Risikomodul bleibt bewusst offen für Verfeinerung.** Die sieben Schichten sind eine
+Ausgangsfassung, kein Endzustand. Jede Verfeinerung wird in `algo/PLAN.md` protokolliert und geht
+durch dieselben Extremfall-Tests aus 9.7 wie die Erstfassung — der Risiko-Wächter ist die
+Komponente, an der ein Fehler das Konto kostet, nicht nur einen Trade.
+
+### 5.10 Harte Verbote
 
 Im Risiko-Wächter verdrahtet, von keiner Strategie umgehbar:
 
@@ -425,21 +452,22 @@ Im Risiko-Wächter verdrahtet, von keiner Strategie umgehbar:
 
 Zusätzlich gilt das ICT-Regelwerk als Strukturschicht darüber.
 
-### 5.10 Prüfreihenfolge im Risiko-Wächter
+### 5.11 Prüfreihenfolge im Risiko-Wächter
 
 1. Stop vorhanden?
-2. Position im selben Instrument bereits offen?
-3. Größe ≤ 1% des aktuellen Guthabens?
-4. Größe ≤ halber Kelly und ≤ `f_ruin`?
-5. Dollar-Faktor-Deckel eingehalten?
-6. Tagesverlust unter Anomalieschwelle?
-7. CPPI-Subkonto der Strategie noch gedeckt?
-8. Annahme-Wächter ruhig?
-9. Sperrkalender abrufbar?
-10. Red-Folder-News innerhalb der nächsten 20 Minuten?
-11. Bankfeiertag oder Börsenfeiertag?
-12. Handelsende (Intraday-Flat) in Reichweite?
-13. Uhrzeit des Rechners verifiziert?
+2. Setup bereits gehandelt (Kennung aus 5.9)?
+3. Position im selben Instrument bereits offen?
+4. Größe ≤ 1% des aktuellen Guthabens?
+5. Größe ≤ halber Kelly und ≤ `f_ruin`?
+6. Dollar-Faktor-Deckel eingehalten?
+7. Tagesverlust unter Anomalieschwelle?
+8. CPPI-Subkonto der Strategie noch gedeckt?
+9. Annahme-Wächter ruhig?
+10. Sperrkalender abrufbar?
+11. Red-Folder-News innerhalb der nächsten 20 Minuten?
+12. Bankfeiertag oder Börsenfeiertag?
+13. Handelsende (Intraday-Flat) in Reichweite?
+14. Uhrzeit des Rechners verifiziert?
 
 Fällt eine Prüfung durch, entsteht kein Trade — und der Grund wird protokolliert, damit auswertbar
 bleibt, wie oft welche Bremse gegriffen hat.
@@ -447,7 +475,7 @@ bleibt, wie oft welche Bremse gegriffen hat.
 **Abgrenzung zum Triad-Veto:** Die Interest Rate Triad (Abschnitt 7.2) und der Regime-Filter sind
 **keine** Risikoprüfungen, sondern Teil der Regelschicht — sie entscheiden, ob ein Setup gültig
 ist, nicht ob es tragbar ist. Reihenfolge: Regelschicht erzeugt einen Vorschlag → Triad und
-Regime-Filter können ihn verwerfen → erst der überlebende Vorschlag geht in die dreizehn Prüfungen.
+Regime-Filter können ihn verwerfen → erst der überlebende Vorschlag geht in die vierzehn Prüfungen.
 Grund: Der Risiko-Wächter muss für jede künftige Strategie unverändert gelten, auch für solche
 ohne Benchmark-Bestätigung.
 
@@ -814,7 +842,22 @@ Nach Freigabe zu erledigen (Pflicht laut `CLAUDE.md`, „Kontinuierliches Wachst
 | 6 | Konkrete Zahlen für Anomalieschwelle und Positionsgröße | nach 100 OOS-Trades |
 | 7 | Kelly und `f_ruin` für die bestehende Silver-Bullet-Strategie | **vor jedem weiteren Schritt** — 20× Hebel am Margin-Limit ist ungeprüft |
 | 8 | Runner-Häufigkeit (9R–15R) | erster Bericht |
-| 9 | **Handelt Jannes weiter manuell auf demselben Konto?** Wenn ja, kollidieren seine Positionen mit denen des Algos, und die Regel „unbekannte Position → Stopp" würde ständig auslösen. Lösung wäre ein getrenntes Unterkonto bei IBKR | vor Papierhandel |
+| ~~9~~ | ~~Manueller Handel auf demselben Konto?~~ | **Geklärt 2026-08-08: eigenes Konto nur für den Algo** (Entscheidung 24) |
+| 10 | Silver Bullet überarbeiten, bevor die Strategie ins Regelregister wandert | Kalendereintrag 2026-09-01, siehe Abschnitt 13.1 |
+
+---
+
+### 13.1 Terminierte Folgearbeit
+
+**Silver Bullet überarbeiten** — Kalendereintrag 2026-09-01, 10:00–11:30 (Platzhalter nach
+Abschluss der Datenschicht). [[Silver Bullet Model]] ist bisher die einzige vollständig geregelte
+Strategie im Vault und wandert **nicht** unverändert ins Regelregister. Zu klären:
+
+1. Kelly und `f_ruin` berechnen (offener Punkt 7 — 20-facher Hebel am Margin-Limit, ungeprüft).
+2. Übertragbarkeit auf Devisen: Die drei Fenster (London 3–4, NY AM 10–11, NY PM 14–15) stammen
+   aus dem Index-Kontext; die FX-Killzones liegen anders (2–5, 7–9, 10–12 NY-Zeit).
+3. Durch das Validierungs-Gate aus Abschnitt 9 schicken, nicht als validiert übernehmen.
+4. Kostenmodell korrigieren (siehe 5.7).
 
 ---
 
