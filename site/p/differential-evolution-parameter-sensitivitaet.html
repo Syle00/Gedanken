@@ -129,115 +129,416 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Differential Evolution &amp; Parameter-Sensitivität</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">optimierung</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">optimierung</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#differential-evolution">Differential Evolution</a></li>
-<li><a href="#parameter-sensitivitatskurven">Parameter-Sensitivitätskurven</a></li>
-<li><a href="#hessian-analyse-paramcor">Hessian-Analyse (PARAMCOR)</a></li>
+<li><a href="#teil-1-differential-evolution">Teil 1 — Differential Evolution</a><ul>
+<li><a href="#der-kernmechanismus">Der Kernmechanismus</a></li>
+<li><a href="#aufrufsignatur-und-praxiswerte">Aufrufsignatur und Praxiswerte</a></li>
+<li><a href="#der-ablauf">Der Ablauf</a></li>
+<li><a href="#masters-erweiterungen-gegenuber-dem-lehrbuchverfahren">Masters' Erweiterungen gegenüber dem Lehrbuchverfahren</a></li>
+</ul>
+</li>
+<li><a href="#teil-2-parameter-sensitivitatskurven">Teil 2 — Parameter-Sensitivitätskurven</a></li>
+<li><a href="#teil-3-hessian-analyse-paramcor">Teil 3 — Hessian-Analyse (PARAMCOR)</a></li>
+<li><a href="#referenzlauf-dev_ma-auf-oex">Referenzlauf DEV_MA auf OEX</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
 </ul>
 </div>
 </details>
   <div class="content"><h1 id="differential-evolution-parameter-sensitivitat">Differential Evolution &amp; Parameter-Sensitivität</h1>
-<p>Wie man die Parameter eines Handelssystems optimiert — und, wichtiger, wie man <strong>danach</strong>
-erkennt, ob das Optimum stabil oder ein Zufallstreffer ist. Aus
-<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 3 und 4).</p>
-<h2 id="differential-evolution">Differential Evolution</h2>
-<p>Der Zielkonflikt jeder Optimierung: Hill-Climbing ist schnell, landet aber auf dem
-nächstbesten Hügel; global suchende Verfahren finden den richtigen Hügel, sind aber langsam.
-Differential Evolution ist der Kompromiss.</p>
-<p>Anders als bei üblicher Fortpflanzung braucht ein Kind <strong>vier</strong> Eltern: <code>Parent1</code>
-(deterministisch, der laufende Index) sowie <code>Parent2</code>, <code>Differential1</code>, <code>Differential2</code>
-(zufällig, alle vier verschieden).</p>
-<pre><code>Mutation:  trial[j] = parent2[j] + konstante · (diff1[j] − diff2[j])
-Crossover: pro Variable mit Wahrscheinlichkeit pcross den mutierten Wert nehmen,
-           sonst den Wert von parent1
-Selektion: Kind gegen parent1 antreten lassen, der Bessere kommt in die nächste Generation
+<p>Wie man die Parameter eines Handelssystems optimiert — und, wichtiger, wie man <strong>danach</strong> erkennt,
+ob das Optimum stabil oder ein Zufallstreffer ist. Aus
+<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 3 und 4, Programme <code>DIFF_EV.CPP</code>,
+<code>PARAMCOR.CPP</code>, <code>SENSITIV.CPP</code>, <code>DEV_MA.CPP</code>).</p>
+<h2 id="teil-1-differential-evolution">Teil 1 — Differential Evolution</h2>
+<p>Der Zielkonflikt jeder Optimierung: Hill-Climbing ist schnell, landet aber auf dem nächstbesten
+Hügel; global suchende Verfahren finden den richtigen Hügel, sind aber langsam. Differential
+Evolution ist der Kompromiss.</p>
+<h3 id="der-kernmechanismus">Der Kernmechanismus</h3>
+<p>Anders als bei üblicher Fortpflanzung braucht ein Kind <strong>vier</strong> Eltern: <code>Parent1</code> (deterministisch,
+der laufende Index) sowie <code>Parent2</code>, <code>Differential1</code>, <code>Differential2</code> (zufällig gezogen, alle vier
+paarweise verschieden).</p>
+<pre><code>Mutation:   mutiert[j] = parent2[j] + mutate_dev · (diff1[j] − diff2[j])
+Crossover:  pro Variable j mit Wahrscheinlichkeit pcross den mutierten Wert nehmen,
+            sonst parent1[j] kopieren
+Selektion:  Kind gegen parent1 antreten lassen — der Bessere kommt in die naechste Generation
 </code></pre>
-<p>Die entscheidende Eigenschaft: <strong>die Störung skaliert sich selbst an die Problemgeometrie.</strong>
-Liegt das Optimum auf einem schmalen Grat, verteilt sich die Population entlang des Grats und
-staucht sich quer dazu — die Differenzen zweier zufälliger Individuen sind dann automatisch groß
-längs und klein quer zum Grat. Genau das, was man will.</p>
-<p>Masters' Anpassungen gegenüber dem Lehrbuchverfahren:</p>
-<ul>
-<li><strong>Overinitialization.</strong> Statt <code>popsize</code> Startindividuen erzeugt er etwa <code>2 × popsize</code> und
-  ersetzt fortlaufend das jeweils schlechteste. Bessere Startpopulation, schnellere Konvergenz,
-  höhere Chance, das globale Optimum überhaupt im Einzugsbereich zu haben. Der Grenznutzen
-  erschöpft sich aber schnell.</li>
-<li><strong>Gelegentliches Hill-Climbing</strong> (<code>pclimb</code>). Stochastische Verfahren kommen schnell in die Nähe
-  des Optimums, treffen es aber nie exakt. Deshalb wird pro Generation <strong>ein</strong> Individuum (mit
-  Vorzug für das beste) in <strong>einer</strong> Variablen exakt optimiert. Da immer nur ein einzelnes
-  Individuum betroffen ist, bleiben die Einzugsbereiche der übrigen unangetastet, die Globalität
-  geht also nicht verloren. <code>pclimb = 0</code> schaltet ab, ein winziger Wert tunt nur das Beste,
-  ~0,2 tunt gelegentlich auch andere.</li>
-<li><strong>Mindest-Trade-Zahl.</strong> Kandidaten unterhalb einer Mindestanzahl Trades werden verworfen.
-  Scheitert das 500 Mal in Folge, senkt der Algorithmus die Anforderung um 10 % — deshalb muss
-  man am Ende <strong>nachprüfen, wie viele Trades das Siegersystem tatsächlich hat</strong>.</li>
-<li><strong>Konvergenz</strong> über <code>max_bad_gen</code>: so viele Generationen ohne Verbesserung des Besten. Großzügig
-  ansetzen (50+), weil es nach längeren Durststrecken durchaus wieder anspringt.</li>
-</ul>
-<p>Faustwerte: <code>pcross</code> klein (0,1–0,5), Populationsgröße mehrere hundert, wenn die Folgeanalysen
-(unten) genutzt werden sollen.</p>
+<p>Die entscheidende Eigenschaft: <strong>die Störung skaliert sich selbst an die Problemgeometrie.</strong> Liegt
+das Optimum auf einem schmalen Grat, verteilt sich die Population entlang des Grats und staucht
+sich quer dazu. Die Differenz zweier zufälliger Individuen ist dann automatisch groß längs und
+klein quer zum Grat — exakt die gewünschte Schrittweite in jeder Richtung.</p>
+<h3 id="aufrufsignatur-und-praxiswerte">Aufrufsignatur und Praxiswerte</h3>
+<pre><code>diff_ev(criter, nvars, nints, popsize, overinit, mintrades, max_evals,
+        max_bad_gen, mutate_dev, pcross, pclimb, low_bounds, high_bounds,
+        params, print_progress, stoc_bias)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Bedeutung</th>
+<th>Wert im <code>DEV_MA</code>-Beispiel</th>
+<th>Empfehlung im Text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nvars</code> / <code>nints</code></td>
+<td>Anzahl Parameter / davon Ganzzahlen (<strong>müssen zuerst stehen</strong>)</td>
+<td>4 / 1</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>popsize</code></td>
+<td>Populationsgröße</td>
+<td>100</td>
+<td>mehrere hundert, wenn Teil 2/3 genutzt wird</td>
+</tr>
+<tr>
+<td><code>overinit</code></td>
+<td>Überinitialisierung</td>
+<td><strong>10.000</strong></td>
+<td>≈ <code>popsize</code>; hier bewusst riesig für StocBias</td>
+</tr>
+<tr>
+<td><code>mintrades</code></td>
+<td>Mindestzahl Trades je Kandidat</td>
+<td>20</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>max_evals</code></td>
+<td>Notbremse bei der Initialpopulation</td>
+<td>10.000.000</td>
+<td>groß; <strong>darf nie greifen</strong></td>
+</tr>
+<tr>
+<td><code>max_bad_gen</code></td>
+<td>Generationen ohne Verbesserung = Konvergenz</td>
+<td>300</td>
+<td>„50 or even more"</td>
+</tr>
+<tr>
+<td><code>mutate_dev</code></td>
+<td>Faktor der Differenz-Störung</td>
+<td>0,2</td>
+<td>meist &lt; 1</td>
+</tr>
+<tr>
+<td><code>pcross</code></td>
+<td>Crossover-Wahrscheinlichkeit</td>
+<td>0,2</td>
+<td>0,1 … 0,5</td>
+</tr>
+<tr>
+<td><code>pclimb</code></td>
+<td>Wahrscheinlichkeit eines Hill-Climbing-Schritts</td>
+<td>0,3</td>
+<td>0 / winzig / ~0,2 (siehe unten)</td>
+</tr>
+</tbody>
+</table>
+<p>Der letzte Rückgabeplatz in <code>params</code> (Länge <code>nvars+1</code>) enthält den Kriteriumswert des Optimums.</p>
+<h3 id="der-ablauf">Der Ablauf</h3>
+<pre><code># --- Phase 1: Initialpopulation (popsize + overinit Kandidaten) ---
+for ind in 0 … popsize+overinit-1:
+    zufaelligen Parametervektor erzeugen
+        Ganzzahl j:  low[j] + int( unifrand() · (high[j] − low[j] + 1) )
+        Real     j:  low[j] + unifrand() · (high[j] − low[j])
+    value = criter(vektor, mintrades)
+    if value &lt;= 0:                       # wertlos oder zu wenige Trades
+        ind -= 1                         # Kandidat verwerfen und neu ziehen
+        if ++failures &gt;= 500:            # 500 Fehlschlaege IN FOLGE
+            failures  = 0
+            mintrades = max(1, mintrades · 9 // 10)     # Anforderung senken
+        if n_evals &gt; max_evals: NOTAUSSTIEG
+        continue
+    failures = 0
+    if ind &gt;= popsize:                   # Ueberinitialisierungsphase
+        schlechtestes Individuum der Population suchen
+        if value &gt; schlechtestes: ersetzen
+
+# --- Phase 2: Generationen ---
+for generation = 1, 2, …:
+    improved = false
+    for ind in 0 … popsize-1:
+        parent1 = old_gen[ind]
+        parent2, diff1, diff2 = drei verschiedene Zufallsindizes ≠ ind
+        # Mutation + Crossover in EINER Schleife, rotierend ab zufaelligem Startindex j:
+        for i = nvars-1 … 0:
+            if (i == 0 and noch nichts mutiert) or unifrand() &lt; pcross:
+                kind[j] = parent2[j] + mutate_dev · (diff1[j] − diff2[j])
+            else:
+                kind[j] = parent1[j]
+            j = (j + 1) % nvars
+        ensure_legal(kind)
+        value = criter(kind, mintrades)
+        new_gen[ind] = kind if value &gt; parent1.value else parent1
+        optional: Hill-Climbing-Schritt (siehe unten)
+    if not improved:
+        if ++bad_generations &gt; max_bad_gen: FERTIG
+    else:
+        bad_generations = 0
+    old_gen, new_gen = new_gen, old_gen
+return bestes Individuum
+</code></pre>
+<p>Zwei Details, die leicht übersehen werden: der <strong>zufällige Startindex</strong> <code>j</code> in der Crossover-Schleife
+sorgt dafür, dass die erzwungene Mindestmutation („mindestens eine Variable muss mutiert sein")
+nicht immer dieselbe Variable trifft. Und <code>ensure_legal</code> ist Pflicht, weil die Mutation Parameter
+regelmäßig aus ihren Grenzen schiebt.</p>
+<h3 id="masters-erweiterungen-gegenuber-dem-lehrbuchverfahren">Masters' Erweiterungen gegenüber dem Lehrbuchverfahren</h3>
+<p><strong>Overinitialization.</strong> Statt <code>popsize</code> Startindividuen erzeugt er <code>popsize + overinit</code> und ersetzt
+fortlaufend das jeweils schlechteste. Bessere Startpopulation, schnellere Konvergenz, höhere
+Chance, das globale Optimum im Einzugsbereich zu haben. Der Grenznutzen erschöpft sich aber
+schnell: sobald das schlechteste Populationsmitglied besser ist als die meisten Neuziehungen, ist
+weiteres Überinitialisieren Verschwendung. <code>overinit = 0</code> liefert das klassische Verfahren.</p>
+<p><strong>Automatische Absenkung von <code>mintrades</code>.</strong> Nach 500 Fehlschlägen <strong>in Folge</strong> wird die Anforderung
+um 10 % gesenkt. Deshalb gilt: <strong>am Ende nachprüfen, wie viele Trades das Siegersystem tatsächlich
+hat.</strong> Es braucht sehr viel Fehlschlag, um das auszulösen — wenn es auslöst, stimmt etwas nicht.</p>
+<p><strong>Schwellenwert 0 für „wertlos".</strong> Der Reject-Test lautet hart <code>value &lt;= 0</code>. Wer ein Kriterium mit
+anderem neutralen Punkt optimieren will (Profit Factor: 1), muss es transformieren — Masters'
+Vorschlag: <strong>den Logarithmus des Profit Factors maximieren.</strong></p>
+<p><strong>Gelegentliches Hill-Climbing</strong> (<code>pclimb</code>). Stochastische Verfahren kommen schnell in die Nähe des
+Optimums, treffen es aber nie exakt, weil sie keine lokale Information nutzen. Deshalb wird pro
+Generation <strong>ein</strong> Individuum in <strong>einer</strong> Variablen exakt optimiert:</p>
+<pre><code>if pclimb &gt; 0 and ( (ind == ibest and n_tweaked &lt; nvars) or unifrand() &lt; pclimb ):
+    if ind == ibest:                       # einmal pro Generation das Beste
+        n_tweaked += 1
+        k = generation % nvars             # rotiert durch alle Variablen
+    else:
+        k = zufaellige Variable
+</code></pre>
+<p><code>n_tweaked</code> wird bei jeder Verbesserung des Grand Best zurückgesetzt; die Bedingung
+<code>n_tweaked &lt; nvars</code> verhindert, dass ein unverändert bleibendes Bestes endlos nachpoliert wird.
+Die Rotation über <code>generation % nvars</code> vermeidet Doppelarbeit, weil dasselbe Individuum oft über
+mehrere Generationen das beste bleibt.</p>
+<p>Da immer nur <strong>ein einzelnes</strong> Individuum betroffen ist, bleiben die Einzugsbereiche der übrigen
+unangetastet — die Globalität geht also nicht verloren.</p>
+<table>
+<thead>
+<tr>
+<th><code>pclimb</code></th>
+<th>Wirkung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>klassisches Verfahren, kein Hill-Climbing</td>
+</tr>
+<tr>
+<td>1e-5</td>
+<td>nur das jeweils Beste wird gelegentlich nachgezogen — stark verbesserte Endkonvergenz</td>
+</tr>
+<tr>
+<td>~0,2</td>
+<td>zusätzlich gelegentlich zufällige andere Individuen</td>
+</tr>
+<tr>
+<td>größer</td>
+<td>selten lohnend; teuer, und die Globalität kann leiden</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hill-Climbing bei Ganzzahlen</strong> — einfache Nachbarschaftssuche, kein globaler Scan:</p>
+<pre><code>ibase = aktueller Wert
+aufwaerts laufen, solange sich das Kriterium verbessert; bei Verschlechterung abbrechen
+war das erfolglos: von ibase abwaerts laufen, gleiche Logik
+kein Erfolg → auf ibase zuruecksetzen
+</code></pre>
+<p>(Flache Zwischenbereiche mit späterer Verbesserung werden bewusst nicht durchsucht — zugunsten
+der Geschwindigkeit.)</p>
+<p><strong>Hill-Climbing bei Realparametern</strong> — zweistufig:</p>
+<pre><code>1) grobe globale Suche in der NAEHE des aktuellen Werts:
+      lower = base − 0.1 · (high − low)
+      upper = base + 0.1 · (high − low)
+      an den Raendern auf ein 0.2-Fenster innerhalb der Grenzen verschieben
+      glob_max(lower, upper, 7 Punkte)  →  Tripel (x1,x2,x3) mit Maximum in der Mitte
+2) Verfeinerung mit Brents Verfahren:
+      brentmax(maxits=5, tol=1e-8, eps=1e-4)
+3) ensure_legal(), Kriterium neu berechnen
+   verbessert?  uebernehmen : auf den alten Wert zuruecksetzen
+</code></pre>
+<p><strong><code>ensure_legal</code></strong> — rundet Ganzzahlparameter (Mutation erzeugt Kommawerte!), erzwingt die Grenzen
+und liefert eine Strafe zurück, die bei der Realparameter-Optimierung vom Kriterium abgezogen wird:</p>
+<pre><code>Ganzzahl:  params[i] ≥ 0 →  int(params[i] + 0.5)
+           params[i] &lt; 0 → −int(0.5 − params[i])       # korrektes Runden in beide Richtungen
+zu gross:  penalty += 1e10 · (params[i] − high[i]) ;  params[i] = high[i]
+zu klein:  penalty += 1e10 · (low[i]  − params[i]) ;  params[i] = low[i]
+</code></pre>
+<p>Der Faktor <code>1e10</code> macht die Strafe so steil, dass <code>brentmax</code> sofort wieder ins zulässige Gebiet
+zurückgetrieben wird.</p>
+<p><strong>Nuisance-Parameter über Statics.</strong> Damit <code>diff_ev</code> generisch bleibt, kapselt ein Wrapper die
+systemspezifischen Dinge (Preisreihe, Lookback-Maximum) in statischen Variablen und mappt den
+generischen <code>params</code>-Vektor auf die benannten Systemparameter. Sauberer Trennungspunkt zwischen
+Optimierer und Handelssystem.</p>
 <blockquote>
-<p>Hinweis zur Kombination: Für <a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a> ist
-Differential Evolution <strong>unzulässig</strong> — dort sind nur Grid Search oder unabhängige
-Zufallsparameter erlaubt. Und für die billige Bias-Schätzung
-(<a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>) darf nur die Initialpopulation verwendet werden, keine
-Kinder.</p>
+<p><strong>Verträglichkeit mit anderen Verfahren:</strong> Für
+<a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a> ist Differential Evolution <strong>unzulässig</strong> —
+dort sind nur Grid Search oder unabhängige Zufallsparameter erlaubt. Und für die billige
+Bias-Schätzung (<a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>) darf <strong>nur die Initialpopulation</strong> verwendet
+werden, keine Kinder — deshalb im Beispiel <code>overinit = 10.000</code>.</p>
 </blockquote>
-<p>In Python entspricht das <code>scipy.optimize.differential_evolution</code>; Overinitialization und der
-Hill-Climbing-Schritt fehlen dort, <code>polish=True</code> erfüllt einen ähnlichen Zweck am Ende.</p>
-<h2 id="parameter-sensitivitatskurven">Parameter-Sensitivitätskurven</h2>
+<p>In Python entspricht das Verfahren <code>scipy.optimize.differential_evolution</code>; Overinitialization und
+der rotierende Hill-Climbing-Schritt fehlen dort, <code>polish=True</code> (Nelder-Mead/L-BFGS am Ende)
+erfüllt einen ähnlichen Zweck.</p>
+<h2 id="teil-2-parameter-sensitivitatskurven">Teil 2 — Parameter-Sensitivitätskurven</h2>
 <p>Der Abschnitt, den Masters ausdrücklich als <strong>Pflicht</strong> bezeichnet („minimal due diligence"),
-während er die Hessian-Analyse (unten) als nettes Beiwerk einstuft.</p>
+während er Teil 3 als nettes Beiwerk einstuft.</p>
 <p>Verfahren: alle Parameter auf ihre Optimalwerte setzen, dann <strong>einen</strong> davon über seinen ganzen
-Bereich variieren und die Performance plotten. Für jeden Parameter einzeln.</p>
-<p>Was man sehen will: einen <strong>breiten, glatten Gipfel</strong> um den Optimalwert, mit sanftem Abfall nach
-außen. Was ein Warnsignal ist:</p>
+Bereich in <code>npoints</code> Schritten variieren und die Performance plotten. Für jeden Parameter einzeln.</p>
+<pre><code>sensitivity(criter, nvars, nints, npoints, nres, mintrades, best, low_bounds, high_bounds)
+   npoints = 30   Auswertungspunkte je Parameter   (DEV_MA-Beispiel)
+   nres    = 80   Balkenbreite des Text-Histogramms
+
+je Parameter ivar:
+    params = Kopie von best
+    label_frac = (high − low) / (npoints − 1)                    # real
+               = (high − low + 0.99999999) / (npoints − 1)       # ganzzahlig
+    fuer jeden Punkt:  params[ivar] setzen, vals[p] = criter(params, mintrades)
+    hist_frac = (nres + 0.9999999) / max(vals)
+    Balkenlaenge = int(vals[p] · hist_frac)
+</code></pre>
+<p><strong>Was man sehen will:</strong> einen <strong>breiten, glatten Gipfel</strong> um den Optimalwert mit sanftem Abfall
+nach außen. Das bedeutet: das System reagiert gutmütig auf Störungen, ist immun gegen Glücks-
+schwankungen und bleibt vermutlich eine Weile stabil.</p>
+<p><strong>Warnsignale:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Bild</th>
+<th>Deutung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>schmale Spitze</strong></td>
+<td>instabil — ändern sich die Marktbedingungen, fällt der einst optimale Wert über die Klippe</td>
+</tr>
+<tr>
+<td><strong>mehrere getrennte Gipfel nahe dem Optimum</strong></td>
+<td>die Performance stammt daraus, dass zufällig ein paar gute Trades erwischt bzw. schlechte vermieden wurden; kleine Verschiebungen fangen sie mal ein, mal nicht → <strong>Glück, nicht Können</strong></td>
+</tr>
+<tr>
+<td>Zappeln <strong>weit weg</strong> vom Optimum</td>
+<td>unbedenklich</td>
+</tr>
+</tbody>
+</table>
+<h2 id="teil-3-hessian-analyse-paramcor">Teil 3 — Hessian-Analyse (PARAMCOR)</h2>
+<p>Aus der <strong>Endpopulation</strong> der Differential Evolution (nicht der Initialpopulation — hier will man
+alle Punkte nahe am Optimum) lassen sich fast gratis Parameterbeziehungen ablesen.</p>
+<pre><code>ncoefs  = nparams                        # lineare Terme
+        + nparams·(nparams+1)/2          # quadratische Terme
+        + 1                              # Konstante
+nc_kept = int(1.5 · ncoefs)              # so viele Individuen nahe am Optimum behalten
+</code></pre>
+<pre><code>1) bestes Individuum finden
+2) euklidischen Abstand jedes Individuums zum Besten berechnen, aufsteigend sortieren,
+   die nc_kept naechstgelegenen behalten
+3) quadratische Flaeche per Singulaerwertzerlegung anpassen (Designmatrix zentriert auf das Beste,
+   backsub-Toleranz 1e-10) — dabei das VORZEICHEN der Performance drehen
+   (Maximierung → Minimierung, wie bei negativer Log-Likelihood)
+4) Hesse-Matrix aus den quadratischen Koeffizienten:
+       Diagonale     = 2 · Koeffizient      (zweite Ableitung)
+       Nebendiagonal = Koeffizient          (symmetrisch kopieren)
+5) Diagonalelemente &lt; 1e-10 → ganze Zeile und Spalte auf null (Parameter ausschliessen)
+6) Nebendiagonalen begrenzen: |h[j,k]| ≤ 0.99999 · sqrt(h[j,j] · h[k,k])
+7) Eigenwerte/-vektoren, verallgemeinerte Inverse ueber Eigenwerte &gt; 1e-8
+8) ausgeben:
+      Variation  = sqrt(diag(H⁻¹)), auf Maximum 1,0 normiert
+      Korrelation = H⁻¹[i,k] / (sqrt(H⁻¹[i,i]) · sqrt(H⁻¹[k,k])), auf [−1,1] geklemmt
+      Eigenvektor zum groessten Eigenwert = Richtung MAXIMALER Empfindlichkeit
+      Eigenvektor zum kleinsten positiven  = Richtung MINIMALER Empfindlichkeit
+</code></pre>
+<p><strong>Interpretation:</strong></p>
 <ul>
-<li><strong>Schmale Spitze</strong> → instabil. Wenn sich die Marktbedingungen ändern, fällt der einst optimale
-  Wert über die Klippe.</li>
-<li><strong>Mehrere getrennte Gipfel in der Nähe des Optimums</strong> → die Performance stammt vermutlich daraus,
-  dass zufällig ein paar gute Trades erwischt bzw. ein paar schlechte vermieden wurden. Kleine
-  Parameterverschiebungen fangen sie mal ein, mal nicht. Glück, nicht Können.</li>
-<li>Zappeln <strong>weit weg</strong> vom Optimum ist unbedenklich.</li>
+<li><strong>Diagonale (Variation):</strong> wie weit darf sich der Parameter bewegen, ohne dass die Performance
+  nennenswert leidet. Groß = unempfindlich.</li>
+<li><strong>Nebendiagonalen (Korrelation):</strong> negative Korrelation heißt, dass sich eine Änderung des einen
+  Parameters durch eine gegenläufige des anderen ausgleichen lässt.</li>
+<li><strong>Eigenvektoren:</strong> Richtungen im Parameterraum, in denen die Performance am stärksten bzw. am
+  wenigsten reagiert. Das Vorzeichen ist bedeutungslos — es ist eine Richtung.</li>
 </ul>
-<h2 id="hessian-analyse-paramcor">Hessian-Analyse (PARAMCOR)</h2>
-<p>Aus der Endpopulation der Differential Evolution lassen sich fast gratis Parameterbeziehungen
-ablesen: eine quadratische Fläche per Kleinste-Quadrate (SVD) an die Punkte nahe dem Optimum
-fitten, daraus die Hesse-Matrix bilden, invertieren.</p>
+<p><strong>Zwei harte Voraussetzungen:</strong></p>
+<ol>
+<li>Die Parameter müssen <strong>kommensurabel skaliert</strong> sein, weil euklidische Abstände verwendet
+   werden. Im <code>DEV_MA</code>-Beispiel wird deshalb der kurze Lookback als <em>Prozent</em> des langen und die
+   Schwellen als <em>10.000-faches</em> des tatsächlichen Werts geführt — sonst wären die Skalen so
+   verschieden, dass PARAMCOR wertlos würde.</li>
+<li>Das Verfahren setzt voraus, dass man wirklich in einem Optimum sitzt.</li>
+</ol>
+<p><strong>Der aufschlussreichste Fehlerfall:</strong> Ist ein Diagonalelement null oder negativ, sitzt man in
+diesem Parameter <strong>nicht</strong> in einem Minimum. Masters' Deutung ist ausdrücklich <em>nicht</em> „der
+Algorithmus taugt nichts":</p>
+<blockquote>
+<p><em>„Nonpositive diagonals are a red flag that the parameterization of the trading system is
+unstable."</em></p>
+</blockquote>
+<p>Die Performance springt dann wild statt glatt — das System fängt mehr oder minder zufällig große
+Gewinne und Verluste ein. Mögliche Ursachen: echtes lokales, aber nicht globales Optimum; oder
+die Kleinste-Quadrate-Fläche erstreckt sich über einen zu großen Bereich und beschreibt kein
+lokales Verhalten mehr. <strong>Reaktion: nicht das Verfahren wechseln, sondern Sensitivitätskurven
+ansehen und das System überdenken.</strong></p>
+<p>Daraus folgt Masters' allgemeineres Kriterium: „lokal" soll so weit wie möglich über die
+unmittelbare Umgebung hinausreichen. Verhält sich die Kurve direkt am Optimum anders als ein
+Stück daneben, ist das System gefährlich.</p>
+<h2 id="referenzlauf-dev_ma-auf-oex">Referenzlauf DEV_MA auf OEX</h2>
+<p>System: thresholded MA-Crossover mit vier Parametern — langer Lookback (ganzzahlig), kurzer
+Lookback in <strong>Prozent</strong> des langen, Short-Schwelle × 10.000, Long-Schwelle × 10.000. Long, wenn
+<code>kurzer_MA / langer_MA − 1 &gt; long_thresh</code>; short, wenn <code>&lt; −short_thresh</code>; sonst neutral. Handel auf
+Log-Preisen, Rendite = <code>x[i+1] − x[i]</code>. Wichtig: <strong>alle Lookbacks starten am selben Bar</strong>
+(<code>max_lookback − 1</code>), damit die Läufe vergleichbar bleiben.</p>
+<table>
+<thead>
+<tr>
+<th>Größe</th>
+<th>Wert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gesamt-Log-Return (optimiert)</td>
+<td>2,6710</td>
+</tr>
+<tr>
+<td>geschätzter Trainings-Bias (StocBias)</td>
+<td>0,3221</td>
+</tr>
+<tr>
+<td>erwarteter Return</td>
+<td><strong>2,3489</strong></td>
+</tr>
+</tbody>
+</table>
+<p>PARAMCOR-Befunde:</p>
 <ul>
-<li><strong>Diagonale</strong> → relative Variation je Parameter (auf 1,0 normiert): wie weit darf sich der
-  Parameter bewegen, ohne dass die Performance nennenswert leidet. Groß = unempfindlich.</li>
-<li><strong>Nebendiagonalen</strong> → Korrelationen: negative Korrelation heißt, dass sich eine Änderung des
-  einen Parameters durch eine gegenläufige des anderen ausgleichen lässt.</li>
-<li><strong>Eigenvektoren</strong> → Richtung maximaler und minimaler Empfindlichkeit im Parameterraum.</li>
+<li>Die <strong>Long-Schwelle dominiert die Empfindlichkeit vollständig</strong> — winzige Änderungen haben
+  extreme Wirkung. Die Richtung maximaler Empfindlichkeit besteht fast nur aus ihr.</li>
+<li>Kurzer Lookback und Short-Schwelle sind am unempfindlichsten, der lange Lookback nur wenig
+  empfindlicher.</li>
+<li><strong>Korrelation −0,679</strong> zwischen kurzem Lookback und Short-Schwelle: Änderungen des einen lassen
+  sich durch gegenläufige des anderen ausgleichen. Masters: „I have no explanation for this
+  unexpected phenomenon."</li>
+<li>Die Richtung <strong>minimaler</strong> Empfindlichkeit bestätigt genau diese Korrelation — kurzer Lookback
+  hoch und Short-Schwelle fast gleich stark runter ist die Bewegung, die am wenigsten bewirkt.</li>
+<li>Die Sensitivitätskurven bestätigen die Zahlen: Parameter 3 (Short-Schwelle) am flachsten,
+  Parameter 4 (Long-Schwelle) am steilsten.</li>
 </ul>
-<p>Wichtige Voraussetzung: die Parameter müssen <strong>kommensurabel skaliert</strong> sein, weil euklidische
-Abstände zum Optimum verwendet werden.</p>
-<p><strong>Der aufschlussreichste Fehlerfall:</strong> Ist ein Diagonalelement null oder negativ, ist man in
-diesem Parameter nicht in einem Minimum. Masters' Deutung ist nicht „der Algorithmus ist
-schlecht", sondern: <em>„nonpositive diagonals are a red flag that the parameterization of the
-trading system is unstable"</em> — die Performance springt dann wild statt glatt zu verlaufen, das
-System fängt mehr oder minder zufällig große Gewinne und Verluste ein. Reaktion: nicht das
-Verfahren wechseln, sondern <strong>Sensitivitätskurven ansehen und das System überdenken.</strong></p>
-<p>Beispiel DEV_MA auf OEX (4 Parameter: langer Lookback, kurzer Lookback in % des langen, Short-
-und Long-Schwelle): Gesamt-Log-Return 2,671, geschätzter Trainings-Bias 0,3221, erwarteter Return
-also 2,3489. Die Long-Schwelle dominiert die Empfindlichkeit vollständig; kurzer Lookback und
-Short-Schwelle sind am unempfindlichsten und untereinander mit −0,679 korreliert (Änderungen des
-einen lassen sich durch gegenläufige des anderen ausgleichen — vom Autor unerklärt). Die Richtung
-minimaler Empfindlichkeit bestätigt genau diese Korrelation.</p>
 <h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
-<p><code>algo/backtest_walkforward.py</code> rechnet bereits eine Parameter-Sensitivitäts-Tabelle für den
-Stop-Puffer — das ist genau dieses Verfahren, allerdings nur für <strong>einen</strong> Parameter und ohne
-Bewertung der Kurvenform. Die Kriterien oben (breiter glatter Gipfel vs. schmale Spitze vs.
-mehrere Gipfel) sind das, was in den Berichten bisher fehlt.</p>
-<p>Für die Optimierung selbst nutzt <code>algo/</code> bisher Grid Search. Das ist bei wenigen Parametern
-richtig und bleibt zudem die Voraussetzung für
-<a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a> — Differential Evolution würde erst
-interessant, wenn die Regelschicht so viele Parameter bekommt, dass ein Grid nicht mehr durchläuft.</p></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
+<p><code>algo/backtest_walkforward.py</code> rechnet bereits eine Sensitivitätstabelle für den Stop-Puffer — das
+ist genau Teil 2, aber nur für <strong>einen</strong> Parameter und ohne Bewertung der Kurvenform. Die
+Kriterien oben (breiter glatter Gipfel vs. schmale Spitze vs. mehrere Gipfel) sind das, was in den
+Berichten bisher fehlt.</p>
+<p>Für die Optimierung selbst nutzt <code>algo/</code> Grid Search. Das ist bei wenigen Parametern richtig und
+bleibt Voraussetzung für <a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a>. Differential
+Evolution würde erst interessant, wenn die Regelschicht so viele Parameter bekommt, dass ein Grid
+nicht mehr durchläuft — und dann wäre der PARAMCOR-Teil ein billiges Nebenprodukt.</p>
+<p><strong>Sofort übertragbar, unabhängig vom Optimierer:</strong> die Kommensurabilitäts-Regel. Wer Stop-Puffer
+in Prozent, Zeitfenster in Minuten und Zielabstände in Punkten mischt, bekommt aus jeder
+abstandsbasierten Analyse Unsinn heraus.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">5</span></h2><ul><li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Differential Evolution &amp; Parameter-Sensitivität.md</code></footer>
 </article>
 </main>

@@ -129,59 +129,141 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Walk-Forward Guard Buffer &amp; Varianz-Inflation</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">walk-forward</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">walk-forward</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#der-allgemeine-walk-forward-algorithmus">Der allgemeine Walk-Forward-Algorithmus</a></li>
-<li><a href="#fehler-1-future-leak-durch-unauffallige-isoos-uberlappung">Fehler 1: Future Leak durch unauffällige IS/OOS-Überlappung</a></li>
-<li><a href="#fehler-2-varianz-inflation-durch-serielle-korrelation-der-oos-trades">Fehler 2: Varianz-Inflation durch serielle Korrelation der OOS-Trades</a></li>
-<li><a href="#die-funf-experimente-random-walk-daten-50000-preise-lookback-100-lookahead-10">Die fünf Experimente (Random-Walk-Daten, 50.000 Preise, Lookback 100, Lookahead 10)</a></li>
-<li><a href="#sonderfall-algorithmische-systeme-mit-unbekanntem-lookahead">Sonderfall: algorithmische Systeme mit unbekanntem Lookahead</a></li>
-<li><a href="#konversion-auf-ein-bar-renditen">Konversion auf Ein-Bar-Renditen</a></li>
+<li><a href="#parameter-des-allgemeinen-walk-forward">Parameter des allgemeinen Walk-Forward</a></li>
+<li><a href="#der-algorithmus">Der Algorithmus</a><ul>
+<li><a href="#fehler-1-future-leak-durch-unauffallige-isoos-uberlappung">Fehler 1 — Future Leak durch unauffällige IS/OOS-Überlappung</a></li>
+<li><a href="#fehler-2-varianz-inflation">Fehler 2 — Varianz-Inflation</a></li>
+</ul>
+</li>
+<li><a href="#die-funf-experimente">Die fünf Experimente</a></li>
+<li><a href="#sonderfall-algorithmische-systeme-mit-unbekanntem-lookahead">Sonderfall: algorithmische Systeme mit unbekanntem Lookahead</a><ul>
+<li><a href="#falle-unbeschrankter-lookback">Falle: unbeschränkter Lookback</a></li>
+</ul>
+</li>
+<li><a href="#konversion-auf-ein-bar-renditen-methode-5">Konversion auf Ein-Bar-Renditen (Methode 5)</a></li>
 <li><a href="#robustheitstest-gegen-nichtstationaritat">Robustheitstest gegen Nichtstationarität</a></li>
 </ul>
 </div>
 </details>
   <div class="content"><h1 id="walk-forward-guard-buffer-varianz-inflation">Walk-Forward Guard Buffer &amp; Varianz-Inflation</h1>
 <p>Zwei getrennte Fehler, die im Walk-Forward auftreten, sobald der <strong>Lookahead des Ziels größer
-als eine Bar</strong> ist — und die selbst erfahrene Entwickler laut Masters routinemäßig übersehen.
-Aus <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 5).</p>
-<h2 id="der-allgemeine-walk-forward-algorithmus">Der allgemeine Walk-Forward-Algorithmus</h2>
-<p>Größen, die der Nutzer festlegt:</p>
-<ul>
-<li><code>LOOKBACK</code> — Bars Historie (inkl. aktueller Bar) für die Indikatorberechnung</li>
-<li><code>LOOKAHEAD</code> — Bars in die Zukunft (ohne aktuelle Bar) für das Zielvariable</li>
-<li><code>NTRAIN</code> — Trainingsfälle je Fold (vor dem Abschneiden)</li>
-<li><code>NTEST</code> — Testfälle je OOS-Block</li>
-<li><code>OMIT</code> — abgeschnittene jüngste Trainingsfälle (Guard Buffer)</li>
-<li><code>EXTRA</code> — zusätzlich zu <code>NTEST</code> übersprungene Fälle beim Fold-Vorrücken</li>
-</ul>
-<p>Ablauf: <code>OOS_START</code> setzen → System auf <code>OOS_START−NTRAIN</code> bis <code>OOS_START−OMIT−1</code> trainieren →
-auf <code>OOS_START</code> bis <code>OOS_START+NTEST−1</code> testen und Performance speichern → <code>OOS_START</code> um
-<code>NTEST+EXTRA</code> vorrücken → wiederholen.</p>
-<h2 id="fehler-1-future-leak-durch-unauffallige-isoos-uberlappung">Fehler 1: Future Leak durch unauffällige IS/OOS-Überlappung</h2>
+als eine Bar</strong> ist. Aus <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 5,
+Programme <code>OVERLAP.CPP</code>, <code>XvW.CPP</code>).</p>
+<h2 id="parameter-des-allgemeinen-walk-forward">Parameter des allgemeinen Walk-Forward</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Bedeutung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LOOKBACK</code></td>
+<td>Bars Historie <strong>inkl.</strong> aktueller Bar für die Indikatorberechnung</td>
+</tr>
+<tr>
+<td><code>LOOKAHEAD</code></td>
+<td>Bars in die Zukunft <strong>ohne</strong> aktuelle Bar für die Zielvariable</td>
+</tr>
+<tr>
+<td><code>NTRAIN</code></td>
+<td>Trainingsfälle je Fold, <strong>vor</strong> dem Abschneiden</td>
+</tr>
+<tr>
+<td><code>NTEST</code></td>
+<td>Testfälle je OOS-Block</td>
+</tr>
+<tr>
+<td><code>OMIT</code></td>
+<td>abgeschnittene jüngste Trainingsfälle (Guard Buffer)</td>
+</tr>
+<tr>
+<td><code>EXTRA</code></td>
+<td>zusätzlich zu <code>NTEST</code> übersprungene Fälle beim Fold-Vorrücken</td>
+</tr>
+</tbody>
+</table>
+<p>Abgeleitete Größen:</p>
+<pre><code>Gesamt-Rückblick vom aktuellen Bar   = LOOKBACK + NTRAIN − 2
+tatsächliche Trainingsfälle          = NTRAIN − OMIT
+Fold-Schrittweite                    = NTEST + EXTRA
+</code></pre>
+<p>Die beiden <strong>Pflichteinstellungen</strong> bei <code>LOOKAHEAD &gt; 1</code>:</p>
+<pre><code>OMIT  = min(LOOKAHEAD, max_j LOOKBACK_j) − 1     ← gegen Future Leak (Fehler 1)
+NTEST = 1 ,  EXTRA = LOOKAHEAD − 1               ← gegen Varianz-Inflation (Fehler 2)
+</code></pre>
+<p><code>max_j LOOKBACK_j</code> = größter Lookback über <strong>alle</strong> Indikatoren.
+Beispiel aus dem Buch: Lookbacks 30/40/50, Lookahead 80 → <code>min(50, 80) − 1 = 49</code>.
+Ist <code>LOOKAHEAD = 1</code>, wird <code>OMIT = 0</code> und es geht nichts verloren.</p>
+<h2 id="der-algorithmus">Der Algorithmus</h2>
+<pre><code>1) OOS_START = gewünschter Teststart
+   (ganzer Datensatz genutzt → OOS_START = NTRAIN)
+2) System trainieren auf Fällen  OOS_START − NTRAIN  …  OOS_START − OMIT − 1
+3) System testen auf Fällen      OOS_START          …  OOS_START + NTEST − 1
+   Performance speichern.  (NTEST muss nicht fix sein — z.B. Kalenderjahre.)
+4) Bleiben Daten übrig: OOS_START += NTEST + EXTRA , zurück zu 2)
+</code></pre>
+<p>Als Python-nahe Schleife (entspricht <code>OVERLAP.CPP</code>; <code>data</code> hat <code>ncols</code> Spalten, letzte Spalte =
+Ziel, jede Zeile ein Bar):</p>
+<pre><code class="language-python">trn_start = 0          # Index des ersten Trainingsfalls
+istart    = ntrain     # Index des ersten OOS-Falls
+oos       = []
+
+while True:
+    test_start = trn_start + ntrain
+    if test_start &gt;= ncases:
+        break
+
+    # --- Training: NUR ntrain - omit Faelle, ab trn_start ---
+    model = fit(data[trn_start : trn_start + ntrain - omit])
+
+    # --- Test: nt Faelle ab istart (letzter Fold evtl. kuerzer) ---
+    nt = min(ntest, ncases - istart)
+    for k in range(test_start, test_start + nt):
+        pred   = model.predict(data[k, :-1])
+        target = data[k, -1]
+        oos.append(target if pred &gt; 0 else -target)
+
+    istart    += nt + extra
+    trn_start += nt + extra
+</code></pre>
+<p>Die beiden Fehler im Detail:</p>
+<h3 id="fehler-1-future-leak-durch-unauffallige-isoos-uberlappung">Fehler 1 — Future Leak durch unauffällige IS/OOS-Überlappung</h3>
 <p>Indikatoren mit Lookback &gt; 1 sind <strong>seriell korreliert</strong>: bei 50 Bars Lookback teilen zwei
-benachbarte Fälle 49 Bars. Genauso beim Ziel mit Lookahead &gt; 1. Sind <strong>beide</strong> korreliert,
-ähneln die letzten Trainingsfälle den ersten Testfällen — Information über den Testblock leckt
-ins Training.</p>
-<p><strong>Formel:</strong> <code>OMIT = min(LOOKAHEAD, max(LOOKBACK aller Indikatoren)) − 1</code> Fälle am Ende des
-Trainingsblocks streichen.</p>
-<p>Beispiel aus dem Buch: Indikatoren mit Lookbacks 30/40/50, Ziel-Lookahead 80 →
-<code>min(50, 80) − 1 = 49</code> Fälle streichen.</p>
-<p>Beruhigend für die meisten modellbasierten Fälle: ist der Lookahead <strong>genau 1</strong>, ist <code>OMIT = 0</code>
-und es geht nichts verloren.</p>
-<h2 id="fehler-2-varianz-inflation-durch-serielle-korrelation-der-oos-trades">Fehler 2: Varianz-Inflation durch serielle Korrelation der OOS-Trades</h2>
-<p>Auch mit korrektem Guard Buffer sind die OOS-Renditen bei Lookahead &gt; 1 untereinander korreliert
-(überlappende Zukunftsfenster). Das erzeugt <strong>keinen Bias</strong>, aber es bläht die Fehlervarianz auf
-und macht praktisch <strong>alle</strong> Standard-Signifikanztests anti-konservativ: P-Werte werden zu klein,
-Konfidenzintervalle zu eng.</p>
-<p><strong>Lösung:</strong> <code>NTEST = 1</code> und <code>EXTRA = LOOKAHEAD − 1</code> — jede OOS-Bar wird einzeln getestet, dann
-wird um den vollen Lookahead weitergesprungen, sodass die OOS-Fälle keine Kursinformation teilen.
-Nebeneffekt: entspricht dem, was ein realer Trader ohnehin täte (nicht während der Haltedauer
-weiter aufstocken).</p>
-<h2 id="die-funf-experimente-random-walk-daten-50000-preise-lookback-100-lookahead-10">Die fünf Experimente (Random-Walk-Daten, 50.000 Preise, Lookback 100, Lookahead 10)</h2>
-<p>Weil die Preise ein reiner Random Walk sind, <strong>muss</strong> der korrekte Median-t-Score 0 sein und der
-Anteil der Läufe mit p ≤ 0,1 muss 0,1 betragen. Alles darüber ist reiner Bias.</p>
+benachbarte Fälle 49 Bars, der Indikatorwert ändert sich kaum. Dasselbe gilt für ein Ziel mit
+Lookahead &gt; 1 (bei Lookahead 10 haben Nachbarfälle 9 gemeinsame Zukunfts-Bars).</p>
+<p>Sind <strong>beide</strong> korreliert, ähneln die letzten Trainingsfälle den ersten Testfällen — Information
+über den Testblock steckt damit schon im Training. Ist nur <em>eines</em> von beiden korreliert, ist
+alles in Ordnung: dann teilen die Fälle keine prägende Information.</p>
+<p>Herleitung der Formel (Masters lässt sie als Übung): Testblock beginnt bei Bar 100. Teilt der
+Trainingsfall bei Bar 99 sowohl über einen Indikator als auch über das Ziel Preise mit Bar 100?
+Bar 98? Man streicht so lange, bis entweder die Indikator-Preismenge oder die Ziel-Preismenge
+disjunkt ist — das tritt nach <code>min(Lookback, Lookahead) − 1</code> Fällen ein.</p>
+<h3 id="fehler-2-varianz-inflation">Fehler 2 — Varianz-Inflation</h3>
+<p>Auch mit korrektem Guard Buffer sind die OOS-Renditen bei <code>LOOKAHEAD &gt; 1</code> untereinander
+korreliert (überlappende Zukunftsfenster). Folgen:</p>
+<ul>
+<li><strong>Kein Bias</strong>, aber aufgeblähte Fehlervarianz: die unverzerrte Schätzung streut stärker um den
+  wahren Wert. Bei großem Lookahead so stark, dass die Zahl praktisch wertlos wird.</li>
+<li>Praktisch <strong>alle</strong> Standard-Signifikanztests setzen Unabhängigkeit voraus und werden
+  anti-konservativ: P-Werte zu klein, Konfidenzintervalle zu eng — der schlimmste Fehlertyp.</li>
+<li>Mechanismus: bei unabhängigen Renditen heben sich positive und negative Zufallsfehler auf. Bei
+  serieller Korrelation kommen sie in Klumpen und heben sich schlechter auf.</li>
+</ul>
+<p>Lösung <code>NTEST = 1</code>, <code>EXTRA = LOOKAHEAD − 1</code>: jede OOS-Bar wird einzeln getestet, dann wird um den
+vollen Lookahead gesprungen, sodass die OOS-Fälle keine Kursinformation teilen. Beispiel
+Lookahead 5, OOS-Fold bei Bar 100: Training endet bei Bar 95 (4 Fälle gestrichen), nächster
+OOS-Fold bei Bar 105. Nebeneffekt: entspricht dem, was ein realer Trader ohnehin tut — er baut
+während der Haltedauer nicht weiter auf.</p>
+<h2 id="die-funf-experimente">Die fünf Experimente</h2>
+<p><code>OVERLAP.EXE</code> erzeugt einen <strong>reinen Random Walk</strong> (unvorhersagbar) und misst über
+<code>nreps = 10.001</code> Wiederholungen den Median-t-Score der gepoolten OOS-Renditen sowie den Anteil
+der Läufe mit p ≤ 0,1. Korrekt wäre t ≈ 0 und Anteil ≈ 0,1; alles darüber ist reiner Bias.</p>
+<p>Feste Parameter: <code>nprices = 50.000</code>, <code>lookback = 100</code>, <code>lookahead = 10</code>, <code>ntrain = 50</code>.</p>
 <table>
 <thead>
 <tr>
@@ -191,6 +273,7 @@ Anteil der Läufe mit p ≤ 0,1 muss 0,1 betragen. Alles darüber ist reiner Bia
 <th>extra</th>
 <th>Median t</th>
 <th>Anteil p ≤ 0,1</th>
+<th>Deutung</th>
 </tr>
 </thead>
 <tbody>
@@ -201,6 +284,7 @@ Anteil der Läufe mit p ≤ 0,1 muss 0,1 betragen. Alles darüber ist reiner Bia
 <td>0</td>
 <td><strong>5,35</strong></td>
 <td>0,920</td>
+<td>großer Testblock, kein Puffer</td>
 </tr>
 <tr>
 <td>2</td>
@@ -209,6 +293,7 @@ Anteil der Läufe mit p ≤ 0,1 muss 0,1 betragen. Alles darüber ist reiner Bia
 <td>0</td>
 <td><strong>74,64</strong></td>
 <td>1,000</td>
+<td>„sauberstes" Setup, kein Puffer</td>
 </tr>
 <tr>
 <td>3</td>
@@ -217,6 +302,7 @@ Anteil der Läufe mit p ≤ 0,1 muss 0,1 betragen. Alles darüber ist reiner Bia
 <td>0</td>
 <td>−0,023</td>
 <td>0,314</td>
+<td>Bias weg, Varianz-Inflation bleibt</td>
 </tr>
 <tr>
 <td>4</td>
@@ -225,6 +311,7 @@ Anteil der Läufe mit p ≤ 0,1 muss 0,1 betragen. Alles darüber ist reiner Bia
 <td>0</td>
 <td><strong>1,88</strong></td>
 <td>0,588</td>
+<td>ein Bar zu wenig gepuffert</td>
 </tr>
 <tr>
 <td>5</td>
@@ -233,74 +320,138 @@ Anteil der Läufe mit p ≤ 0,1 muss 0,1 betragen. Alles darüber ist reiner Bia
 <td>9</td>
 <td>−0,012</td>
 <td><strong>0,101</strong></td>
+<td>beides korrekt behandelt</td>
 </tr>
 </tbody>
 </table>
-<p>Lesarten:</p>
-<ul>
-<li><strong>Experiment 2 ist der Schocker</strong>: das <em>sauberste</em> Setup (nach jeder Bar neu trainieren) ist
-  ohne Guard Buffer das <em>schlechteste</em>, weil die getestete Bar maximal viele Preise mit dem
-  Training teilt. Bei großem Testblock (Exp. 1) verdünnt sich der Leak nach hinten.</li>
-<li><strong>Experiment 4</strong>: ein einziger fehlender Puffer-Bar (8 statt 9) reicht für t=1,88. Es gibt kein
-  „fast genug gepuffert".</li>
-<li><strong>Experiment 3 vs. 5</strong>: Bias ist mit <code>omit</code> allein beseitigt (t≈0), aber der Test hält seinen
-  Signifikanzlevel erst mit <code>extra</code> ein (0,314 → 0,101).</li>
-</ul>
+<p>Drei Lehren:</p>
+<ol>
+<li><strong>Experiment 2 ist kontraintuitiv.</strong> Das scheinbar sauberste Vorgehen (nach jeder Bar neu
+   trainieren, nur die nächste Bar testen) ist ohne Puffer das <em>schlechteste</em>, weil die getestete
+   Bar die maximal mögliche Zahl an Preisen mit dem Training teilt. Bei großem Testblock (Exp. 1)
+   verdünnt sich der Leak nach hinten, weil spätere Testfälle weniger Überlappung haben.</li>
+<li><strong>Experiment 4: es gibt kein „fast genug".</strong> Ein einziger fehlender Puffer-Bar (8 statt 9)
+   lässt t = 1,88 übrig.</li>
+<li><strong>Experiment 3 vs. 5:</strong> <code>omit</code> allein beseitigt den Bias (t ≈ 0), aber erst <code>extra</code> stellt das
+   Signifikanzniveau her (0,314 → 0,101).</li>
+</ol>
 <h2 id="sonderfall-algorithmische-systeme-mit-unbekanntem-lookahead">Sonderfall: algorithmische Systeme mit unbekanntem Lookahead</h2>
 <p>Bei regelbasierten Systemen („öffne bei X, halte bis Y feuert") ist der Lookahead <strong>unbestimmt</strong> —
-die Position kann 3 oder 1.000 Bars offen bleiben. Dann bestimmt nicht der Lookahead, sondern
-der <strong>Lookback</strong> die Puffergröße. Masters nennt fünf Umgangsweisen für die Trainings-/Test-Grenze:</p>
-<ol>
-<li><strong>Position über die Trainingsgrenze hinaus offen lassen</strong> → <em>katastrophal</em>. Ein am letzten
-   Trainingsbar geöffneter Supertrade zieht die Optimierung an sich, und der erste Testbar öffnet
-   fast denselben Trade mit denselben Zukunftsbars. Massiver Future Leak.</li>
-<li><strong>Position am Trainingsende zwangsschließen (mark-to-market)</strong> → sauber, verzerrt aber die
-   späten Trades gegenüber den frühen.</li>
-<li><strong>Zeitlimit in die Exit-Regel einbauen</strong> (z.B. „max. 20 Bars offen") und um dieses Limit
-   puffern → Masters' Favorit: alle Trades folgen derselben Regel, kein Blick in die Zukunft.
-   Zusatzargument aus seiner Praxis: Systeme verlieren mit wachsendem Abstand zum Entry rapide
-   an Treffsicherheit, ein Zeitlimit reduziert also ohnehin den Zufallsanteil.</li>
-<li><strong>Trades frei weiterlaufen lassen, aber <code>LOOKBACK−1</code> Bars vor Trainingsende keine neuen mehr
-   öffnen</strong> → unverzerrt, schaut aber während des Trainings über die Grenze hinaus. Besser als 3,
-   wenn die Haltedauer prinzipbedingt länger als der Lookback sein muss.</li>
-<li><strong>Auf Ein-Bar-Systeme umbauen</strong> (siehe unten).</li>
-</ol>
-<p><strong>Falle: unbegrenzter Lookback.</strong> Methode 4 ist nur zulässig, wenn der Lookback wirklich
-beschränkt ist. Unbeschränkt wird er z.B. bei exponentieller Glättung/rekursiven Filtern (hängen
-an der gesamten Historie) — oder, viel subtiler, wenn <strong>Handelsentscheidungen von früheren
-Handelsentscheidungen abhängen</strong> („nur öffnen, wenn keine Position offen ist", „nach 4 Verlusten
-einen Monat pausieren"). Dann reicht der Lookback rekursiv bis zum Anfang der Daten zurück.</p>
+die Position kann 3 oder 1.000 Bars offen bleiben. Dann bestimmt nicht der Lookahead, sondern der
+<strong>Lookback</strong> die Puffergröße, und der ist meist unangenehm groß. Fünf Umgangsweisen für die
+Trainings-/Test-Grenze:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Methode</th>
+<th>Bewertung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Position über die Trainingsgrenze hinaus offen lassen</td>
+<td><strong>katastrophal</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>am Trainingsende zwangsschließen (mark-to-market)</td>
+<td>sauber, verzerrt späte Trades</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Zeitlimit in die Exit-Regel + Puffer in dieser Größe</td>
+<td><strong>Masters' Favorit</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>frei laufen lassen, aber <code>LOOKBACK−1</code> vor Ende keine neuen Trades</td>
+<td>unverzerrt, schaut aber voraus</td>
+</tr>
+<tr>
+<td>5</td>
+<td>auf Ein-Bar-System umbauen</td>
+<td>bester Weg, wenn machbar</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Warum Methode 1 katastrophal ist:</strong> öffnet sich auf Bar 1000 (letzter Trainingsbar) ein extrem
+profitabler Trade, zieht die Optimierung die Lookbacks zu genau diesem Trade hin. Bar 1001
+(erster Testbar) teilt fast die gesamte Vorgeschichte, öffnet also fast sicher denselben Trade —
+<strong>und teilt dieselben profitablen Zukunfts-Bars</strong>. Preise werden hier in <em>beide</em> Richtungen
+geteilt.</p>
+<p><strong>Warum Masters Methode 3 bevorzugt:</strong> (a) alle Trades folgen derselben Regel, egal ob früh oder
+spät im Trainingszeitraum (Methode 2 verletzt das); (b) kein Blick in die Zukunft (Methode 4
+tut das, wenn auch harmlos); (c) inhaltliches Argument aus seiner Praxis — <em>Systeme verlieren mit
+wachsendem Abstand zum Entry rasch an Treffsicherheit</em>; ein Zeitlimit reduziert also ohnehin den
+Zufallsanteil. Beispielregel: „halte bis der kurze MA unter den langen kreuzt <strong>oder</strong> 20 Bars
+vergangen sind", dann 20 Bars vor Trainingsende keine neuen Trades mehr eröffnen.</p>
+<p><strong>Wann Methode 4 doch besser ist:</strong> wenn das Handelskonzept lange Haltedauern erzwingt. Methode 3
+kostet das Zeitlimit an Trading-Gelegenheiten, Methode 4 den Lookback — ist die nötige Haltedauer
+länger als der Lookback, verliert Methode 4 weniger.</p>
+<p>Rechenbeispiel Methode 4: Trainingsende Bar 1000, max. Lookback 150 → letzter mögliche
+Entry-Bar ist <code>1000 − (150 − 1) = 851</code>. Der Test ab Bar 1001 schaut auf Bars 852…1001, die
+Entscheidungsgrundlagen sind damit <strong>vollständig disjunkt</strong>.</p>
+<h3 id="falle-unbeschrankter-lookback">Falle: unbeschränkter Lookback</h3>
+<p>Methode 4 ist nur zulässig, wenn der Lookback wirklich beschränkt ist. Unbeschränkt wird er:</p>
+<ul>
+<li><strong>offensichtlich</strong> bei exponentieller Glättung oder rekursiven Filtern — deren Wert hängt an der
+  gesamten Historie zurück bis zum ersten Preis. Die Beiträge früher Preise sind winzig, aber
+  Masters warnt ausdrücklich davor, das als unerheblich abzutun.</li>
+<li><strong>subtil</strong>, wenn Handelsentscheidungen von <strong>früheren Handelsentscheidungen</strong> abhängen:
+  „nur öffnen, wenn keine Position offen ist"; „nach 4 Verlusten in Folge einen Monat pausieren".
+  Dann hängt die Entscheidung am vorigen Trade, der am vorvorigen, ad infinitum.</li>
+</ul>
 <blockquote>
-<p>Relevant für <code>algo/rules.py</code>: das Silver-Bullet-Modell hat ein hartes Ein-Stunden-Fenster und
-damit implizit ein Zeitlimit (Methode 3). <code>algo/signals.py</code>s Ensemble hingegen entscheidet
-teils zustandsabhängig — dort wäre zu prüfen, ob ein unbeschränkter Lookback im Sinne dieser
-Falle vorliegt.</p>
+<p>Masters dazu: <em>„Sceptics may scoff at this concept. I do not, as I was badly burned by this very
+issue early in my career."</em></p>
 </blockquote>
-<h2 id="konversion-auf-ein-bar-renditen">Konversion auf Ein-Bar-Renditen</h2>
-<p>Der eleganteste Ausweg: das unbestimmte System in eine Kette von Ein-Bar-Trades umschreiben.
-Pro Bar-Close:</p>
+<p>Für <code>algo/</code>: <code>rules.py::plan_trade</code> hat ein hartes Ein-Stunden-Fenster und damit implizit ein
+Zeitlimit (Methode 3). <code>signals.py</code> / <code>backtest_ensemble.py</code> entscheiden teils zustandsabhängig —
+dort ist zu prüfen, ob dieser Fall vorliegt.</p>
+<h2 id="konversion-auf-ein-bar-renditen-methode-5">Konversion auf Ein-Bar-Renditen (Methode 5)</h2>
+<p>Ein System mit unbestimmter Haltedauer wird in eine Kette von Ein-Bar-Trades umgeschrieben.
+Auszuführen <strong>bei jedem Bar-Close</strong>:</p>
 <pre><code>Wenn keine Position offen:
-    Wenn OpenPosition wahr: Position für die nächste Bar öffnen
+    Wenn OpenPosition wahr:  Position eroeffnen, gilt bis zum naechsten Bar
 Sonst:
-    Position schließen und die Bar-Rendite dieses Trades protokollieren
-    Wenn ClosePosition falsch: dieselbe Position sofort wieder öffnen
+    Position schliessen und die Bar-Rendite dieses Trades protokollieren
+    Wenn ClosePosition falsch: dieselbe Position sofort wieder eroeffnen
 </code></pre>
-<p>(Schreibt man den Backtest selbst, genügt es, die Mark-to-Market-Rendite jeder Bar zu notieren —
-die Öffnen/Schließen-Gymnastik braucht nur, wer an eine Fremdplattform gebunden ist.)</p>
-<p>Vorteile: <strong>kein Guard Buffer mehr nötig</strong>, unabhängig vom Lookback; feinste Granularität für
-Profit Factor und Drawdown (siehe <a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a>); zwingende Voraussetzung für
-<a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a>. Zusätzlich wird der Übergang vom letzten
-Trainings- in den Testblock trivial: man merkt sich nur die Position am letzten Trainingsbar und
-kann damit nahtlos vom Backtest in den Livebetrieb blenden.</p>
+<p>Diese Umständlichkeit braucht nur, wer an eine Fremdplattform gebunden ist, die explizites
+Öffnen/Schließen zum Protokollieren verlangt. Wer den Backtest selbst schreibt, notiert schlicht
+pro Bar die Mark-to-Market-Rendite der offenen Position. Kompakt (entspricht <code>PER_WHAT.CPP</code>):</p>
+<pre><code class="language-python">if price[i] &gt; thresh * ma[i]:      # Entry-Regel
+    position = 1
+elif price[i] &lt; ma[i]:             # Exit-Regel
+    position = 0
+# sonst: Position unveraendert weiterfuehren
+ret = price[i+1] - price[i] if position else 0.0
+</code></pre>
+<p>Vorteile:</p>
+<ul>
+<li><strong>Kein Guard Buffer mehr nötig</strong>, unabhängig vom Lookback → jeder Fold wird effektiv größer.</li>
+<li>Feinste Granularität für Profit Factor und Drawdown — siehe <a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a>.</li>
+<li>Zwingende Voraussetzung für <a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a>.</li>
+<li><strong>Nahtloser Übergang Backtest → Live.</strong> Man merkt sich nur die Position am letzten
+  Trainingsbar. Beispiel: 120 Bars, Training 1–100, Test 101–120. Die letzte Trainings-
+  Entscheidung fällt auf Bar 99 (Bar 100 liefert deren Rendite); gespeichert wird die Position von
+  Bar 99→100. Der Test entscheidet dann auf Bar 100 und wertet mit Bar 101. Am Ende: auf Bar 119
+  entscheiden, Position merken, mit dem retrainierten Modell auf Bar 120 entscheiden — <strong>das ist
+  die erste reale Live-Order für Bar 121.</strong></li>
+</ul>
 <h2 id="robustheitstest-gegen-nichtstationaritat">Robustheitstest gegen Nichtstationarität</h2>
-<p>Aus demselben Kapitel, als Nebenprodukt: mehrere Walk-Forwards mit <strong>unterschiedlich langer
-Testperiode</strong> laufen lassen (täglich neu trainieren, dann alle 2 Tage, alle 5 …) und die
-OOS-Performance gegen die Testperiodenlänge plotten. Der Punkt, an dem die Kurve abknickt, sagt,
-wie oft das System nachtrainiert werden muss. Empfindlicher wird der Test, wenn man nur die
-<strong>letzte</strong> Bar jedes Test-Folds bewertet.</p>
-<p>Siehe auch <a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a> (Prüfung <em>vor</em> der Entwicklung) und
-<a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a>.</p></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">9</span></h2><ul><li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a><span class="cat">Konzepte</span></li><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a><span class="cat">Konzepte</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
+<p>Nebenprodukt desselben Kapitels: mehrere Walk-Forwards mit <strong>unterschiedlich langer Testperiode</strong>
+laufen lassen (täglich neu trainieren, dann alle 2 Tage, alle 5 …) und die OOS-Performance gegen
+die Testperiodenlänge plotten.</p>
+<p>Typisches Bild: Maximum bei kürzester Testperiode (häufigstes Nachtrainieren), dann zunächst
+langsamer, später steiler Abfall. Der Knick sagt, <strong>wie oft das System nachtrainiert werden muss</strong>.
+Empfindlicher wird der Test, wenn man je Fold nur die <strong>letzte</strong> Bar bewertet — das eliminiert den
+Einfluss der besseren frühen Bars, auf Kosten von etwas mehr Streuung.</p>
+<p>Vorgelagerte Prüfung derselben Frage: <a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a>.
+Vergleich mit dem Alternativverfahren: <a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a>.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">10</span></h2><ul><li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a><span class="cat">Konzepte</span></li><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a><span class="cat">Konzepte</span></li><li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a><span class="cat">Konzepte</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Walk-Forward Guard Buffer &amp; Varianz-Inflation.md</code></footer>
 </article>
 </main>

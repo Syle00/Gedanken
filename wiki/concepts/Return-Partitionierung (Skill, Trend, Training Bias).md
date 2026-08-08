@@ -1,5 +1,5 @@
 ---
-tags: [concept, algo-methodology, validation, permutation]
+tags: [concept, algo-methodology, validation, permutation, referenz]
 created: 2026-08-08
 updated: 2026-08-08
 sources: ["[[Testing and Tuning Market Trading Systems (Source)]]"]
@@ -9,135 +9,214 @@ sources: ["[[Testing and Tuning Market Trading Systems (Source)]]"]
 
 Zerlegung des In-Sample-Gesamtergebnisses eines optimierten Handelssystems in drei Bestandteile —
 mit Permutationen als Messinstrument. Aus
-[[Testing and Tuning Market Trading Systems (Source)]] (Kap. 7).
+[[Testing and Tuning Market Trading Systems (Source)]] (Kap. 7, Programme `MCPT_TRN.CPP`,
+`MCPT_BARS.CPP`).
+
+Masters stuft das Verfahren selbst als weniger rigoros ein als die reinen Permutationstests
+(„should usually be taken with a liberal grain of salt") — aber seine Herleitung erklärt, **wie**
+scheinbar gute Performance zustande kommt, und liefert nebenbei eine zweite Schätzung künftiger
+Leistung.
+
+## Die Zerlegung
 
 ```
-TotalReturn = Skill + Trend + TrainingBias          (7-2)
+(7-2)  TotalReturn = Skill + Trend + TrainingBias
 ```
 
-- **Skill** — echtes Erkennen wiederholbarer Muster. Bleibt in der Zukunft erhalten.
-- **Trend** — Gewinn allein daraus, dass das System in einem steigenden Markt überwiegend long
-  ging. Bleibt erhalten, solange der Trend hält.
-- **TrainingBias** — gelerntes Rauschen. Verschwindet sofort.
+| Komponente | Bedeutung | Zukunft |
+|---|---|---|
+| **Skill** | echtes Erkennen wiederholbarer Muster | bleibt erhalten |
+| **Trend** | Gewinn allein daraus, dass das System in einem steigenden Markt überwiegend long war | bleibt, solange der Trend hält |
+| **TrainingBias** | gelerntes Rauschen | verschwindet sofort |
 
 ## Die Trend-Komponente ist explizit berechenbar
 
 ```
-TrendPerReturn = MarketChange / n                   (MarketChange = log(Endpreis) − log(Startpreis))
-Trend = (NumLong − NumShort) · TrendPerReturn       (7-1)
+TrendPerReturn = MarketChange / n
+                 MarketChange = log(Endpreis) − log(Startpreis)
+                 n            = Anzahl einzelner Preisaenderungen (= Anzahl Preise − 1)
+
+(7-1)  Trend = (NumLong − NumShort) · TrendPerReturn
 ```
 
 Begründung: In einem Markt mit Aufwärtsdrift hebt der Trend jede Long-Bar im Mittel um
 `TrendPerReturn` an und drückt jede Short-Bar um denselben Betrag. Ein **Münzwurf-System** mit
-derselben Long/Short-Verteilung würde also genau `Trend` verdienen, ganz ohne Intelligenz.
+derselben Long/Short-Verteilung würde also im Mittel exakt `Trend` verdienen — ganz ohne
+Intelligenz.
 
-Die philosophische Frage dahinter, die Masters ausdrücklich offen lässt: Ist es Intelligenz, den
-Langfristtrend mitzunehmen — oder ist Intelligenz nur das, was einen Münzwurf schlägt? Die meisten
-Entwickler lassen den Trend unbewusst mitlaufen („go with the flow"). Das Gegenargument ist ein
-Trendwechsel. Wer den Trend herausrechnen will, zieht `TrendPerReturn` bei der
-**Performancemessung** von jeder Bar-Rendite ab (aber nie bei der Indikatorberechnung).
+Da `TrendPerReturn` aus der Preishistorie und `NumLong`/`NumShort` aus dem trainierten System
+bekannt sind, ist `Trend` **direkt berechenbar**, ohne jede Permutation.
+
+### Die philosophische Frage dahinter
+
+Masters lässt sie ausdrücklich offen und führt die Argumente vor:
+
+- Trainiert man dasselbe System auf Markt A (starker Aufwärtstrend) und Markt B (seitwärts), wird
+  A überwiegend Long-Trades produzieren und B ausgeglichene. Das ist kein Zufall, sondern die
+  Optimierung, die dem Trend folgt.
+- **Pro:** „go with the flow instead of fighting a current by rowing upstream." Die meisten
+  Entwickler tun das, ohne darüber nachzudenken, und Masters neigt dieser Seite zu.
+- **Contra:** Wer sagt, dass der Trend anhält — und was passiert mit einem stark unbalancierten
+  System, wenn er dreht?
+- **Verschärft:** In einem stark steigenden Markt verdient auch ein System Geld, das täglich eine
+  Münze wirft. Man könnte „Intelligenz" also erst dort ansetzen, wo ein System diesen Münzwurf
+  *schlägt*.
+- Der Weise in der Ecke merkt an, dass das Contra-Argument bei einer Trendumkehr trägt, das
+  Pro-Argument nicht. Woraufhin jemand einwirft, dass Langfristtrends nun einmal langfristig
+  anhalten. „And the argument goes on."
+
+**Wer den Trend herausrechnen will:** `TrendPerReturn` bei der **Performancemessung** von jeder
+Bar-Rendite abziehen — aber niemals bei der Indikatorberechnung oder der Handelsentscheidung.
+Masters erwähnt das als gängige Praxis, verfolgt es aber nicht weiter, weil er den Trend hier
+anders verwendet.
 
 ## TrainingBias per Permutation messen
 
-Permutiert man die Kursänderungen und trainiert neu:
+Permutiert man die Kursänderungen und trainiert neu (Permutationsalgorithmen auf
+[[Monte Carlo Permutation Test (MCPT)]]):
 
-- `TrendPerReturn` bleibt identisch (dieselben Änderungen, nur andere Reihenfolge — Start- und
-  Endpreis bleiben gleich, siehe [[Monte Carlo Permutation Test (MCPT)]]).
-- `NumLong`/`NumShort` ändern sich, also ist `Trend` je Permutation neu zu berechnen.
+- `TrendPerReturn` bleibt **identisch** — dieselben Änderungen in anderer Reihenfolge, Start- und
+  Endpreis unverändert. Genau dafür ist die Permutation so konstruiert.
+- `NumLong` / `NumShort` ändern sich, `Trend` ist also je Permutation neu zu berechnen.
 - `Skill` ist **per Konstruktion null**, weil die Muster zerstört sind.
 
-Also:
+Was vom permutierten Gesamtreturn über den Trendanteil hinausgeht, muss also Training Bias sein:
 
 ```
-TrainingBias      = PermutedTotalReturn − Trend                (7-3)
-UnbiasedReturn    = TotalReturn − mean(TrainingBias)           (7-4)
-Skill             = UnbiasedReturn − Trend(original)           (7-5)
+(7-3)  TrainingBias   = PermutedTotalReturn − Trend
+(7-4)  UnbiasedReturn = TotalReturn − mean(TrainingBias)
+(7-5)  Skill          = UnbiasedReturn − Trend(original)
 ```
 
 Ein einzelner Permutationslauf ist zu verrauscht; erst der Mittelwert über hunderte bis tausende
-Permutationen liefert eine brauchbare `TrainingBias`-Schätzung. Als Nebenprodukt fällt derselbe
-P-Wert `(k+1)/(m+1)` an wie beim gewöhnlichen MCPT — man bekommt beides in einer Schleife.
+Permutationen liefert eine brauchbare Schätzung. Als Nebenprodukt fällt derselbe P-Wert
+`(k+1)/(m+1)` an wie beim gewöhnlichen MCPT — man bekommt beides in **einer** Schleife.
 
-Kernschleife (aus `MCPT_TRN.CPP`, gekürzt):
+**Zwei Zahlen mit unterschiedlicher Aussage:**
 
-```
-trend_per_return = (prices[n-1] - prices[max_lookback-1]) / (n - max_lookback)
-prepare_permute(...)
-für irep = 0 … nreps-1:
-    wenn irep > 0: do_permute(...)
-    opt_return = opt_params(...)                      # volle Reoptimierung!
-    trend_component = (nlong - nshort) * trend_per_return
-    wenn irep == 0:  original = opt_return; original_trend = trend_component; count = 1
-    sonst:           mean_training_bias += opt_return - trend_component
-                     wenn opt_return >= original: count += 1
+- `UnbiasedReturn` **enthält** den Trendanteil — die richtige Zahl, wenn man die Philosophie
+  „Trendmitnahme ist legitim" vertritt.
+- `Skill` ist die strengere Zahl: um wie viel schlägt das System einen Münzwurf mit derselben
+  Long/Short-Bilanz?
+
+## Die Kernschleife
+
+```python
+# Trend pro Rendite EINMAL vorab — ab dem ersten Bar, an dem eine Entscheidung moeglich ist
+trend_per_return = (prices[-1] - prices[max_lookback-1]) / (len(prices) - max_lookback)
+changes = prepare_permute(prices[max_lookback-1:])
+
+count, mean_training_bias = 0, 0.0
+
+for irep in range(nreps):
+    if irep > 0:
+        do_permute(prices[max_lookback-1:], changes)         # nur ab dem Basis-Bar!
+
+    # VOLLE Reoptimierung — sonst misst man nicht den Bias des Trainingsprozesses
+    opt_return, nshort, nlong = opt_params(prices, max_lookback)
+    trend_component = (nlong - nshort) * trend_per_return     # (7-1)
+
+    if irep == 0:
+        original                 = opt_return
+        original_trend_component = trend_component
+        count                    = 1
+    else:
+        mean_training_bias += opt_return - trend_component    # (7-3)
+        if opt_return >= original:
+            count += 1
+
 mean_training_bias /= (nreps - 1)
-unbiased_return = original - mean_training_bias
-skill = unbiased_return - original_trend
+p_value          = count / nreps
+unbiased_return  = original - mean_training_bias              # (7-4)
+skill            = unbiased_return - original_trend_component # (7-5)
 ```
 
-Entscheidend: In **jeder** Permutation wird komplett neu optimiert. Sonst misst man nicht den
-Bias des Trainingsprozesses.
+**Die drei Stellen, an denen man es falsch machen kann:**
 
-## Verwandt: MCPT für drei verschiedene Objekte
+1. Der Permutationsbereich beginnt beim **Basis-Bar** `max_lookback − 1` — dem ersten Bar, an dem
+   eine gültige Handelsentscheidung möglich ist. So ist sichergestellt, dass **alle** möglichen
+   Trade-Renditen der Permutation unterliegen und gleichzeitig **keine** Änderung von vor dem
+   ersten möglichen Trade hineingemischt wird (was den Gesamttrend verändern würde).
+2. In jeder Permutation wird **komplett neu optimiert**. Wer die Originalparameter beibehält, misst
+   etwas anderes.
+3. Der Mittelwert läuft über `nreps − 1`, weil der erste Durchlauf der unpermutierte ist.
 
-Masters unterscheidet sauber, *was* eigentlich getestet wird — die Unterscheidung ist auf
-[[Monte Carlo Permutation Test (MCPT)]] bisher nicht ausgeführt:
+## Variante mit konservativen Open-zu-Open-Renditen
 
-1. **Fertig spezifiziertes System** auf OOS-Daten. Permutiert wird **nur** der OOS-Zeitraum. Die
-   Lookback-Bars davor dürfen nicht mitpermutiert werden — sie gehen im Originallauf nicht in die
-   Performance ein, könnten aber (falls ungewöhnlich, z.B. starker Trend) in den OOS-Bereich
-   hineingemischt werden.
-2. **Der Trainingsprozess.** Getestet wird die finale In-Sample-Performance. Hier ist der Test am
-   wertvollsten: ein *überangepasstes* System findet auch auf permutierten Daten „Muster" und
-   sticht deshalb nicht heraus. Ein zu schwaches System fällt ohnehin früher auf. Masters:
-   *„Unless you get a small (0.05 or less) p-value, you should be suspicious."*
-3. **Die „Model Factory"** — Systemidee + Optimierungsverfahren, bewertet über den gepoolten
-   Walk-Forward-OOS. Hier muss der **erste Trainings-Fold von der Permutation ausgenommen**
-   werden (er taucht im Originallauf nie in einem OOS-Block auf). Masters permutiert ihn separat
-   für sich, hält das aber für nebensächlich. Ebenso offen: alles nach dem ersten Fold in einem
-   Rutsch permutieren (seine Praxis, sucht universelle Muster) oder je Fold getrennt (bewahrt
-   lokale Marktcharakteristik).
+`MCPT_BARS.CPP` zeigt dieselbe Rechnung auf OHLC-Bars und mit einer realistischeren Ausführung:
+Der Return einer Entscheidung ist die log-Preisänderung vom **Open der Folgebar zum Open der
+darauffolgenden** — statt Close-zu-Close, das im Livebetrieb kaum erreichbar ist.
 
-## MCPT mit Selection Bias: Solo-P-Wert vs. unbiased P-Wert
+Das System ist ein simples Mean-Reversion-Modell: gibt es einen langfristigen Aufwärtstrend über
+einen Schwellenwert **und** gleichzeitig einen scharfen kurzfristigen Rückgang über einen zweiten
+Schwellenwert, wird für die nächste Bar long gegangen. These: ein plötzlicher Einbruch in einem
+Aufwärtsmarkt ist eine vorübergehende Abweichung.
 
-Bei mehreren Konkurrenten (verschiedene Entwickler, oder derselbe Ansatz mit vielen
-Parametersätzen) reicht der P-Wert des Siegers nicht — man hat ihn ja *ausgewählt*, siehe
-[[Training Bias & Selection Bias]]. Erweiterter Algorithmus:
-
-```
-für irep = 0 … nreps-1:
-    wenn irep > 0: shuffle
-    für jeden Konkurrenten: Performance berechnen
-        wenn irep == 0: original[k] = perf; solo_count[k] = 1; unbiased_count[k] = 1
-        sonst und perf >= original[k]: solo_count[k] += 1
-    wenn irep > 0:
-        best = max(Performance aller Konkurrenten in dieser Permutation)
-        für jeden Konkurrenten k: wenn best >= original[k]: unbiased_count[k] += 1
-solo_pval[k]     = solo_count[k] / nreps
-unbiased_pval[k] = unbiased_count[k] / nreps
+```python
+for irise in range(1, 51):                       # 50 × 50 Grid
+    rise_thresh = irise * 0.005
+    for idrop in range(1, 51):
+        drop_thresh = idrop * 0.0005
+        total_return, nl = 0.0, 0
+        for i in range(lookback, ncases - 2):    # −2: die Rendite braucht zwei Bars voraus
+            rise = close[i] - close[i - lookback]     # langfristiger Anstieg
+            drop = close[i-1] - close[i]              # unmittelbarer Rueckgang
+            if rise >= rise_thresh and drop >= drop_thresh:
+                ret = open_[i+2] - open_[i+1]         # KONSERVATIV
+                nl += 1
+            else:
+                ret = 0.0
+            total_return += ret
 ```
 
-Der `unbiased_pval` fragt: *Wenn alle Konkurrenten wertlos wären — wie wahrscheinlich wäre es,
-dass der **Beste** von ihnen so gut abschneidet wie beobachtet?* Für den tatsächlichen Sieger ist
-das der exakte P-Wert; für alle anderen ist er konservativ (eine Obergrenze). Deshalb gilt:
-**jeder Konkurrent mit kleinem `unbiased_pval` verdient ernsthafte Betrachtung.**
+Die Offsets verschieben sich entsprechend:
 
-## Zwei Beispielläufe, die zeigen, wie stark Markt und System interagieren
+```
+trend_per_return = (open[nprices-1] − open[lookback+1]) / (nprices − lookback − 2)
+prepare_permute(nprices − lookback, open+lookback, high+lookback, low+lookback, close+lookback, …)
+```
 
-`MCPT_TRN` (MA-Crossover) und `MCPT_BARS` (Mean Reversion, konservativ auf Open-zu-Open
-gerechnet) auf OEX bzw. SPX liefern laut Buch drastisch verschiedene Ergebnisse. Bei SPX hat das
-Mean-Reversion-System einen P-Wert von **fast 1,0** (der Markt ist dort ausgeprägt
-*anti*-mean-reverting), während dasselbe SPX beim Trendfolger **0,001** erreicht — das Minimum
-bei 1.000 Permutationen. Masters' Kommentar dazu: „But wow. I mean, wow."
+Der erste mögliche Trade öffnet bei `lookback+1` und schließt spätestens am Open der letzten Bar.
+Genau dafür gibt es `preserve_OO` in der Bar-Permutation (siehe
+[[Monte Carlo Permutation Test (MCPT)]]) — sonst wäre der so definierte Gesamttrend nicht über alle
+Permutationen konstant.
 
-Direkte Lehre für dieses Projekt: **derselbe Test auf zwei ähnlich zusammengesetzten Indizes kann
-gegensätzlich ausfallen.** Backtest-Ergebnisse aus `raw/marktdaten/` für MNQ lassen sich nicht auf
-ES übertragen, auch wenn beide US-Indexfutures sind.
+## Zwei Referenzläufe — und ihre wichtigste Lehre
+
+Dieselben zwei Programme auf OEX (S&P 100) und SPX (S&P 500), je 1.000 Permutationen:
+
+| System | Markt | P-Wert |
+|---|---|---|
+| MA-Crossover (Trendfolge, `MCPT_TRN`) | SPX | **0,001** — Minimum bei 1.000 Permutationen |
+| Mean Reversion (`MCPT_BARS`) | SPX | **≈ 1,0** |
+| beide | OEX | jeweils deutlich anders |
+
+SPX ist im getesteten Zeitraum ausgeprägt **anti**-mean-reverting und zugleich stark
+trendfolgend — beide Extremwerte sind das jeweils Erreichbare. Masters' Kommentar: *„But wow.
+I mean, wow."* (Mit der ehrlichen Einschränkung, dass die SPX-Historie 1962 beginnt, die
+OEX-Historie erst 1982 — der frühe Zeitraum könnte eine Rolle spielen.)
+
+> **Die Lehre für dieses Projekt:** Zwei ähnlich zusammengesetzte US-Indizes können auf denselben
+> Test **gegensätzlich** reagieren. Backtest-Ergebnisse aus `raw/marktdaten/` für MNQ lassen sich
+> **nicht** auf ES übertragen, auch wenn beide US-Indexfutures sind. Das ist im Vault bislang
+> nirgends festgehalten — und `algo/backtest_*.py` filtert seit dem 2026-08-07-Fix bewusst nach
+> Symbol.
 
 ## Bezug zu diesem Projekt
 
-Direkt umsetzbar, sobald `algo/permutation_test.py` existiert (offener Backlog-Punkt in
-`algo/PLAN.md`): Die Partitionierung kostet neben dem ohnehin geplanten MCPT nur das Mitzählen
-von Long-/Short-Bars. Sie beantwortet genau die Frage, die bei den bisherigen `algo/`-Backtests
-offen bleibt — wie viel eines Ergebnisses schlicht daran liegt, dass MNQ im Datenzeitraum
-gestiegen ist.
+Direkt umsetzbar, sobald `algo/permutation_test.py` existiert (offener Backlog-Punkt 10 in
+`algo/PLAN.md`). Die Partitionierung kostet neben dem ohnehin geplanten MCPT nur:
+
+- eine Zeile für `trend_per_return`,
+- das Mitzählen von Long- und Short-Bars je Lauf,
+- drei Subtraktionen am Ende.
+
+Sie beantwortet eine Frage, die bei allen bisherigen `algo/`-Backtests offen bleibt: **wie viel
+eines Ergebnisses liegt schlicht daran, dass MNQ im Datenzeitraum gestiegen ist?** Bei einer
+Datenbasis, die im Juli/August 2026 beginnt, ist das keine akademische Frage.
+
+Verwandt und ebenfalls fast gratis in derselben Schleife: der `unbiased_pval` gegen Selection Bias
+(siehe [[Monte Carlo Permutation Test (MCPT)]] und [[Training Bias & Selection Bias]]).
+
+Die billigere, ungenauere Alternative zur reinen Bias-Schätzung ohne Permutationen ist StocBias —
+ebenfalls auf [[Training Bias & Selection Bias]].

@@ -129,113 +129,276 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">statistik</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">statistik</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#was-zuerst-geklart-sein-muss">Was zuerst geklärt sein muss</a></li>
+<li><a href="#formeln-kapitel-6">Formeln (Kapitel 6)</a></li>
 <li><a href="#weg-1-parametrisch-student-t">Weg 1: parametrisch (Student-t)</a></li>
-<li><a href="#weg-2-bootstrap">Weg 2: Bootstrap</a></li>
+<li><a href="#zwischenspiel-was-ein-p-wert-nicht-sagt">Zwischenspiel: was ein P-Wert nicht sagt</a></li>
+<li><a href="#weg-2-bootstrap">Weg 2: Bootstrap</a><ul>
+<li><a href="#pivot-methode">Pivot-Methode</a></li>
+<li><a href="#perzentil-methode">Perzentil-Methode</a></li>
+<li><a href="#bca-bias-corrected-and-accelerated-masters-empfehlung">BCa („bias corrected and accelerated") — Masters' Empfehlung</a></li>
+</ul>
+</li>
 <li><a href="#warnung-verhaltniskennzahlen-bootstrappen-schlecht">Warnung: Verhältniskennzahlen bootstrappen schlecht</a></li>
-<li><a href="#was-das-an-einem-echten-beispiel-bedeutet">Was das an einem echten Beispiel bedeutet</a></li>
-<li><a href="#voraussetzung-die-richtige-rendite-sorte">Voraussetzung: die richtige Rendite-Sorte</a></li>
+<li><a href="#referenzlauf-bound_mean-auf-spx">Referenzlauf: BOUND_MEAN auf SPX</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
 </ul>
 </div>
 </details>
   <div class="content"><h1 id="konfidenzgrenzen-fur-renditen-t-test-bootstrap-bca">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</h1>
-<p>Wie man aus einer Sammlung von OOS-Renditen eine <strong>Untergrenze für die wahre mittlere Rendite</strong>
-ableitet — die Zahl, um die künftige Renditen streuen werden. Aus
-<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 6).</p>
+<p>Untergrenze für die <strong>wahre mittlere Rendite</strong> — die Zahl, um die künftige Renditen streuen
+werden. Aus <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 6, Programme
+<code>BOUND_MEAN.CPP</code>, <code>BOOT_CONF.CPP</code>, <code>BOOT_RATIO.CPP</code>).</p>
 <p>Kernargument: ein guter Backtest-Mittelwert reicht nicht. Bei genug Bars findet jeder
 Hypothesentest auch den winzigsten echten Edge — eine statistisch gesicherte Rendite von 0,5 %
-p.a. will trotzdem niemand handeln. Also braucht man nicht „ist der Edge echt?", sondern „wie
-klein könnte er sein?".</p>
-<h2 id="was-zuerst-geklart-sein-muss">Was zuerst geklärt sein muss</h2>
-<p>Ein P-Wert sagt: <em>falls</em> das System wertlos ist, wie wahrscheinlich wäre ein so gutes Ergebnis
-durch Glück. Er sagt <strong>nicht</strong>, wie wahrscheinlich es ist, dass das System wertlos ist. Masters'
-Hunde-Analogie dazu: 1 % aller Hunde haben weniger als vier Beine, also ist ein Zweibeiner
-wahrscheinlich kein Hund — außer der Anrufer kommt aus einem Hundeheim und ruft <em>nur</em> wegen
-Hunden an, dann liegt man jedes Mal falsch. Der P-Wert ist bedingt und sagt nichts über die
-Grundgesamtheit der geprüften Systeme.</p>
-<p>Ebenso: ein <em>nicht</em> kleiner P-Wert erlaubt <strong>nie</strong> den Schluss, das System sei wertlos. Vielleicht
-wurde nur zu wenig getestet.</p>
+p.a. will trotzdem niemand handeln. Die relevante Frage ist nicht „ist der Edge echt?", sondern
+<strong>„wie klein könnte er sein?"</strong>.</p>
+<h2 id="formeln-kapitel-6">Formeln (Kapitel 6)</h2>
+<pre><code>(6-1)  Mean     = (1/n) · Σᵢ xᵢ
+
+(6-2)  StdDev   = sqrt( (1/(n−1)) · Σᵢ (xᵢ − Mean)² )
+
+(6-3)  t        = √n · Mean / StdDev                     ← unter H₀: wahrer Mittelwert = 0
+
+(6-4)  p-value  = 1 − CDF_t(n−1, t)
+
+(6-5)  t        = √n · (ObsMean − TrueMean) / StdDev     ← allgemeine Form
+
+(6-6)  P{ t ≤ t_p } = p          mit  t_p = InvCDF_t(n−1, p)
+
+(6-7)  P{ √n·(ObsMean − TrueMean)/StdDev ≤ t_p } = p
+
+(6-8)  P{ ObsMean − StdDev·t_p/√n ≤ TrueMean } = p
+
+(6-9)  LowerBound = ObsMean − StdDev · t_p / √n
+       UpperBound = ObsMean + StdDev · t_p / √n
+</code></pre>
 <h2 id="weg-1-parametrisch-student-t">Weg 1: parametrisch (Student-t)</h2>
-<p>Mit <code>Mean</code> und <code>StdDev</code> der <code>n</code> OOS-Renditen:</p>
-<ul>
-<li>t-Score unter H₀ (wahrer Mittelwert = 0): <code>t = √n · Mean / StdDev</code></li>
-<li>P-Wert: <code>1 − CDF_t(n−1, t)</code></li>
-<li><strong>Untergrenze</strong> bei Konfidenz <code>p</code>: <code>LowerBound = Mean − StdDev · t_p / √n</code>
-  mit <code>t_p = InvCDF_t(n−1, p)</code></li>
-</ul>
-<p>Praktische Abkürzung, die Masters betont: <strong>die Nullhypothese wird genau dann verworfen, wenn
-die Untergrenze positiv ist.</strong> Man braucht also gar keinen separaten Hypothesentest — es genügt,
-die Untergrenze zu berechnen.</p>
-<p>Beispielrechnung: n=100, Mean=8, StdDev=5, p=0,95 → <code>t_p ≈ 1,66</code> →
+<pre><code class="language-python">import numpy as np
+from scipy import stats
+
+def t_bounds(returns, p=0.95):
+    n      = len(returns)
+    mean   = np.mean(returns)
+    stddev = np.std(returns, ddof=1)                 # Gleichung 6-2
+    t      = np.sqrt(n) * mean / stddev              # Gleichung 6-3
+    pval   = 1.0 - stats.t.cdf(t, df=n - 1)          # Gleichung 6-4
+    t_p    = stats.t.ppf(p, df=n - 1)                # Gleichung 6-6
+    lower  = mean - stddev * t_p / np.sqrt(n)        # Gleichung 6-9
+    return mean, t, pval, lower
+</code></pre>
+<p><strong>Praktische Abkürzung, die Masters betont:</strong> algebraisch folgt aus (6-3) und (6-9), dass die
+Nullhypothese <em>genau dann</em> auf dem Niveau <code>1−p</code> verworfen wird, wenn <code>LowerBound &gt; 0</code>. Man braucht
+also gar keinen getrennten Hypothesentest — es genügt, die Untergrenze zu berechnen und ihr
+Vorzeichen anzusehen. (Bei stetiger Verteilung ist <code>LowerBound == 0</code> ein Nullereignis;
+konservativ verlangt man echt positiv.)</p>
+<p><strong>Zahlenbeispiel:</strong> n = 100, Mean = 8, StdDev = 5, p = 0,95 → t_p ≈ 1,66 →
 <code>8 − 5·1,66/√100 = 7,17</code>.</p>
-<p>Für ein beidseitiges Intervall muss die Fehlerwahrscheinlichkeit gesplittet werden (90 %-Intervall
-= je 5 % oben und unten, also p=0,95 für <strong>beide</strong> Grenzen).</p>
-<p><strong>Die eine Bedingung:</strong> der t-Test ist robust gegen moderate Schiefe und mäßig schwere
-Verteilungsenden, aber <strong>ein einziger wilder Ausreißer macht ihn wertlos</strong>. Liegen die Renditen
-zwischen −5 und +5 und eine bei 50, ist die Zahl Müll. Deshalb: <strong>vor jedem t-Test ein Histogramm
-der Renditen ansehen.</strong></p>
+<p><strong>Zwei Lesarten von 7,17:</strong></p>
+<ul>
+<li><em>Gebräuchlich, etwas unsauber:</em> „mit 95 % Wahrscheinlichkeit liegt der wahre Mittelwert bei
+  mindestens 7,17."</li>
+<li><em>Streng korrekt:</em> 7,17 ist der kleinste Wert, den der wahre Mittelwert haben könnte, damit
+  eine Stichprobe von mindestens der beobachteten Güte noch mit ≥ 95 % Wahrscheinlichkeit
+  auftritt. (Der wahre Mittelwert ist eine feste Zahl, die Stichprobe ist die Zufallsgröße.)
+  Masters: „Please don't stress over this concept too much."</li>
+</ul>
+<p><strong>Warum H₀ „Mittelwert = 0" genügt</strong>, obwohl die Nullhypothese formal „≤ 0" lauten muss: Bei
+negativem wahrem Mittelwert wäre der t-Score nach (6-5) noch <em>größer</em> und der P-Wert noch
+kleiner. Null ist also der konservativste Fall der Nullhypothese.</p>
+<p><strong>Beidseitiges Intervall:</strong> Fehlerwahrscheinlichkeit splitten. 90 %-Intervall = je 5 % oben und
+unten, also <code>p = 0,95</code> für <strong>beide</strong> Grenzen.</p>
+<blockquote>
+<p><strong>Die eine harte Bedingung.</strong> Der t-Test ist erstaunlich robust gegen moderate Schiefe und
+mäßig schwere Verteilungsenden und sehr robust gegen <em>leichte</em> Enden. Aber <strong>ein einziger
+wilder Ausreißer macht ihn wertlos</strong>: liegen die Renditen zwischen −5 und +5 und eine bei 50,
+ist die Zahl Müll. Deshalb gilt ausnahmslos: <strong>vor jedem t-Test ein Histogramm der Renditen
+ansehen.</strong> Ausreißer im Rahmen einer Glockenkurve sind unbedenklich, man muss nicht pingelig
+sein — aber echte Ausreißer disqualifizieren das Verfahren.</p>
+</blockquote>
+<h2 id="zwischenspiel-was-ein-p-wert-nicht-sagt">Zwischenspiel: was ein P-Wert nicht sagt</h2>
+<p>Drei Umgangsweisen mit dem Ergebnis — eine korrekt, eine grau, eine falsch:</p>
+<ol>
+<li><strong>Korrekt:</strong> Fehlerniveau <strong>vorab</strong> festlegen (0,01 / 0,05 / 0,1) und danach entscheiden.
+   Bei einem wertlosen System wird man dann mit genau dieser Wahrscheinlichkeit fälschlich
+   „Können" attestieren. Äquivalent: vorab den Schwellenwert der Teststatistik berechnen.</li>
+<li><strong>Grau, aber verbreitet (auch bei Masters):</strong> P-Wert einfach berichten. Mehr Information, aber
+   Missbrauchsgefahr — <strong>P-Werte sind keine Vergleichsmaße</strong>. p = 0,001 fühlt sich besser an als
+   p = 0,049, doch das 0,049-System könnte auf längerer Historie ebenfalls 0,001 erreichen.
+   P-Werte hängen an der Datenmenge.</li>
+<li><strong>Falsch:</strong> „p = 0,01, also ist die Wahrscheinlichkeit, dass ich mich irre, 1 %" bzw. „also ist
+   das System zu 99 % gut."</li>
+</ol>
+<p>Masters' Hunde-Analogie zu (3): 99 % aller Hunde haben vier Beine. Jemand meldet ein zweibeiniges
+Tier → wahrscheinlich kein Hund. Unter allen Anrufen, bei denen es <em>wirklich</em> ein Hund ist, irrt
+man sich nur in 1 % der Fälle — <strong>das ist die korrekte Aussage.</strong> Ruft aber ausschließlich ein
+Tierheim an, das nur Hunde hält, liegt man <strong>jedes Mal</strong> falsch, obwohl der P-Wert stimmt. Der
+P-Wert ist bedingt („falls H₀ gilt") und sagt nichts über die Grundgesamtheit der geprüften
+Systeme.</p>
+<p>Und in der Gegenrichtung: ein <em>nicht</em> kleiner P-Wert erlaubt <strong>nie</strong> den Schluss, das System sei
+wertlos. Vielleicht wurde nur zu wenig getestet, oder das Testverfahren war unpassend. <em>„We must
+never assert the truth of the null hypothesis."</em></p>
 <h2 id="weg-2-bootstrap">Weg 2: Bootstrap</h2>
 <p>Grundidee (Efron): die eigene OOS-Stichprobe so behandeln, als wäre sie die Grundgesamtheit, und
-daraus mit Zurücklegen tausende Stichproben gleicher Größe ziehen. Die Streuung der daraus
-berechneten Kennzahlen schätzt die Streuung, der die Originalstichprobe selbst unterlag.</p>
-<p>Drei Verfahren:</p>
-<ul>
-<li><strong>Pivot-Methode</strong> — intuitiv (die Verzerrung Sample→Bootsample wird auf Population→Sample
-  übertragen), in Masters' Tests aber durchweg <strong>die schlechteste</strong>. Grenzen entstehen aus den
-  Perzentil-Grenzen: <code>PivotLower = 2·Param − PctileUpper</code>.</li>
-<li><strong>Perzentil-Methode</strong> — schlicht: das 5. Perzentil der Bootstrap-Verteilung ist die 95 %-
-  Untergrenze. Funktioniert überraschend oft gut. Kurios: Pivot und Perzentil liefern spiegelbildliche
-  Intervalle.</li>
-<li><strong>BCa</strong> („bias corrected and accelerated") — Masters' Empfehlung. Vier Schritte:
-  1. <strong>Bias-Korrektur</strong> <code>z₀ = Φ⁻¹( #[θ̂ᵇ &lt; θ̂] / B )</code> — wie viele Bootstrap-Schätzungen unter
-     der Originalschätzung liegen.
-  2. <strong>Acceleration</strong> <code>â</code> über ein Jackknife (jeden Fall einmal weglassen, Kennzahl neu rechnen);
-     <code>â = Σ(θ̄₍·₎−θ̂₍ᵢ₎)³ / (6·[Σ(θ̄₍·₎−θ̂₍ᵢ₎)²]^{3/2})</code>.
-  3. Fraktilpunkte verschieben:
-     <code>α' = Φ( z₀ + (z₀ + Φ⁻¹(α)) / (1 − â·(z₀ + Φ⁻¹(α))) )</code>.
-  4. Aus den sortierten Bootstrap-Werten die verschobenen Fraktile ziehen (<code>k = α'(B+1)</code>,
-     abgerundet; obere Grenze bei Element <code>B+1−k</code>).</li>
-</ul>
-<p>Sind <code>z₀</code> und <code>â</code> beide null, ist BCa identisch mit der Perzentil-Methode.</p>
-<p><code>nboot = 10.000</code> nennt Masters als vernünftige Mindestgröße.</p>
+daraus mit Zurücklegen <code>B</code> Stichproben <strong>gleicher Größe</strong> ziehen (gleiche Größe ist wichtig — viele
+Kennzahlen hängen an <code>n</code>). Die Streuung der so berechneten Kennzahlen schätzt die Streuung, der
+die Originalstichprobe selbst unterlag.</p>
+<h3 id="pivot-methode">Pivot-Methode</h3>
+<p>Annahme: die Verzerrung Stichprobe→Bootstrap-Stichprobe entspricht der Verzerrung
+Grundgesamtheit→Stichprobe. Grenzen ergeben sich aus den Perzentilgrenzen:</p>
+<pre><code>PivotLower = 2·Param − PctileUpper
+PivotUpper = 2·Param − PctileLower
+</code></pre>
+<p>In Masters' Tests durchweg <strong>die schlechteste</strong> der drei Methoden.</p>
+<h3 id="perzentil-methode">Perzentil-Methode</h3>
+<pre><code class="language-python">def boot_conf_pctile(x, stat, nboot=10000, alpha=0.025, rng=None):
+    rng   = rng or np.random.default_rng()
+    n     = len(x)
+    vals  = np.empty(nboot)
+    for b in range(nboot):
+        vals[b] = stat(rng.choice(x, size=n, replace=True))
+    vals.sort()
+    k = int(alpha * (nboot + 1)) - 1                 # unverzerrter Quantilschaetzer
+    k = max(k, 0)
+    return vals[k], vals[nboot - 1 - k]              # (lower, upper)
+</code></pre>
+<p>Kurios und von Masters als Übung empfohlen: Pivot- und Perzentil-Intervalle sind <strong>spiegelbildlich</strong>
+zueinander — liegt bei der einen Methode die Untergrenze weiter vom Stichprobenwert entfernt,
+ist es bei der anderen die Obergrenze. Dass beide trotzdem meist gut funktionieren, nennt er
+„a miracle".</p>
+<h3 id="bca-bias-corrected-and-accelerated-masters-empfehlung">BCa („bias corrected and accelerated") — Masters' Empfehlung</h3>
+<p>Vier Schritte:</p>
+<pre><code>Schritt 1 — Bias-Korrektur (6-10)
+  ẑ₀ = Φ⁻¹( #[ θ̂*ᵇ &lt; θ̂ ] / B )
+       θ̂     = Kennzahl der Originalstichprobe
+       θ̂*ᵇ   = Kennzahl der b-ten Bootstrap-Stichprobe
+       #[·]  = Anzahl der Bootstrap-Werte unter dem Originalwert
+
+Schritt 2 — Acceleration per Jackknife (6-11, 6-12)
+  θ̂₍ᵢ₎  = Kennzahl mit weggelassenem Fall i   (n Durchlaeufe ueber n−1 Faelle)
+  θ̄₍·₎  = (1/n) · Σᵢ θ̂₍ᵢ₎
+  â     =        Σᵢ (θ̄₍·₎ − θ̂₍ᵢ₎)³
+          ─────────────────────────────────
+          6 · [ Σᵢ (θ̄₍·₎ − θ̂₍ᵢ₎)² ]^(3/2)
+
+Schritt 3 — Fraktilpunkte verschieben (6-13)
+  α' = Φ( ẑ₀ +      ẑ₀ + Φ⁻¹(α)          )
+              ──────────────────────────
+              1 − â · ( ẑ₀ + Φ⁻¹(α) )
+  getrennt fuer die untere und die obere Grenze anwenden
+
+Schritt 4 — Perzentile an den verschobenen Punkten ziehen
+  untere Grenze (α' &lt; 0.5):  k = trunc( α'   · (B+1) )        → Element k      (1-basiert)
+  obere  Grenze (α' &gt; 0.5):  k = trunc( (1−α') · (B+1) )      → Element B+1−k
+</code></pre>
+<p>Sind <code>ẑ₀</code> und <code>â</code> beide null, ist <code>α' = α</code> und BCa fällt auf die Perzentil-Methode zurück.</p>
+<pre><code class="language-python">def boot_conf_bca(x, stat, nboot=10000, alpha=0.025, rng=None):
+    rng   = rng or np.random.default_rng()
+    n     = len(x)
+    theta = stat(x)
+
+    vals = np.empty(nboot)
+    for b in range(nboot):
+        vals[b] = stat(rng.choice(x, size=n, replace=True))
+
+    z0 = stats.norm.ppf(np.mean(vals &lt; theta))                  # (6-10)
+
+    jack = np.array([stat(np.delete(x, i)) for i in range(n)])  # (6-11)
+    d    = jack.mean() - jack
+    a    = (d ** 3).sum() / (6.0 * ((d ** 2).sum() ** 1.5) + 1e-60)   # (6-12)
+
+    vals.sort()
+    def shifted(al):                                            # (6-13)
+        z = stats.norm.ppf(al)
+        return stats.norm.cdf(z0 + (z0 + z) / (1.0 - a * (z0 + z)))
+
+    alo, ahi = shifted(alpha), shifted(1.0 - alpha)
+    klo = max(int(alo         * (nboot + 1)) - 1, 0)
+    khi = max(int((1.0 - ahi) * (nboot + 1)) - 1, 0)
+    return vals[klo], vals[nboot - 1 - khi]
+</code></pre>
+<p>In der Praxis: <code>scipy.stats.bootstrap(..., method="BCa")</code> implementiert genau das — Eigenbau
+unnötig. <code>nboot = 10.000</code> nennt Masters als vernünftiges Minimum für ernsthafte Tests.</p>
+<p>Eine Obergrenze für die mittlere Rendite interessiert selten, kostet aber praktisch nichts extra —
+alle Routinen im Buch liefern beide.</p>
 <h2 id="warnung-verhaltniskennzahlen-bootstrappen-schlecht">Warnung: Verhältniskennzahlen bootstrappen schlecht</h2>
-<p>Sharpe Ratio und Profit Factor haben einen Nenner, der klein werden kann — und dann explodiert
-die Kennzahl. Masters' <code>BOOT_RATIO</code>-Experiment (Systeme mit Gewinnwahrscheinlichkeit 0,5, also
-wertlos) zeigt:</p>
+<p>Sharpe Ratio und Profit Factor haben einen Nenner, der klein werden kann — dann explodiert die
+Kennzahl. <code>BOOT_RATIO</code> testet das mit wertlosen Systemen (Gewinnwahrscheinlichkeit 0,5, wahrer
+Profit Factor also <code>prob/(1−prob) = 1</code>) und zählt, wie oft die berechneten Grenzen verletzt
+werden. Ideal wäre: Verletzungsrate = Soll-Fehlerrate.</p>
+<p>Befunde:</p>
 <ul>
-<li>Die Pivot-Methode versagt am deutlichsten: bei 50 Trades und 2,5 % Sollfehlerrate wird die
-  Profit-Factor-<strong>Untergrenze nie</strong> verletzt (also unbrauchbar niedrig), während die Obergrenze
-  fast <strong>viermal so oft</strong> verletzt wird wie erlaubt.</li>
-<li>Profit Factor verhält sich schlechter als Sharpe.</li>
-<li><strong>Lösung: den Logarithmus des Profit Factors bootstrappen</strong>, nicht den Profit Factor selbst.
-  Das zähmt das rechte Verteilungsende, und die Untergrenze — die einzige, die interessiert —
-  wird deutlich zuverlässiger. Verallgemeinert: bei schwerem Verteilungsende immer erst
-  transformieren.</li>
+<li>Probleme konzentrieren sich auf die <strong>strengste</strong> Spalte (2,5 % Sollfehlerrate).</li>
+<li><strong>Pivot ist mit Abstand am schlechtesten.</strong> Bei 50 Trades und 2,5 %: die Profit-Factor-
+  Untergrenze wird <strong>nie</strong> verletzt (sie liegt also absurd tief und ist wertlos), während die
+  Obergrenze <strong>fast viermal so oft</strong> verletzt wird wie erlaubt.</li>
+<li><strong>Profit Factor verhält sich schlechter als Sharpe.</strong></li>
+<li>Bei nur 50 Renditen liegt schon der <em>mittlere</em> Profit Factor über 1, weil gelegentlich winzige
+  Nenner Extremwerte erzeugen, die den Mittelwert hochziehen.</li>
 </ul>
-<h2 id="was-das-an-einem-echten-beispiel-bedeutet">Was das an einem echten Beispiel bedeutet</h2>
-<p><code>BOUND_MEAN</code> auf SPX, 23.557 Tage, MA-Breakout, Walk-Forward mit 1.000 Trainings-/100 Testbars:
-Die annualisierte mittlere Rendite über Bars mit offener Position beträgt <strong>9,91 %</strong> — isoliert
-betrachtet beeindruckend. Der zugehörige t-Test-P-Wert liegt bei <strong>0,1000</strong>, und die
-90 %-Untergrenze für den wahren Mittelwert ist <strong>−0,0022</strong>, also negativ. Alle drei
-Bootstrap-Varianten liefern ähnlich ernüchternde Grenzen.</p>
+<p><strong>Lösung: den Logarithmus des Profit Factors bootstrappen.</strong> Das zähmt das rechte
+Verteilungsende. Ergebnis laut Buch: die Untergrenze — die einzige, die interessiert — wird
+deutlich zuverlässiger; nur die BCa-<strong>Ober</strong>grenze bei 2,5 % verschlechtert sich leicht, was
+praktisch egal ist. Bei 5 % und 10 % verbessern sich beide Grenzen deutlich.</p>
+<p><strong>Verallgemeinerte Regel:</strong> Bootstrappt man eine Verteilung mit schwerem Ende, vorher so
+transformieren, dass das Ende gezähmt wird.</p>
+<h2 id="referenzlauf-bound_mean-auf-spx">Referenzlauf: BOUND_MEAN auf SPX</h2>
+<p>Aufruf: <code>BOUND_MEAN max_lookback n_train n_test n_boot filename</code>
+Werte: <code>max_lookback = 100</code>, <code>n_train = 1000</code>, <code>n_test = 100</code>, 23.557 Tagespreise,
+MA-Breakout-System, Bar-Renditen mit <code>25200</code> annualisiert.</p>
+<p>Drei Renditearten parallel ausgewertet (siehe <a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a>):
+<em>open-posn</em> (Bars mit offener Position), <em>complete</em> (abgeschlossene Trades), <em>grouped</em> (alle Bars
+in 10er-Blöcken gemittelt — deutlich kleiner, weil die Nullrenditen ohne Position mitzählen).</p>
+<table>
+<thead>
+<tr>
+<th>Kennzahl (open-posn)</th>
+<th>Wert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>annualisierte mittlere Rendite</td>
+<td><strong>9,91 %</strong></td>
+</tr>
+<tr>
+<td>t-Test-P-Wert</td>
+<td><strong>0,1000</strong></td>
+</tr>
+<tr>
+<td>90 %-Untergrenze (t-basiert)</td>
+<td><strong>−0,0022</strong></td>
+</tr>
+<tr>
+<td>Bootstrap-Untergrenzen (Perzentil / BCa)</td>
+<td>ebenfalls ≈ 0</td>
+</tr>
+<tr>
+<td>Pivot-Untergrenze</td>
+<td>Ausreißer nach unten, wie üblich</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
-<p>Genau darum geht es auf dieser Seite: eine zweistellige Backtest-Rendite kann eine
-Untergrenze unter null haben. Für <code>algo/</code> heißt das, dass Reports wie
-<a href="../p/ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend.html">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</a> neben Profit
-Factor und Return eine Untergrenze ausweisen sollten — sonst fehlt die Information, ob die
-Zahl überhaupt von null unterscheidbar ist.</p>
+<p><strong>Das ist die Kernbotschaft der Seite:</strong> eine zweistellige Backtest-Rendite kann eine
+Untergrenze unter null haben. „Back to the drawing board."</p>
 </blockquote>
-<h2 id="voraussetzung-die-richtige-rendite-sorte">Voraussetzung: die richtige Rendite-Sorte</h2>
-<p>Alle Verfahren hier setzen <strong>unabhängige</strong> Beobachtungen voraus. Welche Renditen man dafür
-nimmt, ist keine Nebensache — siehe <a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a> und, für die
-Unabhängigkeit, <a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a>. Masters' Favorit ist die
-<strong>mittlere Bar-Rendite über Bars mit offener Position</strong>.</p>
-<p>Für Grenzen um <strong>einzelne</strong> künftige Renditen statt um deren Mittelwert siehe
+<p>Der P-Wert von exakt 0,1000 bei einer Untergrenze von ≈ 0 illustriert nebenbei die oben genannte
+Äquivalenz — bei 90 % Konfidenz ist die Grenze genau dann null, wenn p = 0,1.</p>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<p><code>algo/</code>-Reports (<code>validate.py</code>, <code>backtest_bt.py</code>, <code>stress_test.py</code>,
+<a href="../p/ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend.html">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</a>) weisen bisher nur
+<strong>Punktschätzer</strong> aus. Eine BCa-Untergrenze wäre eine Zeile <code>scipy.stats.bootstrap(...)</code> und würde
+beantworten, ob die Zahl überhaupt von null unterscheidbar ist. Beim Profit Factor zwingend auf
+dem <strong>Logarithmus</strong> rechnen.</p>
+<p>Voraussetzung für alle Verfahren hier: möglichst viele, möglichst <strong>unabhängige</strong> Datenpunkte —
+also Bar-Renditen offener Positionen (<a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a>) und keine serielle
+Korrelation (<a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a>).</p>
+<p>Grenzen um <strong>einzelne</strong> künftige Renditen statt um deren Mittelwert:
 <a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a>.</p></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">7</span></h2><ul><li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a><span class="cat">Konzepte</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa).md</code></footer>
 </article>
 </main>

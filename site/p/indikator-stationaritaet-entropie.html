@@ -129,17 +129,21 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Indikator-Stationarität &amp; Entropie</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">indikatoren</span> <span class="tag">stationaritaet</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">indikatoren</span> <span class="tag">stationaritaet</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#stationaritat">Stationarität</a><ul>
-<li><a href="#statn-gap-analyse">STATN-Gap-Analyse</a></li>
+<li><a href="#teil-1-stationaritat">Teil 1 — Stationarität</a><ul>
+<li><a href="#statn-gap-analyse">STATN: Gap-Analyse</a></li>
+<li><a href="#messergebnis-oex-lookback-100-fraktile-05">Messergebnis (OEX, Lookback 100, Fraktile 0,5)</a></li>
 <li><a href="#drei-reparaturen-in-aufsteigender-harte">Drei Reparaturen, in aufsteigender Härte</a></li>
 </ul>
 </li>
-<li><a href="#entropie">Entropie</a><ul>
+<li><a href="#teil-2-entropie">Teil 2 — Entropie</a><ul>
+<li><a href="#berechnung">Berechnung</a></li>
+<li><a href="#warum-das-praktisch-zahlt">Warum das praktisch zählt</a></li>
 <li><a href="#entropie-verbessern">Entropie verbessern</a></li>
 <li><a href="#monotones-tail-cleaning">Monotones Tail-Cleaning</a></li>
+<li><a href="#messergebnis-entropy-auf-sp-500-20-bins">Messergebnis (ENTROPY auf S&amp;P 500, 20 Bins)</a></li>
 </ul>
 </li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
@@ -149,142 +153,369 @@
   <div class="content"><h1 id="indikator-stationaritat-entropie">Indikator-Stationarität &amp; Entropie</h1>
 <p>Zwei Qualitätsprüfungen, die <strong>vor</strong> der Systementwicklung stattfinden: Wandert mein Indikator
 langsam davon? Und trägt er überhaupt Information? Aus
-<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 2).</p>
-<h2 id="stationaritat">Stationarität</h2>
+<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 2, Programme <code>STATN.CPP</code>,
+<code>ENTROPY.CPP</code>).</p>
+<h2 id="teil-1-stationaritat">Teil 1 — Stationarität</h2>
 <p><em>Stationarität</em> = die statistischen Eigenschaften einer Zeitreihe bleiben über die Zeit konstant.
-Masters' pragmatische Haltung dazu:</p>
+Masters' pragmatische Haltung:</p>
 <ul>
 <li>Märkte und daraus abgeleitete Indikatoren <strong>sind</strong> nichtstationär, immer. Die Frage ist nur, wie
   schlimm, und ob man es reparieren kann.</li>
-<li><strong>Klassische Stationaritätstests sind sinnlos</strong> — sie sind praktisch immer hochsignifikant. Die
-  Antwort kennt man vorher.</li>
-<li>Nichtstationarität kann unendlich viele Formen haben; welche davon einem System schadet, hängt
-  vom System ab.</li>
+<li><strong>Klassische Stationaritätstests sind sinnlos</strong> — sie fallen praktisch immer hochsignifikant
+  aus. Die Antwort kennt man vorher.</li>
+<li>Nichtstationarität hat unendlich viele Formen; welche einem System schadet, hängt vom System ab.</li>
+<li>Die beste Prüfung eines <strong>fertigen</strong> Systems ist der progressive Walk-Forward
+  (<a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a>, Abschnitt Robustheitstest). Dieses Kapitel
+  behandelt bewusst die Phase <strong>davor</strong>.</li>
 </ul>
 <p>Die eigentliche Gefahr ist nicht das tägliche Zappeln, sondern das <strong>langsame Wandern</strong>: Ein
 Indikator, der monate- oder jahrelang in einem Extrembereich hängt und dann in einen anderen
-wandert, macht Modelle in genau diesen Phasen unbrauchbar oder legt sie still. Die daraus
-folgende Falle im Backtest: hervorragende Performance über einen günstigen Teilabschnitt der
-Historie, mittelmäßige überall sonst. <strong>Deshalb immer die Equity-Kurve ansehen, nicht nur die
-Gesamtkennzahl</strong> — und Indikatoren plotten.</p>
-<h3 id="statn-gap-analyse">STATN-Gap-Analyse</h3>
-<p>Statt eines Tests eine Messgröße: Für den Indikator das Quantil zu einer Fraktile bestimmen
-(0,5 = Median). Dann durch die Historie laufen und zählen, <strong>wie lange der Indikator am Stück auf
-derselben Seite dieser Schwelle bleibt</strong>. Die Laufzeiten werden in Bins gezählt
-(1, 2, 4, 8, …, 512, &gt;512 Bars). Viele lange Läufe = gefährliches Wandern.</p>
-<p>Masters' Beispiel (OEX, Lookback 100, Median):</p>
+wandert, macht Modelle in genau diesen Phasen unbrauchbar oder legt sie still. (Nur in einem
+Sonderfall ist das erwünscht: wer mehrere komplementäre Systeme betreibt, freut sich, wenn sie
+sich abwechseln. Masters nennt das ausdrücklich die Ausnahme, nicht die Regel.)</p>
+<p>Die daraus folgende Backtest-Falle: hervorragende Performance über einen <strong>günstigen Teilabschnitt</strong>
+der Historie, mittelmäßige überall sonst. Daher: <strong>immer die Equity-Kurve ansehen</strong>, nicht nur die
+Gesamtkennzahl — und besonders misstrauisch werden, wenn die gute Phase lange zurückliegt und die
+jüngste Performance nachlässt. Und: Indikatoren plotten. <em>„You may be amazed at what you see."</em></p>
+<p>Der zugrunde liegende Wunsch: <em>dass die Marktbedingungen sich während der Entwicklungs- und
+Testperiode oft genug ändern, damit alle möglichen Bedingungen vertreten sind.</em></p>
+<h3 id="statn-gap-analyse">STATN: Gap-Analyse</h3>
+<p>Statt eines Tests eine Messgröße. Aufruf: <code>STATN Lookback Fractile Version Filename</code>.</p>
+<p>Vorgehen: Trend (Steigung der Kleinste-Quadrate-Geraden) und Volatilität (Average True Range) über
+die Historie berechnen, das Quantil zur angegebenen Fraktile bestimmen (0,5 = Median), dann
+zählen, <strong>wie lange der Indikator am Stück auf derselben Seite dieser Schwelle bleibt</strong>. Die
+Lauflängen werden in 11 Bins gezählt: 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, &gt; 512.</p>
+<pre><code class="language-python">def gap_analyze(x, thresh, gap_sizes=(1,2,4,8,16,32,64,128,256,512)):
+    &quot;&quot;&quot;zaehlt Lauflaengen auf derselben Seite von thresh&quot;&quot;&quot;
+    counts = [0] * (len(gap_sizes) + 1)
+    count  = 1
+    above  = x[0] &gt;= thresh
+    for i in range(1, len(x) + 1):
+        new_above = (not above) if i == len(x) else (x[i] &gt;= thresh)  # Array-Ende = Wechsel
+        if new_above == above:
+            count += 1
+        else:
+            j = next((j for j, g in enumerate(gap_sizes) if count &lt;= g), len(gap_sizes))
+            counts[j] += 1
+            count = 1
+            above = new_above
+    return counts
+</code></pre>
+<p>Der <code>Version</code>-Parameter steuert die Transformation und damit den benötigten Gesamt-Lookback:</p>
+<pre><code>version == 0 : full_lookback = lookback
+               trend[i] = slope(lookback, close+k)
+version == 1 : full_lookback = 2 · lookback
+               trend[i] = slope(lookback, close+k) − slope(lookback, close+k−lookback)
+version  &gt; 1 : full_lookback = version · lookback
+               trend[i] = slope(lookback, close+k) − slope(full_lookback, close+k)
+
+mit  k = full_lookback − 1 + i      und   nind = nprices − full_lookback + 1
+</code></pre>
+<p>Quantil-Index: <code>k = int(fractile · (nind+1)) − 1</code>, auf ≥ 0 begrenzt.</p>
+<h3 id="messergebnis-oex-lookback-100-fraktile-05">Messergebnis (OEX, Lookback 100, Fraktile 0,5)</h3>
 <table>
 <thead>
 <tr>
 <th>Gap</th>
-<th>roh</th>
-<th>Version 1</th>
-<th>Version 3</th>
+<th>Trend v0</th>
+<th>Trend v1</th>
+<th>Trend v3</th>
+<th>Vola v0</th>
+<th>Vola v1</th>
+<th>Vola v3</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Trend</strong> 256</td>
+<td>1</td>
+<td>3</td>
+<td>1</td>
+<td>0</td>
+<td>13</td>
+<td>41</td>
+<td>19</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>1</td>
+<td>0</td>
+<td>6</td>
+<td>13</td>
+<td>6</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>9</td>
+<td>13</td>
+</tr>
+<tr>
+<td>8</td>
+<td>5</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>8</td>
+<td>6</td>
+</tr>
+<tr>
+<td>16</td>
+<td>4</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>9</td>
+<td>4</td>
+</tr>
+<tr>
+<td>32</td>
+<td>14</td>
+<td>2</td>
+<td>12</td>
+<td>2</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>64</td>
+<td>22</td>
+<td>14</td>
+<td>25</td>
+<td>3</td>
+<td>12</td>
+<td>8</td>
+</tr>
+<tr>
+<td>128</td>
+<td>29</td>
+<td>54</td>
+<td>33</td>
+<td>5</td>
+<td>25</td>
+<td>10</td>
+</tr>
+<tr>
+<td>256</td>
 <td>18</td>
 <td>15</td>
 <td>21</td>
-</tr>
-<tr>
-<td><strong>Trend</strong> 512</td>
-<td>3</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr>
-<td><strong>Volatilität</strong> 256</td>
 <td>9</td>
 <td>23</td>
 <td>18</td>
 </tr>
 <tr>
-<td><strong>Volatilität</strong> 512</td>
+<td>512</td>
+<td>3</td>
+<td>1</td>
+<td>1</td>
 <td>2</td>
 <td>5</td>
 <td>9</td>
 </tr>
 <tr>
-<td><strong>Volatilität</strong> &gt;512</td>
+<td>&gt; 512</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
 <td><strong>6</strong></td>
 <td>0</td>
 <td>1</td>
 </tr>
 </tbody>
 </table>
-<p>Der rohe Trendindikator bleibt dreimal über 256 Bars (mehr als zwei Jahre) auf derselben
-Median-Seite; die Volatilität sechsmal über 512 Bars. „Volatility generally has extreme
-nonstationarity."</p>
+<p>Lesarten:</p>
+<ul>
+<li>Der <strong>rohe Trend</strong> bleibt dreimal über 256 Bars (mehr als zwei Jahre) auf derselben
+  Median-Seite; beide Transformationen drücken das auf einmal.</li>
+<li>Die <strong>rohe Volatilität</strong> bleibt <strong>sechsmal über 512 Bars</strong> hängen — die Transformationen
+  beseitigen das fast vollständig, verschlechtern dafür aber die nächstniedrigere Stufe.
+  <em>„Volatility generally has extreme nonstationarity."</em></li>
+</ul>
 <h3 id="drei-reparaturen-in-aufsteigender-harte">Drei Reparaturen, in aufsteigender Härte</h3>
-<ol>
-<li><strong>Oszillieren gegen den eigenen Lag</strong> (Version 1): <code>Indikator(t) − Indikator(t − lookback)</code>.
-   Wirkt am stärksten, verwirft aber die meiste Information über den <em>absoluten</em> Wert.</li>
-<li><strong>Kurz minus lang</strong> (Version &gt;1): denselben Indikator mit kurzem und langem Lookback rechnen
-   und subtrahieren. Kompromiss — über die Länge des zweiten Lookbacks lässt sich der
-   Trade-off feinsteuern (langer Lookback = mehr Absolutinformation erhalten, weniger
-   Stationaritätsgewinn).</li>
-<li><strong>Rollendes Fenster normieren</strong>: laufenden Mittelwert (bzw. Median bei Ausreißern) abziehen
-   und durch die laufende Standardabweichung (bzw. Interquartilsabstand) teilen. Kurzes Fenster =
-   nahezu erzwungene Stationarität bei fast vollständigem Verlust der Absolutinformation.</li>
-</ol>
+<p><strong>1. Oszillieren gegen den eigenen Lag</strong> (Version 1)</p>
+<pre><code>neu(t) = Indikator(t) − Indikator(t − lookback)
+</code></pre>
+<p>Wirkt am stärksten, verwirft aber die meiste Information über den <em>absoluten</em> Wert.</p>
+<p><strong>2. Kurzer minus langer Lookback</strong> (Version &gt; 1)</p>
+<pre><code>neu(t) = Indikator(t, lookback) − Indikator(t, version · lookback)
+</code></pre>
+<p>Kompromiss — über die Länge des zweiten Lookbacks fein steuerbar: längerer zweiter Lookback =
+mehr Absolutinformation erhalten, weniger Stationaritätsgewinn.</p>
+<p><strong>3. Rollendes Fenster normieren</strong> (extreme, kontrollierbare Induktion)</p>
+<pre><code>Zentrierung:  neu(t) = x(t) − mean(x[t−w … t])       bzw. − median(...) bei Ausreissern
+Skalierung:   neu(t) = neu(t) / std(x[t−w … t])      bzw. / IQR(...)   bei Ausreissern
+</code></pre>
+<p>Kurzes Fenster <code>w</code> = nahezu erzwungene Stationarität bei fast vollständigem Verlust der
+Absolutinformation; langes Fenster = umgekehrt.</p>
 <p>Masters' Erfahrung: der <strong>relative</strong> Wert trägt meistens <em>mehr</em> Vorhersagekraft als der absolute —
-aber nicht immer, der Trade-off bleibt bewusst zu treffen.</p>
-<h2 id="entropie">Entropie</h2>
-<p>Shannons Informationsmaß, angewandt auf Indikatoren: <code>H(X) = −Σ p(x)·log p(x)</code>.
-Maximal ist <code>H</code> bei Gleichverteilung, dann gilt <code>H = log(K)</code>. Interessant ist deshalb die
-<strong>relative Entropie</strong> <code>H(X)/log(K)</code> zwischen 0 und 1.</p>
-<p>Berechnung: den <strong>gesamten Wertebereich</strong> in gleich <strong>breite</strong> Bins teilen (nicht gleich <em>volle</em>
-— das gäbe immer 1), Anteile zählen, einsetzen, durch <code>log(nbins)</code> teilen. Bei mehreren tausend
-Datenpunkten sind ~20 Bins sinnvoll. <strong>Warnsignal:</strong> Ändert sich die Entropie bei leicht
-veränderter Bin-Zahl stark, stimmt etwas mit den Daten oder dem Indikator nicht — Histogramm
-ansehen.</p>
-<p>Masters' Schwelle: <strong>relative Entropie ≥ 0,5</strong>, unter 0,1 ist ernsthaft reparaturbedürftig.</p>
-<p>Warum das praktisch zählt: niedrige Entropie korreliert stark mit schlechter Modelltrainierbarkeit.
-Zwei typische Ursachen:</p>
+aber nicht immer; der Trade-off ist bewusst zu treffen.</p>
+<h2 id="teil-2-entropie">Teil 2 — Entropie</h2>
+<p>Shannons Informationsmaß auf Indikatoren angewandt:</p>
+<pre><code>(2-1)  H(X) = − Σ_{x ∈ χ} p(x) · log p(x)          mit 0·log 0 := 0
+
+       H ist maximal bei Gleichverteilung, dann gilt H = log K
+       relative Entropie  =  H(X) / log K           ∈ [0, 1]
+</code></pre>
+<p>Analogie, mit der Masters das herleitet: 1.024 Lose, eines davon meins. Vor der Nachricht habe ich
+<code>log₂ 1024 = 10</code> Bit Unsicherheit. Nachricht „gewonnen" (p = 1/1024) hat den Wert
+<code>−log(1/1024) = 6,93 nats</code>; Nachricht „nicht gewonnen" nur <code>−log(1023/1024) = 0,00098 nats</code>.
+Erwartungswert = <code>1/1024 · 6,93 + 1023/1024 · 0,00098 = 0,0077 nats</code> — <strong>das ist die Entropie</strong>.
+(Mit natürlichem Logarithmus heißt die Einheit <em>nat</em> statt <em>bit</em>.)</p>
+<h3 id="berechnung">Berechnung</h3>
+<p>Den <strong>gesamten Wertebereich</strong> in gleich <strong>breite</strong> Bins teilen — nicht in gleich <strong>volle</strong>, das
+ergäbe immer 1.</p>
+<pre><code class="language-python">def entropy(x, nbins=20):
+    minval, maxval = float(np.min(x)), float(np.max(x))
+    factor = (nbins - 1e-10) / (maxval - minval + 1e-60)
+    idx    = ((x - minval) * factor).astype(int)
+    counts = np.bincount(idx, minlength=nbins)
+    p      = counts[counts &gt; 0] / len(x)
+    return float(-(p * np.log(p)).sum() / np.log(nbins))
+</code></pre>
+<p>Die beiden Konstanten sind kein Zierrat: <code>−1e-10</code> im Zähler verhindert, dass der Maximalwert in
+einen nicht existierenden Bin hinter dem letzten fällt; <code>+1e-60</code> im Nenner verhindert Division
+durch null, falls alle Werte gleich sind.</p>
+<p><strong>Bin-Zahl:</strong> bei mehreren tausend Datenpunkten ~20. Nicht kritisch — <strong>aber</strong>: ändert sich die
+Entropie bei leicht veränderter Bin-Zahl stark, stimmt etwas mit den Daten oder dem Indikator
+nicht. <em>„Plot a histogram!"</em></p>
+<p><strong>Masters' Schwellen:</strong></p>
+<pre><code>relative Entropie ≥ 0,5     brauchbar (sein persoenlicher Mindestanspruch)
+                  &lt; 0,5     verdaechtig
+                  &lt; 0,1     ernsthaft reparaturbeduerftig
+</code></pre>
+<h3 id="warum-das-praktisch-zahlt">Warum das praktisch zählt</h3>
+<p>Niedrige Entropie korreliert stark mit schlechter Modelltrainierbarkeit, weil hohe Entropie
+ungefähr gleichmäßige Verteilung über den Wertebereich bedeutet — und die meisten Trainingsverfahren
+arbeiten damit am besten. Zwei typische Ursachen:</p>
 <ul>
 <li><strong>Ausreißer.</strong> Ein einzelner Extremwert zieht die Entscheidungsgrenze eines Klassifikators zu
-  sich hin und verdirbt die Trennung der übrigen Fälle — auch bei nichtlinearen Modellen.</li>
-<li><strong>Klumpung.</strong> Eine exogene Bedingung verschiebt die Hälfte der Fälle um einen festen Offset
-  (Werte um 1,0 vs. um 100,0). Das Modell fokussiert dann auf die Clusterzugehörigkeit statt auf
-  die eigentliche Information.</li>
+  sich hin und verdirbt die Trennung der übrigen Fälle. Betrifft auch nichtlineare Modelle mit
+  gekrümmter Grenze.</li>
+<li><strong>Klumpung.</strong> Eine exogene, mit der Vorhersage nichts zu tun habende Bedingung verschiebt die
+  Hälfte der Fälle um einen festen Offset (Werte um 1,0 vs. um 100,0), obwohl der Indikator
+  <em>innerhalb</em> jeder Gruppe exzellent funktioniert. Das Modell fokussiert dann auf die
+  Clusterzugehörigkeit. „The result would not be pretty."</li>
 </ul>
-<p>Wichtige Einschränkung: Entropie misst <strong>Informationsmenge</strong>, nicht Relevanz. Ein Indikator kann
-hochentrop sein und trotzdem nichts über die gesuchte Zielgröße sagen. Umgekehrt gilt aber: wenig
-Entropie ⇒ wahrscheinlich wenig Wert. Entropie ist eine <strong>obere Schranke</strong>.</p>
-<h3 id="entropie-verbessern">Entropie verbessern</h3>
-<p>Grundregel: jede Umformung muss <strong>monoton</strong> sein (ordnungserhaltend). Sonst geht die Eigenschaft
-verloren, dass eine trennende Schwelle vor der Transformation auch danach existiert. <strong>Truncation
-(Kappen auf einen Grenzwert) verletzt genau das und ist deshalb schlecht.</strong></p>
-<ul>
-<li>Division durch etwas, das klein werden kann → grundsätzlich riskant.</li>
-<li>Nur rechtes Ende schwer: Wurzel/Kubikwurzel, bei schweren Fällen Log.</li>
-<li>Beide Enden schwer: Kubikwurzel.</li>
-<li>Extrem schwere Enden: <code>tanh</code> oder Logistik (vorher passend skalieren; bei Logistik danach 0,5
-  abziehen).</li>
-<li>Passende theoretische Verteilung vorhanden: deren CDF anwenden (Normal-CDF bei
-  glockenähnlichen Oszillatoren, F-CDF bei Varianzverhältnissen).</li>
-<li>Brute Force bei Klumpung: Stichprobe sortieren, jeder Wert wird durch die Anzahl der
-  kleiner-gleichen Elemente ersetzt (Binärsuche), durch <code>n</code> teilen, 0,5 abziehen → Bereich
-  −0,5…0,5, relative Entropie fast 1.</li>
-<li>Wenn Extremwerte <em>bedeutsam</em> sind, aber nicht zu extrem sein sollen: erst gleichverteilt
-  transformieren, dann die <strong>inverse Normal-CDF</strong> anwenden — moderate Enden bleiben erhalten.</li>
-</ul>
-<h3 id="monotones-tail-cleaning">Monotones Tail-Cleaning</h3>
-<p>Für den häufigen Fall „Verteilung ist okay, nur gelegentliche Ausreißer stören":</p>
+<p><strong>Zwei Einschränkungen:</strong></p>
 <ol>
-<li>Daten sortieren, <code>cover = 1 − 2·tail_frac</code> (typisch <code>tail_frac</code> 0,01–0,1).</li>
-<li>Über alle zusammenhängenden Fenster dieser Abdeckung laufen und das mit der <strong>kleinsten
-   Spannweite</strong> suchen → <code>minval</code>, <code>maxval</code>. Alles außerhalb ist per Definition „Tail".</li>
-<li>Nur die Tails umformen, monoton und mit begrenztem Überstand:
-   <code>limit = (maxval − minval)·(1 − cover)</code>, <code>scale = −1/(maxval − minval)</code>
-   - links: <code>x = minval − limit·(1 − exp(scale·(minval − x)))</code>
-   - rechts: <code>x = maxval + limit·(1 − exp(scale·(x − maxval)))</code></li>
+<li>Entropie misst <strong>Informationsmenge</strong>, nicht Relevanz. Ein Indikator kann hochentrop sein und
+   trotzdem nichts über die gesuchte Zielgröße sagen (er sagt vielleicht perfekt die Volatilität
+   voraus, während man die Richtung sucht). Umgekehrt gilt aber: wenig Entropie ⇒ wahrscheinlich
+   wenig Wert. <strong>Entropie ist eine obere Schranke.</strong></li>
+<li>Es <em>kann</em> vorkommen, dass eine entropie-erhöhende Umformung die Performance verschlechtert.
+   Masters nennt das eine ungewöhnliche Ausnahme — „in the vast majority of situations, increasing
+   the entropy of an indicator significantly improves its performance".</li>
 </ol>
-<p>Der Innenbereich bleibt <strong>unverändert</strong>, die Ordnung bleibt erhalten.</p>
-<p>Wirkung im <code>ENTROPY</code>-Programm auf S&amp;P 500 (20 Bins):</p>
+<h3 id="entropie-verbessern">Entropie verbessern</h3>
+<p><strong>Grundregel: jede Umformung muss monoton (ordnungserhaltend) sein.</strong> Sonst geht die Eigenschaft
+verloren, dass eine trennende Schwelle vor der Transformation auch danach existiert.
+<strong>Truncation (Kappen auf einen Grenzwert) verletzt genau das und ist deshalb schlecht</strong> — obwohl
+sie das Ausreißerproblem scheinbar löst.</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Empfehlung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Division durch etwas, das klein werden kann</td>
+<td>grundsätzlich riskant — Indikator neu denken</td>
+</tr>
+<tr>
+<td>nur rechtes Ende schwer, moderat</td>
+<td>Wurzel oder Kubikwurzel</td>
+</tr>
+<tr>
+<td>nur rechtes Ende schwer, extrem</td>
+<td>Logarithmus</td>
+</tr>
+<tr>
+<td>beide Enden schwer</td>
+<td>Kubikwurzel</td>
+</tr>
+<tr>
+<td>beide Enden extrem schwer</td>
+<td><code>tanh(x)</code> oder <code>logistic(x)</code>, vorher passend skalieren</td>
+</tr>
+<tr>
+<td>passende theoretische Verteilung bekannt</td>
+<td>deren CDF (Normal-CDF bei glockenähnlichen Oszillatoren; F-CDF bei Varianzverhältnissen)</td>
+</tr>
+<tr>
+<td>Klumpung, mehrere Cluster, evtl. plus schwere Enden</td>
+<td>Rang-Transformation (unten)</td>
+</tr>
+<tr>
+<td>Extremwerte sind <em>bedeutsam</em>, aber stören das Training</td>
+<td>erst gleichverteilt, dann inverse Normal-CDF</td>
+</tr>
+</tbody>
+</table>
+<pre><code>(2-2)  tanh(x)     = (eᵗ − e⁻ᵗ) / (eᵗ + e⁻ᵗ)
+(2-3)  logistic(x) = 1 / (1 + e⁻ˣ)          ← danach 0,5 abziehen, zentriert bei null
+</code></pre>
+<p><strong>Rang-Transformation (Brute Force, sehr wirksam):</strong> Stichprobe sortiert vorhalten; ein Wert wird
+per Binärsuche eingeordnet und durch die Anzahl der kleiner-gleichen Elemente ersetzt. Dann durch
+<code>n</code> teilen und 0,5 abziehen → Bereich −0,5 … 0,5, relative Entropie nahe 1. Funktioniert am besten
+bei großer, repräsentativer Stichprobe mit wenigen Bindungen.</p>
+<p><strong>Extremwerte erhalten, aber zähmen:</strong> erst irgendeine Transformation auf nahezu Gleichverteilung,
+dann <strong>inverse Normal-CDF</strong> anwenden. Ergebnis: Glockenform — die Masse liegt innen, es gibt noch
+Ausläufer, aber keine trainingsschädlichen.</p>
+<h3 id="monotones-tail-cleaning">Monotones Tail-Cleaning</h3>
+<p>Für den häufigen Fall „Verteilung ist okay, nur gelegentliche Ausreißer stören". Auch geeignet für
+die <strong>Zielvariable</strong>, wenn man deren Werte möglichst wenig verzerren will.</p>
+<pre><code>cover = 1 − 2 · tail_frac                     tail_frac typisch 0,01 … 0,1
+Daten sortieren; ueber alle zusammenhaengenden Fenster mit  int(cover·(n+1))  Faellen laufen
+und dasjenige mit der KLEINSTEN Spannweite suchen → minval, maxval
+
+limit = (maxval − minval) · (1 − cover)
+scale = −1 / (maxval − minval)
+
+x &lt; minval :  x' = minval − limit · (1 − exp( scale · (minval − x) ))
+x &gt; maxval :  x' = maxval + limit · (1 − exp( scale · (x − maxval) ))
+sonst      :  x' = x                                   ← Innenbereich bleibt UNVERAENDERT
+</code></pre>
+<pre><code class="language-python">def clean_tails(raw, tail_frac=0.05):
+    x     = np.asarray(raw, dtype=float).copy()
+    n     = len(x)
+    cover = 1.0 - 2.0 * tail_frac
+    w     = np.sort(x)
+
+    istop = min(int(cover * (n + 1)) - 1, n - 1)
+    best, bs, be = np.inf, 0, istop
+    for a in range(0, n - istop):                 # jedes moegliche Fenster testen
+        rng = w[a + istop] - w[a]
+        if rng &lt; best:
+            best, bs, be = rng, a, a + istop
+
+    minval, maxval = w[bs], w[be]
+    if maxval &lt;= minval:                          # seltener Pathologiefall
+        maxval *= 1 + 1e-10
+        minval *= 1 - 1e-10
+
+    limit = (maxval - minval) * (1.0 - cover)
+    scale = -1.0 / (maxval - minval)
+    lo = x &lt; minval
+    hi = x &gt; maxval
+    x[lo] = minval - limit * (1.0 - np.exp(scale * (minval - x[lo])))
+    x[hi] = maxval + limit * (1.0 - np.exp(scale * (x[hi] - maxval)))
+    return x
+</code></pre>
+<p>Die Konstruktion erfüllt drei Eigenschaften, die Masters explizit nachzuprüfen bittet: <code>limit</code>
+begrenzt den Überstand der transformierten Randwerte; die Werte <strong>bei</strong> <code>minval</code>/<code>maxval</code> und alles
+dazwischen bleiben unverändert; die Abbildung ist monoton. (<code>limit</code> als
+<code>(maxval−minval)·(1−cover)</code> ist Masters' eigene Heuristik — „feel free to disagree".)
+<code>scale</code> normiert auf die Datenskala, das Verfahren ist damit einheitenunabhängig.</p>
+<p>Die Suche nach dem Fenster <strong>kleinster Spannweite</strong> ist der Clou: sie definiert „Tail" datengetrieben
+als das, was außerhalb des dichtesten Bereichs liegt — statt über feste Perzentile.</p>
+<h3 id="messergebnis-entropy-auf-sp-500-20-bins">Messergebnis (ENTROPY auf S&amp;P 500, 20 Bins)</h3>
+<p>Aufruf: <code>ENTROPY Lookback Nbins Version Filename</code>.</p>
 <table>
 <thead>
 <tr>
@@ -295,42 +526,55 @@ verloren, dass eine trennende Schwelle vor der Transformation auch danach existi
 </thead>
 <tbody>
 <tr>
-<td>Trend</td>
+<td><em>Trend</em> (log-Preisänderung/Bar, Kleinste-Quadrate)</td>
 <td>0,580</td>
 <td>0,483</td>
 </tr>
 <tr>
-<td>Volatilität</td>
+<td><em>Volatility</em> (ATR, Standarddefinition)</td>
 <td>0,639</td>
 <td>0,559</td>
 </tr>
 <tr>
-<td>Expansion (absichtlich schlecht: Range-Verhältnis)</td>
+<td><em>Expansion</em> (absichtlich schlecht: Range-Verhältnis)</td>
 <td>0,461</td>
 <td><strong>0,000</strong></td>
 </tr>
 <tr>
-<td>RawJump</td>
+<td><em>RawJump</em> (Close vs. exponentiell geglätteter Close)</td>
 <td>0,484</td>
 <td>0,395</td>
 </tr>
 <tr>
-<td><strong>CleanedJump</strong> (RawJump + 5 %-Tail-Cleaning)</td>
+<td><strong><em>CleanedJump</em></strong> (RawJump + 5 %-Tail-Cleaning)</td>
 <td><strong>0,958</strong></td>
 <td><strong>0,952</strong></td>
 </tr>
 </tbody>
 </table>
-<p>Zwei Lehren: ein instabiles <strong>Verhältnis</strong> als Indikator kann bei kurzem Lookback komplett
-kollabieren (0,000) — und reines Tail-Cleaning der äußeren 5 % hebt denselben Indikator von
-„schlecht" auf „exzellent", ohne sonst irgendetwas zu ändern.</p>
+<p>Drei Lehren:</p>
+<ol>
+<li>Trend und Volatilität sind gerade noch akzeptabel und bräuchten etwas Nachbearbeitung —
+   „something gentle would likely do".</li>
+<li>Ein instabiles <strong>Verhältnis</strong> als Indikator (<code>Expansion</code> = jüngere Preis-Range geteilt durch
+   ältere) <strong>kollabiert bei kurzem Lookback vollständig auf 0,000</strong>. Das ist Masters' Musterbeispiel
+   dafür, wie man einen Indikator <em>nicht</em> baut — und dafür, dass die Entropie diesen Defekt
+   sichtbar macht.</li>
+<li>Reines Tail-Cleaning der äußeren 5 % hebt denselben Indikator von „schlecht" (0,484) auf
+   „exzellent" (0,958), <strong>ohne sonst irgendetwas zu ändern</strong>.</li>
+</ol>
 <h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
 <p><code>tools/analyze_ohlc.py</code> erzeugt Detektorausgaben (FVG-Größe, Displacement-Stärke,
 Sweep-Penetration, Macro-Expansion), die faktisch Indikatoren sind — geprüft wurde bisher weder
 Stationarität noch Entropie. Besonders relevant, weil mehrere davon <strong>Verhältnisse</strong> oder
-Größenmaße mit gelegentlichen Extremwerten sind (News-Tage), also genau die Kategorie, für die
-Tail-Cleaning gedacht ist. Als Vorstufe zu <a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a>
-(ATR-adaptive, also selbst schon stationaritätsbewusste Skalierung) einzuordnen.</p></div>
+Größenmaße mit gelegentlichen Extremwerten sind (News-Tage) — also genau die beiden Kategorien,
+die im <code>Expansion</code>- bzw. <code>RawJump</code>-Beispiel oben durchfallen.</p>
+<p>Konkret machbar ohne neue Abhängigkeiten: <code>entropy()</code> und <code>gap_analyze()</code> sind je ein Dutzend
+Zeilen Standardbibliothek/numpy und ließen sich als Prüfschritt an <code>backtest_ohlc.py</code> anhängen.</p>
+<p>Einzuordnen als Vorstufe zu <a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a> (ATR-adaptive,
+also selbst schon stationaritätsbewusste Skalierung) und als Vorarbeit für
+<a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a> — Masters' Reihenfolge ist
+eindeutig: <strong>erst Indikatorqualität, dann Modell.</strong></p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">5</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Indikator-Stationarität &amp; Entropie.md</code></footer>
 </article>

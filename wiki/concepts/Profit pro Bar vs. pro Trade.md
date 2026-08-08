@@ -1,5 +1,5 @@
 ---
-tags: [concept, algo-methodology, validation, kennzahlen]
+tags: [concept, algo-methodology, validation, kennzahlen, referenz]
 created: 2026-08-08
 updated: 2026-08-08
 sources: ["[[Testing and Tuning Market Trading Systems (Source)]]"]
@@ -9,82 +9,173 @@ sources: ["[[Testing and Tuning Market Trading Systems (Source)]]"]
 
 Auf welcher Granularität Performancekennzahlen berechnet werden, entscheidet über ihre
 Aussagekraft — und die branchenübliche Wahl (pro abgeschlossenem Trade) ist laut Masters die
-schlechteste. Aus [[Testing and Tuning Market Trading Systems (Source)]] (Kap. 6).
+schlechteste. Aus [[Testing and Tuning Market Trading Systems (Source)]] (Kap. 6, Programm
+`PER_WHAT.CPP`).
 
 ## Vier mögliche Renditearten
 
-1. **Nur Bars mit offener Position.** Masters' Favorit: feine Granularität, und
-   inhaltlich sinnvoll („was bekomme ich dafür, dass ich das Risiko einer offenen Position
-   trage?").
-2. **Alle Bars, auch Nullrenditen ohne Position.** Maximale Information — enthält zusätzlich,
-   *wie oft* man überhaupt im Markt ist. Nötig, wenn man selten-aber-treffsichere gegen
-   oft-aber-ungenaue Systeme abwägen will.
-3. **Blockweise gepoolt** (z.B. je 10 Bars, oder wochen-/monatsweise). Verliert Information und
-   Datenpunkte, verdünnt aber wilde Einzel-Bars und reduziert Zufall. Genau die Form, die man für
-   die Überwachung im Livebetrieb braucht — siehe
-   [[Grenzen für Einzelrenditen & Drawdown]].
-4. **Pro abgeschlossenem Trade (Round Turn).** Branchenstandard, weil intuitiv.
+| # | Renditeart | Eigenschaften |
+|---|---|---|
+| 1 | **nur Bars mit offener Position** | Masters' Favorit. Feine Granularität, inhaltlich sinnvoll: „was bekomme ich dafür, dass ich das Risiko einer offenen Position trage?" Basis der meisten Verfahren im Buch. |
+| 2 | **alle Bars**, auch Nullrenditen ohne Position | Maximale Information — enthält zusätzlich, *wie oft* man im Markt ist. Nötig, um selten-aber-treffsicher gegen oft-aber-ungenau abzuwägen. |
+| 3 | **blockweise gepoolt** (10 Bars, wöchentlich, monatlich) | Verliert Information und Datenpunkte, verdünnt aber wilde Einzel-Bars und reduziert Zufall. Die Form für die Live-Überwachung — siehe [[Grenzen für Einzelrenditen & Drawdown]]. |
+| 4 | **pro abgeschlossenem Trade** (Round Turn) | Branchenstandard, weil intuitiv. Für Statistik untauglich. |
+
+Zu Nr. 3: aus einer Handvoll einzelner Bar-Renditen lässt sich nichts ablesen; aus einer Handvoll
+Zehner-Blöcke schon etwas.
+
+Masters' Seitenhieb zu Nr. 4: die Verbreitung liegt auch daran, dass diese Darstellung Gewinne
+**und** Verluste übertreibt — „if a developer has a winning system, exaggeration is welcome, while
+if the developer has a losing system, we'll never see it."
 
 ## Warum Trade-Renditen für die Statistik untauglich sind
 
-**Datenverlust.** Dauert ein Trade im Schnitt 50 Bars, schrumpft die Stichprobe um Faktor 50.
-Der Unterschied zwischen 10 und 500 Datenpunkten ist statistisch gewaltig.
+**Datenverlust.** Dauert ein Trade im Schnitt 50 Bars, schrumpft die Stichprobe um Faktor 50. Der
+Unterschied zwischen 10 und 500 Datenpunkten ist statistisch gewaltig.
 
-**Informationsverlust.** Ein Long, der ruhig und stetig ins Ziel läuft, und einer, der zuerst
-weit ins Minus taucht und erst am Ende dreht, ergeben dieselbe Trade-Rendite — bei völlig
-verschiedenem Risiko.
+**Informationsverlust.** Ein Long, der ruhig und stetig ins Ziel läuft, und einer, der zuerst weit
+ins Minus taucht und erst am Ende dreht, ergeben **dieselbe** Trade-Rendite — bei völlig
+verschiedenem Risiko. Die Information über das, was *während* des Trades passiert, ist weg.
 
 **Und das trifft die Kennzahlen direkt.** Masters' Zahlenbeispiel für den Profit Factor:
-Zwei Trades, jeder intern mit 101 Punkten Gewinnbewegung und 100 Punkten Verlustbewegung,
-netto also je **+1 Punkt**.
 
-- Auf Trade-Basis: keine Verlusttrades → `(1+1)/0` = **unendlich**.
-- Auf Bar-Basis: `(101+101)/(100+100)` = **1,01** — praktisch wertlos.
+```
+Zwei Trades, jeder intern:  Gewinnbewegung 101 Punkte, Verlustbewegung 100 Punkte
+                            → netto je +1 Punkt, KEIN Verlusttrade
 
-Beim Sharpe Ratio gilt dasselbe: zwei Systeme können bei identischem Trade-Sharpe völlig
-verschiedene Bar-Sharpes haben, je nachdem wie viel Volatilität *innerhalb* der Trades steckt.
+Trade-Basis:  PF = (1 + 1) / 0                = ∞          ← "perfektes System"
+Bar-Basis:    PF = (101 + 101) / (100 + 100)  = 1,01       ← praktisch wertlos
+```
 
-**Systematischer Effekt:** Trade-basierte Kennzahlen sind praktisch immer **extremer** als
-bar-basierte — teils wegen der kleineren Stichprobe, teils weil die marktübliche Schwankung
-innerhalb eines Trades herausgemittelt wird. Extremer heißt hier: verführerischer.
+Beim **Sharpe Ratio** derselbe Mechanismus: zwei Systeme mit identischem Trade-Sharpe können
+völlig verschiedene Bar-Sharpes haben, je nachdem wie viel Volatilität *innerhalb* der Trades
+steckt — und der Bar-Wert ist der zutreffendere.
 
-> Masters' pragmatischer Rat: Für Präsentationen ruhig die Trade-Zahlen groß und fett
-> ausweisen — das macht jeder, man muss vergleichbar bleiben. Für die eigene Forschung sind sie
-> zu ignorieren.
+**Systematische Richtung:** Trade-basierte Kennzahlen sind praktisch **immer extremer** als
+bar-basierte. Zwei Ursachen: die kleinere Stichprobe destabilisiert, und die natürliche
+Marktschwankung innerhalb eines Trades wird herausgemittelt. Extremer heißt hier: verführerischer.
+
+> Masters' pragmatischer Rat: Für Präsentationen ruhig die Trade-Zahlen groß und fett ausweisen —
+> das macht jeder, man muss vergleichbar bleiben. *„But for your own internal research, ignore
+> those numbers. Look at the fine-granularity returns that make up the complete trades. That's
+> what counts."*
 
 ## Voraussetzung: Ein-Bar-Konversion
 
 Damit ein regelbasiertes System mit unbestimmter Haltedauer überhaupt Bar-Renditen liefert, wird
-es in eine Kette von Ein-Bar-Trades umgeschrieben (Algorithmus auf
-[[Walk-Forward Guard Buffer & Varianz-Inflation]]). Schreibt man den Backtest selbst, genügt es,
-pro Bar die Mark-to-Market-Rendite der offenen Position zu notieren.
+es in eine Kette von Ein-Bar-Trades umgeschrieben (vollständiger Algorithmus und Begründung auf
+[[Walk-Forward Guard Buffer & Varianz-Inflation]]). Schreibt man den Backtest selbst, genügt:
+
+```python
+if price[i] > thresh * ma[i]:      # Entry-Regel
+    position = 1
+elif price[i] < ma[i]:             # Exit-Regel
+    position = 0
+# sonst: Position unveraendert weiterfuehren
+ret = price[i+1] - price[i] if position else 0.0
+```
 
 Nebeneffekte: kein Guard Buffer mehr nötig, genauere Drawdown-Berechnung (entspricht täglichem
 Mark-to-Market) und die zwingende Voraussetzung für
 [[CSCV (Combinatorially Symmetric Cross Validation)]].
 
+## Die drei Renditearten in einem Durchlauf erzeugen
+
+`PER_WHAT.CPP`'s `comp_return()` — `ret_type` 0 = alle Bars, 1 = nur offene Position,
+2 = abgeschlossene Trades:
+
+```python
+def comp_return(ret_type, prices, istart, ntest, lookback, thresh, last_pos):
+    """Erste Entscheidung faellt auf dem LETZTEN Trainingsbar (istart-1);
+       deren Rendite ist der erste OOS-Wert."""
+    out            = []
+    position       = last_pos          # Position am Ende des Trainings — wichtig!
+    prior_position = 0                 # fuer 'complete': immer flat starten (kein Future Leak)
+    trial_thresh   = 1.0 + thresh
+    open_price     = None
+
+    for i in range(istart - 1, istart - 1 + ntest):
+        ma = prices[i - lookback + 1 : i + 1].mean()
+
+        if prices[i] > trial_thresh * ma:      # Entry
+            position = 1
+        elif prices[i] < ma:                   # Exit
+            position = 0
+        # sonst: Position beibehalten
+
+        ret = prices[i+1] - prices[i] if position else 0.0
+
+        if ret_type == 0:                                   # alle Bars
+            out.append(ret)
+        elif ret_type == 1:                                 # nur offene Position
+            if position:
+                out.append(ret)
+        else:                                               # abgeschlossene Trades
+            if position and not prior_position:
+                open_price = prices[i]                      # Trade geoeffnet
+            elif prior_position and not position:
+                out.append(prices[i] - open_price)          # Trade geschlossen
+            elif position and i == istart - 2 + ntest:      # am Datenende zwangsschliessen
+                out.append(prices[i+1] - open_price)
+
+        prior_position = position
+    return out
+```
+
+Drei Feinheiten, die im Original ausdrücklich kommentiert sind:
+
+- **`last_pos`** kommt aus dem Training. Feuert am ersten Testbar weder Entry- noch Exit-Regel,
+  läuft die Position aus dem Training weiter — realistisch, denn im Livebetrieb kennt man seine
+  Position. Ohne diesen Wert würde jeder Fold künstlich flat starten.
+- **`prior_position = 0`** bei `ret_type == 2`: der Eröffnungspreis muss **innerhalb** des
+  Testblocks liegen, sonst leckt Trainingsinformation in die Trade-Rendite.
+- Bei Systemen, die direkt von long auf short drehen oder mehrere Positionen halten, muss dieser
+  Block erweitert werden — die übliche Konvention ist „alter Trade zu, neuer Trade auf, selber
+  Bar", aber es gibt andere Buchhaltungen.
+
+**Blockweises Poolen** (Renditeart 3) geschieht nachgelagert aus `ret_type == 0`:
+
+```python
+crunch = 10
+grouped = [np.mean(r[i:i+crunch]) for i in range(0, len(r), crunch)]
+```
+
 ## Beim Training zusätzlich zu entscheiden
 
-Ein Detail aus dem `PER_WHAT`-Programm: Ob Bars **ohne** offene Position in das
-Optimierungskriterium eingehen (`all_bars`), macht für den Profit Factor keinen Unterschied, wohl
-aber für mittlere Rendite und Sharpe — dort wird die Kennzahl dadurch empfindlich dafür, wie oft
-das System überhaupt handelt. Abgeschlossene Trades werden im **Training** nie verwendet;
-Masters nennt das „a terrible approach because of massive information loss".
+Der `all_bars`-Schalter in `opt_params()`: Ob Bars **ohne** offene Position ins
+Optimierungskriterium eingehen.
+
+```
+all_bars = 0 :  nur Bars mit offener Position zaehlen
+all_bars = 1 :  alle Bars zaehlen (auch Nullrenditen)
+```
+
+- **Profit Factor:** kein Unterschied — Nullrenditen erhöhen weder Gewinn- noch Verlustsumme.
+- **Mittlere Rendite und Sharpe:** deutlicher Unterschied. Mit `all_bars = 1` wird die Kennzahl
+  empfindlich dafür, **wie oft** das System handelt: ein selten handelndes System wird bestraft.
+
+**Abgeschlossene Trades werden im Training nie verwendet** — Masters nennt das „a terrible
+approach because of massive information loss".
 
 ## Bezug zu diesem Projekt
 
-`algo/backtest_bt.py` und `algo/backtest_ensemble.py` rechnen über die `backtesting`-Bibliothek
-auf **Trade-Basis** — Profit Factor und Drawdown in
+`algo/backtest_bt.py` und `algo/backtest_ensemble.py` rechnen über die `backtesting`-Bibliothek auf
+**Trade-Basis**. Profit Factor, Win Rate und Drawdown in
 [[Ensemble-Strategie — Backtest-Ergebnis & Commission-Verzerrung (laufend)]] sind also genau die
 Sorte Zahl, vor der dieses Kapitel warnt. Bei den aktuellen Stichprobengrößen (Dutzende Trades)
 wiegt das doppelt.
 
-Konsequenz für künftige Reports: Bar-Renditen der offenen Positionen als zusätzliche
-Ausgabespalte mitführen und Profit Factor/Sharpe **zusätzlich** darauf berechnen. Ohne das sind
-weder [[Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)]] noch
-[[Grenzen für Einzelrenditen & Drawdown]] sinnvoll anwendbar — beide setzen viele, möglichst
-unabhängige Datenpunkte voraus.
+**Konkreter Umbau:** `stats._trades` liefert Entry-/Exit-Bar je Trade — daraus lässt sich eine
+Bar-für-Bar-Mark-to-Market-Serie rekonstruieren, ohne die Strategie anzufassen. Profit Factor und
+Sharpe **zusätzlich** darauf berechnen und beide Zahlen ausweisen.
+
+Ohne diesen Schritt sind drei weitere Verfahren nicht sinnvoll anwendbar, weil sie alle viele und
+möglichst unabhängige Datenpunkte brauchen:
+[[Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)]],
+[[Grenzen für Einzelrenditen & Drawdown]] und
+[[CSCV (Combinatorially Symmetric Cross Validation)]] (dort ist die Bar-Matrix sogar strukturelle
+Voraussetzung).
 
 Passt zu einer bereits im Vault stehenden Aussage: [[Vier-Stufen-Strategieentwicklung (Masters)]]
-verlangt Objective-Funktionen auf Bar-Granularität (Positions-Vektor × geshiftete Returns) —
-dies ist die ausführliche Begründung dafür.
+verlangt Objective-Funktionen auf Bar-Granularität (Positions-Vektor × geshiftete Returns) — dies
+ist die ausführliche Begründung dafür.

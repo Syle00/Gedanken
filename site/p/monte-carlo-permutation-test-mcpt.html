@@ -129,135 +129,344 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Monte Carlo Permutation Test (MCPT)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/how-i-develop-trading-strategies-source.html">How I Develop Trading Strategies (Source)</a>, <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">permutation</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/how-i-develop-trading-strategies-source.html">How I Develop Trading Strategies (Source)</a>, <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#der-bar-permutationsalgorithmus">Der Bar-Permutationsalgorithmus</a></li>
-<li><a href="#zwei-varianten">Zwei Varianten</a><ul>
-<li><a href="#in-sample-mcpt">In-Sample MCPT</a></li>
-<li><a href="#walk-forward-mcpt">Walk-Forward MCPT</a></li>
+<li><a href="#das-grundprinzip">Das Grundprinzip</a></li>
+<li><a href="#was-genau-getestet-wird-drei-verschiedene-objekte">Was genau getestet wird — drei verschiedene Objekte</a><ul>
+<li><a href="#1-fertig-spezifiziertes-system-auf-oos-daten">1. Fertig spezifiziertes System auf OOS-Daten</a></li>
+<li><a href="#2-der-trainingsprozess-die-wichtigste-anwendung">2. Der Trainingsprozess — die wichtigste Anwendung</a></li>
+<li><a href="#3-die-model-factory">3. Die „Model Factory"</a></li>
+<li><a href="#sonderfall-pradiktive-modelle">Sonderfall prädiktive Modelle</a></li>
 </ul>
 </li>
-<li><a href="#warum-nicht-einfach-auf-2020-testen">Warum nicht einfach "auf 2020 testen"?</a></li>
+<li><a href="#erweiterung-fur-selection-bias-solo-vs-unbiased-p-wert">Erweiterung für Selection Bias: Solo- vs. unbiased P-Wert</a></li>
+<li><a href="#die-permutationsalgorithmen">Die Permutationsalgorithmen</a><ul>
+<li><a href="#basis-vektor-korrekt-mischen-fisher-yates">Basis: Vektor korrekt mischen (Fisher-Yates)</a></li>
+<li><a href="#einfache-preisreihe">Einfache Preisreihe</a></li>
+<li><a href="#preis-bars-ohlc-vier-bedingungen">Preis-Bars (OHLC) — vier Bedingungen</a></li>
+<li><a href="#mehrere-markte-gleichzeitig">Mehrere Märkte gleichzeitig</a></li>
+</ul>
+</li>
 <li><a href="#bekannte-grenzen">Bekannte Grenzen</a></li>
-<li><a href="#erganzungen-aus-der-primarquelle-masters-kap-7">Ergänzungen aus der Primärquelle (Masters, Kap. 7)</a></li>
+<li><a href="#schwellen-und-umfang">Schwellen und Umfang</a></li>
+<li><a href="#warum-nicht-einfach-auf-2020-testen">Warum nicht einfach „auf 2020 testen"?</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
 </ul>
 </div>
 </details>
   <div class="content"><h1 id="monte-carlo-permutation-test-mcpt">Monte Carlo Permutation Test (MCPT)</h1>
-<blockquote>
-<p><strong>Nachtrag 2026-08-08:</strong> Die Primärquelle liegt inzwischen selbst im Vault —
-<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Masters, Kap. 7). Sie bestätigt den
-unten beschriebenen Algorithmus und ergänzt drei Punkte, die im neurotrader-Transkript fehlten:
-die Unterscheidung <strong>was</strong> getestet wird (fertiges System / Trainingsprozess / „Model Factory"),
-die <strong>Selection-Bias-Erweiterung</strong> (Solo-P-Wert vs. unbiased P-Wert) und die
-<strong>Return-Partitionierung</strong> in Skill/Trend/TrainingBias — alle drei auf
-<a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a>.</p>
-</blockquote>
 <p>Statistischer Test, ob das In-Sample- oder Walk-Forward-Ergebnis einer Handelsstrategie auf
 echten Mustern in den Daten beruht oder überwiegend auf <strong>Data-Mining-Bias</strong> — dem Effekt, dass
 eine Optimierung über mehrere Parameter-/Modellvarianten immer die zufällig beste findet, selbst
 wenn die zugrunde liegende Strategie wertlos ist. Nullhypothese: die Strategie ist wertlos, ihr
-gutes Ergebnis ist reines Optimierungsartefakt. Aus <a href="../p/how-i-develop-trading-strategies-source.html">How I Develop Trading Strategies (Source)</a>
-(neurotrader, nach Timothy Masters' <em>Permutation and Randomization Tests for Trading System
-Development</em>).</p>
+gutes Ergebnis ist reines Optimierungsartefakt.</p>
+<p>Zwei Quellen im Vault: <a href="../p/how-i-develop-trading-strategies-source.html">How I Develop Trading Strategies (Source)</a> (neurotrader-Transkript) und
+seit 2026-08-08 die Primärquelle <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a>
+(Masters, Kap. 7, Programme <code>MCPT_TRN.CPP</code>, <code>MCPT_BARS.CPP</code>, <code>CHOOSER.CPP</code>).</p>
 <blockquote>
-<p>Nicht zu verwechseln mit dem in <code>algo/validate.py</code> bereits als "Monte Carlo" bezeichneten
-Trade-Order-Resampling (Verfahren, das die Reihenfolge realer Trades mischt, um Rendite-/
-Drawdown-Verteilungen zu schätzen) — dieser Test hier mischt stattdessen die <strong>Preis-Bars
-selbst</strong>, bevor überhaupt optimiert wird. Zwei unterschiedliche Verfahren mit demselben
-umgangssprachlichen Namen im Ursprungsmaterial; im Code/<code>algo/</code>-Kontext dieses Vaults bewusst
-als <strong>Bar-Permutationstest</strong> bzw. MCPT von <code>validate.py</code>s Monte Carlo abgegrenzt (siehe
+<p>Nicht zu verwechseln mit dem in <code>algo/validate.py</code> bereits als „Monte Carlo" bezeichneten
+Trade-Order-Resampling (mischt die Reihenfolge realer Trades, um Rendite-/Drawdown-Verteilungen
+zu schätzen). Der Test hier mischt die <strong>Preis-Bars selbst</strong>, bevor überhaupt optimiert wird.
+Zwei unterschiedliche Verfahren mit demselben umgangssprachlichen Namen; im <code>algo/</code>-Kontext
+bewusst als <strong>Bar-Permutationstest</strong> abgegrenzt (siehe
 <code>docs/superpowers/specs/2026-08-08-algo-permutation-test-design.md</code>).</p>
 </blockquote>
-<h2 id="der-bar-permutationsalgorithmus">Der Bar-Permutationsalgorithmus</h2>
-<p>Ziel: eine synthetische Preisreihe erzeugen, die dieselben statistischen Eigenschaften hat wie
-die echte (Mean/Std/Skew/Kurtosis der Returns nahezu identisch, erster und letzter Preis exakt
-gleich — Gesamttrend bleibt erhalten), aber keine der zeitlichen Muster, auf die eine Strategie
-trainiert werden könnte.</p>
+<h2 id="das-grundprinzip">Das Grundprinzip</h2>
+<p>Wir führen die Aufgabe (Training oder Test) mit den Originaldaten in korrekter Reihenfolge aus,
+dann <code>m</code>-mal mit permutierten Daten. Legitime Fähigkeit verschwindet durch die Permutation, weil
+die vorhersagbaren Muster zerstört werden; Overfitting-Fähigkeit <strong>nicht</strong> — ein überangepasstes
+System findet auch im Rauschen „Muster".</p>
+<pre><code>p-value = (k + 1) / (m + 1)
+
+  m = Zahl der Permutationen
+  k = Zahl der Permutationen, deren Performance die Originalperformance ERREICHT ODER UEBERTRIFFT
+</code></pre>
+<p>Die <code>+1</code> in Zähler und Nenner ist kein Schönheitsfehler: der Originallauf zählt als einer der
+möglichen Ausgänge mit. Bei 9 Permutationen und dem Originallauf auf Platz 1 von 10 ist der
+P-Wert 0,1 — nicht 0.</p>
+<p>Streng korrektes Vorgehen: P-Wert-Schwelle <strong>vorab</strong> wählen (0,01 … 0,1), <code>m</code> so groß wählen, dass
+<code>(m+1)·p</code> ganzzahlig ist, <code>k</code> daraus lösen, und danach entscheiden.</p>
+<pre><code>fuer irep = 0 … nreps-1:
+    if irep &gt; 0: shuffle
+    performance berechnen
+    if irep == 0:
+        original_performance = performance
+        count = 1
+    else if performance &gt;= original_performance:
+        count += 1
+p-value = count / nreps
+</code></pre>
+<h2 id="was-genau-getestet-wird-drei-verschiedene-objekte">Was genau getestet wird — drei verschiedene Objekte</h2>
+<p>Masters' wichtigste Präzisierung gegenüber dem neurotrader-Material:</p>
+<h3 id="1-fertig-spezifiziertes-system-auf-oos-daten">1. Fertig spezifiziertes System auf OOS-Daten</h3>
+<p>Gemessen wird die OOS-Performance. <strong>Permutiert wird ausschließlich der OOS-Zeitraum.</strong></p>
+<p>Die Lookback-Bars davor dürfen <strong>nicht</strong> mitpermutiert werden: sie fließen im Originallauf nicht
+in die Performance ein. Wären sie ungewöhnlich (starker Trend, Volatilitätsspitze) und würden in
+den OOS-Bereich gemischt, verfälschten sie das Ergebnis gegenüber dem Original.</p>
+<p>Vorteil gegenüber t-Test und Bootstrap (<a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a>):
+<strong>keinerlei Verteilungsannahmen</strong>, und robuster gegen Verteilungsprobleme als der Bootstrap.</p>
+<h3 id="2-der-trainingsprozess-die-wichtigste-anwendung">2. Der Trainingsprozess — die wichtigste Anwendung</h3>
+<p>Gemessen wird die finale <strong>In-Sample</strong>-Performance nach vollständiger Reoptimierung, und zwar in
+<strong>jeder</strong> Permutation neu.</p>
+<p>Zwei Arten, wie ein System scheitern kann:</p>
+<ul>
+<li><strong>zu schwach</strong> — findet keine Muster. Fällt ohnehin früh auf, dafür braucht man keinen teuren
+  Test.</li>
+<li><strong>zu stark (Overfitting)</strong> — genau hier hilft der Test. Ein überangepasstes System erzeugt auch
+  auf permutierten Daten hervorragende IS-Ergebnisse, der Originallauf sticht also <strong>nicht</strong>
+  heraus. Masters' Beispiel für so ein System: optimierbare Lookbacks für mehrere gleitende
+  Durchschnitte <em>und</em> für die Volatilität <em>und</em> optimierbare Schwellen für deren Änderungen —
+  „astonishing performance in the training period and yet completely random trades out-of-sample."</li>
+</ul>
+<blockquote>
+<p><em>„Unless you get a small (0.05 or less) p-value, you should be suspicious of your system
+specification and optimization process."</em> — Masters nennt das eines der wertvollsten Werkzeuge
+in seinem Werkzeugkasten.</p>
+</blockquote>
+<h3 id="3-die-model-factory">3. Die „Model Factory"</h3>
+<p>Nicht ein System, sondern <strong>Systemidee + Optimierungsverfahren + OOS-Prüfung</strong> als Ganzes.
+Gemessen wird die gepoolte Walk-Forward-OOS-Performance. Fällt der P-Wert klein aus, darf man
+darauf vertrauen, dass die Fabrik mit aktuellen Daten ein brauchbares System produziert.</p>
+<p>Zwei Entscheidungen dabei:</p>
+<ul>
+<li><strong>Der erste Trainings-Fold muss von der Permutation ausgenommen werden</strong>, weil er im
+  Originallauf nie in einem OOS-Block auftaucht. Ob man ihn <em>für sich</em> permutiert, ist laut
+  Masters egal; er tut es, um mehr Varianz in die Trade-Entscheidungen zu bringen (sonst kann ein
+  aufwärts gerichteter Markt im ersten Fold systematisch Long-Übergewicht erzeugen und die
+  permutierte Performance aufblähen).</li>
+<li><strong>Alles nach dem ersten Fold in einem Rutsch permutieren</strong> (Masters' Praxis — er sucht
+  universelle Muster) <strong>oder je Fold getrennt</strong> (bewahrt lokale Marktcharakteristik, passend wenn
+  man sich adaptiv an wechselnde Bedingungen anpassen will). Rigorose Forschung dazu existiert
+  laut Autor nicht.</li>
+</ul>
+<h3 id="sonderfall-pradiktive-modelle">Sonderfall prädiktive Modelle</h3>
+<p>Bei Prädiktor-/Zielvariablen-Datensätzen ist die Reihenfolge egal — es zählt nur die <strong>Paarung</strong>.
+Permutiert wird durch Umsortieren der Ziele. Zwei Regeln:</p>
 <ol>
-<li>Preise pro Bar relativ zum eigenen Open ausdrücken (log-Skala): High/Low/Close als
-   prozentualer Offset vom Open dieser Bar, plus die Gap-Größe (Open relativ zum Close der
-   Vor-Bar).</li>
-<li>Die Bar-Indizes werden <strong>zweimal getrennt</strong> zufällig gemischt — einmal für die Intrabar-Werte
-   (High/Low/Close-Offsets), einmal für die Gaps. Getrennt, weil Gaps bei manchen Märkten (Krypto:
-   kaum vorhanden, da 24/7-Handel) ein anderes statistisches Verhalten haben als bei anderen
-   (Aktien/Futures mit Handelspause: Gap kann groß sein).</li>
-<li>Aus den gemischten relativen Werten werden die Bars sequenziell neu zusammengesetzt: jeder
-   Open = Close der vorigen (permutierten) Bar + gemischter Gap, dann High/Low/Close relativ zu
-   diesem neuen Open.</li>
-<li>Zurück auf die normale Preisskala exponenzieren.</li>
+<li><strong>Indikatoren dürfen nicht gegeneinander permutiert werden</strong>, nur gegen das Ziel. Sonst
+   entstehen unsinnige Kombinationen — Masters' Beispiel: S&amp;P-100-Trend stark aufwärts bei
+   gleichzeitig S&amp;P-500-Trend stark abwärts. Grundtenet des Permutationstests: <strong>jede Permutation
+   muss unter H₀ real gleich wahrscheinlich sein.</strong></li>
+<li><strong>Serielle Korrelation darf nicht in Prädiktoren <em>und</em> Ziel gleichzeitig vorliegen.</strong> In einem
+   von beiden ist unschädlich (man permutiert dann gedanklich das jeweils andere). In beiden
+   zerstört die Permutation eine reale Eigenschaft und erzeugt unmögliche Paarungen.
+   - Prädiktoren sind fast immer seriell korreliert (20-Bar-Trend teilt 19 Bars mit dem Nachbarn).
+   - Beim Ziel vermeidbar: <strong>Änderung</strong> der Volatilität statt Volatilität selbst. Aber Achtung:
+     überlappende Zeitfenster (täglich die Änderung über die kommenden fünf Tage) bringen die
+     Korrelation zurück.
+   - Diese Einschränkung ist nicht MCPT-spezifisch — sie gilt für nahezu alle Standardtests:
+     Abhängigkeit reduziert die effektiven Freiheitsgrade und macht Tests anti-konservativ.</li>
 </ol>
-<p>Ein <code>start_index</code>-Parameter erlaubt, nur einen Teil der Reihe zu permutieren (alles davor bleibt
-unverändert) — das macht den Algorithmus für den Walk-Forward-MCPT wiederverwendbar (siehe
-unten).</p>
-<h2 id="zwei-varianten">Zwei Varianten</h2>
-<h3 id="in-sample-mcpt">In-Sample MCPT</h3>
+<h2 id="erweiterung-fur-selection-bias-solo-vs-unbiased-p-wert">Erweiterung für Selection Bias: Solo- vs. unbiased P-Wert</h2>
+<p>Bei mehreren Konkurrenten (verschiedene Entwickler, oder derselbe Ansatz mit vielen
+Parametersätzen) reicht der P-Wert des Siegers nicht — man hat ihn ja <em>ausgewählt</em>, siehe
+<a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>. Testet man genug wertlose Systeme, hat garantiert eines Glück.</p>
+<pre><code>fuer irep = 0 … nreps-1:
+    if irep &gt; 0: shuffle
+    fuer jeden Konkurrenten k:
+        perf = Performance von k
+        if irep == 0:
+            original[k]        = perf
+            solo_count[k]      = 1
+            unbiased_count[k]  = 1
+        else if perf &gt;= original[k]:
+            solo_count[k] += 1
+    if irep &gt; 0:
+        best = max( Performance ALLER Konkurrenten in DIESER Permutation )
+        fuer jeden Konkurrenten k:
+            if best &gt;= original[k]:
+                unbiased_count[k] += 1
+
+solo_pval[k]     = solo_count[k]     / nreps
+unbiased_pval[k] = unbiased_count[k] / nreps
+</code></pre>
+<p>Der <code>solo_pval</code> ist identisch mit dem, was der Basisalgorithmus für dieses System einzeln liefern
+würde. Der <code>unbiased_pval</code> beantwortet: <em>Wenn alle Konkurrenten wertlos wären — wie wahrscheinlich
+wäre es, dass der </em><em>Beste</em><em> von ihnen so gut abschneidet wie das betrachtete System?</em></p>
+<ul>
+<li>Für den <strong>tatsächlichen Sieger</strong> ist das ein exakter Vergleich bester-gegen-besten und damit der
+  korrekte P-Wert.</li>
+<li>Für <strong>alle anderen</strong> ist er konservativ, also eine Obergrenze. Deshalb: <strong>jeder Konkurrent mit
+  kleinem <code>unbiased_pval</code> verdient ernsthafte Betrachtung</strong>, nicht nur der Sieger.</li>
+</ul>
+<h2 id="die-permutationsalgorithmen">Die Permutationsalgorithmen</h2>
+<h3 id="basis-vektor-korrekt-mischen-fisher-yates">Basis: Vektor korrekt mischen (Fisher-Yates)</h3>
+<pre><code>i = n
+while i &gt; 1:
+    j = int(unifrand() · i)      # j MUSS strikt kleiner als i sein
+    i -= 1
+    tausche indices[i] und indices[j]
+</code></pre>
+<p>Voraussetzung: <code>unifrand()</code> liefert <code>0.0 ≤ x &lt; 1.0</code> und <strong>nie exakt 1.0</strong>. Lässt sich das nicht
+garantieren, muss der Index abgefangen werden. Bei diesem Verfahren ist jede Permutation gleich
+wahrscheinlich; <code>j == i</code> (kein Tausch) ist ein zulässiger Ausgang.</p>
+<h3 id="einfache-preisreihe">Einfache Preisreihe</h3>
+<p>Preise darf man <strong>nicht</strong> direkt tauschen — man stelle sich eine Aktie vor, die bei 20 startet und
+bei 800 endet. Also: in Änderungen zerlegen, Änderungen mischen, Reihe neu aufbauen. Und weil
+Differenzen bei hohen Kursen größer sind als bei niedrigen, arbeitet man mit <strong>Verhältnissen</strong> —
+äquivalent: mit Differenzen der <strong>Log-Preise</strong>.</p>
+<pre><code class="language-python">def prepare_permute(log_prices):
+    return np.diff(log_prices)          # nc-1 Aenderungen
+
+def do_permute(log_prices, changes, rng):
+    &quot;&quot;&quot;log_prices[0] bleibt unveraendert; Rest wird neu aufgebaut.&quot;&quot;&quot;
+    rng.shuffle(changes)                # Fisher-Yates
+    out = np.empty_like(log_prices)
+    out[0] = log_prices[0]
+    out[1:] = log_prices[0] + np.cumsum(changes)
+    return out
+</code></pre>
+<p><strong>Der Trend bleibt exakt erhalten</strong>, weil derselbe Startpreis und dieselbe Menge an Änderungen
+verwendet wird — nur das Auf und Ab dazwischen ändert sich. Das ist Voraussetzung dafür, dass
+Long-/Short-Ungleichgewichte in <a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a>
+korrekt behandelt werden.</p>
+<h3 id="preis-bars-ohlc-vier-bedingungen">Preis-Bars (OHLC) — vier Bedingungen</h3>
+<p>Deutlich heikler. Vier Eigenschaften müssen erhalten bleiben:</p>
 <ol>
-<li>Strategie einmal auf den echten In-Sample-Daten optimieren → realer Objective-Wert (z.B.
-   Profit Factor).</li>
-<li>N Permutationen der gesamten Datenreihe erzeugen (<code>start_index=0</code>), Strategie auf jeder neu
-   optimieren → Verteilung von Objective-Werten, die eine wertlose Strategie durch reines
-   Data-Mining hätte erzielen können.</li>
-<li>P-Wert = Anteil der Permutationen mit Objective-Wert ≥ realem Wert.</li>
-<li>Schwelle im Quellmaterial: P &lt; 1%, mindestens 1.000 Permutationen (100 nur bei zu teurer
-   Optimierung als absolutes Minimum).</li>
+<li>Open und Close dürfen <strong>nie</strong> außerhalb von High/Low liegen.</li>
+<li>Die Verteilung von High und Low <strong>relativ zu Open/Close</strong> und ihre Spannweite muss erhalten
+   bleiben.</li>
+<li>Die Verteilung der <strong>Open-zu-Close</strong>-Änderungen muss erhalten bleiben.</li>
+<li>Die Verteilung der <strong>Inter-Bar-Gaps</strong> (Close → nächstes Open) muss erhalten bleiben.</li>
 </ol>
-<h3 id="walk-forward-mcpt">Walk-Forward MCPT</h3>
-<p>Wie oben, aber nur der Testzeitraum nach dem ersten Trainings-Fold wird permutiert
-(<code>start_index = train_window</code>), das Trainingsfenster bleibt echt — pro Permutation läuft der
-volle Walk-Forward (teuer, deshalb im Quellmaterial nur 200 statt 1.000 Permutationen). Schwelle:
-P &lt; 5% bei nur einem Jahr Testdaten, P &lt; 1% ab zwei oder mehr Jahren.</p>
-<h2 id="warum-nicht-einfach-auf-2020-testen">Warum nicht einfach "auf 2020 testen"?</h2>
-<p>Sobald Out-of-Sample-/Validierungsdaten einmal zum Vergleich mehrerer Strategie-Ideen benutzt
-wurden, sind sie nicht mehr wirklich "out of sample" — wählt man die beste von mehreren auf
-denselben Validierungsdaten getesteten Varianten, überfittet man effektiv die Validierungsdaten
-(<strong>Selection Bias</strong>), obwohl keine einzelne Variante direkt darauf trainiert wurde. Der MCPT
-verwirft schwache Ideen, bevor überhaupt Validierungsdaten "verbraucht" werden.</p>
+<p>Die ersten drei sind leicht: alles relativ zum Open der Bar ausdrücken und die Tripel
+(High, Low, Close) <strong>zusammenhalten</strong>. Punkt 4 ist die Falle.</p>
+<blockquote>
+<p><strong>Die Gap-Falle.</strong> Permutiert man naiv die Open-zu-Open-Änderungen, trifft regelmäßig ein großer
+permutierter Open-Sprung auf eine Bar mit großem Open-zu-Close-Verfall. Beispiel: Bar öffnet bei
+100, schließt bei 98 (realistisch). Das nächste Open <em>sollte</em> nahe 98 liegen, das permutierte
+Open ist aber 102 (für sich genommen ebenfalls realistisch). Ergebnis: ein Sprung von 98 auf 102
+<strong>zwischen</strong> zwei Bars — real nahezu unmöglich. <em>„The problems induced by this are not just
+theoretical; they will utterly destroy permutation testing of many trading systems."</em></p>
+</blockquote>
+<p>Lösung: Intra-Bar- und Inter-Bar-Änderungen <strong>getrennt</strong> mischen.</p>
+<pre><code class="language-python">def prepare_permute_bars(o, h, l, c):
+    &quot;&quot;&quot;alles LOG-Preise. Bar 0 ist die unveraenderte 'Basis'-Bar.&quot;&quot;&quot;
+    rel_open  = o[1:] - c[:-1]     # Gap: Close der Vorbar → Open
+    rel_high  = h[1:] - o[1:]      # Intrabar, relativ zum Open
+    rel_low   = l[1:] - o[1:]
+    rel_close = c[1:] - o[1:]
+    return rel_open, rel_high, rel_low, rel_close
+
+def do_permute_bars(o, h, l, c, rel, rng, preserve_OO=False):
+    rel_open, rel_high, rel_low, rel_close = rel
+    off = 1 if preserve_OO else 0
+    n   = len(rel_open)
+
+    rng.shuffle(rel_open[off:])                      # (A) Gaps getrennt mischen
+    idx = rng.permutation(n - off)                   # (B) Intrabar-Tripel GEMEINSAM mischen
+    rel_high[:n-off]  = rel_high[:n-off][idx]
+    rel_low[:n-off]   = rel_low[:n-off][idx]
+    rel_close[:n-off] = rel_close[:n-off][idx]
+
+    for i in range(1, len(o)):                       # (C) sequenziell neu aufbauen
+        o[i] = c[i-1] + rel_open[i-1]
+        h[i] = o[i]   + rel_high[i-1]
+        l[i] = o[i]   + rel_low[i-1]
+        c[i] = o[i]   + rel_close[i-1]
+    return o, h, l, c
+</code></pre>
+<p><strong><code>preserve_OO</code></strong>: Wer Trades konservativ auf dem <strong>Open der Folgebar</strong> ausführt und zusätzlich die
+Return-Partitionierung nutzt, muss den Gesamttrend über alle Permutationen exakt konstant halten.
+Dafür bleiben die <strong>erste Close-zu-Open-Änderung</strong> und die <strong>letzte Open-zu-Close-Änderung</strong> von
+der Permutation ausgenommen. Wirkung: das Open der zweiten Bar (erster möglicher Entry) und das
+Open der letzten Bar (letzter möglicher Exit) sind über alle Permutationen identisch. Masters
+nennt das „probably excessively cautious, but it's easy to do".</p>
+<p>Wichtig: die <strong>erste Bar</strong> und der <strong>Close der letzten Bar</strong> bleiben in jedem Fall unverändert.</p>
+<h3 id="mehrere-markte-gleichzeitig">Mehrere Märkte gleichzeitig</h3>
+<p>Referenziert ein System mehrere Märkte, müssen <strong>alle identisch permutiert</strong> werden, sonst
+entstehen Konstellationen (hochkorrelierte Märkte laufen gegeneinander), die es real nicht gäbe —
+und die Grundannahme „jede Permutation ist unter H₀ gleich wahrscheinlich" bricht.</p>
+<pre><code class="language-python">def do_permute_multi(data, changes, offset, rng):
+    &quot;&quot;&quot;data: nmkt × nc Matrix von Log-Preisen. offset &gt; 0.&quot;&quot;&quot;
+    nmkt, nc = data.shape
+    perm = rng.permutation(nc - offset)                  # EINE Permutation fuer alle Maerkte
+    for m in range(nmkt):
+        changes[m, offset:] = changes[m, offset:][perm]
+        for i in range(offset, nc):
+            data[m, i] = data[m, i-1] + changes[m, i]
+    return data
+</code></pre>
+<p>Regeln für den <code>offset</code>:</p>
+<ul>
+<li><code>offset</code> ist der Index des <strong>ersten Falls, der sich ändert</strong>; er muss positiv sein, weil der Fall
+  bei <code>offset−1</code> als „Basis" unverändert bleibt.</li>
+<li>Der Fall bei <code>nc−1</code> bleibt ebenfalls unverändert. Die gemischte Reihe <strong>beginnt und endet damit
+  auf den Originalpreisen</strong>, nur das Innere ändert sich.</li>
+<li>Werden mehrere Abschnitte getrennt permutiert, dürfen sie sich <strong>nicht überlappen</strong> — inklusive
+  des jeweiligen Basis-Falls. Beispiel: <code>offset=1, nc=5</code> verändert die Fälle 1–3; der nächste
+  Aufruf muss bei <code>offset ≥ 5</code> beginnen, Fall 4 gehört zu keinem von beiden.</li>
+</ul>
+<p><strong>Datenvoraussetzung:</strong> jeder Markt braucht zu jedem Datum einen Preis. Fehlt eines, muss der Bar
+bei allen Märkten entfernt werden:</p>
+<pre><code>alle Markt-Indizes auf 0, grand_index = 0
+Schleife:
+    max_date = groesstes Datum ueber die aktuellen Indizes aller Maerkte
+    jeden Markt vorruecken, bis sein Datum &gt;= max_date ist
+    stimmen ALLE Daten ueberein:
+        Datensatz an Position grand_index kopieren, alle Indizes und grand_index erhoehen
+    laeuft auch nur ein Markt aus: fertig
+n_cases = grand_index
+</code></pre>
+<p>In der Praxis verliert man bei breit gehandelten Märkten kaum Tage — an Feiertagen ruht alles,
+sonst handelt alles.</p>
 <h2 id="bekannte-grenzen">Bekannte Grenzen</h2>
 <ul>
-<li>Reale Preise sind kein reiner Random Walk — sie haben Volatility Clustering und Long Memory,
-  beide Eigenschaften werden durch die Permutation zerstört. Eine Strategie, die stark auf einer
-  dieser Eigenschaften beruht, kann den Test dadurch optimistisch verzerrt bestehen.</li>
+<li>Reale Preise sind kein reiner Random Walk — sie haben <strong>Volatility Clustering</strong> und
+  <strong>Long Memory</strong>. Beide Eigenschaften werden durch die Permutation zerstört. Eine Strategie, die
+  stark auf einer davon beruht, kann den Test dadurch optimistisch verzerrt bestehen.</li>
 <li>Trotzdem kein wertloser Test: besteht eine Strategie den MCPT selbst mit dieser Verzerrung
-  nicht, ist Overfitting hochwahrscheinlich.</li>
-<li>P-Wert ist ein Maß, kein Optimierungsziel — bei genug Herumprobieren lässt sich fast jede
-  Strategie durch den Test bringen ("if a measure becomes a target, it is no longer a good
-  measure").</li>
-<li>Multi-Market-Fall: bei mehreren Märkten müssen <strong>alle identisch permutiert</strong> werden, sonst
-  entstehen Konstellationen (hochkorrelierte Märkte laufen gegeneinander), die es real nicht gäbe
-  — und die Grundannahme „jede Permutation wäre unter H₀ gleich wahrscheinlich" bricht.
-  Voraussetzung dafür: jeder Markt hat zu jedem Datum einen Preis, Lückendaten müssen vorher
-  entfernt werden (Masters, Kap. 7).</li>
+  <strong>nicht</strong>, ist Overfitting hochwahrscheinlich.</li>
+<li>Der P-Wert ist ein Maß, kein Optimierungsziel — bei genug Herumprobieren lässt sich fast jede
+  Strategie durch den Test bringen. („If a measure becomes a target, it is no longer a good
+  measure.")</li>
+<li>Alle Einschränkungen zur Auslegung von P-Werten aus
+  <a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a> gelten unverändert: ein großer P-Wert
+  beweist <strong>nicht</strong>, dass die Strategie wertlos ist.</li>
 </ul>
-<h2 id="erganzungen-aus-der-primarquelle-masters-kap-7">Ergänzungen aus der Primärquelle (Masters, Kap. 7)</h2>
-<ul>
-<li><strong>Beim Test eines fertigen Systems darf nur der OOS-Zeitraum permutiert werden.</strong> Die
-  Lookback-Bars davor gehören nicht in die Permutation: sie fließen im Originallauf nicht in die
-  Performance ein, könnten aber — falls sie ungewöhnlich sind (starker Trend, Vola-Spitze) — in
-  den OOS-Bereich hineingemischt werden und das Ergebnis verfälschen.</li>
-<li><strong>Warum der Test gerade Overfitting fängt:</strong> ein zu schwaches System fällt ohnehin früh auf. Ein
-  <em>überangepasstes</em> System findet auch auf permutierten Daten „Muster" — alle Läufe sehen gut aus,
-  der Originallauf sticht nicht heraus. Genau das misst der P-Wert.</li>
-<li><strong>Permutation von Preisbars</strong> braucht vier Bedingungen: Open/Close nie außerhalb High/Low;
-  Verteilung von High/Low relativ zum Open erhalten; Verteilung der Open-zu-Close-Änderungen
-  erhalten; <strong>Verteilung der Inter-Bar-Gaps erhalten</strong>. Letzteres ist die Falle: permutiert man
-  naiv die Open-zu-Open-Änderungen, entsteht regelmäßig die Kombination „Bar schließt 2 Punkte
-  tiefer" + „nächstes Open liegt 2 Punkte höher" = ein 4-Punkte-Gap, das real fast nie vorkommt.
-  Deshalb Intra-Bar- und Inter-Bar-Änderungen <strong>getrennt</strong> mischen (deckt sich mit der oben
-  beschriebenen Zwei-Shuffle-Mechanik).</li>
-<li><strong><code>preserve_OO</code></strong>: Wer Trades konservativ auf dem Open der Folgebar ausführt und zusätzlich die
-  Return-Partitionierung nutzt, muss die erste Close-zu-Open- und die letzte Open-zu-Close-Änderung
-  von der Permutation ausnehmen, damit der Gesamttrend über alle Permutationen identisch bleibt.</li>
-</ul>
+<h2 id="schwellen-und-umfang">Schwellen und Umfang</h2>
+<table>
+<thead>
+<tr>
+<th>Variante</th>
+<th>Permutationen</th>
+<th>Schwelle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>In-Sample MCPT</td>
+<td>1.000 (100 nur als absolutes Minimum)</td>
+<td>P &lt; 1 %</td>
+</tr>
+<tr>
+<td>Walk-Forward MCPT</td>
+<td>200 (teurer, voller Walk-Forward je Permutation)</td>
+<td>P &lt; 5 % bei 1 Jahr Testdaten, P &lt; 1 % ab 2 Jahren</td>
+</tr>
+<tr>
+<td>Trainingsprozess (Masters)</td>
+<td>≥ 100</td>
+<td>P ≤ 0,05</td>
+</tr>
+</tbody>
+</table>
+<h2 id="warum-nicht-einfach-auf-2020-testen">Warum nicht einfach „auf 2020 testen"?</h2>
+<p>Sobald OOS-/Validierungsdaten einmal zum <strong>Vergleich</strong> mehrerer Strategie-Ideen benutzt wurden,
+sind sie nicht mehr wirklich out of sample — wählt man die beste von mehreren auf denselben Daten
+getesteten Varianten, überfittet man effektiv die Validierungsdaten (<strong>Selection Bias</strong>), obwohl
+keine einzelne Variante direkt darauf trainiert wurde. Der MCPT verwirft schwache Ideen, <strong>bevor</strong>
+Validierungsdaten „verbraucht" werden.</p>
 <h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
-<p>Viertes, unabhängiges Verfahren neben Walk-Forward/Parameter-Sensitivität/Trade-Order-Resampling
-in <code>algo/validate.py</code>. Design für <code>algo/permutation_test.py</code> liegt vor
-(<code>docs/superpowers/specs/2026-08-08-algo-permutation-test-design.md</code>), Implementierung selbst ist
-noch offener Backlog-Punkt in <code>algo/PLAN.md</code>. Siehe auch
-<a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a> für den übergeordneten Entwicklungsprozess, in den
-dieser Test eingebettet ist.</p></div>
+<p>Viertes, unabhängiges Verfahren neben Walk-Forward, Parameter-Sensitivität und
+Trade-Order-Resampling in <code>algo/validate.py</code>. Design für <code>algo/permutation_test.py</code> liegt vor
+(<code>docs/superpowers/specs/2026-08-08-algo-permutation-test-design.md</code>), die Implementierung ist
+offener Backlog-Punkt in <code>algo/PLAN.md</code>.</p>
+<p>Zwei Auswertungen fallen dort fast gratis mit ab und sollten von Anfang an mitgebaut werden:
+<a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a> (nur Long-/Short-Bars mitzählen) und der
+<code>unbiased_pval</code> oben (nur das Maximum je Permutation mitführen).</p>
+<p>Übergeordneter Prozess: <a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a>.</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">10</span></h2><ul><li><a href="../p/how-i-develop-trading-strategies-source.html">How I Develop Trading Strategies (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/nested-walkforward.html">Nested Walkforward</a><span class="cat">Konzepte</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a><span class="cat">Konzepte</span></li><li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Monte Carlo Permutation Test (MCPT).md</code></footer>
 </article>

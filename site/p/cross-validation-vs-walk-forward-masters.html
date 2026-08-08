@@ -129,7 +129,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Cross Validation vs. Walk-Forward (Masters)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">walk-forward</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">walk-forward</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#der-reiz-und-die-falle">Der Reiz und die Falle</a></li>
@@ -139,6 +139,7 @@
 <li><a href="#3-cv-bildet-die-realitat-nicht-ab">3. CV bildet die Realität nicht ab</a></li>
 </ul>
 </li>
+<li><a href="#der-allgemeine-cv-algorithmus-mit-guard-buffern">Der allgemeine CV-Algorithmus mit Guard Buffern</a></li>
 <li><a href="#xvw-wie-gro-ist-der-unterschied-praktisch">XvW: wie groß ist der Unterschied praktisch?</a></li>
 <li><a href="#die-eine-ausnahme-cv-innerhalb-von-walk-forward">Die eine Ausnahme: CV innerhalb von Walk-Forward</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
@@ -146,83 +147,151 @@
 </div>
 </details>
   <div class="content"><h1 id="cross-validation-vs-walk-forward-masters">Cross Validation vs. Walk-Forward (Masters)</h1>
-<p>Warum Cross Validation bei Marktdaten <strong>nicht</strong> die datensparsamere Variante von Walk-Forward
-ist, sondern ein anderes Verfahren mit eigenen Verzerrungen. Aus
-<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 5).</p>
+<p>Warum Cross Validation bei Marktdaten <strong>nicht</strong> die datensparsamere Variante von Walk-Forward ist,
+sondern ein anderes Verfahren mit eigenen Verzerrungen. Aus
+<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 5, Programm <code>XvW.CPP</code>).</p>
 <h2 id="der-reiz-und-die-falle">Der Reiz und die Falle</h2>
-<p>Der Reiz von k-facher Cross Validation: Walk-Forward verwirft in jedem Fold sämtliche Daten
-<strong>nach</strong> dem Testblock. CV nutzt sie mit. Gerade in den frühen Folds, wo Walk-Forward kaum
-Historie hat, ist das ein echter Vorteil.</p>
+<p>Der Reiz: Walk-Forward verwirft in jedem Fold sämtliche Daten <strong>nach</strong> dem Testblock. CV nutzt sie
+mit. Gerade in den frühen Folds, wo Walk-Forward kaum Historie hat, ist das ein echter Vorteil.</p>
 <p><strong>Guard Buffer beidseitig.</strong> Wie im Walk-Forward gilt bei Lookahead &gt; 1:
 <code>min(lookback, lookahead) − 1</code> Fälle streichen — hier aber <strong>an beiden Rändern</strong> des Testblocks,
-also auch am Anfang des Trainingsteils, der hinter dem Testblock liegt. Siehe
-<a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a>.</p>
+also auch am Anfang des Trainingsteils, der <em>hinter</em> dem Testblock liegt. Herleitung identisch,
+siehe <a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a>.</p>
+<pre><code>|&lt;──── Training ────&gt;|&lt;─ omit ─&gt;|&lt;── OOS-Test ──&gt;|&lt;─ omit ─&gt;|&lt;──── Training ────&gt;|
+                      Guard                        Guard
+</code></pre>
 <h2 id="drei-einwande">Drei Einwände</h2>
 <h3 id="1-cv-kann-pessimistisch-verzerrt-sein">1. CV kann pessimistisch verzerrt sein</h3>
 <p>Jeder CV-Trainingssatz ist kleiner als der volle Datensatz, mit dem man das Produktivmodell
-trainieren würde. Kleinere Trainingsmenge → ungenauere Parameter → schlechtere OOS-Leistung.
-CV <strong>unterschätzt</strong> deshalb tendenziell, was das final trainierte Modell leisten wird.</p>
+trainieren würde. Kleinere Trainingsmenge → ungenauere Parameter → schlechtere OOS-Leistung. CV
+<strong>unterschätzt</strong> deshalb tendenziell, was das final trainierte Modell leisten wird.</p>
+<p>(Das ist der weit verbreitete Irrglaube, den Masters explizit anspricht: „There is widespread
+belief that cross validation produces an unbiased estimate of population performance." Auf den
+ersten Blick plausibel — man testet immer auf getrennten Daten. Der Haken ist die <em>Größe</em> der
+Trainingsmenge, nicht ihre Trennung.)</p>
 <h3 id="2-cv-kann-optimistisch-verzerrt-sein">2. CV kann optimistisch verzerrt sein</h3>
-<p>Und zwar genau bei nichtstationären Daten, also praktisch immer im Markt. Die inneren Folds
-trainieren auf Daten aus der <strong>Zukunft</strong> des Testblocks. Selbst wenn kein einzelner Fall geteilt
-wird, bekommt der Trainingsalgorithmus Information über die künftige <strong>Verteilung</strong>.</p>
-<p>Masters' Beispiel: die Volatilität steigt über die Historie stetig. Im Walk-Forward (und im
-echten Leben) hat jeder Testblock höhere Volatilität als sein Trainingssatz. In den inneren
-CV-Folds ist der Testblock von Trainingsdaten <em>eingeklammert</em> — das Modell hat die Bandbreite
-schon gesehen. Ein subtiler Future Leak ohne geteilte Fälle.</p>
+<p>Und zwar bei nichtstationären Daten — also praktisch immer im Markt. Die inneren Folds trainieren
+auf Daten aus der <strong>Zukunft</strong> des Testblocks. Selbst wenn kein einzelner Fall geteilt wird, bekommt
+der Trainingsalgorithmus Information über die künftige <strong>Verteilung</strong>.</p>
+<p>Masters' Beispiel: die Volatilität steigt über die Historie stetig. Im Walk-Forward — und im
+echten Leben — hat jeder Testblock höhere Volatilität als sein Trainingssatz, was problematisch
+sein kann. In den inneren CV-Folds ist der Testblock von Trainingsdaten <strong>eingeklammert</strong>; das
+Modell hat die Bandbreite also schon gesehen. Ein subtiler Future Leak ohne geteilte Fälle.</p>
 <h3 id="3-cv-bildet-die-realitat-nicht-ab">3. CV bildet die Realität nicht ab</h3>
 <p>Und damit fällt auch der Datenvorteil weg: die meisten Entwickler wählen ihr
-Walk-Forward-Trainingsfenster ohnehin genauso groß wie das des späteren Produktivmodells — eben
-weil sie nicht über zu viele Marktregime hinweg trainieren wollen. Dann hat CV keinen
+Walk-Forward-Trainingsfenster ohnehin <strong>genauso groß</strong> wie das des späteren Produktivmodells —
+eben weil sie nicht über zu viele Marktregime hinweg trainieren wollen. Dann hat CV keinen
 Datenvorteil mehr, wohl aber die Verzerrungen aus (2).</p>
+<p>Masters räumt dabei ein, dass Walk-Forward wegen der mageren frühen Folds <strong>noch stärker</strong>
+pessimistisch verzerrt sein kann als CV — der Punkt ist nicht, dass Walk-Forward unverzerrt wäre,
+sondern dass es die Realität abbildet.</p>
 <blockquote>
-<p>Masters' Fazit wörtlich: <em>„I cannot recommend cross validation analysis in trading system
-development, except in the most unusual special situations."</em></p>
+<p>Fazit wörtlich: <em>„I cannot recommend cross validation analysis in trading system development,
+except in the most unusual special situations."</em></p>
 </blockquote>
+<h2 id="der-allgemeine-cv-algorithmus-mit-guard-buffern">Der allgemeine CV-Algorithmus mit Guard Buffern</h2>
+<p>Die Umsetzung ist deutlich fummeliger als beim Walk-Forward, weil der Trainingssatz <strong>zerfällt</strong>:
+ein Stück links vom Testblock, ein Stück rechts davon. Damit Training und Test trotzdem an
+generische Routinen übergeben werden können, wird alles in <strong>zusammenhängende Blöcke</strong> kopiert.</p>
+<pre><code>istart = 0 ;  ncases_save = ncases
+
+fuer jeden Fold:
+    n_in_fold = (ncases − n_done) / (nfolds − ifold)     # gleich grosse Folds
+    istop     = istart + n_in_fold
+
+    WENN omit &gt; 0:                       # mit Guard Buffer → zwei Arrays (SRC → DEST)
+        SRC[istart : istop]  →  ans ENDE von DEST                   # der OOS-Block
+        erster Fold:   SRC[istop+omit : ncases]  → Anfang von DEST
+                       ncases −= n_in_fold + omit
+        letzter Fold:  SRC[0 : istart−omit]      → Anfang von DEST
+                       ncases −= n_in_fold + omit
+        sonst:         SRC[0 : istart−omit]      → Anfang von DEST
+                       SRC[istop+omit : ncases]  → direkt dahinter
+                       ncases −= n_in_fold + 2·omit
+    SONST:                               # omit == 0 → in place tauschen, ein Array reicht
+        wenn nicht letzter Fold: Bloecke [istart:istop] mit den Endfaellen tauschen
+        ncases −= n_in_fold
+
+    TRAINIEREN auf den ersten ncases Faellen
+    ncases = ncases_save                 # sofort zuruecksetzen
+    TESTEN auf den letzten (istop − istart) Faellen
+
+    wenn omit == 0 und nicht letzter Fold: Tausch rueckgaengig machen
+    istart = istop ;  n_done += n_in_fold
+</code></pre>
+<p>Zwei Implementierungsdetails, die man sonst schmerzhaft lernt:</p>
+<ul>
+<li><strong>Innere Folds können auf einer Seite leer laufen.</strong> Wählt der Nutzer sehr viele Folds (winzige
+  Testblöcke), kann nach Abzug des Guard Buffers auf einer Seite <strong>kein einziger</strong> Trainingsfall
+  übrig bleiben. Beide Kopierschritte brauchen deshalb eine Bedingung (<code>istart &gt; omit</code> bzw.
+  <code>ncases_save &gt; istop + omit</code>).</li>
+<li><strong><code>ncases</code> wird temporär reduziert</strong> und muss unmittelbar nach dem Training zurückgesetzt
+  werden, weil der Testteil wieder den vollen Datensatz adressiert.</li>
+</ul>
+<p>Wer will, kann stattdessen die Grenzen direkt in Trainings- und Testcode einbauen — dann braucht
+es aber hochgradig maßgeschneiderten Code, generische Bibliotheksroutinen scheiden aus.</p>
 <h2 id="xvw-wie-gro-ist-der-unterschied-praktisch">XvW: wie groß ist der Unterschied praktisch?</h2>
-<p>Das Programm <code>XvW.CPP</code> lässt dasselbe System zweimal laufen (CV und Walk-Forward) und gibt beide
-mittleren OOS-Renditen samt t-Score der Differenz aus. Beispielzeile aus dem Buch:</p>
+<pre><code>XvW nprices trend lookback lookahead ntrain ntest nfolds omit nreps seed
+</code></pre>
+<p>Lässt dasselbe System zweimal laufen (CV und Walk-Forward) und gibt beide mittleren OOS-Renditen
+samt t-Score der Differenz aus. Anders als <code>OVERLAP</code> kann <code>XvW</code> auch Preisreihen mit einem
+alle 50 Bars wechselnden <strong>Trend</strong> erzeugen — also mit echter, dosierbarer Vorhersagbarkeit.</p>
+<p>Beispielzeile aus dem Buch:</p>
 <pre><code>Grand XVAL = 0.02249 (t=253.371)   WALK = 0.00558 (t=81.355)
 StdDev = 0.00011   t = 150.768   rtail = 0.00000
 </code></pre>
-<p>CV liefert hier die <strong>vierfache</strong> mittlere Rendite von Walk-Forward, hochsignifikant verschieden.
-Bei Trend = 0 (reiner Random Walk) sind erwartungsgemäß alle t-Scores insignifikant. Kernaussage:
-<em>in nahezu jeder praktischen Konstellation liefern CV und Walk-Forward deutlich, oft wild
-verschiedene Ergebnisse</em> — die beiden sind nicht austauschbar.</p>
+<p>CV liefert hier die <strong>vierfache</strong> mittlere Rendite von Walk-Forward, und die Differenz ist
+hochsignifikant. Bei <code>trend = 0</code> (reiner Random Walk) sind erwartungsgemäß alle t-Scores
+insignifikant.</p>
+<p>Der t-Score der Differenz hängt stark von Lookback und Lookahead ab und in geringerem Maß von der
+Foldzahl. Kernaussage:</p>
+<blockquote>
+<p><em>„In nearly all practical situations, walkforward and cross validation analysis produce
+significantly different results, often wildly different."</em></p>
+</blockquote>
+<p>Die beiden Verfahren sind also <strong>nicht austauschbar</strong> — man kann nicht CV rechnen und das Ergebnis
+als Näherung für Walk-Forward lesen.</p>
 <h2 id="die-eine-ausnahme-cv-innerhalb-von-walk-forward">Die eine Ausnahme: CV innerhalb von Walk-Forward</h2>
 <p>CV ist dort vertretbar, wo die drei Einwände wenig wiegen: bei <strong>Modellkomplexität</strong> und
 <strong>Prädiktorenauswahl</strong>. Beides sind Struktur-Entscheidungen, die vom Rausch-Charakter der Daten
-abhängen und von möglichst vielen Daten profitieren; die Verzerrungen treffen alle
-Komplexitätsstufen ungefähr gleich und heben sich im Vergleich weitgehend auf.</p>
-<p>Umsetzung (Beispiel: 3 vs. 5 Hidden Neurons, 10 Datenabschnitte, 3-fache CV):</p>
-<ol>
-<li>Modell mit 3 Neuronen konfigurieren.</li>
-<li>Auf Abschnitten 2+3 trainieren, Abschnitt 1 vorhersagen.</li>
-<li>Auf 1+3 trainieren, 2 vorhersagen.</li>
-<li>Auf 1+2 trainieren, 3 vorhersagen.</li>
-<li>
-<p>Vorhersagen 1–3 poolen → OOS-Performance des 3-Neuronen-Modells.
-6.–7. Dasselbe mit 5 Neuronen.</p>
-</li>
-<li>
-<p>Gewinner nehmen, auf 1–3 trainieren.</p>
-</li>
-<li>Abschnitt 4 vorhersagen → <strong>erster echter OOS-Fall</strong>.</li>
-<li>Fenster um einen Abschnitt weiterschieben, ab 1 wiederholen.</li>
-<li>Am Ende Abschnitte 4–10 poolen → Gesamtergebnis.</li>
-</ol>
-<p>Wichtig für die Implementierung: Schritte 1–8 gehören in <strong>eine einzige Routine</strong>. Von außen
-bleibt es dann ein simpler, einschichtiger Walk-Forward, der gar nicht mitbekommt, dass innen
-CV läuft. Das ist deutlich einfacher als das Index-Jonglieren bei
-<a href="../p/nested-walkforward.html">Nested Walkforward</a>, wo Walk-Forward in Walk-Forward geschachtelt wird.</p>
-<p>Offene Frage aus Schritt 13 des Buches: das Produktivmodell mit den <strong>letzten drei</strong> Abschnitten
+abhängen und von möglichst vielen Daten profitieren. Und die Verzerrungen treffen alle
+Komplexitätsstufen ungefähr gleich, heben sich im <strong>Vergleich</strong> also weitgehend auf — man will hier
+ohnehin nur den <em>relativen</em> Overfitting-Unterschied zwischen den Varianten messen.</p>
+<p>(Beides betrifft naturgemäß modellgetriebene Systeme. Für regelbasierte Systeme nennt Masters die
+Konstellation „rare".)</p>
+<p>Umsetzung am Beispiel „3 vs. 5 Hidden Neurons", 10 Datenabschnitte, 3-fache CV:</p>
+<pre><code> 1) Modell mit 3 Neuronen konfigurieren
+ 2) auf Abschnitten 2+3 trainieren, Abschnitt 1 vorhersagen
+ 3) auf 1+3 trainieren, 2 vorhersagen
+ 4) auf 1+2 trainieren, 3 vorhersagen
+ 5) Vorhersagen 1–3 poolen → OOS-Performance des 3-Neuronen-Modells
+ 6) Modell mit 5 Neuronen konfigurieren
+ 7) Schritte 2–5 wiederholen
+ 8) Gewinner nehmen, auf 1–3 trainieren
+ 9) Abschnitt 4 vorhersagen                        ← erster ECHTER OOS-Fall
+10) Fenster um einen Abschnitt weiterschieben, ab 1 wiederholen
+11) am Ende Abschnitte 4–10 poolen → Gesamtergebnis
+12) zufrieden? Dann CV auf dem GESAMTEN Datensatz fuer beide Varianten rechnen
+13) Gewinner final trainieren
+</code></pre>
+<p><strong>Der entscheidende Implementierungstrick:</strong> Schritte 1–8 gehören in <strong>eine einzige Routine</strong>. Von
+außen bleibt es dann ein simpler, einschichtiger Walk-Forward, der gar nicht mitbekommt, dass innen
+CV läuft — <em>„blissfully unaware that there is cross validation going on inside the training
+routine."</em> Das ist erheblich einfacher als das Index-Jonglieren bei <a href="../p/nested-walkforward.html">Nested Walkforward</a>, wo
+Walk-Forward in Walk-Forward geschachtelt wird und die Indizes explizit verwaltet werden müssen.</p>
+<p><strong>Offene Frage aus Schritt 13:</strong> das Produktivmodell mit den <strong>letzten drei</strong> Abschnitten
 trainieren (konsistent zum Test, gut bei starker Nichtstationarität) oder mit <strong>allen</strong> Daten
-(stabileres Modell)? Beides vertretbar.</p>
+(stabileres Modell)? Masters lässt beides gelten — „either choice is defensible".</p>
 <h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
-<p><code>algo/validate.py</code> nutzt Walk-Forward mit rollierenden Folds und <strong>kein</strong> k-faches CV — laut
-diesem Kapitel die richtige Entscheidung, bisher aber nirgends begründet. Diese Seite liefert die
-Begründung nach. Der CV-in-WF-Sonderfall wäre erst relevant, wenn <code>algo/</code> von reinen Regeln auf
-ein prädiktives Modell mit wählbarer Komplexität umschwenkt — Stand heute nicht der Fall.</p></div>
+<p><code>algo/validate.py</code> nutzt Walk-Forward mit rollierenden Folds und <strong>kein</strong> k-faches CV — laut diesem
+Kapitel die richtige Entscheidung, bisher aber nirgends begründet. Diese Seite liefert die
+Begründung nach.</p>
+<p>Der CV-in-WF-Sonderfall wäre erst relevant, wenn <code>algo/</code> von reinen Regeln auf ein prädiktives
+Modell mit wählbarer Komplexität umschwenkt — Stand heute nicht der Fall. Er ist allerdings genau
+das Werkzeug, mit dem in
+<a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a> der Hyperparameter λ gewählt wird.</p>
+<p>Die eine Anwendung von CV, die Masters trotz seiner Ablehnung nützlich findet, steht separat:
+<a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a>.</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/nested-walkforward.html">Nested Walkforward</a><span class="cat">Konzepte</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Cross Validation vs. Walk-Forward (Masters).md</code></footer>
 </article>

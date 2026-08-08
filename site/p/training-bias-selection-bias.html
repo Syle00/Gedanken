@@ -129,11 +129,17 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Training Bias &amp; Selection Bias</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">bias</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">bias</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#training-bias">Training Bias</a></li>
-<li><a href="#selection-bias">Selection Bias</a></li>
+<li><a href="#training-bias">Training Bias</a><ul>
+<li><a href="#das-trnbias-experiment">Das TRNBIAS-Experiment</a></li>
+</ul>
+</li>
+<li><a href="#selection-bias">Selection Bias</a><ul>
+<li><a href="#das-selbias-experiment">Das SelBias-Experiment</a></li>
+</ul>
+</li>
 <li><a href="#interlude-was-unbiased-wirklich-heit">Interlude: Was „unbiased" wirklich heißt</a></li>
 <li><a href="#billige-trainings-bias-schatzung-stocbias">Billige Trainings-Bias-Schätzung (StocBias)</a></li>
 <li><a href="#abgrenzung-zu-bestehenden-vault-seiten">Abgrenzung zu bestehenden Vault-Seiten</a></li>
@@ -141,88 +147,191 @@
 </div>
 </details>
   <div class="content"><h1 id="training-bias-selection-bias">Training Bias &amp; Selection Bias</h1>
-<p>Zwei <strong>verschiedene</strong> optimistische Verzerrungen, die in jedem Entwicklungsprozess nacheinander
-auftreten. Aus <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Masters, Kap. 4 und 5).
-Der Unterschied ist die zentrale Pointe: einen Out-of-Sample-Zeitraum zurückzuhalten beseitigt
-nur die <em>erste</em>.</p>
+<p>Zwei <strong>verschiedene</strong> optimistische Verzerrungen, die nacheinander in jedem Entwicklungsprozess
+auftreten. Aus <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 4 und 5, Programme
+<code>TRNBIAS.CPP</code>, <code>SelBias.cpp</code>, <code>STOC_BIAS.CPP</code>). Der Unterschied ist die zentrale Pointe: einen
+Out-of-Sample-Zeitraum zurückzuhalten beseitigt nur die <em>erste</em>.</p>
+<pre><code>Training Bias  = IS-Performance − OOS-Performance   eines EINZELNEN Systems
+Selection Bias = zusaetzliche Verzerrung, die durch das AUSWAEHLEN des besten
+                 aus mehreren Systemen entsteht
+</code></pre>
 <h2 id="training-bias">Training Bias</h2>
-<p><em>Training Bias</em> = In-Sample-Performance minus Out-of-Sample-Performance eines <strong>einzelnen</strong>
-Systems. Zwei Ursachen:</p>
+<p>Zwei Ursachen:</p>
 <ol>
-<li><strong>Overfitting</strong> — das Modell lernt Rauschmuster als wären sie echt. Rauschen wiederholt sich
-   per Definition nicht, also verschwindet dieser Performance-Anteil im Livebetrieb.</li>
+<li><strong>Overfitting</strong> — das Modell lernt Rauschmuster, als wären sie echt. Rauschen wiederholt sich
+   per Definition nicht, also verschwindet dieser Performanceanteil im Livebetrieb. Besonders
+   schlimm bei übermächtigen Modellen.</li>
 <li><strong>Unterrepräsentation</strong> — die Trainingshistorie enthält nicht jedes Preismuster, das später
-   auftreten wird. Daraus folgt: so viel Historie wie möglich verwenden.</li>
+   auftreten wird. Subtiler, aber genauso schädlich. Konsequenz: <strong>so viel Historie wie möglich
+   verwenden.</strong></li>
 </ol>
-<p>Masters' empirische Nebenbefunde aus dem TRNBIAS-Experiment (MA-Crossover auf synthetischen
-Preisen mit alternierendem Trend, tausende Wiederholungen):</p>
-<ul>
-<li>Bei <strong>großen</strong> Datensätzen ist die Wahl des Optimierungskriteriums fast egal — mittlere
-  Rendite, Profit Factor und Sharpe finden meist dieselben Lookbacks.</li>
-<li>Bei <strong>kleinen</strong> Datensätzen hat das Kriterium massiven Einfluss.</li>
-<li>Die <strong>mittlere Rendite als Optimierungskriterium hatte fast immer den größten Trainings-Bias</strong>,
-  weil sie Risiko nur indirekt berücksichtigt. <strong>Profit Factor hatte fast immer den kleinsten</strong> —
-  Masters' bevorzugtes Optimierungsziel. Relevant für <code>algo/</code>: <code>backtest_bt.py</code> und
-  <code>backtest_ensemble.py</code> optimieren bisher nicht explizit gegen Profit Factor.</li>
-</ul>
+<h3 id="das-trnbias-experiment">Das TRNBIAS-Experiment</h3>
+<p><code>TrnBias Which Ncases Trend Nreps</code> erzeugt <code>Ncases</code> Log-Preise aus Rauschen plus einem Trend, der
+<strong>alle 50 Bars die Richtung wechselt</strong> (<code>Trend</code> von 0,01 = schwach bis 0,2 = stark; 0,0 = reiner
+Random Walk). Ein vollständiges Grid aus MA-Lookbacks bis 200 Tage wird IS optimiert, dann wird
+ein <strong>zweiter, unabhängiger</strong> Preissatz derselben Verteilung erzeugt und das Ergebnis darauf
+getestet. Über <code>Nreps</code> (mehrere tausend) Wiederholungen gemittelt; <code>IS − OOS</code> ist der Training
+Bias.</p>
+<p><code>Which</code> wählt das Optimierungskriterium: <code>0</code> = mittlere Tagesrendite, <code>1</code> = Profit Factor
+(Summe Gewinne / Summe Verluste), <code>2</code> = roher Sharpe (Mittel / Standardabweichung).</p>
+<p><strong>Vier Befunde, die Masters auch aus der Praxis bestätigt:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Befund</th>
+<th>Konsequenz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bei <strong>großen</strong> Datensätzen ist die Kriterienwahl fast egal — alle drei finden meist dieselben Lookbacks</td>
+<td>bei viel Historie nicht überdenken</td>
+</tr>
+<tr>
+<td>Bei <strong>kleinen</strong> Datensätzen hat das Kriterium <strong>massiven</strong> Einfluss</td>
+<td>← betrifft <code>algo/</code> direkt</td>
+</tr>
+<tr>
+<td>Leichte Tendenz: die beste OOS-Rendite entsteht beim Optimieren auf <strong>Profit Factor</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Mittlere Rendite als Kriterium hatte fast immer den größten Training Bias</strong>, Profit Factor fast immer den kleinsten</td>
+<td>Profit Factor ist Masters' bevorzugtes Optimierungsziel</td>
+</tr>
+</tbody>
+</table>
+<p>Begründung für den letzten Punkt: mittlere Rendite berücksichtigt Risiko nur indirekt. Profit
+Factor und Sharpe belohnen <strong>konsistente</strong> Ergebnisse und sind deshalb die besseren
+Optimierungskriterien.</p>
 <h2 id="selection-bias">Selection Bias</h2>
-<p>Die Geschichte, mit der Masters das erklärt (Kap. 5): Agnes lässt John und Phil je ein System
-entwickeln und wählt nach <strong>In-Sample</strong>-Ergebnis → Konto ruiniert. Mary macht es besser und hält
-ein Jahr Daten zurück; beide Systeme werden darauf getestet, Phils OOS-Ergebnis ist besser, sie
-wählt Phils System.</p>
-<p><strong>Und genau in dem Moment ist Phils OOS-Zahl nicht mehr unverzerrt.</strong> Vor der Auswahl war sie es;
-die Auswahlhandlung selbst erzeugt die Verzerrung. Grund: jede OOS-Zahl besteht aus <em>echtem
-Können</em> plus <em>Glück</em>. Solange man Systeme einzeln betrachtet, mitteln sich Glück und Pech heraus.
-Sobald man das bessere von zweien wählt, wählt man systematisch das <strong>glücklichere</strong> mit — und
-Glück wiederholt sich nicht.</p>
-<p><strong>Konsequenz: es braucht zwei getrennte Auslass-Zeiträume.</strong> Ersten OOS-Block für die Auswahl,
-zweiten OOS-Block für die unverzerrte Schätzung des ausgewählten Systems.</p>
+<p>Masters' Lehrgeschichte (Kap. 5): Agnes lässt John und Phil unabhängig je ein System auf der
+vollen Historie entwickeln und wählt nach <strong>In-Sample</strong>-Ergebnis Johns beeindruckenderes System →
+Konto ruiniert, Agnes gefeuert. Mary übernimmt, erkennt das Problem sofort (John hatte ein
+übermächtiges Modell benutzt, keiner der beiden hatte je OOS getestet) und formuliert die Regel:</p>
+<blockquote>
+<p><em>„When selecting from among competing systems, always base the selection criterion on
+out-of-sample results, ignoring in-sample results."</em></p>
+</blockquote>
+<p>Mary hält daraufhin ein Jahr Daten zurück, lässt beide neu entwickeln und testet beide auf dem
+zurückgehaltenen Jahr. Beide OOS-Zahlen sind zu diesem Zeitpunkt <strong>unverzerrt</strong>. Phils Ergebnis
+ist etwas besser, sie wählt Phils System.</p>
+<p><strong>Und genau in diesem Moment ist Phils OOS-Zahl nicht mehr unverzerrt.</strong></p>
+<p>Warum: jede OOS-Zahl besteht aus <em>echtem Können</em> und <em>Glück</em>. Betrachtet man Systeme <strong>einzeln</strong>,
+mitteln sich Glück und Pech über das gedachte Universum vieler Entwickler heraus — die Zahl ist
+unverzerrt. Wählt man aber das <strong>bessere von zweien</strong>, wählt man systematisch das <strong>glücklichere</strong>
+mit. Sind beide gleich gut (unmessbar), gewinnt garantiert das glücklichere. Nur wenn die wahren
+Fähigkeiten weit auseinanderliegen, sticht Können das Glück. Und Glück wiederholt sich nicht.</p>
+<p><strong>Konsequenz: es braucht zwei getrennte Auslass-Zeiträume.</strong></p>
+<pre><code>Entwicklung        ──────────────────┐
+                                     │
+1. OOS-Block  (&quot;first OOS&quot;)          │  → Auswahl des besten Systems
+                                     │
+2. OOS-Block  (&quot;second OOS&quot;)         │  → unverzerrte Schaetzung des GEWAEHLTEN Systems
+</code></pre>
+<p>Mary gibt John und Phil also Daten bis vor <strong>zwei</strong> Jahren, wählt anhand des vorletzten Jahres und
+schätzt die Performance auf dem letzten Jahr. Diese Schätzung ist frei von Training Bias <strong>und</strong>
+von Selection Bias.</p>
+<h3 id="das-selbias-experiment">Das SelBias-Experiment</h3>
+<p><code>SelBias Which Ncases Trend Nreps</code> — gleicher Aufbau wie TRNBIAS, aber das zweiseitige System wird
+in <strong>zwei konkurrierende</strong> Systeme aufgespalten: eines nur long, eines nur short. Beide werden
+getrennt IS optimiert, beide auf einem zweiten Datensatz (first OOS) bewertet, der Gewinner auf
+einem <strong>dritten</strong> Datensatz (second OOS) getestet.</p>
+<pre><code>Selection Bias = Performance des Gewinners im 1. OOS − Performance desselben Systems im 2. OOS
+</code></pre>
+<p>Ausgegeben werden je Konkurrent IS und OOS (⇒ zwei Training Biases), der Grand-OOS-Wert, <strong>ein</strong>
+Selection Bias und dessen t-Score. Masters bittet ausdrücklich darum, diesen Abschnitt auch dann
+zu lesen, wenn man das Programm nie benutzt — die Erklärung des Versuchsaufbaus ist selbst das
+Lehrmittel für ein Konzept, das vielen Entwicklern fremd bleibt.</p>
 <blockquote>
 <p>Für dieses Projekt direkt relevant: Der Vault vergleicht laufend viele Thesen und
-Parametervarianten gegen dieselben <code>raw/marktdaten/</code> (siehe
-<a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a>, <a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a>).
-Jede Zahl dort ist von Selection Bias betroffen, sobald aus den geprüften Thesen die beste
-ausgewählt wird. Das ist kein Argument gegen die Exploration, sondern eines dafür, dass die
-Gewinner-These vor dem Livegang einen <strong>eigenen, bis dahin unberührten Zeitraum</strong> braucht.</p>
+Parametervarianten gegen dieselben <code>raw/marktdaten/</code> (siehe <a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a>,
+<a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a>). Jede Zahl dort ist von Selection
+Bias betroffen, sobald aus den geprüften Thesen die beste ausgewählt wird. Das ist <strong>kein</strong>
+Argument gegen die Exploration — sondern eines dafür, dass die Gewinner-These vor dem Livegang
+einen eigenen, bis dahin unberührten Zeitraum braucht.</p>
 </blockquote>
 <h2 id="interlude-was-unbiased-wirklich-heit">Interlude: Was „unbiased" wirklich heißt</h2>
-<p>Masters' Warnung, die für alle Folgeseiten gilt: <em>unbiased</em> bedeutet <strong>nicht</strong>, dass die
-gemessene Zahl ungefähr der Zukunft entspricht. Es bedeutet nur, dass sie über ein gedachtes
-Universum vieler paralleler Entwickler hinweg im Mittel weder über- noch unterschätzt. Die
-konkrete eigene Stichprobe ist mit an Sicherheit grenzender Wahrscheinlichkeit zu optimistisch
-<strong>oder</strong> zu pessimistisch — man weiß nur nicht, welches von beiden.</p>
-<p>Diese Einsicht ist die Wurzel von zwei späteren Verfahren:
-<a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a> (der naive Drawdown-Bootstrap ignoriert genau das)
-und <a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a>.</p>
+<p>Masters' Warnung, die für alle Folgeseiten gilt und die er selbst mehrfach zurückreferenziert:</p>
+<p><em>Unbiased</em> bedeutet <strong>nicht</strong>, dass die gemessene Zahl ungefähr der Zukunft entspricht. Man stelle
+sich unendlich viele Johns in unendlich vielen verrauschten Marktuniversen vor, jeder entwickelt
+sein System auf seiner eigenen Historie. <em>Unbiased</em> heißt nur: <strong>im Mittel über dieses Universum</strong>
+wird die künftige Performance weder über- noch unterschätzt.</p>
+<p>Die konkrete eigene Stichprobe ist mit an Sicherheit grenzender Wahrscheinlichkeit zu optimistisch
+<strong>oder</strong> zu pessimistisch — man weiß nur nicht, welches von beiden. <em>„This is the best we can do."</em></p>
+<p>Diese Einsicht ist die Wurzel von zwei späteren Verfahren:</p>
+<ul>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a> — der naive Drawdown-Bootstrap ignoriert genau diese
+  Variationsquelle und unterschätzt Katastrophen deshalb um bis zu Faktor 13,65.</li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a> — quantifiziert die Streuung, statt
+  sie zu ignorieren.</li>
+</ul>
 <h2 id="billige-trainings-bias-schatzung-stocbias">Billige Trainings-Bias-Schätzung (StocBias)</h2>
 <p>Wer ohnehin mit einem stochastischen Optimierer arbeitet
 (<a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a>), bekommt eine grobe Bias-Schätzung fast
-umsonst — aus der <strong>Initialpopulation</strong>, nicht aus dem gerichteten Suchteil:</p>
+umsonst — aus der <strong>Initialpopulation</strong>.</p>
+<p><strong>Zulässigkeitsregel:</strong> Nur zufällig erzeugte oder per deterministischem Grid gezogene
+Parametersätze dürfen einfließen. <strong>Keine</strong> Mutations-/Crossover-Kinder — die stammen aus einer
+gerichteten Suche und würden das Verfahren zerstören.</p>
+<p><strong>Die Idee:</strong> Man denke sich <strong>eine</strong> Bar im Voraus als OOS-Bar. Für jeden Kandidaten bildet man
+den Gesamtreturn über <strong>alle anderen</strong> Bars (das ist der IS-Teil) und merkt sich den Kandidaten
+mit dem höchsten IS-Wert; dessen Return auf der ausgelassenen Bar ist der ehrliche OOS-Wert. Da
+die OOS-Bar an der IS-Auswahl nicht beteiligt war, ist die Differenz eine unverfälschte
+Bias-Schätzung.</p>
+<p>Eine einzelne Bar wäre zu verrauscht — also macht man es für <strong>jede</strong> Bar gleichzeitig. Und weil
+<code>IS_i = Gesamtsumme − return_i</code> gilt, kostet das kaum mehr als eine Summe pro Kandidat.</p>
+<pre><code class="language-python">class StocBias:
+    def __init__(self, nreturns):
+        self.n       = nreturns
+        self.IS_best = None      # bester IS-Return je ausgelassener Bar
+        self.OOS     = None      # zugehoeriger Return DIESER Bar
+
+    def process(self, returns):
+        &quot;&quot;&quot;Pro Kandidat einmal aufrufen, mit dessen Bar-fuer-Bar-Returns.&quot;&quot;&quot;
+        total = returns.sum()
+        IS    = total - returns                      # IS-Return je ausgelassener Bar
+        if self.IS_best is None:
+            self.IS_best, self.OOS = IS.copy(), returns.copy()
+        else:
+            better = IS &gt; self.IS_best
+            self.IS_best[better] = IS[better]
+            self.OOS[better]     = returns[better]
+
+    def compute(self):
+        IS_return  = self.IS_best.sum() / (self.n - 1)   # kommensurabel machen:
+        OOS_return = self.OOS.sum()                      # jedes IS_best ist Summe ueber n-1 Bars
+        return IS_return, OOS_return, IS_return - OOS_return
+</code></pre>
+<p>Die Division durch <code>n−1</code> ist der einzige nicht offensichtliche Schritt: jedes <code>IS_best[i]</code> ist die
+Summe über <code>n−1</code> Bars, die OOS-Werte sind Einzelrenditen. Erst nach der Division sind beide
+Größen vergleichbar.</p>
+<p><strong>Zwei Grenzen, die man kennen muss:</strong></p>
 <ol>
-<li>Nur zufällig erzeugte (oder per Grid gezogene) Parametersätze verwenden. Mutations-/
-   Crossover-Kinder sind unzulässig, weil sie gerichtet sind.</li>
-<li>Für jeden Parametersatz die Bar-für-Bar-Returns aufzeichnen und die Gesamtsumme bilden.</li>
-<li>Für <strong>jede</strong> Bar <code>i</code> separat: „IS-Return" = Gesamtsumme minus Return von Bar <code>i</code>, „OOS-Return"
-   = Return von Bar <code>i</code>. Über alle Parametersätze das Maximum des IS-Returns je Bar mitführen
-   und den zugehörigen OOS-Return merken.</li>
-<li><code>Bias = mean(IS_best) − mean(OOS)</code>.</li>
+<li>Braucht <strong>mehrere tausend</strong> Zufallskandidaten, sonst ist die Schätzung wertlos. Genau deshalb
+   steht im <code>DEV_MA</code>-Beispiel <code>overinit = 10.000</code> bei <code>popsize = 100</code>.</li>
+<li><strong>Selbsttest:</strong> Liegt der so ermittelte <code>IS_return</code> deutlich unter dem Optimum, das der echte
+   Optimierer gefunden hat, waren es zu wenige Kandidaten — dann ist die Bias-Schätzung
+   unbrauchbar. Nahe beieinander liegende Werte sind das Gütesiegel.</li>
 </ol>
-<p>Grenzen laut Autor: braucht mehrere tausend Zufallskandidaten, sonst wertlos. Und: liegt der so
-ermittelte <code>IS_return</code> deutlich unter dem Optimum des echten Optimierers, waren es zu wenige
-Kandidaten und die Bias-Schätzung ist unbrauchbar.</p>
-<p>Ein deutlich genaueres Verfahren für dieselbe Größe steht auf
-<a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a>.</p>
+<p><strong>Verwendung:</strong> Bias vom optimierten Gesamtreturn abziehen. Ist das Ergebnis nicht mehr
+überzeugend, sollte man das System überdenken, bevor man weiter investiert. Im <code>DEV_MA</code>-Referenzlauf:
+<code>2,6710 − 0,3221 = 2,3489</code>.</p>
+<p>Ein deutlich genaueres Verfahren für dieselbe Größe (und zusätzlich mit Trennung des
+Trendanteils): <a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a>.</p>
 <h2 id="abgrenzung-zu-bestehenden-vault-seiten">Abgrenzung zu bestehenden Vault-Seiten</h2>
 <ul>
-<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a> (Halls-Moore)
-  nennt „Optimisation Bias" — das ist Masters' Training Bias. <strong>Selection Bias fehlt dort
-  vollständig</strong>, ebenso die Konsequenz der zwei Auslass-Zeiträume.</li>
-<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a> misst denselben Effekt aus einer anderen Richtung:
-  statt IS/OOS zu vergleichen, wird geprüft, ob das IS-Ergebnis über dem liegt, was auf
-  permutierten Daten erreichbar wäre. Masters' MCPT hat eine <strong>Selection-Bias-Erweiterung</strong>
-  (Solo-P-Wert vs. unbiased P-Wert), siehe dort.</li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a> (Halls-Moore) nennt
+  „Optimisation Bias" — das ist Masters' Training Bias. <strong>Selection Bias fehlt dort vollständig</strong>,
+  ebenso die Konsequenz der zwei Auslass-Zeiträume.</li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a> misst denselben Effekt aus anderer Richtung: statt IS
+  und OOS zu vergleichen, wird geprüft, ob das IS-Ergebnis über dem liegt, was auf permutierten
+  Daten erreichbar wäre. Dort auch die <strong>Selection-Bias-Erweiterung</strong> (Solo-P-Wert vs. unbiased
+  P-Wert) — das direkte Gegenstück zum zweiten Auslass-Zeitraum, wenn man sich diesen nicht
+  leisten kann.</li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a> ist die Antwort auf denselben Befund für den Fall, dass die Auswahl nicht
+  einmalig, sondern <strong>laufend</strong> stattfindet.</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">8</span></h2><ul><li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a><span class="cat">Konzepte</span></li><li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a><span class="cat">Konzepte</span></li><li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/nested-walkforward.html">Nested Walkforward</a><span class="cat">Konzepte</span></li><li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">10</span></h2><ul><li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a><span class="cat">Konzepte</span></li><li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a><span class="cat">Konzepte</span></li><li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a><span class="cat">Konzepte</span></li><li><a href="../p/nested-walkforward.html">Nested Walkforward</a><span class="cat">Konzepte</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Training Bias &amp; Selection Bias.md</code></footer>
 </article>
 </main>

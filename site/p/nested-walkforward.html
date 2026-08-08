@@ -129,12 +129,15 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Nested Walkforward</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">walk-forward</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">walk-forward</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#wann-es-zwingend-ist">Wann es zwingend ist</a></li>
-<li><a href="#ablauf-miniaturbeispiel-level-1-lookback-10-bars-level-2-lookback-3-bars">Ablauf (Miniaturbeispiel: Level-1-Lookback 10 Bars, Level-2-Lookback 3 Bars)</a></li>
-<li><a href="#beispiel-chooser-65-sp-100-titel-19862017">Beispiel CHOOSER: 65 S&amp;P-100-Titel, 1986–2017</a></li>
+<li><a href="#ablauf-am-miniaturbeispiel">Ablauf am Miniaturbeispiel</a></li>
+<li><a href="#die-indexvariablen">Die Indexvariablen</a></li>
+<li><a href="#der-algorithmus">Der Algorithmus</a></li>
+<li><a href="#praxisbeispiel-chooser-zwei-auswahlebenen">Praxisbeispiel CHOOSER: zwei Auswahlebenen</a></li>
+<li><a href="#ergebnis-65-sp-100-titel-19862017">Ergebnis: 65 S&amp;P-100-Titel, 1986–2017</a></li>
 <li><a href="#permutation-im-geschachtelten-fall">Permutation im geschachtelten Fall</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
 </ul>
@@ -143,41 +146,191 @@
   <div class="content"><h1 id="nested-walkforward">Nested Walkforward</h1>
 <p>Walk-Forward <strong>innerhalb</strong> von Walk-Forward. Notwendig, sobald zwei Optimierungsstufen
 übereinanderliegen — die zweite Stufe darf nur auf <strong>OOS-Ergebnissen</strong> der ersten aufsetzen.
-Aus <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 5).</p>
+Aus <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 5, Programm <code>CHOOSER.CPP</code>).</p>
 <h2 id="wann-es-zwingend-ist">Wann es zwingend ist</h2>
-<p>Immer, wenn laufend zwischen konkurrierenden Systemen/Instrumenten/Kennzahlen ausgewählt wird:</p>
+<p>Immer, wenn laufend zwischen konkurrierenden Systemen, Instrumenten oder Kennzahlen ausgewählt
+wird. Masters' drei Beispiele:</p>
 <ul>
-<li>Mehrere Systeme für verschiedene Marktregime (Trendfolger, Mean Reversion, Channel Breakout)
-  und man handelt jeweils das zuletzt beste.</li>
-<li>Ein System auf vielen Aktien, und man handelt die Titel, die zuletzt am besten liefen.</li>
+<li>Mehrere Systeme für verschiedene Marktregime (Trendfolger, Mean Reversion, Channel Breakout) —
+  gehandelt wird das zuletzt beste.</li>
+<li>Ein System auf vielen Aktien, wobei verschiedene Branchen zu verschiedenen Zeiten am besten
+  darauf reagieren — gehandelt werden die zuletzt besten Titel.</li>
 <li>Man weiß nicht, ob mittlere Rendite, Sharpe oder Profit Factor das richtige Auswahlkriterium
-  ist, und lässt auch <strong>das</strong> mitlaufen.</li>
+  ist, und lässt <strong>auch das</strong> mitlaufen.</li>
 </ul>
 <p>Der Grund ist <a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>: In-Sample-Performance sagt nichts über die
-Zukunft, also darf die Auswahlstufe niemals auf In-Sample-Zahlen der ersten Stufe schauen. Also
-braucht die zweite Stufe eine eigene Quelle unverzerrter Zahlen — und die liefert nur ein
-inneres Walk-Forward (Level-1). Die Entscheidungen von Level-2 müssen dann ihrerseits OOS
-bewertet werden (Level-2-Walk-Forward).</p>
-<h2 id="ablauf-miniaturbeispiel-level-1-lookback-10-bars-level-2-lookback-3-bars">Ablauf (Miniaturbeispiel: Level-1-Lookback 10 Bars, Level-2-Lookback 3 Bars)</h2>
+Zukunft, also darf die Auswahlstufe niemals auf IS-Zahlen der ersten Stufe schauen. Die zweite
+Stufe braucht eine eigene Quelle unverzerrter Zahlen — die liefert nur ein inneres Walk-Forward
+(<strong>Level-1</strong>). Und die Entscheidungen von Level-2 müssen ihrerseits OOS bewertet werden
+(<strong>Level-2</strong>-Walk-Forward).</p>
+<p>Die naheliegende Abkürzung — alles in einen Topf werfen und gemeinsam optimieren — ist genau der
+Fehler: <em>„the second stage must be based on OOS results from the first stage."</em></p>
+<h2 id="ablauf-am-miniaturbeispiel">Ablauf am Miniaturbeispiel</h2>
+<p>Level-1-Lookback <code>IS_n = 10</code> Bars, Level-2-Lookback <code>OOS1_n = 3</code> Bars:</p>
 <pre><code>Bars  1-10  → Konkurrenten trainieren; Bar 11 testen  → 1. Level-1-OOS-Fall
 Bars  2-11  → Konkurrenten trainieren; Bar 12 testen  → 2. Level-1-OOS-Fall
 Bars  3-12  → Konkurrenten trainieren; Bar 13 testen  → 3. Level-1-OOS-Fall
-        (jetzt genug Level-1-OOS-Fälle für Level-2)
+        ── jetzt genug Level-1-OOS-Faelle fuer Level-2 ──
 Level-1-OOS-Bars 11-13 → Level-2 trainieren; Bar 14 testen → 1. VOLL-OOS-Fall
 Bars  4-13  → Konkurrenten trainieren; Bar 14 testen  → neuer Level-1-OOS-Fall
 Level-1-OOS-Bars 12-14 → Level-2 trainieren; Bar 15 testen → 2. VOLL-OOS-Fall
-… bis die Historie erschöpft ist
+… beide Fenster weiterschieben, bis die Historie erschoepft ist
 </code></pre>
-<p>Wichtige Indizes in der Implementierung: <code>IS_start</code> (Trainingsstart Level 1), <code>OOS1_start</code> /
-<code>OOS1_end</code> (Fenster der Level-1-OOS-Returns, das Level-2 anschaut), <code>OOS2_start</code> = fix bei
-<code>IS_n + OOS1_n</code>, <code>OOS2_end</code> (laufender Index der endgültigen OOS-Reihe). Die Aufwärmphase
-(<code>OOS1_end − OOS1_start &lt; OOS1_n</code>) produziert noch keine Level-2-Fälle.</p>
-<h2 id="beispiel-chooser-65-sp-100-titel-19862017">Beispiel CHOOSER: 65 S&amp;P-100-Titel, 1986–2017</h2>
-<p>Masters' Demonstrationsprogramm kauft täglich denjenigen Titel, der zuletzt am besten lief —
-und wählt gleichzeitig laufend das <strong>Kriterium</strong>, mit dem „am besten" gemessen wird
-(Total Return / Sharpe / Profit Factor). Level-1-Lookback: 1.000 Bars; Level-2-Lookback: 100
-Level-1-OOS-Bars; 7.725 Handelstage. Ergebnis (annualisiert, <code>25200 × mittlere Log-Rendite</code>,
-P-Werte aus <a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a> mit 1.000 Permutationen):</p>
+<h2 id="die-indexvariablen">Die Indexvariablen</h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Bedeutung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n_cases</code></td>
+<td>Bars in der Preishistorie</td>
+</tr>
+<tr>
+<td><code>n_competitors</code></td>
+<td>Zahl der konkurrierenden Systeme</td>
+</tr>
+<tr>
+<td><code>IS_n</code></td>
+<td>Level-1-Lookback: Bars Historie je Handelsentscheidung</td>
+</tr>
+<tr>
+<td><code>OOS1_n</code></td>
+<td>Level-2-Lookback: Level-1-OOS-Returns, die der Selektor anschaut</td>
+</tr>
+<tr>
+<td><code>OOS1[c][j]</code></td>
+<td>Matrix <code>n_competitors × n_cases</code>; Rendite auf Bar <code>j</code> aus der Entscheidung von Bar <code>j−1</code>. <strong>Die ersten <code>IS_n</code> Spalten sind undefiniert.</strong></td>
+</tr>
+<tr>
+<td><code>OOS2[j]</code></td>
+<td>Renditen des jeweils gewählten Systems — <strong>das eigentliche Ziel</strong></td>
+</tr>
+<tr>
+<td><code>IS_start</code></td>
+<td>Startbar des Trainingsfensters, wandert mit</td>
+</tr>
+<tr>
+<td><code>OOS1_start</code> / <code>OOS1_end</code></td>
+<td>Fenster der Level-1-OOS-Returns; <code>OOS1_end</code> ist zugleich der Schreibindex</td>
+</tr>
+<tr>
+<td><code>OOS2_start</code></td>
+<td><strong>fix</strong> bei <code>IS_n + OOS1_n</code></td>
+</tr>
+<tr>
+<td><code>OOS2_end</code></td>
+<td>Schreibindex der Level-2-Returns</td>
+</tr>
+</tbody>
+</table>
+<h2 id="der-algorithmus">Der Algorithmus</h2>
+<pre><code>IS_start   = 0
+OOS1_start = OOS1_end = IS_n
+OOS2_start = OOS2_end = IS_n + OOS1_n
+
+Endlosschleife:
+    # (1) alle Konkurrenten am aktuellen Fenster auswerten
+    fuer jeden Konkurrenten c:
+        OOS1[c][OOS1_end] = criterion_1(c, IS_n, IS_start, prices)
+        # criterion_1 optimiert c auf bars[IS_start … IS_start+IS_n-1],
+        # entscheidet fuer Bar OOS1_end und liefert DEREN Rendite
+
+    # (2) Abbruch, wenn keine Bar mehr fuer OOS2 uebrig ist
+    if OOS1_end &gt;= n_cases - 1: break
+
+    # (3) Fenster vorruecken, die immer vorruecken
+    IS_start  += 1
+    OOS1_end  += 1
+
+    # (4) Aufwaermphase — noch nicht genug Level-1-OOS-Faelle
+    if OOS1_end - OOS1_start &lt; OOS1_n: continue
+
+    # (5) besten Konkurrenten anhand seiner OOS1-Historie waehlen
+    ibest = argmax_c  criterion_2( OOS1[c][OOS1_start … OOS1_end-1] )
+
+    # (6) diesen Konkurrenten OOS testen — Bar OOS2_end ist NICHT in der Entscheidung enthalten
+    position = trade_decision(ibest, IS_n, OOS2_end - IS_n, prices)
+    OOS2[OOS2_end] = ( +diff  if position &gt; 0 else
+                       −diff  if position &lt; 0 else 0.0 )
+                     mit diff = prices[OOS2_end] − prices[OOS2_end-1]
+
+    # (7) restliche Fenster vorruecken
+    OOS1_start += 1
+    OOS2_end   += 1
+</code></pre>
+<p>Am Ende gilt <code>OOS1_end == OOS2_end == n_cases</code>.</p>
+<p><strong>Für einen Korb statt eines einzelnen Siegers:</strong> in Schritt (5) <code>criterion_2</code> für alle
+Konkurrenten berechnen, das Array sortieren und die besten k behalten.</p>
+<p><strong>Fairer Vergleich in der Auswertung:</strong> Die mittlere Performance jedes Konkurrenten wird
+ausschließlich über <code>OOS2_start … OOS2_end</code> gemittelt, obwohl in <code>OOS1</code> mehr Daten stehen — sonst
+verglichen man verschieden lange Zeiträume.</p>
+<pre><code>crit_perf[c] = mean( OOS1[c][OOS2_start … OOS2_end-1] )
+final_perf   = mean( OOS2[OOS2_start … OOS2_end-1] )
+</code></pre>
+<p>Annualisierung bei Tages-Bars: <code>× 25200</code> (≈ 252 Handelstage × 100 %, weil Log-Renditen näherungsweise
+Bruchteile sind).</p>
+<h2 id="praxisbeispiel-chooser-zwei-auswahlebenen">Praxisbeispiel CHOOSER: zwei Auswahlebenen</h2>
+<p><code>CHOOSER.CPP</code> variiert das Schema leicht: Level 1 wählt aus vielen <strong>Märkten</strong>, Level 2 wählt das
+<strong>Kriterium</strong>, mit dem gewählt wird. Aufruf:</p>
+<pre><code>CHOOSER Markets.txt IS_n OOS1_n MC_reps
+CHOOSER Markets.txt 1000 100 100
+</code></pre>
+<p>Die drei konkurrierenden Kriterien, jeweils auf Log-Preisen:</p>
+<pre><code class="language-python">def total_return(p):   return p[-1] - p[0]
+
+def sharpe_ratio(p):
+    mean = (p[-1] - p[0]) / (len(p) - 1.0)
+    var  = 1e-60 + np.sum((np.diff(p) - mean) ** 2)
+    return mean / np.sqrt(var / (len(p) - 1))
+
+def profit_factor(p):
+    d = np.diff(p)
+    return (d[d &gt; 0].sum() + 1e-60) / (-d[d &lt; 0].sum() + 1e-60)
+</code></pre>
+<p>Die Kernschleife:</p>
+<pre><code class="language-python">IS_start = 0
+OOS1_start = OOS1_end = IS_n
+OOS2_start = OOS2_end = IS_n + OOS1_n
+
+while True:
+    # (1) je Kriterium den besten Markt waehlen, dessen Naechst-Bar-Rendite notieren
+    for icrit in range(n_criteria):
+        ibest = max(range(n_markets),
+                    key=lambda m: criterion(icrit, close[m][IS_start : IS_start + IS_n]))
+        OOS1[icrit][OOS1_end] = close[ibest][OOS1_end] - close[ibest][OOS1_end - 1]
+
+    if OOS1_end &gt;= n_cases - 1:
+        break
+    IS_start += 1
+    OOS1_end += 1
+    if OOS1_end - OOS1_start &lt; OOS1_n:
+        continue
+
+    # (2) zuverlaessigstes Kriterium = groesster Gesamt-OOS-Return im Rueckblickfenster
+    ibestcrit = max(range(n_criteria),
+                    key=lambda c: OOS1[c][OOS1_start:OOS1_end].sum())
+    crit_count[ibestcrit] += 1
+
+    # (3) mit diesem Kriterium den Markt fuer den naechsten Bar waehlen
+    ibest = max(range(n_markets),
+                key=lambda m: criterion(ibestcrit, close[m][OOS2_end - IS_n : OOS2_end]))
+    OOS2[OOS2_end] = close[ibest][OOS2_end] - close[ibest][OOS2_end - 1]
+
+    OOS1_start += 1
+    OOS2_end   += 1
+</code></pre>
+<p>Als Kompetenzmaß der Kriterien in Schritt (2) genügt der <strong>Gesamtreturn</strong> — „a decent measure",
+so Masters; hier eine weitere Kennzahl zu schachteln wäre Überbau.</p>
+<p><strong>Datenvoraussetzung:</strong> alle Märkte müssen zu <strong>jedem</strong> Bar einen Preis haben. Fehlt ein Datum bei
+einem Markt, muss dieser Bar bei allen entfernt werden. Der Kompressionsalgorithmus dafür steht
+auf <a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a> (er wird für die Permutation ohnehin gebraucht).</p>
+<h2 id="ergebnis-65-sp-100-titel-19862017">Ergebnis: 65 S&amp;P-100-Titel, 1986–2017</h2>
+<p>7.725 Handelstage, <code>IS_n = 1000</code>, <code>OOS1_n = 100</code>, 1.000 Monte-Carlo-Permutationen.
+Alle Renditen <code>× 25200</code> annualisiert.</p>
 <table>
 <thead>
 <tr>
@@ -190,60 +343,92 @@ P-Werte aus <a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Pe
 <tbody>
 <tr>
 <td>Gleichgewichteter Korb (Buy &amp; Hold)</td>
-<td>8,75 %</td>
+<td>8,7473 %</td>
 <td>—</td>
 <td>—</td>
 </tr>
 <tr>
 <td>nur Total Return als Kriterium</td>
-<td>17,89 %</td>
+<td>17,8898 %</td>
 <td>0,076</td>
 <td>67,8 %</td>
 </tr>
 <tr>
 <td>nur Sharpe Ratio</td>
-<td>12,98 %</td>
+<td>12,9834 %</td>
 <td>0,138</td>
 <td>21,1 %</td>
 </tr>
 <tr>
 <td>nur Profit Factor</td>
-<td>12,28 %</td>
+<td>12,2799 %</td>
 <td>0,180</td>
 <td>11,1 %</td>
 </tr>
 <tr>
 <td><strong>Kriterienwahl mitlaufend (Level-2)</strong></td>
-<td><strong>19,12 %</strong></td>
+<td><strong>19,1151 %</strong></td>
 <td><strong>0,027</strong></td>
 <td>—</td>
 </tr>
 </tbody>
 </table>
 <p>Die Pointe steckt in den P-Werten: die einzelnen Kriterien sind je für sich nur schwach
-signifikant (0,076–0,180), das geschachtelte Verfahren aber deutlich (0,027). Die adaptive
+signifikant (0,076–0,180), das geschachtelte Verfahren aber deutlich (<strong>0,027</strong>). Die adaptive
 Kriterienwahl ist also nicht nur nominell besser, sondern statistisch belastbarer.</p>
+<p>Nebenbefund: Total Return wird in zwei Dritteln der Fälle als zuverlässigstes Kriterium gewählt —
+aber eben nicht immer, und genau die restlichen 32 % machen den Unterschied zwischen 17,89 % und
+19,12 %.</p>
 <h2 id="permutation-im-geschachtelten-fall">Permutation im geschachtelten Fall</h2>
-<p>Wichtig bei der Kombination mit dem MCPT: Die Historie zerfällt in <strong>drei</strong> Segmente, die
-getrennt permutiert werden müssen, weil im unpermutierten Lauf jeweils andere Daten nie in einem
+<p>Bei der Kombination mit dem MCPT zerfällt die Historie in <strong>drei</strong> Segmente, die <strong>getrennt</strong>
+permutiert werden müssen — weil im unpermutierten Lauf jeweils andere Daten nie in einem
 OOS-Block landen:</p>
-<ol>
-<li><code>[1 … IS_n)</code> — der erste „Trainings"-Block; taucht nie in einem OOS-Ergebnis auf.</li>
-<li><code>[IS_n … IS_n+OOS1_n)</code> — der erste Level-1-OOS-Block; taucht nie im Level-2-OOS auf.</li>
-<li><code>[IS_n+OOS1_n … Ende)</code> — der eigentlich interessierende Voll-OOS-Bereich.</li>
-</ol>
+<pre><code>prepare_permute( IS_n,             n_markets, offset=1,             close, work )
+prepare_permute( IS_n + OOS1_n,    n_markets, offset=IS_n,          close, work )
+prepare_permute( n_cases,          n_markets, offset=IS_n + OOS1_n, close, work )
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>warum getrennt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[0 … IS_n)</code></td>
+<td>erster „Trainings"-Block; taucht nie in einem OOS-Ergebnis auf</td>
+</tr>
+<tr>
+<td><code>[IS_n … IS_n+OOS1_n)</code></td>
+<td>erster Level-1-OOS-Block; taucht nie im Level-2-OOS auf</td>
+</tr>
+<tr>
+<td><code>[IS_n+OOS1_n … Ende)</code></td>
+<td>der eigentlich interessierende Voll-OOS-Bereich</td>
+</tr>
+</tbody>
+</table>
 <p>Würde man alles in einen Topf permutieren, könnten ungewöhnliche Kursbewegungen (starker Trend,
-Volatilitätsspitze) aus Segment 1 in den OOS-Bereich wandern und dort Ergebnisse erzeugen, die
-im Originallauf gar nicht möglich waren.</p>
+Volatilitätsspitze) aus Segment 1 in den OOS-Bereich wandern und dort Ergebnisse erzeugen, die im
+Originallauf gar nicht möglich waren. Das Permutieren des ersten Segments selbst hält Masters für
+folgenlos („I am not aware of any pros or cons") und tut es aus pädagogischen Gründen mit.</p>
+<p><strong>Segmentgrenzen dürfen sich nicht überlappen</strong>, einschließlich des jeweiligen „Basis"-Falls bei
+<code>offset−1</code> — Details auf <a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a>.</p>
 <h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
 <p><code>algo/signals.py</code> / <code>algo/backtest_ensemble.py</code> kombinieren mehrere Regeln zu einem Ensemble.
-Sobald daraus eine <em>Auswahl</em> wird („heute handelt die Regel, die zuletzt am besten lief"), gilt
-dieses Kapitel und der aktuelle einschichtige Walk-Forward in <code>algo/validate.py</code> reicht nicht
-mehr aus. Solange das Ensemble statisch gewichtet ist, ist es nicht betroffen.</p>
+Solange die Gewichtung <strong>statisch</strong> ist, greift dieses Kapitel nicht. Sobald daraus eine <em>Auswahl</em>
+wird — „heute handelt die Regel, die zuletzt am besten lief" —, reicht der einschichtige
+Walk-Forward in <code>algo/validate.py</code> nicht mehr aus, und alle dort berichteten Zahlen wären
+selection-biased.</p>
+<p>Die CHOOSER-Struktur ist überdies direkt auf eine Frage übertragbar, die im Vault offen ist:
+<em>welches Kriterium soll <code>algo/</code> überhaupt optimieren?</em> Statt sich einmalig für Profit Factor oder
+Sharpe zu entscheiden, ließe sich diese Wahl mitlaufen lassen — mit dem Nachweis, dass sie
+Mehrwert bringt.</p>
 <p>Siehe auch <a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a> (dort die deutlich einfacher zu
 implementierende Variante CV-in-Walk-Forward) und
 <a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a>.</p></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">3</span></h2><ul><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">5</span></h2><ul><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Nested Walkforward.md</code></footer>
 </article>
 </main>

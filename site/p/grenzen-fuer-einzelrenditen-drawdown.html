@@ -129,104 +129,301 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Grenzen für Einzelrenditen &amp; Drawdown</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">risiko</span> <span class="tag">drawdown</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">risiko</span> <span class="tag">drawdown</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#untergrenze-aus-empirischen-quantilen">Untergrenze aus empirischen Quantilen</a></li>
+<li><a href="#teil-1-grenzen-fur-einzelrenditen-aus-empirischen-quantilen">Teil 1 — Grenzen für Einzelrenditen aus empirischen Quantilen</a><ul>
+<li><a href="#definition-und-formel">Definition und Formel</a></li>
 <li><a href="#warum-die-grenze-selbst-unsicher-ist">Warum die Grenze selbst unsicher ist</a></li>
-<li><a href="#drawdown-der-naive-bootstrap-ist-gefahrlich-falsch">Drawdown: der naive Bootstrap ist gefährlich falsch</a></li>
+<li><a href="#zahlenbeispiel-conftest-n-200-p-01-m-20">Zahlenbeispiel (CONFTEST, n = 200, p = 0,1 → m = 20)</a></li>
+<li><a href="#obergrenzen-sind-hier-ausdrucklich-nutzlich">Obergrenzen sind hier ausdrücklich nützlich</a></li>
+<li><a href="#referenzlauf-bnd_ret-oex-quartalsrenditen">Referenzlauf BND_RET (OEX, Quartalsrenditen)</a></li>
+</ul>
+</li>
+<li><a href="#teil-2-drawdown">Teil 2 — Drawdown</a><ul>
+<li><a href="#definition-im-buch-absolut-nicht-prozentual">Definition im Buch (absolut, nicht prozentual)</a></li>
+<li><a href="#der-naive-bootstrap-ist-gefahrlich-falsch">Der naive Bootstrap ist gefährlich falsch</a></li>
 <li><a href="#der-korrekte-doppel-bootstrap">Der korrekte Doppel-Bootstrap</a></li>
-<li><a href="#wie-schlimm-der-fehler-ist-drawdown-experimente-gewinnwahrscheinlichkeit-06">Wie schlimm der Fehler ist (DRAWDOWN-Experimente, Gewinnwahrscheinlichkeit 0,6)</a></li>
+<li><a href="#wie-schlimm-der-fehler-ist-drawdown-experimente">Wie schlimm der Fehler ist (DRAWDOWN-Experimente)</a></li>
+<li><a href="#anwendungsbeispiel-chooser_dd">Anwendungsbeispiel CHOOSER_DD</a></li>
+</ul>
+</li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
 </ul>
 </div>
 </details>
   <div class="content"><h1 id="grenzen-fur-einzelrenditen-drawdown">Grenzen für Einzelrenditen &amp; Drawdown</h1>
-<p>Nicht der <em>Mittelwert</em> künftiger Renditen (dafür siehe
+<p>Nicht der <em>Mittelwert</em> künftiger Renditen (dafür
 <a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a>), sondern <strong>die einzelnen künftigen
 Werte selbst</strong> — und speziell der schlimmste anzunehmende Drawdown. Aus
-<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 6).</p>
-<p>Der Hauptzweck ist <strong>Überwachung im Livebetrieb</strong>: eine Untergrenze für die Monats-/
-Quartalsrendite, unter die das System im Normalbetrieb nur mit Wahrscheinlichkeit <code>p</code> fällt.
-Fällt es öfter darunter, degradiert es.</p>
-<h2 id="untergrenze-aus-empirischen-quantilen">Untergrenze aus empirischen Quantilen</h2>
-<p>Verfahren: <code>n</code> OOS-Renditen aufsteigend sortieren, Fehlerrate <code>p</code> wählen (typisch 0,05–0,1),
-<code>m = n·p</code> (konservativ) bzw. <code>m = (n+1)·p</code> (unverzerrt) bilden, abrunden — die <code>m</code>-kleinste
-Rendite ist die Untergrenze. Für eine Obergrenze analog die <code>m</code>-größte.</p>
-<p>Datenbedarf: <strong>mindestens ~100 Renditen, besser mehrere hundert.</strong> Bei Monatsrenditen heißt das
-über zehn Jahre OOS. Der Kompromiss ist unangenehm: kürzere Renditeperioden liefern mehr
-Datenpunkte, aber höhere Streuung und damit so niedrige Grenzen, dass sie nutzlos werden.</p>
-<h2 id="warum-die-grenze-selbst-unsicher-ist">Warum die Grenze selbst unsicher ist</h2>
+<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 6, Programme <code>CONFTEST.CPP</code>,
+<code>BND_RET.CPP</code>, <code>DRAWDOWN.CPP</code>, <code>CHOOSER_DD.CPP</code>).</p>
+<p>Hauptzweck: <strong>Überwachung im Livebetrieb.</strong> Eine Untergrenze für die Monats-/Quartalsrendite,
+unter die das System im Normalbetrieb nur mit Wahrscheinlichkeit <code>p</code> fällt. Fällt es öfter
+darunter, degradiert es.</p>
+<h2 id="teil-1-grenzen-fur-einzelrenditen-aus-empirischen-quantilen">Teil 1 — Grenzen für Einzelrenditen aus empirischen Quantilen</h2>
+<h3 id="definition-und-formel">Definition und Formel</h3>
+<p><em>Quantil der Ordnung p</em> der Verteilung von X: der Wert x mit <code>P{X &lt; x} ≤ p</code> und <code>P{X ≥ x} ≥ p</code>.
+Bei diskreten Daten ist x nicht zwingend eindeutig; praktisch behandelt man die Renditen als
+stetig.</p>
+<pre><code>n Renditen aufsteigend sortieren
+m = n·p            → konservative (etwas zu tiefe) Grenze
+m = (n+1)·p        → unverzerrte Grenze
+m auf ganze Zahl abrunden
+
+Untergrenze = m-kleinste Rendite
+Obergrenze  = m-groesste Rendite
+</code></pre>
+<pre><code class="language-python">def bound(returns, p, unbiased=True):
+    s = np.sort(returns)
+    n = len(s)
+    m = int((n + 1) * p) if unbiased else int(n * p)
+    m = max(m, 1)
+    return s[m - 1]                      # Untergrenze; Obergrenze: s[n - m]
+</code></pre>
+<p><strong>Datenbedarf:</strong> mindestens ~100 Renditen, besser mehrere hundert bis tausend. Bei Monatsrenditen
+heißt das über zehn Jahre OOS. Der Kompromiss ist unangenehm: kürzere Renditeperioden liefern
+mehr Datenpunkte, aber höhere Streuung und damit so tiefe Grenzen, dass sie nutzlos werden.
+Masters: <em>„Just do your best."</em></p>
+<h3 id="warum-die-grenze-selbst-unsicher-ist">Warum die Grenze selbst unsicher ist</h3>
 <p>Die eigene OOS-Sammlung ist mit Sicherheit optimistisch <strong>oder</strong> pessimistisch verzerrt (siehe
 den „Unbiased"-Abschnitt in <a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>). Also ist auch die berechnete
-Grenze zu hoch oder zu tief. Beide Richtungen sind gefährlich, aber unterschiedlich:</p>
+Grenze zu hoch oder zu tief:</p>
+<table>
+<thead>
+<tr>
+<th>Fehler</th>
+<th>Folge</th>
+<th>zu prüfen mit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Grenze <strong>zu hoch</strong></td>
+<td>wird öfter verletzt als die gewünschten <code>p</code> → man vermutet Degradation, wo keine ist</td>
+<td>„pessimistisches" <code>q &gt; p</code></td>
+</tr>
+<tr>
+<td>Grenze <strong>zu tief</strong></td>
+<td>wird seltener verletzt → <strong>echte Degradation wird nicht erkannt</strong></td>
+<td>„optimistisches" <code>q &lt; p</code></td>
+</tr>
+</tbody>
+</table>
+<p>Der zweite Fehler ist für die Live-Überwachung der gefährlichere.</p>
+<p>Beide Wahrscheinlichkeiten liefert die <strong>unvollständige Beta-Verteilung</strong>. Wahrscheinlichkeit,
+dass der m-kleinste von n Werten <strong>über</strong> dem q-Quantil der Verteilung liegt:</p>
+<pre><code>orderstat_tail(n, q, m) = 1 − I_q(m, n − m + 1)
+</code></pre>
+<p><code>I_q(a,b)</code> = regularisierte unvollständige Beta-Funktion (<code>scipy.special.betainc(a, b, q)</code>).</p>
+<pre><code class="language-python">from scipy.special import betainc
+from scipy.stats  import beta as beta_dist
+
+def orderstat_tail(n, q, m):
+    &quot;&quot;&quot;P{ m-kleinster von n Werten &gt; q-Quantil }&quot;&quot;&quot;
+    return 1.0 - betainc(m, n - m + 1, q)
+
+def quantile_conf(n, m, conf):
+    &quot;&quot;&quot;Umkehrung: welches q gehoert zu dieser Wahrscheinlichkeit?&quot;&quot;&quot;
+    return beta_dist.ppf(1.0 - conf, m, n - m + 1)
+
+# pessimistisches q (Grenze zu hoch):
+p_pes = orderstat_tail(n, q_pes, m)
+# optimistisches q (Grenze zu tief):
+p_opt = 1.0 - orderstat_tail(n, q_opt, m)
+</code></pre>
+<p>Die <code>1.0 −</code>-Drehung beim optimistischen Fall ist der häufigste Stolperstein: <code>orderstat_tail</code>
+liefert die Wahrscheinlichkeit, dass die Grenze <strong>über</strong> dem q-Quantil liegt; gefragt ist aber
+„liegt <strong>darunter</strong>".</p>
+<h3 id="zahlenbeispiel-conftest-n-200-p-01-m-20">Zahlenbeispiel (CONFTEST, n = 200, p = 0,1 → m = 20)</h3>
+<p>Die 20.-kleinste OOS-Rendite ist die Untergrenze, die 20.-größte die Obergrenze.</p>
+<table>
+<thead>
+<tr>
+<th>Vorgabe</th>
+<th>Ergebnis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>optimistisches <code>q = 0,07</code></td>
+<td>Wahrscheinlichkeit <strong>0,0692</strong> (⇒ 93,1 % Konfidenz, dass die Grenze über dem 0,07-Quantil liegt)</td>
+</tr>
+<tr>
+<td>pessimistisches <code>q = 0,12</code></td>
+<td>Wahrscheinlichkeit <strong>0,1638</strong> (⇒ 83,6 % Konfidenz, dass sie unter dem 0,12-Quantil liegt)</td>
+</tr>
+<tr>
+<td>umgekehrt: <code>p_of_q = 0,05</code></td>
+<td>optimistisches <code>q = 0,0673</code>, pessimistisches <code>q = 0,1363</code></td>
+</tr>
+</tbody>
+</table>
+<p>Letzte Zeile gelesen: es gibt je 5 % Chance, dass die wahre Fehlerrate meiner „10 %-Grenze"
+tatsächlich unter 6,73 % bzw. über 13,63 % liegt.</p>
+<p>Ein weiteres Buchbeispiel: n = 200, p = 0,1, gewünschte Sicherheit 0,999 → pessimistisches
+q = 0,18. Also 99,9 % Sicherheit, dass die vermeintliche 10 %-Grenze höchstens 18 % Fehlerrate
+hat. <em>„That's not very good, but on the other hand, demanding such high certainty is asking a
+lot."</em></p>
+<p>CONFTEST verifiziert diese Theoriewerte per Simulation über Millionen Ziehungen aus einer
+Gleichverteilung (deren Quantilfunktion die Identität ist, was die Prüfung trivial macht) — die
+gemessenen Raten stimmen auf drei Nachkommastellen (0,0691 vs. 0,0692 theoretisch). Der leichte
+Bias in den „fail above/below"-Zählern (sollte 0,5 sein) stammt aus dem Abrunden bei <code>m</code> und
+verschwindet bei großem n; er wirkt zudem in die konservative Richtung.</p>
+<h3 id="obergrenzen-sind-hier-ausdrucklich-nutzlich">Obergrenzen sind hier ausdrücklich nützlich</h3>
+<p>Anders als beim Mittelwert. Ein System degradiert nämlich nicht nur, indem es zu schlechte Trades
+produziert, sondern auch, indem die <strong>guten ausbleiben</strong>. Deshalb:</p>
 <ul>
-<li><strong>Grenze zu hoch</strong> → wird häufiger verletzt als die gewünschten <code>p</code>, man vermutet Degradation,
-  wo keine ist. Der zugehörige „pessimistische" <code>q &gt; p</code> beantwortet: <em>Wie wahrscheinlich ist es,
-  dass meine 0,1-Grenze in Wahrheit die 0,15-Grenze ist?</em></li>
-<li><strong>Grenze zu tief</strong> → wird seltener verletzt, echte Degradation wird <strong>nicht erkannt</strong>. Der
-  „optimistische" <code>q &lt; p</code> beantwortet die Gegenfrage.</li>
+<li>Für die Obergrenze eine <strong>große</strong> „Fehlerrate" ansetzen, z.B. <code>p = 0,4</code> — man <em>erwartet</em>, dass
+  40 % der künftigen Renditen darüber liegen. Sinkt dieser Anteil deutlich, wird man misstrauisch.</li>
+<li>Alle Beziehungen kehren sich um: bei der Obergrenze ist das <em>pessimistische</em> q <strong>kleiner</strong> als
+  die Fehlerrate, das <em>optimistische</em> größer. Rechnerisch: <code>upper_bound_index = n − 1 − lower_bound_index</code>,
+  <code>upper_q = 1 − lower_q</code>.</li>
 </ul>
-<p>Berechnet wird beides über die <strong>unvollständige Beta-Verteilung</strong>: die Wahrscheinlichkeit, dass
-der <code>m</code>-kleinste von <code>n</code> Werten über dem <code>q</code>-Quantil liegt, ist <code>1 − I_q(m, n−m+1)</code>
-(bei Masters <code>orderstat_tail()</code>). Umgekehrt liefert <code>quantile_conf()</code> zu einer vorgegebenen
-kleinen Wahrscheinlichkeit den zugehörigen <code>q</code>.</p>
-<p>Zahlenbeispiel (n=200, p=0,1, also <code>m</code>=20): mit <code>q</code>=0,07 beträgt die Wahrscheinlichkeit 0,0692,
-mit <code>q</code>=0,12 beträgt sie 0,1638. Umgekehrt bei vorgegebenem <code>p_of_q</code>=0,05: optimistisches
-<code>q</code>=0,0673, pessimistisches <code>q</code>=0,1363 — es gibt also je 5 % Chance, dass die wahre Fehlerrate
-unter 6,7 % bzw. über 13,6 % liegt statt bei den gewünschten 10 %.</p>
-<p><strong>Obergrenzen sind hier ausdrücklich nützlich</strong> — anders als beim Mittelwert. Ein System
-degradiert nämlich nicht nur, indem es zu schlechte Trades produziert, sondern auch, indem die
-guten ausbleiben. Deshalb setzt man für die Obergrenze eine <strong>große</strong> „Fehlerrate" an (z.B.
-<code>p</code>=0,4: 40 % der künftigen Renditen sollten die Obergrenze übertreffen) und wird misstrauisch,
-wenn dieser Anteil deutlich sinkt.</p>
-<p>Masters' <code>BND_RET</code>-Lauf auf OEX (Quartalsrenditen, MA-Crossover): 1,021 % annualisiert — „a
-mighty poor trading system". 10 % der künftigen Quartale sollten schlechter als −38,942 %
-annualisiert sein, 40 % besser als +9,043 %. Bei nur 124 Renditen sind die Grenzen aber
-eingestandenermaßen wackelig.</p>
-<h2 id="drawdown-der-naive-bootstrap-ist-gefahrlich-falsch">Drawdown: der naive Bootstrap ist gefährlich falsch</h2>
+<h3 id="referenzlauf-bnd_ret-oex-quartalsrenditen">Referenzlauf BND_RET (OEX, Quartalsrenditen)</h3>
+<p>Parameter: <code>max_lookback = 100</code>, <code>n_train = 1000</code>, <code>n_test = 63</code> (≈ ein Quartal Handelstage),
+<code>lower_fail_rate = 0,1</code>, <code>upper_fail_rate = 0,4</code>, <code>p_of_q = 0,05</code>; optimistisches/pessimistisches
+q automatisch als <code>0,9 ×</code> bzw. <code>1,1 ×</code> der Fehlerrate.</p>
+<table>
+<thead>
+<tr>
+<th>Ergebnis</th>
+<th>Wert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>annualisierte mittlere Rendite</td>
+<td>1,021 % („a mighty poor trading system")</td>
+</tr>
+<tr>
+<td>10 % der künftigen Quartale schlechter als</td>
+<td><strong>−38,942 %</strong> annualisiert</td>
+</tr>
+<tr>
+<td>40 % der künftigen Quartale besser als</td>
+<td><strong>+9,043 %</strong> annualisiert</td>
+</tr>
+<tr>
+<td>Anzahl Renditen</td>
+<td>124 — „dangerously few"</td>
+</tr>
+</tbody>
+</table>
+<p>Lesart für die Überwachung: zwei Quartale unter −38,9 % ⇒ hochgradig verdächtig; bleibt der
+Anteil der Quartale über +9,0 % dauerhaft deutlich unter 40 % ⇒ ebenfalls verdächtig.</p>
+<h2 id="teil-2-drawdown">Teil 2 — Drawdown</h2>
+<h3 id="definition-im-buch-absolut-nicht-prozentual">Definition im Buch (absolut, nicht prozentual)</h3>
+<pre><code class="language-python">def drawdown(trades):
+    &quot;&quot;&quot;trades = Log-Renditen in zeitlicher Reihenfolge&quot;&quot;&quot;
+    cumulative = max_price = trades[0]
+    dd = 0.0
+    for r in trades[1:]:
+        cumulative += r
+        if cumulative &gt; max_price:
+            max_price = cumulative
+        else:
+            dd = max(dd, max_price - cumulative)
+    return dd
+</code></pre>
+<p>Bewusst <strong>absolut</strong> statt „Prozent vom Maximalkapital": das vermeidet die Willkür eines
+Startkapitals, macht die Wirkung über das Zeitintervall gleichförmig und funktioniert auch bei
+negativem Eigenkapital (gehebelte Futures). Da die Renditen Logarithmen sind, ist das Ergebnis
+monoton zum Prozent-Drawdown; die Umrechnung ist eine Zeile:</p>
+<pre><code class="language-python">dd_pct = 100.0 * (1.0 - math.exp(-dd))
+</code></pre>
+<p>Herleitung: <code>dd</code> ist der Log des Verhältnisses Peak-Equity zu Tal-Equity. Start 1, Peak 3, Tal 2
+→ <code>dd = log 3 − log 2</code> → <code>100·(1 − exp(log 2 − log 3)) = 100·(1 − 2/3) = 33,3 %</code>.</p>
+<h3 id="der-naive-bootstrap-ist-gefahrlich-falsch">Der naive Bootstrap ist gefährlich falsch</h3>
 <p>Die intuitive und <strong>falsche</strong> Argumentationskette:</p>
 <ol>
 <li>Die Returns sind OOS und damit unverzerrt.</li>
 <li><em>Also</em> repräsentieren sie die Zukunft fair. ← <strong>hier bricht es</strong></li>
 <li>Drawdown hängt von der Reihenfolge ab.</li>
 <li>Die Zukunft unterscheidet sich nur durch Zusammensetzung und Reihenfolge.</li>
-<li>Also: mit Zurücklegen aus den OOS-Returns ziehen, Drawdown je Stichprobe berechnen, das
-   5 %-Quantil ist die 95 %-Drawdown-Grenze.</li>
+<li>Also: mit Zurücklegen aus den OOS-Returns ziehen, Drawdown je Stichprobe, 5 %-Quantil =
+   95 %-Grenze.</li>
 </ol>
 <p>Schritt 2 ist der Fehler: die OOS-Stichprobe <strong>ist</strong> verzerrt, man weiß nur nicht in welche
-Richtung. Der naive Bootstrap ignoriert diese Variationsquelle völlig. Und die Verzerrung wirkt
-beim Drawdown <strong>asymmetrisch</strong> — optimistische Stichproben schaden mehr, als pessimistische
-nützen.</p>
-<h2 id="der-korrekte-doppel-bootstrap">Der korrekte Doppel-Bootstrap</h2>
-<pre><code>für 'outer' Wiederholungen:
-    äußere Bootstrap-Stichprobe aus den OOS-Returns ziehen (Größe = ganze OOS-Menge)
-    für 'inner' Wiederholungen:
-        innere Stichprobe daraus ziehen (Größe = n_trades der Drawdown-Periode)
-        DD_inner[inner] = Drawdown dieser inneren Stichprobe
-    DD_inner sortieren; DD_outer[outer] = DD_inner[ DD_conf · inner ]
+Richtung. Der naive Bootstrap erfasst die Faktoren 2 und 3, ignoriert aber <strong>Faktor 1</strong> (die
+Stichprobe ist selbst eine Zufallsziehung). Und die Verzerrung wirkt beim Drawdown
+<strong>asymmetrisch</strong> — optimistische Stichproben schaden mehr, als pessimistische nützen. Deshalb
+ist der Fehler nicht neutral, sondern systematisch <strong>anti-konservativ</strong>.</p>
+<h3 id="der-korrekte-doppel-bootstrap">Der korrekte Doppel-Bootstrap</h3>
+<pre><code>fuer 'outer' Wiederholungen:
+    aeussere Bootstrap-Stichprobe aus den OOS-Returns ziehen  (Groesse = n_changes, ganze OOS-Menge)
+    fuer 'inner' Wiederholungen:
+        innere Stichprobe daraus ziehen  (Groesse = n_trades, Laenge der Drawdown-Periode)
+        DD_inner[inner] = drawdown(innere Stichprobe)
+    DD_inner sortieren
+    DD_outer[outer] = DD_inner[ DD_conf · inner ]
 DD_outer sortieren
 Bound = DD_outer[ Bound_conf · outer ]
 </code></pre>
-<p>Zwei Konfidenzen, die man auseinanderhalten muss:</p>
-<ul>
-<li><code>DD_conf</code> — Wahrscheinlichkeit, dass ein künftiger Drawdown die Grenze <strong>nicht</strong> überschreitet
-  (z.B. 0,9).</li>
-<li><code>Bound_conf</code> — Konfidenz, dass die berechnete Grenze mindestens so groß ist wie die wahre,
-  unbekannte <code>DD_conf</code>-Grenze (z.B. 0,7).</li>
-</ul>
+<pre><code class="language-python">def find_quantile(sorted_data, frac):
+    k = int(frac * (len(sorted_data) + 1)) - 1
+    return sorted_data[max(k, 0)]
+
+def drawdown_quantiles(b_changes, n_trades, nboot, rng):
+    &quot;&quot;&quot;vier Quantile in einem Durchlauf — das Sortieren ist der teure Teil&quot;&quot;&quot;
+    work = np.empty(nboot)
+    for i in range(nboot):
+        work[i] = drawdown(rng.choice(b_changes, size=n_trades, replace=True))
+    work.sort()
+    return (find_quantile(work, 0.999),   # katastrophal
+            find_quantile(work, 0.99),    # schwer
+            find_quantile(work, 0.95),    # ziemlich schlecht
+            find_quantile(work, 0.90))    # gelegentlich zu erwarten
+
+def dd_bound(oos_returns, n_trades, bootstrap_reps, quantile_reps, bound_conf, rng):
+    n   = len(oos_returns)
+    q10 = np.empty(bootstrap_reps)
+    for b in range(bootstrap_reps):
+        outer = rng.choice(oos_returns, size=n, replace=True)          # Faktor 1
+        _, _, _, q10[b] = drawdown_quantiles(outer, n_trades, quantile_reps, rng)
+    q10.sort()
+    return find_quantile(q10, bound_conf)
+</code></pre>
+<p><strong>Die zwei Konfidenzen auseinanderhalten:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Größe</th>
+<th>Bedeutung</th>
+<th>typischer Wert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DD_conf</code></td>
+<td>Wahrscheinlichkeit, dass ein künftiger Drawdown die Grenze <strong>nicht</strong> überschreitet</td>
+<td>0,9 / 0,95 / 0,99 / 0,999</td>
+</tr>
+<tr>
+<td><code>Bound_conf</code></td>
+<td>Konfidenz, dass die <strong>berechnete</strong> Grenze mindestens so groß ist wie die wahre, unbekannte <code>DD_conf</code>-Grenze</td>
+<td>0,7 (Routine) bis 0,9+ (Extremfälle)</td>
+</tr>
+</tbody>
+</table>
 <p>Also: <em>„Mit 70 % Sicherheit liegt die Grenze, die zu 90 % nicht überschritten wird, bei höchstens
-69 %."</em> Eine Grenze für eine Grenze. Faustregel des Autors: bei extremen <code>DD_conf</code> (0,99 / 0,999)
-<code>Bound_conf</code> anheben, bei Routine-Drawdowns (0,9) reichen 0,7.</p>
-<p>Wichtig zur Auslegung: die Grenze gilt für <strong>einen im Voraus festgelegten Zeitraum</strong> (typisch das
-kommende Jahr) und nur für Equity-Veränderungen <em>innerhalb</em> dieses Zeitraums — nicht für „jemals"
-und nicht für die Fortsetzung eines laufenden Drawdowns.</p>
-<p>Der Drawdown wird in Prozent ausgedrückt über <code>100·(1 − exp(−dd))</code>, weil die Returns Log-Größen
-sind.</p>
-<h2 id="wie-schlimm-der-fehler-ist-drawdown-experimente-gewinnwahrscheinlichkeit-06">Wie schlimm der Fehler ist (DRAWDOWN-Experimente, Gewinnwahrscheinlichkeit 0,6)</h2>
-<p>Jede Zelle: Faktor, um den die <strong>tatsächliche</strong> Verletzungsrate die angenommene übersteigt.
-1,0 wäre perfekt; &gt; 1,0 ist gefährlich (Drawdown tritt öfter ein als gedacht), &lt; 1,0 nur
-konservativ.</p>
+69 %."</em> Eine Grenze für eine Grenze. Im Buch wird <code>Bound_conf</code> für die beiden extremsten
+<code>DD_conf</code>-Werte automatisch auf <code>1 − (1 − Bound_conf)/2</code> angehoben — bei den ernsten Drawdowns
+will man sicherer sein.</p>
+<p><strong>Auslegungsregeln:</strong> Die Grenze gilt für <strong>einen im Voraus festgelegten Zeitraum</strong> (typisch das
+kommende Jahr, <code>n_trades = 252</code>) und nur für Equity-Veränderungen <em>innerhalb</em> dieses Zeitraums —
+nicht für „jemals" und nicht für die Fortsetzung eines laufenden Drawdowns. Vorheriges
+Eigenkapital wird ignoriert.</p>
+<p><strong>Kosten:</strong> Größenordnung 10⁸ Iterationen — Sekunden bis eine Minute für ein fertiges System,
+aber unbrauchbar <em>innerhalb</em> einer Optimierungsschleife. Genau dafür ist die Tabelle unten da:
+sie sagt, wann der billige naive Weg vertretbar ist.</p>
+<p>Formal ist übrigens nur die <strong>äußere</strong> Schleife ein echter Bootstrap (Perzentil-Methode für ein
+Konfidenzintervall). Die innere schätzt lediglich die Statistik — das gewünschte Quantil — aus der
+empirischen Verteilung der äußeren Stichprobe.</p>
+<h3 id="wie-schlimm-der-fehler-ist-drawdown-experimente">Wie schlimm der Fehler ist (DRAWDOWN-Experimente)</h3>
+<p>Parameter: <code>WinProb = 0,6</code>, <code>BootstrapReps = 5.000</code>, <code>QuantileReps = 10.000</code>, <code>TestReps = 2.000</code>.
+Jede Zelle: <strong>Faktor, um den die tatsächliche Verletzungsrate die angenommene übersteigt.</strong>
+1,0 wäre perfekt; &gt; 1,0 ist gefährlich, &lt; 1,0 nur konservativ.</p>
 <table>
 <thead>
 <tr>
@@ -350,24 +547,37 @@ konservativ.</p>
 </tr>
 </tbody>
 </table>
+<p>(Die drei Konfigurationen entsprechen: ein Quartal OOS → nächstes Quartal; ein Jahr → nächstes
+Jahr; zehn Jahre → nächstes Jahr.)</p>
 <p>Ablesbar:</p>
 <ul>
-<li>Der naive Bootstrap <strong>unterschätzt in jeder einzelnen Zeile</strong> die Verletzungsrate — nie
-  konservativ.</li>
-<li>Mit 63 OOS-Returns und p=0,001 unterschätzt er Katastrophen-Drawdowns um <strong>Faktor 13,65</strong>.</li>
-<li>Mit 2.520 OOS-Returns (10 Jahre Tagesdaten) und moderatem p ist er brauchbar (1,04–1,16) —
-  das ist die einzige Konstellation, in der man ihn (z.B. innerhalb einer Optimierungsschleife,
-  wo der korrekte Doppel-Bootstrap mit ~10⁸ Iterationen zu teuer ist) verantworten kann.</li>
-<li>Der korrekte Algorithmus mit <code>Bound_conf</code>=0,8 ist außer im Extremfall (63/0,001) durchweg
-  konservativ, und zwar ohne übertrieben zu werden (schlechtester Wert 0,41).</li>
+<li>Der naive Bootstrap <strong>unterschätzt in jeder einzelnen Zeile</strong> — nie konservativ.</li>
+<li>Seine Qualität hängt massiv an <strong>Stichprobengröße</strong> und <strong>Fehlerrate</strong>: mit 63 OOS-Returns und
+  p = 0,001 liegt er um <strong>Faktor 13,65</strong> daneben; mit 2.520 Returns und p = 0,1 nur noch um 1,04.</li>
+<li>Die einzige Konstellation, in der er vertretbar ist (und dann innerhalb einer Optimierung sehr
+  nützlich, weil er Größenordnungen schneller ist): <strong>große OOS-Stichprobe und moderates p</strong>.</li>
+<li>Der korrekte Algorithmus mit <code>Bound_conf = 0,8</code> ist außer im Extremfall (63 / 0,001) durchweg
+  konservativ, ohne zu übertreiben — schlechtester Wert 0,41. <em>„This trade-off is a no-brainer
+  for me."</em></li>
+<li>Selbst der korrekte Weg schafft die Kombination „kleine Stichprobe + Katastrophenwahrscheinlichkeit"
+  nicht (1,64 bei 0,8) — das ist schlicht eine zu schwere Frage für 63 Datenpunkte.</li>
 </ul>
+<h3 id="anwendungsbeispiel-chooser_dd">Anwendungsbeispiel CHOOSER_DD</h3>
+<p>Auf dieselben 65 S&amp;P-100-Titel wie bei <a href="../p/nested-walkforward.html">Nested Walkforward</a> angewandt, <code>n_trades = 252</code>
+(kommendes Jahr). Ausgabe ist eine Matrix: Zeilen = <code>DD_conf</code> (0,001 / 0,01 / 0,05 / 0,1),
+Spalten = <code>Bound_conf</code> (0,5 / 0,6 / 0,7 / 0,8 / 0,9 / 0,95). Masters' Kommentar zum Ergebnis:
+<em>„we pay surprisingly low penalty for greatly increased confidence in our bound"</em> — die Spalten
+laufen nicht dramatisch auseinander, hohe Sicherheit ist also billig zu haben.</p>
 <h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
-<p><code>algo/validate.py</code> liefert bereits Monte-Carlo-Drawdown-Verteilungen aus dem Mischen realer
-Trades — <strong>das ist genau der naive Bootstrap aus Schritt 5 oben.</strong> Bei der aktuellen
-Datenbasis (wenige Dutzend Trades, <code>raw/marktdaten/</code> wächst erst seit August 2026) fällt das in
-die schlechteste Zeile der Tabelle. Die dort berichteten Drawdown-Zahlen sind also <strong>zu
-optimistisch</strong>, und zwar möglicherweise um eine Größenordnung. Das ist vor jeder Kapitalfreigabe
-relevant, siehe Roadmap-Stufe 5/6 in <span class="broken" title="Seite existiert noch nicht">Algo-Trading: Arbeitsstandards</span>.</p></div>
+<p><code>algo/validate.py</code> liefert Monte-Carlo-Drawdown-Verteilungen aus dem Mischen realer Trades —
+<strong>das ist exakt der naive Bootstrap aus Schritt 5.</strong> Bei der aktuellen Datenbasis (wenige Dutzend
+Trades, <code>raw/marktdaten/</code> wächst erst seit August 2026) fällt das in die <strong>schlechteste Zeile</strong>
+der Tabelle. Die dort berichteten Drawdown-Zahlen sind also zu optimistisch, möglicherweise um
+eine Größenordnung. Vor jeder Kapitalfreigabe relevant, siehe Roadmap-Stufe 5/6 in
+<span class="broken" title="Seite existiert noch nicht">Algo-Trading: Arbeitsstandards</span>.</p>
+<p>Zweiter offener Punkt: Für die Live-Überwachung existiert im Projekt noch keine Grenze. Sobald
+genug OOS-Wochen vorliegen, wäre die Quantilgrenze aus Teil 1 auf <strong>Wochen- oder Monatsrenditen</strong>
+das passende Werkzeug — zusammen mit <code>orderstat_tail</code>, um zu wissen, wie sehr man ihr trauen darf.</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a><span class="cat">Konzepte</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Grenzen für Einzelrenditen &amp; Drawdown.md</code></footer>
 </article>

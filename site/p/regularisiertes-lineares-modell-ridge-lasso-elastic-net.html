@@ -129,12 +129,24 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">modelle</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">modelle</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#das-modell">Das Modell</a></li>
-<li><a href="#training-coordinate-descent-auf-einem-lambda-pfad">Training: Coordinate Descent auf einem Lambda-Pfad</a></li>
-<li><a href="#beispiel-cd_ma-auf-oex">Beispiel CD_MA auf OEX</a></li>
+<li><a href="#notation-und-modell">Notation und Modell</a><ul>
+<li><a href="#was-bewirkt">Was α bewirkt</a></li>
+<li><a href="#drei-punkte-gegenuber-gewohnlicher-regression">Drei Punkte gegenüber gewöhnlicher Regression</a></li>
+</ul>
+</li>
+<li><a href="#die-update-formeln">Die Update-Formeln</a><ul>
+<li><a href="#schnellvariante-uber-kovarianz-updates">Schnellvariante über Kovarianz-Updates</a></li>
+</ul>
+</li>
+<li><a href="#das-trainingsverfahren">Das Trainingsverfahren</a><ul>
+<li><a href="#lambda-pfad-statt-einzelwert">Lambda-Pfad statt Einzelwert</a></li>
+<li><a href="#per-cross-validation-wahlen">λ per Cross Validation wählen</a></li>
+</ul>
+</li>
+<li><a href="#referenzlauf-cd_ma-auf-oex">Referenzlauf CD_MA auf OEX</a></li>
 <li><a href="#nichtlinearitat-ohne-nichtlineares-modell">Nichtlinearität ohne nichtlineares Modell</a></li>
 <li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
 </ul>
@@ -142,111 +154,285 @@
 </details>
   <div class="content"><h1 id="regularisiertes-lineares-modell-ridge-lasso-elastic-net">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</h1>
 <p>Masters' einzige Modellempfehlung im ganzen Buch — und der Satz, den er als wichtigsten überhaupt
-bezeichnet. Aus <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 3).</p>
+bezeichnet. Aus <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 3, Programme
+<code>CDMODEL.CPP</code>, <code>CD_MA.CPP</code>), Verfahren nach Friedman/Hastie/Tibshirani, <em>„Regularization Paths for
+Generalized Linear Models via Coordinate Descent"</em> (J. Stat. Software, Jan. 2010).</p>
 <blockquote>
-<p><em>„If I could leave readers of this book with only one thought, it would be this: the strength
-of your indicators is vastly more important than the strength of the predictive model that
-uses them to signal trades."</em></p>
+<p><em>„If I could leave readers of this book with only one thought, it would be this: the strength of
+your indicators is vastly more important than the strength of the predictive model that uses
+them to signal trades."</em></p>
 </blockquote>
 <p>Die besten Systeme, die er über die Jahre gesehen hat, nutzten ein einfaches lineares Modell mit
 hochwertigen Indikatoren. Marginale Indikatoren durch ein hochmodernes nichtlineares Modell zu
 jagen, in der Hoffnung, es rette die Sache, funktioniert nicht — <em>garbage in, garbage out</em>. Sein
-Vorgehen: <strong>immer</strong> mit einem linearen Modell anfangen, nur bei klarem Vorteil auf ein
-nichtlineares wechseln.</p>
-<p>Vorteile eines linearen Modells: overfittet deutlich seltener; ist interpretierbar (man sieht,
-wie Indikatorwerte zu Entscheidungen werden); trainiert schnell — was entscheidend ist, weil
-<a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a> und
-<a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a> hunderte bis tausende Neutrainings verlangen.</p>
-<h2 id="das-modell">Das Modell</h2>
-<p>Alle Prädiktoren (und das Ziel) auf Mittelwert 0 und Varianz 1 standardisieren, dann ist
-<code>β₀ = 0</code> und es bleibt <code>ŷ = xᵀβ</code>. Minimiert wird nicht der reine Fehler, sondern:</p>
-<pre><code>RegErr = (1/N)·Σ(yᵢ − xᵀβ)² + 2λ·P_α(β)
-P_α(β) = Σ [ (1−α)/2 · βⱼ² + α·|βⱼ| ]
+Vorgehen: <strong>immer</strong> mit einem linearen Modell anfangen, nur bei klarem Vorteil wechseln.</p>
+<p>Fünf Gründe für lineare Modelle:</p>
+<ol>
+<li>Overfitten deutlich seltener → geringerer Training Bias
+   (<a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>).</li>
+<li>Sind <strong>interpretierbar</strong> — man sieht, wie Indikatorwerte zu Entscheidungen werden.</li>
+<li>Trainieren schnell. Entscheidend, weil <a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a> und
+   <a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a> hunderte bis tausende Neutrainings verlangen.</li>
+<li>Lassen sich leicht <strong>moderat nichtlinear</strong> machen, ohne die anderen Eigenschaften zu verlieren.</li>
+<li>Lassen sich mit überschaubarem Aufwand <strong>regularisieren</strong>.</li>
+</ol>
+<h2 id="notation-und-modell">Notation und Modell</h2>
+<pre><code>N      Anzahl Faelle
+K      Anzahl Praediktoren
+x_ij   Wert von Praediktor j im Fall i
+y_i    Zielvariable im Fall i
+β      K Koeffizienten (Spaltenvektor)
+β₀     Konstante
+α      steuert die ART der Regularisierung,   0 ≤ α ≤ 1
+λ      steuert den GRAD der Regularisierung,  λ ≥ 0
 </code></pre>
-<ul>
-<li><code>λ</code> steuert die <strong>Stärke</strong> der Bestrafung (λ=0 → gewöhnliche Kleinste-Quadrate-Regression).</li>
-<li><code>α</code> steuert die <strong>Art</strong> der Bestrafung:</li>
-<li><code>α = 0</code> → <strong>Ridge Regression</strong>: verteilt bei korrelierten Prädiktoren das Gewicht
-    gleichmäßig auf alle. Bei <code>m</code> perfekt korrelierten Prädiktoren bekommt jeder <code>1/m</code> des
-    Gewichts, das ein einzelner allein bekommen hätte.</li>
-<li><code>α = 1</code> → <strong>Lasso</strong>: wählt aus einer korrelierten Gruppe den nützlichsten aus, gibt ihm
-    großes Gewicht und setzt die übrigen exakt auf null (entfernt sie aus dem Modell).</li>
-<li>dazwischen → <strong>Elastic Net</strong>. Je größer <code>α</code>, desto mehr Nullkoeffizienten.</li>
-</ul>
-<p><strong>Praxiswarnung:</strong> Bei exakt <code>α = 1</code> wird das Training numerisch instabil, sobald zwei
-Prädiktoren perfekt korreliert sind (das Lasso kann sich nicht entscheiden). Deshalb bei
-Lasso-Wunsch <code>α</code> knapp unter 1 setzen.</p>
-<p>Drei Punkte, die gegenüber gewöhnlicher Regression zu verstehen sind:</p>
+<p><strong>Alle Prädiktoren werden auf Mittelwert 0 und Varianz 1 standardisiert.</strong> Dann ist <code>β₀</code> gleich
+dem Mittelwert des Ziels; standardisiert man <strong>auch das Ziel</strong>, ist <code>β₀ = 0</code> und fällt komplett
+weg. Die Rückrechnung auf Rohwerte ist einfache Algebra.</p>
+<pre><code>(3-1)  ŷ = β₀ + xᵀβ                    → nach Standardisierung:  ŷ = xᵀβ
+
+(3-2)  RegErr = (1/N) · Σᵢ (yᵢ − xᵀβ)²  +  2λ · P_α(β)
+
+(3-3)  P_α(β) = Σⱼ [ ((1−α)/2) · βⱼ²  +  α · |βⱼ| ]
+</code></pre>
+<p>Der Faktor 2 in (3-2) ließe sich in λ oder P absorbieren; er steht dort nur zur Übereinstimmung
+mit Zwischenschritten der Originalherleitung. <code>λ = 0</code> ergibt die gewöhnliche
+Kleinste-Quadrate-Lösung.</p>
+<h3 id="was-bewirkt">Was α bewirkt</h3>
+<table>
+<thead>
+<tr>
+<th>α</th>
+<th>Name</th>
+<th>Verhalten bei stark korrelierten Prädiktoren</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><strong>Ridge Regression</strong></td>
+<td>verteilt das Gewicht <strong>gleichmäßig</strong> auf alle. Bei <code>m</code> perfekt korrelierten Prädiktoren bekommt jeder <code>1/m</code> des Gewichts, das ein einzelner allein bekommen hätte.</td>
+</tr>
+<tr>
+<td>1</td>
+<td><strong>Lasso</strong></td>
+<td><strong>wählt einen aus</strong>, gibt ihm großes Gewicht und setzt die übrigen exakt auf null (entfernt sie aus dem Modell).</td>
+</tr>
+<tr>
+<td>dazwischen</td>
+<td><strong>Elastic Net</strong></td>
+<td>steuerbare Sparsamkeit</td>
+</tr>
+</tbody>
+</table>
+<p>Für jedes feste λ steigt die Zahl der Nullkoeffizienten <strong>monoton</strong> mit α: bei <code>α = 0</code> sind alle
+Variablen drin, danach fallen sie nach und nach heraus. Über α stellt man also den gewünschten
+Grad an Sparsamkeit ein.</p>
+<blockquote>
+<p><strong>Praxiswarnung:</strong> Bei exakt <code>α = 1</code> wird das Training <strong>numerisch instabil</strong>, sobald zwei
+Prädiktoren perfekt oder nahezu perfekt korreliert sind — das Lasso „verliert den Verstand" bei
+dem Versuch zu entscheiden, welcher der bessere ist. Bei Lasso-Wunsch deshalb α knapp unter 1
+setzen. Das Modell ist praktisch identisch, aber stabil.</p>
+</blockquote>
+<p>Für die typische „Spaghetti-an-die-Wand"-Situation im Trading (viele Kandidaten-Indikatoren)
+empfiehlt Masters einen Wert <strong>zwischen</strong> 0 und 1.</p>
+<h3 id="drei-punkte-gegenuber-gewohnlicher-regression">Drei Punkte gegenüber gewöhnlicher Regression</h3>
 <ol>
 <li>Das Ergebnis ist <strong>absichtlich</strong> keine Kleinste-Quadrate-Lösung mehr — der In-Sample-Fehler ist
-   größer. Genau das ist der Zweck: das Modell soll schlechter darin werden, Rauschen zu lernen.</li>
-<li>Gewöhnliche Regression reagiert auf stark korrelierte Prädiktoren katastrophal (riesige
-   positive Koeffizienten, kompensiert durch riesige negative). Die Regularisierung nicht.</li>
-<li>Die Variablenauswahl ist der klassischen Vorwärts-Schrittweisen-Selektion überlegen: dort ist
-   eine einmal aufgenommene Variable für immer drin, und ein Paar A+B, das nur <em>gemeinsam</em> stark
-   ist, wird nie gefunden, wenn ein mittelmäßiges C zuerst gewählt wird. Das regularisierte Modell
+   größer. Genau das ist der Zweck: das Modell soll schlechter darin werden, Rauschen zu lernen.
+   <em>„That's exactly what we are doing to make it less able to erroneously learn random noise."</em></li>
+<li>Gewöhnliche Regression reagiert auf stark korrelierte Prädiktoren katastrophal: riesige
+   positive Koeffizienten, kompensiert durch riesige negative, in einem instabilen Gleichgewicht.
+   Die Regularisierung nicht.</li>
+<li>Die Variablenauswahl ist der <strong>Vorwärts-Schrittweisen-Selektion</strong> überlegen. Dort ist eine
+   einmal aufgenommene Variable für immer drin — und ein Paar A+B, das nur <em>gemeinsam</em> stark ist,
+   wird nie gefunden, wenn ein mittelmäßiges C zuerst gewählt wird. Das regularisierte Modell
    lässt Variablen kommen und gehen, während sich der Rest verändert.</li>
 </ol>
-<h2 id="training-coordinate-descent-auf-einem-lambda-pfad">Training: Coordinate Descent auf einem Lambda-Pfad</h2>
-<p>Das Kriterium hat unter realistischen Bedingungen genau ein Minimum, also genügt reihum je ein
-Gewicht zu aktualisieren:</p>
-<pre><code>rᵢ        = yᵢ − ŷᵢ                                        (Residuum)
-argumentⱼ = (1/N)·Σ xᵢⱼ·rᵢ + βⱼ
-S(z,g)    = z−g falls z&gt;0 und g&lt;z;  z+g falls z&lt;0 und g&lt;−z;  sonst 0
-β̂ⱼ        = S(argumentⱼ, λα) / (1 + λ(1−α))
+<h2 id="die-update-formeln">Die Update-Formeln</h2>
+<pre><code>(3-4)  rᵢ = yᵢ − ŷᵢ                                       Residuum
+
+(3-5)  argumentⱼ = (1/N) · Σᵢ x_ij · rᵢ  +  βⱼ
+
+(3-6)  S(z, g) =  z − g   falls z &gt; 0  und  g &lt; z         Soft-Thresholding
+                  z + g   falls z &lt; 0  und  g &lt; −z
+                  0       sonst
+
+(3-7)  β̂ⱼ = S(argumentⱼ, λα) / (1 + λ(1−α))
 </code></pre>
-<p>Zwei Beschleuniger:</p>
+<p>Mit <strong>Fallgewichten</strong> <code>wᵢ</code> (Summe 1) — im Trading selten gebraucht, aber vorhanden:</p>
+<pre><code>(3-8)  argumentⱼ = Σᵢ wᵢ · x_ij · ( rᵢ + βⱼ · x_ij )
+
+(3-9)  β̂ⱼ = S(argumentⱼ, λα) / ( Σᵢ wᵢ · x_ij²  +  λ(1−α) )
+</code></pre>
+<p>(Übung des Autors: mit <code>wᵢ = 1/N</code> reduziert sich (3-8) auf (3-5) und (3-9) auf (3-7) — man braucht
+dafür, dass <code>Σᵢ x_ij² = N</code> gilt, weil die Prädiktoren auf Varianz 1 standardisiert sind.)</p>
+<h3 id="schnellvariante-uber-kovarianz-updates">Schnellvariante über Kovarianz-Updates</h3>
+<p>Wenn <code>N ≫ K</code> — im Trading der Normalfall — lohnt die Umformung, die pro Iteration nur noch über
+<code>K</code> statt über <code>N</code> Terme summiert:</p>
+<pre><code>(3-10)  argumentⱼ = Yinnerⱼ − Σₖ Xinner_jk · βₖ  +  Xssⱼ · βⱼ
+
+ungewichtet:
+(3-11)  Yinnerⱼ    = (1/N) · Σᵢ x_ij · yᵢ
+(3-12)  Xinner_jk  = (1/N) · Σᵢ x_ij · x_ik              (= 1 auf der Diagonale, da standardisiert)
+        Xssⱼ       = 1
+
+gewichtet:
+(3-13)  Xssⱼ       = Σᵢ wᵢ · x_ij²
+(3-14)  Yinnerⱼ    = Σᵢ wᵢ · x_ij · yᵢ
+(3-15)  Xinner_jk  = Σᵢ wᵢ · x_ij · x_ik
+</code></pre>
+<p>(3-13) bis (3-15) hängen nur von den Trainingsdaten ab und werden <strong>einmal</strong> vor dem Training
+berechnet. <code>Xinner</code> ist symmetrisch; Masters speichert trotzdem die volle Matrix — „wasteful of
+very cheap memory, but the simpler addressing saves very expensive time".</p>
+<h2 id="das-trainingsverfahren">Das Trainingsverfahren</h2>
+<p><strong>Active-Set-Strategie:</strong> Einmal auf null gefallene Gewichte bleiben meist null. Also nur die
+Nicht-Null-Gewichte („active set") iterieren, mit gelegentlichen vollständigen Kontrollläufen.</p>
+<pre><code>do_active_only = false
+fuer iter = 0 … maxits-1:
+    active_set_changed = false
+    fuer jede Variable j:
+        if do_active_only and β[j] == 0: ueberspringen
+        neues β[j] nach (3-7) bzw. (3-9) berechnen
+        wechselte β[j] von/nach exakt 0: active_set_changed = true
+    converged = Konvergenztest
+    if do_active_only:
+        if converged: do_active_only = false        # naechste Runde alle pruefen
+    else:
+        if converged and not active_set_changed: FERTIG
+        do_active_only = true
+</code></pre>
+<p><code>maxits</code> ist reine Hänger-Versicherung (mehrere tausend) und sollte nie greifen. Der Aufwand
+lohnt nur bei vielen Nullgewichten — schadet aber auch sonst nicht.</p>
+<p><strong>Zwei Konvergenztests:</strong></p>
+<pre><code>fast_test = 1 :  max_j |Δβ_j| &lt; eps                       schnell, braucht keine Residuen
+fast_test = 0 :  |prior_crit − crit| &lt; eps
+                 crit = MSE + penalty                     mit penalty nach (3-3), mal 2λ
+</code></pre>
+<p>Der langsame Test braucht die Residuen — die bei aktiven Kovarianz-Updates gar nicht mitgeführt
+werden und dann eigens berechnet werden müssen. <code>eps</code> typisch <code>1e-5</code>.</p>
+<p>Nebenbei ausgegeben (spielt im Algorithmus keine Rolle): der erklärte Varianzanteil
+<code>explained = (YmeanSquare − MSE) / YmeanSquare</code>.</p>
+<p><strong>Warm Start:</strong> Training kann von den aktuellen β-Werten aus fortgesetzt werden statt bei null.
+Bei der naiven Update-Methode müssen die Residuen dann neu berechnet werden.</p>
+<h3 id="lambda-pfad-statt-einzelwert">Lambda-Pfad statt Einzelwert</h3>
+<p>Es gibt ein kleinstes λ, bei dem <strong>alle</strong> Gewichte null bleiben. Aus (3-6) und (3-7) folgt für den
+Startzustand (alle β = 0, also <code>r = y</code>):</p>
+<pre><code>(3-16)  |(1/N) · Σᵢ x_ij · yᵢ| &lt; λα               → βⱼ bleibt null   (ungewichtet)
+(3-17)  |Σᵢ wᵢ · x_ij · yᵢ|    &lt; λα                                  (gewichtet)
+
+λ_thresh = max_j |…| / α          ← ueber alle Praediktoren maximieren
+</code></pre>
+<pre><code>max_lambda    = 0.999 · λ_thresh
+min_lambda    = 0.001 · max_lambda
+lambda_factor = exp( log(min_lambda / max_lambda) / (n_lambda − 1) )
+
+λ = max_lambda
+fuer ilambda = 0 … n_lambda-1:
+    core_train(α, λ, …, warm_start = (ilambda &gt; 0))
+    β-Vektor fuer dieses λ speichern
+    λ *= lambda_factor
+</code></pre>
+<p>Drei Gewinne auf einmal:</p>
 <ul>
-<li><strong>Active Set.</strong> Einmal auf null gefallene Gewichte bleiben meist null. Also: ein voller Durchlauf,
-  danach nur noch die Nicht-Null-Gewichte, bis Konvergenz; dann ein voller Kontrolldurchlauf.
-  Ändert sich dabei nichts mehr, ist man fertig.</li>
-<li><strong>Covariance Updates.</strong> Bei <code>N ≫ K</code> (Normalfall im Trading) lässt sich <code>argumentⱼ</code> über
-  vorberechnete Kreuzprodukte <code>Xinner</code>/<code>Yinner</code> bilden — die Iteration summiert dann über <code>K</code>
-  statt über <code>N</code> Terme.</li>
+<li><strong>Stabilität</strong> — man startet mit einem trivialen Modell (fast alle Gewichte null) und lockert
+  schrittweise.</li>
+<li><strong>Geschwindigkeit</strong> — dank Warm Start beginnt jedes Training nahe der Lösung. Der Pfad kann
+  dadurch <strong>schneller</strong> sein als ein einzelner Lauf bei kleinem λ. Deshalb kostet <code>n_lambda = 50</code>
+  kaum mehr als <code>n_lambda = 5</code>.</li>
+<li><strong>Diagnose</strong> — die Tabelle „λ / Anzahl aktiver Prädiktoren / erklärte Varianz" erlaubt die
+  manuelle Auswahl.</li>
 </ul>
-<p><strong>Lambda-Pfad statt Einzelwert.</strong> Es gibt ein kleinstes <code>λ</code>, bei dem alle Gewichte null bleiben
-(<code>max_j |Σ xᵢⱼyᵢ| / N / α</code>). Von dort startet man knapp darunter und senkt <code>λ</code> geometrisch bis auf
-1/1000 des Startwerts, jedes Mal mit <strong>Warm Start</strong> (Fortsetzung von den bisherigen Gewichten).
-Das ist nicht nur stabiler, sondern oft <strong>schneller</strong> als ein einzelner Lauf bei kleinem <code>λ</code> — und
-liefert nebenbei die Tabelle „λ / Anzahl aktiver Prädiktoren / erklärte Varianz" zur manuellen
-Auswahl.</p>
-<p><code>λ</code> selbst wird per Cross Validation optimiert (pro Fold den Pfad durchlaufen, OOS-erklärte
-Varianz je <code>λ</code> über alle Folds aufsummieren, bestes nehmen). Hier ist CV vertretbar, weil es um
-Modellkomplexität geht — siehe <a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a>.</p>
-<h2 id="beispiel-cd_ma-auf-oex">Beispiel CD_MA auf OEX</h2>
-<p>300 Indikatoren aus Moving-Average-Oszillatoren (30 lange × 10 kurze Lookbacks), Ziel: log-Änderung
-zum nächsten Tag, ein Jahr als Testsatz zurückgehalten.</p>
-<ul>
-<li><code>λ=0</code> (keine Regularisierung): maximale In-Sample-Güte (1,63 % der Zielvarianz erklärt),
-  praktisch alle Indikatoren im Modell — und <strong>die schlechteste OOS-Leistung</strong> der drei Läufe.</li>
-<li><code>α=0,1</code> (fast Ridge): In-Sample-Güte fällt, <strong>OOS-Leistung am besten</strong>. Duplizierte Indikatoren
-  bekommen erwartungsgemäß gleiche Gewichte.</li>
-<li><code>α=0,9</code> (fast Lasso): minimiert die Zahl der Indikatoren, wirft dabei nützliche mit weg,
-  OOS-Leistung bricht ein.</li>
-</ul>
-<p>Und ein inhaltlicher Nebenbefund: <strong>alle</strong> Koeffizienten der regularisierten Modelle sind negativ —
+<h3 id="per-cross-validation-wahlen">λ per Cross Validation wählen</h3>
+<pre><code>für jeden Fold:
+    n_OOS = (n − n_done) / (nfolds − ifold)        # gleich grosse Folds ohne Rest-Problem
+    n_IS  = n − n_OOS
+    i_OOS = (i_IS + n_IS) mod n                    # zyklisch, wickelt am Datenende um
+    lambda_train(...) auf dem IS-Teil
+    fuer jedes λ:  quadratischen OOS-Fehler kumulieren
+                   (OOS-Faelle mit den TRAININGS-Mittelwerten/-Skalen normieren!)
+lambda_OOS[λ] = (YsumSquares − Fehlersumme[λ]) / YsumSquares
+return λ mit maximalem lambda_OOS
+</code></pre>
+<p>Wichtig: der λ-Schwellenwert wird <strong>einmal auf dem Gesamtdatensatz</strong> bestimmt, damit alle Folds
+denselben λ-Pfad durchlaufen und vergleichbar sind. Empfehlung: <code>n_lambda = 50</code>, <code>nfolds</code> ≥ 5,
+besser 10 oder mehr.</p>
+<p>Cross Validation ist hier vertretbar, weil es um <strong>Modellkomplexität</strong> geht — siehe
+<a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a>, Abschnitt „die eine Ausnahme".</p>
+<h2 id="referenzlauf-cd_ma-auf-oex">Referenzlauf CD_MA auf OEX</h2>
+<pre><code>CD_MA Lookback_inc N_long N_short Alpha Filename
+CD_MA 2 30 10 &lt;alpha&gt; OEX.TXT
+</code></pre>
+<p>300 Indikatoren aus MA-Oszillatoren (30 lange Lookbacks in 2er-Schritten × 10 kurze), Ziel:
+log-Preisänderung zum nächsten Tag, ein Jahr als Testsatz zurückgehalten. Der kurze Lookback ist
+<code>i · langer / (N_short+1)</code>, abgeschnitten — bei kleinen langen Lookbacks entstehen dadurch
+<strong>exakt duplizierte</strong> Indikatoren. Das ist Absicht: es macht gewöhnliche Regression unmöglich und
+zeigt, wie die drei Varianten damit umgehen.</p>
+<table>
+<thead>
+<tr>
+<th>Lauf</th>
+<th>In-Sample</th>
+<th>Out-of-Sample</th>
+<th>Modellgröße</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>λ = 0</code> (keine Regularisierung)</td>
+<td><strong>1,63 % erklärte Varianz</strong> (Maximum)</td>
+<td><strong>schlechteste</strong></td>
+<td>fast alle 300 Indikatoren</td>
+</tr>
+<tr>
+<td><code>α = 0,1</code> (fast Ridge)</td>
+<td>niedriger</td>
+<td><strong>beste</strong></td>
+<td>duplizierte Indikatoren erhalten <strong>gleiche</strong> Gewichte</td>
+</tr>
+<tr>
+<td><code>α = 0,9</code> (fast Lasso)</td>
+<td>niedriger</td>
+<td>bricht ein</td>
+<td>minimiert die Indikatorzahl, wirft nützliche mit weg</td>
+</tr>
+</tbody>
+</table>
+<p>Das ist die Kernaussage in Zahlen: <strong>maximale In-Sample-Güte und beste OOS-Performance schließen
+sich aus.</strong></p>
+<p>Inhaltlicher Nebenbefund: <strong>alle</strong> Koeffizienten der regularisierten Modelle sind <strong>negativ</strong> —
 das gefundene System ist ein Mean-Reversion-System, kein Trendfolger.</p>
 <h2 id="nichtlinearitat-ohne-nichtlineares-modell">Nichtlinearität ohne nichtlineares Modell</h2>
-<p>Ein Indikator mit nichtlinearem Bezug zum Ziel ist meist kein Problem — man transformiert ihn.
-Tödlich für ein lineares Modell ist die <strong>nichtlineare Wechselwirkung zwischen</strong> Indikatoren.
-Dafür genügt oft eine Polynomerweiterung niedrigen Grades:</p>
-<ul>
-<li>Grad 2 bei A, B, C → <code>A, B, C, A², B², C², AB, AC, BC</code>. Grad 3 explodiert bereits.</li>
-<li><strong>Zwingend vorher</strong> auf den natürlichen Bereich −1…1 skalieren: <code>2(X−Min)/(Max−Min) − 1</code>.
-  Sonst leiden Genauigkeit und Trainingsstabilität.</li>
-<li>Bei Grad 3 statt <code>X³</code> besser <code>0,5·(5X³ − 3X)</code> verwenden — gleicher Bereich, gleiche
-  Nichtlinearität, aber deutlich geringere Korrelation mit <code>X</code>.</li>
-<li>Über Grad 3 hinaus: lieber gleich ein nichtlineares Modell (oder Legendre-Polynome).</li>
-</ul>
+<p>Ein Indikator mit nichtlinearem Bezug zum Ziel ist meist <strong>kein</strong> Problem: man transformiert ihn
+und die Beziehung wird weitgehend linear. Das sollte man immer zuerst versuchen. Tödlich für ein
+lineares Modell ist die <strong>nichtlineare Wechselwirkung zwischen</strong> Indikatoren.</p>
+<p>Dafür genügt oft eine Polynomerweiterung niedrigen Grades:</p>
+<pre><code>Grad 2, Praediktoren A,B,C  →  A, B, C, A², B², C², AB, AC, BC
+Grad 3 zusaetzlich          →  A³, B³, C³, A²B, A²C, B²C, AB², AC², BC², ABC
+</code></pre>
+<p>Zwei Pflichtmaßnahmen (mathematisch nicht nötig, aber gegen Fließkomma-Ungenauigkeit und für
+Trainingsstabilität):</p>
+<ol>
+<li><strong>Auf den natürlichen Bereich −1 … 1 skalieren:</strong> <code>2·(X − Min)/(Max − Min) − 1</code>. Dann liegen
+   auch alle Potenzen und Produkte in diesem Bereich.</li>
+<li><strong>Ab Grad 3:</strong> statt <code>X³</code> besser <code>0,5·(5X³ − 3X)</code> verwenden. Gleicher Bereich, gleiche
+   Nichtlinearität, aber deutlich geringere Korrelation mit <code>X</code> — das erleichtert vielen
+   Trainingsverfahren die Arbeit. „You have nothing to lose and potentially much to gain."</li>
+</ol>
+<p>Über Grad 3 hinaus ist nahezu immer sinnlos — dann lieber gleich ein nichtlineares Modell. Wer
+partout will: <strong>Legendre-Polynome</strong> für die höheren Terme.</p>
 <h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
 <p><code>algo/</code> ist bisher rein regelbasiert (<code>rules.py</code>, <code>signals.py</code>), es gibt kein prädiktives Modell.
 Diese Seite ist damit <strong>Vorratswissen</strong> für den Fall, dass aus den Detektoren in
-<code>tools/analyze_ohlc.py</code> einmal ein Prädiktorensatz gebaut wird. Die relevante Vorarbeit dafür
-steht auf <a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a> — Masters' Reihenfolge ist eindeutig: erst
-Indikatorqualität, dann Modell.</p>
-<p>In Python entspricht das Modell <code>sklearn.linear_model.ElasticNet</code> bzw. <code>ElasticNetCV</code>; ein
-Eigenbau nach Buchvorlage wäre unnötig.</p></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">2</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li></ul></section>
+<code>tools/analyze_ohlc.py</code> einmal ein Prädiktorensatz gebaut wird.</p>
+<p>Die relevante Vorarbeit dafür steht auf <a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a> — Masters'
+Reihenfolge ist eindeutig: <strong>erst Indikatorqualität, dann Modell.</strong> Der Eröffnungssatz dieses
+Kapitels ist die stärkste Formulierung dieses Prinzips im ganzen Buch.</p>
+<p>In Python entspricht das Modell <code>sklearn.linear_model.ElasticNet</code> bzw. <code>ElasticNetCV</code>
+(<code>l1_ratio</code> = Masters' α, <code>alpha</code> = Masters' λ — <strong>die Namen sind vertauscht</strong>, hier liegt die
+häufigste Verwechslungsquelle). Ein Eigenbau nach Buchvorlage wäre unnötig; die Formeln oben
+dienen dem Verständnis der Stellschrauben, nicht der Reimplementierung.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net).md</code></footer>
 </article>
 </main>
