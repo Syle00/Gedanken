@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algorithmic Trading - Winning Strategies and Their Rationale (Source) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">103</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li class="active"><a href="../index.html#sources">Quellen<span class="count">186</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Quellen</div><ul class="pagelist">
+<li><a href="../p/20-pips-per-day-source.html">20 Pips Per Day (Source)</a></li>
+<li><a href="../p/2026-ict-study-source.html">2026 ICT Study (Source)</a></li>
+<li><a href="../p/2026-07-29-predicting-session-low-high-with-executions-source.html">2026-07-29 - Predicting Session Low &amp; High With Executions (Source)</a></li>
+<li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a></li>
+<li><a href="../p/2026-07-31-market-review-nq-july-31-2026-source.html">2026-07-31 - Market Review NQ July 31, 2026 (Source)</a></li>
+<li><a href="../p/2026-08-01-part-1-high-precision-secrets-to-intraday-price-action-source.html">2026-08-01 - Part 1 High Precision Secrets To Intraday Price Action (Source)</a></li>
+<li><a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)</a></li>
+<li><a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)</a></li>
+<li><a href="../p/2026-08-05-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a></li>
+<li><a href="../p/2026-08-06-ict-price-action-chronicles-the-science-of-anticipation-in-price-action-source.html">2026-08-06 - ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)</a></li>
+<li><a href="../p/2026-08-07-case-study-with-nonfarm-payroll-nq-futures-source.html">2026-08-07 - Case Study With NonFarm Payroll &amp; NQ Futures (Source)</a></li>
+<li><a href="../p/accumulation-manipulation-distribution-source.html">Accumulation - Manipulation - Distribution (Source)</a></li>
+<li><a href="../p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a></li>
+<li class="here"><a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a></li>
+<li><a href="../p/alltime-highs-und-tgif-source.html">Alltime Highs und TGIF (Source)</a></li>
+<li><a href="../p/asia-session-source.html">Asia Session (Source)</a></li>
+<li><a href="../p/balanced-price-chart-bsp-source.html">Balanced Price Chart Bsp (Source)</a></li>
+<li><a href="../p/basics-opening-range-concept-source.html">Basics &amp; Opening Range Concept (Source)</a></li>
+<li><a href="../p/blending-ipda-data-ranges-pd-arrays-source.html">Blending IPDA Data Ranges &amp; PD Arrays (Source)</a></li>
+<li><a href="../p/bond-mega-trades-source.html">Bond Mega-Trades (Source)</a></li>
+<li><a href="../p/bread-butter-buy-setups-source.html">Bread &amp; Butter Buy Setups (Source)</a></li>
+<li><a href="../p/bread-butter-sell-setups-source.html">Bread &amp; Butter Sell Setups (Source)</a></li>
+<li><a href="../p/central-banks-dealers-range-source.html">Central Banks Dealers Range (Source)</a></li>
+<li><a href="../p/chain-of-custody-of-price-with-daily-inefficiencies-source.html">Chain Of Custody Of Price With Daily Inefficiencies (Source)</a></li>
+<li><a href="../p/cisd-mini-serie-source.html">CISD Mini Serie (Source)</a></li>
+<li><a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a></li>
+<li><a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a></li>
+<li><a href="../p/classic-swing-trading-approach-source.html">Classic Swing Trading Approach (Source)</a></li>
+<li><a href="../p/claude-opus-5-mcp-new-king-of-algo-trading-source.html">Claude Opus 5 + MCP = New King of Algo Trading! (Source)</a></li>
+<li><a href="../p/commodity-mega-trades-source.html">Commodity Mega-Trades (Source)</a></li>
+<li><a href="../p/core-content-2016-source.html">Core Content 2016 (Source)</a></li>
+<li><a href="../p/defining-open-float-liquidity-pools-source.html">Defining Open Float Liquidity Pools (Source)</a></li>
+<li><a href="../p/defining-open-float-liquidity-pools-2-source.html">Defining Open Float Liquidity Pools 2 (Source)</a></li>
+<li><a href="../p/defining-the-daily-range-source.html">Defining The Daily Range (Source)</a></li>
+<li><a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a></li>
+<li><a href="../p/enigma-fvg-projections-source.html">Enigma FVG Projections (Source)</a></li>
+<li><a href="../p/equilibrium-vs-discount-source.html">Equilibrium Vs. Discount (Source)</a></li>
+<li><a href="../p/essentials-to-ict-daytrading-source.html">Essentials To ICT Daytrading (Source)</a></li>
+<li><a href="../p/essentials-to-ict-market-structure-source.html">Essentials To ICT Market Structure (Source)</a></li>
+<li><a href="../p/essentials-to-trading-the-daily-bias-source.html">Essentials To Trading The Daily Bias (Source)</a></li>
+<li><a href="../p/fair-valuation-source.html">Fair Valuation (Source)</a></li>
+<li><a href="../p/federal-open-market-committee-source.html">Federal Open Market Committee (Source)</a></li>
+<li><a href="../p/filling-the-numbers-source.html">Filling The Numbers (Source)</a></li>
+<li><a href="../p/from-vision-to-execution-source.html">From Vision To Execution (Source)</a></li>
+<li><a href="../p/high-probability-daytrade-setups-source.html">High Probability Daytrade Setups (Source)</a></li>
+<li><a href="../p/high-probability-swing-trade-setups-in-bull-markets-source.html">High Probability Swing Trade Setups In Bull Markets (Source)</a></li>
+<li><a href="../p/how-do-i-engage-markets-when-i-don-t-have-an-initial-bias-source.html">How Do I Engage Markets When I Don&#x27;t Have An Initial Bias (Source)</a></li>
+<li><a href="../p/how-i-develop-trading-strategies-source.html">How I Develop Trading Strategies (Source)</a></li>
+<li><a href="../p/how-market-makers-condition-the-market-source.html">How Market Makers Condition The Market (Source)</a></li>
+<li><a href="../p/how-market-makers-condition-the-market-2-source.html">How Market Makers Condition The Market 2 (Source)</a></li>
+<li><a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a></li>
+<li><a href="../p/how-to-use-intermarket-analysis-source.html">How To Use Intermarket Analysis (Source)</a></li>
+<li><a href="../p/ict-2022-episode-03-market-st-modell-22-source.html">ICT 2022 - Episode 03 Market ST + Modell 22 (Source)</a></li>
+<li><a href="../p/ict-2022-episode-04-internal-range-liq-mss-source.html">ICT 2022 - Episode 04 Internal Range Liq &amp; MSS (Source)</a></li>
+<li><a href="../p/ict-2022-episode-05-intraday-orderflow-swing-h-l-8-30-13-30-source.html">ICT 2022 - Episode 05 Intraday Orderflow &amp; Swing H-L 8.30-13.30 (Source)</a></li>
+<li><a href="../p/ict-2022-episode-06-institutional-orderflow-source.html">ICT 2022 - Episode 06 Institutional Orderflow (Source)</a></li>
+<li><a href="../p/ict-2022-episode-07-daily-bias-smt-source.html">ICT 2022 - Episode 07 Daily Bias - SMT (Source)</a></li>
+<li><a href="../p/ict-2022-episode-08-institutionel-orderflow-source.html">ICT 2022 - Episode 08 Institutionel Orderflow (Source)</a></li>
+<li><a href="../p/ict-2022-episode-11-important-dealing-range-source.html">ICT 2022 - Episode 11 Important Dealing Range (Source)</a></li>
+<li><a href="../p/ict-2022-episode-13-market-structure-for-precision-source.html">ICT 2022 - Episode 13 Market Structure for Precision (Source)</a></li>
+<li><a href="../p/ict-2022-episode-14-live-trade-source.html">ICT 2022 - Episode 14 Live Trade (Source)</a></li>
+<li><a href="../p/ict-2022-episode-15-live-trade-source.html">ICT 2022 - Episode 15 Live Trade (Source)</a></li>
+<li><a href="../p/ict-2022-episode-16-midnight-open-displacement-source.html">ICT 2022 - Episode 16 Midnight open + Displacement (Source)</a></li>
+<li><a href="../p/ict-2022-episode-17-fx-anwendung-source.html">ICT 2022 - Episode 17 FX Anwendung (Source)</a></li>
+<li><a href="../p/ict-2022-episode-18-higher-timeframe-15m-1h-is-key-source.html">ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)</a></li>
+<li><a href="../p/ict-2023-mentorship-source.html">ICT 2023 Mentorship (Source)</a></li>
+<li><a href="../p/ict-2025-lecture-series-source.html">ICT 2025 Lecture Series (Source)</a></li>
+<li><a href="../p/ict-2026-smart-money-concepts-lecture-january-02-2026-source.html">ICT 2026 Smart Money Concepts Lecture - January 02, 2026 (Source)</a></li>
+<li><a href="../p/ict-chain-of-custody-of-price-source.html">ICT Chain Of Custody Of Price (Source)</a></li>
+<li><a href="../p/ict-day-trade-routine-source.html">ICT Day Trade Routine (Source)</a></li>
+<li><a href="../p/ict-mentorship-2022-source.html">ICT MentorShip 2022 (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-framing-low-risk-trade-setups-source.html">ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-growing-small-accounts-source.html">ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-how-to-mitigate-losing-trades-effectively-source.html">ICT Mentorship Core Content - Month 02 - How To Mitigate Losing Trades Effectively (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-how-traders-make-10-per-month-source.html">ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-market-maker-trap-false-breakouts-source.html">ICT Mentorship Core Content - Month 02 - Market Maker Trap False Breakouts (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-market-maker-trap-false-flag-source.html">ICT Mentorship Core Content - Month 02 - Market Maker Trap False Flag (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-no-fear-of-losing-source.html">ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-the-secrets-to-selecting-high-reward-setups-source.html">ICT Mentorship Core Content - Month 02 - The Secrets To Selecting High Reward Setups (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-03-market-maker-trap-head-shoulders-pattern-source.html">ICT Mentorship Core Content - Month 03 - Market Maker Trap Head Shoulders Pattern (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-03-the-next-setup-anticipatory-skill-development-source.html">ICT Mentorship Core Content - Month 03 - The Next Setup - Anticipatory Skill Development (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-03-timeframe-selection-defining-setups-source.html">ICT Mentorship Core Content - Month 03 - Timeframe Selection &amp; Defining Setups (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-divergence-phantoms-source.html">ICT Mentorship Core Content - Month 04 - Divergence Phantoms (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-double-bottom-double-top-source.html">ICT Mentorship Core Content - Month 04 - Double Bottom Double Top (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-ict-breaker-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Breaker Block (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-ict-fair-value-gaps-fvg-source.html">ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-ict-propulsion-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-ict-rejection-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Rejection Block (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-ict-vacuum-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Vacuum Block (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-interest-rate-effects-on-currency-trades-source.html">ICT Mentorship Core Content - Month 04 - Interest Rate Effects On Currency Trades (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-liquidity-pools-source.html">ICT Mentorship Core Content - Month 04 - Liquidity Pools (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-liquidity-voids-source.html">ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-mitigation-blocks-source.html">ICT Mentorship Core Content - Month 04 - Mitigation Blocks (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-orderblocks-source.html">ICT Mentorship Core Content - Month 04 - Orderblocks (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-reclaimed-ict-orderblock-source.html">ICT Mentorship Core Content - Month 04 - Reclaimed ICT Orderblock (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-reinforcing-liquidity-concepts-price-delivery-source.html">ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts &amp; Price Delivery (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-elements-of-a-trade-setup-source.html">ICT Mentorship Core Content - Month 1 - Elements Of A Trade Setup (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-equilibrium-vs-discount-source.html">ICT Mentorship Core Content - Month 1 - Equilibrium Vs. Discount (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-equilibrium-vs-premium-source.html">ICT Mentorship Core Content - Month 1 - Equilibrium Vs. Premium (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-fair-valuation-source.html">ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-how-market-makers-condition-the-market-source.html">ICT Mentorship Core Content - Month 1 - How Market Makers Condition The Market (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-impulse-price-swings-market-protraction-source.html">ICT Mentorship Core Content - Month 1 - Impulse Price Swings &amp; Market Protraction (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-liquidity-runs-source.html">ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-what-to-focus-on-right-now-source.html">ICT Mentorship Core Content - Month 1 - What To Focus On Right Now (Source)</a></li>
+<li><a href="../p/ict-silver-bullet-source.html">ICT Silver Bullet (Source)</a></li>
+<li><a href="../p/ictcross-currency-relationships-und-htf-institutional-order-flow-source.html">ICTCross Currency Relationships und HTF Institutional Order Flow (Source)</a></li>
+<li><a href="../p/ideal-swings-conditions-for-any-market-source.html">Ideal Swings Conditions For Any Market (Source)</a></li>
+<li><a href="../p/implementing-the-asian-range-source.html">Implementing The Asian Range (Source)</a></li>
+<li><a href="../p/institutional-marketstructure-source.html">Institutional Marketstructure (Source)</a></li>
+<li><a href="../p/institutional-order-flow-source.html">Institutional Order Flow (Source)</a></li>
+<li><a href="../p/institutional-sponsorship-source.html">Institutional Sponsorship (Source)</a></li>
+<li><a href="../p/integrating-daytrades-with-htf-trade-entries-source.html">Integrating Daytrades With HTF Trade Entries (Source)</a></li>
+<li><a href="../p/interest-rate-differentials-source.html">Interest Rate Differentials (Source)</a></li>
+<li><a href="../p/intraday-profiles-f-london-source.html">Intraday Profiles f. London (Source)</a></li>
+<li><a href="../p/intraweek-market-reversals-overlapping-models-source.html">Intraweek Market Reversals &amp; Overlapping Models (Source)</a></li>
+<li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a></li>
+<li><a href="../p/london-close-killzone-source.html">London Close Killzone (Source)</a></li>
+<li><a href="../p/london-killzone-source.html">London Killzone (Source)</a></li>
+<li><a href="../p/london-opening-range-1p-fvg-source.html">London Opening Range +1p FVG (Source)</a></li>
+<li><a href="../p/low-resistance-liquidity-runs-part-1-source.html">Low Resistance Liquidity Runs Part 1 (Source)</a></li>
+<li><a href="../p/low-resistance-liquidity-runs-part-2-source.html">Low Resistance Liquidity Runs Part 2 (Source)</a></li>
+<li><a href="../p/macro-economic-to-micro-technical-source.html">Macro Economic To Micro Technical (Source)</a></li>
+<li><a href="../p/making-money-with-smc-concepts-source.html">Making Money With SMC Concepts (Source)</a></li>
+<li><a href="../p/market-maker-manipulation-templates-source.html">Market Maker Manipulation Templates (Source)</a></li>
+<li><a href="../p/market-maker-primer-course-source.html">Market Maker Primer Course (Source)</a></li>
+<li><a href="../p/market-maker-trap-trendline-phantoms-source.html">Market Maker Trap Trendline Phantoms (Source)</a></li>
+<li><a href="../p/midnight-et-principles-in-relationship-to-premarket-session-source.html">Midnight ET Principles In Relationship To PreMarket Session (Source)</a></li>
+<li><a href="../p/missed-entry-how-to-navigate-the-same-trade-idea-source.html">Missed Entry How To Navigate The Same Trade Idea (Source)</a></li>
+<li><a href="../p/mitigation-blocks-source.html">Mitigation Blocks (Source)</a></li>
+<li><a href="../p/month-02-source.html">Month 02 (Source)</a></li>
+<li><a href="../p/month-03-source.html">Month 03 (Source)</a></li>
+<li><a href="../p/month-04-source.html">Month 04 (Source)</a></li>
+<li><a href="../p/month-05-source.html">Month 05 (Source)</a></li>
+<li><a href="../p/month-06-swing-trading-model-source.html">Month 06 - Swing Trading Model (Source)</a></li>
+<li><a href="../p/month-07-weekly-source.html">Month 07 - Weekly (Source)</a></li>
+<li><a href="../p/month-08-daytrades-source.html">Month 08 - Daytrades (Source)</a></li>
+<li><a href="../p/month-1-source.html">Month 1 (Source)</a></li>
+<li><a href="../p/month-10-source.html">Month 10 (Source)</a></li>
+<li><a href="../p/month-11-source.html">Month 11 (Source)</a></li>
+<li><a href="../p/month-9-scalping-daytrades-source.html">Month 9 - Scalping-Daytrades (Source)</a></li>
+<li><a href="../p/new-york-killzone-source.html">New York Killzone (Source)</a></li>
+<li><a href="../p/nq-futures-weekly-range-market-wizardry-source.html">NQ Futures Weekly Range Market Wizardry (Source)</a></li>
+<li><a href="../p/ny-lunch-macro-rules-pm-session-final-rth-hour-source.html">NY Lunch Macro Rules &amp; PM Session &amp; Final RTH Hour (Source)</a></li>
+<li><a href="../p/ny-pm-trend-source.html">NY PM Trend (Source)</a></li>
+<li><a href="../p/one-shot-one-kill-model-source.html">One Shot One Kill Model (Source)</a></li>
+<li><a href="../p/one-trading-setup-for-life-source.html">One Trading Setup For Life (Source)</a></li>
+<li><a href="../p/open-float-source.html">Open Float (Source)</a></li>
+<li><a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a></li>
+<li><a href="../p/ote-primier-ict-optimal-trade-entry-source.html">OTE Primier - ICT optimal Trade Entry (Source)</a></li>
+<li><a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market-source.html">Premium Vs. Carrying Charge Market (Source)</a></li>
+<li><a href="../p/projecting-daily-highs-lows-source.html">Projecting Daily Highs &amp; Lows (Source)</a></li>
+<li><a href="../p/qualifying-trade-conditions-with-10-year-yields-source.html">Qualifying Trade Conditions With 10 Year Yields (Source)</a></li>
+<li><a href="../p/quantifying-market-structure-at-multiple-scales-for-algorithmic-trading-with-python-source.html">Quantifying Market Structure at Multiple Scales for Algorithmic Trading with Python (Source)</a></li>
+<li><a href="../p/quarterly-shifts-ipda-data-ranges-source.html">Quarterly Shifts &amp; IPDA Data Ranges (Source)</a></li>
+<li><a href="../p/reclaimed-ict-orderblock-source.html">Reclaimed ICT Orderblock (Source)</a></li>
+<li><a href="../p/reeinforced-liquidity-pools-when-to-anticipate-raids-source.html">Reeinforced Liquidity Pools - When to anticipate Raids (Source)</a></li>
+<li><a href="../p/reeinforced-orderblock-theory-breakerblock-source.html">Reeinforced Orderblock Theory BreakerBlock (Source)</a></li>
+<li><a href="../p/reeinforced-orderblock-theory-rejection-block-source.html">Reeinforced Orderblock Theory Rejection Block (Source)</a></li>
+<li><a href="../p/reeinforced-orderblock-theory-selecting-avoiding-source.html">Reeinforced Orderblock Theory Selecting &amp; Avoiding (Source)</a></li>
+<li><a href="../p/relative-strength-analysis-accumulation-distribution-source.html">Relative Strength Analysis - Accumulation &amp; Distribution (Source)</a></li>
+<li><a href="../p/smc-midnight-opening-range-source.html">SMC Midnight Opening Range (Source)</a></li>
+<li><a href="../p/smc-opening-range-gaps-source.html">SMC Opening Range Gaps (Source)</a></li>
+<li><a href="../p/smc-trading-opening-range-gaps-source.html">SMC Trading Opening Range Gaps (Source)</a></li>
+<li><a href="../p/smt-smart-money-technique-source.html">SMT Smart Money Technique (Source)</a></li>
+<li><a href="../p/stock-mega-trades-source.html">Stock Mega-Trades (Source)</a></li>
+<li><a href="../p/successful-algorithmic-trading-source.html">Successful Algorithmic Trading (Source)</a></li>
+<li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></li>
+<li><a href="../p/tgif-thank-god-its-friday-source.html">TGIF - Thank God its Friday (Source)</a></li>
+<li><a href="../p/the-ict-judas-swing-source.html">The ICT Judas Swing (Source)</a></li>
+<li><a href="../p/the-sentiment-effect-source.html">The Sentiment Effect (Source)</a></li>
+<li><a href="../p/time-and-price-source.html">Time and Price (Source)</a></li>
+<li><a href="../p/trading-all-time-market-highs-source.html">Trading All Time Market Highs (Source)</a></li>
+<li><a href="../p/trading-complex-opening-ranges-with-fed-impact-07-14-2026-source.html">Trading Complex Opening Ranges With Fed Impact 07-14-2026 (Source)</a></li>
+<li><a href="../p/trading-in-consolidations-source.html">Trading In Consolidations (Source)</a></li>
+<li><a href="../p/trading-market-reversals-source.html">Trading Market Reversals (Source)</a></li>
+<li><a href="../p/trading-premarket-and-regular-session-liquidity-source.html">Trading Premarket and Regular Session Liquidity (Source)</a></li>
+<li><a href="../p/trading-the-key-swing-points-source.html">Trading The Key Swing Points (Source)</a></li>
+<li><a href="../p/understanding-the-ict-judas-swing-source.html">Understanding The ICT Judas Swing (Source)</a></li>
+<li><a href="../p/using-10-year-notes-in-htf-analysis-source.html">Using 10 Year Notes In HTF Analysis (Source)</a></li>
+<li><a href="../p/using-ipda-data-ranges-source.html">Using IPDA Data Ranges (Source)</a></li>
+<li><a href="../p/using-monthly-weekly-ranges-source.html">Using Monthly &amp; Weekly Ranges (Source)</a></li>
+<li><a href="../p/weekly-range-profiles-source.html">Weekly Range Profiles (Source)</a></li>
+<li><a href="../p/what-to-focus-on-right-now-source.html">What To Focus On Right Now (Source)</a></li>
+<li><a href="../p/when-to-avoid-the-london-session-source.html">When To Avoid The London Session (Source)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#sources">Quellen</a></div>
+  <h1>Algorithmic Trading - Winning Strategies and Their Rationale (Source)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">source</span> <span class="tag">algo-methodology</span> <span class="tag">risikomanagement</span> <span class="tag">buch</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">Winning strategies and ther rationale</span></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#kapitelubersicht-mit-zielseiten">Kapitelübersicht mit Zielseiten</a></li>
+<li><a href="#formelverzeichnis">Formelverzeichnis</a></li>
+<li><a href="#der-risikoteil-in-einem-bild">Der Risikoteil in einem Bild</a></li>
+<li><a href="#die-wichtigsten-einzelbefunde">Die wichtigsten Einzelbefunde</a></li>
+<li><a href="#warum-manche-strategien-gar-nicht-erst-getestet-werden">Warum manche Strategien gar nicht erst getestet werden</a></li>
+<li><a href="#chans-schlussgedanken">Chans Schlussgedanken</a></li>
+<li><a href="#bewusst-nicht-ins-wiki-ubernommen">Bewusst nicht ins Wiki übernommen</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="algorithmic-trading-winning-strategies-and-their-rationale-source">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</h1>
+<p><strong>Ernest P. Chan, Wiley Trading Series 2013</strong>, 8 Kapitel, MATLAB-Beispielcode.
+Rohquelle: <code>raw/Winning strategies and ther rationale.md</code> (6.741 Zeilen, aus
+<code>raw/Winning strategies and ther rationale.pdf</code> extrahiert).</p>
+<p>Nachfolgeband zu Chans <em>Quantitative Trading</em> (2009). Während das erste Buch die Grundtechniken
+behandelte, geht es hier ausschließlich um <strong>Strategien und ihre Begründung</strong> — plus ein
+Risikomanagement-Kapitel, das der inhaltliche Schwerpunkt dieses Ingests ist.</p>
+<blockquote>
+<p>Chans Leitgedanke: <em>„Instead of recipes, what I hope to convey is the deeper reasons, the basic
+principles, why certain strategies should work and why others shouldn't."</em> Deshalb bevorzugt er
+durchweg <strong>einfache, lineare</strong> Strategien — nicht weil sie besser performen, sondern weil sie
+zeigen, dass der Gewinn aus einer <strong>Marktineffizienz</strong> stammt und nicht aus der Raffinesse der
+Regel.</p>
+</blockquote>
+<h2 id="kapitelubersicht-mit-zielseiten">Kapitelübersicht mit Zielseiten</h2>
+<table>
+<thead>
+<tr>
+<th>Kap.</th>
+<th>Inhalt</th>
+<th>Wiki-Seite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Backtesting-Fallstricke, Futures-Datenaufbereitung, Hypothesentests, Plattformwahl</td>
+<td><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>ADF, Hurst, Variance Ratio, <strong>Halbwertszeit</strong>, CADF, Johansen</td>
+<td><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Preis-/Log-/Ratio-Spreads, Bollinger, Scaling-in, <strong>Kalman-Filter</strong></td>
+<td><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Mean Reversion bei Aktien und ETFs, Buy-on-Gap, Index-Arbitrage</td>
+<td>(in den obigen Seiten mitbehandelt)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Währungen und Futures, <strong>Roll Return</strong>, Kalenderspreads, VX/ES</td>
+<td><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Interday-Momentum, Zeitreihen-Tests, Roll-Return-Signal</td>
+<td><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Intraday-Momentum, <strong>Opening Gap</strong>, PEAD, gehebelte ETFs, HFT-Taktiken</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Risikomanagement</strong></td>
+<td><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a>, <a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a>, <a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a>, <a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="formelverzeichnis">Formelverzeichnis</h2>
+<table>
+<thead>
+<tr>
+<th>Nr.</th>
+<th>Formel</th>
+<th>Seite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.1</td>
+<td><code>z(i) = (f(i) − mean(f))/std(f)</code> — Z-Score eines Faktors</td>
+<td>(hier)</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td><code>R = mean(R) + std(R)·Σ sign(i)·z(i)/n</code> — Faktormodell mit <strong>Gleichgewichtung</strong></td>
+<td>(hier)</td>
+</tr>
+<tr>
+<td>1.3</td>
+<td><code>rank_s = Σ sign(i)·rank_s(i)</code> — Rangaggregation ohne Renditeschätzung</td>
+<td>(hier)</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>ADF-Regression <code>Δy(t) = λy(t−1) + μ + βt + …</code></td>
+<td><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></td>
+</tr>
+<tr>
+<td>2.2–2.4</td>
+<td>Varianz-Diffusion, Hurst-Exponent <code>⟨…⟩ ∼ τ^(2H)</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>2.5–2.6</td>
+<td>Ornstein-Uhlenbeck, <strong>Halbwertszeit = −log(2)/λ</strong></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>2.7</td>
+<td>Johansen-Vektorform <code>ΔY(t) = ΛY(t−1) + …</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3.1–3.4</td>
+<td>Preis-Spread, Log-Preis-Spread, Kapital- vs. Stückgewichte</td>
+<td><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a></td>
+</tr>
+<tr>
+<td>3.5–3.13</td>
+<td>Kalman-Filter: Mess-, Übergangs-, Prognose- und Update-Gleichungen</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3.14–3.20</td>
+<td>Kalman als Market-Making-Modell, <code>Ve</code> als Funktion der Ordergröße</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>4.1</td>
+<td><code>wᵢ = −(rᵢ − ⟨r⟩)/Σ|rₖ − ⟨r⟩|</code> — Cross-sectional Long-Short-Gewichte</td>
+<td>(hier)</td>
+</tr>
+<tr>
+<td>5.11</td>
+<td><code>ES×50 = −0,3906·VX×1000 + $77.150</code></td>
+<td><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a></td>
+</tr>
+<tr>
+<td><strong>8.1</strong></td>
+<td><strong><code>f = m/s²</code></strong> — Kelly-Leverage</td>
+<td><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></td>
+</tr>
+<tr>
+<td><strong>8.2</strong></td>
+<td><strong><code>F = C⁻¹M</code></strong> — Kelly-Allokation über Strategien</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>8.3</td>
+<td><code>g = FᵀCF/2</code> — maximale Wachstumsrate</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>8.5</td>
+<td><code>g(f) = ⟨log(1 + f·R)⟩</code> — allgemeine Wachstumsrate</td>
+<td>dito</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Nicht nummeriert, aber zentral:</strong></p>
+<pre><code>f_ruin          = 1 / |schlechteste Einzelrendite|      harte Leverage-Obergrenze
+Half-Kelly      = f/2                                   uebliche Praxis
+CPPI-Leverage   = D · f · (1 + drawdown)                sinkt automatisch mit dem Drawdown
+Gap-Entry       = Vortages-High × (1 + 0,1 · std90)     Opening-Gap-Momentum
+krit. Werte     √n × taegliche Sharpe:  1,282 / 1,645 / 2,326 / 3,091
+                fuer p = 0,10 / 0,05 / 0,01 / 0,001
+</code></pre>
+<h2 id="der-risikoteil-in-einem-bild">Der Risikoteil in einem Bild</h2>
+<pre><code>Ziel: Maximierung des LANGFRISTIGEN Kapitalwachstums —
+      Risiko wird nur insoweit gemieden, wie es diesem Ziel im Weg steht.
+
+  1. Wie viel Hebel?           →  Kelly f = m/s², in der Praxis Half-Kelly
+                                  oder numerisch auf simulierten/historischen Renditen
+  2. Und wenn ein maximaler
+     Drawdown vorgegeben ist?  →  NICHT linear herunterskalieren.
+                                  Besser: CPPI (Wachstum + harte Grenze zugleich)
+  3. Einzelne Position?        →  Stop Loss — logisch bei Momentum,
+                                  bei Mean Reversion nur GROESSER als der
+                                  Backtest-Drawdown ansetzen
+  4. Ganze Perioden meiden?    →  Leading Risk Indicators — aber JEDE Strategie
+                                  einzeln testen, das Vorzeichen kann kippen
+</code></pre>
+<h2 id="die-wichtigsten-einzelbefunde">Die wichtigsten Einzelbefunde</h2>
+<ul>
+<li><strong>Kelly-Leverage ist eine Obergrenze, kein Sollwert.</strong> Überschätztes <code>f</code> führt zum Ruin,
+  unterschätztes nur zu weniger Wachstum — daher Half-Kelly. Russell 1000/2000 haben Kelly ≈ 1,8,
+  während dreifach gehebelte ETFs darauf mit Leverage 3 arbeiten.</li>
+<li><strong>Konstantes Leverage zwingt zum Verkaufen in den Verlust.</strong> Rechenbeispiel und die
+  systemische Folge (Quant-Krise August 2007) auf der Kelly-Seite.</li>
+<li><strong>Drawdown-Halbierung erforderte Leverage-Teilung durch 7</strong>, nicht durch 2.</li>
+<li><strong>CPPI liefert praktisch dieselbe Wachstumsrate</strong> (0,002484 vs. 0,002525 pro Tag) bei
+  Drawdown 0,5 statt 0,9.</li>
+<li><strong>Stop Loss bei Mean Reversion:</strong> Die Aussage „schadet immer" ist selbst ein
+  Survivorship-Bias-Artefakt. Lösung: Stop <strong>größer</strong> als der maximale Intraday-Drawdown des
+  Backtests — kostenlos im Backtest, schützt aber gegen Regimewechsel.</li>
+<li><strong>Derselbe Risikoindikator, gegensätzliche Konsequenz:</strong> VIX &gt; 35 verdoppelt die Rendite der
+  einen Strategie (8,7 % → 17,2 %) und zerstört die der anderen (13 % → 2,6 %).</li>
+<li><strong>Scaling-in ist in-sample beweisbar nie optimal</strong> (Schoenberg &amp; Corwin) — kann out-of-sample
+  aber gewinnen, weil der Beweis konstante Volatilität voraussetzt.</li>
+<li><strong>Kalman-Filter liefert Hedge Ratio, Mittelwert und Standardabweichung in einem Verfahren</strong> und
+  ohne willkürlichen Lookback: EWA-EWC APR 26,2 %, Sharpe 2,4.</li>
+<li><strong>Momentum bei Futures kommt aus der Persistenz der Roll-Rendite</strong> — das saubere Signal
+  (Roll-Rendite statt Gesamtrendite) verdoppelte die Sharpe Ratio und halbierte den Drawdown.</li>
+<li><strong>Drei verschiedene Nullhypothesen, drei verschiedene Signifikanzen</strong> für dieselbe Strategie:
+  99 %, 88 % und praktisch 100 %.</li>
+<li><strong>Die Halbwertszeit setzt alle Lookbacks</strong>, ohne dass man sie optimieren muss — und sagt
+  vorab, ob Mean-Reversion-Handel überhaupt lohnt.</li>
+</ul>
+<h2 id="warum-manche-strategien-gar-nicht-erst-getestet-werden">Warum manche Strategien gar nicht erst getestet werden</h2>
+<p>Chans Ausschlusskriterien (Details auf
+<a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a>): hohe Rendite bei niedriger
+Sharpe Ratio und langer Drawdown-Dauer; Long-only ohne Vergleich gegen Buy-and-Hold; jede
+Aktienstrategie ohne survivorship-bias-freie Daten; neuronale Netze mit dutzenden Knoten;
+HFT-Backtests ohne Orderbuch und ohne Berücksichtigung der Reaktion anderer Teilnehmer.</p>
+<h2 id="chans-schlussgedanken">Chans Schlussgedanken</h2>
+<p>Zwei Urteilsfragen, die auch bei vollautomatischem Handel bleiben — und für die er seine eigene
+Erfahrung angibt:</p>
+<ol>
+<li><strong>Vor einem absehbaren Großereignis das Leverage senken?</strong> Nein. Hat das Modell frühere
+   Stressphasen im Backtest überstanden, gibt es keinen Grund. <em>„It is much better to start off
+   with a more conservative leverage during good times than to have to lower it in bad ones."</em>
+   Die „unknown unknowns" schaden, nicht die bekannten.</li>
+<li><strong>Kelly über alle Strategien gemeinsam oder je Strategie einzeln?</strong> Mathematisch ist gemeinsam
+   optimal — aber nur unter der Annahme unveränderlicher Erwartungswerte und Volatilitäten. Chans
+   Praxis: <strong>je Strategie einzeln</strong>, damit schwächelnde Strategien schnell absterben.</li>
+</ol>
+<p>Und die Einordnung des Ganzen: Nicht-Stationarität der Finanzzeitreihen ist der Grund, warum
+subjektives Urteil überhaupt nötig bleibt — Wissenschaft kann nur mit stationären Statistiken
+umgehen. Weicht der Livebetrieb vom Backtest ab, liegt das oft <strong>nicht</strong> an einem
+Backtesting-Fehler, sondern an einem echten Regimewechsel durch Regulierung oder Makroänderung.
+Die Rolle des Managers ist dann, auf Basis fundamentalen Marktverständnisses zu beurteilen, ob
+das Modell noch gilt.</p>
+<h2 id="bewusst-nicht-ins-wiki-ubernommen">Bewusst nicht ins Wiki übernommen</h2>
+<ul>
+<li><strong>Der MATLAB-Code als solcher</strong> (jplv7/spatial-econometrics, Econometrics Toolbox,
+  <code>pearsrnd</code>, <code>fminbnd</code>, <code>genhurst</code>, <code>vratiotest</code>, <code>johansen</code>, <code>cadf</code>, <code>ols</code>). Die Algorithmen
+  stehen als Prosa und Python-nahes Pseudocode auf den Konzeptseiten; für Python gibt es
+  <code>statsmodels</code> (ADF, Johansen, OLS), <code>scipy</code> und <code>filterpy</code>/<code>pykalman</code>.</li>
+<li><strong>Die Aktien-/ETF-Strategien im Detail</strong> (Buy-on-Gap auf SPX-Aktien, SPY-Index-Arbitrage,
+  Khandani-Lo-Long-Short, PEAD-Scraper für earnings.com). Dieses Projekt handelt ein einzelnes
+  Futures-Instrument; die <em>Mechanismen</em> sind auf den Konzeptseiten erfasst, die
+  Aktien-Implementierungen nicht.</li>
+<li><strong>Plattformvergleich</strong> (Deltix, Progress Apama, MetaTrader, NinjaTrader, TradeStation,
+  Marketcetera, FXone …) — Stand 2013 und für dieses Projekt gegenstandslos, das in Python mit
+  <code>backtesting</code> arbeitet.</li>
+<li><strong>HFT-Ausführungstaktiken</strong> (ratio trade, ticking/quote matching, flipping,
+  momentum ignition) sind auf <a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a> nur zusammengefasst —
+  sie setzen Kolokation und Direktfeeds voraus.</li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">10</span></h2><ul><li><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a><span class="cat">Konzepte</span></li><li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a><span class="cat">Konzepte</span></li><li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a><span class="cat">Konzepte</span></li><li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a><span class="cat">Konzepte</span></li><li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a><span class="cat">Konzepte</span></li><li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a><span class="cat">Konzepte</span></li><li><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a><span class="cat">Konzepte</span></li><li><a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/sources/Algorithmic Trading - Winning Strategies and Their Rationale (Source).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

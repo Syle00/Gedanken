@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bollinger-Bänder, Scaling-in &amp; Kalman-Filter — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">103</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">186</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li class="here"><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">mean-reversion</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#bollinger-bander-als-handelbare-version-der-linearen-strategie">Bollinger-Bänder als handelbare Version der linearen Strategie</a></li>
+<li><a href="#scaling-in-der-beweis-dass-es-im-backtest-nie-optimal-ist">Scaling-in: der Beweis, dass es im Backtest nie optimal ist</a></li>
+<li><a href="#kalman-filter-als-dynamische-regression">Kalman-Filter als dynamische Regression</a></li>
+<li><a href="#kalman-filter-als-market-making-modell">Kalman-Filter als Market-Making-Modell</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="bollinger-bander-scaling-in-kalman-filter">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</h1>
+<p>Die praktisch handelbaren Mean-Reversion-Techniken aus
+<a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a> (Chan, Kap. 3) — und
+der überraschende Beweis, dass <strong>Scaling-in im Backtest nie optimal ist</strong>.</p>
+<h2 id="bollinger-bander-als-handelbare-version-der-linearen-strategie">Bollinger-Bänder als handelbare Version der linearen Strategie</h2>
+<p>Die parameterlose lineare Strategie aus
+<a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a> ist nicht handelbar, weil der
+Kapitalbedarf unbegrenzt ist. Die praktische Fassung:</p>
+<pre><code>Einstieg:  |Z-Score| &gt; entryZscore
+Ausstieg:  |Z-Score| &lt; exitZscore                 mit exitZscore &lt; entryZscore
+
+exitZscore =  0            → Ausstieg bei Rueckkehr zum Mittelwert
+exitZscore = −entryZscore  → Ausstieg erst am GEGENUEBERLIEGENDEN Band
+                             (dort feuert bereits das Signal der Gegenrichtung)
+
+Lookback fuer Mittelwert/Std: freier Parameter ODER = Halbwertszeit
+</code></pre>
+<p>Zu jedem Zeitpunkt hält man <strong>null oder eine</strong> Einheit (long oder short) — dadurch sind
+Kapitalallokation und Risikosteuerung trivial.</p>
+<p><strong>Faustregel:</strong> kurzer Lookback und kleine <code>entryZscore</code>/<code>exitZscore</code> → kürzere Haltedauer, mehr
+Round-Trips, allgemein höhere Gewinne.</p>
+<p>Wirkung am Beispiel GLD-USO (identische Datenbasis, nur andere Entry-Logik):</p>
+<table>
+<thead>
+<tr>
+<th>Strategie</th>
+<th>APR</th>
+<th>Sharpe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lineare Strategie (Z-Score-proportional)</td>
+<td>10,9 %</td>
+<td>0,59</td>
+</tr>
+<tr>
+<td><strong>Bollinger-Band</strong> (<code>entryZscore = 1</code>, <code>exitZscore = 0</code>)</td>
+<td><strong>17,8 %</strong></td>
+<td><strong>0,96</strong></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">z = (yport - yport.rolling(lookback).mean()) / yport.rolling(lookback).std()
+long_entry,  long_exit  = z &lt; -entry_z, z &gt;= -exit_z
+short_entry, short_exit = z &gt;  entry_z, z &lt;=  exit_z
+
+units_long  = pd.Series(np.nan, index=z.index); units_long.iloc[0] = 0
+units_long[long_entry]  =  1;  units_long[long_exit]  = 0
+units_short = pd.Series(np.nan, index=z.index); units_short.iloc[0] = 0
+units_short[short_entry] = -1; units_short[short_exit] = 0
+num_units = units_long.ffill() + units_short.ffill()      # Tage ohne Signal: Position halten
+</code></pre>
+<p>Das <code>ffill()</code> ist der Kern: An Tagen ohne Ein- oder Ausstiegssignal wird die Position des Vortags
+fortgeschrieben.</p>
+<h2 id="scaling-in-der-beweis-dass-es-im-backtest-nie-optimal-ist">Scaling-in: der Beweis, dass es im Backtest nie optimal ist</h2>
+<p>Scaling-in (auch Averaging-in) heißt: je weiter der Preis vom Mittelwert abweicht, desto mehr
+Kapital investieren. In Bollinger-Form: <code>entryZscore = 1, 2, 3, …, N</code> und
+<code>exitZscore = 0, 1, 2, …, N−1</code>.</p>
+<p>Die intuitiven Argumente dafür sind gut: Der potenzielle Gewinn steigt mit der Abweichung;
+man <strong>skaliert auch schrittweise hinaus</strong> und realisiert dadurch schon kleine Rückläufe (wichtig,
+wenn die Reihe nie ganz zum Mittelwert zurückkehrt); und bei großen Ordergrößen sinkt der
+Market Impact.</p>
+<p><strong>Schoenberg &amp; Corwin (2010) haben trotzdem bewiesen, dass es nie optimal ist.</strong> Chans
+Rekonstruktion:</p>
+<pre><code>Preis faellt auf L1. Erwartete Rueckkehr zu F &gt; L1.
+Mit Wahrscheinlichkeit p faellt er vorher weiter auf L2 &lt; L1.
+Kaufkraft: genau 2 Kontrakte. Ausstieg immer erst bei F.
+
+I.   All-in bei L1:    2(F − L1)
+II.  All-in bei L2:    2p(F − L2)
+III. Average-in:       p[(F − L1) + (F − L2)] + (1 − p)(F − L1)
+                     = (F − L1) + p(F − L2)
+
+Uebergangswahrscheinlichkeit:   p̂ = (F − L1) / (F − L2)
+
+p &lt; p̂  →  I ist besser als II  UND besser als III
+p &gt; p̂  →  II ist besser als I  UND besser als III
+</code></pre>
+<blockquote>
+<p><strong>Es gibt keine Situation, in der Average-in die profitabelste Methode ist.</strong> Man kann immer ein
+einzelnes Ein-/Ausstiegsniveau finden, das im Backtest eine höhere Durchschnittsrendite liefert
+(„all-in").</p>
+</blockquote>
+<p><strong>Warum man es trotzdem tut</strong> — Chans Auflösung: Der Beweis setzt voraus, dass <code>p</code> über die Zeit
+<strong>konstant</strong> ist. Real ist die Volatilität nicht konstant, also <code>p</code> auch nicht. Unter dieser
+Bedingung liefert Scaling-in wahrscheinlich eine bessere realisierte Sharpe Ratio, wenn nicht
+sogar mehr Gewinn.</p>
+<blockquote>
+<p><strong>Die brauchbare Formulierung:</strong> Scaling-in ist <strong>in-sample nie optimal</strong> — kann aber
+<strong>out-of-sample</strong> die All-in-Methode schlagen.</p>
+</blockquote>
+<h2 id="kalman-filter-als-dynamische-regression">Kalman-Filter als dynamische Regression</h2>
+<p>Das Problem: Hedge Ratio, Mittelwert und Standardabweichung ändern sich über die Zeit. Ein
+gleitendes Fenster hat einen unschönen Nebeneffekt — das Wegfallen der ältesten und das Hinzukommen
+der neuesten Bar erzeugt <strong>abrupte, künstliche Sprünge</strong>. Eine exponentielle Gewichtung (EMA)
+mildert das, aber es ist unklar, warum ausgerechnet ein exponentieller Abfall optimal sein sollte.</p>
+<p>Der Kalman-Filter umgeht die willkürliche Gewichtswahl. Vier Größen sind zu definieren — <em>„this is
+actually the only creative part of the application"</em>, der Rest ist mechanisch:</p>
+<table>
+<thead>
+<tr>
+<th>Größe</th>
+<th>Bei der dynamischen Hedge Ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>beobachtbare Variable</td>
+<td>Preisreihe <code>y</code></td>
+</tr>
+<tr>
+<td>verborgene Variable</td>
+<td><code>β</code> = <strong>2×1</strong>-Vektor aus Achsenabschnitt (Mittelwert) <strong>und</strong> Steigung (Hedge Ratio)</td>
+</tr>
+<tr>
+<td>Zustandsübergangsmodell</td>
+<td>Identitätsmatrix</td>
+</tr>
+<tr>
+<td>Beobachtungsmodell</td>
+<td>Preisreihe <code>x</code>, mit einer Spalte Einsen erweitert</td>
+</tr>
+</tbody>
+</table>
+<pre><code>(3.5)  y(t) = x(t)·β(t) + ε(t)                Messgleichung,   Var(ε) = Ve
+(3.6)  β(t) = β(t−1) + ω(t−1)                 Zustandsuebergang, Cov(ω) = Vω
+
+(3.7)  β̂(t|t−1) = β̂(t−1|t−1)                  Zustandsprognose
+(3.8)  R(t|t−1)  = R(t−1|t−1) + Vω             Kovarianzprognose
+(3.9)  ŷ(t)      = x(t)·β̂(t|t−1)               Messprognose
+(3.10) Q(t)      = x(t)'·R(t|t−1)·x(t) + Ve    Varianz der Messprognose
+
+       e(t) = y(t) − x(t)·β̂(t|t−1)             Prognosefehler,  Q(t) = Var(e(t))
+
+(3.11) β̂(t|t)  = β̂(t|t−1) + K(t)·e(t)          Zustands-Update
+(3.12) R(t|t)   = R(t|t−1) − K(t)·x(t)·R(t|t−1) Kovarianz-Update
+(3.13) K(t)     = R(t|t−1)·x(t) / Q(t)          Kalman-Gain
+
+Start:  β̂(1|0) = 0,  R(0|0) = 0
+</code></pre>
+<p><strong>Parametrisierung</strong> (nach Montana et al., statt der aufwendigen Autocovariance-Least-Squares-
+Schätzung):</p>
+<pre><code>Vω = δ/(1−δ) · I           δ ∈ (0, 1)
+
+δ → 0 :  β(t) = β(t−1)  ⟹  entspricht gewoehnlicher OLS mit festem Offset und Steigung
+δ → 1 :  β schwankt wild mit jeder neuen Beobachtung
+
+Chans Werte (mit Hindsight gewaehlt):  δ = 0,0001 ,  Ve = 0,001
+</code></pre>
+<p><strong>Der Mehrfachnutzen — drei Größen aus einem Verfahren:</strong></p>
+<ol>
+<li>eine <strong>dynamische Hedge Ratio</strong> (Steigungskomponente von β),</li>
+<li>der <strong>Mittelwert des Spreads</strong> (Achsenabschnittskomponente) — ersetzt den gleitenden Durchschnitt,</li>
+<li>die <strong>Standardabweichung des Prognosefehlers</strong> <code>√Q(t)</code> — ersetzt die gleitende
+   Standardabweichung im Bollinger-Band.</li>
+</ol>
+<p>Handelsregeln werden damit besonders schlank, weil <code>e(t)</code> bereits die Abweichung vom prognostizierten
+Mittelwert <strong>ist</strong>:</p>
+<pre><code>long_entry  = e &lt; −√Q      long_exit  = e &gt; −√Q
+short_entry = e &gt;  √Q      short_exit = e &lt;  √Q
+</code></pre>
+<p>Ergebnis auf EWA-EWC: <strong>APR 26,2 %, Sharpe 2,4</strong> — mit Abstand das beste
+Mean-Reversion-Ergebnis des Buches.</p>
+<pre><code class="language-python">def kalman_hedge(x, y, delta=1e-4, Ve=1e-3):
+    &quot;&quot;&quot;x, y = Preisreihen. Liefert beta (2×T), e (Prognosefehler), Q (dessen Varianz).&quot;&quot;&quot;
+    X = np.column_stack([x, np.ones_like(x)])
+    Vw = delta / (1 - delta) * np.eye(2)
+    P  = np.zeros((2, 2)); beta = np.zeros((2, len(y)))
+    e  = np.full(len(y), np.nan); Q = np.full(len(y), np.nan)
+    R  = np.zeros((2, 2))
+    for t in range(len(y)):
+        if t &gt; 0:
+            beta[:, t] = beta[:, t-1]        # (3.7)
+            R = P + Vw                       # (3.8)
+        yhat = X[t] @ beta[:, t]             # (3.9)
+        Q[t] = X[t] @ R @ X[t] + Ve          # (3.10)
+        e[t] = y[t] - yhat
+        K = R @ X[t] / Q[t]                  # (3.13)
+        beta[:, t] = beta[:, t] + K * e[t]   # (3.11)
+        P = R - np.outer(K, X[t] @ R)        # (3.12)
+    return beta, e, Q
+</code></pre>
+<h2 id="kalman-filter-als-market-making-modell">Kalman-Filter als Market-Making-Modell</h2>
+<p>Zweite Anwendung — hier interessiert <strong>nur eine</strong> Reihe, keine Hedge Ratio. Verborgene Variable
+ist der <strong>faire Mittelpreis</strong> <code>m(t)</code>:</p>
+<pre><code>(3.14) y(t) = m(t) + ε(t)
+(3.15) m(t) = m(t−1) + ω(t−1)
+(3.16) m(t|t) = m(t|t−1) + K(t)·( y(t) − m(t|t−1) )
+(3.17) Q(t)   = Var(m(t)) + Ve
+(3.18) K(t)   = R(t|t−1) / ( R(t|t−1) + Ve )
+(3.19) R(t|t) = (1 − K(t))·R(t|t−1)
+</code></pre>
+<p>Der Kniff, mit dem Market Maker daraus etwas Praktisches machen (nach Sinclair, 2010): Die
+Messunsicherheit <code>Ve</code> wird von der <strong>Ordergröße</strong> abhängig gemacht — eine große Transaktion trägt
+mehr Information über den fairen Preis als eine kleine.</p>
+<pre><code>(3.20)  Ve = R(t|t−1) · ( T/Tmax − 1 )
+
+        T    = Transaktionsgroesse
+        Tmax = Benchmark-Groesse (z.B. ein Bruchteil des Vortagesvolumens)
+
+        T = Tmax  ⟹  Ve = 0  ⟹  Kalman-Gain = 1
+                  ⟹  der neue Mittelpreis IST exakt der beobachtete Preis
+</code></pre>
+<p>Chans Einordnung: Das ist eine Verallgemeinerung des <strong>VWAP</strong>. Beim VWAP gewichtet man nur nach
+Volumen; hier zusätzlich nach <strong>Aktualität</strong>. Also gewissermaßen ein volumen- <strong>und</strong>
+zeitgewichteter Durchschnittspreis.</p>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<p><strong>Bollinger-Bänder</strong> sind im Vault bereits präsent — als ICT-Werkzeug in
+<a href="../p/midnight-opening-range.html">Midnight Opening Range</a> (STD-Projektionen) und in
+<a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a>. Chans Fassung liefert die generische Entry/Exit-Mechanik
+samt der Regel, <code>exitZscore &lt; entryZscore</code> zu wählen, und die Begründung, den Lookback aus der
+Halbwertszeit statt aus einer Optimierung zu ziehen.</p>
+<p><strong>Der Scaling-in-Befund betrifft eine bestehende Projektregel unmittelbar.</strong>
+<a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a> und die Pyramiding-Beobachtung in
+<a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">Part 2 High Precision Secrets</a>
+(Single-Contract-Probe plus Nachlegen im Drawdown) sind Scaling-in-Verfahren. Chans Beweis sagt:
+Im Backtest wird sich <strong>immer</strong> ein einzelnes Einstiegsniveau finden lassen, das besser abschneidet —
+das ist <strong>kein</strong> Argument gegen die Praxis, aber es heißt, dass ein Backtest diese Technik
+systematisch schlechtreden wird. Wer sie testet, muss das wissen, sonst verwirft er sie aus dem
+falschen Grund.</p>
+<p><strong>Der Kalman-Filter</strong> ist der interessanteste offene Faden: Er liefert gleitenden Mittelwert und
+gleitende Standardabweichung <strong>ohne</strong> willkürlichen Lookback. Damit wäre er ein direkter Ersatz
+für mehrere fest gewählte Fensterlängen in <code>tools/analyze_ohlc.py</code> und <code>algo/signals.py</code> — und
+<code>filterpy</code> bzw. <code>pykalman</code> machen eine Eigenimplementierung überflüssig. Die Market-Making-Variante
+(3.14–3.20) wird erst mit Tick-und-Volumen-Daten relevant, also frühestens mit der
+IBKR-Anbindung (Roadmap-Stufe 4).</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">3</span></h2><ul><li><a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Bollinger-Bänder, Scaling-in &amp; Kalman-Filter.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

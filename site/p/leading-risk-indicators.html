@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leading Risk Indicators — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">103</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">186</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li class="here"><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Leading Risk Indicators</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">risikomanagement</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#es-gibt-keinen-universellen-risikoindikator">Es gibt keinen universellen Risikoindikator</a></li>
+<li><a href="#der-katalog">Der Katalog</a></li>
+<li><a href="#order-flow-laut-chan-der-aussichtsreichste">Order Flow — laut Chan der aussichtsreichste</a></li>
+<li><a href="#die-methodische-warnung">Die methodische Warnung</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="leading-risk-indicators">Leading Risk Indicators</h1>
+<p>Der <strong>proaktive</strong> Teil des Risikomanagements: nicht erst nach dem Verlust die Größe reduzieren,
+sondern riskante Perioden von vornherein meiden. Aus
+<a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a> (Chan, Kap. 8).</p>
+<p>Alle anderen Verfahren im Risikokapitel sind <strong>reaktiv</strong> — man senkt die Ordergröße nach einem
+Verlust (<a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a>), oder man stellt bei erreichtem Drawdown
+den Handel ein (<a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a>). Deutlich vorteilhafter wäre
+es, die Verlustperioden vorher zu umgehen.</p>
+<p><strong>Entscheidende Unterscheidung:</strong> Ein <em>leading</em> Risikoindikator sagt vorher, ob die <strong>nächste</strong>
+Periode riskant wird. Ein gewöhnlicher Risikoindikator ist mit der riskanten Periode nur
+<strong>gleichzeitig</strong> — und damit nutzlos für die Vermeidung.</p>
+<h2 id="es-gibt-keinen-universellen-risikoindikator">Es gibt keinen universellen Risikoindikator</h2>
+<blockquote>
+<p><strong>Was für die eine Strategie eine riskante Periode ist, kann für die andere die profitabelste
+sein.</strong> Derselbe Indikator, dieselbe Schwelle, gegensätzliche Schlussfolgerung.</p>
+</blockquote>
+<p>Chan belegt das mit zwei Strategien aus seinem eigenen Buch und <strong>demselben</strong> Indikator
+(VIX &gt; 35, eine gängige Schwelle für „hochriskant"):</p>
+<table>
+<thead>
+<tr>
+<th>Strategie</th>
+<th>Zeitraum</th>
+<th>normale APR</th>
+<th>Sharpe</th>
+<th>nach VIX &gt; 35 am Vortag</th>
+<th>Sharpe</th>
+<th>Schluss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Buy-on-Gap (Aktien, Mean Reversion, Kap. 4)</td>
+<td>11.05.2006 – 24.04.2012</td>
+<td>8,7 %</td>
+<td>1,5</td>
+<td><strong>17,2 %</strong></td>
+<td>1,4</td>
+<td>Risiko <strong>nutzen</strong></td>
+</tr>
+<tr>
+<td>FSTX Opening-Gap (Futures, Momentum, Kap. 7)</td>
+<td>16.07.2004 – 17.05.2012</td>
+<td>13 %</td>
+<td>1,4</td>
+<td><strong>2,6 %</strong></td>
+<td>0,16</td>
+<td>Handel <strong>aussetzen</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Die Mean-Reversion-Strategie <strong>verdoppelt</strong> ihre Rendite in genau den Phasen, in denen die
+Momentum-Strategie praktisch aufhört zu funktionieren. Wer den Indikator ohne eigenen Test
+übernimmt, macht mit 50 % Wahrscheinlichkeit das Gegenteil des Richtigen.</p>
+<h2 id="der-katalog">Der Katalog</h2>
+<table>
+<thead>
+<tr>
+<th>Indikator</th>
+<th>Was er misst</th>
+<th>Anmerkungen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VIX</strong></td>
+<td>implizite Volatilität des S&amp;P 500</td>
+<td>gängige Schwelle 35; siehe Tabelle oben</td>
+</tr>
+<tr>
+<td><strong>TED-Spread</strong></td>
+<td>3-Monats-LIBOR minus 3-Monats-T-Bill → <strong>Risiko von Bankenausfällen</strong></td>
+<td>Rekord <strong>457 Basispunkte</strong> in der Kreditkrise 2008. Vorteil: der Kreditmarkt wird von institutionellen Akteuren dominiert, die vermutlich besser informiert sind als der von Herdentrieb geprägte Aktienmarkt. Die LIBOR-Manipulation der Banken ist unschädlich, weil nur die <strong>relative</strong> Entwicklung zählt, nicht der Absolutwert.</td>
+</tr>
+<tr>
+<td><strong>HYG</strong></td>
+<td>ETF auf Hochzinsanleihen</td>
+<td>Risikoaktivum als Proxy</td>
+</tr>
+<tr>
+<td><strong>MXN</strong></td>
+<td>mexikanischer Peso</td>
+<td>wurde in der Europa-Schuldenkrise 2011 auffallend empfindlich für schlechte Nachrichten, <strong>obwohl die mexikanische Wirtschaft durchgehend gesund war</strong> — Händler benutzten ihn als Stellvertreter für Risikoaktiva allgemein</td>
+</tr>
+<tr>
+<td><strong>ONN / OFF</strong></td>
+<td>ETFs, die einen Korb von Risikoaktiva halten (ONN) bzw. dessen Spiegelbild (OFF)</td>
+<td>hoher OFF-Wert = möglicher Risikoindikator. Zum Zeitpunkt des Buches erst ~7 Monate Historie, also <strong>unbestätigt</strong></td>
+</tr>
+<tr>
+<td><strong>Order Flow</strong></td>
+<td>vorzeichenbehaftetes Transaktionsvolumen</td>
+<td>siehe unten</td>
+</tr>
+<tr>
+<td><strong>Rohstoffpreise</strong></td>
+<td>strategiespezifisch</td>
+<td>Ölpreis ist ein guter Leading Indicator für das Paar GLD/GDX (Kap. 4); Goldpreis analog für ETFs von Förderländern/-unternehmen</td>
+</tr>
+<tr>
+<td><strong>Baltic Dry Index</strong></td>
+<td>Frachtraten</td>
+<td>möglicher Leading Indicator für ETFs/Währungen exportorientierter Länder</td>
+</tr>
+</tbody>
+</table>
+<h2 id="order-flow-laut-chan-der-aussichtsreichste">Order Flow — laut Chan der aussichtsreichste</h2>
+<p>Auf kurzen Zeitskalen erkennt, wer Zugriff auf Order-Flow-Informationen hat, eine <strong>plötzliche
+große Veränderung im Orderfluss</strong>. Die deutet meist darauf hin, dass wichtige Information in den
+Besitz institutioneller Händler gelangt ist.</p>
+<pre><code>Risikoaktivum (Aktien, Rohstoffe, riskante Waehrungen):   grosse NEGATIVE Aenderung = Risiko
+Sicherer Hafen (US-Treasuries, USD, JPY, CHF):            grosse POSITIVE Aenderung = Risiko
+</code></pre>
+<p>Order Flow ist ein Prädiktor künftiger Preisänderungen (Lyons, 2001) und wirkt, <strong>bevor</strong> sich
+die Information breiter im Markt verteilt und den Preis stärker bewegt.</p>
+<p>Definition und Messung (aus Kap. 7): Order Flow ist <strong>vorzeichenbehaftetes Transaktionsvolumen</strong>.
+Kauft ein Händler 100 Einheiten zum Briefkurs, ist der Order Flow +100; verkauft er zum Geldkurs,
+−100. Für Aktien und Futures selbst berechenbar: jeden Tick aufzeichnen und bestimmen, ob die
+Transaktion am Geld- oder am Briefkurs stattfand. Für Devisen schwierig, weil die meisten Dealer
+keine Transaktionspreise melden — dort auf Währungs-Futures ausweichen.</p>
+<p>Chans Einschätzung: <em>„As the order flow indicator works at higher frequency, it may turn out to
+be the most useful of them all."</em></p>
+<h2 id="die-methodische-warnung">Die methodische Warnung</h2>
+<blockquote>
+<p>Finanzpaniken und -krisen sind <strong>selten</strong>. Genau deshalb ist es beim Backtesten von
+Risikoindikatoren besonders leicht, Data-Snooping-Bias zum Opfer zu fallen — es gibt schlicht
+zu wenige Ereignisse, um eine Regel abzusichern.</p>
+</blockquote>
+<p>Und: <strong>kein Finanzindikator kann Natur- oder sonstige nichtfinanzielle Katastrophen vorhersagen.</strong></p>
+<p>Die passenden Gegenmittel stehen an anderer Stelle im Vault:
+<a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a> und <a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a> — gerade bei
+wenigen Ereignissen ist ein P-Wert aus einem Permutationstest aussagekräftiger als eine
+Trefferquote.</p>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<p>Der Vault hat bereits einen Makro-Datenstrang, der genau hier andockt:
+<a href="../p/makro-fred-zusammenhaenge-eigene-daten-laufend.html">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</a> wertet <strong>VIX, DGS10 und WALCL</strong> gegen MNQ
+aus und fand eine Korrelation von <strong>−0,743</strong> zwischen VIX-Änderung und Tagesrendite. Das ist
+allerdings eine <strong>gleichzeitige</strong> Korrelation — also genau der Typ „general risk indicator", den
+Chan von einem <em>leading</em> Indikator abgrenzt.</p>
+<p>Der Test, der daraus folgt und bisher fehlt: <strong>Bedingte Auswertung statt Korrelation.</strong> Also
+nicht „wie korreliert VIX mit der Tagesrendite", sondern:</p>
+<pre><code>Wie schneidet die Silver-Bullet-Regel an Tagen ab,
+an denen der VIX des VORTAGS ueber Schwelle X lag —
+verglichen mit allen anderen Tagen?
+</code></pre>
+<p>Das ist exakt die Auswertung aus Chans Tabelle oben, ist mit <code>algo/fetch_fred.py</code> +
+<code>algo/backtest_bt.py</code> ohne neue Datenquelle machbar, und beantwortet die Frage, ob MNQ-Setups zu
+den Strategien gehören, die von hoher Volatilität <strong>profitieren</strong> (wie Buy-on-Gap) oder darunter
+<strong>leiden</strong> (wie FSTX). Wegen der geringen Zahl von Hoch-VIX-Tagen in der aktuellen Datenbasis ist
+dabei die Data-Snooping-Warnung oben besonders ernst zu nehmen.</p>
+<p>Order Flow ist im Projekt bisher nicht verfügbar — <code>raw/marktdaten/</code> enthält OHLC ohne Bid/Ask.
+Über die IBKR-Anbindung (Roadmap-Stufe 4 in <span class="broken" title="Seite existiert noch nicht">Algo-Trading: Arbeitsstandards</span>) wäre
+Tick-mit-Quote-Daten grundsätzlich beschaffbar; das wäre die Voraussetzung für den laut Chan
+aussichtsreichsten Indikator.</p>
+<p>Weiterführend: <a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a>,
+<a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a>,
+<a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a>.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a><span class="cat">Konzepte</span></li><li><a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Leading Risk Indicators.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-# Index
+﻿# Index
 
 Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE.md]] für das Schema.
 
@@ -23,12 +23,14 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)]] — Vier-Bias-Katalog aus Halls-Moore, systematisiert bestehende Projektregeln; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Balanced Price Range (BPR)]] — Verhalten innerhalb eines FVG, eine Timeframe tiefer betrachtet (2026-08-02)
 - [[BISI & SIBI (Buyside-Sellside Imbalance)]] — Richtungs-Bezeichnung für FVG-Typen (2026-08-01)
+- [[Bollinger-Bänder, Scaling-in & Kalman-Filter]] — handelbare Mean-Reversion-Mechanik; Scaling-in ist in-sample beweisbar nie optimal; Kalman liefert Hedge Ratio, Mittelwert und Std ohne Lookback; algo-methodology (2026-08-08)
 - [[Breakaway Gap]] — Displacement am FVG-Quadranten/Wick, LTF-Umdeutung des FVG (2026-08-02)
 - [[Breaker Block]] — Order-Block-Variante, fokussiert auf gejagte Stop-Losses (2026-08-01)
 - [[Central Bank Dealers Range (CBDR)]] — 14–20-Uhr-Range mit STD-Projektion fürs Tages-High/Low, Technik auch auf Pre-News-Ranges übertragbar (2026-08-01, erg. 2026-08-07)
 - [[Chain of Custody (Q-Validation)]] — Q-Level validieren PD Arrays entlang der antizipierten Dealing Range (2026-08-01)
 - [[CISD (Change in State of Delivery)]] — Down-/Up-Close-Candles als struktureller Support/Resistance (2026-08-01)
 - [[COT (Commitment of Traders) Data]] — Positionierungsdaten großer Player, 12-Monats-Hedging-Methode (2026-08-01)
+- [[CPPI (Constant Proportion Portfolio Insurance)]] — harte Drawdown-Obergrenze bei praktisch unveränderter Wachstumsrate (0,5 statt 0,9 Drawdown); **Risikomanagement** (2026-08-08)
 - [[Cross Validation vs. Walk-Forward (Masters)]] — warum CV bei Marktdaten pessimistisch *und* optimistisch verzerrt ist und nicht empfohlen wird; Ausnahme CV-in-Walk-Forward; algo-methodology (2026-08-08)
 - [[CSCV (Combinatorially Symmetric Cross Validation)]] — Dominanz-Test: schlägt der IS-beste Parametersatz OOS den Median seiner Konkurrenten? algo-methodology (2026-08-08)
 - [[Daily High & Low Projektion (Konvergenz)]] — Fib-0,5-Extension, 3-Tage-Wick-Projektion und Fulcrum Point kombiniert für High-Probability-Daily-Extreme (2026-08-05)
@@ -40,7 +42,9 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[External vs. Internal Range Liquidity]] — Entry an Internal (OB/FVG in der Range), Exit an External (Stops außerhalb) (2026-08-06)
 - [[Fair Value Gap (FVG)]] — Preiszone ohne Trading zwischen zwei Candles (2026-08-06)
 - [[FOMC (Federal Open Market Committee)]] — US-Zinsgremium, häufigster News-Katalysator in Weekly-Profilen (2026-08-01)
+- [[Futures-Datenaufbereitung & Backtesting-Fallstricke (Chan)]] — Back-Adjustment Preis vs. Rendite (man kann nur eines korrekt haben), Settlement- statt Schlusskurs, Datenfehler verzerren MR und Momentum gegensätzlich; algo-methodology (2026-08-08)
 - [[Grenzen für Einzelrenditen & Drawdown]] — empirische Quantilgrenzen zur Live-Überwachung + Doppel-Bootstrap für Drawdown (der naive Bootstrap unterschätzt Katastrophen um Faktor 13,65); algo-methodology (2026-08-08)
+- [[Halbwertszeit der Mean Reversion & Kointegration (Chan)]] — `−log(2)/λ` setzt alle Lookbacks ohne Optimierung; Johansen-Eigenvektoren als Hedge Ratios; algo-methodology (2026-08-08)
 - [[ICT Daily Range Session Timing]] — Session-Ablauf, der die Daily Range formt (2026-08-01)
 - [[ICT Killzones]] — Die vier Handelsfenster mit idealen Paaren und Pip-Erwartung (2026-08-02)
 - [[ICT Macros & Leading Candles]] — Session-Zeitfenster mit auffälligen Referenz-Candles, auch als Reversal-Check für laufende Positionen nutzbar (2026-08-01, erg. 2026-08-07)
@@ -52,7 +56,9 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[IPDA Data Ranges]] — 20/40/60-Tage-Lookback des Interbank Price Delivery Algorithmus (2026-08-01)
 - [[Judas Swing]] — Der False Run zwischen 0:00 und 5:00 NY, bullishe/bearishe Ausführung (2026-08-02)
 - [[Kelly-Criterion & Value-at-Risk (Money Management)]] — quantitative Hebel-/Verlustschätzung, Ergänzung zur festen 1%-Regel; algo-methodology, kein ICT-Konzept (2026-08-08)
+- [[Kelly-Formel & optimales Leverage (Chan)]] — `f = m/s²`, Half-Kelly, Ruin-Grenze `1/|schlechteste Rendite|`, Drawdown-Nebenbedingung ist NICHT linear; **Risikomanagement** (2026-08-08)
 - [[Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)]] — Untergrenze für die wahre mittlere Rendite; SPX-Beispiel: 9,91 % Backtest-Rendite mit Untergrenze −0,0022; algo-methodology (2026-08-08)
+- [[Leading Risk Indicators]] — VIX/TED/HYG/MXN/Order Flow; derselbe Indikator kann für zwei Strategien gegensätzlich zu deuten sein; **Risikomanagement** (2026-08-08)
 - [[Liquidity Void]] — LTF-Erscheinung eines FVG, einseitige Preislieferung, Common-Gap-Präzisions-Entry (2026-08-06)
 - [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD (2026-08-01)
 - [[Market Maker Trap - False Breakout]] — false breakouts neutralisieren gezielt eine Seite gebracketer Stops, seriell wiederholend (2026-08-06)
@@ -66,6 +72,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Midnight Opening Range]] — 0:00–0:30 NY, Fib + negative STD fürs Daily High/Low, max. Manipulation −1 STD (2026-08-02)
 - [[Modell 22]] — 2026er Turtle-Soup-Trigger über MSS+SIBI, linkes-IFVG-Regel (2026-08-01)
 - [[Momentum-Divergenz als Retail-Falle (Divergence Phantoms)]] — Typ-1- vs. Typ-2-Divergenz, Smart Money nutzt Retail-Divergenz-Signale zum Stop-Run, Abgrenzung zu SMT (2026-08-06)
+- [[Momentum-Ursachen & Opening-Gap-Strategie]] — fünf Momentum-Ursachen; die Opening-Gap-Regel für Futures (FSTX 13 % APR, Sharpe 1,4) ist direkt auf MNQ testbar; algo-methodology (2026-08-08)
 - [[Monte Carlo Permutation Test (MCPT)]] — Bar-Permutation zerstört Muster statistik-erhaltend, P-Wert prüft Data-Mining-Bias einer Strategie; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Nested Walkforward]] — Walk-Forward in Walk-Forward, nötig sobald laufend zwischen Systemen/Kriterien ausgewählt wird; S&P-100-Beispiel 19,12 % p.a. bei p=0,027; algo-methodology (2026-08-08)
 - [[New Week Opening Gap (NWOG) Bias]] — Wöchentliche Bias-Regel + Intraweek-Reversal-Muster (2026-08-01)
@@ -85,11 +92,13 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Return-Partitionierung (Skill, Trend, Training Bias)]] — Zerlegung des Backtest-Ergebnisses per Permutation: wie viel ist Können, wie viel Markttrend, wie viel gelerntes Rauschen; algo-methodology (2026-08-08)
 - [[Risikomanagement (1% pro Trade)]] — eigene Positionsgrößen-Regel: nie mehr als 1% Kontoguthaben Risiko pro Trade; jetzt auch als ICT-Quellenregel bestätigt (2026-08-06)
 - [[Risiko-Verfeinerung über Timeframes]] — HTF-Level auf tiefere Timeframes umgeframed, Stop schrumpft ohne Zielverlust (2026-08-06)
+- [[Roll Return, Contango & Backwardation]] — Futures-Gesamtrendite = Spot + Roll; Persistenz des Roll-Vorzeichens ist die Hauptursache für Futures-Momentum; algo-methodology (2026-08-08)
 - [[Rule Significance Test (RST)]] — Signifikanztest nur der Entry-Regel, vor Sizing/Stop/Ziel; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Seasonal Tendency]] — Historisch wiederkehrende saisonale Preistendenzen (2026-08-01)
 - [[Signal-Following & Crowd Liquidity Risk]] — Warum öffentliches Teilen von Live-Levels die eigene Edge zerstört; manuelle Intervention (Spread-Widening, Mini-Runs), CFTC-Hintergrund, Operator- vs. Konzept-Fehler (2026-08-05)
 - [[Smart Money Concepts (SMC)]] — **Wurzelseite**: Dachbegriff über allen ICT-Study-Notes, thematischer Einstieg (2026-08-02)
 - [[SMT (Smart Money Divergence)]] — Divergenz zwischen korrelierten Märkten, Cross-Asset-Check (2026-08-01)
+- [[Stop Loss bei Mean Reversion vs. Momentum]] — bei Momentum logisch zwingend, bei Mean Reversion nur GRÖSSER als der Backtest-Drawdown ansetzen; **Risikomanagement** (2026-08-08)
 - [[Suspension Block]] — FVG mit VII auf beiden Seiten, eine der stärksten PD Arrays (2026-08-03)
 - [[TGIF (Thank God its Friday)]] — Freitags-Retracement 20–30 % in die Weekly Range als Draw on Liquidity, 3 Voraussetzungen, Weekly Po3 (2026-08-02)
 - [[Trading All Time Highs (ATH)]] — Continuation-Checkliste am ATH und die 3 Stages, an denen Smart Money oben verkauft (2026-08-02)
@@ -299,6 +308,10 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
   Signifikanz-Levels (2026-08-08)
 - [[Successful Algorithmic Trading (Source)]] — Halls-Moore-Buch (208 S.): Backtesting-Bias-
   Katalog, Mean-Reversion-Statistik (ADF/Hurst/Kointegration), Kelly/VaR, Event-Driven-Engine
+  (2026-08-08)
+- [[Algorithmic Trading - Winning Strategies and Their Rationale (Source)]] — Chan-Buch (Wiley
+  2013): **Risikomanagement-Referenz** (Kelly, CPPI, Stop-Loss-Asymmetrie, Risikoindikatoren),
+  dazu Halbwertszeit/Johansen, Kalman-Filter, Roll Return und die Opening-Gap-Strategie
   (2026-08-08)
 - [[Testing and Tuning Market Trading Systems (Source)]] — Masters-Buch (Apress 2018, 7 Kapitel),
   **Primärquelle** hinter [[Vier-Stufen-Strategieentwicklung (Masters)]] und

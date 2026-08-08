@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halbwertszeit der Mean Reversion &amp; Kointegration (Chan) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">103</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">186</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li class="here"><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">mean-reversion</span> <span class="tag">statistik</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#zwei-aquivalente-sichtweisen-zwei-verschiedene-tests">Zwei äquivalente Sichtweisen, zwei verschiedene Tests</a></li>
+<li><a href="#die-formeln">Die Formeln</a></li>
+<li><a href="#die-halbwertszeit-ist-die-praktisch-wichtigste-zahl">Die Halbwertszeit ist die praktisch wichtigste Zahl</a></li>
+<li><a href="#warum-diese-vortests-uberhaupt-statt-gleich-zu-backtesten">Warum diese Vortests überhaupt, statt gleich zu backtesten?</a></li>
+<li><a href="#kointegration-kunstlich-stationare-portfolios-bauen">Kointegration: künstlich stationäre Portfolios bauen</a><ul>
+<li><a href="#cadf-engle-granger-nur-fur-paare">CADF (Engle-Granger, nur für Paare)</a></li>
+<li><a href="#johansen-beliebig-viele-reihen">Johansen (beliebig viele Reihen)</a></li>
+</ul>
+</li>
+<li><a href="#die-parameterlose-lineare-strategie">Die parameterlose lineare Strategie</a></li>
+<li><a href="#preis-spread-log-preis-spread-oder-verhaltnis">Preis-Spread, Log-Preis-Spread oder Verhältnis?</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="halbwertszeit-der-mean-reversion-kointegration-chan">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</h1>
+<p>Aus <a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a> (Chan, Kap. 2).
+Ergänzt <a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a> (Halls-Moore) um die beiden
+praktisch wichtigsten Größen: die <strong>Halbwertszeit</strong> und den <strong>Johansen-Test</strong>.</p>
+<h2 id="zwei-aquivalente-sichtweisen-zwei-verschiedene-tests">Zwei äquivalente Sichtweisen, zwei verschiedene Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Sichtweise</th>
+<th>Aussage</th>
+<th>Test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Mean Reversion</strong></td>
+<td>die Preisänderung der nächsten Periode ist proportional zur Differenz zwischen Mittelwert und aktuellem Preis</td>
+<td><strong>ADF</strong></td>
+</tr>
+<tr>
+<td><strong>Stationarität</strong></td>
+<td>die Varianz der Log-Preise wächst <strong>langsamer</strong> als bei einem geometrischen Random Walk (sublinear in der Zeit)</td>
+<td><strong>Hurst / Variance Ratio</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>„Stationarität" ist ein Missgriff: Sie bedeutet <strong>nicht</strong>, dass die Preise in einer festen Range
+laufen (das wäre Hurst-Exponent 0), sondern nur, dass die Varianz <strong>langsamer als normal
+diffundiert</strong>.</p>
+</blockquote>
+<h2 id="die-formeln">Die Formeln</h2>
+<pre><code>(2.1)  Δy(t) = λ·y(t−1) + μ + β·t + α₁Δy(t−1) + … + α_k Δy(t−k) + ε
+       ADF-Teststatistik  =  λ / SE(λ)          muss NEGATIV und unter dem kritischen Wert liegen
+
+(2.2)  Var(τ) = ⟨ |z(t+τ) − z(t)|² ⟩            z = log(y)
+(2.3)  Random Walk:      ⟨…⟩ ∼ τ
+(2.4)  allgemein:        ⟨…⟩ ∼ τ^(2H)           H = Hurst-Exponent
+
+       H = 0,5  Random Walk
+       H &lt; 0,5  mean-revertierend   (je naeher 0, desto staerker)
+       H &gt; 0,5  trendend            (je naeher 1, desto staerker)
+
+       Variance-Ratio-Test:   Var(z(t) − z(t−τ)) / (τ · Var(z(t) − z(t−1)))  = 1 ?
+
+(2.5)  dy(t) = (λ·y(t−1) + μ)·dt + dε           Ornstein-Uhlenbeck
+(2.6)  E(y(t)) = y₀·exp(λt) − (μ/λ)·(1 − exp(λt))
+
+       ⟹  HALBWERTSZEIT  =  −log(2) / λ
+</code></pre>
+<p><strong>Zwei Konventionen, die man kennen muss:</strong></p>
+<ul>
+<li>Die kritischen ADF-Werte hängen von Stichprobengröße und davon ab, ob man einen Mittelwert
+  <code>−μ/λ</code> und/oder eine Drift <code>−βt/λ</code> zulässt. <strong>Praxisregel: Mittelwert ja, Drift nein</strong> (<code>β = 0</code>)
+  — die konstante Preisdrift ist gegenüber den Tagesschwankungen meist vernachlässigbar.</li>
+<li>Der Lag <code>k</code>: mit <code>k = 0</code> anfangen, aber oft lässt sich die Nullhypothese <strong>erst mit <code>k = 1</code></strong>
+  verwerfen — was bedeutet, dass die Preisänderungen selbst serielle Korrelation aufweisen.</li>
+</ul>
+<h2 id="die-halbwertszeit-ist-die-praktisch-wichtigste-zahl">Die Halbwertszeit ist die praktisch wichtigste Zahl</h2>
+<p>Die statistischen Tests verlangen 90 % Sicherheit. <strong>Für profitables Handeln braucht man das
+oft gar nicht.</strong> Chans Ausweg: <code>λ</code> nicht auf Signifikanz prüfen, sondern in eine <strong>Zeitgröße</strong>
+übersetzen.</p>
+<pre><code class="language-python">import numpy as np, statsmodels.api as sm
+
+def half_life(y):
+    &quot;&quot;&quot;Halbwertszeit der Mean Reversion aus Gleichung 2.6.&quot;&quot;&quot;
+    y = np.asarray(y, dtype=float)
+    ylag  = y[:-1]
+    dy    = y[1:] - ylag
+    beta  = sm.OLS(dy, sm.add_constant(ylag)).fit().params[1]   # = lambda
+    return -np.log(2) / beta
+</code></pre>
+<p>Drei Dinge, die sie einem sagt:</p>
+<ol>
+<li><strong><code>λ &gt; 0</code></strong> → die Reihe ist überhaupt nicht mean-revertierend. Gar nicht erst eine
+   Mean-Reversion-Strategie darauf schreiben.</li>
+<li><strong><code>λ ≈ 0</code></strong> → sehr lange Halbwertszeit, also wenige Round-Trips pro Zeitraum, also
+   unprofitabel — unabhängig davon, ob die Reihe „eigentlich" stationär ist.</li>
+<li><strong><code>λ</code> setzt die natürliche Zeitskala aller Strategieparameter.</strong> Bei einer Halbwertszeit von
+   20 Tagen ist ein 5-Tage-Lookback für gleitenden Durchschnitt oder Standardabweichung unsinnig.
+   <strong>Lookback = (kleines Vielfaches der) Halbwertszeit</strong> ist oft nahezu optimal — und erspart die
+   Brute-Force-Optimierung eines freien Parameters, also eine Quelle von Data-Snooping-Bias.</li>
+</ol>
+<p>Beispielwerte aus dem Buch:</p>
+<table>
+<thead>
+<tr>
+<th>Reihe</th>
+<th>Halbwertszeit</th>
+<th>Bewertung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USD.CAD</td>
+<td><strong>115 Tage</strong></td>
+<td>grenzwertig, je nach Horizont zu lang</td>
+</tr>
+<tr>
+<td>EWA-EWC-IGE (Johansen-Eigenvektor)</td>
+<td><strong>23 Tage</strong></td>
+<td>deutlich besser geeignet</td>
+</tr>
+<tr>
+<td>CL 12-Monats-Kalenderspread</td>
+<td><strong>36 Tage</strong></td>
+<td>brauchbar</td>
+</tr>
+</tbody>
+</table>
+<p>Bemerkenswert: USD.CAD <strong>bestand die Stationaritätstests nicht</strong> (ADF −1,84 gegen kritische
+−2,594; Variance Ratio p = 0,367; H = 0,49) — und war mit einer simplen linearen
+Mean-Reversion-Strategie trotzdem profitabel. Genau dafür ist die Halbwertszeit da.</p>
+<h2 id="warum-diese-vortests-uberhaupt-statt-gleich-zu-backtesten">Warum diese Vortests überhaupt, statt gleich zu backtesten?</h2>
+<p>Chans Begründung ist methodisch wichtig:</p>
+<ul>
+<li>Die Tests nutzen <strong>jede einzelne Bar</strong>, ein Backtest dagegen nur die (viel selteneren)
+  Round-Trip-Trades. Die statistische Signifikanz ist deshalb <strong>höher</strong>.</li>
+<li>Ein Backtest-Ergebnis hängt an den Spezifika <em>einer</em> Strategie mit <em>einem</em> Parametersatz. Die
+  Tests hängen nur an der Preisreihe.</li>
+</ul>
+<blockquote>
+<p>Besteht eine Reihe die Stationaritätstests oder hat wenigstens eine kurze Halbwertszeit, kann
+man sicher sein, <strong>irgendeine</strong> profitable Strategie darauf zu finden — vielleicht nur nicht
+die, die man gerade gebacktestet hat.</p>
+</blockquote>
+<h2 id="kointegration-kunstlich-stationare-portfolios-bauen">Kointegration: künstlich stationäre Portfolios bauen</h2>
+<p>Die wenigsten handelbaren Preisreihen sind von sich aus stationär. Man kann aber mehrere nicht
+stationäre Reihen so <strong>kombinieren</strong>, dass der Marktwert des Portfolios stationär ist — das ist
+Kointegration.</p>
+<h3 id="cadf-engle-granger-nur-fur-paare">CADF (Engle-Granger, nur für Paare)</h3>
+<p>Hedge Ratio per linearer Regression bestimmen, Portfolio bilden, darauf den ADF-Test laufen
+lassen.</p>
+<p><strong>Der Haken: Der Test ist reihenfolgeabhängig.</strong> Vertauscht man abhängige und unabhängige
+Variable, bekommt man eine <strong>andere</strong> Hedge Ratio — und die ist <strong>nicht</strong> der Kehrwert der
+ersten. Häufig führt nur <strong>eine</strong> der beiden zu einem stationären Portfolio. Man muss also beide
+Richtungen probieren und die mit der negativsten t-Statistik nehmen.</p>
+<p>Beispiel EWA/EWC: CADF −3,643 gegen kritische −3,359 (95 %) → kointegriert.</p>
+<h3 id="johansen-beliebig-viele-reihen">Johansen (beliebig viele Reihen)</h3>
+<p>Verallgemeinerung von (2.1) auf Vektoren:</p>
+<pre><code>(2.7)  ΔY(t) = Λ·Y(t−1) + M + A₁ΔY(t−1) + … + A_k ΔY(t−k) + ε
+
+       r = Rang von Λ = Anzahl unabhaengiger kointegrierender Beziehungen
+       Λ = 0  ⟹  keine Kointegration
+</code></pre>
+<p>Der Test liefert zwei Statistiken (<strong>Trace</strong> und <strong>Eigen</strong>) mit kritischen Werten für die
+Hypothesen <code>r = 0</code>, <code>r ≤ 1</code>, … <code>r ≤ n−1</code>.</p>
+<p><strong>Drei entscheidende Vorteile gegenüber CADF:</strong></p>
+<ol>
+<li><strong>Reihenfolgeunabhängig</strong> — ein Lauf liefert alle unabhängigen kointegrierenden Beziehungen.</li>
+<li>Funktioniert für <strong>beliebig viele</strong> Reihen (Chans Implementierung: max. 12 Symbole).</li>
+<li><strong>Die Eigenvektoren sind direkt die Hedge Ratios</strong> — als nützliches Nebenprodukt.</li>
+</ol>
+<p><strong>Die Auswahlregel, die man kennen muss:</strong> Die Eigenvektoren sind nach absteigenden Eigenwerten
+sortiert. Der <strong>erste</strong> ist die „stärkste" kointegrierende Beziehung — also die mit der
+<strong>kürzesten Halbwertszeit</strong>. Den nimmt man.</p>
+<p>Warum es bei zwei Reihen <strong>zwei</strong> kointegrierende Beziehungen geben kann: genau wegen der
+Reihenfolgeabhängigkeit von CADF — die beiden nicht-reziproken Hedge Ratios spannen zwei
+unabhängige stationäre Portfolios auf.</p>
+<p>Beispielausgabe (EWA, EWC, IGE): drei kointegrierende Beziehungen mit 95 %; Eigenwerte 0,0112 /
+0,0087 / 0,0030; erster Eigenvektor <code>[−1,0460, 0,7600, 0,2233]</code> → Halbwertszeit 23 Tage.</p>
+<h2 id="die-parameterlose-lineare-strategie">Die parameterlose lineare Strategie</h2>
+<p>Chans Referenzstrategie, bewusst so gebaut, dass sie <strong>keinen</strong> Parameter zum Optimieren hat:</p>
+<pre><code>Anzahl Einheiten des Unit-Portfolios  =  − Z-Score seines Marktwerts
+Lookback fuer Mittelwert/Std          =  Halbwertszeit
+</code></pre>
+<pre><code class="language-python">lookback  = round(half_life(yport))
+z         = (yport - yport.rolling(lookback).mean()) / yport.rolling(lookback).std()
+num_units = -z                                  # negativ proportional
+positions = num_units[:, None] * hedge_ratios * prices
+pnl       = (positions.shift(1) * prices.pct_change()).sum(axis=1)
+</code></pre>
+<p>Sie ist <strong>nicht praktisch handelbar</strong> (unbegrenzter Kapitalbedarf, infinitesimales Rebalancing),
+aber als <strong>Diagnosewerkzeug</strong> wertvoll: Sie zeigt ohne jeden Data-Snooping-Bias, ob sich aus einer
+Reihe überhaupt Gewinn ziehen lässt, und erzeugt wegen des ständigen Ein- und Aussteigens mehr
+statistische Signifikanz als jede selektivere Regel.</p>
+<p>Ergebnis auf EWA-EWC-IGE: <strong>APR 12,6 %, Sharpe 1,4</strong>.</p>
+<p><strong>Warum überhaupt gleitender Mittelwert bei einer „stationären" Reihe?</strong> Weil der Mittelwert sich
+durch Wirtschafts- oder Managementänderungen langsam verschiebt — und weil selbst eine stationäre
+Reihe mit <code>0 &lt; H &lt; 0,5</code> laut (2.4) eine <strong>mit der Zeit wachsende Varianz</strong> hat, nur langsamer als
+ein Random Walk.</p>
+<h2 id="preis-spread-log-preis-spread-oder-verhaltnis">Preis-Spread, Log-Preis-Spread oder Verhältnis?</h2>
+<pre><code>(3.1)  y = h₁y₁ + h₂y₂ + … + h_n y_n         → h = ANZAHL SHARES, feste Stueckzahl
+(3.2)  y = y₁ − h·y₂                          Spezialfall Paar
+(3.3)  log(q) = h₁log(y₁) + … + h_n log(y_n)  → h = KAPITALGEWICHTE, fester Geldbetrag
+</code></pre>
+<p>Die Herleitung für (3.3): <code>Δlog(x) ≈ Δx/x</code>, also ist die rechte Seite von (3.4) die <strong>Rendite</strong>
+eines Portfolios mit konstanten Kapitalgewichten. Konsequenz: Log-Preise implizieren
+<strong>tägliches Rebalancing</strong> (samt Transaktionskosten), Preise implizieren feste Stückzahlen.</p>
+<table>
+<thead>
+<tr>
+<th>Verwenden</th>
+<th>Wann</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Preis</strong>-Spread</td>
+<td>feste Stückzahl über die Trade-Dauer gewünscht — der einfachere Fall</td>
+</tr>
+<tr>
+<td><strong>Log-Preis</strong>-Spread</td>
+<td>feste Kapitalgewichte gewünscht; erfordert ständiges Rebalancing</td>
+</tr>
+<tr>
+<td><strong>Verhältnis</strong> <code>y₁/y₂</code></td>
+<td>nur korrekt, wenn <code>h₁ = −h₂</code>. Aber: bei <strong>nicht wirklich kointegrierenden</strong> Paaren oft besser, weil skaleninvariant. Beispiel: A=$10/B=$5 → später A=$100/B=$50; der Spread wandert von $5 auf $50 (nicht stationär), das Verhältnis bleibt 2. Auch für Devisenpaare der natürliche Weg (EUR.GBP <strong>ist</strong> EUR.USD/GBP.USD).</td>
+</tr>
+</tbody>
+</table>
+<p>Gegenprobe an GLD/USO (nicht kointegriert), lineare Strategie, Lookback 20:</p>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>APR</th>
+<th>Sharpe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Preis-Spread mit <strong>dynamischer</strong> Hedge Ratio</td>
+<td><strong>10,9 %</strong></td>
+<td><strong>0,59</strong></td>
+</tr>
+<tr>
+<td>Log-Preis-Spread</td>
+<td>9,0 %</td>
+<td>0,50 (plus Rebalancing-Kosten)</td>
+</tr>
+<tr>
+<td>Verhältnis</td>
+<td><strong>negativ</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Hier gewinnt also der Preis-Spread mit adaptiver Hedge Ratio deutlich — trotz der theoretischen
+Attraktivität des Verhältnisses.</p>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<p><code>algo/</code> handelt MNQ als <strong>Einzelinstrument</strong>; Kointegration und Hedge Ratios sind damit vorerst
+nicht anwendbar. <strong>Die Halbwertszeit dagegen sofort.</strong></p>
+<p>Konkret: Die Halbwertszeit ist ein <strong>parameterfreier Weg, Lookbacks zu bestimmen</strong>, statt sie zu
+optimieren. Im Projekt gibt es mehrere frei gewählte Lookbacks — die <code>min_age</code>/<code>confirm</code>-Fenster
+in <code>tools/analyze_ohlc.py</code>, die Fensterlängen in <code>signals.py</code>. Jeder davon ist derzeit gesetzt
+oder per Grid optimiert; die Halbwertszeit der jeweiligen Reihe wäre die datengetriebene
+Alternative und würde eine Data-Snooping-Quelle beseitigen.</p>
+<p>Zweitens ist sie ein <strong>Vorfilter</strong>: Bevor man eine ICT-These als Mean-Reversion-Regel kodiert
+(Rückkehr in ein FVG, Rückkehr zur Midnight-Range-Mitte), sagt <code>λ &gt; 0</code> oder eine sehr lange
+Halbwertszeit direkt, dass es sich nicht lohnt.</p>
+<p>Der Johansen-Test wird relevant, sobald ein <strong>zweites Symbol</strong> dazukommt — was bereits Thema ist:
+<a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a> verlangt einen Cross-Asset-Vergleich, und <code>pnl.py</code> führt bereits
+Punktwerte für NQ und ES.</p>
+<p>Ergänzt: <a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a> (Halls-Moore, knapper,
+ohne Halbwertszeit und Johansen).
+Weiterführend: <a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a> für die praktisch handelbaren
+Varianten.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Halbwertszeit der Mean Reversion &amp; Kointegration (Chan).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

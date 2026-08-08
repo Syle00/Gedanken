@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">94</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">103</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">185</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">186</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -115,6 +115,7 @@
 <li><a href="#2026-08-08-ingest-testing-and-tuning-market-trading-systems-masters-epub">[2026-08-08] ingest | Testing and Tuning Market Trading Systems (Masters, EPUB)</a></li>
 <li><a href="#2026-08-08-ingest-testing-and-tuning-market-trading-systems-nachtrag-vollstaendig-gelesen-seiten-zu-referenzseiten-ausgebaut">[2026-08-08] ingest | Testing and Tuning Market Trading Systems — Nachtrag: vollstaendig gelesen, Seiten zu Referenzseiten ausgebaut</a></li>
 <li><a href="#2026-08-08-setup-masters-verfahren-als-lauffaehiger-code-algomasterspy">[2026-08-08] setup | Masters-Verfahren als lauffaehiger Code (algo/masters.py)</a></li>
+<li><a href="#2026-08-08-ingest-algorithmic-trading-winning-strategies-and-their-rationale-ernest-chan">[2026-08-08] ingest | Algorithmic Trading: Winning Strategies and Their Rationale (Ernest Chan)</a></li>
 </ul>
 </div>
 </details>
@@ -1388,6 +1389,62 @@
   geht exakt auf.</li>
 <li>Nebenbefund: <code>scikit-learn</code> stand in <code>algo/requirements.txt</code>, war in der Umgebung aber nicht
   installiert -- <code>algo/selfcheck.py</code> lief dadurch gar nicht durch. Nachinstalliert.</li>
+</ul>
+<h2 id="2026-08-08-ingest-algorithmic-trading-winning-strategies-and-their-rationale-ernest-chan">[2026-08-08] ingest | Algorithmic Trading: Winning Strategies and Their Rationale (Ernest Chan)</h2>
+<ul>
+<li>Quelle: <code>raw/Winning strategies and ther rationale.md</code> (6.741 Zeilen, aus dem gleichnamigen PDF
+  extrahiert; Wiley 2013). Vollstaendig gelesen. Formeln liegen hier als <strong>Text</strong> vor (nicht als
+  Bilder wie beim Masters-Buch), allerdings mit OCR-Artefakten -- siehe unten.</li>
+<li>Schwerpunkt dieses Ingests laut Nutzervorgabe: <strong>Risikomanagement</strong>, mit Formeln und
+  nachrechenbaren Beispielen. Kapitel 8 hat deshalb vier eigene Seiten bekommen.</li>
+<li>Seiten erstellt:
+  <code>wiki/sources/Algorithmic Trading - Winning Strategies and Their Rationale (Source).md</code>,
+  <code>wiki/concepts/Kelly-Formel &amp; optimales Leverage (Chan).md</code>,
+  <code>wiki/concepts/CPPI (Constant Proportion Portfolio Insurance).md</code>,
+  <code>wiki/concepts/Stop Loss bei Mean Reversion vs. Momentum.md</code>,
+  <code>wiki/concepts/Leading Risk Indicators.md</code>,
+  <code>wiki/concepts/Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan).md</code>,
+  <code>wiki/concepts/Roll Return, Contango &amp; Backwardation.md</code>,
+  <code>wiki/concepts/Momentum-Ursachen &amp; Opening-Gap-Strategie.md</code>,
+  <code>wiki/concepts/Halbwertszeit der Mean Reversion &amp; Kointegration (Chan).md</code>,
+  <code>wiki/concepts/Bollinger-Bänder, Scaling-in &amp; Kalman-Filter.md</code>.</li>
+<li>Seiten aktualisiert: <code>wiki/index.md</code> (9 neue Concepts alphabetisch, eine neue Source unter
+  "Algo-Methodik").</li>
+<li><strong>OCR-Korrektur, mathematisch verifiziert:</strong> Der Rohtext gibt die Gauss-Wachstumsrate als
+  <code>g(f) = fm − f 2m2/2</code> wieder. Korrekt ist <code>g(f) = f·m − f²·s²/2</code>. Nachweis: <code>dg/df = m − f·s² = 0</code>
+  ⟹ <code>f = m/s²</code>, also exakt Kelly (Gleichung 8.1). Mit <code>m²</code> im zweiten Term kaeme <code>f = 1/m</code> heraus.
+  Auf der Kelly-Seite als Hinweis dokumentiert, damit die Rohquelle nicht falsch zitiert wird.</li>
+<li>Kernfunde Risikomanagement:
+  (1) <strong>Kelly ist eine Obergrenze, kein Sollwert</strong> -- ueberschaetztes <code>f</code> fuehrt zum Ruin,
+  unterschaetztes nur zu weniger Wachstum; daher Half-Kelly. Dazu die modellfreie Ruin-Grenze
+  <code>f_ruin = 1/|schlechteste Einzelrendite|</code> (Buchbeispiel: 30,2).
+  (2) <strong>Die Drawdown-Nebenbedingung ist nicht linear</strong>: um den Drawdown zu halbieren, musste das
+  Leverage durch <strong>7</strong> geteilt werden (19,2 → 2,7), nicht durch 2.
+  (3) <strong>CPPI</strong> liefert praktisch dieselbe Wachstumsrate wie ein pauschal gesenktes Leverage
+  (0,002484 vs 0,002525/Tag), aber Drawdown 0,5 statt 0,9 -- und ist ein geordneter Weg, eine
+  verlierende Strategie stillzulegen.
+  (4) <strong>Stop Loss bei Mean Reversion</strong>: die verbreitete Aussage "schadet immer" ist selbst ein
+  Survivorship-Bias-Artefakt (Reihen, die vom Regimewechsel getroffen wurden, stehen in keinem
+  Katalog profitabler MR-Strategien). Praktikable Regel: Stop GROESSER als der maximale
+  Intraday-Drawdown des Backtests -- kostenlos im Backtest, schuetzt aber gegen Black Swans.
+  (5) <strong>Risikoindikatoren sind strategiespezifisch, nicht universell</strong>: VIX &gt; 35 hebt die Rendite
+  der einen Strategie von 8,7 % auf 17,2 % und senkt die der anderen von 13 % auf 2,6 %.</li>
+<li>Weitere Kernfunde: die <strong>Halbwertszeit</strong> <code>−log(2)/λ</code> setzt alle Lookbacks ohne Optimierung (und
+  sagt vorab, ob Mean-Reversion-Handel ueberhaupt lohnt); <strong>Scaling-in ist in-sample beweisbar nie
+  optimal</strong> (Schoenberg &amp; Corwin), kann out-of-sample aber gewinnen; der <strong>Kalman-Filter</strong> liefert
+  Hedge Ratio, Mittelwert und Standardabweichung in einem Verfahren ohne willkuerlichen Lookback
+  (EWA-EWC: Sharpe 2,4); <strong>Futures-Momentum kommt aus der Persistenz des Roll-Return-Vorzeichens</strong>;
+  beim Back-Adjustment von Continuous Contracts kann man <strong>entweder P&amp;L oder Rendite</strong> korrekt
+  haben, nie beides.</li>
+<li>Direkt fuer dieses Projekt relevant und noch offen: die <strong>Opening-Gap-Regel</strong> (Einstieg am Open
+  jenseits des Vortagesextrems, Ausstieg zum Close, ein einziger Parameter, kein Lookahead) ist mit
+  <code>raw/marktdaten/</code> sofort backtestbar -- und sagt fuer Futures <strong>Fortsetzung</strong> voraus, wo die
+  ICT-Konzepte des Vaults (<a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>, <a href="../p/judas-swing.html">Judas Swing</a>)
+  ueberwiegend <strong>Manipulation mit Umkehr</strong> beschreiben. Sauber falsifizierbarer Gegensatz.</li>
+<li>Bewusst nicht ingestet: der MATLAB-Code als solcher (jplv7, Econometrics Toolbox -- fuer Python
+  decken <code>statsmodels</code>/<code>scipy</code>/<code>filterpy</code> dasselbe ab), die Aktien-/ETF-Strategien im
+  Implementierungsdetail (dieses Projekt handelt ein einzelnes Futures-Instrument), der
+  Plattformvergleich von 2013 und die HFT-Ausfuehrungstaktiken (setzen Kolokation voraus).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

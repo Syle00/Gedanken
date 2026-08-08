@@ -1200,3 +1200,58 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   geht exakt auf.
 - Nebenbefund: `scikit-learn` stand in `algo/requirements.txt`, war in der Umgebung aber nicht
   installiert -- `algo/selfcheck.py` lief dadurch gar nicht durch. Nachinstalliert.
+
+## [2026-08-08] ingest | Algorithmic Trading: Winning Strategies and Their Rationale (Ernest Chan)
+- Quelle: `raw/Winning strategies and ther rationale.md` (6.741 Zeilen, aus dem gleichnamigen PDF
+  extrahiert; Wiley 2013). Vollstaendig gelesen. Formeln liegen hier als **Text** vor (nicht als
+  Bilder wie beim Masters-Buch), allerdings mit OCR-Artefakten -- siehe unten.
+- Schwerpunkt dieses Ingests laut Nutzervorgabe: **Risikomanagement**, mit Formeln und
+  nachrechenbaren Beispielen. Kapitel 8 hat deshalb vier eigene Seiten bekommen.
+- Seiten erstellt:
+  `wiki/sources/Algorithmic Trading - Winning Strategies and Their Rationale (Source).md`,
+  `wiki/concepts/Kelly-Formel & optimales Leverage (Chan).md`,
+  `wiki/concepts/CPPI (Constant Proportion Portfolio Insurance).md`,
+  `wiki/concepts/Stop Loss bei Mean Reversion vs. Momentum.md`,
+  `wiki/concepts/Leading Risk Indicators.md`,
+  `wiki/concepts/Futures-Datenaufbereitung & Backtesting-Fallstricke (Chan).md`,
+  `wiki/concepts/Roll Return, Contango & Backwardation.md`,
+  `wiki/concepts/Momentum-Ursachen & Opening-Gap-Strategie.md`,
+  `wiki/concepts/Halbwertszeit der Mean Reversion & Kointegration (Chan).md`,
+  `wiki/concepts/Bollinger-Bänder, Scaling-in & Kalman-Filter.md`.
+- Seiten aktualisiert: `wiki/index.md` (9 neue Concepts alphabetisch, eine neue Source unter
+  "Algo-Methodik").
+- **OCR-Korrektur, mathematisch verifiziert:** Der Rohtext gibt die Gauss-Wachstumsrate als
+  `g(f) = fm − f 2m2/2` wieder. Korrekt ist `g(f) = f·m − f²·s²/2`. Nachweis: `dg/df = m − f·s² = 0`
+  ⟹ `f = m/s²`, also exakt Kelly (Gleichung 8.1). Mit `m²` im zweiten Term kaeme `f = 1/m` heraus.
+  Auf der Kelly-Seite als Hinweis dokumentiert, damit die Rohquelle nicht falsch zitiert wird.
+- Kernfunde Risikomanagement:
+  (1) **Kelly ist eine Obergrenze, kein Sollwert** -- ueberschaetztes `f` fuehrt zum Ruin,
+  unterschaetztes nur zu weniger Wachstum; daher Half-Kelly. Dazu die modellfreie Ruin-Grenze
+  `f_ruin = 1/|schlechteste Einzelrendite|` (Buchbeispiel: 30,2).
+  (2) **Die Drawdown-Nebenbedingung ist nicht linear**: um den Drawdown zu halbieren, musste das
+  Leverage durch **7** geteilt werden (19,2 → 2,7), nicht durch 2.
+  (3) **CPPI** liefert praktisch dieselbe Wachstumsrate wie ein pauschal gesenktes Leverage
+  (0,002484 vs 0,002525/Tag), aber Drawdown 0,5 statt 0,9 -- und ist ein geordneter Weg, eine
+  verlierende Strategie stillzulegen.
+  (4) **Stop Loss bei Mean Reversion**: die verbreitete Aussage "schadet immer" ist selbst ein
+  Survivorship-Bias-Artefakt (Reihen, die vom Regimewechsel getroffen wurden, stehen in keinem
+  Katalog profitabler MR-Strategien). Praktikable Regel: Stop GROESSER als der maximale
+  Intraday-Drawdown des Backtests -- kostenlos im Backtest, schuetzt aber gegen Black Swans.
+  (5) **Risikoindikatoren sind strategiespezifisch, nicht universell**: VIX > 35 hebt die Rendite
+  der einen Strategie von 8,7 % auf 17,2 % und senkt die der anderen von 13 % auf 2,6 %.
+- Weitere Kernfunde: die **Halbwertszeit** `−log(2)/λ` setzt alle Lookbacks ohne Optimierung (und
+  sagt vorab, ob Mean-Reversion-Handel ueberhaupt lohnt); **Scaling-in ist in-sample beweisbar nie
+  optimal** (Schoenberg & Corwin), kann out-of-sample aber gewinnen; der **Kalman-Filter** liefert
+  Hedge Ratio, Mittelwert und Standardabweichung in einem Verfahren ohne willkuerlichen Lookback
+  (EWA-EWC: Sharpe 2,4); **Futures-Momentum kommt aus der Persistenz des Roll-Return-Vorzeichens**;
+  beim Back-Adjustment von Continuous Contracts kann man **entweder P&L oder Rendite** korrekt
+  haben, nie beides.
+- Direkt fuer dieses Projekt relevant und noch offen: die **Opening-Gap-Regel** (Einstieg am Open
+  jenseits des Vortagesextrems, Ausstieg zum Close, ein einziger Parameter, kein Lookahead) ist mit
+  `raw/marktdaten/` sofort backtestbar -- und sagt fuer Futures **Fortsetzung** voraus, wo die
+  ICT-Konzepte des Vaults ([[ORG (Opening Range Gap) & 1st Presented FVG]], [[Judas Swing]])
+  ueberwiegend **Manipulation mit Umkehr** beschreiben. Sauber falsifizierbarer Gegensatz.
+- Bewusst nicht ingestet: der MATLAB-Code als solcher (jplv7, Econometrics Toolbox -- fuer Python
+  decken `statsmodels`/`scipy`/`filterpy` dasselbe ab), die Aktien-/ETF-Strategien im
+  Implementierungsdetail (dieses Projekt handelt ein einzelnes Futures-Instrument), der
+  Plattformvergleich von 2013 und die HFT-Ausfuehrungstaktiken (setzen Kolokation voraus).

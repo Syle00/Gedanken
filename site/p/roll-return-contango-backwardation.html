@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roll Return, Contango &amp; Backwardation — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">103</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">186</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li class="here"><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Roll Return, Contango &amp; Backwardation</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">futures</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#die-zerlegung">Die Zerlegung</a></li>
+<li><a href="#warum-daraus-momentum-wird">Warum daraus Momentum wird</a></li>
+<li><a href="#das-saubere-signal-roll-rendite-statt-gesamtrendite">Das saubere Signal: Roll-Rendite statt Gesamtrendite</a></li>
+<li><a href="#roll-rendite-direkt-abschopfen-future-gegen-etf">Roll-Rendite direkt abschöpfen: Future gegen ETF</a></li>
+<li><a href="#kalenderspreads">Kalenderspreads</a></li>
+<li><a href="#intermarket-spreads-sind-meist-keine-gute-idee">Intermarket-Spreads sind meist keine gute Idee</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="roll-return-contango-backwardation">Roll Return, Contango &amp; Backwardation</h1>
+<p>Die zentrale Besonderheit von Futures gegenüber Aktien — und laut
+<a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a> (Chan, Kap. 5 und 6)
+die <strong>Hauptursache für Momentum in Futures</strong>.</p>
+<h2 id="die-zerlegung">Die Zerlegung</h2>
+<pre><code>Futures-Gesamtrendite  =  Spot-Rendite  +  Roll-Rendite
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Begriff</th>
+<th>Bedeutung</th>
+<th>Roll-Rendite</th>
+<th>Kurvenform</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Backwardation</strong></td>
+<td>ferne Kontrakte <strong>billiger</strong> als nahe</td>
+<td><strong>positiv</strong></td>
+<td>fallend</td>
+</tr>
+<tr>
+<td><strong>Contango</strong></td>
+<td>ferne Kontrakte <strong>teurer</strong> als nahe</td>
+<td><strong>negativ</strong></td>
+<td>steigend</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Wichtig gegen ein verbreitetes Missverständnis:</strong> Die Roll-Rendite wirkt <strong>jeden Tag auf jeden
+Kontrakt</strong>. Sie ist <em>keine</em> Folge des Rollvorgangs — sie entsteht nicht dadurch, dass man den
+Kontrakt wechselt.</p>
+<p>Direkte Konsequenz: <strong>Mean Reversion des Spotpreises erzeugt nicht zwangsläufig Mean Reversion
+des Futurespreises.</strong> Die Roll-Komponente kann den Spot-Effekt überlagern oder umkehren.</p>
+<h2 id="warum-daraus-momentum-wird">Warum daraus Momentum wird</h2>
+<p>Chan nennt vier Ursachen für Momentum; die erste ist futures-spezifisch:</p>
+<ol>
+<li><strong>Persistenz des Vorzeichens der Roll-Renditen</strong> ← diese Seite</li>
+<li>langsame Diffusion, Analyse und Akzeptanz neuer Information</li>
+<li>erzwungene Käufe/Verkäufe verschiedener Fondstypen</li>
+<li>Marktmanipulation durch Hochfrequenzhändler</li>
+</ol>
+<p>Der Mechanismus: Das <strong>Vorzeichen</strong> der Roll-Rendite ändert sich selten — Futures bleiben über
+lange Zeiträume in Contango oder Backwardation. Die <strong>Spot</strong>-Rendite dagegen wechselt Vorzeichen
+und Größe schnell. Hält man einen Future lange genug, dominiert die mittlere Roll-Rendite die
+mittlere Gesamtrendite — und <strong>daraus</strong> entsteht die serielle Korrelation der Gesamtrenditen.</p>
+<p>Das erklärt zugleich, warum Futures-Momentum auf <strong>langen</strong> Zeitskalen auftritt (Monate) und
+nicht intraday: die Roll-Rendite ist pro Tag zu klein und zu wenig volatil, um intraday zu wirken.</p>
+<p><strong>Verifizierbare Vorhersage:</strong> Momentum sollte genau bei den Kontrakten funktionieren, deren
+Roll-Rendite betragsmäßig größer ist als ihre Spot-Rendite. Chan bestätigt das für BR, HG und TU —
+und räumt eine Ausnahme ein, die er nicht erklären kann (C, Mais, hat die größte relative
+Roll-Rendite, aber die Strategie funktioniert dort nicht).</p>
+<h2 id="das-saubere-signal-roll-rendite-statt-gesamtrendite">Das saubere Signal: Roll-Rendite statt Gesamtrendite</h2>
+<p>Wenn Momentum aus der Persistenz der Roll-Rendite kommt, sollte man direkt darauf handeln statt
+auf die verrauschte Gesamtrendite:</p>
+<pre><code>Roll-Rendite (annualisiert) &gt; +Schwelle   →  long
+Roll-Rendite (annualisiert) &lt; −Schwelle   →  short
+sonst                                     →  flat
+</code></pre>
+<p>Ergebnis auf TU mit einer Schwelle von <strong>3 % annualisierter Roll-Rendite</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Variante</th>
+<th>Zeitraum</th>
+<th>APR</th>
+<th>Sharpe</th>
+<th>max. Drawdown</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Signal = 250-Tage-Gesamtrendite</td>
+<td>01.06.2004 – 11.05.2012</td>
+<td>1,7 %</td>
+<td>1,04</td>
+<td>−2,5 %</td>
+</tr>
+<tr>
+<td><strong>Signal = Roll-Rendite</strong></td>
+<td>02.01.2009 – 13.08.2012</td>
+<td><strong>2,5 %</strong></td>
+<td><strong>2,1</strong></td>
+<td><strong>−1,1 %</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Sharpe verdoppelt, Drawdown halbiert — allein durch das sauberere Signal.</p>
+<blockquote>
+<p><strong>Zur Einordnung der niedrigen APR:</strong> Sie ist auf den <strong>Nominalwert</strong> des Kontrakts bezogen
+(bei TU ca. $200.000), während die Margin nur ca. <strong>$400</strong> beträgt. Der Hebel ist also
+gewaltig — genau deshalb ist die Frage nach dem <em>richtigen</em> Hebel entscheidend, siehe
+<a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a>.</p>
+</blockquote>
+<h2 id="roll-rendite-direkt-abschopfen-future-gegen-etf">Roll-Rendite direkt abschöpfen: Future gegen ETF</h2>
+<p>Wenn Gesamtrendite = Spot + Roll, dann isoliert man die Roll-Rendite so:</p>
+<pre><code>Contango       (Roll &lt; 0):   Underlying LONG   +  Future SHORT
+Backwardation  (Roll &gt; 0):   Underlying SHORT  +  Future LONG
+</code></pre>
+<p>Funktioniert, solange das Vorzeichen der Roll-Rendite stabil bleibt — was es üblicherweise tut.
+Vorteil gegenüber dem reinen Halten des Futures: <strong>kürzere Haltedauer und geringeres Risiko</strong>, weil
+man nicht darauf warten muss, dass sich die verrauschte Spot-Rendite herausmittelt.</p>
+<p><strong>Praktisches Hindernis:</strong> Das Underlying muss handelbar sein. ETFs, die den Rohstoff <strong>physisch</strong>
+halten, gibt es nur bei Edelmetallen (Lagerkosten) — GLD hält echtes Gold.</p>
+<p><strong>Warnbeispiel GLD/GC</strong>, das zeigt, wie man sich verrechnet: Long GLD + Short GC brachte
+03.08.2007–02.08.2010 <strong>1,9 % p.a.</strong> bei nur 0,8 % Drawdown. Sieht nach 5–6× Hebel attraktiv aus —
+ist es aber nicht: Das Halten von GLD verursacht <strong>Finanzierungskosten</strong>, die im Backtestzeitraum
+kaum von 1,9 % abwichen. Die Überschussrendite ist damit <strong>praktisch null</strong>.</p>
+<p><strong>Funktionierende Variante über einen Produzenten-Proxy:</strong> ETFs von Rohstoffproduzenten
+kointegrieren oft mit dem Spotpreis, weil der Rohstoff einen wesentlichen Teil ihres Vermögens
+ausmacht.</p>
+<pre><code>Short USO + Long XLE   waehrend CL in Contango
+Long  USO + Short XLE  waehrend CL in Backwardation
+→ APR 16 %, Sharpe ≈ 1  (26.04.2006 – 09.04.2012)
+</code></pre>
+<p>(USO statt CL, weil XLE und CL verschiedene Schlusszeiten haben — der Fallstrick aus
+<a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a>.)</p>
+<h2 id="kalenderspreads">Kalenderspreads</h2>
+<p>Mean Reversion von Futures-<strong>Kalenderspreads</strong> hängt an der Mean Reversion der <strong>Roll-Renditen</strong>.
+Chans Beispiel auf CL (12-Monats-Spread, Halbwertszeit 36 Tage, Haltedauer 3 Monate, Rollen
+10 Tage vor Verfall des nahen Kontrakts): <strong>APR 8,3 %, Sharpe 1,3</strong> (02.01.2008–13.08.2012).</p>
+<p>Zwei Einschränkungen:</p>
+<ul>
+<li>Bei Rohstoffen ist <strong>Saisonalität</strong> ausgeprägt — oft mean-revertieren nur Kalenderspreads
+  bestimmter Monatskombinationen.</li>
+<li>Die zugrunde liegende Formel gilt nur für Futures, deren <strong>Underlying ein handelbares Asset</strong>
+  ist. <strong>VIX ist keines</strong> — die Log-Preise der VX-Futures liegen nicht auf einer Geraden über der
+  Restlaufzeit. Für VX bleibt nur die empirische Beobachtung: ein ADF-Test auf das Verhältnis
+  back/front ist mit 99 % stationär, und die lineare Mean-Reversion-Strategie darauf (15 Tage
+  Lookback) liefert <strong>APR 17,7 %, Sharpe 1,5</strong> (27.10.2008–23.04.2012) — davor deutlich
+  schlechter, was auf einen Regimewechsel in der VIX-Dynamik um 2008 hindeutet.</li>
+</ul>
+<h2 id="intermarket-spreads-sind-meist-keine-gute-idee">Intermarket-Spreads sind meist keine gute Idee</h2>
+<p>Chans systematische Suche verlief weitgehend ergebnislos:</p>
+<ul>
+<li><strong>Crack Spread</strong> (long 3 CL, short 2 RB, short 1 HO — die Hedge-Ratios kommen daher, dass drei
+  Barrel Rohöl etwa zwei Barrel Benzin und ein Barrel Heizöl ergeben): ADF-Test 20.05.2002 –
+  04.05.2012 zeigt <strong>keine</strong> Mean Reversion; die lineare Strategie darauf verliert.</li>
+<li><strong>CL gegen BZ</strong> 1:1, obwohl beide Rohöl sind: weit von stationär entfernt. BZ hat CL dauerhaft
+  outperformt — US-Förderausweitung, Pipeline-Engpass in Cushing, Iran-Embargo 2012.</li>
+</ul>
+<p>Die eine Ausnahme, die funktioniert, ist ein ungewöhnliches Paar: <strong>Volatilitäts- gegen
+Aktienindex-Futures.</strong></p>
+<pre><code>(5.11)  ES × 50 = −0,3906 × VX × 1.000 + $77.150
+        Standardabweichung der Residuen: $2.047
+</code></pre>
+<p>Die Multiplikatoren sind Pflicht, weil ein Punkt bei VX <strong>$1.000</strong> und bei ES <strong>$50</strong> wert ist —
+ohne sie beschreibt die Hedge Ratio nicht das Kontraktverhältnis. Ein Portfolio aus <strong>0,3906
+VX-Kontrakten long und 1 ES-Kontrakt long</strong> ist stationär; eine Bollinger-artige Strategie darauf
+liefert <strong>APR 12,3 %, Sharpe 1,4</strong> (29.07.2010–08.05.2012).</p>
+<p><strong>Methodisch wichtiger als das Ergebnis:</strong> Der Scatterplot ES gegen VX zeigt <strong>zwei getrennte
+Regime</strong> (2004–Mai 2008 und August 2008–2012); im zweiten ist die Volatilität für ein gegebenes
+Indexniveau merklich niedriger, die Bandbreite der Volatilitäten aber größer. Eine Regression
+oder ein Johansen-Test über <strong>beide</strong> Regime hinweg wäre schlicht falsch. Chan rechnet deshalb
+nur auf dem zweiten.</p>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<p>Der Vault handelt <strong>MNQ</strong> — einen Aktienindex-Future. Damit:</p>
+<ul>
+<li><strong>Roll-Rendite ist vorhanden, aber klein.</strong> Aktienindex-Futures stehen typischerweise in
+  leichtem Contango (Finanzierungskosten minus Dividenden). Für die Intraday-Strategien des
+  Projekts (Silver Bullet, Macro-Fenster) ist der Effekt vernachlässigbar — für jede Auswertung
+  über Wochen/Monate nicht, siehe <a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a>.</li>
+<li><strong>Der Regime-Befund ist übertragbar und wichtig:</strong> Vor jeder Regression oder Kointegration über
+  einen längeren Zeitraum prüfen, ob mehrere Regime vorliegen. Der Vault hat dafür bereits einen
+  Anknüpfungspunkt in <a href="../p/makro-fred-zusammenhaenge-eigene-daten-laufend.html">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</a> (VIX-Korrelation
+  −0,743 gegen MNQ) — dieselben zwei Größen, die Chan hier untersucht.</li>
+<li>Der VX/ES-Zusammenhang ist der einzige im Buch bestätigte Intermarket-Spread und betrifft mit
+  ES direkt einen der drei im Projekt hinterlegten Punktwerte (<code>pnl.py</code>: MNQ $2, NQ $20, ES $50).</li>
+</ul>
+<p>Weiterführend: <a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a>,
+<a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a>,
+<a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a>.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">3</span></h2><ul><li><a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Roll Return, Contango &amp; Backwardation.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>
