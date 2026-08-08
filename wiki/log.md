@@ -1139,3 +1139,41 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   die im Buch selbst nur referenziert sind. TeX-Formelbilder bleiben in `raw/.../assets/`.
 - Vier Backlog-Punkte in `algo/PLAN.md` ergaenzt (Bar-Renditen, Guard Buffer, Konfidenz-/
   Drawdown-Grenzen, Return-Partitionierung).
+
+## [2026-08-08] ingest | Testing and Tuning Market Trading Systems — Nachtrag: vollstaendig gelesen, Seiten zu Referenzseiten ausgebaut
+- Anlass: Nutzerkritik, die zutraf. Der erste Durchgang oben hatte (a) nur ~7.000 der 9.115
+  Inhaltszeilen gelesen — die code-lastigen Abschnitte (Differential-Evolution-Interna, DEV_MA-
+  Handelssystem, CHOOSER-Kernschleife, drawdown()/drawdown_quantiles(), Multi-Markt-Datenabgleich)
+  waren uebersprungen — und (b) reine Prosa-Zusammenfassungen erzeugt: keine Formeln, keine
+  exakten Algorithmen, keine Parameterwerte. Fuer ein Nachschlagewerk, auf das Nutzer und Assistent
+  gemeinsam zugreifen, unbrauchbar.
+- Nachgeholt: die fehlenden ~800 Zeilen gelesen (Buch damit vollstaendig), und **alle 40
+  nummerierten Gleichungen** rekonstruiert — im konvertierten Markdown liegen sie als
+  TeX-Grafiken vor, aber der Bild-Alt-Text enthaelt das LaTeX (`![$$ ... $$](assets/...)`).
+- Darstellungsentscheidung: Formeln als **Unicode-Mathematik in Codebloecken**, nicht als
+  `$$...$$`. Grund: `tools/build_site.py` laedt `markdown` ohne Math-Extension, LaTeX wuerde auf
+  der HTML-Site als Rohtext erscheinen. Codebloecke rendern in Obsidian *und* auf der Site
+  identisch und sind copy-paste-faehig.
+- Alle 13 Seiten (12 Konzepte + Source) neu geschrieben: **1.100 → 3.713 Zeilen**. Neu enthalten
+  sind jetzt durchgaengig: exakte Formeln mit Buchnummerierung, vollstaendige Algorithmen als
+  Python-nahes Pseudocode (StocBias, Fisher-Yates, Bar-/Multi-Markt-Permutation, CSCV-Kern,
+  Nested-Walkforward-Indexlogik, comp_return mit allen drei Renditearten, entropy, clean_tails,
+  gap_analyze, drawdown, drawdown_quantiles, BCa, Coordinate Descent, Lambda-Pfad, PARAMCOR,
+  ensure_legal), alle numerischen Tabellen des Buches und die Parameter-Defaults aus den
+  Beispielprogrammen.
+- `wiki/sources/Testing and Tuning Market Trading Systems (Source).md` ist jetzt der
+  Einstiegsknoten: Kapitel-zu-Seite-Zuordnung, **Formelverzeichnis aller 40 Gleichungen** mit
+  Zielseite, **Programmverzeichnis** aller 25 Beispielprogramme mit CLI-Signatur, sowie eine
+  Konstanten-/Default-Tabelle (Bootstrap-Replikationen, MCPT-Schwellen, Entropie-Grenzwerte,
+  DE-Parameter, CSCV-Bloecke, Annualisierungsfaktor 25200 …).
+- Inhaltlich neu gegenueber dem ersten Durchgang (Beispiele): die vier Bedingungen korrekter
+  Bar-Permutation samt Inter-Bar-Gap-Falle und `preserve_OO`; die fuenf Methoden fuer die
+  Trainings-/Test-Grenze bei unbestimmtem Lookahead inkl. Masters' Begruendung fuer seinen
+  Favoriten; die Falle des unbeschraenkten Lookbacks bei zustandsabhaengigen Handelsregeln;
+  `orderstat_tail`/`quantile_conf` als Beta-Verteilungs-Formeln; die Log-Transformation beim
+  Profit-Factor-Bootstrap; die Kommensurabilitaets-Anforderung von PARAMCOR; der
+  `ElasticNet`-Namensfallstrick (sklearns `alpha`/`l1_ratio` sind gegenueber Masters' λ/α
+  vertauscht).
+- Keine Aussage des ersten Durchgangs musste zurueckgenommen werden — die Kernfunde waren richtig,
+  nur zu duenn belegt.
+- Noch nicht ausgefuehrt: push.ps1 (folgt unmittelbar).

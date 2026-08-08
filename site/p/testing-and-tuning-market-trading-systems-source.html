@@ -220,34 +220,633 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#sources">Quellen</a></div>
   <h1>Testing and Tuning Market Trading Systems (Source)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">source</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">buch</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">source</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">buch</span> <span class="tag">referenz</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
+<li><a href="#zielgruppe-und-grundannahmen-des-buches">Zielgruppe und Grundannahmen des Buches</a></li>
+<li><a href="#kapitelubersicht-mit-zielseiten">Kapitelübersicht mit Zielseiten</a></li>
+<li><a href="#formelverzeichnis">Formelverzeichnis</a></li>
+<li><a href="#programmverzeichnis">Programmverzeichnis</a></li>
+<li><a href="#konstanten-und-defaults-aus-den-beispielen">Konstanten und Defaults aus den Beispielen</a></li>
+<li><a href="#die-wichtigsten-einzelbefunde-mit-zahlen">Die wichtigsten Einzelbefunde mit Zahlen</a></li>
 <li><a href="#was-das-buch-fur-dieses-projekt-beitragt">Was das Buch für dieses Projekt beiträgt</a></li>
-<li><a href="#kapitelubersicht">Kapitelübersicht</a></li>
-<li><a href="#wichtigste-einzelbefunde-mit-zahlen">Wichtigste Einzelbefunde (mit Zahlen)</a></li>
-<li><a href="#bewusst-nicht-ingestet">Bewusst nicht ingestet</a></li>
+<li><a href="#bewusst-nicht-ins-wiki-ubernommen">Bewusst nicht ins Wiki übernommen</a></li>
 </ul>
 </div>
 </details>
   <div class="content"><h1 id="testing-and-tuning-market-trading-systems-source">Testing and Tuning Market Trading Systems (Source)</h1>
-<p><strong>Timothy Masters, Apress 2018</strong> (ISBN 978-1-4842-4172-1), 7 Kapitel, C++-Beispielcode.
-Rohquelle: <code>raw/testing-and-tuning/Testing and Tuning Market Trading Systems.md</code> (aus dem
-EPUB konvertiert, Bilder unter <code>raw/testing-and-tuning/assets/</code>).</p>
+<p><strong>Timothy Masters, Apress 2018</strong> (ISBN 978-1-4842-4172-1 / e-ISBN 978-1-4842-4173-8), 7 Kapitel,
+C++-Beispielcode. Rohquelle: <code>raw/testing-and-tuning/Testing and Tuning Market Trading Systems.md</code>
+(aus dem EPUB konvertiert, 9.434 Zeilen), Bilder unter <code>raw/testing-and-tuning/assets/</code> (78
+Dateien, davon ein großer Teil TeX-Formelgrafiken und Ergebnis-Screenshots).</p>
 <p>Kein ICT/SMC-Material — reine <strong>Validierungsmethodik</strong> für Handelssysteme, und zwar die
-Primärquelle hinter dem, was im Vault bisher nur zweiter Hand über
-<a href="../p/how-i-develop-trading-strategies-source.html">How I Develop Trading Strategies (Source)</a> (neurotrader) vorlag. Die dortigen
-Seiten <a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a> und
-<a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a> verweisen auf genau diesen Autor.</p>
+Primärquelle hinter dem, was im Vault bisher nur aus zweiter Hand über
+<a href="../p/how-i-develop-trading-strategies-source.html">How I Develop Trading Strategies (Source)</a> (neurotrader) vorlag. Die Seiten
+<a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a> und <a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a>
+verweisen auf genau diesen Autor.</p>
+<p><strong>Diese Seite ist der Einstiegsknoten</strong>: Kapitelübersicht, vollständiges Formelverzeichnis,
+Programmverzeichnis und Konstanten-/Default-Tabelle. Die inhaltliche Ausarbeitung steht auf den
+verlinkten Konzeptseiten.</p>
 <blockquote>
-<p>Masters' eigene Positionierung: „You will find little or nothing in the way of actual, proven
-trading systems here." Alle Beispielsysteme (MA-Crossover, MA-Breakout, Mean Reversion) sind
-bewusst primitiv gehalten, damit der Fokus auf dem <strong>Test</strong> liegt, nicht auf dem System.</p>
+<p>Masters' eigene Positionierung: <em>„You will find little or nothing in the way of actual, proven
+trading systems here. Those are a dime a dozen and usually worth the price."</em> Alle
+Beispielsysteme (MA-Crossover, MA-Breakout, Mean Reversion) sind bewusst primitiv gehalten,
+damit der Fokus auf dem <strong>Test</strong> liegt, nicht auf dem System.</p>
 </blockquote>
+<h2 id="zielgruppe-und-grundannahmen-des-buches">Zielgruppe und Grundannahmen des Buches</h2>
+<p>Vorausgesetzt: Statistik-Grundkenntnisse (Mittelwert, Standardabweichung, Normalverteilung,
+P-Werte) und irgendeine Programmiersprache. Nicht vorausgesetzt: fortgeschrittene Mathematik.
+Nicht enthalten: Einführung ins Trading, fertige Systeme, „geheime" Indikatoren.</p>
+<p>Vier durchgehende Konventionen, die man kennen muss, um die Beispiele zu lesen:</p>
+<ol>
+<li><strong>Alles rechnet auf Log-Preisen.</strong> Prozentänderungen sind nicht symmetrisch: +10 % und −10 %
+   ergeben nicht null. Bei einem Hin und Her von 100→110→100 verbucht man +10 % und −9,1 %, also
+   fast +1 % Scheingewinn — über viele Trades summiert das ein wertloses System in den Gewinn.
+   Log-Differenzen lösen das exakt: <code>log(11)−log(10) = log(110)−log(100) = 0,09531</code>. Kleine
+   Log-Änderungen mal 100 sind näherungsweise Prozent (100→101 ⇒ 0,995 statt 1,0).</li>
+<li><strong>Tages-Bars in allen Beispielen</strong>, aber nie erforderlich — alles gilt für Ticks bis Monate.</li>
+<li><strong>Trades werden meist auf dem Bar-Close geöffnet/geschlossen.</strong> Realistischer wäre: auf dem
+   Close entscheiden, auf dem nächsten Open handeln. Bewusst vereinfacht, um den Blick auf den Test
+   zu lenken; <code>MCPT_BARS</code> zeigt die konservative Variante.</li>
+<li><strong>Handelskosten sind durchweg weggelassen</strong>, ebenfalls zur Vereinfachung. Der Code zeigt, wo sie
+   einzubauen wären.</li>
+</ol>
+<p>Zwei Kapitel-1-Punkte, die im Vault sonst nirgends so klar stehen:</p>
+<ul>
+<li><strong>Future Leak wird chronisch unterschätzt.</strong> Masters berichtet von erfahrenen Entwicklern, die
+  ihm geduldig erklärten, ihr kleines Leck sei doch unerheblich. Sein Gegenbeleg: die Equity-Kurve
+  eines nahezu zufälligen Win1/Lose1-Systems mit <strong>1 % Edge</strong> sieht bereits respektabel aus.
+  Eine Kurve, die eigentlich flach sein müsste. <em>„Future leak is far deadlier than you imagine."</em></li>
+<li><strong>Die Percent-Wins-Fallacy.</strong> <code>(1-1) ExpectedReturn = Win·P(Win) − Loss·P(Loss)</code>. Auf einem
+  echten Random Walk lässt sich jede Trefferquote herstellen: Ziel 1 Punkt, Stop 9 Punkte → man
+  gewinnt in 9 von 10 Fällen, und der Erwartungswert bleibt exakt null. Gewinn-/Verlustgrößen und
+  ihre Häufigkeiten sind untrennbar gekoppelt — wer mit einer Trefferquote wirbt, muss nach den
+  Größen gefragt werden und umgekehrt. Deckt sich mit
+  <a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a>.</li>
+</ul>
+<p>Und ein psychologischer, den Masters aus eigener Erfahrung schildert: ein Trader, dessen
+Mantra „cut your losses and let your wins run" war, überschrieb dauerhaft die Signale eines
+Systems, das nachweislich mit vielen kleinen Gewinnen und seltenen großen Verlusten optimal lief —
+die parallel laufende Simulation verdiente deutlich mehr als seine Ausführung. <em>„Forget automated
+trading if you don't have the guts to believe in it."</em></p>
+<h2 id="kapitelubersicht-mit-zielseiten">Kapitelübersicht mit Zielseiten</h2>
+<table>
+<thead>
+<tr>
+<th>Kap.</th>
+<th>Inhalt</th>
+<th>Wiki-Seite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Log-Preise, Future Leak, Percent-Wins-Fallacy, algorithmisch vs. modellbasiert</td>
+<td>(hier)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Stationarität (STATN-Gap-Analyse), Indikator-Entropie, Tail-Cleaning</td>
+<td><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Regularisiertes lineares Modell (Coordinate Descent), Polynom-Nichtlinearität</td>
+<td><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Differential Evolution</td>
+<td><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>StocBias (billige Bias-Schätzung)</td>
+<td><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>PARAMCOR (Hessian), Sensitivitätskurven</td>
+<td><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Training Bias, Selection Bias, „was heißt unbiased"</td>
+<td><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Walk-Forward-Algorithmus, Guard Buffer, Varianz-Inflation, unbekannter Lookahead</td>
+<td><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Cross Validation, XvW, CV-in-Walk-Forward</td>
+<td><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>CSCV-Dominanztest</td>
+<td><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Nested Walkforward, CHOOSER</td>
+<td><a href="../p/nested-walkforward.html">Nested Walkforward</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Rendite-Granularität</td>
+<td><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Hypothesentests, t-Grenzen, Bootstrap, BCa, Ratio-Warnung</td>
+<td><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Quantilgrenzen für Einzelrenditen, Drawdown-Doppel-Bootstrap</td>
+<td><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>MCPT: drei Testobjekte, Selection-Bias-Erweiterung, Permutationsalgorithmen</td>
+<td><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Return-Partitionierung Skill/Trend/TrainingBias</td>
+<td><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="formelverzeichnis">Formelverzeichnis</h2>
+<p>Alle 40 nummerierten Gleichungen des Buches, mit Zielseite. (Im Rohtext liegen sie als
+TeX-Grafiken vor; der Alt-Text enthält das LaTeX, daraus rekonstruiert.)</p>
+<table>
+<thead>
+<tr>
+<th>Nr.</th>
+<th>Formel</th>
+<th>Seite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-1</td>
+<td><code>ExpectedReturn = Win·P(Win) − Loss·P(Loss)</code></td>
+<td>(hier)</td>
+</tr>
+<tr>
+<td>2-1</td>
+<td><code>H(X) = −Σ p(x)·log p(x)</code></td>
+<td><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></td>
+</tr>
+<tr>
+<td>2-2</td>
+<td><code>tanh(x) = (eᵗ−e⁻ᵗ)/(eᵗ+e⁻ᵗ)</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>2-3</td>
+<td><code>logistic(x) = 1/(1+e⁻ˣ)</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3-1</td>
+<td><code>ŷ = β₀ + xᵀβ</code></td>
+<td><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></td>
+</tr>
+<tr>
+<td>3-2</td>
+<td><code>RegErr = (1/N)Σ(yᵢ−xᵀβ)² + 2λ·P_α(β)</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3-3</td>
+<td><code>P_α(β) = Σⱼ[((1−α)/2)βⱼ² + α|βⱼ|]</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3-4</td>
+<td><code>rᵢ = yᵢ − ŷᵢ</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3-5</td>
+<td><code>argumentⱼ = (1/N)Σ x_ij·rᵢ + βⱼ</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3-6</td>
+<td><code>S(z,g)</code> Soft-Thresholding</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3-7</td>
+<td><code>β̂ⱼ = S(argumentⱼ, λα)/(1+λ(1−α))</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3-8</td>
+<td><code>argumentⱼ</code> gewichtet</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3-9</td>
+<td><code>β̂ⱼ</code> gewichtet</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3-10</td>
+<td><code>argumentⱼ</code> über Kovarianz-Updates</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3-11 … 3-15</td>
+<td><code>Yinnerⱼ</code>, <code>Xinner_jk</code>, <code>Xssⱼ</code> (un-/gewichtet)</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>3-16 / 3-17</td>
+<td>λ-Schwelle, ab der alle β null bleiben</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>5-1</td>
+<td><code>Ncombinations = Nblocks!/((Nblocks/2)!)²</code></td>
+<td><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></td>
+</tr>
+<tr>
+<td>6-1</td>
+<td><code>Mean = (1/n)Σxᵢ</code></td>
+<td><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></td>
+</tr>
+<tr>
+<td>6-2</td>
+<td><code>StdDev = sqrt((1/(n−1))Σ(xᵢ−Mean)²)</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>6-3</td>
+<td><code>t = √n·Mean/StdDev</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>6-4</td>
+<td><code>p = 1 − CDF_t(n−1, t)</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>6-5</td>
+<td><code>t = √n(ObsMean−TrueMean)/StdDev</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>6-6 … 6-8</td>
+<td>Herleitung der Konfidenzaussage</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>6-9</td>
+<td><code>LowerBound = ObsMean − StdDev·t_p/√n</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>6-10</td>
+<td><code>ẑ₀ = Φ⁻¹(#[θ̂*ᵇ&lt;θ̂]/B)</code> — BCa-Bias</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>6-11</td>
+<td><code>θ̄₍·₎ = (1/n)Σθ̂₍ᵢ₎</code> — Jackknife-Mittel</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>6-12</td>
+<td><code>â</code> — BCa-Acceleration</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>6-13</td>
+<td><code>α'</code> — verschobener Fraktilpunkt</td>
+<td>dito</td>
+</tr>
+<tr>
+<td>7-1</td>
+<td><code>Trend = (NumLong−NumShort)·TrendPerReturn</code></td>
+<td><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></td>
+</tr>
+<tr>
+<td>7-2</td>
+<td><code>TotalReturn = Skill + Trend + TrainingBias</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>7-3</td>
+<td><code>TrainingBias = PermutedTotalReturn − Trend</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>7-4</td>
+<td><code>UnbiasedReturn = TotalReturn − TrainingBias</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td>7-5</td>
+<td><code>Skill = UnbiasedReturn − Trend</code></td>
+<td>dito</td>
+</tr>
+</tbody>
+</table>
+<p>Nicht nummeriert, aber gleich wichtig:</p>
+<pre><code>OMIT              = min(LOOKAHEAD, max LOOKBACK) − 1        Guard Buffer
+Guard-Regel CV    = derselbe Wert, BEIDSEITIG
+orderstat_tail    = 1 − I_q(m, n−m+1)                       Quantil-Konfidenz
+Quantil-Index     = int(frac · (n+1)) − 1                   unverzerrter Schaetzer
+dd_pct            = 100 · (1 − exp(−dd))                    Log-Drawdown → Prozent
+Annualisierung    = 25200 · mittlere Log-Bar-Rendite        (252 Handelstage × 100)
+</code></pre>
+<h2 id="programmverzeichnis">Programmverzeichnis</h2>
+<table>
+<thead>
+<tr>
+<th>Programm</th>
+<th>Aufruf / Zweck</th>
+<th>Wiki-Seite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>STATN</code></td>
+<td><code>STATN Lookback Fractile Version Filename</code> — Gap-Analyse für Trend/Volatilität</td>
+<td><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></td>
+</tr>
+<tr>
+<td><code>ENTROPY</code></td>
+<td><code>ENTROPY Lookback Nbins Version Filename</code> — relative Entropie mehrerer Indikatoren</td>
+<td>dito</td>
+</tr>
+<tr>
+<td><code>CDMODEL</code></td>
+<td>Coordinate-Descent-Klasse (Elastic Net)</td>
+<td><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></td>
+</tr>
+<tr>
+<td><code>CD_MA</code></td>
+<td><code>CD_MA Lookback_inc N_long N_short Alpha Filename</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td><code>DIFF_EV</code></td>
+<td>Differential Evolution (Bibliotheksroutine)</td>
+<td><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></td>
+</tr>
+<tr>
+<td><code>STOC_BIAS</code></td>
+<td>billige Trainings-Bias-Schätzung</td>
+<td><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></td>
+</tr>
+<tr>
+<td><code>PARAMCOR</code></td>
+<td>Hessian-basierte Parameterbeziehungen</td>
+<td><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></td>
+</tr>
+<tr>
+<td><code>SENSITIV</code></td>
+<td>Sensitivitätskurven als Text-Histogramme</td>
+<td>dito</td>
+</tr>
+<tr>
+<td><code>DEV_MA</code></td>
+<td>Komplettbeispiel: DE + StocBias + PARAMCOR + Sensitivität</td>
+<td>dito</td>
+</tr>
+<tr>
+<td><code>TRNBIAS</code></td>
+<td><code>TrnBias Which Ncases Trend Nreps</code> — Training Bias demonstrieren</td>
+<td><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></td>
+</tr>
+<tr>
+<td><code>SelBias</code></td>
+<td><code>SelBias Which Ncases Trend Nreps</code> — Selection Bias demonstrieren</td>
+<td>dito</td>
+</tr>
+<tr>
+<td><code>OVERLAP</code></td>
+<td><code>OVERLAP nprices lookback lookahead ntrain ntest omit extra nreps</code></td>
+<td><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></td>
+</tr>
+<tr>
+<td><code>XvW</code></td>
+<td><code>XvW nprices trend lookback lookahead ntrain ntest nfolds omit nreps seed</code></td>
+<td><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></td>
+</tr>
+<tr>
+<td><code>CSCV_CORE</code> / <code>CSCV_MKT</code></td>
+<td>Dominanztest + Aufbau der Return-Matrix</td>
+<td><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></td>
+</tr>
+<tr>
+<td><code>CHOOSER</code></td>
+<td><code>CHOOSER Markets.txt IS_n OOS1_n MC_reps</code> — Nested Walkforward</td>
+<td><a href="../p/nested-walkforward.html">Nested Walkforward</a></td>
+</tr>
+<tr>
+<td><code>PER_WHAT</code></td>
+<td><code>PER_WHAT which_crit all_bars ret_type max_lookback n_train n_test file</code></td>
+<td><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></td>
+</tr>
+<tr>
+<td><code>BOUND_MEAN</code></td>
+<td><code>BOUND_MEAN max_lookback n_train n_test n_boot file</code></td>
+<td><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></td>
+</tr>
+<tr>
+<td><code>BOOT_CONF</code></td>
+<td>Perzentil- und BCa-Bootstrap (Bibliothek)</td>
+<td>dito</td>
+</tr>
+<tr>
+<td><code>BOOT_RATIO</code></td>
+<td><code>BOOT_RATIO nsamples nboot ntries prob</code> — Ratio-Bootstrap-Versagen</td>
+<td>dito</td>
+</tr>
+<tr>
+<td><code>CONFTEST</code></td>
+<td><code>CONFTEST nsamples fail_rate low_q high_q p_of_q</code></td>
+<td><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></td>
+</tr>
+<tr>
+<td><code>BND_RET</code></td>
+<td>Quantilgrenzen an echten Marktdaten</td>
+<td>dito</td>
+</tr>
+<tr>
+<td><code>DRAWDOWN</code></td>
+<td><code>DRAWDOWN Nchanges Ntrades WinProb BoundConf BootReps QuantReps TestReps</code></td>
+<td>dito</td>
+</tr>
+<tr>
+<td><code>CHOOSER_DD</code></td>
+<td>Drawdown-Grenzen für das CHOOSER-System</td>
+<td>dito</td>
+</tr>
+<tr>
+<td><code>MCPT_TRN</code></td>
+<td><code>MCPT_TRN MaxLookback Nreps FileName</code> — P-Wert + Partitionierung</td>
+<td><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></td>
+</tr>
+<tr>
+<td><code>MCPT_BARS</code></td>
+<td>dasselbe auf OHLC-Bars mit Open-zu-Open-Renditen</td>
+<td>dito</td>
+</tr>
+</tbody>
+</table>
+<p>Hilfsroutinen ohne eigene Seite: <code>STATS.CPP</code> (<code>normal_cdf</code>, <code>inverse_normal_cdf</code>, <code>t_CDF</code>,
+<code>inverse_t_CDF</code>, <code>F_CDF</code>, <code>orderstat_tail</code>, <code>quantile_conf</code>), <code>QSORTD.CPP</code> (<code>qsortd</code>, <code>qsortdsi</code>),
+<code>SVDCMP.CPP</code> (Singulärwertzerlegung), <code>EVER_RS.CPP</code> (<code>evec_rs</code>, Eigenwerte symmetrischer Matrizen),
+<code>GLOB_MAX.CPP</code> / <code>BRENTMAX.CPP</code> (eindimensionale Maximierung).</p>
+<h2 id="konstanten-und-defaults-aus-den-beispielen">Konstanten und Defaults aus den Beispielen</h2>
+<table>
+<thead>
+<tr>
+<th>Größe</th>
+<th>Wert</th>
+<th>Kontext</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bootstrap-Replikationen</td>
+<td>≥ 10.000</td>
+<td>„minimum for serious testing"</td>
+</tr>
+<tr>
+<td>MCPT-Permutationen</td>
+<td>1.000 (Buch), 200 bei Walk-Forward</td>
+<td>Rechenzeit</td>
+</tr>
+<tr>
+<td>MCPT-Schwelle</td>
+<td>p ≤ 0,05, besser 0,01</td>
+<td>Trainingsprozess</td>
+</tr>
+<tr>
+<td>relative Entropie</td>
+<td>≥ 0,5 gut, &lt; 0,1 kritisch</td>
+<td>Indikatorprüfung</td>
+</tr>
+<tr>
+<td>Entropie-Bins</td>
+<td>~20 bei mehreren tausend Fällen</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Tail-Cleaning</td>
+<td>1–10 % je Ende</td>
+<td>typisch 5 %</td>
+</tr>
+<tr>
+<td>CV-Folds</td>
+<td>≥ 5, besser 10+</td>
+<td>λ-Optimierung</td>
+</tr>
+<tr>
+<td>λ-Pfad</td>
+<td>50 Werte, <code>min = 0,001·max</code></td>
+<td>Warm Start macht es billig</td>
+</tr>
+<tr>
+<td>Konvergenz <code>eps</code></td>
+<td>1e-5</td>
+<td>Coordinate Descent</td>
+</tr>
+<tr>
+<td>DE <code>popsize</code></td>
+<td>100 (Beispiel), mehrere hundert empfohlen</td>
+<td>—</td>
+</tr>
+<tr>
+<td>DE <code>overinit</code></td>
+<td>≈ popsize, im StocBias-Beispiel 10.000</td>
+<td>StocBias braucht Tausende</td>
+</tr>
+<tr>
+<td>DE <code>mutate_dev</code> / <code>pcross</code> / <code>pclimb</code></td>
+<td>0,2 / 0,2 / 0,3</td>
+<td><code>DEV_MA</code></td>
+</tr>
+<tr>
+<td>DE <code>max_bad_gen</code></td>
+<td>300 (Beispiel), „50 or more"</td>
+<td>Konvergenz</td>
+</tr>
+<tr>
+<td>PARAMCOR <code>nc_kept</code></td>
+<td><code>1,5 × ncoefs</code></td>
+<td>Heuristik des Autors</td>
+</tr>
+<tr>
+<td>Sensitivität</td>
+<td><code>npoints = 30</code>, <code>nres = 80</code></td>
+<td><code>DEV_MA</code></td>
+</tr>
+<tr>
+<td>CSCV-Blöcke</td>
+<td>10–12, <strong>gerade</strong></td>
+<td>Beispiele</td>
+</tr>
+<tr>
+<td>Drawdown <code>DD_conf</code></td>
+<td>0,9 / 0,95 / 0,99 / 0,999</td>
+<td>fest im Programm</td>
+</tr>
+<tr>
+<td>Drawdown <code>Bound_conf</code></td>
+<td>0,7 Routine, 0,9+ bei Extremen</td>
+<td>Empfehlung</td>
+</tr>
+<tr>
+<td>Annualisierung</td>
+<td>× 25200</td>
+<td>Tages-Bars, Log-Renditen</td>
+</tr>
+</tbody>
+</table>
+<h2 id="die-wichtigsten-einzelbefunde-mit-zahlen">Die wichtigsten Einzelbefunde mit Zahlen</h2>
+<ul>
+<li><strong>Future Leak durch IS/OOS-Überlappung</strong> ist quantifizierbar katastrophal: auf reinem Random Walk
+  erreicht ein wertloses System einen Median-t-Score von <strong>74,64</strong>, wenn Lookahead 10 ist und kein
+  Guard Buffer gesetzt wird — mit korrektem Guard Buffer fällt er auf <strong>−0,012</strong>.
+  → <a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+<li><strong>Ein Bar zu wenig gepuffert reicht schon</strong>: <code>omit=8</code> statt der nötigen 9 liefert immer noch
+  t = 1,88.</li>
+<li><strong>Der naive Drawdown-Bootstrap unterschätzt Katastrophen-Drawdowns um Faktor 13,65</strong> (63
+  OOS-Returns, p = 0,001) — und in <strong>jeder</strong> getesteten Konstellation zu wenig, nie zu viel.
+  → <a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><strong>Profit Factor auf Trade- statt Bar-Basis kann ∞ statt 1,01 ergeben.</strong>
+  → <a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><strong>Eine 9,91-%-Backtest-Rendite kann eine 90-%-Untergrenze von −0,0022 haben</strong> (SPX,
+  MA-Breakout). → <a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><strong>Cross Validation liefert im Beispiel die vierfache Rendite von Walk-Forward</strong> — beide sind
+  nicht austauschbar. → <a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><strong>Profit Factor hat den kleinsten Training Bias</strong> der drei geprüften Optimierungskriterien und
+  ist Masters' bevorzugtes Ziel; mittlere Rendite hat den größten.</li>
+<li><strong>Nested Walkforward auf 65 S&amp;P-100-Werten</strong>: Buy-and-Hold 8,75 % p.a., bestes Einzelkriterium
+  17,89 % (p = 0,076), adaptive Kriterienwahl 19,12 % (<strong>p = 0,027</strong>). → <a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><strong>Derselbe Test kann auf zwei ähnlichen Indizes gegensätzlich ausfallen</strong>: Mean Reversion auf SPX
+  p ≈ 1,0, Trendfolge auf SPX p = 0,001.
+  → <a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><strong>Ein instabiles Verhältnis als Indikator kollabiert auf relative Entropie 0,000</strong>; reines
+  Tail-Cleaning der äußeren 5 % hebt einen anderen von 0,484 auf 0,958.
+  → <a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><strong>Keine Regularisierung = beste In-Sample-Güte und zugleich schlechteste OOS-Leistung.</strong>
+  → <a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+</ul>
 <h2 id="was-das-buch-fur-dieses-projekt-beitragt">Was das Buch für dieses Projekt beiträgt</h2>
-<p>Das Buch beantwortet genau die Frage, an der <code>algo/</code> gerade hängt: <em>Wann darf ich einer
-Backtest-Zahl glauben?</em> Es liefert dafür sieben getrennte Werkzeuge, die im Vault bisher
-teilweise oder gar nicht abgedeckt waren:</p>
 <table>
 <thead>
 <tr>
@@ -275,7 +874,7 @@ teilweise oder gar nicht abgedeckt waren:</p>
 <tr>
 <td>Zwei-Ebenen-Validierung</td>
 <td><a href="../p/nested-walkforward.html">Nested Walkforward</a></td>
-<td><code>signals.py</code>-Ensemble wäre ein Kandidat</td>
+<td>relevant, sobald das Ensemble <em>auswählt</em></td>
 </tr>
 <tr>
 <td>Dominanz-Test über viele Parametersätze</td>
@@ -285,77 +884,54 @@ teilweise oder gar nicht abgedeckt waren:</p>
 <tr>
 <td>Konfidenzgrenzen für die mittlere Rendite</td>
 <td><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></td>
-<td><code>validate.py</code> liefert nur Punktschätzer</td>
+<td>Reports liefern nur Punktschätzer</td>
 </tr>
 <tr>
 <td>Grenzen für Einzelrenditen und Drawdown</td>
 <td><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></td>
-<td>Drawdown wird nur beobachtet, nicht begrenzt</td>
+<td><code>validate.py</code> nutzt den „incorrect method"</td>
+</tr>
+<tr>
+<td>Rendite-Granularität</td>
+<td><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></td>
+<td>alles auf Trade-Basis</td>
 </tr>
 <tr>
 <td>Zerlegung des Backtest-Ergebnisses</td>
 <td><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></td>
 <td>nicht implementiert</td>
 </tr>
+<tr>
+<td>Indikator-Vorprüfung</td>
+<td><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></td>
+<td>Detektoren nie geprüft</td>
+</tr>
+<tr>
+<td>Modellwahl (falls je nötig)</td>
+<td><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></td>
+<td>kein Modell vorhanden</td>
+</tr>
+<tr>
+<td>Optimierer + Sensitivität</td>
+<td><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></td>
+<td>Grid Search, Sensitivität nur 1D</td>
+</tr>
 </tbody>
 </table>
-<p>Ergänzend auf der Modellseite: <a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a>,
-<a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a>,
-<a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a>,
-<a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a>.</p>
-<h2 id="kapitelubersicht">Kapitelübersicht</h2>
-<ol>
-<li><strong>Introduction</strong> — Log-Preise statt Prozent (<code>log(11)−log(10) = log(110)−log(100)</code>, damit
-   +10 %/−10 % sich exakt aufheben statt +1 % Scheingewinn zu erzeugen); algorithmische vs.
-   modellbasierte Systeme; „Future Leak Is More Dangerous Than You May Think"; die
-   <strong>Percent-Wins-Fallacy</strong> (<code>E = Win·P(Win) − Loss·P(Loss)</code>; ein 1:9-Ziel/Stop gewinnt 9 von 10
-   Mal und hat trotzdem Erwartungswert null) — deckt sich mit
-   <a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a>.</li>
-<li><strong>Pre-optimization Issues</strong> — Stationarität (STATN-Gap-Analyse), Indikator-Entropie.</li>
-<li><strong>Optimization Issues</strong> — regularisiertes lineares Modell per Coordinate Descent,
-   polynomiale Nichtlinearität, Differential Evolution.</li>
-<li><strong>Post-optimization Issues</strong> — billige Trainings-Bias-Schätzung (StocBias), Hessian-basierte
-   Parameter-Korrelationen (PARAMCOR), Sensitivitätskurven.</li>
-<li><strong>Estimating Future Performance I</strong> — IS/OOS, Selection Bias, Walk-Forward-Algorithmus samt
-   Guard Buffer, Cross Validation, CSCV, Nested Walkforward.</li>
-<li><strong>Estimating Future Performance II</strong> — Rendite-Granularität, t-Test-/Bootstrap-Grenzen,
-   BCa, Grenzen für Einzelrenditen, Drawdown-Grenzen.</li>
-<li><strong>Permutation Tests</strong> — MCPT (fertiges System / Trainingsprozess / „Model Factory"),
-   Selection-Bias-Erweiterung, Return-Partitionierung, korrekte Permutation von Preisbars und
-   mehreren Märkten.</li>
-</ol>
-<h2 id="wichtigste-einzelbefunde-mit-zahlen">Wichtigste Einzelbefunde (mit Zahlen)</h2>
+<p>Daraus abgeleitete Backlog-Punkte 7–10 in <code>algo/PLAN.md</code>.</p>
+<h2 id="bewusst-nicht-ins-wiki-ubernommen">Bewusst nicht ins Wiki übernommen</h2>
 <ul>
-<li><strong>Future Leak durch IS/OOS-Überlappung</strong> ist quantifizierbar katastrophal: auf reinem Random
-  Walk erreicht ein wertloses System einen Median-t-Score von <strong>74,64</strong>, wenn Lookahead 10 ist
-  und kein Guard Buffer gesetzt wird — mit korrektem Guard Buffer fällt er auf −0,012.
-  → <a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
-<li><strong>Ein Bar zu wenig gepuffert reicht schon</strong>: <code>omit=8</code> statt der nötigen 9 liefert immer noch
-  t=1,88 statt 0.</li>
-<li><strong>Der naive Drawdown-Bootstrap unterschätzt Katastrophen-Drawdowns um Faktor 13,65</strong>
-  (bei 63 OOS-Returns, p=0,001). → <a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
-<li><strong>Profit Factor auf Trade-Basis statt Bar-Basis kann ∞ statt 1,01 ergeben</strong> — Masters'
-  Zahlenbeispiel: zwei Trades mit je +101/−100 Punkten intern, netto je +1.
-  → <a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
-<li><strong>Cross Validation ist für Marktdaten nicht empfohlen</strong> („I cannot recommend cross validation
-  analysis in trading system development, except in the most unusual special situations") —
-  wegen Nichtstationaritäts-Leck und mangelnder Realitätsnähe.</li>
-<li><strong>Profit Factor hat in Masters' Tests den kleinsten Trainings-Bias</strong> der drei geprüften
-  Optimierungskriterien (mittlere Rendite, Profit Factor, Sharpe) und ist sein bevorzugtes
-  Optimierungsziel.</li>
-<li><strong>Nested Walkforward auf 65 S&amp;P-100-Werten</strong>: Buy-and-Hold 8,75 % p.a., bestes Einzelkriterium
-  (Total Return) 17,89 % (p=0,076), Kriterienauswahl on-the-fly 19,12 % (<strong>p=0,027</strong>).</li>
-</ul>
-<h2 id="bewusst-nicht-ingestet">Bewusst nicht ingestet</h2>
-<ul>
-<li>Der vollständige C++-Code (CDMODEL, DIFF_EV, SVDCMP, BOOT_CONF, CSCV_CORE, …) — dieses Projekt
-  arbeitet in Python mit <code>numpy</code>/<code>scipy</code>/<code>backtesting</code>; die Algorithmen sind auf den Konzeptseiten
-  in Prosa/Pseudocode festgehalten, die Zeile-für-Zeile-Implementierung nicht.</li>
-<li>Die Herleitungen zu Coordinate Descent (Friedman/Hastie/Tibshirani) und zur BCa-Theorie
-  (Efron/Tibshirani) — im Buch selbst schon nur referenziert.</li>
-<li>TeX-Formelbilder sind als <code>assets/*_TeX_Equ*.png</code> in der Rohquelle erhalten, aber nicht
-  einzeln ins Wiki übernommen; die für das Projekt relevanten Formeln stehen als Text auf den
-  Konzeptseiten.</li>
+<li><strong>Der vollständige C++-Quellcode.</strong> Die Algorithmen stehen als Prosa und Python-nahes Pseudocode
+  auf den Konzeptseiten, inklusive aller Konstanten und Sonderfälle; die Zeile-für-Zeile-Umsetzung
+  in C++ nicht. Dieses Projekt arbeitet in Python mit <code>numpy</code>/<code>scipy</code>/<code>backtesting</code>.</li>
+<li><strong>Die Herleitungen</strong> zu Coordinate Descent (Friedman/Hastie/Tibshirani 2010) und zur BCa-Theorie
+  (Efron/Tibshirani, <em>An Introduction to the Bootstrap</em>) — im Buch selbst nur referenziert. Ebenso
+  Masters' Querverweise auf seine eigenen Bücher <em>Data Mining Algorithms in C++</em> und <em>Assessing and
+  Improving Prediction and Classification</em>.</li>
+<li><strong>Speicher-/Performance-Details</strong> der C-Implementierung (Zeigerarithmetik, <code>memcpy</code>-Muster,
+  symmetrische Matrizen doppelt speichern) — außer wo sie eine algorithmische Aussage tragen.</li>
+<li><strong>TeX-Formelbilder</strong> bleiben in <code>raw/testing-and-tuning/assets/</code>; die inhaltlich relevanten
+  Formeln sind oben und auf den Konzeptseiten als Text erfasst.</li>
 </ul></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">16</span></h2><ul><li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a><span class="cat">Konzepte</span></li><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a><span class="cat">Konzepte</span></li><li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a><span class="cat">Konzepte</span></li><li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a><span class="cat">Konzepte</span></li><li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a><span class="cat">Konzepte</span></li><li><a href="../p/nested-walkforward.html">Nested Walkforward</a><span class="cat">Konzepte</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a><span class="cat">Konzepte</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/sources/Testing and Tuning Market Trading Systems (Source).md</code></footer>
