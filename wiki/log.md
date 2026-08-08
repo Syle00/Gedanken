@@ -1039,3 +1039,24 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
 - Code-Implementierung (`algo/permutation_test.py`) bleibt offener Backlog-Punkt, nicht Teil
   dieses Ingests — Design steht, siehe Spec.
 - Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-08] ingest | Zwei weitere algo-methodology-Quellen (kein Trading-Content)
+- Quellen: `raw/Claude Opus 5 + MCP = New King of Algo Trading!.md` (YouTube, Algo-trading with
+  Saleh) und `raw/Quantifying Market Structure at Multiple Scales for Algorithmic Trading with
+  Python.md` (YouTube, neurotrader). Beide kein ICT/SMC-Material — algo-methodology-Domäne, wie
+  bereits [[How I Develop Trading Strategies (Source)]].
+- Seiten erstellt: `wiki/sources/Claude Opus 5 + MCP = New King of Algo Trading! (Source).md`,
+  `wiki/sources/Quantifying Market Structure at Multiple Scales for Algorithmic Trading with
+  Python (Source).md`, `wiki/concepts/Rule Significance Test (RST).md`,
+  `wiki/concepts/Directional Change & Hierarchische Marktstruktur.md`.
+- Seiten aktualisiert: `wiki/index.md` (zwei neue Concepts-Einträge alphabetisch einsortiert,
+  zwei neue Sources unter der bestehenden "Algo-Methodik"-Unterrubrik).
+- Kernfunde: (1) RST — Entry-Regel isoliert auf Signifikanz testen, BEVOR Sizing/Stop/Ziel
+  entworfen werden; in `algo/rules.py`/`backtest_bt.py` bisher kein eigener Zwischenschritt,
+  dort wird direkt die vollständige Regel gebacktestet. (2) Directional-Change-Hierarchie —
+  ATR-adaptive, timeframe-unabhängige Alternative zur aktuellen `min_age`/`confirm`-Skalierung
+  je Timeframe in `tools/analyze_ohlc.py`, anschlussfähig an [[Market Structure Shift (MSS)]].
+  Beide bewusst nicht als akuter Backlog-Punkt in `algo/PLAN.md` aufgenommen (keine konkrete
+  Regel/kein konkreter Refactor beauftragt), nur als Wiki-Wissen für künftige Entscheidungen
+  festgehalten.
+- Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).

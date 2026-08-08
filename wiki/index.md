@@ -13,6 +13,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Algorithmic Time & Price Grid]] — Preis-Achse (Octant/Quadrant) × Zeit-Achse (Macro-Startzeiten); PD Array am Kreuzungspunkt = höchste Bestätigung, fraktale Wiederholung (2026-08-05)
 - [[Buy & Sell Program]] — Zwei Kriterien, an denen ein Buy-/Sell-Programm erkannt wird; visuelle Signatur ergänzt (2026-08-05)
 - [[Dealing Range]] — Premium/Discount-Rahmen; je mehr Timeframes übereinstimmen, desto besser (2026-08-02)
+- [[Directional Change & Hierarchische Marktstruktur]] — ATR-adaptive Swing-Erkennung + rekursive Hochstufung zu Signifikanz-Levels; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Drei-Ebenen-Marktperspektive]] — Big Picture/Intermediate/Short-Term-Framework, 7 Kriterien für ein High-Reward-Setup (2026-08-06)
 - [[Elemente eines Trade-Setups (4 Preis-Zustände)]] — Expansion/Retracement/Reversal/Consolidation ↔ je ein ICT-Tool, strikte Übergangsregel (2026-08-06)
 - [[Erwartungswert & Reward-to-Risk-Modell]] — Mindest-RR nach Trefferquote, bestätigt die 1-%-Risiko-Regel im ICT-Quellenmaterial (2026-08-06)
@@ -71,6 +72,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Rejection Block]] — OB-Variante über Wick-vs-Body-Liquidity-Sweep (2026-08-01)
 - [[Risikomanagement (1% pro Trade)]] — eigene Positionsgrößen-Regel: nie mehr als 1% Kontoguthaben Risiko pro Trade; jetzt auch als ICT-Quellenregel bestätigt (2026-08-06)
 - [[Risiko-Verfeinerung über Timeframes]] — HTF-Level auf tiefere Timeframes umgeframed, Stop schrumpft ohne Zielverlust (2026-08-06)
+- [[Rule Significance Test (RST)]] — Signifikanztest nur der Entry-Regel, vor Sizing/Stop/Ziel; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Seasonal Tendency]] — Historisch wiederkehrende saisonale Preistendenzen (2026-08-01)
 - [[Signal-Following & Crowd Liquidity Risk]] — Warum öffentliches Teilen von Live-Levels die eigene Edge zerstört; manuelle Intervention (Spread-Widening, Mini-Runs), CFTC-Hintergrund, Operator- vs. Konzept-Fehler (2026-08-05)
 - [[Smart Money Concepts (SMC)]] — **Wurzelseite**: Dachbegriff über allen ICT-Study-Notes, thematischer Einstieg (2026-08-02)
@@ -274,6 +276,12 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 
 - [[How I Develop Trading Strategies (Source)]] — neurotrader-Transkript: Vier-Stufen-Prozess +
   Bar-Permutationstest (MCPT) zur Overfitting-Erkennung, kein ICT-Material (2026-08-08)
+- [[Claude Opus 5 + MCP = New King of Algo Trading! (Source)]] — Claude Opus 5 + Jesse-MCP
+  entwickelt/validiert eigenständig eine ETH-Strategie: Rule Significance Test vor Sizing,
+  Monte-Carlo-Median-Heuristik, Mehrperioden-Test, Portfolio-Argument (2026-08-08)
+- [[Quantifying Market Structure at Multiple Scales for Algorithmic Trading with Python (Source)]]
+  — neurotrader-Transkript: ATR-adaptive Directional-Change-Swings + rekursive hierarchische
+  Signifikanz-Levels (2026-08-08)
 
 ## Synthesis
 

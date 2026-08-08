@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">77</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">79</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">181</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">183</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -110,6 +110,7 @@
 <li><a href="#2026-08-07-synthesis-two-stage-news-delivery-fomc-nfp-neue-hypothese-aus-live-beobachtung">[2026-08-07] synthesis | Two Stage News Delivery (FOMC &amp; NFP) — neue Hypothese aus Live-Beobachtung</a></li>
 <li><a href="#2026-08-07-ingest-youtube-case-study-with-nonfarm-payroll-nq-futures">[2026-08-07] ingest | YouTube: Case Study With NonFarm Payroll &amp; NQ Futures</a></li>
 <li><a href="#2026-08-08-ingest-how-i-develop-trading-strategies-permutation-tests-neurotrader">[2026-08-08] ingest | How I Develop Trading Strategies (Permutation Tests, neurotrader)</a></li>
+<li><a href="#2026-08-08-ingest-zwei-weitere-algo-methodology-quellen-kein-trading-content">[2026-08-08] ingest | Zwei weitere algo-methodology-Quellen (kein Trading-Content)</a></li>
 </ul>
 </div>
 </details>
@@ -1216,6 +1217,28 @@
   ein anderes Verfahren.</li>
 <li>Code-Implementierung (<code>algo/permutation_test.py</code>) bleibt offener Backlog-Punkt, nicht Teil
   dieses Ingests — Design steht, siehe Spec.</li>
+<li>Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).</li>
+</ul>
+<h2 id="2026-08-08-ingest-zwei-weitere-algo-methodology-quellen-kein-trading-content">[2026-08-08] ingest | Zwei weitere algo-methodology-Quellen (kein Trading-Content)</h2>
+<ul>
+<li>Quellen: <code>raw/Claude Opus 5 + MCP = New King of Algo Trading!.md</code> (YouTube, Algo-trading with
+  Saleh) und <code>raw/Quantifying Market Structure at Multiple Scales for Algorithmic Trading with
+  Python.md</code> (YouTube, neurotrader). Beide kein ICT/SMC-Material — algo-methodology-Domäne, wie
+  bereits <a href="../p/how-i-develop-trading-strategies-source.html">How I Develop Trading Strategies (Source)</a>.</li>
+<li>Seiten erstellt: <code>wiki/sources/Claude Opus 5 + MCP = New King of Algo Trading! (Source).md</code>,
+  <code>wiki/sources/Quantifying Market Structure at Multiple Scales for Algorithmic Trading with
+  Python (Source).md</code>, <code>wiki/concepts/Rule Significance Test (RST).md</code>,
+  <code>wiki/concepts/Directional Change &amp; Hierarchische Marktstruktur.md</code>.</li>
+<li>Seiten aktualisiert: <code>wiki/index.md</code> (zwei neue Concepts-Einträge alphabetisch einsortiert,
+  zwei neue Sources unter der bestehenden "Algo-Methodik"-Unterrubrik).</li>
+<li>Kernfunde: (1) RST — Entry-Regel isoliert auf Signifikanz testen, BEVOR Sizing/Stop/Ziel
+  entworfen werden; in <code>algo/rules.py</code>/<code>backtest_bt.py</code> bisher kein eigener Zwischenschritt,
+  dort wird direkt die vollständige Regel gebacktestet. (2) Directional-Change-Hierarchie —
+  ATR-adaptive, timeframe-unabhängige Alternative zur aktuellen <code>min_age</code>/<code>confirm</code>-Skalierung
+  je Timeframe in <code>tools/analyze_ohlc.py</code>, anschlussfähig an <a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a>.
+  Beide bewusst nicht als akuter Backlog-Punkt in <code>algo/PLAN.md</code> aufgenommen (keine konkrete
+  Regel/kein konkreter Refactor beauftragt), nur als Wiki-Wissen für künftige Entscheidungen
+  festgehalten.</li>
 <li>Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).</li>
 </ul></div>
   
