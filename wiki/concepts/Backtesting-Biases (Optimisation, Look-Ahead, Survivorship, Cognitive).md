@@ -12,6 +12,16 @@ erscheinen lassen, als die Strategie live tatsächlich ist**. Aus
 [[Successful Algorithmic Trading (Source)]] (Michael Halls-Moore). Grundregel: ein Backtest ist
 bestenfalls eine idealisierte Obergrenze der echten Performance, nie eine Punktschätzung.
 
+> **Ergänzung 2026-08-08:** Diese Vierer-Liste hat eine Lücke. Masters
+> ([[Testing and Tuning Market Trading Systems (Source)]]) trennt den hier als „Optimisation Bias"
+> geführten Effekt in **zwei** Verzerrungen: Training Bias (betrifft ein einzelnes System) und
+> **Selection Bias** (entsteht erst beim Auswählen des besten aus mehreren Systemen — und macht
+> eine zuvor unverzerrte OOS-Zahl im Moment der Auswahl verzerrt). Ein zurückgehaltener
+> OOS-Zeitraum beseitigt nur die erste; für die zweite braucht es einen zweiten. Siehe
+> [[Training Bias & Selection Bias]]. Der Look-Ahead-Bias unten hat ebenfalls eine hier nicht
+> genannte, unauffällige Variante an der Trainings-/Test-Grenze:
+> [[Walk-Forward Guard Buffer & Varianz-Inflation]].
+
 ## 1. Optimisation Bias (Curve-Fitting / Data-Snooping)
 
 Parameter werden so lange angepasst, bis die Backtest-Performance attraktiv aussieht — live

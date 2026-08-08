@@ -2,10 +2,20 @@
 tags: [concept, algo-methodology, validation]
 created: 2026-08-08
 updated: 2026-08-08
-sources: ["[[How I Develop Trading Strategies (Source)]]"]
+sources: ["[[How I Develop Trading Strategies (Source)]]", "[[Testing and Tuning Market Trading Systems (Source)]]"]
 ---
 
 # Vier-Stufen-Strategieentwicklung (Masters)
+
+> **Nachtrag 2026-08-08:** Masters' eigenes Buch liegt inzwischen im Vault —
+> [[Testing and Tuning Market Trading Systems (Source)]]. Es formuliert den Prozess nicht als
+> nummerierte Vierstufen-Liste (das ist neurotraders Zuspitzung), enthält aber alle vier Stufen
+> und ergänzt sie um Werkzeuge, die hier fehlten: die Vorprüfung der Indikatoren
+> ([[Indikator-Stationarität & Entropie]]), die Nachprüfung der Parameterstabilität
+> ([[Differential Evolution & Parameter-Sensitivität]]), die Konfidenzgrenzen
+> ([[Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)]],
+> [[Grenzen für Einzelrenditen & Drawdown]]) und vor allem die Unterscheidung
+> [[Training Bias & Selection Bias]] — Stufe 3/4 beseitigen nur die erste der beiden.
 
 Generischer Entwicklungs-/Validierungsprozess für jede regelbasierte oder ML-basierte
 Handelsstrategie, aus [[How I Develop Trading Strategies (Source)]] (neurotrader, nach Timothy
@@ -23,7 +33,10 @@ Masters). Vier Stufen, jede baut auf der vorigen auf — keine ersetzt eine ande
    [[Monte Carlo Permutation Test (MCPT)]]). Erst wenn diese Stufe besteht (P < 1%), lohnt es
    sich, überhaupt Validierungsdaten anzufassen.
 3. **Walk-Forward-Test.** Rollierende Reoptimierung auf tatsächlich unbenutzten Daten (In-Sample-
-   Fenster, Out-of-Sample-Test ohne Refit, Fenster wandert weiter). Ergebnisse liegen i.d.R.
+   Fenster, Out-of-Sample-Test ohne Refit, Fenster wandert weiter). Sobald das Ziel mehr als eine
+   Bar vorausschaut, braucht dieser Schritt zwingend einen Guard Buffer, sonst ist er trotz
+   korrektem Aufbau optimistisch verzerrt — siehe
+   [[Walk-Forward Guard Buffer & Varianz-Inflation]]. Ergebnisse liegen i.d.R.
    unter der In-Sample-Performance — kein Data-Mining-Bias mehr, nur noch potenzieller Selection
    Bias, falls bereits mehrere Strategien auf denselben Walk-Forward-Daten verglichen wurden.
 4. **Walk-Forward Monte Carlo Permutation Test.** Wie Stufe 2, aber nur der Testzeitraum nach dem

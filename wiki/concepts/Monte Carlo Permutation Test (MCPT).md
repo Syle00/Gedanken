@@ -2,10 +2,18 @@
 tags: [concept, algo-methodology, validation]
 created: 2026-08-08
 updated: 2026-08-08
-sources: ["[[How I Develop Trading Strategies (Source)]]"]
+sources: ["[[How I Develop Trading Strategies (Source)]]", "[[Testing and Tuning Market Trading Systems (Source)]]"]
 ---
 
 # Monte Carlo Permutation Test (MCPT)
+
+> **Nachtrag 2026-08-08:** Die Primärquelle liegt inzwischen selbst im Vault —
+> [[Testing and Tuning Market Trading Systems (Source)]] (Masters, Kap. 7). Sie bestätigt den
+> unten beschriebenen Algorithmus und ergänzt drei Punkte, die im neurotrader-Transkript fehlten:
+> die Unterscheidung **was** getestet wird (fertiges System / Trainingsprozess / „Model Factory"),
+> die **Selection-Bias-Erweiterung** (Solo-P-Wert vs. unbiased P-Wert) und die
+> **Return-Partitionierung** in Skill/Trend/TrainingBias — alle drei auf
+> [[Return-Partitionierung (Skill, Trend, Training Bias)]].
 
 Statistischer Test, ob das In-Sample- oder Walk-Forward-Ergebnis einer Handelsstrategie auf
 echten Mustern in den Daten beruht oder überwiegend auf **Data-Mining-Bias** — dem Effekt, dass
@@ -84,8 +92,31 @@ verwirft schwache Ideen, bevor überhaupt Validierungsdaten "verbraucht" werden.
 - P-Wert ist ein Maß, kein Optimierungsziel — bei genug Herumprobieren lässt sich fast jede
   Strategie durch den Test bringen ("if a measure becomes a target, it is no longer a good
   measure").
-- Multi-Market-Fall (korrelierte Märkte gemeinsam permutieren) im Quellmaterial nur angerissen,
-  hier nicht vertieft.
+- Multi-Market-Fall: bei mehreren Märkten müssen **alle identisch permutiert** werden, sonst
+  entstehen Konstellationen (hochkorrelierte Märkte laufen gegeneinander), die es real nicht gäbe
+  — und die Grundannahme „jede Permutation wäre unter H₀ gleich wahrscheinlich" bricht.
+  Voraussetzung dafür: jeder Markt hat zu jedem Datum einen Preis, Lückendaten müssen vorher
+  entfernt werden (Masters, Kap. 7).
+
+## Ergänzungen aus der Primärquelle (Masters, Kap. 7)
+
+- **Beim Test eines fertigen Systems darf nur der OOS-Zeitraum permutiert werden.** Die
+  Lookback-Bars davor gehören nicht in die Permutation: sie fließen im Originallauf nicht in die
+  Performance ein, könnten aber — falls sie ungewöhnlich sind (starker Trend, Vola-Spitze) — in
+  den OOS-Bereich hineingemischt werden und das Ergebnis verfälschen.
+- **Warum der Test gerade Overfitting fängt:** ein zu schwaches System fällt ohnehin früh auf. Ein
+  *überangepasstes* System findet auch auf permutierten Daten „Muster" — alle Läufe sehen gut aus,
+  der Originallauf sticht nicht heraus. Genau das misst der P-Wert.
+- **Permutation von Preisbars** braucht vier Bedingungen: Open/Close nie außerhalb High/Low;
+  Verteilung von High/Low relativ zum Open erhalten; Verteilung der Open-zu-Close-Änderungen
+  erhalten; **Verteilung der Inter-Bar-Gaps erhalten**. Letzteres ist die Falle: permutiert man
+  naiv die Open-zu-Open-Änderungen, entsteht regelmäßig die Kombination „Bar schließt 2 Punkte
+  tiefer" + „nächstes Open liegt 2 Punkte höher" = ein 4-Punkte-Gap, das real fast nie vorkommt.
+  Deshalb Intra-Bar- und Inter-Bar-Änderungen **getrennt** mischen (deckt sich mit der oben
+  beschriebenen Zwei-Shuffle-Mechanik).
+- **`preserve_OO`**: Wer Trades konservativ auf dem Open der Folgebar ausführt und zusätzlich die
+  Return-Partitionierung nutzt, muss die erste Close-zu-Open- und die letzte Open-zu-Close-Änderung
+  von der Permutation ausnehmen, damit der Gesamttrend über alle Permutationen identisch bleibt.
 
 ## Bezug zu diesem Projekt
 

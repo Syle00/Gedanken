@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grenzen für Einzelrenditen &amp; Drawdown — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">94</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">185</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li class="here"><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Grenzen für Einzelrenditen &amp; Drawdown</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">risiko</span> <span class="tag">drawdown</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#untergrenze-aus-empirischen-quantilen">Untergrenze aus empirischen Quantilen</a></li>
+<li><a href="#warum-die-grenze-selbst-unsicher-ist">Warum die Grenze selbst unsicher ist</a></li>
+<li><a href="#drawdown-der-naive-bootstrap-ist-gefahrlich-falsch">Drawdown: der naive Bootstrap ist gefährlich falsch</a></li>
+<li><a href="#der-korrekte-doppel-bootstrap">Der korrekte Doppel-Bootstrap</a></li>
+<li><a href="#wie-schlimm-der-fehler-ist-drawdown-experimente-gewinnwahrscheinlichkeit-06">Wie schlimm der Fehler ist (DRAWDOWN-Experimente, Gewinnwahrscheinlichkeit 0,6)</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="grenzen-fur-einzelrenditen-drawdown">Grenzen für Einzelrenditen &amp; Drawdown</h1>
+<p>Nicht der <em>Mittelwert</em> künftiger Renditen (dafür siehe
+<a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a>), sondern <strong>die einzelnen künftigen
+Werte selbst</strong> — und speziell der schlimmste anzunehmende Drawdown. Aus
+<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 6).</p>
+<p>Der Hauptzweck ist <strong>Überwachung im Livebetrieb</strong>: eine Untergrenze für die Monats-/
+Quartalsrendite, unter die das System im Normalbetrieb nur mit Wahrscheinlichkeit <code>p</code> fällt.
+Fällt es öfter darunter, degradiert es.</p>
+<h2 id="untergrenze-aus-empirischen-quantilen">Untergrenze aus empirischen Quantilen</h2>
+<p>Verfahren: <code>n</code> OOS-Renditen aufsteigend sortieren, Fehlerrate <code>p</code> wählen (typisch 0,05–0,1),
+<code>m = n·p</code> (konservativ) bzw. <code>m = (n+1)·p</code> (unverzerrt) bilden, abrunden — die <code>m</code>-kleinste
+Rendite ist die Untergrenze. Für eine Obergrenze analog die <code>m</code>-größte.</p>
+<p>Datenbedarf: <strong>mindestens ~100 Renditen, besser mehrere hundert.</strong> Bei Monatsrenditen heißt das
+über zehn Jahre OOS. Der Kompromiss ist unangenehm: kürzere Renditeperioden liefern mehr
+Datenpunkte, aber höhere Streuung und damit so niedrige Grenzen, dass sie nutzlos werden.</p>
+<h2 id="warum-die-grenze-selbst-unsicher-ist">Warum die Grenze selbst unsicher ist</h2>
+<p>Die eigene OOS-Sammlung ist mit Sicherheit optimistisch <strong>oder</strong> pessimistisch verzerrt (siehe
+den „Unbiased"-Abschnitt in <a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>). Also ist auch die berechnete
+Grenze zu hoch oder zu tief. Beide Richtungen sind gefährlich, aber unterschiedlich:</p>
+<ul>
+<li><strong>Grenze zu hoch</strong> → wird häufiger verletzt als die gewünschten <code>p</code>, man vermutet Degradation,
+  wo keine ist. Der zugehörige „pessimistische" <code>q &gt; p</code> beantwortet: <em>Wie wahrscheinlich ist es,
+  dass meine 0,1-Grenze in Wahrheit die 0,15-Grenze ist?</em></li>
+<li><strong>Grenze zu tief</strong> → wird seltener verletzt, echte Degradation wird <strong>nicht erkannt</strong>. Der
+  „optimistische" <code>q &lt; p</code> beantwortet die Gegenfrage.</li>
+</ul>
+<p>Berechnet wird beides über die <strong>unvollständige Beta-Verteilung</strong>: die Wahrscheinlichkeit, dass
+der <code>m</code>-kleinste von <code>n</code> Werten über dem <code>q</code>-Quantil liegt, ist <code>1 − I_q(m, n−m+1)</code>
+(bei Masters <code>orderstat_tail()</code>). Umgekehrt liefert <code>quantile_conf()</code> zu einer vorgegebenen
+kleinen Wahrscheinlichkeit den zugehörigen <code>q</code>.</p>
+<p>Zahlenbeispiel (n=200, p=0,1, also <code>m</code>=20): mit <code>q</code>=0,07 beträgt die Wahrscheinlichkeit 0,0692,
+mit <code>q</code>=0,12 beträgt sie 0,1638. Umgekehrt bei vorgegebenem <code>p_of_q</code>=0,05: optimistisches
+<code>q</code>=0,0673, pessimistisches <code>q</code>=0,1363 — es gibt also je 5 % Chance, dass die wahre Fehlerrate
+unter 6,7 % bzw. über 13,6 % liegt statt bei den gewünschten 10 %.</p>
+<p><strong>Obergrenzen sind hier ausdrücklich nützlich</strong> — anders als beim Mittelwert. Ein System
+degradiert nämlich nicht nur, indem es zu schlechte Trades produziert, sondern auch, indem die
+guten ausbleiben. Deshalb setzt man für die Obergrenze eine <strong>große</strong> „Fehlerrate" an (z.B.
+<code>p</code>=0,4: 40 % der künftigen Renditen sollten die Obergrenze übertreffen) und wird misstrauisch,
+wenn dieser Anteil deutlich sinkt.</p>
+<p>Masters' <code>BND_RET</code>-Lauf auf OEX (Quartalsrenditen, MA-Crossover): 1,021 % annualisiert — „a
+mighty poor trading system". 10 % der künftigen Quartale sollten schlechter als −38,942 %
+annualisiert sein, 40 % besser als +9,043 %. Bei nur 124 Renditen sind die Grenzen aber
+eingestandenermaßen wackelig.</p>
+<h2 id="drawdown-der-naive-bootstrap-ist-gefahrlich-falsch">Drawdown: der naive Bootstrap ist gefährlich falsch</h2>
+<p>Die intuitive und <strong>falsche</strong> Argumentationskette:</p>
+<ol>
+<li>Die Returns sind OOS und damit unverzerrt.</li>
+<li><em>Also</em> repräsentieren sie die Zukunft fair. ← <strong>hier bricht es</strong></li>
+<li>Drawdown hängt von der Reihenfolge ab.</li>
+<li>Die Zukunft unterscheidet sich nur durch Zusammensetzung und Reihenfolge.</li>
+<li>Also: mit Zurücklegen aus den OOS-Returns ziehen, Drawdown je Stichprobe berechnen, das
+   5 %-Quantil ist die 95 %-Drawdown-Grenze.</li>
+</ol>
+<p>Schritt 2 ist der Fehler: die OOS-Stichprobe <strong>ist</strong> verzerrt, man weiß nur nicht in welche
+Richtung. Der naive Bootstrap ignoriert diese Variationsquelle völlig. Und die Verzerrung wirkt
+beim Drawdown <strong>asymmetrisch</strong> — optimistische Stichproben schaden mehr, als pessimistische
+nützen.</p>
+<h2 id="der-korrekte-doppel-bootstrap">Der korrekte Doppel-Bootstrap</h2>
+<pre><code>für 'outer' Wiederholungen:
+    äußere Bootstrap-Stichprobe aus den OOS-Returns ziehen (Größe = ganze OOS-Menge)
+    für 'inner' Wiederholungen:
+        innere Stichprobe daraus ziehen (Größe = n_trades der Drawdown-Periode)
+        DD_inner[inner] = Drawdown dieser inneren Stichprobe
+    DD_inner sortieren; DD_outer[outer] = DD_inner[ DD_conf · inner ]
+DD_outer sortieren
+Bound = DD_outer[ Bound_conf · outer ]
+</code></pre>
+<p>Zwei Konfidenzen, die man auseinanderhalten muss:</p>
+<ul>
+<li><code>DD_conf</code> — Wahrscheinlichkeit, dass ein künftiger Drawdown die Grenze <strong>nicht</strong> überschreitet
+  (z.B. 0,9).</li>
+<li><code>Bound_conf</code> — Konfidenz, dass die berechnete Grenze mindestens so groß ist wie die wahre,
+  unbekannte <code>DD_conf</code>-Grenze (z.B. 0,7).</li>
+</ul>
+<p>Also: <em>„Mit 70 % Sicherheit liegt die Grenze, die zu 90 % nicht überschritten wird, bei höchstens
+69 %."</em> Eine Grenze für eine Grenze. Faustregel des Autors: bei extremen <code>DD_conf</code> (0,99 / 0,999)
+<code>Bound_conf</code> anheben, bei Routine-Drawdowns (0,9) reichen 0,7.</p>
+<p>Wichtig zur Auslegung: die Grenze gilt für <strong>einen im Voraus festgelegten Zeitraum</strong> (typisch das
+kommende Jahr) und nur für Equity-Veränderungen <em>innerhalb</em> dieses Zeitraums — nicht für „jemals"
+und nicht für die Fortsetzung eines laufenden Drawdowns.</p>
+<p>Der Drawdown wird in Prozent ausgedrückt über <code>100·(1 − exp(−dd))</code>, weil die Returns Log-Größen
+sind.</p>
+<h2 id="wie-schlimm-der-fehler-ist-drawdown-experimente-gewinnwahrscheinlichkeit-06">Wie schlimm der Fehler ist (DRAWDOWN-Experimente, Gewinnwahrscheinlichkeit 0,6)</h2>
+<p>Jede Zelle: Faktor, um den die <strong>tatsächliche</strong> Verletzungsrate die angenommene übersteigt.
+1,0 wäre perfekt; &gt; 1,0 ist gefährlich (Drawdown tritt öfter ein als gedacht), &lt; 1,0 nur
+konservativ.</p>
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>OOS</th>
+<th>DD-Periode</th>
+<th>naiv</th>
+<th>korrekt (0,5)</th>
+<th>korrekt (0,6)</th>
+<th>korrekt (0,8)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0,001</td>
+<td>63</td>
+<td>63</td>
+<td><strong>13,65</strong></td>
+<td>4,49</td>
+<td>3,42</td>
+<td>1,64</td>
+</tr>
+<tr>
+<td>0,01</td>
+<td>63</td>
+<td>63</td>
+<td>4,29</td>
+<td>1,74</td>
+<td>1,37</td>
+<td>0,71</td>
+</tr>
+<tr>
+<td>0,05</td>
+<td>63</td>
+<td>63</td>
+<td>2,16</td>
+<td>2,15</td>
+<td>1,65</td>
+<td>0,85</td>
+</tr>
+<tr>
+<td>0,10</td>
+<td>63</td>
+<td>63</td>
+<td>1,66</td>
+<td>1,66</td>
+<td>1,31</td>
+<td>0,72</td>
+</tr>
+<tr>
+<td>0,001</td>
+<td>252</td>
+<td>252</td>
+<td>5,84</td>
+<td>1,81</td>
+<td>1,35</td>
+<td>0,59</td>
+</tr>
+<tr>
+<td>0,01</td>
+<td>252</td>
+<td>252</td>
+<td>2,55</td>
+<td>1,02</td>
+<td>0,80</td>
+<td>0,41</td>
+</tr>
+<tr>
+<td>0,05</td>
+<td>252</td>
+<td>252</td>
+<td>1,62</td>
+<td>1,62</td>
+<td>1,26</td>
+<td>0,64</td>
+</tr>
+<tr>
+<td>0,10</td>
+<td>252</td>
+<td>252</td>
+<td>1,36</td>
+<td>1,37</td>
+<td>1,10</td>
+<td>0,61</td>
+</tr>
+<tr>
+<td>0,001</td>
+<td>2520</td>
+<td>252</td>
+<td>1,54</td>
+<td>0,79</td>
+<td>0,68</td>
+<td>0,45</td>
+</tr>
+<tr>
+<td>0,01</td>
+<td>2520</td>
+<td>252</td>
+<td>1,16</td>
+<td>0,76</td>
+<td>0,68</td>
+<td>0,51</td>
+</tr>
+<tr>
+<td>0,05</td>
+<td>2520</td>
+<td>252</td>
+<td>1,06</td>
+<td>1,06</td>
+<td>0,95</td>
+<td>0,72</td>
+</tr>
+<tr>
+<td>0,10</td>
+<td>2520</td>
+<td>252</td>
+<td>1,04</td>
+<td>1,03</td>
+<td>0,94</td>
+<td>0,75</td>
+</tr>
+</tbody>
+</table>
+<p>Ablesbar:</p>
+<ul>
+<li>Der naive Bootstrap <strong>unterschätzt in jeder einzelnen Zeile</strong> die Verletzungsrate — nie
+  konservativ.</li>
+<li>Mit 63 OOS-Returns und p=0,001 unterschätzt er Katastrophen-Drawdowns um <strong>Faktor 13,65</strong>.</li>
+<li>Mit 2.520 OOS-Returns (10 Jahre Tagesdaten) und moderatem p ist er brauchbar (1,04–1,16) —
+  das ist die einzige Konstellation, in der man ihn (z.B. innerhalb einer Optimierungsschleife,
+  wo der korrekte Doppel-Bootstrap mit ~10⁸ Iterationen zu teuer ist) verantworten kann.</li>
+<li>Der korrekte Algorithmus mit <code>Bound_conf</code>=0,8 ist außer im Extremfall (63/0,001) durchweg
+  konservativ, und zwar ohne übertrieben zu werden (schlechtester Wert 0,41).</li>
+</ul>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<p><code>algo/validate.py</code> liefert bereits Monte-Carlo-Drawdown-Verteilungen aus dem Mischen realer
+Trades — <strong>das ist genau der naive Bootstrap aus Schritt 5 oben.</strong> Bei der aktuellen
+Datenbasis (wenige Dutzend Trades, <code>raw/marktdaten/</code> wächst erst seit August 2026) fällt das in
+die schlechteste Zeile der Tabelle. Die dort berichteten Drawdown-Zahlen sind also <strong>zu
+optimistisch</strong>, und zwar möglicherweise um eine Größenordnung. Das ist vor jeder Kapitalfreigabe
+relevant, siehe Roadmap-Stufe 5/6 in <span class="broken" title="Seite existiert noch nicht">Algo-Trading: Arbeitsstandards</span>.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a><span class="cat">Konzepte</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Grenzen für Einzelrenditen &amp; Drawdown.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

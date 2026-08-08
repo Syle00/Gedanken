@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">82</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">94</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">184</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">185</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -112,10 +112,11 @@
 <li><a href="#2026-08-08-ingest-how-i-develop-trading-strategies-permutation-tests-neurotrader">[2026-08-08] ingest | How I Develop Trading Strategies (Permutation Tests, neurotrader)</a></li>
 <li><a href="#2026-08-08-ingest-zwei-weitere-algo-methodology-quellen-kein-trading-content">[2026-08-08] ingest | Zwei weitere algo-methodology-Quellen (kein Trading-Content)</a></li>
 <li><a href="#2026-08-08-ingest-successful-algorithmic-trading-halls-moore-pdf-kein-trading-content">[2026-08-08] ingest | Successful Algorithmic Trading (Halls-Moore, PDF, kein Trading-Content)</a></li>
+<li><a href="#2026-08-08-ingest-testing-and-tuning-market-trading-systems-masters-epub">[2026-08-08] ingest | Testing and Tuning Market Trading Systems (Masters, EPUB)</a></li>
 </ul>
 </div>
 </details>
-  <div class="content"><h1 id="log">Log</h1>
+  <div class="content"><p>﻿# Log</p>
 <p>Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe <span class="broken" title="Seite existiert noch nicht">CLAUDE</span>.</p>
 <h2 id="2026-08-01-setup-llm-wiki-struktur-initialisiert">[2026-08-01] setup | LLM-Wiki-Struktur initialisiert</h2>
 <ul>
@@ -1269,6 +1270,59 @@
   — dieses Projekt löst Datenhaltung (<code>raw/marktdaten/</code>-Dateien) und Backtesting (PyPI-Bibliothek
   <code>backtesting</code>) bereits anders, Reuse-first statt Eigenbau nach Buchvorlage.</li>
 <li>Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).</li>
+</ul>
+<h2 id="2026-08-08-ingest-testing-and-tuning-market-trading-systems-masters-epub">[2026-08-08] ingest | Testing and Tuning Market Trading Systems (Masters, EPUB)</h2>
+<ul>
+<li>Quelle: <code>raw/testing-and-tuning/Testing and Tuning Market Trading Systems.md</code> (663 KB, 9.434
+  Zeilen) + <code>raw/testing-and-tuning/assets/</code> (78 Bilder). Vom Nutzer als EPUB abgelegt
+  (<code>dokumen.pub_testing-and-tuning-...epub</code>); <code>markitdown</code> konnte das EPUB nicht (fiel auf den
+  ZIP-Konverter zurueck und lieferte nur CSS + Dateinamen, null Kapiteltext), deshalb ueber die
+  OPF-Spine mit stdlib <code>zipfile</code> + <code>markdownify</code> konvertiert. Kein ICT/SMC-Material —
+  algo-methodology, und zwar die <strong>Primaerquelle</strong> hinter den beiden bereits am selben Tag aus
+  einem YouTube-Transkript angelegten Seiten <a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a> und
+  <a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a>.</li>
+<li>Seiten erstellt: <code>wiki/sources/Testing and Tuning Market Trading Systems (Source).md</code>,
+  <code>wiki/concepts/Training Bias &amp; Selection Bias.md</code>,
+  <code>wiki/concepts/Walk-Forward Guard Buffer &amp; Varianz-Inflation.md</code>,
+  <code>wiki/concepts/Cross Validation vs. Walk-Forward (Masters).md</code>,
+  <code>wiki/concepts/Nested Walkforward.md</code>,
+  <code>wiki/concepts/CSCV (Combinatorially Symmetric Cross Validation).md</code>,
+  <code>wiki/concepts/Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa).md</code>,
+  <code>wiki/concepts/Grenzen für Einzelrenditen &amp; Drawdown.md</code>,
+  <code>wiki/concepts/Return-Partitionierung (Skill, Trend, Training Bias).md</code>,
+  <code>wiki/concepts/Profit pro Bar vs. pro Trade.md</code>,
+  <code>wiki/concepts/Indikator-Stationarität &amp; Entropie.md</code>,
+  <code>wiki/concepts/Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net).md</code>,
+  <code>wiki/concepts/Differential Evolution &amp; Parameter-Sensitivität.md</code>.</li>
+<li>Seiten aktualisiert: <code>wiki/index.md</code> (11 neue Concepts alphabetisch, eine neue Source unter
+  "Algo-Methodik"), <code>wiki/concepts/Monte Carlo Permutation Test (MCPT).md</code> (Primaerquelle
+  nachgetragen; Multi-Market-Permutation, OOS-only-Permutation, korrekte Bar-Permutation inkl.
+  Inter-Bar-Gap-Falle, <code>preserve_OO</code>), <code>wiki/concepts/Vier-Stufen-Strategieentwicklung (Masters).md</code>
+  (Guard-Buffer-Pflicht in Stufe 3, Verweise auf die neuen Werkzeuge),
+  <code>wiki/concepts/Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive).md</code>
+  (Halls-Moores Vierer-Liste hat eine Luecke: Selection Bias fehlt dort).</li>
+<li>Kernfunde, die den Vault inhaltlich korrigieren oder erweitern:
+  (1) <strong>Selection Bias</strong> war nirgends dokumentiert — ein zurueckgehaltener OOS-Zeitraum reicht
+  nicht, sobald aus mehreren Kandidaten der beste gewaehlt wird; es braucht einen zweiten.
+  (2) <strong>Guard Buffer</strong>: ohne <code>OMIT = min(Lookahead, Lookback) − 1</code> erreicht ein wertloses System
+  auf reinen Random-Walk-Daten einen Median-t-Score von 74,64; ein einziger fehlender Puffer-Bar
+  (8 statt 9) laesst immer noch t=1,88 uebrig.
+  (3) <strong>Trade-basierte Kennzahlen sind fuer Statistik untauglich</strong> — Profit Factor kann auf
+  Trade-Basis unendlich sein, wo er auf Bar-Basis 1,01 betraegt. Betrifft direkt die bisherigen
+  <code>algo/</code>-Reports, die ueber die <code>backtesting</code>-Lib auf Trade-Basis rechnen.
+  (4) <strong>Der naive Drawdown-Bootstrap unterschaetzt Katastrophen-Drawdowns um Faktor 13,65</strong> bei
+  kleiner OOS-Stichprobe — genau das Verfahren, das <code>algo/validate.py</code> heute nutzt.
+  (5) <strong>Cross Validation ist fuer Marktdaten nicht empfohlen</strong> — bestaetigt nachtraeglich, dass
+  <code>algo/validate.py</code> richtig auf Walk-Forward setzt, was bisher nirgends begruendet war.
+  (6) <strong>Return-Partitionierung</strong> (TotalReturn = Skill + Trend + TrainingBias) und die
+  <strong>Selection-Bias-Erweiterung des MCPT</strong> (Solo-P-Wert vs. unbiased P-Wert) ergaenzen den bereits
+  geplanten <code>algo/permutation_test.py</code> um zwei fast gratis mitlaufende Auswertungen.</li>
+<li>Bewusst nicht ingestet: der vollstaendige C++-Code (CDMODEL, DIFF_EV, SVDCMP, BOOT_CONF,
+  CSCV_CORE u.a.) — die Algorithmen stehen als Prosa/Pseudocode auf den Konzeptseiten, die
+  Zeile-fuer-Zeile-Implementierung nicht; ebenso die Herleitungen zu Coordinate Descent und BCa,
+  die im Buch selbst nur referenziert sind. TeX-Formelbilder bleiben in <code>raw/.../assets/</code>.</li>
+<li>Vier Backlog-Punkte in <code>algo/PLAN.md</code> ergaenzt (Bar-Renditen, Guard Buffer, Konfidenz-/
+  Drawdown-Grenzen, Return-Partitionierung).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

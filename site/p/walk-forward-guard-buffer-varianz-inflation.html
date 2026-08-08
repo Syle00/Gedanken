@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Walk-Forward Guard Buffer &amp; Varianz-Inflation — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">94</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">185</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li class="here"><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Walk-Forward Guard Buffer &amp; Varianz-Inflation</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">walk-forward</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#der-allgemeine-walk-forward-algorithmus">Der allgemeine Walk-Forward-Algorithmus</a></li>
+<li><a href="#fehler-1-future-leak-durch-unauffallige-isoos-uberlappung">Fehler 1: Future Leak durch unauffällige IS/OOS-Überlappung</a></li>
+<li><a href="#fehler-2-varianz-inflation-durch-serielle-korrelation-der-oos-trades">Fehler 2: Varianz-Inflation durch serielle Korrelation der OOS-Trades</a></li>
+<li><a href="#die-funf-experimente-random-walk-daten-50000-preise-lookback-100-lookahead-10">Die fünf Experimente (Random-Walk-Daten, 50.000 Preise, Lookback 100, Lookahead 10)</a></li>
+<li><a href="#sonderfall-algorithmische-systeme-mit-unbekanntem-lookahead">Sonderfall: algorithmische Systeme mit unbekanntem Lookahead</a></li>
+<li><a href="#konversion-auf-ein-bar-renditen">Konversion auf Ein-Bar-Renditen</a></li>
+<li><a href="#robustheitstest-gegen-nichtstationaritat">Robustheitstest gegen Nichtstationarität</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="walk-forward-guard-buffer-varianz-inflation">Walk-Forward Guard Buffer &amp; Varianz-Inflation</h1>
+<p>Zwei getrennte Fehler, die im Walk-Forward auftreten, sobald der <strong>Lookahead des Ziels größer
+als eine Bar</strong> ist — und die selbst erfahrene Entwickler laut Masters routinemäßig übersehen.
+Aus <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 5).</p>
+<h2 id="der-allgemeine-walk-forward-algorithmus">Der allgemeine Walk-Forward-Algorithmus</h2>
+<p>Größen, die der Nutzer festlegt:</p>
+<ul>
+<li><code>LOOKBACK</code> — Bars Historie (inkl. aktueller Bar) für die Indikatorberechnung</li>
+<li><code>LOOKAHEAD</code> — Bars in die Zukunft (ohne aktuelle Bar) für das Zielvariable</li>
+<li><code>NTRAIN</code> — Trainingsfälle je Fold (vor dem Abschneiden)</li>
+<li><code>NTEST</code> — Testfälle je OOS-Block</li>
+<li><code>OMIT</code> — abgeschnittene jüngste Trainingsfälle (Guard Buffer)</li>
+<li><code>EXTRA</code> — zusätzlich zu <code>NTEST</code> übersprungene Fälle beim Fold-Vorrücken</li>
+</ul>
+<p>Ablauf: <code>OOS_START</code> setzen → System auf <code>OOS_START−NTRAIN</code> bis <code>OOS_START−OMIT−1</code> trainieren →
+auf <code>OOS_START</code> bis <code>OOS_START+NTEST−1</code> testen und Performance speichern → <code>OOS_START</code> um
+<code>NTEST+EXTRA</code> vorrücken → wiederholen.</p>
+<h2 id="fehler-1-future-leak-durch-unauffallige-isoos-uberlappung">Fehler 1: Future Leak durch unauffällige IS/OOS-Überlappung</h2>
+<p>Indikatoren mit Lookback &gt; 1 sind <strong>seriell korreliert</strong>: bei 50 Bars Lookback teilen zwei
+benachbarte Fälle 49 Bars. Genauso beim Ziel mit Lookahead &gt; 1. Sind <strong>beide</strong> korreliert,
+ähneln die letzten Trainingsfälle den ersten Testfällen — Information über den Testblock leckt
+ins Training.</p>
+<p><strong>Formel:</strong> <code>OMIT = min(LOOKAHEAD, max(LOOKBACK aller Indikatoren)) − 1</code> Fälle am Ende des
+Trainingsblocks streichen.</p>
+<p>Beispiel aus dem Buch: Indikatoren mit Lookbacks 30/40/50, Ziel-Lookahead 80 →
+<code>min(50, 80) − 1 = 49</code> Fälle streichen.</p>
+<p>Beruhigend für die meisten modellbasierten Fälle: ist der Lookahead <strong>genau 1</strong>, ist <code>OMIT = 0</code>
+und es geht nichts verloren.</p>
+<h2 id="fehler-2-varianz-inflation-durch-serielle-korrelation-der-oos-trades">Fehler 2: Varianz-Inflation durch serielle Korrelation der OOS-Trades</h2>
+<p>Auch mit korrektem Guard Buffer sind die OOS-Renditen bei Lookahead &gt; 1 untereinander korreliert
+(überlappende Zukunftsfenster). Das erzeugt <strong>keinen Bias</strong>, aber es bläht die Fehlervarianz auf
+und macht praktisch <strong>alle</strong> Standard-Signifikanztests anti-konservativ: P-Werte werden zu klein,
+Konfidenzintervalle zu eng.</p>
+<p><strong>Lösung:</strong> <code>NTEST = 1</code> und <code>EXTRA = LOOKAHEAD − 1</code> — jede OOS-Bar wird einzeln getestet, dann
+wird um den vollen Lookahead weitergesprungen, sodass die OOS-Fälle keine Kursinformation teilen.
+Nebeneffekt: entspricht dem, was ein realer Trader ohnehin täte (nicht während der Haltedauer
+weiter aufstocken).</p>
+<h2 id="die-funf-experimente-random-walk-daten-50000-preise-lookback-100-lookahead-10">Die fünf Experimente (Random-Walk-Daten, 50.000 Preise, Lookback 100, Lookahead 10)</h2>
+<p>Weil die Preise ein reiner Random Walk sind, <strong>muss</strong> der korrekte Median-t-Score 0 sein und der
+Anteil der Läufe mit p ≤ 0,1 muss 0,1 betragen. Alles darüber ist reiner Bias.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>ntest</th>
+<th>omit</th>
+<th>extra</th>
+<th>Median t</th>
+<th>Anteil p ≤ 0,1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>50</td>
+<td>0</td>
+<td>0</td>
+<td><strong>5,35</strong></td>
+<td>0,920</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td><strong>74,64</strong></td>
+<td>1,000</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>9</td>
+<td>0</td>
+<td>−0,023</td>
+<td>0,314</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td><strong>8</strong></td>
+<td>0</td>
+<td><strong>1,88</strong></td>
+<td>0,588</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>9</td>
+<td>9</td>
+<td>−0,012</td>
+<td><strong>0,101</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Lesarten:</p>
+<ul>
+<li><strong>Experiment 2 ist der Schocker</strong>: das <em>sauberste</em> Setup (nach jeder Bar neu trainieren) ist
+  ohne Guard Buffer das <em>schlechteste</em>, weil die getestete Bar maximal viele Preise mit dem
+  Training teilt. Bei großem Testblock (Exp. 1) verdünnt sich der Leak nach hinten.</li>
+<li><strong>Experiment 4</strong>: ein einziger fehlender Puffer-Bar (8 statt 9) reicht für t=1,88. Es gibt kein
+  „fast genug gepuffert".</li>
+<li><strong>Experiment 3 vs. 5</strong>: Bias ist mit <code>omit</code> allein beseitigt (t≈0), aber der Test hält seinen
+  Signifikanzlevel erst mit <code>extra</code> ein (0,314 → 0,101).</li>
+</ul>
+<h2 id="sonderfall-algorithmische-systeme-mit-unbekanntem-lookahead">Sonderfall: algorithmische Systeme mit unbekanntem Lookahead</h2>
+<p>Bei regelbasierten Systemen („öffne bei X, halte bis Y feuert") ist der Lookahead <strong>unbestimmt</strong> —
+die Position kann 3 oder 1.000 Bars offen bleiben. Dann bestimmt nicht der Lookahead, sondern
+der <strong>Lookback</strong> die Puffergröße. Masters nennt fünf Umgangsweisen für die Trainings-/Test-Grenze:</p>
+<ol>
+<li><strong>Position über die Trainingsgrenze hinaus offen lassen</strong> → <em>katastrophal</em>. Ein am letzten
+   Trainingsbar geöffneter Supertrade zieht die Optimierung an sich, und der erste Testbar öffnet
+   fast denselben Trade mit denselben Zukunftsbars. Massiver Future Leak.</li>
+<li><strong>Position am Trainingsende zwangsschließen (mark-to-market)</strong> → sauber, verzerrt aber die
+   späten Trades gegenüber den frühen.</li>
+<li><strong>Zeitlimit in die Exit-Regel einbauen</strong> (z.B. „max. 20 Bars offen") und um dieses Limit
+   puffern → Masters' Favorit: alle Trades folgen derselben Regel, kein Blick in die Zukunft.
+   Zusatzargument aus seiner Praxis: Systeme verlieren mit wachsendem Abstand zum Entry rapide
+   an Treffsicherheit, ein Zeitlimit reduziert also ohnehin den Zufallsanteil.</li>
+<li><strong>Trades frei weiterlaufen lassen, aber <code>LOOKBACK−1</code> Bars vor Trainingsende keine neuen mehr
+   öffnen</strong> → unverzerrt, schaut aber während des Trainings über die Grenze hinaus. Besser als 3,
+   wenn die Haltedauer prinzipbedingt länger als der Lookback sein muss.</li>
+<li><strong>Auf Ein-Bar-Systeme umbauen</strong> (siehe unten).</li>
+</ol>
+<p><strong>Falle: unbegrenzter Lookback.</strong> Methode 4 ist nur zulässig, wenn der Lookback wirklich
+beschränkt ist. Unbeschränkt wird er z.B. bei exponentieller Glättung/rekursiven Filtern (hängen
+an der gesamten Historie) — oder, viel subtiler, wenn <strong>Handelsentscheidungen von früheren
+Handelsentscheidungen abhängen</strong> („nur öffnen, wenn keine Position offen ist", „nach 4 Verlusten
+einen Monat pausieren"). Dann reicht der Lookback rekursiv bis zum Anfang der Daten zurück.</p>
+<blockquote>
+<p>Relevant für <code>algo/rules.py</code>: das Silver-Bullet-Modell hat ein hartes Ein-Stunden-Fenster und
+damit implizit ein Zeitlimit (Methode 3). <code>algo/signals.py</code>s Ensemble hingegen entscheidet
+teils zustandsabhängig — dort wäre zu prüfen, ob ein unbeschränkter Lookback im Sinne dieser
+Falle vorliegt.</p>
+</blockquote>
+<h2 id="konversion-auf-ein-bar-renditen">Konversion auf Ein-Bar-Renditen</h2>
+<p>Der eleganteste Ausweg: das unbestimmte System in eine Kette von Ein-Bar-Trades umschreiben.
+Pro Bar-Close:</p>
+<pre><code>Wenn keine Position offen:
+    Wenn OpenPosition wahr: Position für die nächste Bar öffnen
+Sonst:
+    Position schließen und die Bar-Rendite dieses Trades protokollieren
+    Wenn ClosePosition falsch: dieselbe Position sofort wieder öffnen
+</code></pre>
+<p>(Schreibt man den Backtest selbst, genügt es, die Mark-to-Market-Rendite jeder Bar zu notieren —
+die Öffnen/Schließen-Gymnastik braucht nur, wer an eine Fremdplattform gebunden ist.)</p>
+<p>Vorteile: <strong>kein Guard Buffer mehr nötig</strong>, unabhängig vom Lookback; feinste Granularität für
+Profit Factor und Drawdown (siehe <a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a>); zwingende Voraussetzung für
+<a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a>. Zusätzlich wird der Übergang vom letzten
+Trainings- in den Testblock trivial: man merkt sich nur die Position am letzten Trainingsbar und
+kann damit nahtlos vom Backtest in den Livebetrieb blenden.</p>
+<h2 id="robustheitstest-gegen-nichtstationaritat">Robustheitstest gegen Nichtstationarität</h2>
+<p>Aus demselben Kapitel, als Nebenprodukt: mehrere Walk-Forwards mit <strong>unterschiedlich langer
+Testperiode</strong> laufen lassen (täglich neu trainieren, dann alle 2 Tage, alle 5 …) und die
+OOS-Performance gegen die Testperiodenlänge plotten. Der Punkt, an dem die Kurve abknickt, sagt,
+wie oft das System nachtrainiert werden muss. Empfindlicher wird der Test, wenn man nur die
+<strong>letzte</strong> Bar jedes Test-Folds bewertet.</p>
+<p>Siehe auch <a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a> (Prüfung <em>vor</em> der Entwicklung) und
+<a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a>.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">9</span></h2><ul><li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a><span class="cat">Konzepte</span></li><li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span class="cat">Konzepte</span></li><li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a><span class="cat">Konzepte</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Walk-Forward Guard Buffer &amp; Varianz-Inflation.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

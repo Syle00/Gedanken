@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">94</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">185</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li class="here"><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">modelle</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#das-modell">Das Modell</a></li>
+<li><a href="#training-coordinate-descent-auf-einem-lambda-pfad">Training: Coordinate Descent auf einem Lambda-Pfad</a></li>
+<li><a href="#beispiel-cd_ma-auf-oex">Beispiel CD_MA auf OEX</a></li>
+<li><a href="#nichtlinearitat-ohne-nichtlineares-modell">Nichtlinearität ohne nichtlineares Modell</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="regularisiertes-lineares-modell-ridge-lasso-elastic-net">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</h1>
+<p>Masters' einzige Modellempfehlung im ganzen Buch — und der Satz, den er als wichtigsten überhaupt
+bezeichnet. Aus <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 3).</p>
+<blockquote>
+<p><em>„If I could leave readers of this book with only one thought, it would be this: the strength
+of your indicators is vastly more important than the strength of the predictive model that
+uses them to signal trades."</em></p>
+</blockquote>
+<p>Die besten Systeme, die er über die Jahre gesehen hat, nutzten ein einfaches lineares Modell mit
+hochwertigen Indikatoren. Marginale Indikatoren durch ein hochmodernes nichtlineares Modell zu
+jagen, in der Hoffnung, es rette die Sache, funktioniert nicht — <em>garbage in, garbage out</em>. Sein
+Vorgehen: <strong>immer</strong> mit einem linearen Modell anfangen, nur bei klarem Vorteil auf ein
+nichtlineares wechseln.</p>
+<p>Vorteile eines linearen Modells: overfittet deutlich seltener; ist interpretierbar (man sieht,
+wie Indikatorwerte zu Entscheidungen werden); trainiert schnell — was entscheidend ist, weil
+<a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a> und
+<a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a> hunderte bis tausende Neutrainings verlangen.</p>
+<h2 id="das-modell">Das Modell</h2>
+<p>Alle Prädiktoren (und das Ziel) auf Mittelwert 0 und Varianz 1 standardisieren, dann ist
+<code>β₀ = 0</code> und es bleibt <code>ŷ = xᵀβ</code>. Minimiert wird nicht der reine Fehler, sondern:</p>
+<pre><code>RegErr = (1/N)·Σ(yᵢ − xᵀβ)² + 2λ·P_α(β)
+P_α(β) = Σ [ (1−α)/2 · βⱼ² + α·|βⱼ| ]
+</code></pre>
+<ul>
+<li><code>λ</code> steuert die <strong>Stärke</strong> der Bestrafung (λ=0 → gewöhnliche Kleinste-Quadrate-Regression).</li>
+<li><code>α</code> steuert die <strong>Art</strong> der Bestrafung:</li>
+<li><code>α = 0</code> → <strong>Ridge Regression</strong>: verteilt bei korrelierten Prädiktoren das Gewicht
+    gleichmäßig auf alle. Bei <code>m</code> perfekt korrelierten Prädiktoren bekommt jeder <code>1/m</code> des
+    Gewichts, das ein einzelner allein bekommen hätte.</li>
+<li><code>α = 1</code> → <strong>Lasso</strong>: wählt aus einer korrelierten Gruppe den nützlichsten aus, gibt ihm
+    großes Gewicht und setzt die übrigen exakt auf null (entfernt sie aus dem Modell).</li>
+<li>dazwischen → <strong>Elastic Net</strong>. Je größer <code>α</code>, desto mehr Nullkoeffizienten.</li>
+</ul>
+<p><strong>Praxiswarnung:</strong> Bei exakt <code>α = 1</code> wird das Training numerisch instabil, sobald zwei
+Prädiktoren perfekt korreliert sind (das Lasso kann sich nicht entscheiden). Deshalb bei
+Lasso-Wunsch <code>α</code> knapp unter 1 setzen.</p>
+<p>Drei Punkte, die gegenüber gewöhnlicher Regression zu verstehen sind:</p>
+<ol>
+<li>Das Ergebnis ist <strong>absichtlich</strong> keine Kleinste-Quadrate-Lösung mehr — der In-Sample-Fehler ist
+   größer. Genau das ist der Zweck: das Modell soll schlechter darin werden, Rauschen zu lernen.</li>
+<li>Gewöhnliche Regression reagiert auf stark korrelierte Prädiktoren katastrophal (riesige
+   positive Koeffizienten, kompensiert durch riesige negative). Die Regularisierung nicht.</li>
+<li>Die Variablenauswahl ist der klassischen Vorwärts-Schrittweisen-Selektion überlegen: dort ist
+   eine einmal aufgenommene Variable für immer drin, und ein Paar A+B, das nur <em>gemeinsam</em> stark
+   ist, wird nie gefunden, wenn ein mittelmäßiges C zuerst gewählt wird. Das regularisierte Modell
+   lässt Variablen kommen und gehen, während sich der Rest verändert.</li>
+</ol>
+<h2 id="training-coordinate-descent-auf-einem-lambda-pfad">Training: Coordinate Descent auf einem Lambda-Pfad</h2>
+<p>Das Kriterium hat unter realistischen Bedingungen genau ein Minimum, also genügt reihum je ein
+Gewicht zu aktualisieren:</p>
+<pre><code>rᵢ        = yᵢ − ŷᵢ                                        (Residuum)
+argumentⱼ = (1/N)·Σ xᵢⱼ·rᵢ + βⱼ
+S(z,g)    = z−g falls z&gt;0 und g&lt;z;  z+g falls z&lt;0 und g&lt;−z;  sonst 0
+β̂ⱼ        = S(argumentⱼ, λα) / (1 + λ(1−α))
+</code></pre>
+<p>Zwei Beschleuniger:</p>
+<ul>
+<li><strong>Active Set.</strong> Einmal auf null gefallene Gewichte bleiben meist null. Also: ein voller Durchlauf,
+  danach nur noch die Nicht-Null-Gewichte, bis Konvergenz; dann ein voller Kontrolldurchlauf.
+  Ändert sich dabei nichts mehr, ist man fertig.</li>
+<li><strong>Covariance Updates.</strong> Bei <code>N ≫ K</code> (Normalfall im Trading) lässt sich <code>argumentⱼ</code> über
+  vorberechnete Kreuzprodukte <code>Xinner</code>/<code>Yinner</code> bilden — die Iteration summiert dann über <code>K</code>
+  statt über <code>N</code> Terme.</li>
+</ul>
+<p><strong>Lambda-Pfad statt Einzelwert.</strong> Es gibt ein kleinstes <code>λ</code>, bei dem alle Gewichte null bleiben
+(<code>max_j |Σ xᵢⱼyᵢ| / N / α</code>). Von dort startet man knapp darunter und senkt <code>λ</code> geometrisch bis auf
+1/1000 des Startwerts, jedes Mal mit <strong>Warm Start</strong> (Fortsetzung von den bisherigen Gewichten).
+Das ist nicht nur stabiler, sondern oft <strong>schneller</strong> als ein einzelner Lauf bei kleinem <code>λ</code> — und
+liefert nebenbei die Tabelle „λ / Anzahl aktiver Prädiktoren / erklärte Varianz" zur manuellen
+Auswahl.</p>
+<p><code>λ</code> selbst wird per Cross Validation optimiert (pro Fold den Pfad durchlaufen, OOS-erklärte
+Varianz je <code>λ</code> über alle Folds aufsummieren, bestes nehmen). Hier ist CV vertretbar, weil es um
+Modellkomplexität geht — siehe <a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a>.</p>
+<h2 id="beispiel-cd_ma-auf-oex">Beispiel CD_MA auf OEX</h2>
+<p>300 Indikatoren aus Moving-Average-Oszillatoren (30 lange × 10 kurze Lookbacks), Ziel: log-Änderung
+zum nächsten Tag, ein Jahr als Testsatz zurückgehalten.</p>
+<ul>
+<li><code>λ=0</code> (keine Regularisierung): maximale In-Sample-Güte (1,63 % der Zielvarianz erklärt),
+  praktisch alle Indikatoren im Modell — und <strong>die schlechteste OOS-Leistung</strong> der drei Läufe.</li>
+<li><code>α=0,1</code> (fast Ridge): In-Sample-Güte fällt, <strong>OOS-Leistung am besten</strong>. Duplizierte Indikatoren
+  bekommen erwartungsgemäß gleiche Gewichte.</li>
+<li><code>α=0,9</code> (fast Lasso): minimiert die Zahl der Indikatoren, wirft dabei nützliche mit weg,
+  OOS-Leistung bricht ein.</li>
+</ul>
+<p>Und ein inhaltlicher Nebenbefund: <strong>alle</strong> Koeffizienten der regularisierten Modelle sind negativ —
+das gefundene System ist ein Mean-Reversion-System, kein Trendfolger.</p>
+<h2 id="nichtlinearitat-ohne-nichtlineares-modell">Nichtlinearität ohne nichtlineares Modell</h2>
+<p>Ein Indikator mit nichtlinearem Bezug zum Ziel ist meist kein Problem — man transformiert ihn.
+Tödlich für ein lineares Modell ist die <strong>nichtlineare Wechselwirkung zwischen</strong> Indikatoren.
+Dafür genügt oft eine Polynomerweiterung niedrigen Grades:</p>
+<ul>
+<li>Grad 2 bei A, B, C → <code>A, B, C, A², B², C², AB, AC, BC</code>. Grad 3 explodiert bereits.</li>
+<li><strong>Zwingend vorher</strong> auf den natürlichen Bereich −1…1 skalieren: <code>2(X−Min)/(Max−Min) − 1</code>.
+  Sonst leiden Genauigkeit und Trainingsstabilität.</li>
+<li>Bei Grad 3 statt <code>X³</code> besser <code>0,5·(5X³ − 3X)</code> verwenden — gleicher Bereich, gleiche
+  Nichtlinearität, aber deutlich geringere Korrelation mit <code>X</code>.</li>
+<li>Über Grad 3 hinaus: lieber gleich ein nichtlineares Modell (oder Legendre-Polynome).</li>
+</ul>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<p><code>algo/</code> ist bisher rein regelbasiert (<code>rules.py</code>, <code>signals.py</code>), es gibt kein prädiktives Modell.
+Diese Seite ist damit <strong>Vorratswissen</strong> für den Fall, dass aus den Detektoren in
+<code>tools/analyze_ohlc.py</code> einmal ein Prädiktorensatz gebaut wird. Die relevante Vorarbeit dafür
+steht auf <a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a> — Masters' Reihenfolge ist eindeutig: erst
+Indikatorqualität, dann Modell.</p>
+<p>In Python entspricht das Modell <code>sklearn.linear_model.ElasticNet</code> bzw. <code>ElasticNetCV</code>; ein
+Eigenbau nach Buchvorlage wäre unnötig.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">2</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

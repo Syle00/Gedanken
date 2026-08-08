@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Return-Partitionierung (Skill, Trend, Training Bias) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">94</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">185</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li class="here"><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Return-Partitionierung (Skill, Trend, Training Bias)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">permutation</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#die-trend-komponente-ist-explizit-berechenbar">Die Trend-Komponente ist explizit berechenbar</a></li>
+<li><a href="#trainingbias-per-permutation-messen">TrainingBias per Permutation messen</a></li>
+<li><a href="#verwandt-mcpt-fur-drei-verschiedene-objekte">Verwandt: MCPT für drei verschiedene Objekte</a></li>
+<li><a href="#mcpt-mit-selection-bias-solo-p-wert-vs-unbiased-p-wert">MCPT mit Selection Bias: Solo-P-Wert vs. unbiased P-Wert</a></li>
+<li><a href="#zwei-beispiellaufe-die-zeigen-wie-stark-markt-und-system-interagieren">Zwei Beispielläufe, die zeigen, wie stark Markt und System interagieren</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="return-partitionierung-skill-trend-training-bias">Return-Partitionierung (Skill, Trend, Training Bias)</h1>
+<p>Zerlegung des In-Sample-Gesamtergebnisses eines optimierten Handelssystems in drei Bestandteile —
+mit Permutationen als Messinstrument. Aus
+<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 7).</p>
+<pre><code>TotalReturn = Skill + Trend + TrainingBias          (7-2)
+</code></pre>
+<ul>
+<li><strong>Skill</strong> — echtes Erkennen wiederholbarer Muster. Bleibt in der Zukunft erhalten.</li>
+<li><strong>Trend</strong> — Gewinn allein daraus, dass das System in einem steigenden Markt überwiegend long
+  ging. Bleibt erhalten, solange der Trend hält.</li>
+<li><strong>TrainingBias</strong> — gelerntes Rauschen. Verschwindet sofort.</li>
+</ul>
+<h2 id="die-trend-komponente-ist-explizit-berechenbar">Die Trend-Komponente ist explizit berechenbar</h2>
+<pre><code>TrendPerReturn = MarketChange / n                   (MarketChange = log(Endpreis) − log(Startpreis))
+Trend = (NumLong − NumShort) · TrendPerReturn       (7-1)
+</code></pre>
+<p>Begründung: In einem Markt mit Aufwärtsdrift hebt der Trend jede Long-Bar im Mittel um
+<code>TrendPerReturn</code> an und drückt jede Short-Bar um denselben Betrag. Ein <strong>Münzwurf-System</strong> mit
+derselben Long/Short-Verteilung würde also genau <code>Trend</code> verdienen, ganz ohne Intelligenz.</p>
+<p>Die philosophische Frage dahinter, die Masters ausdrücklich offen lässt: Ist es Intelligenz, den
+Langfristtrend mitzunehmen — oder ist Intelligenz nur das, was einen Münzwurf schlägt? Die meisten
+Entwickler lassen den Trend unbewusst mitlaufen („go with the flow"). Das Gegenargument ist ein
+Trendwechsel. Wer den Trend herausrechnen will, zieht <code>TrendPerReturn</code> bei der
+<strong>Performancemessung</strong> von jeder Bar-Rendite ab (aber nie bei der Indikatorberechnung).</p>
+<h2 id="trainingbias-per-permutation-messen">TrainingBias per Permutation messen</h2>
+<p>Permutiert man die Kursänderungen und trainiert neu:</p>
+<ul>
+<li><code>TrendPerReturn</code> bleibt identisch (dieselben Änderungen, nur andere Reihenfolge — Start- und
+  Endpreis bleiben gleich, siehe <a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a>).</li>
+<li><code>NumLong</code>/<code>NumShort</code> ändern sich, also ist <code>Trend</code> je Permutation neu zu berechnen.</li>
+<li><code>Skill</code> ist <strong>per Konstruktion null</strong>, weil die Muster zerstört sind.</li>
+</ul>
+<p>Also:</p>
+<pre><code>TrainingBias      = PermutedTotalReturn − Trend                (7-3)
+UnbiasedReturn    = TotalReturn − mean(TrainingBias)           (7-4)
+Skill             = UnbiasedReturn − Trend(original)           (7-5)
+</code></pre>
+<p>Ein einzelner Permutationslauf ist zu verrauscht; erst der Mittelwert über hunderte bis tausende
+Permutationen liefert eine brauchbare <code>TrainingBias</code>-Schätzung. Als Nebenprodukt fällt derselbe
+P-Wert <code>(k+1)/(m+1)</code> an wie beim gewöhnlichen MCPT — man bekommt beides in einer Schleife.</p>
+<p>Kernschleife (aus <code>MCPT_TRN.CPP</code>, gekürzt):</p>
+<pre><code>trend_per_return = (prices[n-1] - prices[max_lookback-1]) / (n - max_lookback)
+prepare_permute(...)
+für irep = 0 … nreps-1:
+    wenn irep &gt; 0: do_permute(...)
+    opt_return = opt_params(...)                      # volle Reoptimierung!
+    trend_component = (nlong - nshort) * trend_per_return
+    wenn irep == 0:  original = opt_return; original_trend = trend_component; count = 1
+    sonst:           mean_training_bias += opt_return - trend_component
+                     wenn opt_return &gt;= original: count += 1
+mean_training_bias /= (nreps - 1)
+unbiased_return = original - mean_training_bias
+skill = unbiased_return - original_trend
+</code></pre>
+<p>Entscheidend: In <strong>jeder</strong> Permutation wird komplett neu optimiert. Sonst misst man nicht den
+Bias des Trainingsprozesses.</p>
+<h2 id="verwandt-mcpt-fur-drei-verschiedene-objekte">Verwandt: MCPT für drei verschiedene Objekte</h2>
+<p>Masters unterscheidet sauber, <em>was</em> eigentlich getestet wird — die Unterscheidung ist auf
+<a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a> bisher nicht ausgeführt:</p>
+<ol>
+<li><strong>Fertig spezifiziertes System</strong> auf OOS-Daten. Permutiert wird <strong>nur</strong> der OOS-Zeitraum. Die
+   Lookback-Bars davor dürfen nicht mitpermutiert werden — sie gehen im Originallauf nicht in die
+   Performance ein, könnten aber (falls ungewöhnlich, z.B. starker Trend) in den OOS-Bereich
+   hineingemischt werden.</li>
+<li><strong>Der Trainingsprozess.</strong> Getestet wird die finale In-Sample-Performance. Hier ist der Test am
+   wertvollsten: ein <em>überangepasstes</em> System findet auch auf permutierten Daten „Muster" und
+   sticht deshalb nicht heraus. Ein zu schwaches System fällt ohnehin früher auf. Masters:
+   <em>„Unless you get a small (0.05 or less) p-value, you should be suspicious."</em></li>
+<li><strong>Die „Model Factory"</strong> — Systemidee + Optimierungsverfahren, bewertet über den gepoolten
+   Walk-Forward-OOS. Hier muss der <strong>erste Trainings-Fold von der Permutation ausgenommen</strong>
+   werden (er taucht im Originallauf nie in einem OOS-Block auf). Masters permutiert ihn separat
+   für sich, hält das aber für nebensächlich. Ebenso offen: alles nach dem ersten Fold in einem
+   Rutsch permutieren (seine Praxis, sucht universelle Muster) oder je Fold getrennt (bewahrt
+   lokale Marktcharakteristik).</li>
+</ol>
+<h2 id="mcpt-mit-selection-bias-solo-p-wert-vs-unbiased-p-wert">MCPT mit Selection Bias: Solo-P-Wert vs. unbiased P-Wert</h2>
+<p>Bei mehreren Konkurrenten (verschiedene Entwickler, oder derselbe Ansatz mit vielen
+Parametersätzen) reicht der P-Wert des Siegers nicht — man hat ihn ja <em>ausgewählt</em>, siehe
+<a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>. Erweiterter Algorithmus:</p>
+<pre><code>für irep = 0 … nreps-1:
+    wenn irep &gt; 0: shuffle
+    für jeden Konkurrenten: Performance berechnen
+        wenn irep == 0: original[k] = perf; solo_count[k] = 1; unbiased_count[k] = 1
+        sonst und perf &gt;= original[k]: solo_count[k] += 1
+    wenn irep &gt; 0:
+        best = max(Performance aller Konkurrenten in dieser Permutation)
+        für jeden Konkurrenten k: wenn best &gt;= original[k]: unbiased_count[k] += 1
+solo_pval[k]     = solo_count[k] / nreps
+unbiased_pval[k] = unbiased_count[k] / nreps
+</code></pre>
+<p>Der <code>unbiased_pval</code> fragt: <em>Wenn alle Konkurrenten wertlos wären — wie wahrscheinlich wäre es,
+dass der </em><em>Beste</em><em> von ihnen so gut abschneidet wie beobachtet?</em> Für den tatsächlichen Sieger ist
+das der exakte P-Wert; für alle anderen ist er konservativ (eine Obergrenze). Deshalb gilt:
+<strong>jeder Konkurrent mit kleinem <code>unbiased_pval</code> verdient ernsthafte Betrachtung.</strong></p>
+<h2 id="zwei-beispiellaufe-die-zeigen-wie-stark-markt-und-system-interagieren">Zwei Beispielläufe, die zeigen, wie stark Markt und System interagieren</h2>
+<p><code>MCPT_TRN</code> (MA-Crossover) und <code>MCPT_BARS</code> (Mean Reversion, konservativ auf Open-zu-Open
+gerechnet) auf OEX bzw. SPX liefern laut Buch drastisch verschiedene Ergebnisse. Bei SPX hat das
+Mean-Reversion-System einen P-Wert von <strong>fast 1,0</strong> (der Markt ist dort ausgeprägt
+<em>anti</em>-mean-reverting), während dasselbe SPX beim Trendfolger <strong>0,001</strong> erreicht — das Minimum
+bei 1.000 Permutationen. Masters' Kommentar dazu: „But wow. I mean, wow."</p>
+<p>Direkte Lehre für dieses Projekt: <strong>derselbe Test auf zwei ähnlich zusammengesetzten Indizes kann
+gegensätzlich ausfallen.</strong> Backtest-Ergebnisse aus <code>raw/marktdaten/</code> für MNQ lassen sich nicht auf
+ES übertragen, auch wenn beide US-Indexfutures sind.</p>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<p>Direkt umsetzbar, sobald <code>algo/permutation_test.py</code> existiert (offener Backlog-Punkt in
+<code>algo/PLAN.md</code>): Die Partitionierung kostet neben dem ohnehin geplanten MCPT nur das Mitzählen
+von Long-/Short-Bars. Sie beantwortet genau die Frage, die bei den bisherigen <code>algo/</code>-Backtests
+offen bleibt — wie viel eines Ergebnisses schlicht daran liegt, dass MNQ im Datenzeitraum
+gestiegen ist.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Return-Partitionierung (Skill, Trend, Training Bias).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

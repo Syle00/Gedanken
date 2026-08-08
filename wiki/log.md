@@ -1,4 +1,4 @@
-# Log
+﻿# Log
 
 Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[../CLAUDE.md]].
 
@@ -1087,3 +1087,55 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   — dieses Projekt löst Datenhaltung (`raw/marktdaten/`-Dateien) und Backtesting (PyPI-Bibliothek
   `backtesting`) bereits anders, Reuse-first statt Eigenbau nach Buchvorlage.
 - Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-08] ingest | Testing and Tuning Market Trading Systems (Masters, EPUB)
+- Quelle: `raw/testing-and-tuning/Testing and Tuning Market Trading Systems.md` (663 KB, 9.434
+  Zeilen) + `raw/testing-and-tuning/assets/` (78 Bilder). Vom Nutzer als EPUB abgelegt
+  (`dokumen.pub_testing-and-tuning-...epub`); `markitdown` konnte das EPUB nicht (fiel auf den
+  ZIP-Konverter zurueck und lieferte nur CSS + Dateinamen, null Kapiteltext), deshalb ueber die
+  OPF-Spine mit stdlib `zipfile` + `markdownify` konvertiert. Kein ICT/SMC-Material —
+  algo-methodology, und zwar die **Primaerquelle** hinter den beiden bereits am selben Tag aus
+  einem YouTube-Transkript angelegten Seiten [[Vier-Stufen-Strategieentwicklung (Masters)]] und
+  [[Monte Carlo Permutation Test (MCPT)]].
+- Seiten erstellt: `wiki/sources/Testing and Tuning Market Trading Systems (Source).md`,
+  `wiki/concepts/Training Bias & Selection Bias.md`,
+  `wiki/concepts/Walk-Forward Guard Buffer & Varianz-Inflation.md`,
+  `wiki/concepts/Cross Validation vs. Walk-Forward (Masters).md`,
+  `wiki/concepts/Nested Walkforward.md`,
+  `wiki/concepts/CSCV (Combinatorially Symmetric Cross Validation).md`,
+  `wiki/concepts/Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa).md`,
+  `wiki/concepts/Grenzen für Einzelrenditen & Drawdown.md`,
+  `wiki/concepts/Return-Partitionierung (Skill, Trend, Training Bias).md`,
+  `wiki/concepts/Profit pro Bar vs. pro Trade.md`,
+  `wiki/concepts/Indikator-Stationarität & Entropie.md`,
+  `wiki/concepts/Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net).md`,
+  `wiki/concepts/Differential Evolution & Parameter-Sensitivität.md`.
+- Seiten aktualisiert: `wiki/index.md` (11 neue Concepts alphabetisch, eine neue Source unter
+  "Algo-Methodik"), `wiki/concepts/Monte Carlo Permutation Test (MCPT).md` (Primaerquelle
+  nachgetragen; Multi-Market-Permutation, OOS-only-Permutation, korrekte Bar-Permutation inkl.
+  Inter-Bar-Gap-Falle, `preserve_OO`), `wiki/concepts/Vier-Stufen-Strategieentwicklung (Masters).md`
+  (Guard-Buffer-Pflicht in Stufe 3, Verweise auf die neuen Werkzeuge),
+  `wiki/concepts/Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive).md`
+  (Halls-Moores Vierer-Liste hat eine Luecke: Selection Bias fehlt dort).
+- Kernfunde, die den Vault inhaltlich korrigieren oder erweitern:
+  (1) **Selection Bias** war nirgends dokumentiert — ein zurueckgehaltener OOS-Zeitraum reicht
+  nicht, sobald aus mehreren Kandidaten der beste gewaehlt wird; es braucht einen zweiten.
+  (2) **Guard Buffer**: ohne `OMIT = min(Lookahead, Lookback) − 1` erreicht ein wertloses System
+  auf reinen Random-Walk-Daten einen Median-t-Score von 74,64; ein einziger fehlender Puffer-Bar
+  (8 statt 9) laesst immer noch t=1,88 uebrig.
+  (3) **Trade-basierte Kennzahlen sind fuer Statistik untauglich** — Profit Factor kann auf
+  Trade-Basis unendlich sein, wo er auf Bar-Basis 1,01 betraegt. Betrifft direkt die bisherigen
+  `algo/`-Reports, die ueber die `backtesting`-Lib auf Trade-Basis rechnen.
+  (4) **Der naive Drawdown-Bootstrap unterschaetzt Katastrophen-Drawdowns um Faktor 13,65** bei
+  kleiner OOS-Stichprobe — genau das Verfahren, das `algo/validate.py` heute nutzt.
+  (5) **Cross Validation ist fuer Marktdaten nicht empfohlen** — bestaetigt nachtraeglich, dass
+  `algo/validate.py` richtig auf Walk-Forward setzt, was bisher nirgends begruendet war.
+  (6) **Return-Partitionierung** (TotalReturn = Skill + Trend + TrainingBias) und die
+  **Selection-Bias-Erweiterung des MCPT** (Solo-P-Wert vs. unbiased P-Wert) ergaenzen den bereits
+  geplanten `algo/permutation_test.py` um zwei fast gratis mitlaufende Auswertungen.
+- Bewusst nicht ingestet: der vollstaendige C++-Code (CDMODEL, DIFF_EV, SVDCMP, BOOT_CONF,
+  CSCV_CORE u.a.) — die Algorithmen stehen als Prosa/Pseudocode auf den Konzeptseiten, die
+  Zeile-fuer-Zeile-Implementierung nicht; ebenso die Herleitungen zu Coordinate Descent und BCa,
+  die im Buch selbst nur referenziert sind. TeX-Formelbilder bleiben in `raw/.../assets/`.
+- Vier Backlog-Punkte in `algo/PLAN.md` ergaenzt (Bar-Renditen, Guard Buffer, Konfidenz-/
+  Drawdown-Grenzen, Return-Partitionierung).

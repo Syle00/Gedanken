@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">94</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">185</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li class="here"><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo-methodology</span> <span class="tag">validation</span> <span class="tag">statistik</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#was-zuerst-geklart-sein-muss">Was zuerst geklärt sein muss</a></li>
+<li><a href="#weg-1-parametrisch-student-t">Weg 1: parametrisch (Student-t)</a></li>
+<li><a href="#weg-2-bootstrap">Weg 2: Bootstrap</a></li>
+<li><a href="#warnung-verhaltniskennzahlen-bootstrappen-schlecht">Warnung: Verhältniskennzahlen bootstrappen schlecht</a></li>
+<li><a href="#was-das-an-einem-echten-beispiel-bedeutet">Was das an einem echten Beispiel bedeutet</a></li>
+<li><a href="#voraussetzung-die-richtige-rendite-sorte">Voraussetzung: die richtige Rendite-Sorte</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="konfidenzgrenzen-fur-renditen-t-test-bootstrap-bca">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</h1>
+<p>Wie man aus einer Sammlung von OOS-Renditen eine <strong>Untergrenze für die wahre mittlere Rendite</strong>
+ableitet — die Zahl, um die künftige Renditen streuen werden. Aus
+<a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a> (Kap. 6).</p>
+<p>Kernargument: ein guter Backtest-Mittelwert reicht nicht. Bei genug Bars findet jeder
+Hypothesentest auch den winzigsten echten Edge — eine statistisch gesicherte Rendite von 0,5 %
+p.a. will trotzdem niemand handeln. Also braucht man nicht „ist der Edge echt?", sondern „wie
+klein könnte er sein?".</p>
+<h2 id="was-zuerst-geklart-sein-muss">Was zuerst geklärt sein muss</h2>
+<p>Ein P-Wert sagt: <em>falls</em> das System wertlos ist, wie wahrscheinlich wäre ein so gutes Ergebnis
+durch Glück. Er sagt <strong>nicht</strong>, wie wahrscheinlich es ist, dass das System wertlos ist. Masters'
+Hunde-Analogie dazu: 1 % aller Hunde haben weniger als vier Beine, also ist ein Zweibeiner
+wahrscheinlich kein Hund — außer der Anrufer kommt aus einem Hundeheim und ruft <em>nur</em> wegen
+Hunden an, dann liegt man jedes Mal falsch. Der P-Wert ist bedingt und sagt nichts über die
+Grundgesamtheit der geprüften Systeme.</p>
+<p>Ebenso: ein <em>nicht</em> kleiner P-Wert erlaubt <strong>nie</strong> den Schluss, das System sei wertlos. Vielleicht
+wurde nur zu wenig getestet.</p>
+<h2 id="weg-1-parametrisch-student-t">Weg 1: parametrisch (Student-t)</h2>
+<p>Mit <code>Mean</code> und <code>StdDev</code> der <code>n</code> OOS-Renditen:</p>
+<ul>
+<li>t-Score unter H₀ (wahrer Mittelwert = 0): <code>t = √n · Mean / StdDev</code></li>
+<li>P-Wert: <code>1 − CDF_t(n−1, t)</code></li>
+<li><strong>Untergrenze</strong> bei Konfidenz <code>p</code>: <code>LowerBound = Mean − StdDev · t_p / √n</code>
+  mit <code>t_p = InvCDF_t(n−1, p)</code></li>
+</ul>
+<p>Praktische Abkürzung, die Masters betont: <strong>die Nullhypothese wird genau dann verworfen, wenn
+die Untergrenze positiv ist.</strong> Man braucht also gar keinen separaten Hypothesentest — es genügt,
+die Untergrenze zu berechnen.</p>
+<p>Beispielrechnung: n=100, Mean=8, StdDev=5, p=0,95 → <code>t_p ≈ 1,66</code> →
+<code>8 − 5·1,66/√100 = 7,17</code>.</p>
+<p>Für ein beidseitiges Intervall muss die Fehlerwahrscheinlichkeit gesplittet werden (90 %-Intervall
+= je 5 % oben und unten, also p=0,95 für <strong>beide</strong> Grenzen).</p>
+<p><strong>Die eine Bedingung:</strong> der t-Test ist robust gegen moderate Schiefe und mäßig schwere
+Verteilungsenden, aber <strong>ein einziger wilder Ausreißer macht ihn wertlos</strong>. Liegen die Renditen
+zwischen −5 und +5 und eine bei 50, ist die Zahl Müll. Deshalb: <strong>vor jedem t-Test ein Histogramm
+der Renditen ansehen.</strong></p>
+<h2 id="weg-2-bootstrap">Weg 2: Bootstrap</h2>
+<p>Grundidee (Efron): die eigene OOS-Stichprobe so behandeln, als wäre sie die Grundgesamtheit, und
+daraus mit Zurücklegen tausende Stichproben gleicher Größe ziehen. Die Streuung der daraus
+berechneten Kennzahlen schätzt die Streuung, der die Originalstichprobe selbst unterlag.</p>
+<p>Drei Verfahren:</p>
+<ul>
+<li><strong>Pivot-Methode</strong> — intuitiv (die Verzerrung Sample→Bootsample wird auf Population→Sample
+  übertragen), in Masters' Tests aber durchweg <strong>die schlechteste</strong>. Grenzen entstehen aus den
+  Perzentil-Grenzen: <code>PivotLower = 2·Param − PctileUpper</code>.</li>
+<li><strong>Perzentil-Methode</strong> — schlicht: das 5. Perzentil der Bootstrap-Verteilung ist die 95 %-
+  Untergrenze. Funktioniert überraschend oft gut. Kurios: Pivot und Perzentil liefern spiegelbildliche
+  Intervalle.</li>
+<li><strong>BCa</strong> („bias corrected and accelerated") — Masters' Empfehlung. Vier Schritte:
+  1. <strong>Bias-Korrektur</strong> <code>z₀ = Φ⁻¹( #[θ̂ᵇ &lt; θ̂] / B )</code> — wie viele Bootstrap-Schätzungen unter
+     der Originalschätzung liegen.
+  2. <strong>Acceleration</strong> <code>â</code> über ein Jackknife (jeden Fall einmal weglassen, Kennzahl neu rechnen);
+     <code>â = Σ(θ̄₍·₎−θ̂₍ᵢ₎)³ / (6·[Σ(θ̄₍·₎−θ̂₍ᵢ₎)²]^{3/2})</code>.
+  3. Fraktilpunkte verschieben:
+     <code>α' = Φ( z₀ + (z₀ + Φ⁻¹(α)) / (1 − â·(z₀ + Φ⁻¹(α))) )</code>.
+  4. Aus den sortierten Bootstrap-Werten die verschobenen Fraktile ziehen (<code>k = α'(B+1)</code>,
+     abgerundet; obere Grenze bei Element <code>B+1−k</code>).</li>
+</ul>
+<p>Sind <code>z₀</code> und <code>â</code> beide null, ist BCa identisch mit der Perzentil-Methode.</p>
+<p><code>nboot = 10.000</code> nennt Masters als vernünftige Mindestgröße.</p>
+<h2 id="warnung-verhaltniskennzahlen-bootstrappen-schlecht">Warnung: Verhältniskennzahlen bootstrappen schlecht</h2>
+<p>Sharpe Ratio und Profit Factor haben einen Nenner, der klein werden kann — und dann explodiert
+die Kennzahl. Masters' <code>BOOT_RATIO</code>-Experiment (Systeme mit Gewinnwahrscheinlichkeit 0,5, also
+wertlos) zeigt:</p>
+<ul>
+<li>Die Pivot-Methode versagt am deutlichsten: bei 50 Trades und 2,5 % Sollfehlerrate wird die
+  Profit-Factor-<strong>Untergrenze nie</strong> verletzt (also unbrauchbar niedrig), während die Obergrenze
+  fast <strong>viermal so oft</strong> verletzt wird wie erlaubt.</li>
+<li>Profit Factor verhält sich schlechter als Sharpe.</li>
+<li><strong>Lösung: den Logarithmus des Profit Factors bootstrappen</strong>, nicht den Profit Factor selbst.
+  Das zähmt das rechte Verteilungsende, und die Untergrenze — die einzige, die interessiert —
+  wird deutlich zuverlässiger. Verallgemeinert: bei schwerem Verteilungsende immer erst
+  transformieren.</li>
+</ul>
+<h2 id="was-das-an-einem-echten-beispiel-bedeutet">Was das an einem echten Beispiel bedeutet</h2>
+<p><code>BOUND_MEAN</code> auf SPX, 23.557 Tage, MA-Breakout, Walk-Forward mit 1.000 Trainings-/100 Testbars:
+Die annualisierte mittlere Rendite über Bars mit offener Position beträgt <strong>9,91 %</strong> — isoliert
+betrachtet beeindruckend. Der zugehörige t-Test-P-Wert liegt bei <strong>0,1000</strong>, und die
+90 %-Untergrenze für den wahren Mittelwert ist <strong>−0,0022</strong>, also negativ. Alle drei
+Bootstrap-Varianten liefern ähnlich ernüchternde Grenzen.</p>
+<blockquote>
+<p>Genau darum geht es auf dieser Seite: eine zweistellige Backtest-Rendite kann eine
+Untergrenze unter null haben. Für <code>algo/</code> heißt das, dass Reports wie
+<a href="../p/ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend.html">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</a> neben Profit
+Factor und Return eine Untergrenze ausweisen sollten — sonst fehlt die Information, ob die
+Zahl überhaupt von null unterscheidbar ist.</p>
+</blockquote>
+<h2 id="voraussetzung-die-richtige-rendite-sorte">Voraussetzung: die richtige Rendite-Sorte</h2>
+<p>Alle Verfahren hier setzen <strong>unabhängige</strong> Beobachtungen voraus. Welche Renditen man dafür
+nimmt, ist keine Nebensache — siehe <a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a> und, für die
+Unabhängigkeit, <a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a>. Masters' Favorit ist die
+<strong>mittlere Bar-Rendite über Bars mit offener Position</strong>.</p>
+<p>Für Grenzen um <strong>einzelne</strong> künftige Renditen statt um deren Mittelwert siehe
+<a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a>.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a><span class="cat">Konzepte</span></li><li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

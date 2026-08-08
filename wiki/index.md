@@ -13,6 +13,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Algorithmic Time & Price Grid]] — Preis-Achse (Octant/Quadrant) × Zeit-Achse (Macro-Startzeiten); PD Array am Kreuzungspunkt = höchste Bestätigung, fraktale Wiederholung (2026-08-05)
 - [[Buy & Sell Program]] — Zwei Kriterien, an denen ein Buy-/Sell-Programm erkannt wird; visuelle Signatur ergänzt (2026-08-05)
 - [[Dealing Range]] — Premium/Discount-Rahmen; je mehr Timeframes übereinstimmen, desto besser (2026-08-02)
+- [[Differential Evolution & Parameter-Sensitivität]] — globaler Optimierer mit Hill-Climbing-Beimischung + Pflichtprüfung der Sensitivitätskurven (breiter Gipfel vs. schmale Spitze); algo-methodology (2026-08-08)
 - [[Directional Change & Hierarchische Marktstruktur]] — ATR-adaptive Swing-Erkennung + rekursive Hochstufung zu Signifikanz-Levels; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Drei-Ebenen-Marktperspektive]] — Big Picture/Intermediate/Short-Term-Framework, 7 Kriterien für ein High-Reward-Setup (2026-08-06)
 - [[Elemente eines Trade-Setups (4 Preis-Zustände)]] — Expansion/Retracement/Reversal/Consolidation ↔ je ein ICT-Tool, strikte Übergangsregel (2026-08-06)
@@ -28,6 +29,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Chain of Custody (Q-Validation)]] — Q-Level validieren PD Arrays entlang der antizipierten Dealing Range (2026-08-01)
 - [[CISD (Change in State of Delivery)]] — Down-/Up-Close-Candles als struktureller Support/Resistance (2026-08-01)
 - [[COT (Commitment of Traders) Data]] — Positionierungsdaten großer Player, 12-Monats-Hedging-Methode (2026-08-01)
+- [[Cross Validation vs. Walk-Forward (Masters)]] — warum CV bei Marktdaten pessimistisch *und* optimistisch verzerrt ist und nicht empfohlen wird; Ausnahme CV-in-Walk-Forward; algo-methodology (2026-08-08)
+- [[CSCV (Combinatorially Symmetric Cross Validation)]] — Dominanz-Test: schlägt der IS-beste Parametersatz OOS den Median seiner Konkurrenten? algo-methodology (2026-08-08)
 - [[Daily High & Low Projektion (Konvergenz)]] — Fib-0,5-Extension, 3-Tage-Wick-Projektion und Fulcrum Point kombiniert für High-Probability-Daily-Extreme (2026-08-05)
 - [[Double Top & Bottom (Algorithmische Range-Projektion)]] — Measured-Move-Projektion über die Range zwischen zwei Peaks/Tälern hinaus, Extreme statt Mitte = hohe Wahrscheinlichkeit (2026-08-06)
 - [[DXY Correlation (Risk On_Off)]] — Risk-On/Risk-Off-Faustregel über den Dollar Index (2026-08-02)
@@ -37,16 +40,19 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[External vs. Internal Range Liquidity]] — Entry an Internal (OB/FVG in der Range), Exit an External (Stops außerhalb) (2026-08-06)
 - [[Fair Value Gap (FVG)]] — Preiszone ohne Trading zwischen zwei Candles (2026-08-06)
 - [[FOMC (Federal Open Market Committee)]] — US-Zinsgremium, häufigster News-Katalysator in Weekly-Profilen (2026-08-01)
+- [[Grenzen für Einzelrenditen & Drawdown]] — empirische Quantilgrenzen zur Live-Überwachung + Doppel-Bootstrap für Drawdown (der naive Bootstrap unterschätzt Katastrophen um Faktor 13,65); algo-methodology (2026-08-08)
 - [[ICT Daily Range Session Timing]] — Session-Ablauf, der die Daily Range formt (2026-08-01)
 - [[ICT Killzones]] — Die vier Handelsfenster mit idealen Paaren und Pip-Erwartung (2026-08-02)
 - [[ICT Macros & Leading Candles]] — Session-Zeitfenster mit auffälligen Referenz-Candles, auch als Reversal-Check für laufende Positionen nutzbar (2026-08-01, erg. 2026-08-07)
 - [[IFVG (Inverse Fair Value Gap)]] — FVG, das nach Durchhandeln die Polarität wechselt (2026-08-01)
+- [[Indikator-Stationarität & Entropie]] — STATN-Gap-Analyse gegen langsames Wandern, relative Entropie ≥ 0,5, monotones Tail-Cleaning; algo-methodology (2026-08-08)
 - [[Institutional Order Flow (Body vs Wick)]] — Volumen steckt in Candle Bodys, nicht Wicks; "Mohawk"-Wick-Toleranzregel jetzt auch für BISI/SIBI-Range-Grenzen (2026-08-01, erg. 2026-08-07)
 - [[Institutional Sponsorship]] — Smart Money schützt einen High-Probability-Price-Swing (2026-08-01)
 - [[Intermarket Relationships]] — Bonds/Stocks/Commodities/Currencies-Korrelationsregeln (2026-08-01)
 - [[IPDA Data Ranges]] — 20/40/60-Tage-Lookback des Interbank Price Delivery Algorithmus (2026-08-01)
 - [[Judas Swing]] — Der False Run zwischen 0:00 und 5:00 NY, bullishe/bearishe Ausführung (2026-08-02)
 - [[Kelly-Criterion & Value-at-Risk (Money Management)]] — quantitative Hebel-/Verlustschätzung, Ergänzung zur festen 1%-Regel; algo-methodology, kein ICT-Konzept (2026-08-08)
+- [[Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)]] — Untergrenze für die wahre mittlere Rendite; SPX-Beispiel: 9,91 % Backtest-Rendite mit Untergrenze −0,0022; algo-methodology (2026-08-08)
 - [[Liquidity Void]] — LTF-Erscheinung eines FVG, einseitige Preislieferung, Common-Gap-Präzisions-Entry (2026-08-06)
 - [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD (2026-08-01)
 - [[Market Maker Trap - False Breakout]] — false breakouts neutralisieren gezielt eine Seite gebracketer Stops, seriell wiederholend (2026-08-06)
@@ -61,6 +67,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Modell 22]] — 2026er Turtle-Soup-Trigger über MSS+SIBI, linkes-IFVG-Regel (2026-08-01)
 - [[Momentum-Divergenz als Retail-Falle (Divergence Phantoms)]] — Typ-1- vs. Typ-2-Divergenz, Smart Money nutzt Retail-Divergenz-Signale zum Stop-Run, Abgrenzung zu SMT (2026-08-06)
 - [[Monte Carlo Permutation Test (MCPT)]] — Bar-Permutation zerstört Muster statistik-erhaltend, P-Wert prüft Data-Mining-Bias einer Strategie; algo-methodology, kein ICT-Konzept (2026-08-08)
+- [[Nested Walkforward]] — Walk-Forward in Walk-Forward, nötig sobald laufend zwischen Systemen/Kriterien ausgewählt wird; S&P-100-Beispiel 19,12 % p.a. bei p=0,027; algo-methodology (2026-08-08)
 - [[New Week Opening Gap (NWOG) Bias]] — Wöchentliche Bias-Regel + Intraweek-Reversal-Muster (2026-08-01)
 - [[Open Float & Liquidity Pools]] — Wo liegen die Stops der großen Funds, OI-Bestätigung (2026-08-01)
 - [[Optimal Trade Entry (OTE)]] — Retracement-Entry 62/70,5/79 % mit Targets und protectetem SL (2026-08-02)
@@ -69,10 +76,13 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Partial Profit-Taking & R-Multiple-Skalierung]] — erstes Partial bei 3:1 sichern, Rest bis 9–15R laufen lassen (2026-08-06)
 - [[PD Array]] — Premium/Discount-Array, Grundbaustein jedes ICT-Setups (2026-08-01)
 - [[Premium vs. Carrying Charge Market]] — Futures-Kurven-Analyse (Contango/Backwardation) (2026-08-01)
+- [[Profit pro Bar vs. pro Trade]] — warum Kennzahlen auf Trade-Basis unbrauchbar sind (Profit Factor ∞ statt 1,01), Ein-Bar-Konversion; algo-methodology (2026-08-08)
 - [[Propulsion Block]] — OB-Variante: zweite Down-/Up-Candle in bereits validierten OB, Mean Threshold quasi nie verletzt (2026-08-06)
 - [[Quarterly Shift]] — Alle 3–4 Monate markanter Liquidity-Shift, Underlying/Benchmark (2026-08-01)
 - [[Reclaimed Order Block]] — OB-Variante im MMXM-Modell nach Displacement+Retracement (2026-08-01)
+- [[Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)]] — Coordinate Descent über einen Lambda-Pfad; „Indikatorqualität schlägt Modellkomplexität"; algo-methodology (2026-08-08)
 - [[Rejection Block]] — OB-Variante über Wick-vs-Body-Liquidity-Sweep (2026-08-01)
+- [[Return-Partitionierung (Skill, Trend, Training Bias)]] — Zerlegung des Backtest-Ergebnisses per Permutation: wie viel ist Können, wie viel Markttrend, wie viel gelerntes Rauschen; algo-methodology (2026-08-08)
 - [[Risikomanagement (1% pro Trade)]] — eigene Positionsgrößen-Regel: nie mehr als 1% Kontoguthaben Risiko pro Trade; jetzt auch als ICT-Quellenregel bestätigt (2026-08-06)
 - [[Risiko-Verfeinerung über Timeframes]] — HTF-Level auf tiefere Timeframes umgeframed, Stop schrumpft ohne Zielverlust (2026-08-06)
 - [[Rule Significance Test (RST)]] — Signifikanztest nur der Entry-Regel, vor Sizing/Stop/Ziel; algo-methodology, kein ICT-Konzept (2026-08-08)
@@ -83,12 +93,14 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Suspension Block]] — FVG mit VII auf beiden Seiten, eine der stärksten PD Arrays (2026-08-03)
 - [[TGIF (Thank God its Friday)]] — Freitags-Retracement 20–30 % in die Weekly Range als Draw on Liquidity, 3 Voraussetzungen, Weekly Po3 (2026-08-02)
 - [[Trading All Time Highs (ATH)]] — Continuation-Checkliste am ATH und die 3 Stages, an denen Smart Money oben verkauft (2026-08-02)
+- [[Training Bias & Selection Bias]] — zwei getrennte Verzerrungen: die Auswahl des besten Systems macht eine unverzerrte OOS-Zahl im selben Moment verzerrt; algo-methodology (2026-08-08)
 - [[Trendline Phantoms (3 Drives Pattern)]] — Retail-Trendline-Falle, 3-Drives-Angriffsziel (2026-08-01)
 - [[Turtle Soup]] — Fehlausbruch-Setup mit Rückkehr in FVG/Retracement (2026-08-01)
 - [[Two Stage News Delivery (FOMC & NFP)]] — ⚠️ offene Hypothese: News-Reaktion in zwei zeitlich getrennten, teils gegenläufigen Stages statt einer Bewegung, live an NFP 07.08.2026 beobachtet, jetzt primärquellenbestätigt durch ICT selbst (2026-08-07)
 - [[Verlust-Mitigation durch reduzierte Re-Entry-Size]] — nach Stop-out mit halber Size re-entrien, R2 gleicht vollen Verlust aus (2026-08-06)
 - [[Vier-Stufen-Strategieentwicklung (Masters)]] — In-Sample Excellence → In-Sample MCPT → Walk-Forward → Walk-Forward MCPT, generischer Validierungsprozess; algo-methodology (2026-08-08)
 - [[Volume Imbalance (VII)]] — Lücke Close→Open; bestimmt die FVG-Grenzen und ist selbst eine PD Array (2026-08-02)
+- [[Walk-Forward Guard Buffer & Varianz-Inflation]] — `OMIT = min(Lookahead, Lookback) − 1`; ohne Puffer erreicht ein wertloses System auf Random-Walk-Daten t = 74,64; algo-methodology (2026-08-08)
 
 ## Models
 
@@ -288,6 +300,10 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Successful Algorithmic Trading (Source)]] — Halls-Moore-Buch (208 S.): Backtesting-Bias-
   Katalog, Mean-Reversion-Statistik (ADF/Hurst/Kointegration), Kelly/VaR, Event-Driven-Engine
   (2026-08-08)
+- [[Testing and Tuning Market Trading Systems (Source)]] — Masters-Buch (Apress 2018, 7 Kapitel),
+  **Primärquelle** hinter [[Vier-Stufen-Strategieentwicklung (Masters)]] und
+  [[Monte Carlo Permutation Test (MCPT)]]: Guard Buffer, Selection Bias, CSCV, Nested Walkforward,
+  Konfidenz-/Drawdown-Grenzen, Return-Partitionierung (2026-08-08)
 
 ## Synthesis
 
