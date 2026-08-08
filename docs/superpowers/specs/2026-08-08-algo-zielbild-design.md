@@ -6,6 +6,9 @@
 **Revision 2 (2026-08-08):** Gegengeprüft gegen den vollständigen Wiki-Bestand, den ICT Core
 Content und die akademische Literatur. Sieben inhaltliche Korrekturen, vier neue Pflichtbausteine.
 Zielmarkt auf **Forex und CME** erweitert (Nutzerentscheidung).
+**Revision 3 (2026-08-08):** Quantitatives Fundament ergänzt (Abschnitt 12) — Volatilitätsschätzung
+aus OHLC, Volatility Targeting, Expected Shortfall statt VaR, analytischer Max-Drawdown,
+Minimum Track Record Length, Kovarianz-Shrinkage. Risikomodell entsprechend nachgezogen.
 
 ---
 
@@ -279,6 +282,10 @@ Regel zu handeln, die nie einen Vorteil hatte. Ein Stop-Loss schützt davor nich
 - **`f_ruin = 1 / |schlechteste Einzelrendite|`** als dritte, **modellfreie** Obergrenze. Eine
   Zeile Code, im Projekt bisher nicht vorhanden. Bei `f > f_ruin` ist die Wachstumsrate −1, also
   Totalverlust.
+- **Volatility Targeting** als vierte, portfolioweite Bedingung — siehe 12.2. Sie beantwortet eine
+  andere Frage als die drei Obergrenzen oben: nicht „wie viel verliere ich an diesem Stop", sondern
+  „wie viel Risiko trage ich insgesamt, gemessen an der aktuellen Marktvolatilität".
+  **Bindend ist stets der kleinste aller Werte.**
 
 > **Korrektur gegenüber Revision 1:** Dort stand eine Tabelle, die Risiko pro Trade und Drawdown
 > linear verknüpfte. **Das ist falsch.** Chan zeigt an Zahlen: Um den Drawdown zu halbieren, musste
@@ -315,8 +322,11 @@ hinweg.
 
 Ein Tagesverlustlimit hat für einen Algo keine statistische Rechtfertigung — er tiltet nicht. Es
 bekommt eine andere Aufgabe: nicht „heute ist genug verloren", sondern „heute ist mehr verloren,
-als der Backtest für möglich hält, also ist wahrscheinlich etwas kaputt". Schwelle abgeleitet aus
-der simulierten Tagesverlust-Verteilung, nicht gewählt.
+als der Backtest für möglich hält, also ist wahrscheinlich etwas kaputt".
+
+**Die Schwelle ist der Expected Shortfall der simulierten Tagesverluste** (siehe 12.3), nicht eine
+gewählte Prozentzahl. Bewusst ES statt VaR: VaR sagt nur, wo die Schwelle liegt, nicht wie schlimm
+es dahinter wird — und genau der Bereich dahinter ist es, der eine Anomalie ausmacht.
 
 ### 5.5 Schicht 4 — CPPI statt hartem Stopp
 
@@ -366,6 +376,15 @@ deterioration."*
 
 Reaktion: **erst halbe Positionsgröße, bei weiterer Verschlechterung Stopp.** Meldung in beiden
 Stufen.
+
+**Zweites, unabhängiges Kriterium (siehe 12.4):** Das Wachstumsverhalten des Drawdowns über die
+Zeit verrät das Vorzeichen des Drifts — logarithmisch bei positivem, wie √T bei null, **linear bei
+negativem**. Wächst der beobachtete Drawdown linear, verliert die Strategie strukturell, und zwar
+messbar, bevor der Kontostand eindeutig wird. Dieses Kriterium ist von Trefferquote und
+Sharpe-Schranken unabhängig und schlägt deshalb teils früher an.
+
+**Wann genug Daten für ein Urteil vorliegen**, entscheidet die Minimum Track Record Length aus
+12.5, nicht eine gesetzte Trade-Zahl.
 
 > **Verstärkte Begründung gegenüber Revision 1.** Dort war diese Schicht nur ein Defekt-Melder.
 > Neely/Weller (Adaptive Markets Hypothesis) zeigen für den Devisenmarkt: Die Überrenditen
@@ -459,15 +478,16 @@ Zusätzlich gilt das ICT-Regelwerk als Strukturschicht darüber.
 3. Position im selben Instrument bereits offen?
 4. Größe ≤ 1% des aktuellen Guthabens?
 5. Größe ≤ halber Kelly und ≤ `f_ruin`?
-6. Dollar-Faktor-Deckel eingehalten?
-7. Tagesverlust unter Anomalieschwelle?
-8. CPPI-Subkonto der Strategie noch gedeckt?
-9. Annahme-Wächter ruhig?
-10. Sperrkalender abrufbar?
-11. Red-Folder-News innerhalb der nächsten 20 Minuten?
-12. Bankfeiertag oder Börsenfeiertag?
-13. Handelsende (Intraday-Flat) in Reichweite?
-14. Uhrzeit des Rechners verifiziert?
+6. Größe ≤ Volatility-Target-Position (12.2)?
+7. Dollar-Faktor-Deckel eingehalten?
+8. Tagesverlust unter der ES-Anomalieschwelle?
+9. CPPI-Subkonto der Strategie noch gedeckt?
+10. Annahme-Wächter ruhig?
+11. Sperrkalender abrufbar?
+12. Red-Folder-News innerhalb der nächsten 20 Minuten?
+13. Bankfeiertag oder Börsenfeiertag?
+14. Handelsende (Intraday-Flat) in Reichweite?
+15. Uhrzeit des Rechners verifiziert?
 
 Fällt eine Prüfung durch, entsteht kein Trade — und der Grund wird protokolliert, damit auswertbar
 bleibt, wie oft welche Bremse gegriffen hat.
@@ -475,7 +495,7 @@ bleibt, wie oft welche Bremse gegriffen hat.
 **Abgrenzung zum Triad-Veto:** Die Interest Rate Triad (Abschnitt 7.2) und der Regime-Filter sind
 **keine** Risikoprüfungen, sondern Teil der Regelschicht — sie entscheiden, ob ein Setup gültig
 ist, nicht ob es tragbar ist. Reihenfolge: Regelschicht erzeugt einen Vorschlag → Triad und
-Regime-Filter können ihn verwerfen → erst der überlebende Vorschlag geht in die vierzehn Prüfungen.
+Regime-Filter können ihn verwerfen → erst der überlebende Vorschlag geht in die fünfzehn Prüfungen.
 Grund: Der Risiko-Wächter muss für jede künftige Strategie unverändert gelten, auch für solche
 ohne Benchmark-Bestätigung.
 
@@ -748,7 +768,8 @@ Aufbau entsteht.
 | 4 | DXY-Berechnung | Aus den sechs Bestandteilen, gegen Referenz geprüft |
 | 5 | `algo/verify_data.py` | Prüfroutine — der eigentliche Wert dieser Stufe |
 | 6 | `algo/observe.py` | Bestehende Detektoren über alle Instrumente, 24/5 |
-| 7 | Erster Bericht | Abschnitt 10.4 |
+| 7 | `algo/volatility.py` | Bereichsschätzer nach 12.1, Wahl je Instrument, mit Selfcheck |
+| 8 | Erster Bericht | Abschnitt 10.4 |
 
 ### 10.3 Abnahmekriterien
 
@@ -806,7 +827,205 @@ aus vielen Regeln ist der gefährlichste Schritt im gesamten Vorhaben.
 
 ---
 
-## 12. Folgearbeiten im Wiki
+## 12. Quantitatives Fundament
+
+Diese Formeln sind das, was ein systematischer Fonds oder eine Bank an dieser Stelle rechnen
+würde. Jede ist entweder Regulierungsstandard oder in der Fachliteratur etabliert. Alles hier
+Genannte ist **umzusetzen**, nicht optional — mit einer bewussten Ausnahmeliste in 12.7.
+
+### 12.1 Volatilitätsschätzung aus OHLC statt aus Schlusskursen
+
+**Der größte Hebel im ganzen Abschnitt, weil er direkt das Stichprobenproblem angreift.**
+
+Volatilität nur aus Schlusskursen zu schätzen verwirft Hoch, Tief und Eröffnung — also den
+Großteil der vorhandenen Information. Bereichsbasierte Schätzer nutzen sie:
+
+| Schätzer | Effizienz gegenüber Close-to-Close | Annahme |
+|---|---|---|
+| Parkinson (1980) | ~5,2× | kein Drift, keine Eröffnungslücken |
+| Garman-Klass (1980) | ~7,4× | keine Eröffnungslücken |
+| Rogers-Satchell (1991) | — | driftrobust |
+| **Yang-Zhang (2000)** | **bis ~14×** | behandelt Eröffnungslücken und Drift |
+
+Vierzehnfache Effizienz bedeutet praktisch: dieselbe Schätzgenauigkeit mit einem Vierzehntel der
+Beobachtungen. Bei einer Datenbasis, die laut `algo/PLAN.md` als „noch nicht belastbar" gilt, ist
+das kein Detailgewinn.
+
+```
+Parkinson:        σ²_P  = 1/(4n·ln2) · Σ [ ln(H_i/L_i) ]²
+
+Garman-Klass:     σ²_GK = 1/n · Σ [ 0,5·(ln(H_i/L_i))² − (2·ln2 − 1)·(ln(C_i/O_i))² ]
+
+Rogers-Satchell:  σ²_RS = 1/n · Σ [ ln(H_i/C_i)·ln(H_i/O_i) + ln(L_i/C_i)·ln(L_i/O_i) ]
+
+Yang-Zhang:       o_i = ln(O_i / C_{i−1})        (Übernacht-Komponente)
+                  c_i = ln(C_i / O_i)            (Eröffnung bis Schluss)
+                  σ²_o = 1/(n−1) · Σ (o_i − ō)²
+                  σ²_c = 1/(n−1) · Σ (c_i − c̄)²
+                  k    = 0,34 / (1,34 + (n+1)/(n−1))
+                  σ²_YZ = σ²_o + k·σ²_c + (1−k)·σ²_RS
+```
+
+**Wahl je Instrument, im Register hinterlegt:**
+
+- **CME-Index-Futures** → Yang-Zhang. Sie haben Sessionpausen und damit echte Eröffnungslücken.
+- **Devisen** → Garman-Klass. Der Markt läuft durch; die Übernacht-Komponente von Yang-Zhang wäre
+  nahezu null und brächte nur Schätzrauschen.
+
+Diese Schätzung ist Eingangsgröße für 12.2, 12.4 und 12.5. Ein Fehler hier pflanzt sich überall
+fort — entsprechend gehört sie in `algo/selfcheck.py` mit einem Test gegen bekannte Werte.
+
+### 12.2 Volatility Targeting (Carver / AHL)
+
+**Fehlte bisher vollständig.** Die 1%-Regel bemisst das Risiko **pro Trade** über die
+Stop-Distanz. Volatility Targeting bemisst das Risiko **des Portfolios** über die Zeit — und hält
+es konstant, statt es mit der Marktlage schwanken zu lassen.
+
+Robert Carver (vor seinem Buch Portfoliomanager bei AHL) trennt dafür genau die drei Ebenen, die
+diese Spec ohnehin trennt: Handelsregeln, Positionsgröße, Volatilitätsziel.
+
+```
+Tages-Volatilitätsbudget  = Kapital × Ziel-Jahresvolatilität / √256
+
+Instrument-Wertvolatilität = σ_täglich(Instrument) × Preis × Kontraktmultiplikator
+                             (σ aus 12.1, NICHT aus Schlusskursen)
+
+Basisposition              = Tages-Volatilitätsbudget / Instrument-Wertvolatilität
+
+Endposition                = Basisposition × (Forecast / 10) × Diversifikationsmultiplikator
+```
+
+- **Forecast** = skalierte Signalstärke, gekappt bei 20 (Carver). Damit lassen sich mehrere
+  ICT-Regeln zu einer Position verrechnen, statt sie einzeln zu handeln.
+- **Diversifikationsmultiplikator** = Zielvolatilität / kombinierte Volatilität, **gekappt bei
+  2,5**. Die Kappung ist nicht kosmetisch: Ohne sie erzeugt eine unterschätzte Korrelation
+  automatisch Überhebelung.
+
+> ⚠️ **Die eingebaute Gefahr, ausdrücklich benannt.** Die EZB weist in ihrer Finanzstabilitäts-
+> analyse darauf hin: Volatility Targeting entschuldet automatisch im Sturm — das ist die
+> Stärke — aber es **verschuldet automatisch in der Ruhe**, und das ist die Gefahr. Genau
+> deshalb sind die Obergrenzen aus 5.2 (1%, halber Kelly, `f_ruin`) **nicht** ersetzt, sondern
+> bleiben als harte Deckel darüber. **Bindend ist immer der kleinste der Werte.**
+
+**Verhältnis zur bestehenden 1%-Regel:** Beide gelten gleichzeitig und messen Verschiedenes.
+Volatility Targeting antwortet auf „wie viel Risiko trage ich insgesamt", die 1%-Regel auf „wie
+viel verliere ich, wenn dieser eine Stop greift". Kein Ersatz, sondern zwei Bedingungen.
+
+### 12.3 Expected Shortfall statt Value at Risk
+
+Basel III hat unter FRTB den 99%-VaR durch **Expected Shortfall bei 97,5%** ersetzt. Der Grund ist
+für ein Mehr-Instrumenten-Portfolio unmittelbar relevant: **VaR ist nicht subadditiv.** Er kann
+ausweisen, dass ein diversifiziertes Portfolio riskanter sei als die Summe seiner Teile — ein
+mathematisches Artefakt, kein Marktphänomen. Expected Shortfall ist kohärent und hat das Problem
+nicht. Außerdem ignoriert VaR die Schwere der Verluste jenseits der Schwelle vollständig; ES
+mittelt genau über diesen Bereich.
+
+```
+VaR_α  = Quantil der Verlustverteilung auf Niveau α
+ES_α   = E[ Verlust | Verlust ≥ VaR_α ]
+
+Empirisch: Mittelwert der schlechtesten (1−α) der beobachteten Renditen.
+Bei α = 0,975 also der Mittelwert der schlechtesten 2,5 %.
+```
+
+**Verwendung im Projekt:**
+
+- Die **Anomalie-Schwelle** aus Schicht 3 (5.4) wird aus dem ES der simulierten Tagesverluste
+  abgeleitet, nicht gewählt. Damit hat die Zahl eine Herleitung statt eines Bauchgefühls.
+- Der ES wird pro Instrument und für das Gesamtportfolio berichtet. Die Differenz zwischen der
+  Summe der Einzel-ES und dem Portfolio-ES ist der gemessene Diversifikationseffekt — und damit
+  eine unabhängige Gegenprobe zum Dollar-Faktor-Deckel aus 5.3.
+
+### 12.4 Erwarteter maximaler Drawdown, analytisch
+
+Magdon-Ismail/Atiya (Journal of Applied Probability, 2004) geben den erwarteten maximalen
+Drawdown einer Brownschen Bewegung in geschlossener Form an: exakt bei Drift null, als
+Reihenentwicklung bei Drift ungleich null.
+
+**Das Wertvolle daran ist weniger die Zahl als das Wachstumsverhalten.** Der erwartete maximale
+Drawdown wächst mit der Zeit je nach Drift grundverschieden:
+
+| Drift | Wachstum von E[MDD] mit T |
+|---|---|
+| positiv | **logarithmisch** |
+| null | **wie √T** |
+| negativ | **linear** |
+
+Daraus wird ein Diagnosewerkzeug, das im Projekt bisher fehlte: **Wächst der beobachtete Drawdown
+linear mit der Zeit, ist der Drift negativ — die Strategie verliert strukturell.** Das ist
+messbar, lange bevor der Kontostand es eindeutig zeigt, und geht als zusätzliches Kriterium in den
+Annahme-Wächter (5.6).
+
+Ergänzt, ersetzt aber nicht Masters' Doppel-Bootstrap aus 5.5: Die Formel liefert den
+**Erwartungswert** unter Normalverteilungsannahme, der Bootstrap die **Schwanzgrenze** ohne diese
+Annahme. Weichen beide stark voneinander ab, ist die Renditeverteilung weit von normal entfernt —
+was selbst eine verwertbare Information ist.
+
+Die konkreten Konstanten werden bei der Umsetzung aus der Originalarbeit übernommen und gegen eine
+Simulation gegengeprüft, statt sie hier aus dem Gedächtnis zu behaupten.
+
+### 12.5 Probabilistic Sharpe Ratio und Minimum Track Record Length
+
+**Ersetzt eine geschätzte Zahl durch eine gerechnete.** Entscheidung 15 setzt „mindestens drei
+Monate Papierhandel" — das ist gewählt, nicht hergeleitet, und widerspricht damit dem Prinzip aus
+Abschnitt 5.
+
+Bailey/López de Prado liefern die Herleitung. Die **Probabilistic Sharpe Ratio** gibt die
+Wahrscheinlichkeit an, dass die wahre Sharpe Ratio eine Schwelle übersteigt — unter
+Berücksichtigung von **Schiefe und Wölbung** der Renditeverteilung. Die **Minimum Track Record
+Length** dreht das um und beantwortet: wie viele Beobachtungen werden gebraucht?
+
+```
+MinTRL ≈ 1 + [ 1 − γ₃·SR + (γ₄−1)/4 · SR² ] · ( z_α / (SR − SR*) )²
+
+   SR  = beobachtete Sharpe Ratio          SR* = Schwelle (z.B. 0)
+   γ₃  = Schiefe                            γ₄  = Wölbung
+   z_α = Normalquantil zum Konfidenzniveau
+```
+
+Die für dieses Projekt entscheidende Eigenschaft: **Negative Schiefe zusammen mit hoher Wölbung
+verlängert die nötige Historie.** Genau dieses Profil hat eine Strategie mit vielen kleinen
+Gewinnen und seltenen großen Verlusten — also der übliche Fall.
+
+**Umsetzung:** Die drei Monate bleiben als **Untergrenze** bestehen (Zeitkomponente gegen
+Glückssträhnen, siehe Entscheidung 15). Zusätzlich muss MinTRL erfüllt sein. Bindend ist der
+längere der beiden Zeiträume. Dieselbe Rechnung ersetzt später die pauschalen „100 OOS-Trades" aus
+Entscheidung 14.
+
+### 12.6 Kovarianz-Shrinkage (Ledoit-Wolf)
+
+**Ohne diesen Baustein ist die Mehr-Strategien-Formel aus 5.2 unbenutzbar.** Chans
+Kelly-Allokation `F = C⁻¹M` verlangt die **Inverse** der Kovarianzmatrix. Bei rund vierzehn
+Instrumenten und knapper Historie ist die Stichproben-Kovarianz stark verrauscht, und die
+Inversion verstärkt genau die extremsten Fehlschätzungen — das Ergebnis sind wilde, instabile
+Gewichte, die out-of-sample versagen.
+
+```
+Σ_shrunk = δ · F + (1 − δ) · S
+
+   S = Stichproben-Kovarianzmatrix
+   F = strukturiertes Ziel (z.B. konstante Korrelation)
+   δ = analytisch bestimmt, minimiert den erwarteten quadratischen Fehler
+```
+
+Ledoit/Wolf zeigen out-of-sample deutlich niedrigere realisierte Volatilität als mit der
+Stichproben-Kovarianz. Betroffen sind im Projekt: die Kelly-Allokation über mehrere Strategien,
+der Dollar-Faktor-Deckel (5.3) und der Diversifikationsmultiplikator (12.2).
+
+### 12.7 Bewusst nicht übernommen
+
+Institutionelles Niveau heißt auch zu wissen, was bei dieser Kontogröße reine Zierde wäre:
+
+| Werkzeug | Warum nicht |
+|---|---|
+| **Almgren-Chriss optimale Ausführung** | Optimiert den Handelspfad großer Orders gegen ihren **eigenen** Marktimpakt. Ein Micro-Kontrakt bewegt den Markt nicht messbar. Der übertragbare Kern — Ausführungsrisiko gegen Kosten abwägen — ist in 5.7 und 4.4 bereits abgedeckt |
+| **Vollständiger FRTB-Apparat** | Kapitalunterlegungsregeln für Bankhandelsbücher. Nur das Risikomaß (ES) ist übertragbar, der regulatorische Überbau nicht |
+| **Risk Parity über Anlageklassen** | Setzt ein breites, gering korreliertes Universum voraus. Drei Devisenpaare und zwei Index-Futures sind über den Dollar-Faktor stark gekoppelt — Risk Parity hätte hier kaum etwas zu verteilen |
+| **GARCH-Volatilitätsmodelle** | Bei täglicher Neuschätzung liefern die Bereichsschätzer aus 12.1 vergleichbare Genauigkeit bei einem Bruchteil der Komplexität und ohne Modellrisiko. Kandidat für später, kein Startbaustein |
+
+---
+
+## 13. Folgearbeiten im Wiki
 
 Nach Freigabe zu erledigen (Pflicht laut `CLAUDE.md`, „Kontinuierliches Wachstum"):
 
@@ -816,6 +1035,16 @@ Nach Freigabe zu erledigen (Pflicht laut `CLAUDE.md`, „Kontinuierliches Wachst
   Masters und dem Hinweis auf die Äquivalenz Embargo ↔ Guard Buffer.
 - **Neue Concept-Seite** Marktmikrostruktur-Belege (Osler, Andersen/Bollerslev,
   Lustig/Roussanov/Verdelhan) — die akademische Unterfütterung der ICT-Liquiditätskonzepte.
+- **Neue Concept-Seite** Bereichsbasierte Volatilitätsschätzer (Parkinson, Garman-Klass,
+  Rogers-Satchell, Yang-Zhang) mit Effizienzvergleich und der Wahl je Instrument.
+- **Neue Concept-Seite** Volatility Targeting (Carver/AHL) inkl. Forecast-Skalierung,
+  Diversifikationsmultiplikator und der EZB-Warnung zur Überhebelung in ruhigen Phasen.
+- **Neue Concept-Seite** Expected Shortfall und kohärente Risikomaße (Basel III FRTB), mit der
+  Subadditivitätsbegründung gegenüber VaR. Ergänzt die bestehende Kelly/VaR-Seite.
+- **Neue Concept-Seite** Erwarteter maximaler Drawdown (Magdon-Ismail/Atiya) mit dem
+  Drift-Diagnosewerkzeug. Querverweis auf [[Grenzen für Einzelrenditen & Drawdown]].
+- **Neue Concept-Seite** Probabilistic Sharpe Ratio und Minimum Track Record Length.
+- **Neue Concept-Seite** Kovarianz-Shrinkage (Ledoit-Wolf) mit dem Bezug zur Kelly-Allokation.
 - **Neue Synthesis-Seite** Strukturregeln gegen Psychologieregeln (Abschnitt 5.0).
 - **[[Risikomanagement (1% pro Trade)]]** — Dollar-Faktor-Deckel ergänzen. Die Formulierung
   „unabhängig von anderen Trades desselben Tages" ist bei mehreren dollargetriebenen Instrumenten
@@ -830,7 +1059,7 @@ Nach Freigabe zu erledigen (Pflicht laut `CLAUDE.md`, „Kontinuierliches Wachst
 
 ---
 
-## 13. Offene Punkte
+## 14. Offene Punkte
 
 | # | Punkt | Wann geklärt |
 |---|---|---|
@@ -843,11 +1072,11 @@ Nach Freigabe zu erledigen (Pflicht laut `CLAUDE.md`, „Kontinuierliches Wachst
 | 7 | Kelly und `f_ruin` für die bestehende Silver-Bullet-Strategie | **vor jedem weiteren Schritt** — 20× Hebel am Margin-Limit ist ungeprüft |
 | 8 | Runner-Häufigkeit (9R–15R) | erster Bericht |
 | ~~9~~ | ~~Manueller Handel auf demselben Konto?~~ | **Geklärt 2026-08-08: eigenes Konto nur für den Algo** (Entscheidung 24) |
-| 10 | Silver Bullet überarbeiten, bevor die Strategie ins Regelregister wandert | Kalendereintrag 2026-09-01, siehe Abschnitt 13.1 |
+| 10 | Silver Bullet überarbeiten, bevor die Strategie ins Regelregister wandert | Kalendereintrag 2026-09-01, siehe Abschnitt 14.1 |
 
 ---
 
-### 13.1 Terminierte Folgearbeit
+### 14.1 Terminierte Folgearbeit
 
 **Silver Bullet überarbeiten** — Kalendereintrag 2026-09-01, 10:00–11:30 (Platzhalter nach
 Abschluss der Datenschicht). [[Silver Bullet Model]] ist bisher die einzige vollständig geregelte
@@ -861,7 +1090,7 @@ Strategie im Vault und wandert **nicht** unverändert ins Regelregister. Zu klä
 
 ---
 
-## 14. Bewusst nicht enthalten
+## 15. Bewusst nicht enthalten
 
 Keine Nutzeroberfläche, kein Dashboard, keine Datenbank (Dateien genügen), keine
 Broker-Abstraktion für mehrere Broker, keine Warteschlange zwischen den Bausteinen.
