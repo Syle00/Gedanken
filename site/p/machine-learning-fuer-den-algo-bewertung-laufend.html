@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine Learning für den Algo — Bewertung (laufend) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">110</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">190</span></a></li>
+<li class="active"><a href="../index.html#synthesis">Synthese<span class="count">11</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Synthese</div><ul class="pagelist">
+<li><a href="../p/ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend.html">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</a></li>
+<li><a href="../p/journal-auswertung.html">Journal-Auswertung</a></li>
+<li><a href="../p/kw32-2026-weekly-review.html">KW32 2026 — Weekly Review</a></li>
+<li class="here"><a href="../p/machine-learning-fuer-den-algo-bewertung-laufend.html">Machine Learning für den Algo — Bewertung (laufend)</a></li>
+<li><a href="../p/makro-fred-zusammenhaenge-eigene-daten-laufend.html">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</a></li>
+<li><a href="../p/mentorship-2025.html">MentorShip 2025</a></li>
+<li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
+<li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a></li>
+<li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#synthesis">Synthese</a></div>
+  <h1>Machine Learning für den Algo — Bewertung (laufend)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo-methodology</span> <span class="tag">machine-learning</span> <span class="tag">bewertung</span> <span class="tag">laufend</span></div><div class="dates">erstellt 2026-08-08 · aktualisiert 2026-08-08</div><div class="srcline"><span>Quellen:</span> <a href="../p/2022-07-05-two-sigma-machine-learning-models-of-financial-data-source.html">Two Sigma — Machine Learning Models of Financial Data (Source)</a>, <a href="../p/2019-09-05-reinforcement-learning-for-trading-tom-starke-source.html">Reinforcement Learning for Trading — Practical Examples and Lessons Learned (Source)</a>, <a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#kurzantwort">Kurzantwort</a></li>
+<li><a href="#was-dagegen-spricht">Was dagegen spricht</a><ul>
+<li><a href="#die-groenordnung">Die Größenordnung</a></li>
+<li><a href="#das-rauschen">Das Rauschen</a></li>
+<li><a href="#die-warnung-die-fur-jedes-modell-gilt">Die Warnung, die für jedes Modell gilt</a></li>
+</ul>
+</li>
+<li><a href="#was-sofort-nutzbar-ist">Was sofort nutzbar ist</a><ul>
+<li><a href="#1-pooling-uber-instrumente-der-eigentliche-gewinn">1. Pooling über Instrumente — der eigentliche Gewinn</a></li>
+<li><a href="#2-merkmale-statt-rohdaten-bereits-erfullt">2. Merkmale statt Rohdaten — bereits erfüllt</a></li>
+</ul>
+</li>
+<li><a href="#was-spater-sinnvoll-wird">Was später sinnvoll wird</a></li>
+<li><a href="#was-nicht-geht">Was nicht geht</a></li>
+<li><a href="#bedingungen-fur-eine-neubewertung">Bedingungen für eine Neubewertung</a></li>
+<li><a href="#offene-frage">Offene Frage</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="machine-learning-fur-den-algo-bewertung-laufend">Machine Learning für den Algo — Bewertung (laufend)</h1>
+<p>Antwort auf die Frage: <strong>Macht es Sinn, Machine Learning in den Algorithmus zu integrieren?</strong>
+Bewertet gegen den Stand von 2026-08-08, wird bei neuen Quellen oder neuer Datenlage fortgeschrieben.</p>
+<h2 id="kurzantwort">Kurzantwort</h2>
+<p><strong>Nicht als Signalgeber. Ja an drei genau umrissenen Stellen — und eine davon ist sofort und ohne
+jeden ML-Code nutzbar.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Einsatzort</th>
+<th>Urteil</th>
+<th>Wann</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pooling über Instrumente</strong></td>
+<td><strong>Ja, sofort</strong></td>
+<td>Stufe 1, kostet nichts</td>
+</tr>
+<tr>
+<td><strong>Merkmale statt Rohdaten</strong></td>
+<td><strong>Ja, sofort</strong></td>
+<td>bereits vorhanden</td>
+</tr>
+<tr>
+<td>Meta-Labeling als Filter</td>
+<td>Ja, aber später</td>
+<td>nach Regelregister + Gate</td>
+</tr>
+<tr>
+<td>RL als Signalgeber</td>
+<td><strong>Nein</strong></td>
+<td>absehbar nicht</td>
+</tr>
+<tr>
+<td>RL für Orderausführung</td>
+<td>Nein, nicht beschaffbar</td>
+<td>Datenzugang fehlt</td>
+</tr>
+<tr>
+<td>Deep Learning auf Kursdaten</td>
+<td><strong>Nein</strong></td>
+<td>Größenordnungen zu wenig Daten</td>
+</tr>
+</tbody>
+</table>
+<h2 id="was-dagegen-spricht">Was dagegen spricht</h2>
+<h3 id="die-groenordnung">Die Größenordnung</h3>
+<p>Two Sigma trainiert das in <a href="../p/2022-07-05-two-sigma-machine-learning-models-of-financial-data-source.html">Two Sigma — Machine Learning Models of Financial Data (Source)</a>
+gezeigte Modell auf <strong>drei Jahren Event-für-Event-Orderbuchdaten von rund 1.000 Aktien</strong> —
+hunderte Milliarden Datenpunkte, verteilt über <strong>25 GPUs</strong>. Dieses Projekt verfügt über 394
+Handelstage. Der Abstand ist nicht graduell, sondern um Größenordnungen.</p>
+<p>Sirignano benennt die Folge selbst: Deep-Learning-Modelle haben hunderttausende bis Millionen
+Parameter, und bei zu wenig Daten führt das zu Überanpassung. Er räumt zwar ein, dass ML auch bei
+mittelgroßen Datensätzen möglich bleibt — aber nur mit besonders sorgfältiger Prüfung auf
+Überanpassung.</p>
+<h3 id="das-rauschen">Das Rauschen</h3>
+<p>Starke, aus der Praxis: <em>„LSTMs and all these other fancy machine learning tools are really not
+designed to deal with a lot of noise. Image recognition doesn't have a lot of noise."</em> Seine
+Reinforcement Learner liefen auf echten Kursreihen in lokale Optima, waren zwischen Läufen nicht
+reproduzierbar und erzeugten keine konsistenten Gewinne. Details:
+<a href="../p/reinforcement-learning-fuer-handel-grenzen-starke.html">Reinforcement Learning für Handel — Grenzen (Starke)</a>.</p>
+<h3 id="die-warnung-die-fur-jedes-modell-gilt">Die Warnung, die für jedes Modell gilt</h3>
+<p>Sirignano rechnet vor, dass ein Modell mit <strong>korrekter</strong> Richtungsvorhersage trotzdem Geld
+verlieren kann, weil zum Briefkurs gekauft und zum Geldkurs verkauft wird:</p>
+<blockquote>
+<p><em>„Even if a model can predict future price moves with an accuracy greater than 50 %, a trading
+strategy based upon that model may not be profitable and could in fact lose money."</em></p>
+</blockquote>
+<p>Das deckt sich exakt mit Masters' „Percent Wins Fallacy" und mit
+<a href="../p/implementation-shortfall.html">Implementation Shortfall</a>. Höhere Vorhersagegenauigkeit ist damit <strong>kein</strong> eigenständiges Ziel.</p>
+<h2 id="was-sofort-nutzbar-ist">Was sofort nutzbar ist</h2>
+<h3 id="1-pooling-uber-instrumente-der-eigentliche-gewinn">1. Pooling über Instrumente — der eigentliche Gewinn</h3>
+<p>Der wertvollste Befund der ganzen Recherche, und er braucht <strong>kein</strong> Machine Learning:</p>
+<blockquote>
+<p><em>„The universal model most strongly outperforms the stock-specific models on stocks with less
+data."</em> (Sirignano &amp; Cont, Quantitative Finance 2019)</p>
+</blockquote>
+<p>Ein gemeinsames Modell über viele Instrumente schlägt instrumentspezifische Anpassung — <strong>am
+deutlichsten dort, wo wenig Daten vorliegen</strong>. Genau die Lage dieses Projekts.</p>
+<p>Übertragen auf gewöhnliche Regelvalidierung heißt das: <strong>einen gemeinsamen Parametersatz über alle
+Instrumente validieren statt je Instrument anzupassen.</strong> Weniger Freiheitsgrade, schlechtere
+In-Sample-Zahlen, robustere Ergebnisse außerhalb der Stichprobe. Ausführlich:
+<a href="../p/universal-model-instrument-pooling.html">Universal Model &amp; Instrument-Pooling</a>.</p>
+<h3 id="2-merkmale-statt-rohdaten-bereits-erfullt">2. Merkmale statt Rohdaten — bereits erfüllt</h3>
+<p>Starkes konstruktiver Befund: Auf rohen Kursreihen scheiterte sein Lerner, auf einer geglätteten
+Reihe funktionierte er. Sein Schluss — der Reihe erst eine <strong>geometrische Bedeutung</strong> geben.</p>
+<p>Dieses Projekt tut das bereits: <code>tools/analyze_ohlc.py</code> extrahiert FVGs, Sweeps, Strukturbrüche,
+Displacement und Macro-Fenster. Das <strong>sind</strong> die strukturellen Merkmale. Ein Lernverfahren würde
+hier auf diesen aufsetzen, nie auf rohem OHLC — und die Beobachtungsschicht protokolliert sie
+ohnehin schon.</p>
+<p>Unabhängiger Nebenbefund von Starke, der ICT stützt: Tageszeit, Wochentag und Jahreszeit als
+Eingangsmerkmale verbessern das Ergebnis spürbar.</p>
+<h2 id="was-spater-sinnvoll-wird">Was später sinnvoll wird</h2>
+<p><strong>Meta-Labeling</strong> (<a href="../p/meta-labeling-lopez-de-prado.html">Meta-Labeling (López de Prado)</a>) ist die einzige ML-Bauform, die zur
+Architektur dieses Projekts passt: Das ICT-Regelwerk bestimmt die <strong>Richtung</strong>, ein zweites Modell
+entscheidet nur, <strong>ob</strong> dieses Signal gehandelt wird und <strong>wie groß</strong>. Zielgröße ist nicht die
+Rendite, sondern „lag die Regel hier richtig".</p>
+<p>Vorteile in dieser Reihenfolge: Die Frage an das Lernverfahren wird einfacher (binär statt
+Regression auf Rauschen), die Erklärbarkeit bleibt erhalten, und das Wiki bleibt Regelquelle.</p>
+<p><strong>Voraussetzungen, die noch fehlen:</strong> ein validiertes Primärmodell, genügend beschriftete Trades
+(jeder Trade ergibt genau einen Datenpunkt), und Purged Cross-Validation mit Embargo gegen
+Datenleckage durch überlappende Label. Einzuordnen <strong>nach</strong> Regelregister und Validierungs-Gate.</p>
+<h2 id="was-nicht-geht">Was nicht geht</h2>
+<ul>
+<li><strong>RL als Signalgeber.</strong> Siehe oben — Rauschen, lokale Optima, Stichprobenhunger.</li>
+<li><strong>RL für die Orderausführung.</strong> Bei Two Sigma nachweislich erfolgreich (positive Kostenersparnis
+  über rund 100 Aktien), braucht aber Orderbuchdaten Ereignis für Ereignis. Für ein Privatkonto bei
+  IBKR nicht beschaffbar. Der Zweck — bessere Einstiegszeitpunkte innerhalb einer beschlossenen
+  Zone — bleibt bestehen und wird stattdessen regelbasiert gelöst.</li>
+<li><strong>Deep Learning direkt auf Kursdaten.</strong> Siehe Größenordnung.</li>
+</ul>
+<h2 id="bedingungen-fur-eine-neubewertung">Bedingungen für eine Neubewertung</h2>
+<p>Diese Seite wird fortgeschrieben, wenn eine der folgenden Bedingungen eintritt:</p>
+<ol>
+<li>Mehr als etwa 1.000 abgeschlossene, protokollierte Trades des Primärmodells liegen vor →
+   Meta-Labeling wird prüfbar.</li>
+<li>Eine Datenquelle für Orderbuchdaten auf Ereignisebene wird verfügbar → RL für Ausführung wird
+   prüfbar.</li>
+<li>Eine neue Quelle widerlegt einen der obigen Punkte.</li>
+</ol>
+<h2 id="offene-frage">Offene Frage</h2>
+<p>Ob das Pooling zwischen <strong>Devisen und Index-Futures</strong> gerechtfertigt ist, oder ob die Unterschiede
+(kein Tagesgap im Devisenmarkt, andere Sessionstruktur) getrennte Gruppen erzwingen, ist ungeprüft.
+Die Gegenprobe ist einfach und gehört in den ersten Bericht: Schlägt der gepoolte Parametersatz die
+instrumentspezifischen außerhalb der Stichprobe, war das Pooling gerechtfertigt.</p>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/universal-model-instrument-pooling.html">Universal Model &amp; Instrument-Pooling</a>, <a href="../p/meta-labeling-lopez-de-prado.html">Meta-Labeling (López de Prado)</a>,
+  <a href="../p/reinforcement-learning-fuer-handel-grenzen-starke.html">Reinforcement Learning für Handel — Grenzen (Starke)</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a> — das Gate, durch das auch ML-Regeln müssten</li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a>, <a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a> — die Explorationsschicht, in der ML
+  eines Tages ein Werkzeug unter mehreren wäre</li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/2019-09-05-reinforcement-learning-for-trading-tom-starke-source.html">2019-09-05 - Reinforcement Learning for Trading (Tom Starke) (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2022-07-05-two-sigma-machine-learning-models-of-financial-data-source.html">2022-07-05 - Two Sigma - Machine Learning Models of Financial Data (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/meta-labeling-lopez-de-prado.html">Meta-Labeling (López de Prado)</a><span class="cat">Konzepte</span></li><li><a href="../p/reinforcement-learning-fuer-handel-grenzen-starke.html">Reinforcement Learning für Handel — Grenzen (Starke)</a><span class="cat">Konzepte</span></li><li><a href="../p/universal-model-instrument-pooling.html">Universal Model &amp; Instrument-Pooling</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Machine Learning für den Algo — Bewertung (laufend).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

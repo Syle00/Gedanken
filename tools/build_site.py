@@ -25,6 +25,15 @@ except ImportError:
     sys.exit("Fehlende Abhaengigkeiten. Bitte ausfuehren:\n"
              "  python -m pip install -r tools/requirements.txt")
 
+# Windows-Konsolen laufen je nach Python-Installation auf cp1252 und brechen dann an
+# Unicode-Zeichen in den Statusmeldungen ab (UnicodeEncodeError). Das wuerde push.ps1
+# mit einem fehlgeschlagenen Build stoppen, obwohl die Website selbst fehlerfrei ist.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
 ROOT = Path(__file__).resolve().parent.parent
 WIKI = ROOT / "wiki"
 SITE = ROOT / "site"

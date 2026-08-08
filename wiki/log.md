@@ -1316,3 +1316,40 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   (Ein-Instrument-Projekt), nichtparametrische Broker-Vergleichstests (im Vault durch MCPT und
   Training/Selection Bias abgedeckt), US-Aktienmikrostruktur (Rebates/Dark Pools/Reg NMS), HFT.
 - Seiten aktualisiert: `wiki/index.md` (4 neue Concepts, 2 neue Sources).
+
+## [2026-08-08] ingest | Machine Learning im Handel — zwei Videoquellen + Bewertung
+
+- Auslöser: Nutzerfrage „Macht es Sinn, Machine Learning zu integrieren?" mit zwei
+  YouTube-Quellen. Neue Rohdomäne `raw/algo-ml/` angelegt (kein ICT-Material, deshalb nicht unter
+  `raw/trading-ict/`).
+- Quellen: `raw/algo-ml/yt-2bE2iyRBK1E-transcript.md` (Two Sigma, Justin Sirignano —
+  Two Sigma Securities und Associate Professor Oxford, 2022-07-05, 60 Min) und
+  `raw/algo-ml/yt-c0gpgCyjTM8-transcript.md` (Quantopian, Dr. Tom Starke, 2019-09-05, 43 Min).
+  Beide auto-generierte Untertitel, volle Abdeckung.
+- **Werkzeugproblem behoben:** `yt_dlp` fehlte in der neu installierten Python-3.14-Umgebung, was
+  auch das bestehende `yt-ict-ingest`-Skill unbrauchbar gemacht hätte (`tools/fetch_yt_transcript.py`
+  bricht ohne yt-dlp mit CalledProcessError ab). Per `pip install yt-dlp` wiederhergestellt.
+  `youtube_transcript_api` war vorhanden.
+- Seiten erstellt: `wiki/sources/youtube/2022-07-05 - Two Sigma - Machine Learning Models of
+  Financial Data (Source).md`, `wiki/sources/youtube/2019-09-05 - Reinforcement Learning for
+  Trading (Tom Starke) (Source).md`, `wiki/concepts/Universal Model & Instrument-Pooling.md`,
+  `wiki/concepts/Meta-Labeling (López de Prado).md`,
+  `wiki/concepts/Reinforcement Learning für Handel — Grenzen (Starke).md`,
+  `wiki/synthesis/Machine Learning für den Algo — Bewertung (laufend).md`.
+- Seiten aktualisiert: `wiki/index.md` (drei Concepts, zwei Sources unter „Algo-Methodik", eine
+  Synthesis).
+- **Kernbefund und praktische Konsequenz:** Der wertvollste Fund braucht gar kein Machine Learning.
+  Sirignano & Cont (Quantitative Finance 2019) zeigen, dass ein gemeinsames Modell über viele
+  Instrumente die instrumentspezifische Anpassung schlägt — *„most strongly … on stocks with less
+  data"*. Übertragen auf gewöhnliche Regelvalidierung: einen gemeinsamen Parametersatz über alle
+  Instrumente validieren statt je Instrument anzupassen. Das ist sofort anwendbar und trifft genau
+  die als „noch nicht belastbar" markierte Stichprobenlage in `algo/PLAN.md`.
+- Urteil zur Ausgangsfrage: ML **nicht** als Signalgeber (Two Sigma trainiert auf hunderten
+  Milliarden Datenpunkten über 25 GPUs, hier liegen 394 Handelstage vor; Starke dokumentiert
+  Scheitern an Rauschen und lokalen Optima). **Ja** für Pooling (sofort) und perspektivisch
+  Meta-Labeling als Filter über dem ICT-Regelwerk, nach Regelregister und Validierungs-Gate.
+- Eigener Einwand gegen eine Quellenaussage festgehalten statt übernommen: Starkes Erfolg auf einer
+  geglätteten Kursreihe ist teilweise ein Artefakt — ein gleitender Durchschnitt ist
+  konstruktionsbedingt autokorreliert, gehandelt wird aber zum echten Kurs. Auf
+  [[Reinforcement Learning für Handel — Grenzen (Starke)]] als ⚠️ markiert.
+- Nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).

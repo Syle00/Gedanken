@@ -6,6 +6,9 @@
 **Revision 2 (2026-08-08):** Gegengeprüft gegen den vollständigen Wiki-Bestand, den ICT Core
 Content und die akademische Literatur. Sieben inhaltliche Korrekturen, vier neue Pflichtbausteine.
 Zielmarkt auf **Forex und CME** erweitert (Nutzerentscheidung).
+**Revision 4 (2026-08-08):** Machine Learning geprüft und eingeordnet (12.7) — abgelehnt als
+Signalgeber, aber **Instrument-Pooling ab Stufe 2 verbindlich**. Zwei Quellen ingestet
+(Two Sigma/Sirignano, Quantopian/Starke), sechs Wiki-Seiten angelegt.
 **Revision 3 (2026-08-08):** Quantitatives Fundament ergänzt (Abschnitt 12) — Volatilitätsschätzung
 aus OHLC, Volatility Targeting, Expected Shortfall statt VaR, analytischer Max-Drawdown,
 Minimum Track Record Length, Kovarianz-Shrinkage. Risikomodell entsprechend nachgezogen.
@@ -794,6 +797,8 @@ Aufbau entsteht.
   Prüfstein, ob sich Devisen und Index-Futures hier grundsätzlich unterscheiden.
 - Wie groß ist die Dollar-Empfindlichkeit je Instrument? Daraus entsteht der Deckel aus 5.3.
 - Wie oft zeigt die Interest Rate Triad Divergenz an einem Levelkontakt — und wie oft nicht?
+- **Pooling-Gegenprobe (12.7.1):** Schlägt ein gemeinsamer Parametersatz über alle Instrumente die
+  instrumentspezifischen außerhalb der Stichprobe — und bei welchen Konzepten nicht?
 - **Runner-Häufigkeit:** Wie oft entsteht ein 9R–15R-Lauf? Entscheidet über die Machbarkeit des
   Ertragsziels aus 3.1.
 - SMT-Divergenz wird zum ersten Mal überhaupt messbar.
@@ -1012,7 +1017,50 @@ Ledoit/Wolf zeigen out-of-sample deutlich niedrigere realisierte Volatilität al
 Stichproben-Kovarianz. Betroffen sind im Projekt: die Kelly-Allokation über mehrere Strategien,
 der Dollar-Faktor-Deckel (5.3) und der Diversifikationsmultiplikator (12.2).
 
-### 12.7 Bewusst nicht übernommen
+### 12.7 Machine Learning — Einsatzorte und Grenzen
+
+Vollständige Bewertung: [[Machine Learning für den Algo — Bewertung (laufend)]]. Kurzfassung für
+diese Spec:
+
+| Einsatzort | Urteil |
+|---|---|
+| **Pooling über Instrumente** | **Ja, sofort** — siehe 12.7.1, braucht keinen ML-Code |
+| Merkmale statt Rohdaten | Ja, bereits erfüllt durch die Detektoren in `tools/analyze_ohlc.py` |
+| Meta-Labeling als Signalfilter | Später, nach Regelregister und Gate |
+| Reinforcement Learning als Signalgeber | **Nein** |
+| Deep Learning direkt auf Kursdaten | **Nein** |
+
+Begründung der Ablehnungen in zwei Sätzen: Two Sigma trainiert seine Modelle auf hunderten
+Milliarden Datenpunkten über 25 GPUs — dieses Projekt hat 394 Handelstage. Und Starkes
+Praxisbericht dokumentiert für Reinforcement Learning auf echten Kursreihen lokale Optima, nicht
+reproduzierbare Ergebnisse und Scheitern am Rauschen.
+
+Dazu eine Warnung, die jedes künftige Modell betrifft und die exakt 5.7 bestätigt — Sirignano
+rechnet vor, dass eine **korrekte** Richtungsvorhersage trotzdem im Verlust endet, weil zum
+Briefkurs gekauft und zum Geldkurs verkauft wird: *„Even if a model can predict future price moves
+with an accuracy greater than 50 %, a trading strategy based upon that model may not be profitable
+and could in fact lose money."*
+
+#### 12.7.1 Instrument-Pooling — verbindlich ab Stufe 2
+
+Sirignano & Cont (Quantitative Finance 2019) zeigen, dass ein gemeinsames Modell über viele
+Instrumente die instrumentspezifische Anpassung schlägt — und zwar *„most strongly … on stocks
+with less data"*. Das ist genau die Lage dieses Projekts.
+
+**Regel:** Parameter einer Regel werden als **ein gemeinsamer Satz über alle Instrumente**
+validiert, nicht je Instrument angepasst. Weniger Freiheitsgrade, schlechtere In-Sample-Zahlen,
+robustere Ergebnisse außerhalb der Stichprobe — und ein Vielfaches an Beobachtungen, ohne einen Tag
+länger zu warten.
+
+**Gegenprobe, Pflicht im ersten Bericht:** Schlägt der gepoolte Parametersatz die
+instrumentspezifischen außerhalb der Stichprobe? Falls nein, war das Pooling für dieses Konzept
+nicht gerechtfertigt und wird getrennt. Zu erwarten ist das dort, wo sich die Anlageklassen
+strukturell unterscheiden — NDOG etwa existiert im Devisenmarkt nicht.
+
+Das ist zugleich eine zusätzliche Absicherung gegen die Mehrfachtest-Problematik aus 9.4: Ein
+gemeinsamer Parametersatz bedeutet weniger getestete Varianten und damit einen kleineren Haircut.
+
+### 12.8 Bewusst nicht übernommen
 
 Institutionelles Niveau heißt auch zu wissen, was bei dieser Kontogröße reine Zierde wäre:
 

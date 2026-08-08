@@ -70,6 +70,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Mitigation Block]] — Order-Block-Variante nach einem Failure Swing (2026-08-01)
 - [[Market Structure Shift (MSS)]] — MSS vs. MSB, Pflichtbedingung Liq-Sweep vor dem Swing-Bruch (2026-08-02)
 - [[Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)]] — statistischer Nachweis von Mean Reversion/Kointegration vor jeder Pairs-/Reversion-These; algo-methodology, kein ICT-Konzept (2026-08-08)
+- [[Meta-Labeling (López de Prado)]] — Primärmodell bestimmt die Richtung, ein zweites Modell nur ob und wie groß; die einzige ML-Bauform, die zur Architektur dieses Projekts passt; algo-methodology (2026-08-08)
 - [[Midnight Opening Range]] — 0:00–0:30 NY, Fib + negative STD fürs Daily High/Low, max. Manipulation −1 STD (2026-08-02)
 - [[Modell 22]] — 2026er Turtle-Soup-Trigger über MSS+SIBI, linkes-IFVG-Regel (2026-08-01)
 - [[Momentum-Divergenz als Retail-Falle (Divergence Phantoms)]] — Typ-1- vs. Typ-2-Divergenz, Smart Money nutzt Retail-Divergenz-Signale zum Stop-Run, Abgrenzung zu SMT (2026-08-06)
@@ -90,6 +91,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Quarterly Shift]] — Alle 3–4 Monate markanter Liquidity-Shift, Underlying/Benchmark (2026-08-01)
 - [[Reclaimed Order Block]] — OB-Variante im MMXM-Modell nach Displacement+Retracement (2026-08-01)
 - [[Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)]] — Coordinate Descent über einen Lambda-Pfad; „Indikatorqualität schlägt Modellkomplexität"; algo-methodology (2026-08-08)
+- [[Reinforcement Learning für Handel — Grenzen (Starke)]] — warum RL als Signalgeber am Rauschen scheitert, wo es (Ausführung) funktioniert, und warum Struktur statt Rohdaten gefüttert werden muss; algo-methodology (2026-08-08)
 - [[Rejection Block]] — OB-Variante über Wick-vs-Body-Liquidity-Sweep (2026-08-01)
 - [[Return-Partitionierung (Skill, Trend, Training Bias)]] — Zerlegung des Backtest-Ergebnisses per Permutation: wie viel ist Können, wie viel Markttrend, wie viel gelerntes Rauschen; algo-methodology (2026-08-08)
 - [[Risikomanagement (1% pro Trade)]] — eigene Positionsgrößen-Regel: nie mehr als 1% Kontoguthaben Risiko pro Trade; jetzt auch als ICT-Quellenregel bestätigt (2026-08-06)
@@ -110,6 +112,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Trendline Phantoms (3 Drives Pattern)]] — Retail-Trendline-Falle, 3-Drives-Angriffsziel (2026-08-01)
 - [[Turtle Soup]] — Fehlausbruch-Setup mit Rückkehr in FVG/Retracement (2026-08-01)
 - [[Two Stage News Delivery (FOMC & NFP)]] — ⚠️ offene Hypothese: News-Reaktion in zwei zeitlich getrennten, teils gegenläufigen Stages statt einer Bewegung, live an NFP 07.08.2026 beobachtet, jetzt primärquellenbestätigt durch ICT selbst (2026-08-07)
+- [[Universal Model & Instrument-Pooling]] — gemeinsamer Parametersatz über alle Instrumente schlägt instrumentspezifische Anpassung, **am deutlichsten bei wenig Daten** (Sirignano & Cont); sofort nutzbar ohne ML-Code (2026-08-08)
 - [[Verlust-Mitigation durch reduzierte Re-Entry-Size]] — nach Stop-out mit halber Size re-entrien, R2 gleicht vollen Verlust aus (2026-08-06)
 - [[Vier-Stufen-Strategieentwicklung (Masters)]] — In-Sample Excellence → In-Sample MCPT → Walk-Forward → Walk-Forward MCPT, generischer Validierungsprozess; algo-methodology (2026-08-08)
 - [[Volume Imbalance (VII)]] — Lücke Close→Open; bestimmt die FVG-Grenzen und ist selbst eine PD Array (2026-08-02)
@@ -324,6 +327,13 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[AI in Finance and Quantitative Analysis (Source)]] — NTPU-Vorlesungsfolien; **inhaltlich
   dünn** (~7.600 der 10.175 Zeilen sind ein eingebetteter Literatur-Survey), verwertbar war der
   `ffn`-Kennzahlenkatalog (2026-08-08)
+- [[2022-07-05 - Two Sigma - Machine Learning Models of Financial Data (Source)|Two Sigma — Machine Learning Models of Financial Data (Source)]] — YouTube 2022-07-05, Justin
+  Sirignano (Two Sigma Securities / Oxford): universelles Preisbildungsmodell schlägt
+  instrumentspezifische Modelle, RL für Orderausführung, und die Warnung dass >50 % Trefferquote
+  trotzdem Verluste bedeuten kann (2026-08-08)
+- [[2019-09-05 - Reinforcement Learning for Trading (Tom Starke) (Source)|Reinforcement Learning for Trading — Practical Examples and Lessons Learned (Source)]] —
+  YouTube 2019-09-05, Dr. Tom Starke (Quantopian): ehrlicher Praktikerbericht über das Scheitern
+  von RL auf rohen Kursreihen, Belohnungsfunktions-Entartung, Kunstdaten-Testmethodik (2026-08-08)
 - [[Testing and Tuning Market Trading Systems (Source)]] — Masters-Buch (Apress 2018, 7 Kapitel),
   **Primärquelle** hinter [[Vier-Stufen-Strategieentwicklung (Masters)]] und
   [[Monte Carlo Permutation Test (MCPT)]]: Guard Buffer, Selection Bias, CSCV, Nested Walkforward,
@@ -340,6 +350,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Seasonal Tendency (Eigene Daten, laufend)]] — **generiert**, eigene Datenbank (`algo/seasonal_tendency.json`) für Wochentag/Turn-of-Month/Woche-im-Monat/Monat: Montag groß+bullish (78,6%, n=28), Turn-of-Month extern+eigen bestätigt, gegen externe Nasdaq-Quellen gehalten (2026-08-04)
 - [[Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)]] — **generiert**, FRED-Wirtschaftsdaten (VIX/DGS10/WALCL) gegen MNQ: VIX-Änderung korreliert -0,743 mit Tagesrendite, DGS10 -0,281; CPI-/FOMC-Reaktionstest bewusst nicht gebaut (kein verifizierbares Release-Datum) (2026-08-05)
 - [[Ensemble-Strategie — Backtest-Ergebnis & Commission-Verzerrung (laufend)]] — **generiert**: Profit Factor 1,48 bei Return -0,89% (In-Sample, n=34) — Commissions ($19.757, Prozent-vom-Notional-Modell statt Futures-Fixbetrag) fressen den gesamten brutto ca. +18,9%-Edge auf; größter Profitabilitäts-Hebel identifiziert (2026-08-05)
+- [[Machine Learning für den Algo — Bewertung (laufend)]] — Antwort auf „macht ML Sinn": nicht als Signalgeber, aber Instrument-Pooling ist sofort und ohne ML-Code nutzbar, Meta-Labeling später; mit Bedingungen für eine Neubewertung (2026-08-08)
 - [[KW32 2026 — Weekly Review]] — Wochenübergreifender roter Faden über die bereits einzeln verifizierten `journal/entries/`: Weekly Bias (bullish, DOL 29.363,50) und Montag beide bias_korrekt:true, Donnerstag fehlerfrei; echte Fehler waren Bias-Inkonsistenz Montag (Weekly vs. Daily binnen 33 Min.) und ein veraltetes ORG-Level am Freitag (2026-08-07)
 
 ## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)
