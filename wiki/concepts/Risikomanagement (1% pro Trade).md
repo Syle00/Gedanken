@@ -71,3 +71,6 @@ Reentry/Exit-Schema) und `raw/2026/Chain Of Custody Of Price With Daily Ineffici
 - [[Missed Entry Trade Management Playbook]]
 - [[Erwartungswert & Reward-to-Risk-Modell]]
 - [[Verlust-Mitigation durch reduzierte Re-Entry-Size]]
+- [[Kelly-Criterion & Value-at-Risk (Money Management)]] — quantitative Alternative/Ergänzung:
+  diese Seite hier ist eine feste, statistik-unabhängige Regel, Kelly wäre eine formal
+  wachstumsoptimierte (aber datenhungrigere) Herleitung derselben Fragestellung

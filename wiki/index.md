@@ -19,6 +19,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Erwartungswert & Reward-to-Risk-Modell]] — Mindest-RR nach Trefferquote, bestätigt die 1-%-Risiko-Regel im ICT-Quellenmaterial (2026-08-06)
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]] — 4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition (2026-08-01)
 - [[Asian Range]] — 19–24 Uhr NY, Highest High/Lowest Low; Konsolidierung = Trendtag, nur mit Bias nutzbar (2026-08-02)
+- [[Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)]] — Vier-Bias-Katalog aus Halls-Moore, systematisiert bestehende Projektregeln; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Balanced Price Range (BPR)]] — Verhalten innerhalb eines FVG, eine Timeframe tiefer betrachtet (2026-08-02)
 - [[BISI & SIBI (Buyside-Sellside Imbalance)]] — Richtungs-Bezeichnung für FVG-Typen (2026-08-01)
 - [[Breakaway Gap]] — Displacement am FVG-Quadranten/Wick, LTF-Umdeutung des FVG (2026-08-02)
@@ -45,6 +46,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Intermarket Relationships]] — Bonds/Stocks/Commodities/Currencies-Korrelationsregeln (2026-08-01)
 - [[IPDA Data Ranges]] — 20/40/60-Tage-Lookback des Interbank Price Delivery Algorithmus (2026-08-01)
 - [[Judas Swing]] — Der False Run zwischen 0:00 und 5:00 NY, bullishe/bearishe Ausführung (2026-08-02)
+- [[Kelly-Criterion & Value-at-Risk (Money Management)]] — quantitative Hebel-/Verlustschätzung, Ergänzung zur festen 1%-Regel; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Liquidity Void]] — LTF-Erscheinung eines FVG, einseitige Preislieferung, Common-Gap-Präzisions-Entry (2026-08-06)
 - [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD (2026-08-01)
 - [[Market Maker Trap - False Breakout]] — false breakouts neutralisieren gezielt eine Seite gebracketer Stops, seriell wiederholend (2026-08-06)
@@ -54,6 +56,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Market Reversal Types]] — Katalog der 8 ICT-Reversal-Typen (PDH/PDL, ITH/ITL, NY Reversal...) (2026-08-01)
 - [[Mitigation Block]] — Order-Block-Variante nach einem Failure Swing (2026-08-01)
 - [[Market Structure Shift (MSS)]] — MSS vs. MSB, Pflichtbedingung Liq-Sweep vor dem Swing-Bruch (2026-08-02)
+- [[Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)]] — statistischer Nachweis von Mean Reversion/Kointegration vor jeder Pairs-/Reversion-These; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Midnight Opening Range]] — 0:00–0:30 NY, Fib + negative STD fürs Daily High/Low, max. Manipulation −1 STD (2026-08-02)
 - [[Modell 22]] — 2026er Turtle-Soup-Trigger über MSS+SIBI, linkes-IFVG-Regel (2026-08-01)
 - [[Momentum-Divergenz als Retail-Falle (Divergence Phantoms)]] — Typ-1- vs. Typ-2-Divergenz, Smart Money nutzt Retail-Divergenz-Signale zum Stop-Run, Abgrenzung zu SMT (2026-08-06)
@@ -282,6 +285,9 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Quantifying Market Structure at Multiple Scales for Algorithmic Trading with Python (Source)]]
   — neurotrader-Transkript: ATR-adaptive Directional-Change-Swings + rekursive hierarchische
   Signifikanz-Levels (2026-08-08)
+- [[Successful Algorithmic Trading (Source)]] — Halls-Moore-Buch (208 S.): Backtesting-Bias-
+  Katalog, Mean-Reversion-Statistik (ADF/Hurst/Kointegration), Kelly/VaR, Event-Driven-Engine
+  (2026-08-08)
 
 ## Synthesis
 

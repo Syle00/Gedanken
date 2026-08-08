@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">79</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">82</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">183</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">184</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">10</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -111,6 +111,7 @@
 <li><a href="#2026-08-07-ingest-youtube-case-study-with-nonfarm-payroll-nq-futures">[2026-08-07] ingest | YouTube: Case Study With NonFarm Payroll &amp; NQ Futures</a></li>
 <li><a href="#2026-08-08-ingest-how-i-develop-trading-strategies-permutation-tests-neurotrader">[2026-08-08] ingest | How I Develop Trading Strategies (Permutation Tests, neurotrader)</a></li>
 <li><a href="#2026-08-08-ingest-zwei-weitere-algo-methodology-quellen-kein-trading-content">[2026-08-08] ingest | Zwei weitere algo-methodology-Quellen (kein Trading-Content)</a></li>
+<li><a href="#2026-08-08-ingest-successful-algorithmic-trading-halls-moore-pdf-kein-trading-content">[2026-08-08] ingest | Successful Algorithmic Trading (Halls-Moore, PDF, kein Trading-Content)</a></li>
 </ul>
 </div>
 </details>
@@ -1239,6 +1240,34 @@
   Beide bewusst nicht als akuter Backlog-Punkt in <code>algo/PLAN.md</code> aufgenommen (keine konkrete
   Regel/kein konkreter Refactor beauftragt), nur als Wiki-Wissen für künftige Entscheidungen
   festgehalten.</li>
+<li>Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).</li>
+</ul>
+<h2 id="2026-08-08-ingest-successful-algorithmic-trading-halls-moore-pdf-kein-trading-content">[2026-08-08] ingest | Successful Algorithmic Trading (Halls-Moore, PDF, kein Trading-Content)</h2>
+<ul>
+<li>Quelle: <code>raw/Successful Algorithmic Trading.pdf</code> (208 Seiten, LaTeX/QuantStart-Eigenverlag,
+  Michael Halls-Moore). Ursprünglich vom Nutzer unter <code>Dropbox\VS Folder 1\raw\</code> abgelegt (nicht
+  im aktiven Projektverzeichnis) — nach <code>raw/</code> dieses Repos kopiert, bevor ingestet wurde.
+  Textextraktion per <code>pypdf</code> (LaTeX-generierte PDF, sauberer Text, kein Bild-Ingest nötig — anders
+  als Notion-Export-Screenshots). Kein ICT/SMC-Material — algo-methodology-Domäne, wie die drei
+  zuvor am selben Tag ingesteten YouTube-Quellen.</li>
+<li>Seiten erstellt: <code>wiki/sources/Successful Algorithmic Trading (Source).md</code>,
+  <code>wiki/concepts/Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive).md</code>,
+  <code>wiki/concepts/Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration).md</code>,
+  <code>wiki/concepts/Kelly-Criterion &amp; Value-at-Risk (Money Management).md</code>.</li>
+<li>Seiten aktualisiert: <code>wiki/index.md</code> (drei neue Concepts alphabetisch, eine neue Source unter
+  "Algo-Methodik"), <code>wiki/concepts/Risikomanagement (1% pro Trade).md</code> (Querverweis auf die neue
+  Kelly/VaR-Seite ergänzt — bestehende feste 1%-Regel bleibt unverändert die aktive Projektregel).</li>
+<li>Kernfunde: (1) Backtesting-Bias-Katalog (Optimisation/Look-Ahead/Survivorship/Cognitive) —
+  Survivorship- und Cognitive-Bias waren bisher nirgends im Vault dokumentiert, obwohl
+  Optimisation-/Look-Ahead-Bias bereits implizit über Walk-Forward/MCPT/<code>bars[t&lt;=when]</code> abgedeckt
+  sind. (2) Mean-Reversion-Statistik (ADF/Hurst/Kointegration) — bisher kein Pairs-/Reversion-
+  Ansatz im Vault, MNQ läuft als Single-Instrument. (3) Kelly-Criterion/VaR als quantitative,
+  aber datenhungrigere Alternative zur bestehenden festen 1%-Risikoregel. Bewusst kein Backlog-
+  Punkt in <code>algo/PLAN.md</code> — reines Wiki-Wissen, kein konkreter Umsetzungsauftrag.</li>
+<li>Nicht ingestet aus dem Buch: Kapitel zu MySQL-Securities-Master-Setup, Event-Driven-Engine-
+  Implementierungsdetails (Event/DataHandler/Portfolio-Klassen im Detail) und Software-Installation
+  — dieses Projekt löst Datenhaltung (<code>raw/marktdaten/</code>-Dateien) und Backtesting (PyPI-Bibliothek
+  <code>backtesting</code>) bereits anders, Reuse-first statt Eigenbau nach Buchvorlage.</li>
 <li>Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).</li>
 </ul></div>
   

@@ -1060,3 +1060,30 @@ Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[
   Regel/kein konkreter Refactor beauftragt), nur als Wiki-Wissen für künftige Entscheidungen
   festgehalten.
 - Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-08] ingest | Successful Algorithmic Trading (Halls-Moore, PDF, kein Trading-Content)
+- Quelle: `raw/Successful Algorithmic Trading.pdf` (208 Seiten, LaTeX/QuantStart-Eigenverlag,
+  Michael Halls-Moore). Ursprünglich vom Nutzer unter `Dropbox\VS Folder 1\raw\` abgelegt (nicht
+  im aktiven Projektverzeichnis) — nach `raw/` dieses Repos kopiert, bevor ingestet wurde.
+  Textextraktion per `pypdf` (LaTeX-generierte PDF, sauberer Text, kein Bild-Ingest nötig — anders
+  als Notion-Export-Screenshots). Kein ICT/SMC-Material — algo-methodology-Domäne, wie die drei
+  zuvor am selben Tag ingesteten YouTube-Quellen.
+- Seiten erstellt: `wiki/sources/Successful Algorithmic Trading (Source).md`,
+  `wiki/concepts/Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive).md`,
+  `wiki/concepts/Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration).md`,
+  `wiki/concepts/Kelly-Criterion & Value-at-Risk (Money Management).md`.
+- Seiten aktualisiert: `wiki/index.md` (drei neue Concepts alphabetisch, eine neue Source unter
+  "Algo-Methodik"), `wiki/concepts/Risikomanagement (1% pro Trade).md` (Querverweis auf die neue
+  Kelly/VaR-Seite ergänzt — bestehende feste 1%-Regel bleibt unverändert die aktive Projektregel).
+- Kernfunde: (1) Backtesting-Bias-Katalog (Optimisation/Look-Ahead/Survivorship/Cognitive) —
+  Survivorship- und Cognitive-Bias waren bisher nirgends im Vault dokumentiert, obwohl
+  Optimisation-/Look-Ahead-Bias bereits implizit über Walk-Forward/MCPT/`bars[t<=when]` abgedeckt
+  sind. (2) Mean-Reversion-Statistik (ADF/Hurst/Kointegration) — bisher kein Pairs-/Reversion-
+  Ansatz im Vault, MNQ läuft als Single-Instrument. (3) Kelly-Criterion/VaR als quantitative,
+  aber datenhungrigere Alternative zur bestehenden festen 1%-Risikoregel. Bewusst kein Backlog-
+  Punkt in `algo/PLAN.md` — reines Wiki-Wissen, kein konkreter Umsetzungsauftrag.
+- Nicht ingestet aus dem Buch: Kapitel zu MySQL-Securities-Master-Setup, Event-Driven-Engine-
+  Implementierungsdetails (Event/DataHandler/Portfolio-Klassen im Detail) und Software-Installation
+  — dieses Projekt löst Datenhaltung (`raw/marktdaten/`-Dateien) und Backtesting (PyPI-Bibliothek
+  `backtesting`) bereits anders, Reuse-first statt Eigenbau nach Buchvorlage.
+- Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
