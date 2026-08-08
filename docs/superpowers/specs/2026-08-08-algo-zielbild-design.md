@@ -2,10 +2,14 @@
 
 **Datum:** 2026-08-08
 **Status:** Entwurf, wartet auf Freigabe durch Jannes
-**Entstanden aus:** Interview-Session (`/superpowers:brainstorming`), 25 Einzelentscheidungen
+**Entstanden aus:** Interview-Session (`/superpowers:brainstorming`), 26 Einzelentscheidungen
 **Revision 2 (2026-08-08):** Gegengeprüft gegen den vollständigen Wiki-Bestand, den ICT Core
 Content und die akademische Literatur. Sieben inhaltliche Korrekturen, vier neue Pflichtbausteine.
 Zielmarkt auf **Forex und CME** erweitert (Nutzerentscheidung).
+**Revision 5 (2026-08-08):** **Prop-Firmen-Kompatibilität** als harte Nebenbedingung aufgenommen
+(Abschnitt 13). Kernbefund: Bei mitlaufendem Intraday-Drawdown bricht die Runner-Strategie aus 3.1,
+und eine Challenge ist mathematisch ein anderes Problem als langfristiges Wachstum.
+Umsetzung als Kontoprofil, kein Sonderzweig im Code.
 **Revision 4 (2026-08-08):** Machine Learning geprüft und eingeordnet (12.7) — abgelehnt als
 Signalgeber, aber **Instrument-Pooling ab Stufe 2 verbindlich**. Zwei Quellen ingestet
 (Two Sigma/Sirignano, Quantopian/Starke), sechs Wiki-Seiten angelegt.
@@ -87,6 +91,7 @@ anzupassen.
 | 23 | Marktumfang | Forex **und** CME, nicht entweder-oder | Siehe 2.1 |
 | 24 | Konto | **Eigenes Konto nur für den Algo**, getrennt vom manuellen Handel | Sonst kollidieren manuelle Positionen mit denen des Algos und lösen dauernd „unbekannte Position → Stopp" aus. Nebeneffekt: Die Leistung des Algos ist sauber messbar, ohne dass manuelle Trades die Zahlen verfälschen — Voraussetzung für den Annahme-Wächter (5.6) und für CPPI (5.5), das ohnehin ein Ein-Strategie-Konto verlangt |
 | 25 | Trades pro Tag | **Unbegrenzt**, bis das Risikomodul eingreift | Siehe 5.9 — eine Tagesgrenze ist eine Psychologieregel |
+| 26 | Prop-Firmen | Der Algo muss **Challenges handeln können** | Siehe Abschnitt 13. Deren Regeln sind harte Nebenbedingungen und stehen über allen Präferenzen aus Abschnitt 5 |
 
 ### 3.1 Ertragsziel — Korrektur gegenüber Revision 1
 
@@ -1073,7 +1078,146 @@ Institutionelles Niveau heißt auch zu wissen, was bei dieser Kontogröße reine
 
 ---
 
-## 13. Folgearbeiten im Wiki
+## 13. Prop-Firmen-Kompatibilität
+
+**Anforderung (Nutzerentscheidung 2026-08-08):** Der Algo soll auch Challenges bei Prop-Firmen
+handeln können, nicht nur das eigene Konto.
+
+Das ist keine Zusatzfunktion, sondern eine **harte Nebenbedingung**: Ein Regelverstoß beendet die
+Challenge sofort, unabhängig davon, wie gut die Strategie war. Prop-Regeln stehen damit **über**
+allen Präferenzen aus Abschnitt 5.
+
+> ⚠️ **Die konkreten Zahlen unten sind Größenordnungen aus Marktübersichten, keine verbindlichen
+> Werte.** Prop-Firmen ändern ihre Regeln häufig und unterscheiden sich erheblich. Vor jeder
+> Challenge werden die Regeln der **tatsächlich gewählten Firma** aus deren eigenen Bedingungen
+> gelesen und ins Kontoprofil (13.4) eingetragen. Nichts davon wird aus dieser Spec übernommen.
+
+### 13.1 Die Regelfamilien
+
+| Regel | Typische Ausprägung | Wirkung auf den Algo |
+|---|---|---|
+| **Tagesverlustgrenze** | 4–5 % des Kontos; manche Futures-Firmen ohne | Harte Abschaltung für den Tag |
+| **Maximaler Drawdown** | 8–12 % | Harte Abschaltung, Konto verloren |
+| **Statisch vs. trailing** | Boden fest vom Startguthaben, oder er wandert mit jedem neuen Hoch mit | Siehe 13.2 — der wichtigste Unterschied |
+| **Gewinnziel** | ~8–10 % zum Bestehen | Ändert das Optimierungsziel, siehe 13.3 |
+| **Mindesthandelstage** | oft 5–10 | Untergrenze für die Laufzeit |
+| **Konsistenzregel** | bester Tag höchstens ~30 % des Gesamtgewinns | **Obergrenze** für den Tagesgewinn — ungewöhnlich, siehe 13.1.1 |
+| **News-Handel** | je nach Firma erlaubt oder eingeschränkt | Bereits abgedeckt (6.1) |
+| **Automatisierung** | meist erlaubt, teils plattformabhängig | Vorabprüfung nötig |
+| **Verbotene Techniken** | HFT, Latenzarbitrage, Tick-Scalping, Martingale, Copy-Trading | Bereits abgedeckt (5.10) |
+
+#### 13.1.1 Die Konsistenzregel ist eine Obergrenze nach oben
+
+Ungewohnt und leicht zu übersehen: Manche Firmen lassen durchfallen, wenn ein einzelner Tag einen
+zu großen Anteil am Gesamtgewinn ausmacht. Das heißt, der Algo muss auf einem sehr guten Tag
+**aufhören zu gewinnen** — eine Bedingung, die in keinem gewöhnlichen Risikomodell vorkommt und
+die als eigene Prüfung im Risiko-Wächter landet.
+
+### 13.2 Trailing Drawdown bricht die Runner-Strategie
+
+Der wichtigste Konflikt, und er betrifft direkt den Weg zum Ertragsziel aus 3.1.
+
+Beim **mitlaufenden (trailing) Drawdown** wandert der Verlustboden mit jedem neuen Kontohoch nach
+oben. Entscheidend ist, **welches** Hoch zählt:
+
+- **Intraday-Trailing:** Auch ein **unrealisiertes** Zwischenhoch hebt den Boden — sofort und
+  dauerhaft. Eine offene Position, die 3.000 im Plus steht und auf 1.500 zurückfällt, hat den
+  Puffer bereits um 3.000 verkleinert, obwohl nie etwas gebucht wurde.
+- **End-of-Day-Trailing:** Der Boden wandert nur mit dem **Schlussguthaben**. Zwischenhochs sind
+  folgenlos.
+
+**Konsequenz:** Die ICT-Skalierung aus Month 02 — erste Hälfte bei 3:1 sichern, zweite Hälfte bis
+9R–15R laufen lassen — ist unter **Intraday-Trailing gefährlich**. Genau das Laufenlassen, das den
+10-Prozent-Monat rechnerisch trägt, verbrennt dort permanent Puffer, sobald der Runner
+zwischendurch zurückkommt. Unter End-of-Day-Trailing oder statischem Drawdown ist sie unproblematisch.
+
+**Regel:** Bei Intraday-Trailing wird die Runner-Komponente abgeschaltet und stattdessen an
+festen Zielen realisiert. Welche Drawdown-Art gilt, steht im Kontoprofil.
+
+### 13.3 Eine Challenge ist ein anderes mathematisches Problem
+
+Das übrige Risikomodell optimiert **langfristiges Wachstum** (Kelly, CPPI, Volatility Targeting).
+Eine Challenge fragt etwas anderes: *Wie erreiche ich +8 % bevor ich −10 % erreiche?* Das ist ein
+Erstüberschreitungs-Problem, kein Wachstumsproblem — und es hat ein anderes Optimum.
+
+Aus der Spieltheorie (Dubins & Savage, *How to Gamble If You Must*, 1965): **Bold Play** — also so
+groß wie möglich setzen — maximiert die Wahrscheinlichkeit, ein Ziel vor dem Ruin zu erreichen,
+**nur im unfairen Spiel** (Gewinnwahrscheinlichkeit ≤ ½). Bei einem echten Vorteil ist es
+umgekehrt: **kleine Einsätze** maximieren die Bestehenswahrscheinlichkeit, weil die Zeit für einen
+arbeitet.
+
+Daraus folgt eine unbequeme, aber saubere Selbstprüfung:
+
+> **Wenn große Positionen die Bestehenschance erhöhen, hat die Strategie keinen Vorteil.**
+> Wer in einer Challenge groß setzen muss, um sie zu bestehen, spielt — und wird spätestens auf
+> dem finanzierten Konto scheitern.
+
+**Regel:** Im Challenge-Profil wird die Positionsgröße **nicht** erhöht. Sie wird gegenüber dem
+eigenen Konto eher gesenkt, weil die Verlustgrenzen enger sind. Gibt es eine Zeitbegrenzung, wird
+sie zur Nebenbedingung — dann existiert eine Untergrenze für die Größe, unterhalb derer das Ziel
+nicht rechtzeitig erreichbar ist. Diese Untergrenze wird gerechnet, nicht geschätzt.
+
+### 13.4 Umsetzung: Kontoprofil statt Sonderfall
+
+**Kein zweiter Algo und kein Sonderzweig im Code.** Der Risiko-Wächter liest ein **Profil** je
+Konto:
+
+```
+profil:
+  name:                 "eigenes Konto" | "<Firma> Challenge" | "<Firma> Funded"
+  tagesverlust_grenze:  null | Betrag oder Prozent
+  max_drawdown:         Betrag oder Prozent
+  drawdown_art:         statisch | trailing_eod | trailing_intraday
+  gewinnziel:           null | Prozent
+  mindesthandelstage:   null | Anzahl
+  konsistenz_max_tag:   null | Anteil am Gesamtgewinn
+  news_handel:          erlaubt | gesperrt
+  runner_erlaubt:       true | false        # abgeleitet aus drawdown_art
+  zeitlimit_tage:       null | Anzahl
+```
+
+Die Grenzen aus Abschnitt 5 bleiben unverändert bestehen — sie werden nur **zusätzlich** durch das
+Profil gedeckelt. **Bindend ist immer der strengste Wert.** Damit gilt weiterhin der Grundsatz aus
+5.2: der kleinste aller Werte gewinnt.
+
+**Erweiterung der Prüfreihenfolge (5.11)** um die Profilprüfungen: Tagesverlustgrenze,
+Drawdown-Boden nach Profil-Art, Konsistenzgrenze und — bei aktiver Challenge — ob der geplante
+Trade den Puffer unter eine Sicherheitsmarge drücken würde. Die Marge ist nötig, weil ein
+Regelverstoß nicht rückgängig zu machen ist: Die Grenze wird **nie** exakt ausgereizt.
+
+### 13.5 Was bereits passt
+
+Erfreulich viel — die bisherigen Entscheidungen decken sich weitgehend mit dem, was Prop-Firmen
+verlangen:
+
+| Bereits entschieden | Prop-Anforderung |
+|---|---|
+| Intraday flat, abends geschlossen (16) | Viele Futures-Firmen verlangen genau das |
+| Red-Folder-News gesperrt (6.1) | Manche Firmen verlangen es, keine verbietet es |
+| Kein Nachlegen in Verluste (5.10) | Martingale ist verbreitet untersagt |
+| Stop als echte Order beim Broker (5.10) | Erfüllt jede Anforderung an Risikokontrolle |
+| CPPI mit Hochwasserstand (5.5) | Bildet trailing Drawdown strukturell bereits ab |
+| Keine Latenz-Strategien (4.4) | HFT und Latenzarbitrage sind verbreitet untersagt |
+
+Der Algo ist damit nicht prop-tauglich zu machen, sondern **ist es weitgehend schon** — was fehlt,
+sind das Profil, die Konsistenzprüfung und die Runner-Abschaltung bei Intraday-Trailing.
+
+### 13.6 Zu prüfen vor der ersten Challenge
+
+1. Erlaubt die gewählte Firma **automatisierten Handel** auf der von ihr vorgeschriebenen
+   Plattform? Manche Firmen schreiben eine eigene Plattform vor, auf der keine externe
+   Anbindung möglich ist. Das ist ein Ausschlusskriterium und **vor** dem Kauf einer Challenge zu
+   klären.
+2. Welche Drawdown-Art gilt genau — und wird auf Guthaben oder auf Equity gemessen?
+3. Gibt es eine Konsistenzregel, und wie ist sie definiert?
+4. Gibt es ein Zeitlimit?
+5. Ist die Anbindung überhaupt IBKR-basiert, oder verlangt die Firma einen eigenen Broker? Im
+   zweiten Fall wird ein weiterer Broker-Adapter nötig — die Regelschicht bleibt davon unberührt,
+   weil sie broker-unabhängig gebaut ist (4.1).
+
+---
+
+## 14. Folgearbeiten im Wiki
 
 Nach Freigabe zu erledigen (Pflicht laut `CLAUDE.md`, „Kontinuierliches Wachstum"):
 
@@ -1107,7 +1251,7 @@ Nach Freigabe zu erledigen (Pflicht laut `CLAUDE.md`, „Kontinuierliches Wachst
 
 ---
 
-## 14. Offene Punkte
+## 15. Offene Punkte
 
 | # | Punkt | Wann geklärt |
 |---|---|---|
@@ -1120,11 +1264,12 @@ Nach Freigabe zu erledigen (Pflicht laut `CLAUDE.md`, „Kontinuierliches Wachst
 | 7 | Kelly und `f_ruin` für die bestehende Silver-Bullet-Strategie | **vor jedem weiteren Schritt** — 20× Hebel am Margin-Limit ist ungeprüft |
 | 8 | Runner-Häufigkeit (9R–15R) | erster Bericht |
 | ~~9~~ | ~~Manueller Handel auf demselben Konto?~~ | **Geklärt 2026-08-08: eigenes Konto nur für den Algo** (Entscheidung 24) |
-| 10 | Silver Bullet überarbeiten, bevor die Strategie ins Regelregister wandert | Kalendereintrag 2026-09-01, siehe Abschnitt 14.1 |
+| 10 | Silver Bullet überarbeiten, bevor die Strategie ins Regelregister wandert | Kalendereintrag 2026-09-01, siehe Abschnitt 15.1 |
+| 11 | Welche Prop-Firma? Erlaubt sie Automatisierung auf ihrer Pflichtplattform, und welche Drawdown-Art gilt? | **vor dem Kauf einer Challenge**, siehe 13.6 |
 
 ---
 
-### 14.1 Terminierte Folgearbeit
+### 15.1 Terminierte Folgearbeit
 
 **Silver Bullet überarbeiten** — Kalendereintrag 2026-09-01, 10:00–11:30 (Platzhalter nach
 Abschluss der Datenschicht). [[Silver Bullet Model]] ist bisher die einzige vollständig geregelte
@@ -1138,7 +1283,7 @@ Strategie im Vault und wandert **nicht** unverändert ins Regelregister. Zu klä
 
 ---
 
-## 15. Bewusst nicht enthalten
+## 16. Bewusst nicht enthalten
 
 Keine Nutzeroberfläche, kein Dashboard, keine Datenbank (Dateien genügen), keine
 Broker-Abstraktion für mehrere Broker, keine Warteschlange zwischen den Bausteinen.

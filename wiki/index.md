@@ -87,6 +87,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[PD Array]] — Premium/Discount-Array, Grundbaustein jedes ICT-Setups (2026-08-01)
 - [[Premium vs. Carrying Charge Market]] — Futures-Kurven-Analyse (Contango/Backwardation) (2026-08-01)
 - [[Profit pro Bar vs. pro Trade]] — warum Kennzahlen auf Trade-Basis unbrauchbar sind (Profit Factor ∞ statt 1,01), Ein-Bar-Konversion; algo-methodology (2026-08-08)
+- [[Prop-Firmen-Regeln & Challenge-Mathematik]] — Drawdown-Arten (statisch/trailing/intraday vs. EOD), Konsistenzregel als Obergrenze nach oben, und warum bei echtem Vorteil **kleine** Einsätze die Bestehenschance maximieren (Dubins & Savage); **Risikomanagement** (2026-08-08)
 - [[Propulsion Block]] — OB-Variante: zweite Down-/Up-Candle in bereits validierten OB, Mean Threshold quasi nie verletzt (2026-08-06)
 - [[Quarterly Shift]] — Alle 3–4 Monate markanter Liquidity-Shift, Underlying/Benchmark (2026-08-01)
 - [[Reclaimed Order Block]] — OB-Variante im MMXM-Modell nach Displacement+Retracement (2026-08-01)

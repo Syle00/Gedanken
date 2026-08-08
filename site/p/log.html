@@ -21,7 +21,7 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">110</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">111</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">190</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">11</span></a></li>
@@ -122,6 +122,7 @@
 </ul>
 </li>
 <li><a href="#2026-08-08-ingest-machine-learning-im-handel-zwei-videoquellen-bewertung">[2026-08-08] ingest | Machine Learning im Handel — zwei Videoquellen + Bewertung</a></li>
+<li><a href="#2026-08-08-synthesis-prop-firmen-kompatibilitat-als-anforderung">[2026-08-08] synthesis | Prop-Firmen-Kompatibilität als Anforderung</a></li>
 </ul>
 </div>
 </details>
@@ -1550,6 +1551,28 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   konstruktionsbedingt autokorreliert, gehandelt wird aber zum echten Kurs. Auf
   <a href="../p/reinforcement-learning-fuer-handel-grenzen-starke.html">Reinforcement Learning für Handel — Grenzen (Starke)</a> als ⚠️ markiert.</li>
 <li>Nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).</li>
+</ul>
+<h2 id="2026-08-08-synthesis-prop-firmen-kompatibilitat-als-anforderung">[2026-08-08] synthesis | Prop-Firmen-Kompatibilität als Anforderung</h2>
+<ul>
+<li>Auslöser: Nutzerentscheidung, dass der Algo auch Prop-Firmen-Challenges handeln können soll.</li>
+<li>Seite erstellt: <code>wiki/concepts/Prop-Firmen-Regeln &amp; Challenge-Mathematik.md</code>.</li>
+<li>Seiten aktualisiert: <code>wiki/index.md</code>.</li>
+<li>Spec erweitert (Revision 5, Abschnitt 13): Kontoprofil statt Sonderzweig im Code, Entscheidung 26.</li>
+<li><strong>Zwei Befunde mit echter Wirkung:</strong> (1) Bei mitlaufendem <strong>Intraday</strong>-Drawdown hebt schon ein
+  unrealisiertes Zwischenhoch den Verlustboden dauerhaft — damit bricht das ICT-Skalierungsmodell
+  aus <a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a> (zweite Hälfte bis 9R–15R laufen lassen),
+  weil ein zurückkommender Runner permanent Puffer verbrennt. Unter End-of-Day-Trailing oder
+  statischem Drawdown besteht der Konflikt nicht. (2) Eine Challenge ist mathematisch ein
+  Erstüberschreitungs-Problem, kein Wachstumsproblem — nach Dubins &amp; Savage (1965) ist „bold play"
+  nur im <strong>unfairen</strong> Spiel optimal. Bei echtem Vorteil maximieren <strong>kleine</strong> Einsätze die
+  Bestehenswahrscheinlichkeit. Daraus die Selbstprüfung: Wenn große Positionen die Bestehenschance
+  erhöhen, hat die Strategie keinen Vorteil.</li>
+<li>Erfreulicher Nebenbefund: Sechs bereits getroffene Entscheidungen (Intraday flat, News gesperrt,
+  kein Nachlegen in Verluste, echter Stop beim Broker, CPPI-Hochwasserstand, keine
+  Latenz-Strategien) decken sich mit verbreiteten Prop-Anforderungen. Der Algo ist weitgehend
+  prop-tauglich, ohne dafür entworfen worden zu sein.</li>
+<li>Zahlen bewusst als Größenordnungen markiert, nicht als verbindliche Werte — Prop-Firmen ändern
+  ihre Regeln häufig, die Bedingungen der gewählten Firma sind vor jeder Challenge selbst zu lesen.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

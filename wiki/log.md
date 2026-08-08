@@ -1353,3 +1353,25 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   konstruktionsbedingt autokorreliert, gehandelt wird aber zum echten Kurs. Auf
   [[Reinforcement Learning für Handel — Grenzen (Starke)]] als ⚠️ markiert.
 - Nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-08] synthesis | Prop-Firmen-Kompatibilität als Anforderung
+
+- Auslöser: Nutzerentscheidung, dass der Algo auch Prop-Firmen-Challenges handeln können soll.
+- Seite erstellt: `wiki/concepts/Prop-Firmen-Regeln & Challenge-Mathematik.md`.
+- Seiten aktualisiert: `wiki/index.md`.
+- Spec erweitert (Revision 5, Abschnitt 13): Kontoprofil statt Sonderzweig im Code, Entscheidung 26.
+- **Zwei Befunde mit echter Wirkung:** (1) Bei mitlaufendem **Intraday**-Drawdown hebt schon ein
+  unrealisiertes Zwischenhoch den Verlustboden dauerhaft — damit bricht das ICT-Skalierungsmodell
+  aus [[Partial Profit-Taking & R-Multiple-Skalierung]] (zweite Hälfte bis 9R–15R laufen lassen),
+  weil ein zurückkommender Runner permanent Puffer verbrennt. Unter End-of-Day-Trailing oder
+  statischem Drawdown besteht der Konflikt nicht. (2) Eine Challenge ist mathematisch ein
+  Erstüberschreitungs-Problem, kein Wachstumsproblem — nach Dubins & Savage (1965) ist „bold play"
+  nur im **unfairen** Spiel optimal. Bei echtem Vorteil maximieren **kleine** Einsätze die
+  Bestehenswahrscheinlichkeit. Daraus die Selbstprüfung: Wenn große Positionen die Bestehenschance
+  erhöhen, hat die Strategie keinen Vorteil.
+- Erfreulicher Nebenbefund: Sechs bereits getroffene Entscheidungen (Intraday flat, News gesperrt,
+  kein Nachlegen in Verluste, echter Stop beim Broker, CPPI-Hochwasserstand, keine
+  Latenz-Strategien) decken sich mit verbreiteten Prop-Anforderungen. Der Algo ist weitgehend
+  prop-tauglich, ohne dafür entworfen worden zu sein.
+- Zahlen bewusst als Größenordnungen markiert, nicht als verbindliche Werte — Prop-Firmen ändern
+  ihre Regeln häufig, die Bedingungen der gewählten Firma sind vor jeder Challenge selbst zu lesen.
