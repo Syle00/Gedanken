@@ -97,6 +97,16 @@ examples, and named concepts — drop:
 
 ## Gotchas
 
+- **Video IDs starting with `-`** (e.g. `-oMtfDvc18Y`) are parsed as a flag by argparse and fail
+  with "the following arguments are required: video_id". Use the `--` separator:
+  `python tools/fetch_yt_transcript.py -- "-oMtfDvc18Y"`. Costs no network request when it fails,
+  so it does not count against the rate-limit budget.
+- **Rate-limit pacing that works**: strictly serial fetches with a real pause between them
+  (45s is enough; 90s for the tail of a long batch). A full 8-video playlist plus a prior single
+  ingest = 9 fetches in one session completed with no block (2026-08-10). The historical
+  `IpBlocked` threshold is ~16 fetches per session and was always triggered by *parallel*
+  sub-agents, not by volume alone. Run the batch as one backgrounded serial loop and process the
+  already-fetched transcripts while the rest download.
 - `--flat-playlist` entries have no `upload_date` — always resolve real dates with a second,
   non-flat `yt-dlp` call per candidate before deciding the date window.
 - `yt-dlp` and `youtube_transcript_api` are Python packages here, not standalone CLIs — invoke via
