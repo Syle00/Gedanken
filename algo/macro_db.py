@@ -456,6 +456,134 @@ def cmd_stats(symbol: str = "MNQ") -> None:
     print("  16:50 ganz (ragt ueber den Sessionschluss 17:00).")
 
 
+# Generierte Bilder gehoeren nach wiki/assets/, NICHT nach raw/ -- raw/ ist laut
+# CLAUDE.md Layer 1 (Rohquellen, unveraenderlich). build_site.py loest Bildnamen
+# ueber das ganze Repo auf (collect_assets() nutzt ROOT.rglob), der Ort ist also frei.
+BILD_DIR = Path(__file__).resolve().parent.parent / "wiki" / "assets"
+WIKI_SEITE = (Path(__file__).resolve().parent.parent / "wiki" / "synthesis"
+              / "Macro-Datenbank (laufend).md")
+
+
+def cmd_plot(symbol: str = "MNQ") -> None:
+    import matplotlib
+    matplotlib.use("Agg")           # kein Fenster, nur Dateien
+    import matplotlib.pyplot as plt
+
+    rows = [r for r in read_csv() if r["symbol"] == symbol]
+    if not rows:
+        print("Keine Daten. Erst `python algo/macro_db.py build` laufen lassen.")
+        return
+    BILD_DIR.mkdir(parents=True, exist_ok=True)
+    basis = quote(rows, lambda r: r["expansion"])
+    tage = sorted({r["session_day"] for r in rows})
+
+    # 1) Expansionsquote je Fenster, mit Wilson-Fehlerbalken und Basisrate
+    fenster = sorted({r["window"] for r in rows})
+    qs = [quote([r for r in rows if r["window"] == w], lambda r: r["expansion"])
+          for w in fenster]
+    ps = [100 * (q["p"] or 0) for q in qs]
+    unten = [100 * ((q["p"] or 0) - q["lo"]) for q in qs]
+    oben = [100 * (q["hi"] - (q["p"] or 0)) for q in qs]
+    fig, ax = plt.subplots(figsize=(12, 5))
+    ax.bar(fenster, ps, color="#4a7ba7")
+    ax.errorbar(fenster, ps, yerr=[unten, oben], fmt="none", ecolor="#333", capsize=3)
+    ax.axhline(100 * basis["p"], color="crimson", linestyle="--",
+               label=f"Basisrate {100 * basis['p']:.1f}%")
+    ax.set_ylabel("Expansionsquote (%)")
+    ax.set_title(f"{symbol}: Expansion je Macro-Fenster "
+                 f"({len(tage)} Handelstage, 95%-Wilson-Intervall)")
+    ax.legend()
+    plt.xticks(rotation=90)
+    plt.tight_layout()
+    fig.savefig(BILD_DIR / "macro-db-expansion.png", dpi=110)
+    plt.close(fig)
+
+    # 2) Timing-Histogramm der Startminute
+    sm = [int(r["start_min"]) for r in rows if r["start_min"] is not None]
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.hist(sm, bins=range(0, WINDOW_MIN + 1), color="#4a7ba7", edgecolor="white")
+    ax.set_xlabel("Minute im Fenster, in der der Move einsetzt")
+    ax.set_ylabel("Anzahl Fenster")
+    ax.set_title(f"{symbol}: Startminute des Moves (n={len(sm)})")
+    plt.tight_layout()
+    fig.savefig(BILD_DIR / "macro-db-timing.png", dpi=110)
+    plt.close(fig)
+
+    # 3) Level-Trefferquote
+    seiten = ["buyside", "sellside"]
+    lq = [quote(rows, lambda r, s=s: s in (r["levels_hit"] or "")) for s in seiten]
+    fig, ax = plt.subplots(figsize=(5, 4))
+    ax.bar(seiten, [100 * (q["p"] or 0) for q in lq], color="#4a7ba7")
+    ax.errorbar(seiten, [100 * (q["p"] or 0) for q in lq],
+                yerr=[[100 * ((q["p"] or 0) - q["lo"]) for q in lq],
+                      [100 * (q["hi"] - (q["p"] or 0)) for q in lq]],
+                fmt="none", ecolor="#333", capsize=4)
+    ax.set_ylabel("Anteil Fenster mit genommenem Level (%)")
+    ax.set_title(f"{symbol}: Liquiditaet im Macro genommen")
+    plt.tight_layout()
+    fig.savefig(BILD_DIR / "macro-db-level.png", dpi=110)
+    plt.close(fig)
+
+    _schreibe_wiki(symbol, rows, tage, basis)
+    print(f"3 Diagramme -> {BILD_DIR}")
+    print(f"Wiki-Seite   -> {WIKI_SEITE}")
+
+
+def _schreibe_wiki(symbol, rows, tage, basis) -> None:
+    heute = datetime.now(NY).date()
+    zeilen = [
+        "---",
+        "tags: [synthesis, algo, macro, laufend]",
+        f"created: {heute}",
+        f"updated: {heute}",
+        'sources: ["[[ICT Macros & Leading Candles]]"]',
+        "---",
+        "",
+        "# Macro-Datenbank (laufend)",
+        "",
+        f"Erzeugt von `algo/macro_db.py plot`. Basis: **{symbol}**, {len(rows)} vollständig",
+        f"erfasste Macro-Fenster aus {len(tage)} Handelstagen ({tage[0]} … {tage[-1]}).",
+        "Diese Seite wird bei jedem Lauf überschrieben — sie ist ein laufender Stand,",
+        "kein Schnappschuss.",
+        "",
+        f"**Basisrate Expansion:** {fmt_quote(basis)}",
+        "",
+        "## Expansion je Fenster",
+        "",
+        "![[macro-db-expansion.png]]",
+        f"*Expansionsquote je Macro-Fenster mit 95%-Wilson-Intervall. Rote Linie: Basisrate über alle Fenster.*",
+        "",
+        "## Wann setzt der Move ein?",
+        "",
+        "![[macro-db-timing.png]]",
+        "*Minute im 20-Minuten-Fenster, in der der Move einsetzt — definiert als das Extrem entgegen der Netto-Richtung.*",
+        "",
+        "## Liquidität im Fenster genommen",
+        "",
+        "![[macro-db-level.png]]",
+        "*Anteil der Fenster, in denen ein vor dem Fenster offenes Swing-Level genommen wurde.*",
+        "",
+        "## Vorbehalte",
+        "",
+        f"- Die Stichprobe ist klein: rund {len(rows) // 21} Tage je Fenster. Aussagen auf",
+        "  **Fenster-Ebene** sind noch nicht belastbar, Aussagen auf **Bedingungs-Ebene**",
+        "  über alle Fenster hinweg früher.",
+        "- Fenster desselben Handelstags sind nicht unabhängig — p-Werte sind optimistisch.",
+        "- Das Fenster **23:50** fehlt fast vollständig (Exportlücke 23:59–00:08), **16:50**",
+        "  ganz (ragt über den Sessionschluss 17:00 hinaus).",
+        "- NDOG/NWOG/ORG sind noch keine Level-Quelle (Kalendertag- statt Session-Logik,",
+        "  siehe `algo/PLAN.md`).",
+        "",
+        "## Verwandt",
+        "",
+        "- [[ICT Macros & Leading Candles]]",
+        "- [[Muster-Validierung (laufend)]]",
+        "",
+    ]
+    WIKI_SEITE.parent.mkdir(parents=True, exist_ok=True)
+    WIKI_SEITE.write_text("\n".join(zeilen), encoding="utf-8")
+
+
 def cmd_build(symbol: str) -> None:
     rows, skipped = build(symbol)
     write_csv(rows)
@@ -685,5 +813,7 @@ if __name__ == "__main__":
         cmd_build(a.symbol)
     elif a.cmd == "stats":
         cmd_stats(a.symbol)
+    elif a.cmd == "plot":
+        cmd_plot(a.symbol)
     else:
-        p.error("plot folgt in einem spaeteren Task")
+        p.error("cmd erwartet: build, stats oder plot")
