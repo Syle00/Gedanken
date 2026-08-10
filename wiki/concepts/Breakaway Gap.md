@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict]
 created: 2026-08-02
-updated: 2026-08-06
-sources: ["[[Kurz Notizen (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[CISD Mini Serie - Lecture 2 (Source)]]", "[[ICT Mentorship Core Content - Month 04 - ICT Vacuum Block (Source)]]"]
+updated: 2026-08-10
+sources: ["[[Kurz Notizen (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[CISD Mini Serie - Lecture 2 (Source)]]", "[[ICT Mentorship Core Content - Month 04 - ICT Vacuum Block (Source)]]", "[[ICT Gems - The Functions of a Macro (Source)]]"]
 ---
 
 # Breakaway Gap
@@ -64,6 +64,30 @@ und dem Open der nächsten stattfand — daher "Vakuum" der Liquidität. Quelle:
   Preislieferung auf beiden Seiten als abgeschlossen — danach besteht keine Erwartung mehr, dass
   Preis unter den Schlusspunkt der Füllung zurückfällt. Passiert das doch, gilt das Setup als
   verdächtig (Teilgewinne sichern statt an der ursprünglichen These festhalten).
+
+## Measuring Gap — die Schwestervariante
+
+Aus [[ICT Gems - The Functions of a Macro (Source)]]; im Vault bislang nur beiläufig erwähnt, hier
+zum ersten Mal definiert:
+
+> Ein **Measuring Gap** liegt auf **halber Strecke** zwischen der **Inception** einer Bewegung und
+> ihrem **Terminus** — es "misst" die Bewegung, indem es sie halbiert.
+
+- **Erkennungsverfahren**: nicht am Gap selbst ansetzen, sondern zuerst **Anfang und Ziel der
+  Bewegung** bestimmen (wo begann der Lauf, wohin zieht er). Das Gap auf der Mitte dieser Strecke
+  ist das Measuring Gap.
+- **Es füllt normalerweise nicht** — genau wie ein Breakaway Gap. ICT ausdrücklich: *"measuring
+  gaps don't fill, just like breakaway gaps don't fill."*
+- **Füllt es doch**, ändert das an der Behandlung nichts: *"it doesn't matter, I'll still treat it
+  the same way."* Die Zone bleibt Referenz.
+
+Praktischer Nutzen: Ist der Ursprung des Laufs bekannt und ein Gap auf halber Strecke
+identifizierbar, ergibt sich daraus eine **Projektion des Zielbereichs** — dieselbe
+Measured-Move-Logik wie in [[Double Top & Bottom (Algorithmische Range-Projektion)]].
+
+Abgrenzung: Der Breakaway Gap entsteht **beim Verlassen** einer Konsolidierung (siehe
+[[Institutional Order Flow Entry Drill (IOFED)]]), das Measuring Gap **in der Mitte** der
+Folgebewegung. Beide bleiben offen — sie markieren verschiedene Stationen desselben Laufs.
 
 ## Inversion-Varianten
 

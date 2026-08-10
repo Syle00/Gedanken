@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">115</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">116</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">199</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">205</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">11</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -77,6 +77,7 @@
 <li><a href="../p/implementation-shortfall.html">Implementation Shortfall</a></li>
 <li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
 <li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-order-flow-entry-drill-iofed.html">Institutional Order Flow Entry Drill (IOFED)</a></li>
 <li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
 <li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
 <li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
@@ -150,7 +151,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>CISD (Change in State of Delivery)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">mentorship-2020</span> <span class="tag">orderflow</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a>, <a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a>, <a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a>, <a href="../p/ict-2022-episode-13-market-structure-for-precision-source.html">ICT 2022 - Episode 13 Market Structure for Precision (Source)</a>, <a href="../p/ict-2022-episode-18-higher-timeframe-15m-1h-is-key-source.html">ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">mentorship-2020</span> <span class="tag">orderflow</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a>, <a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a>, <a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a>, <a href="../p/ict-2022-episode-13-market-structure-for-precision-source.html">ICT 2022 - Episode 13 Market Structure for Precision (Source)</a>, <a href="../p/ict-2022-episode-18-higher-timeframe-15m-1h-is-key-source.html">ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)</a>, <a href="../p/ict-gems-how-price-behaves-at-specific-times-source.html">ICT Gems - How Price Behaves At Specific Times (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#definition">Definition</a></li>
@@ -158,6 +159,10 @@
 <li><a href="#der-trigger-close-uber-dem-swing-point">Der Trigger: Close über dem Swing Point</a></li>
 <li><a href="#wann-ein-cisd-valide-ist">Wann ein CISD valide ist</a></li>
 <li><a href="#candle-ebene">Candle-Ebene</a></li>
+<li><a href="#welcher-opening-price-genau-die-ruckwarts-zahlregel-2024">Welcher Opening Price genau? Die Rückwärts-Zählregel (2024)</a><ul>
+<li><a href="#den-preis-nach-rechts-verlangern">Den Preis nach rechts verlängern</a></li>
+</ul>
+</li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
@@ -216,6 +221,28 @@ dem ein <a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a> erkannt 
 <a href="../p/smt-smart-money-divergence.html">SMT</a>, <a href="../p/cot-commitment-of-traders-data.html">COT</a>,
 <a href="../p/seasonal-tendency.html">Seasonal Tendency</a> und <a href="../p/intermarket-relationships.html">Intermarket-Analyse</a> genutzt, um eine
 Trade-These zu verfestigen ("Hallmark"-Kriterien).</p>
+<h2 id="welcher-opening-price-genau-die-ruckwarts-zahlregel-2024">Welcher Opening Price genau? Die Rückwärts-Zählregel (2024)</h2>
+<p>Aus <a href="../p/ict-gems-how-price-behaves-at-specific-times-source.html">ICT Gems - How Price Behaves At Specific Times (Source)</a> — die operative Antwort auf die
+Frage, welchen Preis der Algorithmus bei mehreren aufeinanderfolgenden Kerzen ansteuert:</p>
+<ol>
+<li>Bei einer Serie <strong>aufeinanderfolgender Down-Close-Kerzen</strong> (bullisher Fall) gilt die Serie als
+   <strong>ein</strong> <a href="../p/order-block.html">Order Block</a>.</li>
+<li>Der relevante Preis ist der <strong>Opening Price der obersten/ersten</strong> dieser Kerzen — er ist die
+   CISD. <em>"The algorithm sees these three candles and goes right to that opening price."</em></li>
+<li><strong>Rückwärts zählen</strong>: Gibt es links davon noch eine Down-Close-Kerze? Und links davon? Sobald
+   keine mehr folgt, ist die zuletzt gefundene die maßgebliche.</li>
+<li><strong>Validiert</strong> ist der Order Block, sobald Preis diesen Opening Price durchbricht.</li>
+</ol>
+<h3 id="den-preis-nach-rechts-verlangern">Den Preis nach rechts verlängern</h3>
+<p>Die Linie danach <strong>nach rechts ausziehen</strong> und beobachten, wie Preis mit ihr umgeht. Die Lesart
+folgt der Body-vs-Wick-Regel (<a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a>):</p>
+<blockquote>
+<p><em>"The wicks are always allowed to do the damage, but look what the bodies are doing — the bodies
+tell you the narrative."</em></p>
+</blockquote>
+<p>Die relevante Zone ist der Bereich zwischen diesem <strong>Open</strong> und dem <strong>Close der tiefsten
+Down-Close-Kerze</strong>. Bleiben die Bodies bei jedem Rücklauf in der <strong>oberen Hälfte</strong> dieser Zone und
+durchstechen das Body-Low nicht, ist der Order Block intakt — auch wenn Wicks darunter greifen.</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a> — die Hierarchie, in der das CISD Stufe 5 ist</li>
@@ -227,7 +254,7 @@ Trade-These zu verfestigen ("Hallmark"-Kriterien).</p>
   (<a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a>, <a href="../p/seasonal-tendency.html">Seasonal Tendency</a>) — der frühere Lückenhinweis hier
   ist damit erledigt.</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">30</span></h2><ul><li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a><span class="cat">Konzepte</span></li><li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a><span class="cat">Konzepte</span></li><li><a href="../p/cisd-mini-serie-source.html">CISD Mini Serie (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/classic-swing-trading-approach.html">Classic Swing Trading Approach</a><span class="cat">Modelle</span></li><li><a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/essentials-to-ict-market-structure-source.html">Essentials To ICT Market Structure (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/graded-price-swings.html">Graded Price Swings</a><span class="cat">Modelle</span></li><li><a href="../p/ict-2022-episode-03-market-st-modell-22-source.html">ICT 2022 - Episode 03 Market ST + Modell 22 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-2022-episode-13-market-structure-for-precision-source.html">ICT 2022 - Episode 13 Market Structure for Precision (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-2022-episode-18-higher-timeframe-15m-1h-is-key-source.html">ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-2022-source.html">ICT MentorShip 2022 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a><span class="cat">Konzepte</span></li><li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a><span class="cat">Konzepte</span></li><li><a href="../p/journal-auswertung.html">Journal-Auswertung</a><span class="cat">Synthese</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a><span class="cat">Modelle</span></li><li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a><span class="cat">Konzepte</span></li><li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a><span class="cat">Modelle</span></li><li><a href="../p/modell-22.html">Modell 22</a><span class="cat">Konzepte</span></li><li><a href="../p/month-06-swing-trading-model-source.html">Month 06 - Swing Trading Model (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/order-block.html">Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li><li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/tgif-thank-god-its-friday-source.html">TGIF - Thank God its Friday (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">32</span></h2><ul><li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a><span class="cat">Konzepte</span></li><li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a><span class="cat">Konzepte</span></li><li><a href="../p/cisd-mini-serie-source.html">CISD Mini Serie (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/classic-swing-trading-approach.html">Classic Swing Trading Approach</a><span class="cat">Modelle</span></li><li><a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/essentials-to-ict-market-structure-source.html">Essentials To ICT Market Structure (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/graded-price-swings.html">Graded Price Swings</a><span class="cat">Modelle</span></li><li><a href="../p/ict-2022-episode-03-market-st-modell-22-source.html">ICT 2022 - Episode 03 Market ST + Modell 22 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-2022-episode-13-market-structure-for-precision-source.html">ICT 2022 - Episode 13 Market Structure for Precision (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-2022-episode-18-higher-timeframe-15m-1h-is-key-source.html">ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-gems-how-price-behaves-at-specific-times-source.html">ICT Gems - How Price Behaves At Specific Times (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-2022-source.html">ICT MentorShip 2022 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a><span class="cat">Konzepte</span></li><li><a href="../p/institutional-order-flow-entry-drill-iofed.html">Institutional Order Flow Entry Drill (IOFED)</a><span class="cat">Konzepte</span></li><li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a><span class="cat">Konzepte</span></li><li><a href="../p/journal-auswertung.html">Journal-Auswertung</a><span class="cat">Synthese</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a><span class="cat">Modelle</span></li><li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a><span class="cat">Konzepte</span></li><li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a><span class="cat">Modelle</span></li><li><a href="../p/modell-22.html">Modell 22</a><span class="cat">Konzepte</span></li><li><a href="../p/month-06-swing-trading-model-source.html">Month 06 - Swing Trading Model (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/order-block.html">Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li><li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/tgif-thank-god-its-friday-source.html">TGIF - Thank God its Friday (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/CISD (Change in State of Delivery).md</code></footer>
 </article>
 </main>

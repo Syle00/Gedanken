@@ -56,6 +56,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[IFVG (Inverse Fair Value Gap)]] — FVG, das nach Durchhandeln die Polarität wechselt (2026-08-01)
 - [[Indikator-Stationarität & Entropie]] — STATN-Gap-Analyse gegen langsames Wandern, relative Entropie ≥ 0,5, monotones Tail-Cleaning; algo-methodology (2026-08-08)
 - [[Institutional Order Flow (Body vs Wick)]] — Volumen steckt in Candle Bodys, nicht Wicks; "Mohawk"-Wick-Toleranzregel jetzt auch für BISI/SIBI-Range-Grenzen (2026-08-01, erg. 2026-08-07)
+- [[Institutional Order Flow Entry Drill (IOFED)]] — Teil-Entry an der Oberkante eines FVG, das nicht füllen soll; ein Tick genügt zum Fill, beste Fills zwischen C.E. und Gap-High (2026-08-10)
 - [[Institutional Sponsorship]] — Smart Money schützt einen High-Probability-Price-Swing (2026-08-01)
 - [[Intermarket Relationships]] — Bonds/Stocks/Commodities/Currencies-Korrelationsregeln (2026-08-01)
 - [[IPDA Data Ranges]] — 20/40/60-Tage-Lookback des Interbank Price Delivery Algorithmus (2026-08-01)
@@ -221,6 +222,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
   (Curriculum-Sprungseite, listet alle 8 Lectures samt Ziel-Konzeptseite) (2026-08-06)
 - [[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]] — YouTube 2026-08-07: Live-Nacherzählung der NFP-Fallstudie vom selben Tag, Pre-Market-STD-Projektion, generalisierte "Mohawk"-Regel (2026-08-07)
 - [[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]] — YouTube 2026-08-10: Live-Long in NQ durch High-Resistance-Bedingungen, IFVG-Doppelqualifizierung, "no bodies buried" am Wick-C.E., Stop-Order als Retracement-Partial (2026-08-10)
+
+### ICT Gems (Drittkanal, Ausschnitte aus ICT-Originalvideos — Macro-Reihe)
+
+- [[ICT Gems - The Functions of a Macro (Source)]], [[ICT Gems - How Price Behaves At Specific Times (Source)]], [[ICT Gems - When To Anticipate Price Spooling (Source)]]
+- [[ICT Gems - How to Trade the Final Hour Macro (Source)]], [[ICT Gems - Blending Silver Bullets and Macros (Source)]], [[ICT Gems - ICT Teaches how to Scalp Every 1 Hour Candle (Source)]]
 
 ### MentorShip 2025
 

@@ -35,6 +35,53 @@ Zahlenbeispiel auf [[Volume Imbalance (VII)]].
 
 Erst wenn alle drei Ebenen übereinstimmen, gilt der Preis als "im fairen Bereich" für einen Entry.
 
+## Die vier Level eines FVG — wie tief darf der Rücklauf gehen?
+
+Aus [[ICT Gems - How to Trade the Final Hour Macro (Source)]]. Jedes FVG wird in **vier gleiche
+Teile** zerlegt; ICT nennt sie von unten nach oben: **Low → unteres Viertel (25 %) → C.E. (50 %) →
+oberes Viertel (75 %) → High**.
+
+Für einen **bullishen** Kontext ergibt sich daraus eine klare Rangfolge (spiegelbildlich bearish):
+
+| Wie tief läuft Preis zurück? | Lesart |
+|---|---|
+| hält im **oberen Viertel (75 %)** | **stärkstes Signal** — der Wunschfall |
+| berührt die **C.E.** und stützt dort | zulässig, aber schwächer — *"you're allowing that to happen"* |
+| handelt **unter die C.E.** | Prämisse bröckelt |
+
+> ICT ausdrücklich: *"if you're bullish you really don't want to see it trade down to consequent
+> encroachment"* — die C.E. ist als hochsensibler Punkt zu respektieren, nicht als Ziel zu
+> erwarten.
+
+**Ein bereits berührtes FVG ist nicht mehr gleichwertig.** Kehrt Preis ein zweites Mal in dasselbe
+Gap zurück, wertet ICT das **nicht** als zusätzliche Stärke — gesucht wird dann eine frische,
+noch unberührte Array. Deckt sich mit der Grundregel "eine bereits genutzte PD Array ist nicht mehr
+gültig" aus [[Low Resistance Liquidity Run]].
+
+Hält das obere Viertel, ist das genau die Konstellation für einen
+[[Institutional Order Flow Entry Drill (IOFED)]] — Teil-Entry oben, ohne auf die volle Füllung zu
+warten.
+
+## Ineffizienz ist fraktal — die Farbrollen-Analogie
+
+Aus [[ICT Gems - The Functions of a Macro (Source)]]: Ein großes Down-Close-Displacement ist als
+Ganzes eine Sellside-Imbalance/Buyside-Ineffizienz ([[BISI & SIBI (Buyside-Sellside Imbalance)|SIBI]])
+— aber **innerhalb** dieser Bewegung liegen weitere, im höheren Timeframe unsichtbare Ineffizienzen.
+
+> ICTs Bild: Wie eine Farbrolle an der Wand. Zu Beginn trägt sie dick auf; je weiter man rollt,
+> desto mehr kleine Stellen bleiben, an denen keine Farbe ankam — und über die man erneut rollen
+> muss.
+
+Praktisch heißt das: In eine große Ineffizienz **hineinzoomen** (15-Min → 5-Min → 1-Min, bei Bedarf
+bis zum **15-** oder **5-Sekunden-Chart**) und dort die *tatsächlichen* kleinen FVGs und
+[[Volume Imbalance (VII)|Volume Imbalances]] als Ziel nehmen, statt die grobe Zone als Ganzes zu
+handeln. Wie weit ein Rücklauf in die große Zone reicht, entscheidet sich an diesen kleinen
+Elementen.
+
+**Bid/Ask-Tick**: Um eine Volume Imbalance oder ein Level tatsächlich zu handeln, muss Preis
+**mindestens einen Tick darüber hinaus** — sonst kommt der Print wegen der Spanne zwischen Bid und
+Ask nicht zustande. Genau dieser eine Tick ist auch der Fill-Mechanismus des IOFED.
+
 ## Ergänzungen aus Kurz Notizen
 
 - **Doppelte Sicherheit**: Auf **2 FVG** warten statt auf eines, dabei müssen trotzdem mindestens

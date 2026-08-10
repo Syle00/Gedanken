@@ -1568,3 +1568,42 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Ausgefiltert: Market-Replay-/Konkurrenz-Polemik, Forum-/Indikator-Downloadverweise,
   Demo-vs-Live-Disclaimer, persoenliche Anekdoten, die mehrfach wiederholte
   Retail-vs-Smart-Money-Gegenueberstellung.
+
+## [2026-08-10] ingest | ICT Gems — Macro-Reihe (6 von 11 Videos, Playlist)
+- Auftrag: Playlist PLEch7yirIOV8YDCIeG_8XhzkCa_OGcCpr vom Drittkanal **ICT Gems**, der Ausschnitte
+  aus ICT-Originalvideos hochlaedt (11 Videos, 2024). Nutzervorgabe: Downloads vor der IP-Sperre
+  beenden. Kein technisches Umgehen der Sperre — nur Taktung, damit sie nicht auftritt.
+- **Rate-Limit-Bilanz**: Diese Session hatte vor dem Batch bereits 9 Fetches (zwei vorherige
+  Ingests). Bekannte Grenze ~16 pro Session. Daher **bewusst nur 6 der 11 Videos** geholt, streng
+  seriell mit 60s Abstand → **15 Fetches gesamt, kein Block**. Danach gestoppt.
+- **Priorisiert nach Macro-Relevanz.** Geholt: The Functions of a Macro, How Price Behaves At
+  Specific Times, When To Anticipate Price Spooling, How to Trade the Final Hour Macro, Blending
+  Silver Bullets and Macros, ICT Teaches how to Scalp Every 1 Hour Candle.
+- **Bewusst nicht geholt (5, fuer eine spaetere Session)**: syPT2OUwmBs (London Opening Range +
+  Macros, 3:30), mLPJxXUGF1k (Non-Farm Payroll Profile + Macros, 14:01), 7lqIrzLKyZ0 (Turtle Soup
+  Entries Using ICT Gauntlet, 5:29), ifBZ_fxyKFs (Algorithmic Timings With Opening Ranges, 24:21),
+  Eyp_XiYpB4A (Balanced Price Ranges Inside Fair Value Gaps, 15:39). Die letzten drei sind nicht
+  Macro-Thema, die ersten beiden schon — sie sind die naechsten Kandidaten.
+- Seiten erstellt: 6x wiki/sources/youtube/ICT Gems - ... (Source).md sowie
+  wiki/concepts/Institutional Order Flow Entry Drill (IOFED).md (neues, benanntes ICT-Entry-Modell:
+  Teil-Entry an der Oberkante eines FVG, das nicht fuellen soll).
+- Seiten erweitert: wiki/concepts/{ICT Macros & Leading Candles, Fair Value Gap (FVG), Breakaway
+  Gap, CISD (Change in State of Delivery)}.md, wiki/models/{NY Lunch Macro Model, Market on Close
+  (MOC) Macro Model, Silver Bullet Model}.md, wiki/index.md.
+- **Offene Hypothese aufgeloest — gegen die urspruengliche Lesart**: Die seit heute frueh als
+  "(laufend)" markierte Spooling-Hypothese verstand Spooling als Kraft-/Energieaufbau (Kompression)
+  vor dem Move. ICT definiert es explizit als das Gegenteil: *"the market will spool — it means it
+  jumps and runs"* zu Sellside, Buyside **oder** in eine Ineffizienz. Marker auf ✅ umgestellt, die
+  beobachtete Kompression zwischen zwei Macros bleibt als reale, aber anders benannte Preisaktion
+  stehen.
+- **Folgenreichste Einzelaussage**: *"the move **begins** in those 20 minutes, it's not the entirety
+  of the move"* — ICT korrigiert damit ausdruecklich die Lesart, der Move laufe *im* Macro ab. Das
+  trifft die Messmethodik von `algo/backtest_macro.py` direkt; als Backlog-Punkt uebertragen.
+- **Zwei Widersprueche markiert statt aufgeloest** (beide ICT gegen ICT, beide zu backtesten):
+  MOC-Fenster 15:50-16:00 (2026) vs. 15:45-16:00 (2024, *"it's not 10 minutes, it's 15 minutes"*);
+  Lunch-Macro-Start 10:50 (Lecture 2025) vs. 11:30 (Gems 2024).
+- **Erstmals definiert**: Measuring Gap (halbe Strecke zwischen Inception und Terminus, fuellt
+  nicht) auf wiki/concepts/Breakaway Gap.md — der Begriff war zuvor nur beilaeufig erwaehnt.
+- Ausgefiltert: Polemik gegen andere Lehrer (ueber den sachlichen Korrekturkern hinaus),
+  Begeisterungsausrufe beim Chart-Durchgang, "das gehoert in eure Notizen"-Einschuebe,
+  Kursnotierungs-Vorlesen ohne Regelinhalt.

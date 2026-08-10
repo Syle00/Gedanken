@@ -1,8 +1,8 @@
 ---
 tags: [model, ict, trading-ict, lecture-2025, daytrade, macro, sessions]
 created: 2026-08-02
-updated: 2026-08-02
-sources: ["[[NY Lunch Macro Rules & PM Session & Final RTH Hour (Source)]]"]
+updated: 2026-08-10
+sources: ["[[NY Lunch Macro Rules & PM Session & Final RTH Hour (Source)]]", "[[ICT Gems - When To Anticipate Price Spooling (Source)]]"]
 ---
 
 # NY Lunch Macro Model
@@ -49,6 +49,47 @@ Punkt 3 ist der Kern des Modells: das Setup lebt davon, dass die frisch gebildet
 
 ![[ICT 2025 - Lunch Macro 01.png]]
 *Lunch Macro als Retracement innerhalb der Daily Range zur gegenüberliegenden Liquidität.*
+
+## Die 11:30-Variante: "gegen den, der im Geld ist" (2024-Ergänzung)
+
+Aus [[ICT Gems - When To Anticipate Price Spooling (Source)]] — eine **mechanisch formulierte**
+Fassung desselben Gedankens, die ohne die Vier-Regeln-Kette oben auskommt. Sie setzt die
+Macro-Funktionsdefinition (*"they roll against who's in the money right now"*, siehe
+[[ICT Macros & Leading Candles]]) direkt in einen Ablauf um:
+
+1. **Um 11:30** rückwärts schauen und fragen: **Wer verdient gerade Geld** — die Longs oder die
+   Shorts? (Beispiel: Markt läuft seit 9:30 nach oben → die Longs.)
+2. Der Algorithmus zielt dann auf die **nachgezogenen Stops der Gewinnerseite**, also bei Longs auf
+   die Sellside darunter.
+3. **Welches Level genau**: von 11:30 aus rückwärts das **erste Low** suchen — mit der harten
+   Zusatzbedingung, dass es **nach 10:00 Uhr** entstanden sein muss.
+4. Genau dorthin läuft Preis. Im Beispiel deckte sich dieses Low zusätzlich mit dem
+   [[New Week Opening Gap (NWOG) Bias|NWOG]] der Woche — solche Überlagerungen erhöhen die
+   Erwartung.
+
+**Warum die 10:00-Grenze?** Sie klammert alles aus, was der [[Silver Bullet Model|Silver Bullet]]
+und die Protraction davor erzeugt haben. Übrig bleibt das Low, an das die Masse tatsächlich ihre
+Stops nachgezogen hat.
+
+**Zeitfenster**: Das Lunch Macro beginnt in dieser Fassung **11:30** und kann **bis 13:30** laufen.
+Es *muss* nicht abverkaufen — läuft Preis einfach weiter, gibt es kein Setup. Erst wenn ein
+Abverkauf einsetzt, greift die Suche nach dem ersten Low.
+
+**Nach 13:30** endet der Zeitdruck, Stops zu nehmen. Preis ist dann frei, die ursprüngliche
+Tagesrichtung wieder aufzunehmen — im Beispiel die Rallye zum Tageshoch in der letzten Stunde.
+
+> ⚠️ **Abweichender Startzeitpunkt.** Der obere Teil dieser Seite (Lecture-2025-Fassung) legt die
+> Execution ins Macro **10:50–11:10**; die Gems-Fassung nennt **11:30** als Beginn des Lunch
+> Macros. Beide stammen von ICT und beschreiben dieselbe Idee (Retracement gegen die Morgenrichtung
+> zur nachgezogenen Liquidität), datieren sie aber unterschiedlich. Nicht aufgelöst — für einen
+> Backtest beide Startzeiten getrennt prüfen.
+
+### Positionsführung: nicht abwürgen
+
+Direkte Handlungsanweisung für eine Position, die aus dem Morgen läuft: **Stop nicht laufend
+nachziehen** (*"you do not strangle it by running your stop loss up"*) — gerade weil man den
+11:30-Rücklauf gegen die Morgenrichtung **erwartet**. Wer den Stop eng nachzieht, wird von genau
+dem Move herausgenommen, den das Modell vorhersagt.
 
 ## PM Session
 

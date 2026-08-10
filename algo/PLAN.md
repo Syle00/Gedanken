@@ -194,6 +194,44 @@ Backtest gegen `raw/marktdaten/` sind. Noch nicht umgesetzt — hier als Auftrag
    haeufigsten? Siehe
    [[../wiki/concepts/Filling The Numbers (4 Level pro Tag)|Filling The Numbers (4 Level pro Tag)]].
 
+### Backlog: Macro-Messmethodik korrigieren (2026-08-10, aus ICT-Gems-Ingest)
+
+**Hoch priorisiert, weil es eine bereits publizierte Zahl betrifft.** ICT sagt woertlich, das
+Macro-Fenster sei ein **Startfenster**, kein Container: *"the move **begins** in those 20 minutes,
+it's not the entirety of the move"* (siehe
+[[../wiki/sources/youtube/ICT Gems - Blending Silver Bullets and Macros (Source)|Blending Silver Bullets and Macros (Source)]]).
+
+`algo/backtest_macro.py` misst aber Range, Netto und `dir` **innerhalb** des 20-Minuten-Blocks.
+Ein Macro, das um 10:05 einen Lauf startet, der bis 10:40 traegt, wird dadurch als schwacher Block
+gewertet — die Methode unterschaetzt den Effekt systematisch.
+
+1. **Neue Kennzahl**: Exkursion **ab Macro-Start ueber die folgenden N Minuten** (MFE/MAE-artig,
+   N z.B. 20/40/60) statt Blockinhalt. Kontrollbloecke identisch behandeln, sonst entsteht ein
+   neuer Confounder.
+2. **Letzte Handelsstunde ausnehmen**: Dort gilt das `:50-:10`-Raster laut zwei Quellen **nicht**
+   (15:15-15:45 Final Hour Macro, 15:45-16:00 MOC, in der Earnings-Saison zusaetzlich 16:01 und
+   16:15). Das Skript rastert aktuell durchgehend gleichmaessig und misst diese Stunde damit falsch.
+3. **Spooling-Suche einstellen wie bisher geplant**: Die Suche nach einer volumenbasierten
+   Spooling-Definition ("enge Kerzen bei steigendem Volumen") zielte am Begriff vorbei — ICT
+   bezeichnet mit Spooling den **gerichteten Lauf zur Liquiditaet**, nicht die Kompression davor.
+   Die passende Messgroesse ist der bereits erhobene Nettoweg/`dir`, nicht Volumen (das im Bestand
+   ohnehin fehlt).
+4. **Mindestziel als Filter pruefen**: ICT nennt **10 Handles** als Untergrenze fuer NASDAQ-Scalps
+   und **5 Handles** speziell fuer den Silver Bullet. Auf MNQ direkt als Punktschwelle testbar.
+
+### Backlog: zwei Fenster-Widersprueche aus ICT-Quellen (2026-08-10)
+
+Beide Male widerspricht ICT sich selbst zwischen zwei Quellen; **beide Varianten testen**, keine
+willkuerlich waehlen:
+
+- **MOC-Fensterlaenge**: 15:50-16:00 (2026er Chronicles) vs. **15:45-16:00** (2024er Gems,
+  ausdruecklich *"it's not 10 minutes, it's 15 minutes"*). Siehe
+  [[../wiki/models/Market on Close (MOC) Macro Model|Market on Close (MOC) Macro Model]].
+- **Lunch-Macro-Start**: Execution im Macro 10:50-11:10 (Lecture 2025) vs. **11:30** als Beginn mit
+  Fenster bis 13:30 (Gems 2024). Die 11:30-Fassung ist mechanisch formuliert und damit direkt
+  codierbar: erstes Low rueckwaerts von 11:30, das nach 10:00 entstanden ist. Siehe
+  [[../wiki/models/NY Lunch Macro Model|NY Lunch Macro Model]].
+
 ## Naechster Schritt
 
 **Korrektur (2026-08-03):** Der urspruengliche Plan war, mit dem Backtest zu warten, bis
@@ -252,3 +290,4 @@ oben), nicht mehr Warten.
 | 2026-08-10 | **Alle Macro-Zahlen nach dem `blocks()`-Fix neu erzeugt + Selfcheck repariert.** Der Fix (Handelstag ab 18:00 Vorabend statt 00:10 Kalendertag) bringt die Abend-/Asia-Bloecke zurueck: **1417 statt 1091 Bloecke, Macro n=450 statt 351**. Der Befund wird dadurch **bestaetigt und geschaerft**, nicht gekippt: median Range 63,38 vs 57,75 (+10 %), median Netto 30,88 vs 24,50 (**+26 %**, vorher +32 %), dir 0,51 vs 0,46; alle p-Werte besser (Range 0,0004 / Netto 0,0001 / dir 0,0026 / fvgs 0,0054). FVG-Groesseneffekt **deutlicher** als vorher: >=10 Pkt jetzt 0,81 vs 0,61 = **+33 %** (vorher +27 %), >=15 Pkt 0,37 vs 0,28 = **+32 %** (vorher +20 %). Median-Rang von 09:50-10:10 unveraendert Platz 3, jetzt von 67 statt 49 Bloecken. **Bug im mitgelieferten Selfcheck behoben**: `assert labels[-1] == "16:30-16:50"` widersprach `assert len(bs) == 69` — 69 Bloecke ab 18:10 enden bei 16:50-17:10, der Selfcheck schlug also fehl. Auf "16:50-17:10" korrigiert, mit Kommentar: dieser letzte Block ragt 10 min ueber den 17:00-Close und wird von MIN_BARS immer verworfen (unvermeidbarer Randeffekt eines :10/:30/:50-Rasters auf einer 18:00-Session, kein Bug). |
 | 2026-08-10 | **SB FVG vom 14:12 verifiziert** (vorher nur aus dem Chart abgelesen, yfinance hing auf 14:08). Nachzug um 14:34: 14:11 Low 29.767,25, 14:13 High 29.759,50 -> SIBI 29.759,50-29.767,25, **Groesse 7,75 Punkte**, C.E. 29.763,38. Preis danach bis 29.742,25 runter, bis 14:34 zurueck auf 29.764,75 (ueber die C.E. hinein), um 14:42 laut Chart 29.768,00 = Gap-Oberkante, also vollstaendig durchgehandelt. **Einordnung**: mit 7,75 Punkten liegt dieses SB FVG unter der 10-Punkte-Schwelle, ab der FVGs sich ueberhaupt im Macro haeufen — es gehoert zur haeufigen, nicht zur selektiven Sorte. Meine vorherige Pixel-Schaetzung (~29.769,50 / ~29.760,00) lag damit ~2 Punkte daneben. |
 | 2026-08-10 | Ingest Core Content Month 09 (8 YouTube-Lektionen) liefert drei quantifizierte, backtestbare Regeln — als Backlog-Abschnitt "drei quantifizierte Regeln aus Core Content Month 09" oben notiert: London-Close-Retracement (mit zwei widerspruechlichen Parametersaetzen von ICT selbst, beide zu testen), 33-Pip-Protraction unter dem Midnight-Open (als Verhaeltnis zur ADR auf MNQ zu pruefen), Filling-The-Numbers-Vier-Level-Regel. Neu im Wiki: Flout-Range (15:00–00:00 NY, halbiert = Projektionseinheit) und die 5-Tage-ADR als eigenstaendiges Konzept. Noch kein Backtest gelaufen. |
+| 2026-08-10 | Ingest der ICT-Gems-Macro-Reihe (6 von 11 Videos) korrigiert die **Messmethodik** von `algo/backtest_macro.py`: ICT sagt woertlich, der Move *beginne* im 20-Minuten-Fenster und laufe darueber hinaus — das Skript misst nur den Blockinhalt und unterschaetzt den Effekt dadurch systematisch. Zusaetzlich: die letzte Handelsstunde folgt einem eigenen Raster (15:15-15:45, 15:45-16:00) und wird derzeit falsch gerastert. Beides als Backlog-Abschnitt "Macro-Messmethodik korrigieren" oben notiert. Ausserdem geklaert: **Spooling** ist bei ICT der gerichtete Lauf zur Liquiditaet, nicht die Kompression davor — die geplante volumenbasierte Spooling-Suche entfaellt damit ersatzlos (passende Messgroesse ist der bereits erhobene Nettoweg/`dir`). Noch kein Code geaendert. |

@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">115</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">116</span></a></li>
 <li class="active"><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">199</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">205</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">11</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -62,9 +62,14 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#models">Modelle</a></div>
   <h1>Market on Close (MOC) Macro Model</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2026</span> <span class="tag">macro</span> <span class="tag">sessions</span> <span class="tag">moc</span></div><div class="dates">erstellt 2026-08-05 · aktualisiert 2026-08-05</div><div class="srcline"><span>Quellen:</span> <a href="../p/2026-08-05-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a>, <a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">ICT Price Action Chronicles - Market On Close Macro (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2026</span> <span class="tag">macro</span> <span class="tag">sessions</span> <span class="tag">moc</span></div><div class="dates">erstellt 2026-08-05 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <a href="../p/2026-08-05-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a>, <a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">ICT Price Action Chronicles - Market On Close Macro (Source)</a>, <a href="../p/ict-gems-how-to-trade-the-final-hour-macro-source.html">ICT Gems - How to Trade the Final Hour Macro (Source)</a>, <a href="../p/ict-gems-when-to-anticipate-price-spooling-source.html">ICT Gems - When To Anticipate Price Spooling (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
+<li><a href="#die-letzte-stunde-hat-ein-eigenes-macro-raster-2024-erganzung">Die letzte Stunde hat ein eigenes Macro-Raster (2024-Ergänzung)</a><ul>
+<li><a href="#wann-das-final-hour-macro-ausfallt">Wann das Final-Hour-Macro ausfällt</a></li>
+<li><a href="#standardabweichungen-als-ziel-mechanik">Standardabweichungen als Ziel-Mechanik</a></li>
+</ul>
+</li>
 <li><a href="#grundidee">Grundidee</a></li>
 <li><a href="#zwei-ranges-nicht-eine">Zwei Ranges, nicht eine</a></li>
 <li><a href="#ablauf">Ablauf</a></li>
@@ -82,6 +87,64 @@
 <p>Setup für die <strong>letzten 10 Minuten des RTH-Handelstags (15:50–16:00 Uhr NY)</strong> — analog zum
 <a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a>, nur am Tagesende statt zur Mittagszeit. Laut Quelle <strong>nicht
 NASDAQ-exklusiv</strong>: das Beispiel läuft am E-Mini S&amp;P (ES), dieselbe Logik gilt index-übergreifend.</p>
+<h2 id="die-letzte-stunde-hat-ein-eigenes-macro-raster-2024-erganzung">Die letzte Stunde hat ein eigenes Macro-Raster (2024-Ergänzung)</h2>
+<p>Aus <a href="../p/ict-gems-when-to-anticipate-price-spooling-source.html">ICT Gems - When To Anticipate Price Spooling (Source)</a> und
+<a href="../p/ict-gems-how-to-trade-the-final-hour-macro-source.html">ICT Gems - How to Trade the Final Hour Macro (Source)</a>: In der letzten Handelsstunde gilt das
+sonst durchgängige <code>:50–:10</code>-Raster (siehe <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a>) <strong>nicht</strong>. ICT nennt
+stattdessen:</p>
+<table>
+<thead>
+<tr>
+<th>Fenster</th>
+<th>Bezeichnung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>15:15–15:45</strong></td>
+<td>Final Hour Macro</td>
+</tr>
+<tr>
+<td><strong>15:45–16:00</strong></td>
+<td><strong>Market on Close</strong></td>
+</tr>
+<tr>
+<td>16:01 (nur Earnings-Saison)</td>
+<td>eigener Algorithmus feuert, danach Run bis <strong>16:15</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong>Widerspruch zur Fensterlänge oben.</strong> Diese Seite datiert das MOC-Fenster auf <strong>15:50–16:00
+(10 Minuten)</strong> nach den 2026er Chronicles-Lectures. Die 2024er Gems-Fassung sagt ausdrücklich das
+Gegenteil: <em>"Market on Close is that last 15-minute window — </em><em>it's not 10 minutes, it's 15
+minutes</em><em>, 3:45 to 4:00."</em> Beide Aussagen stammen von ICT. Hier bewusst nebeneinander
+stehengelassen; für einen Backtest sind <strong>beide Fensterlängen</strong> zu prüfen, statt eine zu wählen.</p>
+</blockquote>
+<p>ICT nennt außerdem eine Zahl, die auf dieser Seite bislang fehlte: <em>"there's four macros in that
+last hour"</em> — enumeriert werden im Transkript aber nur die beiden oberen (plus die
+Earnings-Erweiterung). Die vollständige Aufzählung liefert die Quelle nicht.</p>
+<p><strong>Position bis 16:00 glattstellen</strong>: <em>"the final candle at 1600 — you want to have your position
+squared by then."</em></p>
+<h3 id="wann-das-final-hour-macro-ausfallt">Wann das Final-Hour-Macro ausfällt</h3>
+<p>Konkrete Ausfallbedingung statt Allgemeinplatz: Hat der Markt <strong>bereits in der Tagesmitte oder
+direkt nach der Lunch-Session viel gelaufen</strong> und dabei seine Liquiditätsaufgabe erledigt, ist die
+letzte Stunde häufig <em>"listless, choppy, not really doing too much at all"</em>. Das Macro ist dann
+nicht falsch — es hat schlicht nichts mehr zu holen.</p>
+<h3 id="standardabweichungen-als-ziel-mechanik">Standardabweichungen als Ziel-Mechanik</h3>
+<p>Der Final-Hour-Trade nutzt dieselbe STD-Projektion wie das MOC-Fib oben, aber mit einem klar
+benannten <strong>Trigger-Punkt</strong>:</p>
+<ol>
+<li>Ein <strong>Market Structure Shift</strong> in der letzten Stunde entsteht, sobald Preis <strong>einen Tick über</strong>
+   das vorherige Short-Term-High handelt — ein Close darüber ist <strong>nicht</strong> erforderlich.</li>
+<li>Der vorangegangene Abverkauf ist der Anker: Fib von diesem <strong>Low</strong> bis zum <strong>Short-Term-High vor
+   dem Retracement</strong> ziehen.</li>
+<li>Die projizierten STD-Level darüber sind die Ziele; gewählt wird das Level, das <strong>über</strong> dem
+   angepeilten Buyside-Pool liegt.</li>
+<li><strong>Bid/Ask-Zuschlag einplanen</strong>: Der Markt hält nicht exakt am Tick, weil zwischen Bid und Ask
+   eine Spanne liegt — im Beispiel lag das Hoch einen Tick über dem berechneten Ziel. Vgl. die
+   Mohawk-Regel in <a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a>.</li>
+</ol>
 <h2 id="grundidee">Grundidee</h2>
 <p>Ab <strong>15:00 Uhr</strong> (Beginn der letzten RTH-Stunde) wird beobachtet, wie sich Preis relativ zur
 <strong>Dealing Range des Tages</strong> verhält (PM-Opening-Range-Low ab 13:30 Uhr bis Tageshoch). Ziel ist,
@@ -211,7 +274,7 @@ Verschwörung). Siehe <a href="../p/signal-following-crowd-liquidity-risk.html">
 <li><a href="../p/2026-08-05-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a></li>
 <li><a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">ICT Price Action Chronicles - Market On Close Macro (Source)</a> — Grundlagen-Lecture (Vortag)</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">9</span></h2><ul><li><a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-05-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a><span class="cat">Konzepte</span></li><li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a><span class="cat">Modelle</span></li><li><a href="../p/ny-pm-trend.html">NY PM Trend</a><span class="cat">Modelle</span></li><li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">12</span></h2><ul><li><a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-05-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-gems-how-to-trade-the-final-hour-macro-source.html">ICT Gems - How to Trade the Final Hour Macro (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-gems-when-to-anticipate-price-spooling-source.html">ICT Gems - When To Anticipate Price Spooling (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a><span class="cat">Konzepte</span></li><li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a><span class="cat">Modelle</span></li><li><a href="../p/ny-pm-trend.html">NY PM Trend</a><span class="cat">Modelle</span></li><li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/models/Market on Close (MOC) Macro Model.md</code></footer>
 </article>
 </main>

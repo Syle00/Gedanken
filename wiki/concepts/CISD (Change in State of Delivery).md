@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, mentorship-2020, orderflow]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[Elements To Successful Swing Trading (Source)]]", "[[CISD Mini Serie - Lecture 1 (Source)]]", "[[CISD Mini Serie - Lecture 2 (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)]]"]
+updated: 2026-08-10
+sources: ["[[Elements To Successful Swing Trading (Source)]]", "[[CISD Mini Serie - Lecture 1 (Source)]]", "[[CISD Mini Serie - Lecture 2 (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)]]", "[[ICT Gems - How Price Behaves At Specific Times (Source)]]"]
 ---
 
 # CISD (Change in State of Delivery)
@@ -72,6 +72,31 @@ Wird laut [[Elements To Successful Swing Trading (Source)]] im Verbund mit
 [[SMT (Smart Money Divergence)|SMT]], [[COT (Commitment of Traders) Data|COT]],
 [[Seasonal Tendency]] und [[Intermarket Relationships|Intermarket-Analyse]] genutzt, um eine
 Trade-These zu verfestigen ("Hallmark"-Kriterien).
+
+## Welcher Opening Price genau? Die Rückwärts-Zählregel (2024)
+
+Aus [[ICT Gems - How Price Behaves At Specific Times (Source)]] — die operative Antwort auf die
+Frage, welchen Preis der Algorithmus bei mehreren aufeinanderfolgenden Kerzen ansteuert:
+
+1. Bei einer Serie **aufeinanderfolgender Down-Close-Kerzen** (bullisher Fall) gilt die Serie als
+   **ein** [[Order Block]].
+2. Der relevante Preis ist der **Opening Price der obersten/ersten** dieser Kerzen — er ist die
+   CISD. *"The algorithm sees these three candles and goes right to that opening price."*
+3. **Rückwärts zählen**: Gibt es links davon noch eine Down-Close-Kerze? Und links davon? Sobald
+   keine mehr folgt, ist die zuletzt gefundene die maßgebliche.
+4. **Validiert** ist der Order Block, sobald Preis diesen Opening Price durchbricht.
+
+### Den Preis nach rechts verlängern
+
+Die Linie danach **nach rechts ausziehen** und beobachten, wie Preis mit ihr umgeht. Die Lesart
+folgt der Body-vs-Wick-Regel ([[Institutional Order Flow (Body vs Wick)]]):
+
+> *"The wicks are always allowed to do the damage, but look what the bodies are doing — the bodies
+> tell you the narrative."*
+
+Die relevante Zone ist der Bereich zwischen diesem **Open** und dem **Close der tiefsten
+Down-Close-Kerze**. Bleiben die Bodies bei jedem Rücklauf in der **oberen Hälfte** dieser Zone und
+durchstechen das Body-Low nicht, ist der Order Block intakt — auch wenn Wicks darunter greifen.
 
 ## Verwandt
 

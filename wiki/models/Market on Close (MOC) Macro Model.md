@@ -1,8 +1,8 @@
 ---
 tags: [model, ict, trading-ict, 2026, macro, sessions, moc]
 created: 2026-08-05
-updated: 2026-08-05
-sources: ["[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]]"]
+updated: 2026-08-10
+sources: ["[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[ICT Gems - How to Trade the Final Hour Macro (Source)]]", "[[ICT Gems - When To Anticipate Price Spooling (Source)]]"]
 ---
 
 # Market on Close (MOC) Macro Model
@@ -10,6 +10,54 @@ sources: ["[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying 
 Setup für die **letzten 10 Minuten des RTH-Handelstags (15:50–16:00 Uhr NY)** — analog zum
 [[NY Lunch Macro Model]], nur am Tagesende statt zur Mittagszeit. Laut Quelle **nicht
 NASDAQ-exklusiv**: das Beispiel läuft am E-Mini S&P (ES), dieselbe Logik gilt index-übergreifend.
+
+## Die letzte Stunde hat ein eigenes Macro-Raster (2024-Ergänzung)
+
+Aus [[ICT Gems - When To Anticipate Price Spooling (Source)]] und
+[[ICT Gems - How to Trade the Final Hour Macro (Source)]]: In der letzten Handelsstunde gilt das
+sonst durchgängige `:50–:10`-Raster (siehe [[ICT Macros & Leading Candles]]) **nicht**. ICT nennt
+stattdessen:
+
+| Fenster | Bezeichnung |
+|---|---|
+| **15:15–15:45** | Final Hour Macro |
+| **15:45–16:00** | **Market on Close** |
+| 16:01 (nur Earnings-Saison) | eigener Algorithmus feuert, danach Run bis **16:15** |
+
+> ⚠️ **Widerspruch zur Fensterlänge oben.** Diese Seite datiert das MOC-Fenster auf **15:50–16:00
+> (10 Minuten)** nach den 2026er Chronicles-Lectures. Die 2024er Gems-Fassung sagt ausdrücklich das
+> Gegenteil: *"Market on Close is that last 15-minute window — **it's not 10 minutes, it's 15
+> minutes**, 3:45 to 4:00."* Beide Aussagen stammen von ICT. Hier bewusst nebeneinander
+> stehengelassen; für einen Backtest sind **beide Fensterlängen** zu prüfen, statt eine zu wählen.
+
+ICT nennt außerdem eine Zahl, die auf dieser Seite bislang fehlte: *"there's four macros in that
+last hour"* — enumeriert werden im Transkript aber nur die beiden oberen (plus die
+Earnings-Erweiterung). Die vollständige Aufzählung liefert die Quelle nicht.
+
+**Position bis 16:00 glattstellen**: *"the final candle at 1600 — you want to have your position
+squared by then."*
+
+### Wann das Final-Hour-Macro ausfällt
+
+Konkrete Ausfallbedingung statt Allgemeinplatz: Hat der Markt **bereits in der Tagesmitte oder
+direkt nach der Lunch-Session viel gelaufen** und dabei seine Liquiditätsaufgabe erledigt, ist die
+letzte Stunde häufig *"listless, choppy, not really doing too much at all"*. Das Macro ist dann
+nicht falsch — es hat schlicht nichts mehr zu holen.
+
+### Standardabweichungen als Ziel-Mechanik
+
+Der Final-Hour-Trade nutzt dieselbe STD-Projektion wie das MOC-Fib oben, aber mit einem klar
+benannten **Trigger-Punkt**:
+
+1. Ein **Market Structure Shift** in der letzten Stunde entsteht, sobald Preis **einen Tick über**
+   das vorherige Short-Term-High handelt — ein Close darüber ist **nicht** erforderlich.
+2. Der vorangegangene Abverkauf ist der Anker: Fib von diesem **Low** bis zum **Short-Term-High vor
+   dem Retracement** ziehen.
+3. Die projizierten STD-Level darüber sind die Ziele; gewählt wird das Level, das **über** dem
+   angepeilten Buyside-Pool liegt.
+4. **Bid/Ask-Zuschlag einplanen**: Der Markt hält nicht exakt am Tick, weil zwischen Bid und Ask
+   eine Spanne liegt — im Beispiel lag das Hoch einen Tick über dem berechneten Ziel. Vgl. die
+   Mohawk-Regel in [[Institutional Order Flow (Body vs Wick)]].
 
 ## Grundidee
 

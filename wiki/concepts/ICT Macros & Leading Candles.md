@@ -3,7 +3,7 @@ tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
 updated: 2026-08-10
 backtest: algo/backtest_macro.py
-sources: ["[[From Vision To Execution (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]"]
+sources: ["[[From Vision To Execution (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]", "[[ICT Gems - The Functions of a Macro (Source)]]", "[[ICT Gems - How Price Behaves At Specific Times (Source)]]", "[[ICT Gems - When To Anticipate Price Spooling (Source)]]", "[[ICT Gems - How to Trade the Final Hour Macro (Source)]]", "[[ICT Gems - Blending Silver Bullets and Macros (Source)]]", "[[ICT Gems - ICT Teaches how to Scalp Every 1 Hour Candle (Source)]]"]
 ---
 
 # ICT Macros & Leading Candles
@@ -15,6 +15,40 @@ als besonders aussagekräftig für die weitere Preisrichtung.
 
 ![[image 3.png]]
 *Leading Candlesticks innerhalb der Macro-Zeit 9:50–10:10.*
+
+## Was ein Macro *ist* — ICTs eigene Funktionsdefinition (2024)
+
+Bis hierher beschreibt die Seite Macros über ihre **Uhrzeiten**. Aus
+[[ICT Gems - The Functions of a Macro (Source)]] stammt die Definition über ihre **Funktion**:
+
+> *"A macro is knowing where the market's likely draw to next with liquidity, and the time."*
+> — und zur Wirkung: *"**They roll against who's in the money right now.** That's what their
+> function is."*
+
+Zwei Konsequenzen, die das Bild auf dieser Seite schärfen:
+
+- **Ein Macro ist kein Volatilitätsfenster, sondern ein Umverteilungsfenster.** Es richtet sich
+  gegen die Positionen, die *gerade* im Gewinn liegen. Das erklärt den eigenen Backtest-Befund
+  weiter unten deutlich besser als "mehr Bewegung": Macros liefern nicht mehr Range, sondern mehr
+  **Nettoweg** — sie räumen eine Seite ab.
+- **Richtung ≠ Bias.** ICT trennt beides ausdrücklich: Gesucht wird nicht "bullish oder bearish",
+  sondern *"where's the next draw on liquidity"*. Wer Tageszeit und Macro-Fenster beherrscht, kann
+  laut ICT **ohne** Intraday-Bias allein auf interne Liquidität handeln.
+
+> *"In a 20 minute span you know that there's going to be a setup — you could set your watch to
+> it."*
+
+## Warum es das 15:00-Macro gibt: der Bond-Close
+
+Dieselbe Quelle nennt für das 14:50–15:10-Fenster eine **konkrete Ursache** statt nur einer
+Uhrzeit: Um **15:00 NY schließt der Anleihemarkt**, und dieser Close wirkt auf die Aktienindizes.
+Die Wirkung ist nicht einheitlich — ICT nennt drei mögliche Ausgänge: **Continuation**,
+**Reversal** oder **Retracement mit anschließender Continuation**.
+
+Damit gibt es auf dieser Seite jetzt zwei zeitlich fixierte, ursächlich erklärbare Punkte
+außerhalb des reinen 20-Minuten-Rasters: **8:30** (News-Release, siehe unten) und **15:00**
+(Bond-Close). Vgl. [[ICT Daily Range Session Timing]], wo der 15:00-Bond-Close bereits als
+Einflussfaktor auf Währungen vermerkt ist — hier dieselbe Ursache für Indizes.
 
 ## Zusatzregeln (aus derselben Quelle)
 
@@ -45,15 +79,123 @@ Stage-1-Expansion (siehe [[Two Stage News Delivery (FOMC & NFP)]]) genau in eine
 ist das der Moment, Teilgewinne zu sichern, bevor ein Reversal einsetzt. Bestätigt zusätzlich per
 Standard-Deviation-Projektion der Pre-News-Range (siehe [[Central Bank Dealers Range (CBDR)]]).
 
-## Anzeichen einer aktiven Macro-Phase: "Spooling"/Energie-Aufbau (2026, offene Hypothese)
+## "Spooling" — ICTs Definition (2024) ✅ Hypothese aufgelöst
 
-Nutzerbeobachtung (laufend, noch nicht gegen Daten geprüft): Am **Start eines Macro-Fensters**
-(konkreter Anlass: **10:50**, Beginn des [[NY Lunch Macro Model|Lunch Macros]]) baut Preis
-sichtbar **Kraft/Energie auf**, bevor der eigentliche Move einsetzt — im Chart als "Spooling"
-beschrieben. Noch offen, wie sich das konkret operationalisieren lässt (Kandidaten: engere
-Candle-Ranges mit steigendem Volumen direkt vor dem Fenster, mehrere kleine Same-Direction-Closes
-in Folge, sinkende Wick-Anteile). Bis zur Präzisierung als **offene Hypothese** behandelt, nicht
-als bestätigte Regel — bei mehr Beispielen/Daten hier ergänzen und in `algo/PLAN.md` backtesten.
+> ✅ **Diese Frage war seit 2026-08-10 als offene Hypothese markiert und ist jetzt geklärt** — mit
+> dem Ergebnis, dass die ursprüngliche Vermutung **den Begriff falsch herum** verstanden hatte.
+> Quellen: [[ICT Gems - How Price Behaves At Specific Times (Source)]] und
+> [[ICT Gems - When To Anticipate Price Spooling (Source)]].
+
+**Die ursprüngliche Lesart war**: Preis baue am Macro-Start "Kraft/Energie" auf (Kompression),
+bevor der Move einsetzt. **ICT meint mit Spooling das Gegenteil — die Bewegung selbst:**
+
+> *"The market will spool — it means it **jumps and runs** to one of two things."*
+
+Spooling ist der **gerichtete Lauf zum Ziel**, nicht die Ruhe davor. Konkret läuft Preis im
+Macro-Fenster zu genau einem von drei Dingen:
+
+1. Zu einem **Short-Term Low** → Sellside-Liquidität / Sell-Stops.
+2. Zu einem **Short-Term High** → Buyside-Liquidität / Buy-Stops.
+3. In eine **Ineffizienz** (FVG) — um Smart Money einen Einstieg zu Fair Value anzubieten,
+   **unmittelbar bevor** Preis dann zur Liquidität spoolt.
+
+Punkt 3 ist die eigentliche Feinheit: Der Lauf ins FVG ist die *Vorbereitung*, der Lauf zur
+Liquidität ist das Spooling.
+
+### Was das für die eigenen Daten bedeutet
+
+Die Auflösung passt zum eigenen Backtest weiter unten, und zwar besser als die alte Lesart: Wenn
+Spooling der gerichtete Lauf ist, dann ist die gemessene **erhöhte Geradlinigkeit (`dir`) im
+Macro genau das Spooling** — und nicht ein Nebenbefund. Die im Beispiel 2026-08-10 beobachtete
+Kompression *zwischen* zwei Macros ist reale Preisaktion, aber sie ist **nicht** das, was ICT
+Spooling nennt; sie ist schlicht Konsolidierung.
+
+Praktische Konsequenz: Die in `algo/PLAN.md` notierte Suche nach einer volumenbasierten
+Spooling-Definition ("enge Kerzen bei steigendem Volumen") zielte am Begriff vorbei — und wäre auf
+diesem Datenbestand ohnehin unmöglich gewesen (kein Volumen in den Exporten, siehe Datenqualität
+unten). Die messbare Größe ist stattdessen der bereits erhobene **Nettoweg/`dir`**.
+
+## ⚠️ Der Move *beginnt* im Macro — er läuft nicht darin ab
+
+Die für den eigenen Backtest folgenreichste Aussage des ganzen Batches, aus
+[[ICT Gems - Blending Silver Bullets and Macros (Source)]]. ICT korrigiert dort ausdrücklich eine
+verbreitete Fehllesart seiner eigenen Lehre:
+
+> *"There's people out there trying to teach my stuff and they're saying the move happens between
+> 9:50 and 10:10 — **you're already doing it wrong**. The move **begins** in those 20 minutes.
+> It's not the entirety of the move."*
+
+Ein Macro ist also ein **Startfenster**, kein Container. In einem schnellen Markt kann die
+Bewegung innerhalb der 20 Minuten fertig sein; der Normalfall ist, dass sie dort **anfängt** und
+darüber hinausläuft.
+
+**Konsequenz für `algo/backtest_macro.py`**: Das Skript misst Range, Nettoweg und `dir` **innerhalb**
+des 20-Minuten-Blocks. Nach ICTs Definition unterschätzt das den Effekt systematisch — ein Macro,
+das um 10:05 einen Lauf startet, der bis 10:40 trägt, wird als schwacher Block gewertet. Die
+passendere Kennzahl wäre die **Exkursion ab Macro-Start über die folgenden N Minuten**
+(MFE/MAE-artig), nicht der Blockinhalt. Als Auftrag in `algo/PLAN.md` notiert.
+
+Das erklärt außerdem den bisherigen "Befund gegen die These" weiter unten: Dass 09:50–10:10 nicht
+das größte Fenster des Tages ist, ist nach dieser Lesart **kein Widerspruch** — der RTH-Open
+liefert die Range, das Macro liefert den **Startschuss** für den gerichteten Anschlusslauf. Genau
+das deckt sich mit der gemessenen höheren Geradlinigkeit.
+
+## Jede Stunde hat ein Macro
+
+> *"Every hour a macro is in operation, every single hour."* — 10 Minuten vor bis 10 Minuten nach
+> der vollen Stunde, also das `:50–:10`-Fenster. *"Some macros are better than others, I'll leave
+> that for the book."*
+
+Das bestätigt unabhängig das Raster, auf dem `algo/backtest_macro.py` bereits aufsetzt (drei
+20-Minuten-Blöcke pro Stunde, davon einer Macro). ICT nennt das Macro-Fenster einen
+*"supercharger for efficiency and immediate responsiveness in your entries"*.
+
+Noch kategorischer in [[ICT Gems - ICT Teaches how to Scalp Every 1 Hour Candle (Source)]] — und
+damit als Abgrenzung gegen frei erfundene Zwischenfenster brauchbar:
+
+> *"There is **no 19-minutes-after-the-hour macro**, there's **no 23-minutes-after-the-hour
+> macro**. A macro only exists 10 minutes before the top of the hour [bis 10 danach]."*
+
+**Definition eines Macros**, ebenfalls wörtlich (aus
+[[ICT Gems - How to Trade the Final Hour Macro (Source)]]): *"a macro is a short little list of
+instructions or directives for an algorithm to run, and they tend to repeat."*
+
+**Mindestziel**: Für NASDAQ-Scalps nennt ICT **10 Handles** als Untergrenze — *"if I can't at least
+make 10 handles, I'm not willing to take the trade"*, und ausdrücklich ohne Anspruch auf das
+tiefste Tief oder höchste Hoch. Für den [[Silver Bullet Model|Silver Bullet]] speziell nennt er
+dagegen 5 Handles.
+
+> ⚠️ **Ausnahme letzte Handelsstunde**: Dort gilt das `:50–:10`-Raster laut
+> [[ICT Gems - When To Anticipate Price Spooling (Source)]] **nicht** — siehe
+> [[Market on Close (MOC) Macro Model]]. Für `algo/backtest_macro.py` ist das relevant, weil das
+> Skript aktuell durchgehend gleichmäßig rastert.
+
+## Wonach ein Macro greift: Gap **oder** Order Block **oder** Short-Term Low
+
+Im Macro-Fenster sucht der Algorithmus laut ICT genau eines von drei Elementen — und die Auswahl
+ist erzwungen, nicht beliebig:
+
+- Liegt eine **Ineffizienz** vor → sie ist das Ziel (Entry per
+  [[Institutional Order Flow Entry Drill (IOFED)]]).
+- Liegt **keine** vor (Kerzen überlappen lückenlos) → der **[[Order Block]]** übernimmt: die
+  Down-Close-Kerze, die Preis im Retracement abstößt.
+- Sonst das **Short-Term Low/High** als Liquiditätsziel.
+
+> **Strukturregel**: *"You're not going to get a short-term low, an order block and a fair value
+> gap [in the same place] — it's physically impossible. Two at best, but never all three. Usually
+> one or the other, at least one of the three."*
+
+Das ist praktisch nützlich als Ausschlussverfahren: Wer im Macro-Fenster kein FVG findet, sucht
+nicht weiter nach einem — er wechselt zum Order Block.
+
+## Immer relevante Daily-Level
+
+Unabhängig vom Intraday-Bild nennt ICT diese Level als dauerhaft mitzuführen — sie liefern die
+HTF-Prämisse, ohne die ein 1-Minuten-Setup laut ihm wertlos ist:
+
+- **PDH/PDL**, dazu die Highs/Lows der **letzten drei Tage**
+- **Wochen-High/-Low** der Vorwoche
+- von dieser Range jeweils **oberer Quadrant, Mittelpunkt und unterer Quadrant**
 
 ### Erstes Beispiel (2026-08-10, MNQ 1min) — nach Datenprüfung korrigiert
 

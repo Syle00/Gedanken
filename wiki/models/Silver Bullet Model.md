@@ -62,6 +62,42 @@ Zusatzregel zur reinen Entry-Logik oben, so wie im Algo-Backtest (`algo/rules.py
 Diese Regel ist reines Trade-Management, keine ICT-Quellenaussage — sie ergänzt, ersetzt aber
 nicht die Entry-Kriterien aus dem Abschnitt oben.
 
+> ✅ **Teilweise durch eine Quelle gedeckt (2026-08-10).** Die 10-Handle-Schwelle war bislang als
+> reine Eigenregel markiert. [[ICT Gems - ICT Teaches how to Scalp Every 1 Hour Candle (Source)]]
+> nennt für NASDAQ-Scalps **exakt dieselbe Zahl**: *"if I can't at least make 10 handles, I'm not
+> willing to take the trade."* Für den **Silver Bullet speziell** nennt ICT dagegen
+> [[ICT Gems - Blending Silver Bullets and Macros (Source)|an anderer Stelle]] nur **5 Handles**.
+> Die Eigenregel ist damit nicht widerlegt, sondern **konservativer** als ICTs SB-Vorgabe — das ist
+> eine bewusste Entscheidung und bleibt so.
+
+## Was der Silver Bullet ausdrücklich *nicht* ist (2024-Ergänzung)
+
+Aus [[ICT Gems - Blending Silver Bullets and Macros (Source)]] — ICT korrigiert dort zwei
+verbreitete Überdehnungen des Modells:
+
+- **Das Ziel sind 5 Handles, nicht die Tagesrange.** *"You're not demanding that you capture the
+  daily range, you're not demanding that it goes to your technical target — you're only expecting
+  it to give you your five handles."* Dass daraus manchmal das Tagestief und ein Lauf über Stunden
+  wird, ist Zugabe, nicht Anspruch.
+- **Das Setup gilt als erfüllt, wenn die Range da war — auch ohne Zielerreichung.** Liefert der
+  Trade über 5 Handles, erreicht aber den anvisierten Liquidity Pool nicht, ist das Modell
+  **nicht** gebrochen. ICT: *"you don't need to be right about your levels, you just need to be
+  right about: does it offer the range?"*
+
+**Präzisierung der Entry-Bedingung**: Das FVG muss **entgegengesetzt** zur erwarteten Zielrichtung
+liegen. Bearish: Displacement nach unten → Retracement **hinauf** ins FVG → dann Lauf zur Sellside.
+Bullish spiegelbildlich: Displacement nach oben hinterlässt ein FVG **unter** Markt → Rücklauf
+hinein → dann Lauf zur noch unberührten Buyside.
+
+**Einzelnes Low vs. Relative Equal Lows**: Liegt unter dem Einstieg nur ein **einzelnes** Low, ist
+ein aggressiver Entry vertretbar. Liegen **Relative Equal Lows** vor, ist dort Sellside gebunkert —
+dann ist damit zu rechnen, dass sie zuerst abgeholt wird, bevor der eigentliche Move läuft.
+
+**Zeitliche Einordnung**: Das SB-Fenster 10–11 Uhr ist laut ICT der **letzte Abschnitt** des
+AM-Session-Moves (8:30–11:00, ausdehnbar bis 12:00) — man sitzt "im Herzen der Bewegung", ohne
+deren Inception erwischt zu haben. Genau deshalb funktioniert das Modell ohne Einstieg am
+Bewegungsanfang.
+
 ## Bezug zu Nachbar-Fenstern
 
 - Das **NY-AM-Fenster (10–11 Uhr)** überlappt mit dem Vorlauf zum [[NY Lunch Macro Model|NY Lunch
