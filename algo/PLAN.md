@@ -170,6 +170,30 @@ implementiert zu werden. Kein Punkt hier ist beauftragt — erst wenn genug Tage
     gegen dieselben Daten geprueft werden — siehe
     [[../wiki/concepts/Training Bias & Selection Bias|Training Bias & Selection Bias]].
 
+### Backlog: drei quantifizierte Regeln aus Core Content Month 09 (2026-08-10)
+
+Aus dem Ingest der Month-09-Videoreihe stammen drei Thesen, die konkret genug fuer einen eigenen
+Backtest gegen `raw/marktdaten/` sind. Noch nicht umgesetzt — hier als Auftrag notiert.
+
+1. **London-Close-Retracement (`algo/backtest_london_close.py`)** — Bedingung: NY und London
+   liefen in dieselbe Richtung **und** die 5-Tage-ADR wurde erreicht/ueberschritten. Erwartung:
+   Retracement von 20–30 % der Tagesrange. ⚠️ ICT nennt in Month 09 **zwei abweichende
+   Parametersaetze** — Reversal-Lektion: Fenster 10:00–12:00 NY, ~20 %, ADR-Ueberschuss
+   1,25–1,33×; Bread-&-Butter-Lektionen: Fenster 10:30–13:00 NY, 20–30 %, kein fester Faktor.
+   **Beide Varianten getrennt testen**, nicht eine willkuerlich waehlen. Siehe
+   [[../wiki/concepts/Average Daily Range (5-Tage-ADR)|Average Daily Range (5-Tage-ADR)]].
+2. **33-Pip-Protraction** — auf einem "klassischen 100-Pip-Tag" laeuft die Protraction unter den
+   Midnight-NY-Opening-Price bis zu ~33 Pips, also rund **ein Drittel der erwarteten Tagesrange**.
+   Auf MNQ als Verhaeltnis (nicht als Pip-Wert) zu pruefen: Wie tief unter dem Midnight-Open liegt
+   das Tagestief an Up-Close-Tagen, relativ zur ADR? Siehe
+   [[../wiki/models/ICT Day Trade Routine|ICT Day Trade Routine]].
+3. **Filling The Numbers (vier Level)** — IPDA handelt pro Tag zu vier Leveln, gemessen ueber
+   CBDR-STDs, Asia-Range-STDs, Pivots **oder** den Flout (Range 15:00–00:00 NY, halbiert). Gut
+   testbar, weil CBDR- und Asia-Range-Detektoren bereits existieren; der Flout waere neu. Frage an
+   die Daten: Wird die Vier-Level-Faustregel getroffen, und **welche** Messlatte trifft auf MNQ am
+   haeufigsten? Siehe
+   [[../wiki/concepts/Filling The Numbers (4 Level pro Tag)|Filling The Numbers (4 Level pro Tag)]].
+
 ## Naechster Schritt
 
 **Korrektur (2026-08-03):** Der urspruengliche Plan war, mit dem Backtest zu warten, bis
@@ -227,3 +251,4 @@ oben), nicht mehr Warten.
 | 2026-08-10 | **Spec "Macro-Datenbank & Statistik-Skill"** geschrieben (`docs/superpowers/specs/2026-08-10-macro-datenbank-design.md`, Commit 94294c8c). Geplant: `algo/macro_db.py` (`build`/`stats`/`plot`) schreibt eine Zeile je Macro-Fenster (Vorgeschichte aus vorhandenen `analyze_ohlc`-Detektoren, Verlauf, `start_min` = Minute des Extrems entgegen der Netto-Richtung, getroffene Level) nach `algo/results/macro_db.csv`, plus Skill `.claude/skills/macro-db/` als Antwortdisziplin (Wilson-Intervall statt Punktschaetzung, Basisratenvergleich, unter n=20 keine Prozentzahl, Bonferroni-Hinweis bei Mehrfachvergleichen). Nutzerentscheidungen: nur echte MNQ-Daten (kein Fremd-Proxy), Spooling nicht vorab definieren sondern vier preisbasierte Kandidaten messen und die Daten entscheiden lassen, nur vollstaendig erfasste Fenster in die Statistik. **Nebenbefund**: Dukascopy liefert kostenlos Nasdaq-CFD-Tickdaten (`USATECHIDXUSD`, per Ladetest bis 2012 zurueck bestaetigt, ~3.500 Tage) — bewusst verworfen (CFD != Futures, Broker-Volumen wertlos, fruehe Jahre duenn), notiert falls die Stichprobe spaeter zum Engpass wird. |
 | 2026-08-10 | **Alle Macro-Zahlen nach dem `blocks()`-Fix neu erzeugt + Selfcheck repariert.** Der Fix (Handelstag ab 18:00 Vorabend statt 00:10 Kalendertag) bringt die Abend-/Asia-Bloecke zurueck: **1417 statt 1091 Bloecke, Macro n=450 statt 351**. Der Befund wird dadurch **bestaetigt und geschaerft**, nicht gekippt: median Range 63,38 vs 57,75 (+10 %), median Netto 30,88 vs 24,50 (**+26 %**, vorher +32 %), dir 0,51 vs 0,46; alle p-Werte besser (Range 0,0004 / Netto 0,0001 / dir 0,0026 / fvgs 0,0054). FVG-Groesseneffekt **deutlicher** als vorher: >=10 Pkt jetzt 0,81 vs 0,61 = **+33 %** (vorher +27 %), >=15 Pkt 0,37 vs 0,28 = **+32 %** (vorher +20 %). Median-Rang von 09:50-10:10 unveraendert Platz 3, jetzt von 67 statt 49 Bloecken. **Bug im mitgelieferten Selfcheck behoben**: `assert labels[-1] == "16:30-16:50"` widersprach `assert len(bs) == 69` — 69 Bloecke ab 18:10 enden bei 16:50-17:10, der Selfcheck schlug also fehl. Auf "16:50-17:10" korrigiert, mit Kommentar: dieser letzte Block ragt 10 min ueber den 17:00-Close und wird von MIN_BARS immer verworfen (unvermeidbarer Randeffekt eines :10/:30/:50-Rasters auf einer 18:00-Session, kein Bug). |
 | 2026-08-10 | **SB FVG vom 14:12 verifiziert** (vorher nur aus dem Chart abgelesen, yfinance hing auf 14:08). Nachzug um 14:34: 14:11 Low 29.767,25, 14:13 High 29.759,50 -> SIBI 29.759,50-29.767,25, **Groesse 7,75 Punkte**, C.E. 29.763,38. Preis danach bis 29.742,25 runter, bis 14:34 zurueck auf 29.764,75 (ueber die C.E. hinein), um 14:42 laut Chart 29.768,00 = Gap-Oberkante, also vollstaendig durchgehandelt. **Einordnung**: mit 7,75 Punkten liegt dieses SB FVG unter der 10-Punkte-Schwelle, ab der FVGs sich ueberhaupt im Macro haeufen — es gehoert zur haeufigen, nicht zur selektiven Sorte. Meine vorherige Pixel-Schaetzung (~29.769,50 / ~29.760,00) lag damit ~2 Punkte daneben. |
+| 2026-08-10 | Ingest Core Content Month 09 (8 YouTube-Lektionen) liefert drei quantifizierte, backtestbare Regeln — als Backlog-Abschnitt "drei quantifizierte Regeln aus Core Content Month 09" oben notiert: London-Close-Retracement (mit zwei widerspruechlichen Parametersaetzen von ICT selbst, beide zu testen), 33-Pip-Protraction unter dem Midnight-Open (als Verhaeltnis zur ADR auf MNQ zu pruefen), Filling-The-Numbers-Vier-Level-Regel. Neu im Wiki: Flout-Range (15:00–00:00 NY, halbiert = Projektionseinheit) und die 5-Tage-ADR als eigenstaendiges Konzept. Noch kein Backtest gelaufen. |

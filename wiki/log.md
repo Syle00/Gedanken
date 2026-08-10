@@ -1528,3 +1528,43 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   selber Autor, keine zwei gleichwertigen Lehrmeinungen.
 - Ausgefiltert: Market-Replay-/Konkurrenz-Polemik, Paper-Account-Begruendung (Lizenzrecht),
   "predict statt react"-Rhetorik — kein neuer Regelinhalt.
+
+## [2026-08-10] ingest | Core Content Month 09 (8 YouTube-Lektionen, Playlist)
+- Auftrag: Playlist PLVgHx4Z63paZfDRSk94aEMoYKUBqQgj0b ("ICT Mentorship Core Content - Month 09",
+  8 Videos, hochgeladen 2022-10-09 bis 2022-10-15, Inhalt Mai-2017-Mentorship). Nutzervorgabe:
+  arbeiten bis kurz vor die IP-Sperre, vorher aufhoeren.
+- **Rate-Limit-Strategie**: streng seriell, 45s Abstand fuer die ersten 6, danach 90s fuer die
+  letzten 2. Bekannte Grenze laut frueheren Log-Eintraegen: `IpBlocked` nach ca. 16
+  Transkript-Fetches pro Session, ausgeloest durch Parallelitaet. Diese Session: **9 Fetches
+  gesamt** (1 aus dem vorherigen Ingest + 8), **kein Block**. Alle 8 Videos vollstaendig geholt.
+- Stolperstein festgehalten: Video-ID `-oMtfDvc18Y` beginnt mit einem Bindestrich, argparse liest
+  sie als Flag. Loesung: `python tools/fetch_yt_transcript.py -- "-oMtfDvc18Y"`.
+- Alle 8 Lektionen existierten bereits als Notion-Export im Vault. Die Videos sind durchweg die
+  **ausfuehrlicheren Vollfassungen** — bei "Filling The Numbers" und "20 Pips Per Day" weicht der
+  Videoinhalt sogar substanziell von der Notion-Notiz ab.
+- Seiten erstellt (8 Quellseiten + 3 Konzeptseiten):
+  - wiki/sources/ICT Mentorship Core Content - Month 09 - {The Sentiment Effect, Filling The
+    Numbers, 20 Pips Per Day, Trading In Consolidations, Trading Market Reversals, Bread & Butter
+    Buy Setups, Bread & Butter Sell Setups, ICT Day Trade Routine} (Source).md
+  - wiki/concepts/Filling The Numbers (4 Level pro Tag).md — IPDA faellt vier Level pro Tag,
+    gemessen ueber vier austauschbare Messlatten, kombiniert per Konfluenz.
+  - wiki/concepts/Flout (15-00 NY Range).md — **im Vault bislang komplett unbekannt**: Range
+    15:00–00:00 NY, halbiert; die halbe Range ist die Projektionseinheit.
+  - wiki/concepts/Average Daily Range (5-Tage-ADR).md — ADR als Reichweiten- und Exit-Werkzeug,
+    inkl. ICTs "15 Pips vor der ADR"-Exit (begruendet mit Datenanbieter-Streuung).
+- Seiten erweitert: wiki/models/{The Sentiment Effect, 20 Pips Per Day, Trading In Consolidations,
+  Bread & Butter Setups, ICT Day Trade Routine}.md, wiki/concepts/Market Reversal Types.md,
+  wiki/index.md.
+- **Offene Frage geschlossen**: Auf wiki/concepts/Market Reversal Types.md stand seit 2026-08-02
+  ein ⚠️-Marker, welche Reversal-Typen 6–8 seien. Die Video-Fassung zaehlt High und Low getrennt →
+  Marker auf ✅ umgestellt mit Begruendung (PDH, PDL, Intraweek High, Intraweek Low, ITH, ITL,
+  NY Session, London Close).
+- **Widerspruch markiert statt aufgeloest**: ICT nennt fuer denselben London-Close-Scalp innerhalb
+  desselben Monats zwei Parametersaetze (10:00–12:00 NY / ~20 % / ADR 1,25–1,33× vs. 10:30–13:00
+  NY / 20–30 % / kein Faktor). Beide auf der ADR-Seite nebeneinander stehengelassen, da gleichwertige
+  Aussagen desselben Autors; fuer den Backtest sind beide zu pruefen.
+- Drei backtestbare Regeln nach algo/PLAN.md uebertragen (London-Close-Retracement,
+  33-Pip-Protraction, Filling-The-Numbers) — als Backlog, noch kein Backtest gelaufen.
+- Ausgefiltert: Market-Replay-/Konkurrenz-Polemik, Forum-/Indikator-Downloadverweise,
+  Demo-vs-Live-Disclaimer, persoenliche Anekdoten, die mehrfach wiederholte
+  Retail-vs-Smart-Money-Gegenueberstellung.

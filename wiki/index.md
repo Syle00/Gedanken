@@ -22,6 +22,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]] — 4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition (2026-08-01)
 - [[Asian Range]] — 19–24 Uhr NY, Highest High/Lowest Low; Konsolidierung = Trendtag, nur mit Bias nutzbar (2026-08-02)
 - [[Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)]] — Vier-Bias-Katalog aus Halls-Moore, systematisiert bestehende Projektregeln; algo-methodology, kein ICT-Konzept (2026-08-08)
+- [[Average Daily Range (5-Tage-ADR)]] — 5-Tage-Durchschnittsrange als Reichweiten- und Exit-Werkzeug; Verdopplungsbedingungen, 15-Pips-vor-ADR-Exit (2026-08-10)
 - [[Balanced Price Range (BPR)]] — Verhalten innerhalb eines FVG, eine Timeframe tiefer betrachtet (2026-08-02)
 - [[BISI & SIBI (Buyside-Sellside Imbalance)]] — Richtungs-Bezeichnung für FVG-Typen (2026-08-01)
 - [[Bollinger-Bänder, Scaling-in & Kalman-Filter]] — handelbare Mean-Reversion-Mechanik; Scaling-in ist in-sample beweisbar nie optimal; Kalman liefert Hedge Ratio, Mittelwert und Std ohne Lookback; algo-methodology (2026-08-08)
@@ -42,6 +43,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Event Horizon]] — 50%-Punkt zwischen zwei Liquidity Pools für Partials (2026-08-01)
 - [[External vs. Internal Range Liquidity]] — Entry an Internal (OB/FVG in der Range), Exit an External (Stops außerhalb) (2026-08-06)
 - [[Fair Value Gap (FVG)]] — Preiszone ohne Trading zwischen zwei Candles (2026-08-06)
+- [[Filling The Numbers (4 Level pro Tag)]] — IPDA füllt vier Level pro Tag; vier Messlatten (Pivots, CBDR, Asia Range, Flout) über Konfluenz kombiniert (2026-08-10)
+- [[Flout (15-00 NY Range)]] — Range 15:00–00:00 NY, halbiert; die halbe Range ist die Projektionseinheit (2026-08-10)
 - [[FOMC (Federal Open Market Committee)]] — US-Zinsgremium, häufigster News-Katalysator in Weekly-Profilen (2026-08-01)
 - [[Futures-Datenaufbereitung & Backtesting-Fallstricke (Chan)]] — Back-Adjustment Preis vs. Rendite (man kann nur eines korrekt haben), Settlement- statt Schlusskurs, Datenfehler verzerren MR und Momentum gegensätzlich; algo-methodology (2026-08-08)
 - [[Grenzen für Einzelrenditen & Drawdown]] — empirische Quantilgrenzen zur Live-Überwachung + Doppel-Bootstrap für Drawdown (der naive Bootstrap unterschätzt Katastrophen um Faktor 13,65); algo-methodology (2026-08-08)
@@ -176,6 +179,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Mentorship Core Content - Month 04 - ICT Breaker Block (Source)]], [[ICT Mentorship Core Content - Month 04 - ICT Rejection Block (Source)]], [[ICT Mentorship Core Content - Month 04 - Reclaimed ICT Orderblock (Source)]], [[ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)]]
 - [[ICT Mentorship Core Content - Month 04 - ICT Vacuum Block (Source)]], [[ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)]], [[ICT Mentorship Core Content - Month 04 - Liquidity Pools (Source)]], [[ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)]]
 - [[ICT Mentorship Core Content - Month 04 - Divergence Phantoms (Source)]], [[ICT Mentorship Core Content - Month 04 - Double Bottom Double Top (Source)]]
+- [[ICT Mentorship Core Content - Month 09 - The Sentiment Effect (Source)]], [[ICT Mentorship Core Content - Month 09 - Filling The Numbers (Source)]], [[ICT Mentorship Core Content - Month 09 - 20 Pips Per Day (Source)]], [[ICT Mentorship Core Content - Month 09 - Trading In Consolidations (Source)]]
+- [[ICT Mentorship Core Content - Month 09 - Trading Market Reversals (Source)]], [[ICT Mentorship Core Content - Month 09 - Bread & Butter Buy Setups (Source)]], [[ICT Mentorship Core Content - Month 09 - Bread & Butter Sell Setups (Source)]], [[ICT Mentorship Core Content - Month 09 - ICT Day Trade Routine (Source)]]
 - [[Institutional Marketstructure (Source)]], [[Institutional Order Flow (Source)]], [[Institutional Sponsorship (Source)]]
 - [[Integrating Daytrades With HTF Trade Entries (Source)]], [[Interest Rate Differentials (Source)]]
 - [[Intraday Profiles f. London (Source)]], [[Intraweek Market Reversals & Overlapping Models (Source)]]
