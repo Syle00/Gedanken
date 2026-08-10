@@ -1253,6 +1253,12 @@ if __name__ == "__main__":
     p.add_argument("--symbol", default="MNQ")
     p.add_argument("--selfcheck", action="store_true")
     a = p.parse_args()
+    # Ohne das bricht der En-Dash in den Konfidenzintervallen auf einer cp1252-Konsole
+    # zu "[30.9?39.8]". Gleiches Muster wie in algo/selfcheck.py.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except (AttributeError, OSError):
+        pass
     if a.selfcheck:
         selfcheck()
     elif a.cmd == "build":
