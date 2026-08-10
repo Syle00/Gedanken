@@ -19,6 +19,7 @@
 - **Kein Lookahead:** Vorgeschichte-Spalten sehen nur `bars[t < window_start]`, Verlaufsspalten nur `bars[window_start <= t < window_end]`.
 - **Handelstag:** 18:00 (Vorabend) bis 17:00, **23** Macro-Fenster (17:50 liegt in der Globex-Pause).
 - **Vollständigkeitsregel:** 20/20 Minuten im Fenster **und** 10/10 im Vorlauf, sonst wird die Zeile nicht geschrieben.
+- **`raw/` ist unveränderlich** (Layer 1 laut `CLAUDE.md`): nur lesen, nie schreiben. Generierte Artefakte gehören nach `wiki/assets/` (Bilder), `algo/results/` (Daten) oder `wiki/synthesis/` (Auswertungsseiten). `build_site.py` löst Bildnamen über das ganze Repo auf (`collect_assets()` nutzt `ROOT.rglob`), der Ablageort ist also frei wählbar.
 - **Kein `push.ps1`** in irgendeinem Task — Pushen macht der Nutzer selbst.
 - **Zahlenformat in Ausgaben:** Punkte mit zwei Nachkommastellen, Quoten als Prozent mit einer Nachkommastelle.
 
@@ -1290,7 +1291,7 @@ stehen unter jedem Report."
 
 **Files:**
 - Modify: `algo/macro_db.py`
-- Create: `raw/bilder/macro-db-expansion.png`, `raw/bilder/macro-db-timing.png`, `raw/bilder/macro-db-level.png` (erzeugt)
+- Create: `wiki/assets/macro-db-expansion.png`, `wiki/assets/macro-db-timing.png`, `wiki/assets/macro-db-level.png` (erzeugt)
 - Create: `wiki/synthesis/Macro-Datenbank (laufend).md` (erzeugt)
 
 **Interfaces:**
@@ -1302,7 +1303,10 @@ stehen unter jedem Report."
 Nach `cmd_stats` einfügen:
 
 ```python
-BILD_DIR = Path(__file__).resolve().parent.parent / "raw" / "bilder"
+# Generierte Bilder gehoeren nach wiki/assets/, NICHT nach raw/ -- raw/ ist laut
+# CLAUDE.md Layer 1 (Rohquellen, unveraenderlich). build_site.py loest Bildnamen
+# ueber das ganze Repo auf (collect_assets() nutzt ROOT.rglob), der Ort ist also frei.
+BILD_DIR = Path(__file__).resolve().parent.parent / "wiki" / "assets"
 WIKI_SEITE = (Path(__file__).resolve().parent.parent / "wiki" / "synthesis"
               / "Macro-Datenbank (laufend).md")
 
@@ -1437,11 +1441,11 @@ Den `__main__`-Block ergänzen:
 - [ ] **Step 2: `plot` laufen lassen**
 
 Run: `python algo/macro_db.py plot`
-Expected: `3 Diagramme -> .../raw/bilder` und `Wiki-Seite -> .../wiki/synthesis/Macro-Datenbank (laufend).md`
+Expected: `3 Diagramme -> .../wiki/assets` und `Wiki-Seite -> .../wiki/synthesis/Macro-Datenbank (laufend).md`
 
 - [ ] **Step 3: Die drei PNGs tatsächlich ansehen**
 
-Die Dateien mit dem Read-Tool öffnen (es rendert Bilder visuell): `raw/bilder/macro-db-expansion.png`, `-timing.png`, `-level.png`.
+Die Dateien mit dem Read-Tool öffnen (es rendert Bilder visuell): `wiki/assets/macro-db-expansion.png`, `-timing.png`, `-level.png`.
 
 Prüfen: Sind die Achsen beschriftet? Sind die Fehlerbalken sichtbar und breit (bei diesem n müssen sie breit sein)? Überlappen die meisten Balken die Basisrate-Linie? Ist das Timing-Histogramm nicht leer? Sieht ein Diagramm falsch aus, hier korrigieren — nicht erst im Bericht erwähnen.
 
@@ -1461,7 +1465,7 @@ Expected: Läuft durch. Die neue Seite darf keine unauflösbaren Wikilinks melde
 - [ ] **Step 6: Commit**
 
 ```bash
-git add algo/macro_db.py "wiki/synthesis/Macro-Datenbank (laufend).md" wiki/index.md raw/bilder/macro-db-expansion.png raw/bilder/macro-db-timing.png raw/bilder/macro-db-level.png
+git add algo/macro_db.py "wiki/synthesis/Macro-Datenbank (laufend).md" wiki/index.md wiki/assets/macro-db-expansion.png wiki/assets/macro-db-timing.png wiki/assets/macro-db-level.png
 git commit -m "feat(algo): macro_db plot -- drei Diagramme und laufende Wiki-Seite
 
 Expansionsquote je Fenster mit Wilson-Fehlerbalken und Basisratenlinie,
