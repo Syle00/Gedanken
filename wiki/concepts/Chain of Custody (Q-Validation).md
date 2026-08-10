@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-03
+updated: 2026-08-10
 sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Chain Of Custody Of Price With Daily Inefficiencies (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
 ---
 
@@ -58,12 +58,37 @@ Angewendet wird das Raster direkt auf ein [[BISI & SIBI (Buyside-Sellside Imbala
 - **No-Trade-Regel**: Verbringt Preis längere Zeit zwischen zwei Qs/Os und konsolidiert sichtlich,
   ist das **nicht High Probability** — unabhängig vom Zeitfenster wird kein Trade genommen.
 
-## 16tel (halber Oktant) — 2026-Ergänzung (MOC-Video)
+## 16tel / Hexadezimant (Hs) — 2026-Ergänzung (MOC-Video)
 
-Das Raster geht noch eine Stufe feiner als Q/O: **Oktant halbiert = 16tel** (6,25 % der Range). Im
-konkreten Beispiel am E-Mini S&P wurde ein 16tel-Level bei 7.761,75 projiziert, das Tagestief kam bei
-7.761,25 — **2 Ticks Abweichung**. Details und Ablauf auf
-[[Market on Close (MOC) Macro Model]].
+Das Raster geht noch eine Stufe feiner als Q/O: **Oktant halbiert = 16tel** (6,25 % der Range),
+Kurzform **Hs** (Hexadezimant), analog zu Qs (Quadranten) und Os (Oktanten). Im konkreten Beispiel
+am E-Mini S&P wurde ein 16tel-Level bei 7.761,75 projiziert, das Tagestief kam bei 7.761,25 —
+**2 Ticks Abweichung**. Details und Ablauf auf [[Market on Close (MOC) Macro Model]].
+
+## Terminologie: Qs / Os / Hs
+
+Ein einheitliches Fib-Raster in drei Verfeinerungsstufen, anwendbar auf jede Range (Wick, ORG,
+NDOG/NWOG, FVG, OB, BISI/SIBI):
+
+| Kürzel | Name | Unterteilung | Level-Abstand |
+|---|---|---|---|
+| **Qs** | Quadranten | Range / 4 | 25 % |
+| **Os** | Oktanten | Range / 8 | 12,5 % |
+| **Hs** | Hexadezimanten | Range / 16 | 6,25 % |
+
+**Mean Threshold = C.E des OB/CISD** — das 0,5-Level (50 %) einer Range ist identisch mit dem C.E
+(Consequent Encroachment) des zugrundeliegenden Order Blocks bzw. CISD.
+
+> **Standardverfahren ab jetzt**: Fragt der Nutzer nach den Qs, Os oder Hs einer Range (z.B. einer
+> Premium Wick oder des ORG), immer eine vollständige tabellarische Übersicht aller Level dieser
+> Stufe berechnen und ausgeben (High/Low der Range, dann jedes Q/O/H-Level mit Preis), nicht nur
+> das angefragte Einzellevel.
+>
+> **Erweiterung (2026-08-10)**: Auch **ohne explizite Nachfrage** — sobald der Nutzer in einem
+> Daily/Weekly Bias von **Wicks oder FVGs** spricht, automatisch die Qs/Os/Hs-Tabelle für die
+> relevante Range dazu erstellen und prüfen, **welche Level Preis bereits respektiert hat**
+> (Reaktion/Close/Wick-Reject an dem Level) — mit besonderem Fokus auf das **C.E (0,5-Level, Mean
+> Threshold)**, da ein gehaltenes C.E laut obiger Regel die PD Array als stark validiert.
 
 ## Verwandt
 

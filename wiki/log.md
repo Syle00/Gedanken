@@ -1401,3 +1401,36 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   **die Orderbuch-Schemata aber nur einen Tag** im nutzungsbasierten Tarif — tiefe Orderbuchhistorie
   beginnt bei rund $1.750/Monat. Genau der Teil, der den Fonds-Datenberg ausmacht, ist der teure.
 - Preise und Tiefen als Rechercheergebnis markiert, nicht getestet.
+
+## [2026-08-10] synthesis | Hs (Hexadezimant, 1/16) benannt + Qs/Os/Hs-Terminologietabelle
+- Nutzeranweisung: Das bereits dokumentierte 16tel-Raster (siehe MOC-Ingest 2026-08-05) heißt ab
+  jetzt kurz **Hs** (Hexadezimant), analog zu Qs (Quadranten) und Os (Oktanten).
+- Seite aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md — neuer Abschnitt
+  "Terminologie: Qs / Os / Hs" mit Übersichtstabelle (Range/4, Range/8, Range/16) plus Klarstellung
+  „Mean Threshold = C.E des OB/CISD" (das 0,5-Level einer Range ist identisch mit dem C.E des
+  zugrundeliegenden Order Blocks bzw. CISD).
+- Standardverfahren festgelegt: Fragt der Nutzer künftig nach den Qs/Os/Hs einer Range (z.B.
+  Premium Wick, ORG), wird immer eine vollständige tabellarische Übersicht aller Level dieser
+  Stufe berechnet und ausgegeben, nicht nur das angefragte Einzellevel.
+- Anlass: Live-Check am 2026-08-10 (Montag) ergab `org_ce: null` im `live_status.py`-Lauf — Freitag-
+  Close 29.820,00 vs. Montag-Open 29.805,50 (14,5 Punkte) ist praktisch kein ORG, daher an dem Tag
+  kein Q/O/H-Raster darauf anwendbar.
+- **Nachtrag selben Tags**: Standardverfahren erweitert — sobald der Nutzer in einem Bias von
+  Wicks oder FVGs spricht (auch ohne explizite Qs/Os/Hs-Nachfrage), automatisch die Level-Tabelle
+  für die relevante Range erstellen und prüfen, welche Level Preis bereits respektiert hat,
+  Schwerpunkt C.E (Mean Threshold).
+- **Zweiter Nachtrag selben Tags**: Standardverfahren gilt jetzt für **alle** ORGs dieser Seite
+  (NY-AM/PM/Midnight-London/London/NY-Pre-Session), nicht nur das RTH-9:30-Gap — ergänzt auf
+  wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md. Zusätzlich neue offene Hypothese
+  auf wiki/concepts/ICT Macros & Leading Candles.md: Preis baut am Start eines Macro-Fensters
+  (Anlass: 10:50 Lunch Macro) sichtbar Kraft/Energie auf ("Spooling"), noch ohne konkrete
+  Operationalisierung — als offene Hypothese markiert, nicht als bestätigte Regel.
+- **Dritter Nachtrag selben Tags**: erstes konkretes Beispiel per Chart-Screenshot geliefert
+  (MNQU2026 1min, 2026-08-10) — Preis konsolidiert in kleinen Candles genau während 10:50–11:10 in
+  einer ~29.790–29.810-Zone, löst sich danach in eine Expansion Richtung NWOG-33-Level
+  (29.841/29.851,50) auf. Auf wiki/concepts/ICT Macros & Leading Candles.md als Einzelbeispiel
+  dokumentiert (Abschnitt "Erstes Beispiel"), weiterhin nur eine Hypothese, kein Beleg.
+- Screenshot lag lose im raw/-Root (generischer Dateiname `10.08.2026.06.10.01.326.PM.png`,
+  Kollisionsgefahr) — nach raw/trading-ict/assets/ verschoben und in
+  `MNQ 2026-08-10 - 10-50 Macro Spooling.png` umbenannt, dann per `![[...]]` in obiges Beispiel
+  eingebunden.

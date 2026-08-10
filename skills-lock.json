@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "convert-documents-to-markdown": {
+      "source": "firecrawl/anydoc",
+      "sourceType": "github",
+      "skillPath": "skills/convert-documents-to-markdown/SKILL.md",
+      "computedHash": "7d9bcc236b8c35e631e021784c8d36e937fdbedada517110c86e76c48a96270d"
+    }
+  }
+}

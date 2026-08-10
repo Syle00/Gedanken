@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-05
+updated: 2026-08-10
 sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
 ---
 
@@ -232,6 +232,15 @@ Bias wird es also invertiert und liefert in die Gegenrichtung.
 
 ![[MentorShip 2025 - London ORG IFVG Delivery.png]]
 *Dasselbe FVG als -IFVG: nach der Inversion Delivery durch die London Killzone bis zur Sellside Liquidity.*
+
+## Qs/Os/Hs gelten für jedes ORG dieser Seite (2026-Ergänzung)
+
+Das [[Chain of Custody (Q-Validation)|Qs/Os/Hs-Raster]] und die Regel "automatisch die Level-
+Tabelle erstellen, sobald Wicks/FVGs im Bias vorkommen" gelten **für jedes hier dokumentierte
+ORG**, nicht nur das RTH-9:30-Gap: NY-AM-ORG (16:14→9:30), PM-Session-ORG (13:30–14:00),
+[[Midnight Opening Range|Midnight/London Opening Range]] (0:00–0:30), London Opening Range
+(1:30–2:00) und NY Pre Session Opening Range (7:00–7:30). Schwerpunkt bleibt das **C.E** — bei
+jeder dieser Ranges prüfen, ob es bereits respektiert wurde.
 
 ## Verwandt
 
