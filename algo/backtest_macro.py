@@ -30,7 +30,7 @@ from __future__ import annotations
 import argparse
 import statistics
 import sys
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -44,19 +44,36 @@ MIN_BARS = 15  # von 20 Minuten -- weniger heisst Datenluecke, nicht ruhiger Mar
 MIN_FVG_PTS = 2.0  # kleiner ist auf MNQ-1m Rauschen, kein handelbares PD Array
 
 
-def blocks(day):
-    """Alle 72 20-Minuten-Bloecke eines Tages: (label, start, ende, ist_macro).
+def blocks(session_day):
+    """Alle 69 20-Minuten-Bloecke eines Handelstags: (label, start, ende, ist_macro).
 
-    Startpunkt ist 00:10 NY, damit die drei Bloecke jeder Stunde luecken- und
-    ueberlappungsfrei aneinanderliegen und :50-:10 als ganzer Block auftaucht.
+    Der MNQ-Handelstag laeuft von 18:00 des Vorabends bis 17:00 des `session_day`
+    (dazwischen die Globex-Pause 17:00-18:00). Er ist damit 23 Stunden lang, also
+    69 Bloecke zu 20 Minuten, davon 23 Macro-Fenster (:50-:10).
+
+    Startpunkt ist 18:10 des Vorabends, damit die drei Bloecke jeder Stunde luecken-
+    und ueberlappungsfrei aneinanderliegen und :50-:10 als ganzer Block auftaucht.
+    Frueher startete diese Funktion bei 00:10 des Kalendertags und verlor dadurch die
+    Bloecke 18:00-24:00 -- 6 der 23 Macro-Fenster (siehe
+    docs/superpowers/specs/2026-08-10-macro-datenbank-design.md, 9.2).
     """
     out = []
-    t = at(day, 0, 10)
-    for _ in range(72):
+    t = at(session_day - timedelta(days=1), 18, 10)
+    for _ in range(69):
         end = t + timedelta(minutes=20)
         out.append((f"{t:%H:%M}-{end:%H:%M}", t, end, t.minute == 50))
         t = end
     return out
+
+
+def session_day_from_path(path) -> date:
+    """Handelstag aus dem Dateinamen: 'MNQ 2026-07-09 1m.csv' -> date(2026, 7, 9).
+
+    Bewusst aus dem Namen statt aus den Bars: die Datei enthaelt Kerzen von zwei
+    Kalendertagen (18:00 Vorabend .. 17:00), eine Heuristik ueber die Bars waere
+    bei Fragmenttagen mehrdeutig.
+    """
+    return datetime.strptime(path.name.split(" ")[1], "%Y-%m-%d").date()
 
 
 def measure(bars: list[Bar], start, end) -> dict | None:
@@ -80,7 +97,7 @@ def collect(symbol: str) -> dict[str, list[dict]]:
         bars = load(path)
         if not bars:
             continue
-        day = bars[len(bars) // 2].t.astimezone(NY).date()
+        day = session_day_from_path(path)
         today = []
         for label, start, end, is_macro in blocks(day):
             m = measure(bars, start, end)
@@ -167,14 +184,24 @@ def report(symbol: str) -> dict:
 
 
 def selfcheck() -> None:
-    day = date(2026, 8, 10)
-    labels = [b[0] for b in blocks(day)]
-    assert len(labels) == 72, labels[:5]
-    assert labels[0] == "00:10-00:30" and labels[-1] == "23:50-00:10"
-    assert sum(1 for b in blocks(day) if b[3]) == 24, "24 Macro-Fenster pro Tag"
-    # Bloecke muessen luecken- und ueberlappungsfrei sein
+    day = date(2026, 8, 10)          # session_day = Ende der Session
     bs = blocks(day)
+    labels = [b[0] for b in bs]
+    # Handelstag 18:00 Vorabend .. 17:00: 23 Stunden, drei Bloecke je Stunde = 69
+    assert len(bs) == 69, f"69 Bloecke erwartet, {len(bs)} bekommen"
+    assert labels[0] == "18:10-18:30", labels[:3]
+    # 18:10 + 69*20min = 17:10 des session_day. Der letzte Block reicht damit 10 Minuten
+    # ueber den 17:00-Close hinaus und wird von MIN_BARS immer verworfen -- das ist der
+    # unvermeidbare Randeffekt eines :10/:30/:50-Rasters auf einer 18:00-Session, kein Bug.
+    assert labels[-1] == "16:50-17:10", labels[-3:]
+    assert sum(1 for b in bs if b[3]) == 23, "23 Macro-Fenster pro Handelstag"
+    # das 17:50-Fenster liegt in der Globex-Pause und darf nicht vorkommen
+    assert not any(b[0].startswith("17:50") for b in bs), "17:50 liegt in der Handelspause"
+    # Bloecke muessen luecken- und ueberlappungsfrei sein
     assert all(a[2] == b[1] for a, b in zip(bs, bs[1:])), "Bloecke haben Luecken"
+    # der erste Block beginnt am Vorabend, der letzte am session_day
+    assert bs[0][1].date() == date(2026, 8, 9), bs[0][1]
+    assert bs[-1][1].date() == day, bs[-1][1]
 
     start, end = at(day, 9, 50), at(day, 10, 10)
     bars = [Bar(start + timedelta(minutes=i), 100.0 + i, 100.0 + i + 2, 100.0 + i - 1,
@@ -183,6 +210,8 @@ def selfcheck() -> None:
     assert m is not None and abs(m["range"] - 22.0) < 1e-9, m   # 121 - 99
     assert abs(m["netto"] - 20.0) < 1e-9, m                     # 120 - 100
     assert measure(bars[:10], start, end) is None, "zu wenige Kerzen muss None geben"
+
+    assert session_day_from_path(Path("MNQ 2026-07-09 1m.csv")) == date(2026, 7, 9)
     print("backtest_macro.selfcheck: OK")
 
 

@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">112</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">114</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">191</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">195</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">11</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -63,6 +63,8 @@
 <li><a href="../p/event-horizon.html">Event Horizon</a></li>
 <li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
 <li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/filling-the-numbers-4-level-pro-tag.html">Filling The Numbers (4 Level pro Tag)</a></li>
+<li><a href="../p/flout-15-00-ny-range.html">Flout (15-00 NY Range)</a></li>
 <li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
 <li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
 <li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
@@ -160,6 +162,7 @@
 </li>
 <li><a href="#backtest-sind-die-macro-fenster-messbar-anders-2026-08-10">Backtest: sind die Macro-Fenster messbar anders? (2026-08-10)</a><ul>
 <li><a href="#entstehen-fvgs-bevorzugt-im-macro-ja-aber-erst-die-groen-2026-08-10">Entstehen FVGs bevorzugt im Macro? Ja — aber erst die großen (2026-08-10)</a></li>
+<li><a href="#beleg-beispiel-das-sb-fvg-vom-2026-08-10-1412-verifiziert">Beleg-Beispiel: das SB FVG vom 2026-08-10, 14:12 (verifiziert)</a></li>
 </ul>
 </li>
 <li><a href="#chart-konvention-nutzer">Chart-Konvention (Nutzer)</a></li>
@@ -281,21 +284,17 @@ viel Bewegung, kein Fortschritt. <strong>Nicht die Range unterscheidet Macro von
 wie gerade sie durchlaufen wird.</strong> Alle fünf Macros des Tages lagen bei dir ≥ 0,27, vier von fünf
 bei ≥ 0,46; die Kontrollblöcke der gleichen Stunden bei 0,06 / 0,10 / 0,17 / 0,08 / 0,24.</p>
 <h2 id="backtest-sind-die-macro-fenster-messbar-anders-2026-08-10">Backtest: sind die Macro-Fenster messbar anders? (2026-08-10)</h2>
-<p><code>algo/backtest_macro.py</code> zerlegt jeden Handelstag in 72 lückenlose 20-Minuten-Blöcke — pro Stunde
+<p><code>algo/backtest_macro.py</code> zerlegt jeden Handelstag in 69 lückenlose 20-Minuten-Blöcke — pro Stunde
 genau drei: <code>:50–:10</code> (Macro), <code>:10–:30</code> und <code>:30–:50</code> (Kontrolle). Die Kontrollen liegen damit
 unmittelbar neben dem Macro, was den Tageszeit-Confounder ausschaltet (sonst gewänne 09:50–10:10
 allein deshalb, weil nach dem RTH-Open ohnehin die meiste Bewegung liegt).</p>
-<p>Basis: MNQ, 23 Handelstage 1min (2026-07-08 … 2026-08-07), 1091 auswertbare Blöcke.</p>
+<p>Basis: MNQ, 23 Handelstage 1min (2026-07-08 … 2026-08-07), 1417 auswertbare Blöcke.</p>
 <blockquote>
-<p>⚠️ <strong>Alle Zahlen dieses Abschnitts decken nur einen verkürzten Handelstag ab (2026-08-10).</strong>
-<code>blocks()</code> in <code>algo/backtest_macro.py</code> startet bei <strong>00:10 des Kalendertags</strong>. Der MNQ-Handelstag
-beginnt aber um <strong>18:00 des Vorabends</strong> (die 1m-Exporte enthalten ihn korrekt: <code>MNQ 2026-07-09
-1m.csv</code> reicht von 2026-07-08 18:00 bis 2026-07-09 17:00). Dadurch fallen die Blöcke von 18:00
-bis 24:00 heraus — <strong>6 der 23 Macro-Fenster</strong>, also die gesamte Abend- und frühe Asia-Session.
-Betroffen: die Blockzahlen (351 / 740 / 1091), die drei p-Werte und die Median-Rang-Aussage
-("3 von 49 Blöcken" — bei vollem Handelstag sind es 69 Blöcke, nicht 72, da 17:50 in der
-Globex-Pause liegt). Die <em>Richtung</em> des Befunds (Macros liefern gerichtetere, nicht größere
-Bewegung) ist davon unberührt, die <em>Zahlen</em> sind nach dem Fix neu zu erzeugen.
+<p>✅ <strong>Zahlen erneuert am 2026-08-10 nach dem <code>blocks()</code>-Fix.</strong> Die Funktion startete zuvor bei
+00:10 des Kalendertags statt bei 18:00 des Vorabends und verlor dadurch 6 der 23 Macro-Fenster
+(Abend- und frühe Asia-Session). Der Befund wurde durch den Fix <strong>bestätigt und leicht
+verstärkt</strong>, nicht gekippt: Netto-Vorsprung 26 % statt 32 %, dafür alle p-Werte besser und der
+FVG-Größeneffekt deutlicher (siehe unten). Alte Zahlen: 1091 Blöcke, 351/740.
 Details: <code>docs/superpowers/specs/2026-08-10-macro-datenbank-design.md</code> §9.2.</p>
 </blockquote>
 <p><strong>Datenqualität, am 2026-08-10 gemessen</strong> (gilt für alle Auswertungen auf diesem Bestand):</p>
@@ -325,28 +324,28 @@ Details: <code>docs/superpowers/specs/2026-08-10-macro-datenbank-design.md</code
 <tbody>
 <tr>
 <td>Macro (<code>:50–:10</code>)</td>
-<td>351</td>
-<td>63,50</td>
-<td><strong>31,50</strong></td>
-<td><strong>0,52</strong></td>
+<td>450</td>
+<td>63,38</td>
+<td><strong>30,88</strong></td>
+<td><strong>0,51</strong></td>
 </tr>
 <tr>
 <td>Kontrolle</td>
-<td>740</td>
-<td>58,25</td>
-<td>23,88</td>
+<td>967</td>
+<td>57,75</td>
+<td>24,50</td>
 <td>0,46</td>
 </tr>
 </tbody>
 </table>
-<p>Mann-Whitney einseitig (Macro &gt; Kontrolle): Range p = 0,0028, Netto p &lt; 0,0001, dir p = 0,0003.</p>
+<p>Mann-Whitney einseitig (Macro &gt; Kontrolle): Range p = 0,0004, Netto p = 0,0001, dir p = 0,0026.</p>
 <p><strong>Befund</strong>: Die Macro-Fenster sind real, aber der Effekt liegt woanders als erwartet. Die Range
-ist nur <strong>+9 %</strong> größer — der Nettoweg dagegen <strong>+32 %</strong> und die Geradlinigkeit systematisch
+ist nur <strong>+10 %</strong> größer — der Nettoweg dagegen <strong>+26 %</strong> und die Geradlinigkeit systematisch
 höher. Macros produzieren also nicht mehr Volatilität, sondern <strong>gerichtetere</strong> Volatilität. Das
 passt zu ICTs Formulierung ("Leading Candles"), widerspricht aber der landläufigen Lesart "im
 Macro ist am meisten los".</p>
 <p><strong>Gegen die These</strong>: 09:50–10:10 ist <strong>nicht</strong> das größte Fenster des Tages. Über 22 Tage liegt
-sein Median-Rang bei 3 von 49 Blöcken — geschlagen von 09:30–09:50 (Median-Rang 2, Median-Range
+sein Median-Rang bei 3 von 67 Blöcken — geschlagen von 09:30–09:50 (Median-Rang 2, Median-Range
 199,12 gegen 152,38). Der RTH-Open ist der Expansionsblock, das Macro der Anschlussblock. Wer
 09:50 auf "jetzt kommt der große Move" wartet, hat den größeren Move meist schon verpasst; was
 das Macro liefert, ist die <strong>saubere</strong> Bewegung.</p>
@@ -364,51 +363,56 @@ in den Macro-Fenstern? <code>algo/backtest_macro.py --min-fvg &lt;n&gt;</code> z
 <th>Kontrolle</th>
 <th>Vorsprung</th>
 <th>Blöcke <strong>ohne</strong> FVG (Macro / Kontrolle)</th>
-<th>p</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>≥ 2 Pkt</td>
-<td>2,82</td>
+<td>2,81</td>
 <td>2,59</td>
-<td>+9 %</td>
-<td>4 % / 7 %</td>
-<td>0,0034</td>
+<td>+8 %</td>
+<td>5 % / 7 %</td>
 </tr>
 <tr>
 <td>≥ 5 Pkt</td>
-<td>1,71</td>
-<td>1,51</td>
-<td>+13 %</td>
-<td>17 % / 26 %</td>
-<td>0,0035</td>
+<td>1,70</td>
+<td>1,52</td>
+<td>+12 %</td>
+<td>18 % / 25 %</td>
 </tr>
 <tr>
 <td><strong>≥ 10 Pkt</strong></td>
-<td><strong>0,79</strong></td>
-<td><strong>0,62</strong></td>
-<td><strong>+27 %</strong></td>
-<td><strong>47 % / 60 %</strong></td>
-<td><strong>0,0001</strong></td>
+<td><strong>0,81</strong></td>
+<td><strong>0,61</strong></td>
+<td><strong>+33 %</strong></td>
+<td><strong>46 % / 60 %</strong></td>
 </tr>
 <tr>
 <td>≥ 15 Pkt</td>
-<td>0,36</td>
-<td>0,30</td>
-<td>+20 %</td>
-<td>74 % / 79 %</td>
-<td>0,0225</td>
+<td>0,37</td>
+<td>0,28</td>
+<td>+32 %</td>
+<td>72 % / 80 %</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Je größer das FVG, desto stärker sitzt es im Macro.</strong> Und daraus folgt die praktisch wichtigere
-Hälfte: <em>"ein FVG im Macro"</em> ist als Filter wertlos — <strong>96 % aller Macro-Fenster enthalten
+Hälfte: <em>"ein FVG im Macro"</em> ist als Filter wertlos — <strong>95 % aller Macro-Fenster enthalten
 mindestens ein FVG ≥ 2 Punkte</strong>, im Schnitt fast drei pro 20 Minuten. Wer darauf wartet, wartet
 auf etwas, das praktisch immer passiert. Erst ab ~10 Punkten wird das FVG selten genug, um zu
-selektieren: dann hat es nur noch gut jedes zweite Macro (53 %) gegen 40 % der Kontrollblöcke.</p>
+selektieren: dann hat es nur noch gut jedes zweite Macro (54 %) gegen 40 % der Kontrollblöcke.</p>
 <p>Das passt zum Hauptbefund oben: der Macro-Vorteil steckt in der <strong>Größe und Geradlinigkeit</strong> der
 Bewegung, nicht in der bloßen Existenz einer Ineffizienz.</p>
+<h3 id="beleg-beispiel-das-sb-fvg-vom-2026-08-10-1412-verifiziert">Beleg-Beispiel: das SB FVG vom 2026-08-10, 14:12 (verifiziert)</h3>
+<p>Aus 1m-Daten bestätigt (yfinance MNQ=F, Nachzug um 14:34 NY): 14:11 Low <strong>29.767,25</strong>, 14:13 High
+<strong>29.759,50</strong> → SIBI von <strong>29.759,50 bis 29.767,25</strong>, Größe <strong>7,75 Punkte</strong>, C.E. <strong>29.763,38</strong>.
+Preis fiel anschließend bis 29.742,25 und lief bis 14:34 auf 29.764,75 zurück, also <strong>über die
+C.E. hinein</strong>; um 14:42 stand er bei 29.768,00 und damit an der Gap-Oberkante — das FVG war
+vollständig durchgehandelt.</p>
+<p>Bemerkenswert für die Tabelle darüber: mit 7,75 Punkten liegt genau dieses SB FVG <strong>unterhalb der
+10-Punkte-Schwelle</strong>, ab der sich FVGs überhaupt erst im Macro häufen. Es gehört zur häufigen
+Sorte, nicht zur selektiven. Und es entstand 14:12, also zwei Minuten <strong>nach</strong> dem Macro
+13:50–14:10 (im <a href="../p/silver-bullet-model.html">SB-Fenster</a> 14:00–15:00 dagegen liegt es).</p>
 <h2 id="chart-konvention-nutzer">Chart-Konvention (Nutzer)</h2>
 <p>In Jannes' TradingView-Charts markiert ein <strong>lila/violettes FVG-Rechteck immer ein
 Silver-Bullet-FVG</strong> (<a href="../p/silver-bullet-model.html">Silver Bullet Model</a>) — nie ein beliebiges FVG. Andere Farben sind nicht

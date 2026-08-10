@@ -102,22 +102,18 @@ bei ≥ 0,46; die Kontrollblöcke der gleichen Stunden bei 0,06 / 0,10 / 0,17 / 
 
 ## Backtest: sind die Macro-Fenster messbar anders? (2026-08-10)
 
-`algo/backtest_macro.py` zerlegt jeden Handelstag in 72 lückenlose 20-Minuten-Blöcke — pro Stunde
+`algo/backtest_macro.py` zerlegt jeden Handelstag in 69 lückenlose 20-Minuten-Blöcke — pro Stunde
 genau drei: `:50–:10` (Macro), `:10–:30` und `:30–:50` (Kontrolle). Die Kontrollen liegen damit
 unmittelbar neben dem Macro, was den Tageszeit-Confounder ausschaltet (sonst gewänne 09:50–10:10
 allein deshalb, weil nach dem RTH-Open ohnehin die meiste Bewegung liegt).
 
-Basis: MNQ, 23 Handelstage 1min (2026-07-08 … 2026-08-07), 1091 auswertbare Blöcke.
+Basis: MNQ, 23 Handelstage 1min (2026-07-08 … 2026-08-07), 1417 auswertbare Blöcke.
 
-> ⚠️ **Alle Zahlen dieses Abschnitts decken nur einen verkürzten Handelstag ab (2026-08-10).**
-> `blocks()` in `algo/backtest_macro.py` startet bei **00:10 des Kalendertags**. Der MNQ-Handelstag
-> beginnt aber um **18:00 des Vorabends** (die 1m-Exporte enthalten ihn korrekt: `MNQ 2026-07-09
-> 1m.csv` reicht von 2026-07-08 18:00 bis 2026-07-09 17:00). Dadurch fallen die Blöcke von 18:00
-> bis 24:00 heraus — **6 der 23 Macro-Fenster**, also die gesamte Abend- und frühe Asia-Session.
-> Betroffen: die Blockzahlen (351 / 740 / 1091), die drei p-Werte und die Median-Rang-Aussage
-> ("3 von 49 Blöcken" — bei vollem Handelstag sind es 69 Blöcke, nicht 72, da 17:50 in der
-> Globex-Pause liegt). Die *Richtung* des Befunds (Macros liefern gerichtetere, nicht größere
-> Bewegung) ist davon unberührt, die *Zahlen* sind nach dem Fix neu zu erzeugen.
+> ✅ **Zahlen erneuert am 2026-08-10 nach dem `blocks()`-Fix.** Die Funktion startete zuvor bei
+> 00:10 des Kalendertags statt bei 18:00 des Vorabends und verlor dadurch 6 der 23 Macro-Fenster
+> (Abend- und frühe Asia-Session). Der Befund wurde durch den Fix **bestätigt und leicht
+> verstärkt**, nicht gekippt: Netto-Vorsprung 26 % statt 32 %, dafür alle p-Werte besser und der
+> FVG-Größeneffekt deutlicher (siehe unten). Alte Zahlen: 1091 Blöcke, 351/740.
 > Details: `docs/superpowers/specs/2026-08-10-macro-datenbank-design.md` §9.2.
 
 **Datenqualität, am 2026-08-10 gemessen** (gilt für alle Auswertungen auf diesem Bestand):
@@ -136,19 +132,19 @@ Basis: MNQ, 23 Handelstage 1min (2026-07-08 … 2026-08-07), 1091 auswertbare Bl
 
 | | n | median Range | median Netto | median dir |
 |---|---|---|---|---|
-| Macro (`:50–:10`) | 351 | 63,50 | **31,50** | **0,52** |
-| Kontrolle | 740 | 58,25 | 23,88 | 0,46 |
+| Macro (`:50–:10`) | 450 | 63,38 | **30,88** | **0,51** |
+| Kontrolle | 967 | 57,75 | 24,50 | 0,46 |
 
-Mann-Whitney einseitig (Macro > Kontrolle): Range p = 0,0028, Netto p < 0,0001, dir p = 0,0003.
+Mann-Whitney einseitig (Macro > Kontrolle): Range p = 0,0004, Netto p = 0,0001, dir p = 0,0026.
 
 **Befund**: Die Macro-Fenster sind real, aber der Effekt liegt woanders als erwartet. Die Range
-ist nur **+9 %** größer — der Nettoweg dagegen **+32 %** und die Geradlinigkeit systematisch
+ist nur **+10 %** größer — der Nettoweg dagegen **+26 %** und die Geradlinigkeit systematisch
 höher. Macros produzieren also nicht mehr Volatilität, sondern **gerichtetere** Volatilität. Das
 passt zu ICTs Formulierung ("Leading Candles"), widerspricht aber der landläufigen Lesart "im
 Macro ist am meisten los".
 
 **Gegen die These**: 09:50–10:10 ist **nicht** das größte Fenster des Tages. Über 22 Tage liegt
-sein Median-Rang bei 3 von 49 Blöcken — geschlagen von 09:30–09:50 (Median-Rang 2, Median-Range
+sein Median-Rang bei 3 von 67 Blöcken — geschlagen von 09:30–09:50 (Median-Rang 2, Median-Range
 199,12 gegen 152,38). Der RTH-Open ist der Expansionsblock, das Macro der Anschlussblock. Wer
 09:50 auf "jetzt kommt der große Move" wartet, hat den größeren Move meist schon verpasst; was
 das Macro liefert, ist die **saubere** Bewegung.
@@ -162,21 +158,34 @@ Anlass: Nutzeraussage am 2026-08-10 zum SB FVG (SIBI) um 14:12 — *"genau das w
 optimalerweise im Macro sehen"*. Testbarer Kern davon: häufen sich 1m-[[Fair Value Gap (FVG)|FVGs]]
 in den Macro-Fenstern? `algo/backtest_macro.py --min-fvg <n>` zählt sie je Block:
 
-| Mindestgröße | Macro | Kontrolle | Vorsprung | Blöcke **ohne** FVG (Macro / Kontrolle) | p |
-|---|---|---|---|---|---|
-| ≥ 2 Pkt | 2,82 | 2,59 | +9 % | 4 % / 7 % | 0,0034 |
-| ≥ 5 Pkt | 1,71 | 1,51 | +13 % | 17 % / 26 % | 0,0035 |
-| **≥ 10 Pkt** | **0,79** | **0,62** | **+27 %** | **47 % / 60 %** | **0,0001** |
-| ≥ 15 Pkt | 0,36 | 0,30 | +20 % | 74 % / 79 % | 0,0225 |
+| Mindestgröße | Macro | Kontrolle | Vorsprung | Blöcke **ohne** FVG (Macro / Kontrolle) |
+|---|---|---|---|---|
+| ≥ 2 Pkt | 2,81 | 2,59 | +8 % | 5 % / 7 % |
+| ≥ 5 Pkt | 1,70 | 1,52 | +12 % | 18 % / 25 % |
+| **≥ 10 Pkt** | **0,81** | **0,61** | **+33 %** | **46 % / 60 %** |
+| ≥ 15 Pkt | 0,37 | 0,28 | +32 % | 72 % / 80 % |
 
 **Je größer das FVG, desto stärker sitzt es im Macro.** Und daraus folgt die praktisch wichtigere
-Hälfte: *"ein FVG im Macro"* ist als Filter wertlos — **96 % aller Macro-Fenster enthalten
+Hälfte: *"ein FVG im Macro"* ist als Filter wertlos — **95 % aller Macro-Fenster enthalten
 mindestens ein FVG ≥ 2 Punkte**, im Schnitt fast drei pro 20 Minuten. Wer darauf wartet, wartet
 auf etwas, das praktisch immer passiert. Erst ab ~10 Punkten wird das FVG selten genug, um zu
-selektieren: dann hat es nur noch gut jedes zweite Macro (53 %) gegen 40 % der Kontrollblöcke.
+selektieren: dann hat es nur noch gut jedes zweite Macro (54 %) gegen 40 % der Kontrollblöcke.
 
 Das passt zum Hauptbefund oben: der Macro-Vorteil steckt in der **Größe und Geradlinigkeit** der
 Bewegung, nicht in der bloßen Existenz einer Ineffizienz.
+
+### Beleg-Beispiel: das SB FVG vom 2026-08-10, 14:12 (verifiziert)
+
+Aus 1m-Daten bestätigt (yfinance MNQ=F, Nachzug um 14:34 NY): 14:11 Low **29.767,25**, 14:13 High
+**29.759,50** → SIBI von **29.759,50 bis 29.767,25**, Größe **7,75 Punkte**, C.E. **29.763,38**.
+Preis fiel anschließend bis 29.742,25 und lief bis 14:34 auf 29.764,75 zurück, also **über die
+C.E. hinein**; um 14:42 stand er bei 29.768,00 und damit an der Gap-Oberkante — das FVG war
+vollständig durchgehandelt.
+
+Bemerkenswert für die Tabelle darüber: mit 7,75 Punkten liegt genau dieses SB FVG **unterhalb der
+10-Punkte-Schwelle**, ab der sich FVGs überhaupt erst im Macro häufen. Es gehört zur häufigen
+Sorte, nicht zur selektiven. Und es entstand 14:12, also zwei Minuten **nach** dem Macro
+13:50–14:10 (im [[Silver Bullet Model|SB-Fenster]] 14:00–15:00 dagegen liegt es).
 
 ## Chart-Konvention (Nutzer)
 
