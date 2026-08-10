@@ -1650,3 +1650,19 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   `]]` eines Wikilinks statt das Listenende). Sofort repariert und per YAML-Parse verifiziert.
 - Ausgefiltert: Telegram-Eigenwerbung, Publikumsansprachen, ein im Auto-Transkript verstuemmelter
   Zahlenvergleich (bewusst **nicht** als Zahlenbeispiel uebernommen), Korrelationsbruch-Exkurs.
+
+## [2026-08-10] setup | macro_db: Startfehler behoben, Exkursion nach ICT-Korrektur ergaenzt
+- Fehler behoben: `python algo/macro_db.py` ohne Subcommand endete mit argparse-Fehler.
+  Laeuft jetzt `stats`, baut vorher neu wenn die CSV fehlt, veraltet ist oder nicht mehr
+  zum Spaltensatz passt (Letzteres verhinderte bisher, dass neue Spalten sichtbar wurden).
+- Neue Wiki-Quellen (ICT Gems Macro-Reihe) eingearbeitet: ICT sagt, der Move **beginne**
+  im Macro und laufe darueber hinaus. Dafuer `mfe_20/40/60` als Zielgroesse erhoben.
+- **Befund: kein Startfenster-Effekt.** Die Auslenkung waechst mit x1,40 / x1,71 exakt so
+  wie ein Random Walk (x1,41 / x1,73). Aus der Uhrzeit allein folgt kein Bewegungsvorteil.
+- **Befund: ICTs Mindestziel von 10 Handles** wird in 100 % der Fenster erreicht (n=440) --
+  als Filter unbrauchbar, nur als Untergrenze fuer die Stopwahl.
+- Terminologie korrigiert: die vier `pre_*`-Spalten sind **Vorlauf-Kandidaten**, nicht
+  Spooling-Kandidaten. Spooling ist laut ICT der gerichtete Lauf selbst.
+- Seiten aktualisiert: wiki/concepts/ICT Macros & Leading Candles.md (Messergebnis zum
+  Startfenster), wiki/synthesis/Macro-Datenbank (laufend).md, .claude/skills/macro-db/SKILL.md,
+  algo/README.md, algo/PLAN.md

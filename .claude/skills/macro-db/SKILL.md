@@ -43,7 +43,20 @@ Diese Regeln sind der eigentliche Zweck dieses Skills. Sie gelten ausnahmslos:
 - Level-Quelle ist bisher nur `untouched_levels` (Swing-Level des laufenden Handelstags).
   **NDOG/NWOG/ORG fehlen** (Kalendertag- statt Session-Logik) und **PDH/PDL ebenso**
   (bräuchte die Vortagsdatei) — siehe `algo/PLAN.md`.
-- Die Spooling-Kandidaten sind rein preisbasiert; die Exporte enthalten kein Volumen.
+- Die Vorlauf-Kandidaten sind rein preisbasiert; die Exporte enthalten kein Volumen.
+- **In der letzten Handelsstunde gilt das `:50–:10`-Raster laut ICT nicht** — dort nennt er
+  15:15–15:45 (Final Hour Macro) und 15:45/15:50–16:00 (Market on Close). Die Zeile `15:50`
+  misst 15:50–16:10 und läuft über den RTH-Schluss 16:00 hinaus; sie ist als Macro-Zeile nur
+  eingeschränkt vergleichbar. Siehe [[Market on Close (MOC) Macro Model]].
+
+## Begriffsfalle: „Spooling"
+
+Die vier `pre_*`-Spalten messen die **Ruhe vor** dem Fenster. Das war die ursprüngliche
+Lesart von „Spooling" — sie ist widerlegt. ICT meint mit Spooling den **gerichteten Lauf
+selbst** (*„the market will spool — it jumps and runs"*), also das, was `dir` und `mfe_*`
+messen. Nenne die vier Kandidaten deshalb **Vorlauf-Kandidaten**, nicht Spooling-Kandidaten,
+und behaupte nicht, ein Nullbefund bei ihnen widerlege Spooling — er widerlegt die alte
+Lesart des Begriffs.
 
 ## Spalten
 
@@ -51,9 +64,9 @@ Diese Regeln sind der eigentliche Zweck dieses Skills. Sie gelten ausnahmslos:
 (`"09:50"`), `session_day` das **Ende** des Handelstags (18:00 Vorabend bis 17:00), `session`
 eine der sechs überschneidungsfreien Phasen (Asia, London, Premarket, NY AM, Lunch, NY PM).
 
-`pre_range_rel, pre_wick_frac, pre_streak, pre_contraction` — Spooling-Kandidaten aus den
-10 Minuten davor. Keiner davon ist als "das ist Spooling" bestätigt; welcher trägt, sagt
-`stats`.
+`pre_range_rel, pre_wick_frac, pre_streak, pre_contraction` — Vorlauf-Kandidaten aus den
+10 Minuten davor. Gemessen: keiner hängt mit der Geradlinigkeit zusammen; `pre_range_rel`
+hängt mit der **Größe** der Bewegung zusammen (Volatilitätspersistenz). Details sagt `stats`.
 
 `sweep_age, sweep_dir, mss_age, mss_dir, displacement_age, fvg_open_dist, levels_open,
 nearest_level_dist` — Vorgeschichte. Alter in Minuten vor dem Fensterstart.
@@ -61,6 +74,18 @@ nearest_level_dist` — Vorgeschichte. Alter in Minuten vor dem Fensterstart.
 `range, netto, dir, direction, start_min, expansion, levels_hit` — Verlauf im Fenster.
 `netto` ist vorzeichenbehaftet, `dir` = |netto|/range (Geradlinigkeit), `start_min` die
 Minute des Extrems entgegen der Netto-Richtung.
+
+`exc_up_N, exc_dn_N, mfe_N, reach10_N` für N ∈ {20, 40, 60} — **Zielgrößen**: die größte
+Auslenkung ab Fenster-Open über die folgenden N Minuten. `mfe_N` ist die größere der beiden
+Seiten (richtungsagnostisch, weil ein Macro laut ICT keine Richtung liefert), `reach10_N`
+prüft ICTs Mindestziel von 10 Handles. Existieren, weil ICT sagt, der Move **beginne** im
+Macro und laufe darüber hinaus — der reine Blockinhalt kann das nicht sehen.
+
+> Diese vier Spalten sehen bewusst Kerzen **nach** dem Fensterstart. Das ist kein
+> Lookahead-Verstoß (sie sind das Ergebnis, nicht das Merkmal), aber sie taugen deshalb
+> auch **nicht** als Vorhersagemerkmal in einer Regel. Verwechsle sie nicht mit `pre_*`.
+
+`reach10_N` ist auf diesem Bestand **immer wahr** — die Schwelle selektiert nichts.
 
 ## Verwandt
 

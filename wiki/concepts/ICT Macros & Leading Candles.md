@@ -172,8 +172,36 @@ darüber hinausläuft.
 **Konsequenz für `algo/backtest_macro.py`**: Das Skript misst Range, Nettoweg und `dir` **innerhalb**
 des 20-Minuten-Blocks. Nach ICTs Definition unterschätzt das den Effekt systematisch — ein Macro,
 das um 10:05 einen Lauf startet, der bis 10:40 trägt, wird als schwacher Block gewertet. Die
-passendere Kennzahl wäre die **Exkursion ab Macro-Start über die folgenden N Minuten**
-(MFE/MAE-artig), nicht der Blockinhalt. Als Auftrag in `algo/PLAN.md` notiert.
+passendere Kennzahl ist die **Exkursion ab Macro-Start über die folgenden N Minuten**
+(MFE/MAE-artig), nicht der Blockinhalt.
+
+### ✅ Umgesetzt und gemessen (2026-08-10) — kein Startfenster-Effekt nachweisbar
+
+`algo/macro_db.py` erhebt seit 2026-08-10 genau diese Kennzahl: `mfe_20/40/60` = größte
+Auslenkung ab Fenster-Open über 20 / 40 / 60 Minuten, richtungsagnostisch (ICT: *"It is not going
+to give you a direction"*). Basis: MNQ, 440 Fenster aus 23 Handelstagen.
+
+| Horizont | Median MFE | gemessenes Wachstum | Random Walk erwartet |
+|---|---|---|---|
+| +20 Min | 48,38 Pkt | — | — |
+| +40 Min | 67,50 Pkt | ×1,40 | **×1,41** |
+| +60 Min | 82,75 Pkt | ×1,71 | **×1,73** |
+
+**Befund**: Die Auslenkung wächst nach dem Macro exakt so weiter, wie sie es bei reiner Diffusion
+täte (Wurzel der Zeit). Ein Startfenster müsste **schneller** als √t wachsen — das tut es nicht.
+Über alle Fenster gemittelt lässt sich aus dem bloßen Zeitpunkt also **kein Bewegungsvorteil**
+ableiten.
+
+Das widerlegt ICTs Aussage nicht direkt: Er spricht vom *Setup*, das im Macro startet, nicht vom
+Durchschnitt aller Macros ohne Kontext. Aber es setzt die Erwartung gerade — die Uhrzeit allein
+liefert nichts, erst die Kombination mit Narrativ und Liquiditätslage könnte etwas liefern. Genau
+das sagt ICT im selben Atemzug ("It is not going to give you a direction").
+
+**Nebenbefund zum Mindestziel**: Die genannten **10 Handles** werden in praktisch *jedem*
+Macro-Fenster erreicht (Median-MFE liegt bei 48 Punkten in 20 Minuten). Als Filter für die
+Fensterauswahl taugt die Schwelle damit nicht — nur als Untergrenze für Stop- und Zielwahl.
+
+Laufender Stand: [[Macro-Datenbank (laufend)]].
 
 Das erklärt außerdem den bisherigen "Befund gegen die These" weiter unten: Dass 09:50–10:10 nicht
 das größte Fenster des Tages ist, ist nach dieser Lesart **kein Widerspruch** — der RTH-Open

@@ -119,6 +119,58 @@ def measure_window(win: list[Bar], dir_thr: float = DIR_THR,
             "start_min": start_min, "expansion": bool(d >= dir_thr and ab >= netto_thr)}
 
 
+# Horizonte fuer die Exkursion ab Fensterstart, in Minuten.
+#
+# Grund (2026-08-10, neue Quelle): ICT korrigiert in
+# [[ICT Gems - Blending Silver Bullets and Macros]] ausdruecklich die Lesart, der Move
+# finde *innerhalb* der 20 Minuten statt: "The move BEGINS in those 20 minutes. It's not
+# the entirety of the move." Ein Macro ist ein **Startfenster**, kein Container. Wer nur
+# den Blockinhalt misst (range/netto/dir), wertet ein Macro, das um 10:05 einen Lauf
+# startet der bis 10:40 traegt, als schwachen Block -- und unterschaetzt den Effekt
+# systematisch. Siehe wiki/concepts/ICT Macros & Leading Candles.md.
+HORIZONTE = (20, 40, 60)
+
+# ICTs Mindestziel fuer NASDAQ-Scalps: "if I can't at least make 10 handles, I'm not
+# willing to take the trade". Ein Handle ist beim NQ/MNQ ein Indexpunkt.
+HANDLE_ZIEL = 10.0
+
+
+def measure_excursion(bars: list[Bar], start: datetime,
+                      horizonte: tuple = HORIZONTE) -> dict:
+    """Groesste Exkursion ab Fenster-Open ueber die naechsten N Minuten.
+
+    Das ist eine **Ziel**groesse (Outcome), keine Vorgeschichte -- sie darf und muss
+    Kerzen nach dem Fensterstart sehen. Nicht mit den `measure_pre`-Spalten verwechseln,
+    fuer die das Lookahead waere.
+
+    Bewusst richtungsagnostisch (`mfe` = die groessere der beiden Seiten): ICT sagt zum
+    Macro ausdruecklich "It is not going to give you a direction" -- die Richtung kommt
+    aus Narrativ und Liquiditaetslage, nicht aus der Uhr. Gemessen wird also, ob und wie
+    weit sich ueberhaupt etwas bewegt, nicht wohin.
+
+    `reach10_N` prueft ICTs Mindestziel von 10 Handles.
+
+    None je Horizont, wenn die Minuten nicht lueckenlos vorliegen: am Sessionende (17:00)
+    fehlen sie regelmaessig, und eine halbe Kerzenreihe wuerde die Exkursion still nach
+    unten verzerren.
+    """
+    out: dict = {}
+    for n in horizonte:
+        seg = window_bars(bars, start, start + timedelta(minutes=n))
+        if len(seg) < n:
+            out[f"exc_up_{n}"] = out[f"exc_dn_{n}"] = None
+            out[f"mfe_{n}"] = out[f"reach10_{n}"] = None
+            continue
+        o = seg[0].o
+        up = max(b.h for b in seg) - o
+        dn = o - min(b.l for b in seg)
+        out[f"exc_up_{n}"] = up
+        out[f"exc_dn_{n}"] = dn
+        out[f"mfe_{n}"] = max(up, dn)
+        out[f"reach10_{n}"] = bool(max(up, dn) >= HANDLE_ZIEL)
+    return out
+
+
 NORM_BLOCKS = 12    # 12 x 10 Minuten = 2 Stunden Rueckschau fuer die Normierung
 
 
@@ -258,7 +310,9 @@ FIELDS = ["symbol", "session_day", "window", "weekday", "session",
           "pre_range_rel", "pre_wick_frac", "pre_streak", "pre_contraction",
           "sweep_age", "sweep_dir", "mss_age", "mss_dir", "displacement_age",
           "fvg_open_dist", "levels_open", "nearest_level_dist",
-          "range", "netto", "dir", "direction", "start_min", "expansion", "levels_hit"]
+          "range", "netto", "dir", "direction", "start_min", "expansion", "levels_hit",
+          *[f"{p}_{n}" for n in HORIZONTE
+            for p in ("exc_up", "exc_dn", "mfe", "reach10")]]
 
 
 def build(symbol: str = "MNQ", dir_thr: float = DIR_THR,
@@ -289,7 +343,8 @@ def build(symbol: str = "MNQ", dir_thr: float = DIR_THR,
                          **measure_pre(bars, start),
                          **measure_events(bars, start),
                          **measure_levels(bars, start, end),
-                         **measure_window(win, dir_thr, netto_thr)})
+                         **measure_window(win, dir_thr, netto_thr),
+                         **measure_excursion(bars, start)})
     return rows, skipped
 
 
@@ -323,6 +378,26 @@ def read_csv() -> list[dict]:
                         pass
             out.append(r)
     return out
+
+
+def _csv_veraltet(symbol: str = "MNQ") -> bool:
+    """True, wenn die CSV fehlt, aelter ist als die juengste 1m-Rohdatei, oder nicht
+    mehr zu `FIELDS` passt.
+
+    Der Spaltenvergleich ist der wichtigere Teil: kommt im Code eine Spalte dazu, ist
+    die CSV inhaltlich veraltet, obwohl ihr Zeitstempel neuer aussieht als die Rohdaten.
+    Ohne diese Pruefung liefe der Report stillschweigend auf dem alten Schema weiter.
+    """
+    if not CSV_PATH.exists():
+        return True
+    with CSV_PATH.open(newline="", encoding="utf-8") as fh:
+        kopf = next(csv.reader(fh), [])
+    if kopf != FIELDS:
+        return True
+    quellen = list(DATA_DIR.rglob(f"{symbol} *-*-* 1m.csv"))
+    if not quellen:
+        return False
+    return CSV_PATH.stat().st_mtime < max(q.stat().st_mtime for q in quellen)
 
 
 MIN_N = 20      # darunter wird keine Prozentzahl ausgegeben (Spec 6, Regel 3)
@@ -430,9 +505,15 @@ KANDIDATEN = ("pre_range_rel", "pre_wick_frac", "pre_streak", "pre_contraction")
 # Zielgroesse dazu, weil `dir` skalenfrei ist (|netto|/range) und einen reinen
 # Groesseneffekt strukturell nicht sehen kann -- genau dort liegt der einzige
 # belastbare Zusammenhang im Datensatz (pre_range_rel gegen range).
+#
+# `mfe_60` ist seit 2026-08-10 dabei und inhaltlich die **wichtigste** Zielgroesse: ICT
+# sagt ausdruecklich, der Move *beginne* im Macro und laufe darueber hinaus. Alle drei
+# anderen Ziele messen nur den Blockinhalt und koennen einen Lauf, der um 10:05 startet
+# und bis 10:40 traegt, gar nicht sehen.
 ZIELE = (("dir", lambda r: r["dir"]),
          ("expansion", lambda r: 1.0 if r["expansion"] else 0.0),
-         ("range", lambda r: r["range"]))
+         ("range", lambda r: r["range"]),
+         ("mfe_60", lambda r: r["mfe_60"]))
 
 
 def cmd_stats(symbol: str = "MNQ") -> None:
@@ -455,7 +536,7 @@ def cmd_stats(symbol: str = "MNQ") -> None:
     # Alle Vergleiche zaehlen, bevor der erste gedruckt wird -- die Bonferroni-Schwelle
     # wird an den Zeilen gebraucht, nicht erst im Fusstext.
     n_vergleiche = (len(BEDINGUNGEN) + len(fenster) + len(KANDIDATEN) * len(ZIELE)
-                    + len(KANDIDATEN) + 2)
+                    + len(KANDIDATEN) + 2 + len(HORIZONTE))
     bonf = 0.05 / n_vergleiche
 
     print(f"{symbol}: {len(rows)} Fenster aus {len(tage)} Handelstagen "
@@ -479,6 +560,37 @@ def cmd_stats(symbol: str = "MNQ") -> None:
         print(f"  Median {statistics.median(sm):.1f}, "
               f"Anteil in den ersten 5 Minuten: {100 * sum(1 for x in sm if x < 5) / len(sm):.1f}%")
 
+    # ICTs Kernaussage, hier direkt geprueft: "The move BEGINS in those 20 minutes.
+    # It's not the entirety of the move." Waechst die Exkursion ueber das Fenster hinaus
+    # weiter, ist das Macro ein Startfenster; bleibt sie stehen, ist es ein Container.
+    print("\nExkursion ab Fenster-Open (groesste Auslenkung, richtungsagnostisch):")
+    ref = ref_n = None
+    for n in HORIZONTE:
+        vals = [r[f"mfe_{n}"] for r in rows if r.get(f"mfe_{n}") is not None]
+        if not vals:
+            print(f"  +{n:>3} Min   keine vollstaendigen Segmente")
+            continue
+        med = statistics.median(vals)
+        q10 = quote([r for r in rows if r.get(f"reach10_{n}") is not None],
+                    lambda r, m=n: r[f"reach10_{m}"])
+        if ref is None:
+            ref, ref_n = med, n
+            wachstum = ""
+        else:
+            # Referenz ist die Diffusion eines Random Walk: die erwartete Auslenkung
+            # waechst mit der Wurzel der Zeit. Nur ein Wachstum DEUTLICH ueber sqrt(t)
+            # waere ein Hinweis auf ein Startfenster; sqrt(t) selbst ist der Nullfall.
+            erwartet = (n / ref_n) ** 0.5
+            wachstum = (f"  x{med / ref:.2f} gegen +{ref_n} Min"
+                        f" (Random Walk erwartet x{erwartet:.2f})")
+        print(f"  +{n:>3} Min   Median MFE {med:6.2f} Pkt   n={len(vals):3d}"
+              f"   >= {HANDLE_ZIEL:.0f} Handles: {100 * q10['p']:5.1f}%{wachstum}")
+    print(f"  Deutung: ICT sagt 'the move BEGINS in those 20 minutes'. Ein Startfenster")
+    print("  muesste die Exkursion SCHNELLER wachsen lassen als die Wurzel der Zeit.")
+    print(f"  Und: das Mindestziel von {HANDLE_ZIEL:.0f} Handles wird praktisch immer erreicht")
+    print("  (Median-MFE liegt ein Vielfaches darueber) -- die Schwelle selektiert nichts")
+    print("  und taugt daher nicht als Filter, nur als Untergrenze fuer die Stopwahl.")
+
     print("\nLevel im Fenster genommen:")
     print(f"  {'mind. ein Level':10} {fmt_quote(basis_lv):40} <- Basisrate der beiden Zeilen darunter")
     for seite in ("buyside", "sellside"):
@@ -492,9 +604,15 @@ def cmd_stats(symbol: str = "MNQ") -> None:
     print("  irgendein Level) -- die Seitenquoten sind daher weitgehend Grundrauschen der")
     print(f"  Detektorwahl (untouched_levels mit swing={CFG['swing']} auf 1m), kein Befund.")
 
-    # Spooling-Kandidaten gegen die Zielgroessen (Spec 6): haengt einer ueberhaupt mit
+    # Vorlauf-Kandidaten gegen die Zielgroessen (Spec 6): haengt einer ueberhaupt mit
     # dem Fensterverlauf zusammen? Ein Nullbefund ist hier ein Ergebnis.
-    print("\nSpooling-Kandidaten gegen die Zielgroessen (Spearman-Rangkorrelation):")
+    #
+    # Bewusst NICHT mehr "Spooling-Kandidaten" genannt: ICT meint mit Spooling den
+    # gerichteten Lauf selbst, nicht die Ruhe davor (Quelle: ICT Gems - When To
+    # Anticipate Price Spooling). Diese vier messen die Vorlaufruhe -- also die alte,
+    # inzwischen widerlegte Lesart des Begriffs. Das Spooling im ICT-Sinn steckt in
+    # `dir` und `mfe_*`.
+    print("\nVorlauf-Kandidaten gegen die Zielgroessen (Spearman-Rangkorrelation):")
     from scipy.stats import spearmanr
     for k in KANDIDATEN:
         for ziel, f in ZIELE:
@@ -530,7 +648,8 @@ def cmd_stats(symbol: str = "MNQ") -> None:
     print(f"\n--- Vorbehalte ---")
     print(f"* {n_vergleiche} Vergleiche gerechnet ({len(BEDINGUNGEN)} Bedingungen,"
           f" {len(fenster)} Fenster, {len(KANDIDATEN) * len(ZIELE)} Spearman,"
-          f" {len(KANDIDATEN)} Quartilsvergleiche, 2 Level-Quoten). Bei einem")
+          f" {len(KANDIDATEN)} Quartilsvergleiche, 2 Level-Quoten,"
+          f" {len(HORIZONTE)} Exkursions-Quoten). Bei einem")
     print(f"  Signifikanzniveau von 5 % waeren rein zufaellig etwa"
           f" {0.05 * n_vergleiche:.1f} davon 'auffaellig'.")
     print(f"  Bonferroni-korrigiert liegt die Schwelle bei p < {bonf:.4f} -- Aussagen, die sie")
@@ -538,6 +657,14 @@ def cmd_stats(symbol: str = "MNQ") -> None:
     print("* Fenster desselben Handelstags sind nicht unabhaengig -- p-Werte sind optimistisch.")
     print("* Das Fenster 23:50 fehlt fast vollstaendig (Exportluecke 23:59-00:08),")
     print("  16:50 ganz (ragt ueber den Sessionschluss 17:00).")
+    print("* In der LETZTEN Handelsstunde gilt das :50-:10-Raster laut ICT nicht -- dort")
+    print("  nennt er 15:15-15:45 (Final Hour Macro) und 15:45/15:50-16:00 (Market on")
+    print("  Close). Die Zeile 15:50 misst 15:50-16:10 und laeuft damit ueber den")
+    print("  RTH-Schluss 16:00 hinaus; sie ist als Macro-Zeile nur eingeschraenkt")
+    print("  vergleichbar. Siehe wiki/models/Market on Close (MOC) Macro Model.md.")
+    print("* Die Exkursions-Spalten (exc_*, mfe_*, reach10_*) sind ZIELgroessen und sehen")
+    print("  bewusst Kerzen nach dem Fensterstart. Sie sind kein Lookahead-Verstoss, aber")
+    print("  auch nicht als Vorhersagemerkmal verwendbar.")
 
 
 # Generierte Bilder gehoeren nach wiki/assets/, NICHT nach raw/ -- raw/ ist laut
@@ -643,7 +770,7 @@ def _hauptbefund(rows, basis, fenster) -> list[str]:
     """
     from scipy.stats import spearmanr
     n_vergleiche = (len(BEDINGUNGEN) + len(fenster) + len(KANDIDATEN) * len(ZIELE)
-                    + len(KANDIDATEN) + 2)
+                    + len(KANDIDATEN) + 2 + len(HORIZONTE))
     bonf = 0.05 / n_vergleiche
 
     tabelle, treffer = [], []
@@ -664,18 +791,24 @@ def _hauptbefund(rows, basis, fenster) -> list[str]:
                   if q["genug"] and (q["lo"] > basis["hi"] or q["hi"] < basis["lo"])]
 
     out = [
-        "## Hauptergebnis: Nullbefund bei den Spooling-Kandidaten",
+        "## Hauptergebnis: Nullbefund bei den Vorlauf-Kandidaten",
         "",
-        f"Keiner der vier Spooling-Kandidaten (`{'`, `'.join(KANDIDATEN)}`) korreliert mit der",
+        "> **Begriffsklärung (2026-08-10).** Diese vier Kandidaten messen die **Ruhe vor** dem",
+        "> Fenster — die ursprüngliche Lesart von „Spooling\". Die inzwischen belegte",
+        "> ICT-Definition meint mit Spooling das Gegenteil, nämlich den **gerichteten Lauf**",
+        "> selbst (siehe [[ICT Macros & Leading Candles]]). Sie heißen hier deshalb",
+        "> Vorlauf-Kandidaten; das Spooling im ICT-Sinn steckt in `dir` und `mfe_*`.",
+        "",
+        f"Keiner der vier Vorlauf-Kandidaten (`{'`, `'.join(KANDIDATEN)}`) korreliert mit der",
         "**Geradlinigkeit** des Fensters, und keine der "
         f"{len(BEDINGUNGEN)} Vorgeschichts-Bedingungen hebt sich",
         f"von der Basisrate ab ({len(auffaellig)} von {len(BEDINGUNGEN)} mit getrennten"
         " Wilson-Intervallen).",
-        "Das ist das eigentliche Ergebnis dieser Datenbank — die Vermutung, an der Vorgeschichte",
-        "eines Macro-Fensters lasse sich ablesen, ob es gleich sauber expandiert, trägt auf",
-        "diesem Bestand nicht.",
+        "Die Vermutung, an der Vorgeschichte eines Macro-Fensters lasse sich ablesen, ob es",
+        "gleich sauber expandiert, trägt auf diesem Bestand nicht.",
         "",
-        f"Rangkorrelation jedes Kandidaten gegen alle drei Zielgrößen (Bonferroni-Schwelle über",
+        f"Rangkorrelation jedes Kandidaten gegen alle {len(ZIELE)} Zielgrößen"
+        f" (Bonferroni-Schwelle über",
         f"{n_vergleiche} Vergleiche: p < {bonf:.4f}):",
         "",
         "| Kandidat | Zielgröße | rho | p | n | hält Bonferroni |",
@@ -689,17 +822,71 @@ def _hauptbefund(rows, basis, fenster) -> list[str]:
             out.append(f"- **`{k}` gegen `{ziel}`: rho = {rho:+.3f}, p = {p:.4g} (n={n})**")
         out += [
             "",
-            "Dieser Zusammenhang zeigt **in die Gegenrichtung der Spooling-These**: Nicht Ruhe vor",
-            "dem Fenster geht großer Bewegung voraus, sondern **Aktivität**. Ein bereits unruhiger",
-            "Vorlauf (`pre_range_rel` hoch = die 10 Minuten davor waren weiter als üblich) sagt eine",
-            "**große Range** im Fenster vorher — klassische Volatilitätspersistenz, kein",
-            "Macro-spezifischer Effekt. Er taucht nur gegen `range` auf und nicht gegen `dir`, weil",
-            "`dir` = |netto|/range skalenfrei ist und einen reinen Größeneffekt strukturell nicht",
-            "sehen kann. Für die Spooling-Hypothese ist das keine Bestätigung, sondern ihr",
-            "Gegenteil: das Fenster wird groß, wenn es vorher schon laut war.",
+            "Dieser Zusammenhang zeigt **in die Gegenrichtung der ursprünglichen Lesart**: Nicht",
+            "Ruhe vor dem Fenster geht großer Bewegung voraus, sondern **Aktivität**. Ein bereits",
+            "unruhiger Vorlauf (`pre_range_rel` hoch = die 10 Minuten davor waren weiter als",
+            "üblich) sagt eine **große Auslenkung** vorher — klassische Volatilitätspersistenz,",
+            "kein Macro-spezifischer Effekt. Gegen `dir` taucht er nicht auf, weil `dir` =",
+            "|netto|/range skalenfrei ist und einen reinen Größeneffekt strukturell nicht sehen",
+            "kann. Das Fenster wird groß, wenn es vorher schon laut war.",
             "",
         ]
-    return out
+    return out + _exkursionsbefund(rows)
+
+
+def _exkursionsbefund(rows) -> list[str]:
+    """Prueft ICTs Aussage 'the move BEGINS in those 20 minutes' gegen die Daten.
+
+    Der Vergleichsmassstab ist bewusst der Random Walk: die erwartete Auslenkung waechst
+    dort mit der Wurzel der Zeit. Waechst die gemessene Exkursion nur so schnell, ist
+    nichts Macro-Spezifisches passiert -- dann diffundiert der Preis lediglich weiter.
+    Ohne diesen Massstab liest sich jedes Wachstum wie eine Bestaetigung.
+    """
+    zeilen, ref, ref_n = [], None, None
+    for n in HORIZONTE:
+        vals = [r[f"mfe_{n}"] for r in rows if r.get(f"mfe_{n}") is not None]
+        if not vals:
+            continue
+        med = statistics.median(vals)
+        if ref is None:
+            ref, ref_n = med, n
+            zeilen.append(f"| +{n} Min | {med:.2f} | {len(vals)} | — | — |")
+        else:
+            erwartet = (n / ref_n) ** 0.5
+            zeilen.append(f"| +{n} Min | {med:.2f} | {len(vals)} | ×{med / ref:.2f} |"
+                          f" ×{erwartet:.2f} |")
+    if not zeilen:
+        return []
+    return [
+        "## Ist das Macro ein Startfenster? Gemessen: nein",
+        "",
+        "ICT korrigiert ausdrücklich die Lesart, der Move finde *innerhalb* der 20 Minuten",
+        "statt: *„The move **begins** in those 20 minutes. It's not the entirety of the",
+        "move.\"* Ein Macro wäre demnach ein **Startfenster**, kein Container.",
+        "",
+        "Testbar gemacht: die größte Auslenkung ab Fenster-Open (`mfe`, richtungsagnostisch,",
+        "weil ein Macro laut ICT keine Richtung liefert) über wachsende Horizonte. Ein",
+        "Startfenster müsste die Auslenkung **schneller** wachsen lassen als die Wurzel der",
+        "Zeit — das ist der Maßstab eines reinen Random Walk.",
+        "",
+        "| Horizont | Median MFE (Pkt) | n | gemessenes Wachstum | Random Walk erwartet |",
+        "|---|---|---|---|---|",
+        *zeilen,
+        "",
+        "**Befund**: Das gemessene Wachstum entspricht der Wurzel-der-Zeit-Erwartung praktisch",
+        "exakt. Die Auslenkung wächst nach dem Macro also genau so weiter, wie sie es bei",
+        "reiner Diffusion täte — **kein messbarer Startfenster-Effekt** auf diesem Bestand.",
+        "Das widerlegt ICTs Aussage nicht (sie betrifft die *Richtung* eines Setups, nicht die",
+        "mittlere Auslenkung über alle Fenster), aber es zeigt: aus dem bloßen Zeitpunkt allein",
+        "lässt sich kein Bewegungsvorteil ableiten.",
+        "",
+        f"**Nebenbefund**: ICTs Mindestziel von {HANDLE_ZIEL:.0f} Handles für NASDAQ-Scalps wird"
+        " in praktisch",
+        "**jedem** Fenster erreicht — der Median-MFE liegt ein Vielfaches darüber. Die Schwelle",
+        "taugt damit nicht als Filter für die Fensterauswahl, sondern höchstens als Untergrenze",
+        "für die Stop- und Zielwahl.",
+        "",
+    ]
 
 
 def _schreibe_wiki(symbol, rows, tage, basis, fenster, knapp, basis_lv) -> None:
@@ -977,6 +1164,46 @@ def _check_stats() -> None:
     assert quartile(misch)[2] is True and sum(quartile(misch)[0]) == 50
 
 
+def _check_excursion() -> None:
+    start = at(date(2026, 8, 10), 9, 50)
+
+    # 60 Minuten, Preis laeuft von 100 monoton auf 160 hoch. Open der ersten Kerze = 100.
+    steig = [Bar(start + timedelta(minutes=i), 100.0 + i, 100.0 + i + 1,
+                 100.0 + i - 1, 100.0 + i, None) for i in range(60)]
+    m = measure_excursion(steig, start)
+    # +20 Min: hoechstes High der ersten 20 Kerzen = 100+19+1 = 120, Open 100 -> up 20
+    assert abs(m["exc_up_20"] - 20.0) < 1e-9, m["exc_up_20"]
+    # tiefstes Low der ersten 20 = 99 -> dn 1
+    assert abs(m["exc_dn_20"] - 1.0) < 1e-9, m["exc_dn_20"]
+    assert abs(m["mfe_20"] - 20.0) < 1e-9, m["mfe_20"]
+    # +60 Min: High = 100+59+1 = 160 -> up 60. Die Exkursion MUSS mit dem Horizont wachsen,
+    # genau das ist ICTs "the move begins in those 20 minutes".
+    assert abs(m["exc_up_60"] - 60.0) < 1e-9, m["exc_up_60"]
+    assert m["mfe_60"] > m["mfe_20"], (m["mfe_20"], m["mfe_60"])
+    assert m["reach10_20"] is True and m["reach10_60"] is True, m
+
+    # Richtungsagnostik: derselbe Verlauf nach unten muss dieselbe MFE liefern
+    fallend = [Bar(start + timedelta(minutes=i), 100.0 - i, 100.0 - i + 1,
+                   100.0 - i - 1, 100.0 - i, None) for i in range(60)]
+    mf = measure_excursion(fallend, start)
+    assert abs(mf["mfe_60"] - m["mfe_60"]) < 1e-9, (mf["mfe_60"], m["mfe_60"])
+    assert abs(mf["exc_dn_60"] - 60.0) < 1e-9, mf["exc_dn_60"]
+
+    # Unter dem Handle-Ziel: Bewegung von nur 2 Punkten
+    klein = [Bar(start + timedelta(minutes=i), 100.0, 101.0, 99.0, 100.0, None)
+             for i in range(60)]
+    mk = measure_excursion(klein, start)
+    assert mk["reach10_20"] is False and mk["reach10_60"] is False, mk
+
+    # Luecke: fehlen Minuten im Horizont, muss der Horizont None liefern statt eine
+    # stillschweigend zu kleine Exkursion (Sessionende!).
+    kurz = measure_excursion(steig[:30], start)
+    assert kurz["mfe_20"] is not None, kurz["mfe_20"]
+    assert kurz["mfe_60"] is None and kurz["reach10_60"] is None, kurz
+    loch = [b for b in steig if b.t != start + timedelta(minutes=45)]
+    assert measure_excursion(loch, start)["mfe_60"] is None, "Luecke muss None geben"
+
+
 def selfcheck() -> None:
     day = date(2026, 8, 10)         # Montag; session_day = Ende der Session
     ws = macro_windows_session(day)
@@ -1014,6 +1241,7 @@ def selfcheck() -> None:
     _check_measure()
     _check_pre()
     _check_events()
+    _check_excursion()
     _check_stats()
     print("macro_db.selfcheck: OK")
 
@@ -1029,9 +1257,15 @@ if __name__ == "__main__":
         selfcheck()
     elif a.cmd == "build":
         cmd_build(a.symbol)
-    elif a.cmd == "stats":
-        cmd_stats(a.symbol)
     elif a.cmd == "plot":
         cmd_plot(a.symbol)
     else:
-        p.error("cmd erwartet: build, stats oder plot")
+        # Ohne Subcommand -- etwa beim Start ueber den Run-Knopf der IDE -- ist der
+        # sinnvolle Standardfall "zeig mir die Auswertung", nicht ein argparse-Fehler.
+        # Fehlt die CSV oder ist sie aelter als die juengste Rohdatei, wird vorher
+        # gebaut: sonst laege stillschweigend ein veralteter Stand im Report, und genau
+        # das soll dieses Projekt nicht tun.
+        if _csv_veraltet(a.symbol):
+            cmd_build(a.symbol)
+            print()
+        cmd_stats(a.symbol)

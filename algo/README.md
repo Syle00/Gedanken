@@ -265,13 +265,17 @@ verwirft Bloecke mit Datenluecken, statt sie als ruhigen Markt zu zaehlen.
 ## `macro_db.py`
 
 **Was:** Eine Zeile je Macro-Fenster (`:50–:10`) je Handelstag in `algo/results/macro_db.csv` --
-Vorgeschichte (Spooling-Kandidaten, Sweep-/MSS-/Displacement-Alter, offene Level), Verlauf
-(Range, Nettoweg, Geradlinigkeit, Richtung), Startminute des Moves, genommene Level.
+Vorgeschichte (Vorlauf-Kandidaten, Sweep-/MSS-/Displacement-Alter, offene Level), Verlauf
+(Range, Nettoweg, Geradlinigkeit, Richtung), Startminute des Moves, genommene Level, und die
+**Exkursion ab Fenster-Open ueber 20/40/60 Minuten** (`mfe_*`) -- letztere, weil ICT sagt, der
+Move *beginne* im Macro und laufe darueber hinaus; der reine Blockinhalt kann das nicht sehen.
 
 **Wie:** `build` rechnet immer alles neu und schreibt nur **vollstaendig erfasste** Fenster
 (20/20 Kerzen im Fenster, 10/10 im Vorlauf); ausgeschlossene Fenster werden aufgelistet, nicht
 verschwiegen. `stats` rechnet Quoten mit Wilson-Intervall gegen die Basisrate. `plot` erzeugt
-drei Diagramme und `wiki/synthesis/Macro-Datenbank (laufend).md`.
+drei Diagramme und `wiki/synthesis/Macro-Datenbank (laufend).md`. **Ohne Subcommand** (z.B. per
+Run-Knopf der IDE) laeuft `stats`, und die CSV wird vorher neu gebaut, wenn sie fehlt, aelter
+als die Rohdaten ist oder nicht mehr zum aktuellen Spaltensatz passt.
 
 **Warum:** `backtest_macro.py` beantwortet eine Frage und aggregiert sofort. Diese
 Zwischenschicht macht beliebige Folgefragen rechenbar, ohne die Rohdaten erneut zu durchlaufen.
@@ -279,7 +283,12 @@ Zwischenschicht macht beliebige Folgefragen rechenbar, ohne die Rohdaten erneut 
 **Bekannte Grenzen:** Kleine Stichprobe -- auf Fenster-Ebene rund 21 Tage, damit sind
 Einzelfenster-Aussagen nicht belastbar. Fenster desselben Tages sind nicht unabhaengig.
 Fenster 23:50 fehlt fast ganz (Exportluecke), 16:50 ganz (Sessionschluss). NDOG/NWOG/ORG sind
-noch keine Level-Quelle. Spooling-Kandidaten sind rein preisbasiert (kein Volumen in den Exporten).
+noch keine Level-Quelle. Vorlauf-Kandidaten sind rein preisbasiert (kein Volumen in den Exporten).
+In der **letzten Handelsstunde** gilt das `:50-:10`-Raster laut ICT nicht (dort 15:15-15:45 und
+15:45/15:50-16:00) -- die Zeile `15:50` laeuft ueber den RTH-Schluss hinaus und ist nur
+eingeschraenkt vergleichbar. Die `exc_*`/`mfe_*`/`reach10_*`-Spalten sind **Zielgroessen** und
+sehen bewusst Kerzen nach dem Fensterstart -- kein Lookahead-Verstoss, aber auch nicht als
+Vorhersagemerkmal verwendbar.
 
 ## Security-Scan
 
