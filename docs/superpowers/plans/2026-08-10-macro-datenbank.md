@@ -456,6 +456,14 @@ In `algo/macro_db.py` nach `is_complete` einfügen:
 DIR_THR = 0.60      # Startwert; Macro-Median liegt laut backtest_macro.py bei 0,52
 NETTO_THR = 30.0    # Startwert in Punkten; Macro-Median liegt bei 31,50
 
+# WICHTIG: Task 2 hat eine Platzhalter-Fassung von `SESSION_BY_HOUR` angelegt
+# (`_session_by_hour()`, liefert "vorabend"/"session_day"). Die war nur noetig, damit
+# der dortige Selfcheck lief, und hat die falsche Semantik fuer die CSV-Spalte.
+# **Ersetze `_session_by_hour()` und die daraus abgeleitete Konstante vollstaendig
+# durch das Folgende** -- die Funktion entfaellt ersatzlos, die beiden Asserts in
+# `selfcheck()` (`len(SESSION_BY_HOUR) == N_WINDOWS` und "Stunde ohne Session")
+# bleiben unveraendert gueltig und muessen weiter durchlaufen.
+#
 # Eindeutige Session je Fenster-Startstunde. Bewusst nicht ueber
 # analyze_ohlc.session_windows(): die dortigen Fenster ueberlappen sich absichtlich
 # ("NY AM" und "Premarket", "RTH" und "Lunch"), was fuer eine Report-Zeile taugt, aber
