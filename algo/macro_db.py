@@ -468,6 +468,7 @@ def cmd_plot(symbol: str = "MNQ") -> None:
     import matplotlib
     matplotlib.use("Agg")           # kein Fenster, nur Dateien
     import matplotlib.pyplot as plt
+    from matplotlib.patches import Patch
 
     rows = [r for r in read_csv() if r["symbol"] == symbol]
     if not rows:
@@ -477,22 +478,37 @@ def cmd_plot(symbol: str = "MNQ") -> None:
     basis = quote(rows, lambda r: r["expansion"])
     tage = sorted({r["session_day"] for r in rows})
 
-    # 1) Expansionsquote je Fenster, mit Wilson-Fehlerbalken und Basisrate
+    # 1) Expansionsquote je Fenster, mit Wilson-Fehlerbalken und Basisrate.
+    # Fenster mit n < MIN_N (dieselbe Schwelle wie fmt_quote/vergleich) werden
+    # ausgegraut+schraffiert und mit "n=..." statt eines vollwertigen Prozentbalkens
+    # gezeigt -- sonst taeuscht z.B. 23:50 (n=1, zufaellig 100%) eine belastbare Quote
+    # vor, obwohl genau davor MIN_N schuetzen soll.
     fenster = sorted({r["window"] for r in rows})
-    qs = [quote([r for r in rows if r["window"] == w], lambda r: r["expansion"])
-          for w in fenster]
-    ps = [100 * (q["p"] or 0) for q in qs]
-    unten = [100 * ((q["p"] or 0) - q["lo"]) for q in qs]
-    oben = [100 * (q["hi"] - (q["p"] or 0)) for q in qs]
+    fenster_qs = [(w, quote([r for r in rows if r["window"] == w], lambda r: r["expansion"]))
+                  for w in fenster]
+    ps = [100 * (q["p"] or 0) for _, q in fenster_qs]
+    unten = [100 * ((q["p"] or 0) - q["lo"]) for _, q in fenster_qs]
+    oben = [100 * (q["hi"] - (q["p"] or 0)) for _, q in fenster_qs]
+    farben = ["#4a7ba7" if q["genug"] else "#c9c9c9" for _, q in fenster_qs]
     fig, ax = plt.subplots(figsize=(12, 5))
-    ax.bar(fenster, ps, color="#4a7ba7")
+    bars = ax.bar(fenster, ps, color=farben)
+    for bar, (_, q) in zip(bars, fenster_qs):
+        if not q["genug"]:
+            bar.set_hatch("//")
+            bar.set_edgecolor("#777777")
     ax.errorbar(fenster, ps, yerr=[unten, oben], fmt="none", ecolor="#333", capsize=3)
+    for w, q in fenster_qs:
+        if not q["genug"]:
+            ax.text(w, 2, f"n={q['n']}", ha="center", va="bottom", fontsize=7, color="#333")
     ax.axhline(100 * basis["p"], color="crimson", linestyle="--",
                label=f"Basisrate {100 * basis['p']:.1f}%")
     ax.set_ylabel("Expansionsquote (%)")
     ax.set_title(f"{symbol}: Expansion je Macro-Fenster "
                  f"({len(tage)} Handelstage, 95%-Wilson-Intervall)")
-    ax.legend()
+    handles, _ = ax.get_legend_handles_labels()
+    handles.append(Patch(facecolor="#c9c9c9", hatch="//", edgecolor="#777777",
+                          label=f"n < {MIN_N} (nicht belastbar, siehe n=-Beschriftung)"))
+    ax.legend(handles=handles)
     plt.xticks(rotation=90)
     plt.tight_layout()
     fig.savefig(BILD_DIR / "macro-db-expansion.png", dpi=110)
@@ -524,12 +540,13 @@ def cmd_plot(symbol: str = "MNQ") -> None:
     fig.savefig(BILD_DIR / "macro-db-level.png", dpi=110)
     plt.close(fig)
 
-    _schreibe_wiki(symbol, rows, tage, basis)
+    knapp = [w for w, q in fenster_qs if not q["genug"]]
+    _schreibe_wiki(symbol, rows, tage, basis, fenster, knapp)
     print(f"3 Diagramme -> {BILD_DIR}")
     print(f"Wiki-Seite   -> {WIKI_SEITE}")
 
 
-def _schreibe_wiki(symbol, rows, tage, basis) -> None:
+def _schreibe_wiki(symbol, rows, tage, basis, fenster, knapp) -> None:
     heute = datetime.now(NY).date()
     zeilen = [
         "---",
@@ -565,12 +582,18 @@ def _schreibe_wiki(symbol, rows, tage, basis) -> None:
         "",
         "## Vorbehalte",
         "",
-        f"- Die Stichprobe ist klein: rund {len(rows) // 21} Tage je Fenster. Aussagen auf",
+        f"- Die Stichprobe ist klein: rund {len(rows) // len(fenster)} Tage je Fenster. Aussagen auf",
         "  **Fenster-Ebene** sind noch nicht belastbar, Aussagen auf **Bedingungs-Ebene**",
         "  über alle Fenster hinweg früher.",
         "- Fenster desselben Handelstags sind nicht unabhängig — p-Werte sind optimistisch.",
-        "- Das Fenster **23:50** fehlt fast vollständig (Exportlücke 23:59–00:08), **16:50**",
-        "  ganz (ragt über den Sessionschluss 17:00 hinaus).",
+        (f"- {len(knapp)} Fenster liegen mit n < {MIN_N} unter der Mindeststichprobe aus"
+         f" `fmt_quote()`/`vergleich()` und sind in Diagramm 1 ausgegraut/schraffiert mit"
+         f" n=…-Beschriftung statt vollem Prozentbalken markiert: {', '.join(knapp)}."
+         " Am deutlichsten **23:50** mit nur n=1 (Exportlücke 23:59–00:08) — der 100%-Wert"
+         " dort ist ein Stichproben-Artefakt, keine belastbare Quote (Wilson-Intervall"
+         " entsprechend breit: 20,7–100 %). **16:50** fehlt sogar ganz (ragt über den"
+         " Sessionschluss 17:00 hinaus) und taucht im Diagramm nicht auf. Die Asia-Session"
+         " ist damit systematisch knapper besetzt als der Rest, nicht nur ein Einzelfall."),
         "- NDOG/NWOG/ORG sind noch keine Level-Quelle (Kalendertag- statt Session-Logik,",
         "  siehe `algo/PLAN.md`).",
         "",

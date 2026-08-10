@@ -35,8 +35,7 @@ kein Schnappschuss.
   **Fenster-Ebene** sind noch nicht belastbar, Aussagen auf **Bedingungs-Ebene**
   über alle Fenster hinweg früher.
 - Fenster desselben Handelstags sind nicht unabhängig — p-Werte sind optimistisch.
-- Das Fenster **23:50** fehlt fast vollständig (Exportlücke 23:59–00:08), **16:50**
-  ganz (ragt über den Sessionschluss 17:00 hinaus).
+- 6 Fenster liegen mit n < 20 unter der Mindeststichprobe aus `fmt_quote()`/`vergleich()` und sind in Diagramm 1 ausgegraut/schraffiert mit n=…-Beschriftung statt vollem Prozentbalken markiert: 18:50, 19:50, 20:50, 21:50, 22:50, 23:50. Am deutlichsten **23:50** mit nur n=1 (Exportlücke 23:59–00:08) — der 100%-Wert dort ist ein Stichproben-Artefakt, keine belastbare Quote (Wilson-Intervall entsprechend breit: 20,7–100 %). **16:50** fehlt sogar ganz (ragt über den Sessionschluss 17:00 hinaus) und taucht im Diagramm nicht auf. Die Asia-Session ist damit systematisch knapper besetzt als der Rest, nicht nur ein Einzelfall.
 - NDOG/NWOG/ORG sind noch keine Level-Quelle (Kalendertag- statt Session-Logik,
   siehe `algo/PLAN.md`).
 
