@@ -483,7 +483,11 @@ def cmd_stats(symbol: str = "MNQ") -> None:
     print(f"  {'mind. ein Level':10} {fmt_quote(basis_lv):40} <- Basisrate der beiden Zeilen darunter")
     for seite in ("buyside", "sellside"):
         q = quote(rows, lambda r, s=seite: s in (r["levels_hit"] or ""))
-        print(f"  {seite:10} {fmt_quote(q):40} {vergleich(q, basis_lv, bonf)}")
+        # Kein Signifikanztest gegen basis_lv: jede Seite ist eine Teilmenge von
+        # "mind. ein Level" und liegt damit zwangslaeufig darunter -- ein p-Wert waere
+        # hier eine Tautologie, keine Aussage. Der Anteil an der Basis ist die Aussage.
+        print(f"  {seite:10} {fmt_quote(q):40} "
+              f"= {100 * q['p'] / basis_lv['p']:.0f} % der Fenster mit ueberhaupt einem Level")
     print(f"  Die Kennzahl ist fast gesaettigt ({100 * basis_lv['p']:.1f} % aller Fenster nehmen")
     print("  irgendein Level) -- die Seitenquoten sind daher weitgehend Grundrauschen der")
     print(f"  Detektorwahl (untouched_levels mit swing={CFG['swing']} auf 1m), kein Befund.")
@@ -505,7 +509,7 @@ def cmd_stats(symbol: str = "MNQ") -> None:
                 mark = "  (p<0,05, haelt Bonferroni nicht)"
             else:
                 mark = ""
-            print(f"  {k:18} vs {ziel:10} rho={rho:+.3f} p={p:.4f} (n={len(paare)}){mark}")
+            print(f"  {k:18} vs {ziel:10} rho={rho:+.3f} p={p:<9.3g} (n={len(paare)}){mark}")
 
     print(f"\nQuartilsvergleich: Anteil dir >= {DIR_THR:.2f} im untersten vs. obersten Viertel")
     print(f"  des Kandidatenwerts. Passende Basisrate: {fmt_quote(basis_dir)}")
@@ -746,11 +750,12 @@ def _schreibe_wiki(symbol, rows, tage, basis, fenster, knapp, basis_lv) -> None:
         "  über alle Fenster hinweg früher.",
         "- Fenster desselben Handelstags sind nicht unabhängig — p-Werte sind optimistisch.",
         (f"- {len(knapp)} Fenster liegen mit n < {MIN_N} unter der Mindeststichprobe aus"
-         f" `fmt_quote()`/`vergleich()` und sind in Diagramm 1 ausgegraut/schraffiert mit"
-         f" n=…-Beschriftung statt vollem Prozentbalken markiert: {', '.join(knapp)}."
-         " Am deutlichsten **23:50** mit nur n=1 (Exportlücke 23:59–00:08) — der 100%-Wert"
-         " dort ist ein Stichproben-Artefakt, keine belastbare Quote (Wilson-Intervall"
-         " entsprechend breit: 20,7–100 %). **16:50** fehlt sogar ganz (ragt über den"
+         f" `fmt_quote()`/`vergleich()` und stehen in Diagramm 1 grau auf Höhe 0, nur mit"
+         f" n=…-Beschriftung statt eines Prozentbalkens: {', '.join(knapp)}."
+         " Am deutlichsten **23:50** mit nur n=1 (Exportlücke 23:59–00:08) — dessen"
+         " 100%-Rohwert ist ein Stichproben-Artefakt, keine belastbare Quote (Wilson-Intervall"
+         " entsprechend breit: 20,7–100 %) und war als vollwertiger, höchster Balken die"
+         " irreführendste Stelle der Grafik. **16:50** fehlt sogar ganz (ragt über den"
          " Sessionschluss 17:00 hinaus) und taucht im Diagramm nicht auf. Die Asia-Session"
          " ist damit systematisch knapper besetzt als der Rest, nicht nur ein Einzelfall."),
         "- NDOG/NWOG/ORG sind noch keine Level-Quelle (Kalendertag- statt Session-Logik,",

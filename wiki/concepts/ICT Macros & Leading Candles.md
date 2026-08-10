@@ -115,6 +115,31 @@ Spooling-Definition ("enge Kerzen bei steigendem Volumen") zielte am Begriff vor
 diesem Datenbestand ohnehin unmöglich gewesen (kein Volumen in den Exporten, siehe Datenqualität
 unten). Die messbare Größe ist stattdessen der bereits erhobene **Nettoweg/`dir`**.
 
+### Messergebnis zur Vorlauf-Lesart (2026-08-10, `algo/macro_db.py`)
+
+Die alte Lesart ("Kompression *vor* dem Fenster kündigt den Move an") bleibt hier als offene
+Beobachtung stehen — sie ist jetzt aber gemessen. `algo/macro_db.py` erhebt vier preisbasierte
+Kandidaten aus den 10 Minuten **vor** jedem Macro-Fenster (`pre_range_rel` = Vorlaufrange gegen
+den Median der 12 vorangegangenen 10-Minuten-Blöcke, `pre_wick_frac`, `pre_streak`,
+`pre_contraction`) und testet sie gegen `dir`, `expansion` und `range`. Basis: MNQ, 440
+vollständig erfasste Fenster aus 23 Handelstagen.
+
+**Keiner der vier Kandidaten hängt mit der Geradlinigkeit zusammen** (|rho| ≤ 0,02, alle p > 0,6),
+und keine der sieben daraus gebauten Vorgeschichts-Bedingungen — inklusive "Kompression davor
+(`pre_range_rel` < 0,7)" mit 42,4 % [32,4–53,0] — hebt sich von der Basisrate 35,2 % [30,9–39,8]
+ab. Ein früher ausgewiesener Quartilseffekt bei `pre_streak` (20,9 % gegen 50,0 %) war ein
+Sortierartefakt und ist nach dem Fix verschwunden (39,1 % gegen 41,1 %, dazu eine Bindung über der
+Schnittkante).
+
+**Der einzige belastbare Zusammenhang im ganzen Datensatz zeigt in die Gegenrichtung**:
+`pre_range_rel` gegen `range` liefert rho = **+0,258** bei p = **9,5 · 10⁻⁸** (n = 417) und
+übersteht die Bonferroni-Korrektur über 47 Vergleiche mit großem Abstand. Nicht Ruhe vor dem
+Fenster geht großer Bewegung voraus, sondern **Aktivität** — gewöhnliche Volatilitätspersistenz,
+nichts Macro-Spezifisches. Gegen `dir` taucht der Effekt nicht auf, weil `dir` = |netto|/range
+skalenfrei ist und einen reinen Größeneffekt strukturell nicht sehen kann.
+
+Laufender Stand mit allen Zahlen: [[Macro-Datenbank (laufend)]].
+
 ## ⚠️ Der Move *beginnt* im Macro — er läuft nicht darin ab
 
 Die für den eigenen Backtest folgenreichste Aussage des ganzen Batches, aus
@@ -305,12 +330,12 @@ Anlass: Nutzeraussage am 2026-08-10 zum SB FVG (SIBI) um 14:12 — *"genau das w
 optimalerweise im Macro sehen"*. Testbarer Kern davon: häufen sich 1m-[[Fair Value Gap (FVG)|FVGs]]
 in den Macro-Fenstern? `algo/backtest_macro.py --min-fvg <n>` zählt sie je Block:
 
-| Mindestgröße | Macro | Kontrolle | Vorsprung | Blöcke **ohne** FVG (Macro / Kontrolle) |
-|---|---|---|---|---|
-| ≥ 2 Pkt | 2,81 | 2,59 | +8 % | 5 % / 7 % |
-| ≥ 5 Pkt | 1,70 | 1,52 | +12 % | 18 % / 25 % |
-| **≥ 10 Pkt** | **0,81** | **0,61** | **+33 %** | **46 % / 60 %** |
-| ≥ 15 Pkt | 0,37 | 0,28 | +32 % | 72 % / 80 % |
+| Mindestgröße | Macro | Kontrolle | Vorsprung | p (Mann-Whitney, einseitig) | Blöcke **ohne** FVG (Macro / Kontrolle) |
+|---|---|---|---|---|---|
+| ≥ 2 Pkt | 2,81 | 2,59 | +8 % | 0,0054 | 5 % / 7 % |
+| ≥ 5 Pkt | 1,70 | 1,52 | +12 % | 0,0044 | 18 % / 25 % |
+| **≥ 10 Pkt** | **0,81** | **0,61** | **+33 %** | **< 0,0001** | **46 % / 60 %** |
+| ≥ 15 Pkt | 0,37 | 0,28 | +32 % | 0,0012 | 72 % / 80 % |
 
 **Je größer das FVG, desto stärker sitzt es im Macro.** Und daraus folgt die praktisch wichtigere
 Hälfte: *"ein FVG im Macro"* ist als Filter wertlos — **95 % aller Macro-Fenster enthalten

@@ -161,6 +161,7 @@
 <li><a href="#macro-zeit-als-reversal-check-nach-news-expansion-2026-erganzung">Macro-Zeit als Reversal-Check nach News-Expansion (2026-Ergänzung)</a></li>
 <li><a href="#spooling-icts-definition-2024-hypothese-aufgelost">"Spooling" — ICTs Definition (2024) ✅ Hypothese aufgelöst</a><ul>
 <li><a href="#was-das-fur-die-eigenen-daten-bedeutet">Was das für die eigenen Daten bedeutet</a></li>
+<li><a href="#messergebnis-zur-vorlauf-lesart-2026-08-10-algomacro_dbpy">Messergebnis zur Vorlauf-Lesart (2026-08-10, algo/macro_db.py)</a></li>
 </ul>
 </li>
 <li><a href="#der-move-beginnt-im-macro-er-lauft-nicht-darin-ab">⚠️ Der Move beginnt im Macro — er läuft nicht darin ab</a></li>
@@ -277,6 +278,26 @@ Spooling nennt; sie ist schlicht Konsolidierung.</p>
 Spooling-Definition ("enge Kerzen bei steigendem Volumen") zielte am Begriff vorbei — und wäre auf
 diesem Datenbestand ohnehin unmöglich gewesen (kein Volumen in den Exporten, siehe Datenqualität
 unten). Die messbare Größe ist stattdessen der bereits erhobene <strong>Nettoweg/<code>dir</code></strong>.</p>
+<h3 id="messergebnis-zur-vorlauf-lesart-2026-08-10-algomacro_dbpy">Messergebnis zur Vorlauf-Lesart (2026-08-10, <code>algo/macro_db.py</code>)</h3>
+<p>Die alte Lesart ("Kompression <em>vor</em> dem Fenster kündigt den Move an") bleibt hier als offene
+Beobachtung stehen — sie ist jetzt aber gemessen. <code>algo/macro_db.py</code> erhebt vier preisbasierte
+Kandidaten aus den 10 Minuten <strong>vor</strong> jedem Macro-Fenster (<code>pre_range_rel</code> = Vorlaufrange gegen
+den Median der 12 vorangegangenen 10-Minuten-Blöcke, <code>pre_wick_frac</code>, <code>pre_streak</code>,
+<code>pre_contraction</code>) und testet sie gegen <code>dir</code>, <code>expansion</code> und <code>range</code>. Basis: MNQ, 440
+vollständig erfasste Fenster aus 23 Handelstagen.</p>
+<p><strong>Keiner der vier Kandidaten hängt mit der Geradlinigkeit zusammen</strong> (|rho| ≤ 0,02, alle p &gt; 0,6),
+und keine der sieben daraus gebauten Vorgeschichts-Bedingungen — inklusive "Kompression davor
+(<code>pre_range_rel</code> &lt; 0,7)" mit 42,4 % [32,4–53,0] — hebt sich von der Basisrate 35,2 % [30,9–39,8]
+ab. Ein früher ausgewiesener Quartilseffekt bei <code>pre_streak</code> (20,9 % gegen 50,0 %) war ein
+Sortierartefakt und ist nach dem Fix verschwunden (39,1 % gegen 41,1 %, dazu eine Bindung über der
+Schnittkante).</p>
+<p><strong>Der einzige belastbare Zusammenhang im ganzen Datensatz zeigt in die Gegenrichtung</strong>:
+<code>pre_range_rel</code> gegen <code>range</code> liefert rho = <strong>+0,258</strong> bei p = <strong>9,5 · 10⁻⁸</strong> (n = 417) und
+übersteht die Bonferroni-Korrektur über 47 Vergleiche mit großem Abstand. Nicht Ruhe vor dem
+Fenster geht großer Bewegung voraus, sondern <strong>Aktivität</strong> — gewöhnliche Volatilitätspersistenz,
+nichts Macro-Spezifisches. Gegen <code>dir</code> taucht der Effekt nicht auf, weil <code>dir</code> = |netto|/range
+skalenfrei ist und einen reinen Größeneffekt strukturell nicht sehen kann.</p>
+<p>Laufender Stand mit allen Zahlen: <a href="../p/macro-datenbank-laufend.html">Macro-Datenbank (laufend)</a>.</p>
 <h2 id="der-move-beginnt-im-macro-er-lauft-nicht-darin-ab">⚠️ Der Move <em>beginnt</em> im Macro — er läuft nicht darin ab</h2>
 <p>Die für den eigenen Backtest folgenreichste Aussage des ganzen Batches, aus
 <a href="../p/ict-gems-blending-silver-bullets-and-macros-source.html">ICT Gems - Blending Silver Bullets and Macros (Source)</a>. ICT korrigiert dort ausdrücklich eine
@@ -506,6 +527,7 @@ in den Macro-Fenstern? <code>algo/backtest_macro.py --min-fvg &lt;n&gt;</code> z
 <th>Macro</th>
 <th>Kontrolle</th>
 <th>Vorsprung</th>
+<th>p (Mann-Whitney, einseitig)</th>
 <th>Blöcke <strong>ohne</strong> FVG (Macro / Kontrolle)</th>
 </tr>
 </thead>
@@ -515,6 +537,7 @@ in den Macro-Fenstern? <code>algo/backtest_macro.py --min-fvg &lt;n&gt;</code> z
 <td>2,81</td>
 <td>2,59</td>
 <td>+8 %</td>
+<td>0,0054</td>
 <td>5 % / 7 %</td>
 </tr>
 <tr>
@@ -522,6 +545,7 @@ in den Macro-Fenstern? <code>algo/backtest_macro.py --min-fvg &lt;n&gt;</code> z
 <td>1,70</td>
 <td>1,52</td>
 <td>+12 %</td>
+<td>0,0044</td>
 <td>18 % / 25 %</td>
 </tr>
 <tr>
@@ -529,6 +553,7 @@ in den Macro-Fenstern? <code>algo/backtest_macro.py --min-fvg &lt;n&gt;</code> z
 <td><strong>0,81</strong></td>
 <td><strong>0,61</strong></td>
 <td><strong>+33 %</strong></td>
+<td><strong>&lt; 0,0001</strong></td>
 <td><strong>46 % / 60 %</strong></td>
 </tr>
 <tr>
@@ -536,6 +561,7 @@ in den Macro-Fenstern? <code>algo/backtest_macro.py --min-fvg &lt;n&gt;</code> z
 <td>0,37</td>
 <td>0,28</td>
 <td>+32 %</td>
+<td>0,0012</td>
 <td>72 % / 80 %</td>
 </tr>
 </tbody>
