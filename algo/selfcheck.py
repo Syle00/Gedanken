@@ -19,9 +19,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 
 from pnl import demo as pnl_demo  # noqa: E402
 from masters import demo as masters_demo  # noqa: E402
+from confidence import demo as confidence_demo  # noqa: E402
 from rules import demo as rules_demo  # noqa: E402
 from signals import _demo as signals_demo  # noqa: E402
 from backtest_ensemble import _demo as ensemble_demo  # noqa: E402
+from backtest_bt import demo as backtest_bt_demo  # noqa: E402
+from validate import demo as validate_demo  # noqa: E402
 from backtest_common import demo as backtest_common_demo  # noqa: E402
 from macro_db import selfcheck as macro_db_selfcheck  # noqa: E402
 
@@ -79,9 +82,12 @@ def _results_demo() -> None:
 CHECKS = [
     ("pnl", pnl_demo),
     ("masters", masters_demo),
+    ("confidence", confidence_demo),
     ("rules", rules_demo),
     ("signals", signals_demo),
     ("backtest_ensemble", ensemble_demo),
+    ("backtest_bt", backtest_bt_demo),
+    ("validate", validate_demo),
     ("backtest_common", backtest_common_demo),
     ("macro_db", macro_db_selfcheck),
     ("dedup", _results_demo),

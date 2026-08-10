@@ -34,6 +34,7 @@ from analyze_ohlc import Bar, swings, CFG  # noqa: E402
 from rules import plan_trade  # noqa: E402
 from signals import build_features  # noqa: E402
 from pnl import risk_size, POINT_VALUE  # noqa: E402
+from backtest_bt import extend_hist  # noqa: E402  -- inkrementeller hist-Aufbau (Performance-Fix)
 
 BIAS_LONG_THRESHOLD = 0.55
 BIAS_SHORT_THRESHOLD = 0.45
@@ -90,6 +91,7 @@ class EnsembleStrategy(Strategy):
     def init(self):
         self._taken: set[tuple] = set()
         self._active: dict | None = None  # Entry-Info der offenen Position (Partial/BE-Tracking)
+        self._hist: list[Bar] = []         # inkrementell fortgeschrieben, siehe extend_hist()
 
     def next(self):
         when = self.data.index[-1]
@@ -107,17 +109,15 @@ class EnsembleStrategy(Strategy):
                 self.sell()
             return
 
-        hist = [Bar(t, o, h, l, c) for t, o, h, l, c in
-                zip(self.data.index, self.data.Open, self.data.High,
-                    self.data.Low, self.data.Close)]
+        extend_hist(self._hist, self.data)  # ersetzt den O(n²)-Neubau je Kerze (siehe backtest_bt)
 
         if self.position:
-            self._manage_partial(hist)
+            self._manage_partial(self._hist)
             return
         if day_bias == "neutral":
             return
 
-        setup = plan_trade(hist, when, stop_buffer_pct=self.stop_buffer_pct,
+        setup = plan_trade(self._hist, when, stop_buffer_pct=self.stop_buffer_pct,
                             min_target_points=self.min_target_points)
         if setup is None or not _passes_bias_filter(setup.side, day_bias):
             return

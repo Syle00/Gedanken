@@ -33,8 +33,25 @@ from backtest_ohlc import find_days  # noqa: E402
 from analyze_ohlc import Bar, load  # noqa: E402
 from rules import plan_trade  # noqa: E402
 from pnl import risk_size, POINT_VALUE, real_pnl, flag_dubious, dubious_pct  # noqa: E402
+from confidence import bar_metrics, print_bar_metrics  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def extend_hist(hist: list, data) -> None:
+    """Schreibt `hist` inkrementell auf die aktuell sichtbare Laenge von `data` fort: pro
+    next()-Aufruf waechst das `backtesting`-Datenfenster um genau eine Bar, also nur die neu
+    sichtbaren Bars anhaengen, statt die gesamte Historie je Kerze neu als Bar-Liste zu bauen.
+
+    Das ist der Performance-Fix fuer den O(n²)-Neubau (bei 11.573 5m-Kerzen ~5 min -> Sekunden,
+    siehe algo/PLAN.md Backlog 10). **Ergebnis-erhaltend by construction:** die entstehende
+    Liste ist Bit-fuer-Bit dieselbe wie `[Bar(t,o,h,l,c) for t,o,h,l,c in zip(data.index,
+    data.Open, data.High, data.Low, data.Close)]` -- gleiche Reihenfolge, gleiche Werte,
+    gleiche Typen. Muss VOR der Positions-/Signalpruefung laufen, damit auch Bars waehrend
+    einer offenen Position erfasst werden und keine Luecke entsteht."""
+    idx, o, h, l, c = data.index, data.Open, data.High, data.Low, data.Close
+    for j in range(len(hist), len(idx)):
+        hist.append(Bar(idx[j], o[j], h[j], l[j], c[j]))
 
 
 def load_series(symbol: str | None) -> pd.DataFrame:
@@ -61,15 +78,14 @@ class SilverBulletStrategy(Strategy):
 
     def init(self):
         self._taken: set[tuple] = set()  # (Tag, Fenstername) -- ein Versuch pro Fenster/Tag
+        self._hist: list[Bar] = []       # inkrementell fortgeschrieben, siehe extend_hist()
 
     def next(self):
+        extend_hist(self._hist, self.data)  # muss VOR der Positionspruefung laufen (lueckenlos)
         if self.position:
             return
         when = self.data.index[-1]
-        hist = [Bar(t, o, h, l, c) for t, o, h, l, c in
-                zip(self.data.index, self.data.Open, self.data.High,
-                    self.data.Low, self.data.Close)]
-        setup = plan_trade(hist, when, stop_buffer_pct=self.stop_buffer_pct)
+        setup = plan_trade(self._hist, when, stop_buffer_pct=self.stop_buffer_pct)
         if setup is None:
             return
         key = (setup.t.date(), setup.window)
@@ -114,11 +130,42 @@ def main(argv=None):
           f"{trades['RealPnL_USD'].sum():+.2f} USD  "
           f"(mehrdeutige Trades: {dubious_pct(trades):.1f}%, konservativ als Verlust gewertet)")
 
+    # Backlog 7 + 9a (siehe algo/PLAN.md): dieselben Trades zusaetzlich auf BAR-Basis bewerten
+    # und eine BCa-Untergrenze ausweisen, statt nur den Trade-basierten Punktschaetzer der Lib.
+    print_bar_metrics(bar_metrics(stats._trades, df))
+
     if a.plot:
         out = ROOT / "algo" / "backtest_bt.html"
         bt.plot(filename=str(out), open_browser=False)
         print(f"\ngeschrieben: {out.relative_to(ROOT)}")
 
 
+def demo() -> None:
+    """Regressionsguard fuer extend_hist() (Performance-Fix, siehe algo/PLAN.md): das
+    inkrementelle Anhaengen ueber ein wachsendes Fenster muss Bit-fuer-Bit dieselbe Bar-Liste
+    liefern wie der fruehere Neubau je Kerze (zip ueber das volle Fenster). Damit ist der
+    O(n²)->O(n)-Umbau dauerhaft gegen stille Ergebnisdrift abgesichert -- nicht nur durch den
+    einmaligen Vorher/Nachher-Trade-Diff von 2026-08-11."""
+    from types import SimpleNamespace
+    import numpy as np
+    n = 30
+    idx = pd.date_range("2026-01-01", periods=n, freq="5min", tz="America/New_York")
+    o = np.arange(n, dtype=float)
+    hist: list[Bar] = []
+    for k in range(1, n + 1):                       # Fenster waechst je next()-Aufruf um 1 Bar
+        data = SimpleNamespace(index=idx[:k], Open=o[:k], High=o[:k] + 1,
+                               Low=o[:k] - 1, Close=o[:k] + 0.5)
+        extend_hist(hist, data)
+        rebuild = [Bar(t, oo, hh, ll, cc) for t, oo, hh, ll, cc in
+                   zip(data.index, data.Open, data.High, data.Low, data.Close)]
+        assert hist == rebuild, f"extend_hist weicht bei k={k} vom Neubau ab"
+    assert len(hist) == n
+    print("backtest_bt.demo: OK (extend_hist ergebnis-erhaltend)")
+
+
 if __name__ == "__main__":
-    main()
+    import sys as _sys
+    if "--selfcheck" in _sys.argv:
+        demo()
+    else:
+        main()

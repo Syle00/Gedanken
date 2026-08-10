@@ -64,7 +64,12 @@ echte Handelstage (kein Handelskalender im Projekt, siehe `ponytail`-Kommentar i
 **Was:** Verdrahtet `rules.py::plan_trade` als `backtesting.Strategy`, laeuft ueber alle
 verfuegbaren MNQ-Tage.
 **Wie:** Pro 5m-Kerze wird `plan_trade()` mit der Historie bis zu dieser Kerze aufgerufen; bei
-Setup wird eine Bracket-Order (Limit + SL + TP) platziert.
+Setup wird eine Bracket-Order (Limit + SL + TP) platziert. Die Historie wird per
+`extend_hist(self._hist, self.data)` inkrementell fortgeschrieben statt je Kerze neu gebaut.
+**Performance-Fix (2026-08-11):** der frühere Neubau der `Bar`-Liste je Kerze war O(n²)
+(~270 s je 50-Tage-Lauf); jetzt O(n), ~40 s. Ergebnis-erhaltend bewiesen (24-Tage-Trade-Diff
+Bit-für-Bit identisch, Regressionsguard `backtest_bt.demo` in `selfcheck.py`). War die
+Voraussetzung fuer Permutationstests (PLAN.md Backlog 10).
 **Warum:** Zeigt, ob die Silver-Bullet-Regel ohne Confluenz-Filter profitabel ist.
 **Bug gefixt (2026-08-06-Audit):** Bestellungen hatten bisher KEINE explizite Groesse -- die
 Lib nutzte ihren Default (~99,99 % Kontoguthaben als Notional), nicht die im Wiki festgelegte
@@ -75,6 +80,12 @@ den echten $-P&L (`pnl.real_pnl`) und den Anteil mehrdeutiger Trades.
 laeuft das Sizing ueber `pnl.risk_size(..., max_notional=equity*leverage)` wie im Ensemble.
 (b) Symbol wird nicht mehr ignoriert: `backtest_bt.py ES` nutzt jetzt ES' $50/Punkt statt MNQs
 $2/Punkt (vorher 25x zu grosse Positionen bei falscher Beschriftung).
+**Ergaenzt (2026-08-11, Backlog 7+9a):** Der Report weist die Trades jetzt zusaetzlich auf
+BAR-Basis aus (`confidence.bar_metrics`/`print_bar_metrics`) und stellt eine BCa-Untergrenze
+daneben. Warum das kein Kosmetik-Zusatz ist: auf dem ersten vollen Lauf ist der Trade-basierte
+Profit Factor knapp ueber 1, der bar-basierte aber darunter -- genau Masters' Punkt, dass
+Trade-Kennzahlen systematisch zu optimistisch sind. Und die BCa-Untergrenze der mittleren
+Bar-Rendite liegt unter null: die Regel ist statistisch nicht von "kein Edge" zu unterscheiden.
 **Bekannte Grenzen:** Nutzt weiterhin `backtesting`s Equity-/Drawdown-Tracking in rohen
 Preispunkten (Sharpe/Return% sind Naeherungen), nur `RealPnL_USD` ist der echte Dollar-Wert.
 Limit-Orders verfallen ausserdem nie: ein Setup, dessen Entry-Preis erst Wochen spaeter beruehrt
@@ -88,7 +99,9 @@ erklaert die letzte verbleibende Margin-Stornierung eines Laufs und ist ein offe
 Silver-Bullet-Intraday-Regel statt sie zu ersetzen; `intraday=False` haelt stattdessen eine
 tagesbasierte Position (fuer Perioden ohne 5m-Daten, siehe `stress_test.py`).
 **Wie:** Bias-Totzone 45-55 % Wahrscheinlichkeit -> "neutral" (kein Trade). Partial-Taking am
-ersten Swing-Punkt in Traderichtung + Stop auf Breakeven danach.
+ersten Swing-Punkt in Traderichtung + Stop auf Breakeven danach. Nutzt denselben inkrementellen
+`extend_hist`-Aufbau wie `backtest_bt.py` (Performance-Fix 2026-08-11, gegen einen rekonstruierten
+Alt-Neubau ueber 32 Tage als trade-identisch verifiziert, x12,4 schneller).
 **Warum:** Kombiniert mehrere schwache statistische Einzelbefunde statt sich auf eine
 diskretionaere Regel zu verlassen (siehe `docs/superpowers/specs/2026-08-05-algo-rentec-ensemble-design.md`).
 **Bug gefixt (2026-08-06-Audit):** `_risk_size()` vergass den Punktwert-Faktor -- reales Risiko
@@ -109,8 +122,32 @@ Renditeverteilung/Drawdown-Perzentile.
 wie stabil ein Ergebnis ueber Zeit/Parameter/Trade-Reihenfolge ist.
 **Ergaenzt (2026-08-06-Audit):** `dubious_pct` ist jetzt Pflichtzeile in allen drei
 Ausgaben -- zeigt, wie gross der Anteil an Trades mit unklarer Stop/Ziel-Reihenfolge ist.
+**Ergaenzt (2026-08-11, Backlog 8+9b):** (a) Monte Carlo weist die Max-Drawdown-Zeile jetzt
+doppelt aus -- die alte Perzentil-Zeile ist als "naiv" markiert (Masters' als "incorrect"
+bezeichneter Bootstrap, unterschaetzt das Risiko systematisch), darunter die korrekte
+Doppel-Bootstrap-Grenze aus `double_bootstrap_drawdown()` (delegiert an
+`masters.drawdown_bound`), dd_conf 0,95 und 0,99. (b) `walk_forward()` hat einen
+Guard-Buffer-Parameter `omit` (Default 0), der die juengsten Trainingstage je Fold streicht.
+Default 0 ist fuer beide Strategien nachweislich korrekt (Lookahead 1 -> `guard_buffer` = 0,
+siehe Docstring) und byte-identisch zur Vorversion; der Parameter existiert, damit ein spaeter
+verlaengerter Zielhorizont nicht still anti-konservativ wird.
 **Bekannte Grenzen:** Kleine Stichprobe (siehe `algo/PLAN.md`) -- alle Zahlen sind
 Groessenordnungen, keine belastbaren Ergebnisse, bis mehr Handelstage vorliegen.
+
+## `confidence.py` -- Bar-Renditen- und Konfidenz-Report (Bruecke zu masters.py)
+
+**Was:** Verdrahtet die masters.py-Werkzeuge (Kap. 6) in die Backtest-Reports: `bar_metrics()`
+rechnet `stats._trades` per `masters.bar_returns_from_trades` in Bar-Renditen um und liefert
+Profit Factor/Sharpe auf BAR- und TRADE-Basis plus einseitige 95%-Untergrenzen (t-Test und BCa)
+fuer die mittlere Bar-Rendite und den Profit Factor.
+**Wie:** BCa nur bei >=8 Bars und beiden Vorzeichenklassen (sonst entartet die
+Bootstrap-Verteilung); der Profit Factor wird als `exp(BCa auf log PF)` gebildet, weil das rohe
+PF-Verteilungsende zu schwer fuer einen Bootstrap ist (siehe `masters.log_profit_factor`).
+**Warum:** Trade-basierte Kennzahlen sind laut Masters systematisch extremer als bar-basierte,
+und ein Punktschaetzer sagt nichts darueber, ob die Zahl von null unterscheidbar ist -- beide
+Luecken schliesst dieser Block (Backlog 7 + 9a).
+**Bekannte Grenzen:** Getrennt gehalten von masters.py, damit der Werkzeugkasten
+backtesting-Lib-unabhaengig bleibt; kennt daher fest die Spaltennamen der `backtesting`-Lib.
 
 ## `stress_test.py` -- Historische Krisenfenster
 

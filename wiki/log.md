@@ -1666,3 +1666,24 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Seiten aktualisiert: wiki/concepts/ICT Macros & Leading Candles.md (Messergebnis zum
   Startfenster), wiki/synthesis/Macro-Datenbank (laufend).md, .claude/skills/macro-db/SKILL.md,
   algo/README.md, algo/PLAN.md
+
+## [2026-08-11] synthesis | Masters-Validierung in die Backtest-Reports verdrahtet (Backlog 7/8/9)
+- Neues Modul algo/confidence.py: Bruecke zwischen masters.py-Werkzeugkasten und den Reports
+  (masters.py bleibt dadurch backtesting-Lib-unabhaengig).
+- Backlog 7 (Bar-Renditen): backtest_bt.py weist Profit Factor/Sharpe jetzt auf Bar- neben
+  Trade-Basis aus. Realer Lauf (36/50 Tage MNQ): PF Trade 0,549 vs. Bar 0,872.
+- Backlog 9a (BCa): 95%-Untergrenze der mittleren Bar-Rendite -0,0137 % (<= 0 -> nicht von null
+  unterscheidbar), PF-Untergrenze 0,689 -- Silver-Bullet-Basisregel statistisch nicht von
+  "kein Edge" trennbar.
+- Backlog 9b (Drawdown): validate.py::monte_carlo weist die Max-Drawdown-Zeile jetzt doppelt
+  aus -- alte Perzentil-Zeile als "naiv" markiert, darunter die korrekte
+  double_bootstrap_drawdown() via masters.drawdown_bound.
+- Backlog 8 (Guard Buffer): geprueft, kein Leck (signals.py zustandslos, Lookahead 1 ->
+  guard_buffer=0); walk_forward() um omit-Parameter (Default 0) gehaertet.
+- Backlog 10 (permutation_test.py) bleibt bewusst offen: braucht performante next()-Variante
+  (aktuell O(n²)), siehe algo/PLAN.md.
+- selfcheck.py von 8 auf 10 Checks (confidence, validate), alle gruen.
+- Seiten aktualisiert: wiki/concepts/Profit pro Bar vs. pro Trade.md,
+  wiki/concepts/Walk-Forward Guard Buffer & Varianz-Inflation.md,
+  wiki/concepts/Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa).md,
+  wiki/concepts/Grenzen für Einzelrenditen & Drawdown.md, algo/README.md, algo/PLAN.md

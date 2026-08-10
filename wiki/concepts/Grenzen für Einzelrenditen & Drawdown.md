@@ -318,4 +318,6 @@ das passende Werkzeug — zusammen mit `orderstat_tail`, um zu wissen, wie sehr 
 
 `algo/masters.py`: `return_bound(returns, p, upper=…)` für Einzelrenditen, `orderstat_tail(n, q, m)` / `quantile_conf(n, m, conf)` für das Vertrauen in diese Grenze. Drawdown: `drawdown()`, `dd_to_pct()`, `drawdown_bound()` (korrekter Doppel-Bootstrap) und `drawdown_bound_naive()` — letzteres bewusst mitgeliefert, um den Unterschied messen zu können.
 
-Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).
+**Seit 2026-08-11 im Report** (Backlog 9b, siehe `algo/PLAN.md`): `algo/validate.py::monte_carlo` weist die Max-Drawdown-Zeile jetzt doppelt aus — die alte, resampling-basierte Perzentil-Zeile ist als **„naiv"** markiert (genau der von Masters als „incorrect" bezeichnete Bootstrap, der das Risiko systematisch unterschätzt), darunter die korrekte `double_bootstrap_drawdown()` (delegiert an `drawdown_bound`, dd_conf 0,95 und 0,99). Ein Selbstcheck in `validate.py::demo` belegt, dass die Doppel-Bootstrap-Grenze konservativer ausfällt als die naive.
+
+Selbstcheck: `python algo/masters.py` und `python algo/validate.py` (beide in `algo/selfcheck.py`).

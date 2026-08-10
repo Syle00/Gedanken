@@ -284,4 +284,6 @@ Grenzen um **einzelne** künftige Renditen statt um deren Mittelwert:
 
 `algo/masters.py`: `lower_bound_t(returns, p)` liefert `(mean, t, p_value, lower)` — die Nullhypothese ist genau dann verworfen, wenn `lower > 0`. `lower_bound_bca(...)` delegiert an `scipy.stats.bootstrap(method="BCa")`. Bei Verhältniskennzahlen `statistic=log_profit_factor` übergeben, nie `profit_factor`.
 
-Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).
+**Seit 2026-08-11 im Report** (Backlog 9a, siehe `algo/PLAN.md`): `algo/confidence.py` weist im `backtest_bt.py`-Report die 95%-Untergrenze der mittleren Bar-Rendite (t-Test und BCa nebeneinander) sowie die Profit-Factor-Untergrenze (`exp(BCa auf log PF)`) aus. Erster realer Lauf (36 Tage, MNQ): mittlere Bar-Rendite -0,0050 %, BCa-Untergrenze **-0,0137 % ≤ 0 → nicht von null unterscheidbar**, PF-Untergrenze 0,689. Damit ist die Silver-Bullet-Basisregel ohne Confluenz statistisch nicht von „kein Edge" zu trennen — die Untergrenze macht sichtbar, was der Punktschätzer allein verschweigt.
+
+Selbstcheck: `python algo/masters.py` und `python algo/confidence.py` (beide in `algo/selfcheck.py`).

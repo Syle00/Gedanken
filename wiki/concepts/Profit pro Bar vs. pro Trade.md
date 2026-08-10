@@ -184,4 +184,6 @@ ist die ausführliche Begründung dafür.
 
 `algo/masters.py`: `bar_returns_from_trades(trades, bars, only_open=True)` rechnet `stats._trades` der `backtesting`-Lib in Bar-Renditen um — die Eintrittstür für alle übrigen Verfahren. Dazu `profit_factor()`, `log_profit_factor()`, `sharpe_ratio()` auf Bar-Basis.
 
-Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).
+**Seit 2026-08-11 in den Report verdrahtet** (Backlog 7, siehe `algo/PLAN.md`): `algo/confidence.py::bar_metrics`/`print_bar_metrics` nutzt diese Funktionen und stellt im `backtest_bt.py`-Report Profit Factor und Sharpe **auf Bar- neben Trade-Basis** gegenüber. Erster realer Lauf (36 von 50 Tagen, MNQ): Profit Factor Trade 0,549 vs. Bar 0,872 — die Abweichung ist also nicht bloß Masters' Lehrbeispiel, sondern messbar im eigenen Backtest.
+
+Selbstcheck: `python algo/masters.py` und `python algo/confidence.py` (beide in `algo/selfcheck.py`).

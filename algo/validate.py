@@ -19,9 +19,11 @@ from __future__ import annotations
 
 import random
 
+import numpy as np
 import pandas as pd
 from backtesting import Backtest
 from pnl import dubious_pct
+from masters import drawdown_bound, dd_to_pct
 
 
 def run(df: pd.DataFrame, strategy_cls, bt_kwargs: dict, param_name: str | None = None,
@@ -62,7 +64,19 @@ def slice_days(df: pd.DataFrame, days: list) -> pd.DataFrame:
 
 def walk_forward(df, strategy_cls, param_name: str | None, candidates: list | None,
                   bt_kwargs: dict, n_folds: int = 6, on_fold_train=None,
-                  fmt: dict | None = None) -> list[float]:
+                  fmt: dict | None = None, omit: int = 0) -> list[float]:
+    """`omit` = Guard Buffer nach Masters (siehe algo/masters.py::guard_buffer): so viele
+    juengste Handelstage werden am ENDE des Trainingsfolds gestrichen, damit keine seriell
+    korrelierte Information ueber den direkt anschliessenden Testfold ins Training leckt.
+
+    Default 0, und das ist fuer die beiden bestehenden Strategien nachweislich korrekt, nicht
+    nur bequem: guard_buffer = min(Lookback, Lookahead) - 1, und der Lookahead ist hier 1 --
+    SilverBulletStrategy entscheidet pro Kerze nur aus bars[t<=when] innerhalb eines harten
+    1h-Fensters (kein tagesuebergreifender Zustand), und die Ensemble-Zielgroesse ist die
+    Richtung des Folgetags (signals.py::build_features: y[i] = Tag i+1), also Lookahead genau
+    1 -> omit 0. Wird die Zielgroesse spaeter auf einen Mehrtageshorizont H erweitert, hier
+    omit=H-1 setzen, sonst werden alle Signifikanztests anti-konservativ. Bei omit=0 ist die
+    Ausgabe byte-identisch zur Version vor dem Guard-Buffer-Parameter."""
     fmt = fmt or {}
     is_col_label = fmt.get("col_label")
     is_col_width = fmt.get("col_width", 16)
@@ -76,13 +90,15 @@ def walk_forward(df, strategy_cls, param_name: str | None, candidates: list | No
     folds = [all_days[i * fold_len:(i + 1) * fold_len] for i in range(n_folds)]
     folds[-1] = folds[-1] + all_days[n_folds * fold_len:]
 
-    print(f"2. Walk-Forward ({n_folds} rollierende Folds, ~{fold_len} Handelstage je Fold)")
+    print(f"2. Walk-Forward ({n_folds} rollierende Folds, ~{fold_len} Handelstage je Fold"
+          + (f", Guard Buffer omit={omit}" if omit else "") + ")")
     header = is_col_label if is_col_label is not None else ("IS " + (param_name or "Modell"))
     print(f"   {'Fold':>4}  {header:>{is_col_width}}  {'OOS Trades':>10}  "
           f"{'OOS WinRate%':>12}  {'OOS ProfitFactor':>16}  {'OOS Expectancy%':>15}  {'OOS Dubious%':>13}")
     oos_returns = []
     for i in range(n_folds - 1):
-        train, test = slice_days(df, folds[i]), slice_days(df, folds[i + 1])
+        train_days = folds[i][:-omit] if omit else folds[i]   # Guard Buffer: Trailing-Tage streichen
+        train, test = slice_days(df, train_days), slice_days(df, folds[i + 1])
         if train.empty or test.empty:
             continue
         if on_fold_train is not None:
@@ -145,5 +161,51 @@ def monte_carlo(baseline, n_sims: int = 1000, seed: int = 42, fmt: dict | None =
 
     print(f"   Kumulierte Rendite:   5.%={100*pctl(finals,5):+.1f}%  "
           f"50.%={100*pctl(finals,50):+.1f}%  95.%={100*pctl(finals,95):+.1f}%")
-    print(f"   Max. Drawdown:        5.%={100*pctl(max_dds,5):.1f}%  "
+    print(f"   Max. Drawdown (naiv): 5.%={100*pctl(max_dds,5):.1f}%  "
           f"50.%={100*pctl(max_dds,50):.1f}%  95.%={100*pctl(max_dds,95):.1f}%")
+
+    # Backlog 9b (siehe algo/PLAN.md): die Zeile darueber ist exakt der von Masters als
+    # "incorrect" bezeichnete naive Drawdown-Bootstrap -- er erfasst nur die Zusammensetzung
+    # kuenftiger Trades, ignoriert aber, dass die OOS-Stichprobe selbst eine Zufallsziehung
+    # ist, und unterschaetzt das Risiko dadurch systematisch (bei kleiner Stichprobe bis
+    # Faktor 13,65). Fuer Kapitalentscheidungen gilt die korrekte Doppel-Bootstrap-Grenze:
+    dd95, dd99 = double_bootstrap_drawdown(returns, seed=seed)
+    print(f"   Max. Drawdown (Doppel-Bootstrap, korrekt): dd_conf=0,95 -> {dd95:.1f}%  "
+          f"dd_conf=0,99 -> {dd99:.1f}%  (bound_conf=0,8, Horizont n={n} Trades)")
+
+
+def double_bootstrap_drawdown(returns, seed: int = 42, dd_conf=(0.95, 0.99),
+                               bound_conf: float = 0.8) -> tuple[float, ...]:
+    """Korrekte Doppel-Bootstrap-Drawdown-Grenze(n) in Prozent (Masters Kap. 6, delegiert an
+    masters.drawdown_bound). Getrennt von monte_carlo(), damit selfcheck.py sie ohne ein
+    backtesting-Stats-Objekt pruefen kann.
+
+    Trade-Renditen werden per log1p in additive Log-Aenderungen ueberfuehrt (masters.drawdown
+    rechnet additiv, damit es auch bei negativem Eigenkapital gilt). Der Horizont ist die
+    beobachtete Trade-Zahl."""
+    changes = np.log1p(np.asarray(returns, dtype=float))
+    n = changes.size
+    return tuple(
+        dd_to_pct(drawdown_bound(changes, n, dd_conf=c, bound_conf=bound_conf,
+                                 rng=np.random.default_rng(seed)))
+        for c in dd_conf
+    )
+
+
+def demo() -> None:
+    """Selbstcheck fuer algo/selfcheck.py: die Doppel-Bootstrap-Grenze muss konservativer
+    (groesser) sein als der naive Bootstrap -- das ist der ganze Grund fuer Backlog 9b."""
+    from masters import drawdown_bound_naive
+    rng_r = np.random.default_rng(7)
+    returns = rng_r.normal(-0.001, 0.02, 60).tolist()   # 60 leicht verlustige Trades
+    changes = np.log1p(np.asarray(returns))
+    naive = dd_to_pct(drawdown_bound_naive(changes, len(returns), 0.95,
+                                           rng=np.random.default_rng(9)))
+    dd95, dd99 = double_bootstrap_drawdown(returns, seed=9)
+    assert dd95 > naive, f"Doppel-Bootstrap {dd95:.2f}% muss > naiv {naive:.2f}% sein"
+    assert dd99 >= dd95, f"dd_conf=0,99 ({dd99:.2f}%) muss >= dd_conf=0,95 ({dd95:.2f}%) sein"
+    print("validate.demo: OK (Doppel-Bootstrap konservativer als naiv)")
+
+
+if __name__ == "__main__":
+    demo()

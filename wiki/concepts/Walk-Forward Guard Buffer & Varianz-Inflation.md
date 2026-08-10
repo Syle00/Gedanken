@@ -251,4 +251,6 @@ Vergleich mit dem Alternativverfahren: [[Cross Validation vs. Walk-Forward (Mast
 
 `algo/masters.py`: `guard_buffer(lookback, lookahead)` liefert `OMIT`, `walkforward(n, ntrain, ntest, omit, extra)` ist der Fold-Generator. Gegen Varianz-Inflation `ntest=1, extra=LOOKAHEAD-1` setzen.
 
+**Am eigenen Code geprüft (2026-08-11, Backlog 8, siehe `algo/PLAN.md`): kein Leck.** `algo/validate.py::walk_forward` nutzt adjazente Folds ohne Puffer — das ist hier korrekt, nicht bloß toleriert: die Zielgröße des Ensembles ist die Richtung des Folgetags (`signals.py::build_features`, `y[i]` = Tag i+1), also Lookahead genau 1, und `guard_buffer(L, 1) = 0`. `signals.py` ist zustandslos (reine Rückwärts-Funktionen, `history = mnq_rows[:i+1]`), `SilverBulletStrategy` entscheidet pro Kerze nur aus `bars[t<=when]` in einem harten 1h-Fenster — kein tagesübergreifender Zustand, der den Lookback formal unbeschränkt machen würde. Trotzdem gehärtet: `walk_forward(..., omit=0)` streicht bei `omit>0` die jüngsten Trainingstage je Fold; ein später auf H Tage verlängerter Zielhorizont setzt nur noch `omit=H-1`, statt still anti-konservativ zu werden.
+
 Selbstcheck: `python algo/masters.py` (auch in `algo/selfcheck.py`).
