@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, sessions, killzone, core]
 created: 2026-08-02
 updated: 2026-08-02
-sources: ["[[Market Maker Primer Course (Source)]]", "[[Asia Session (Source)]]", "[[London Killzone (Source)]]", "[[New York Killzone (Source)]]", "[[London Close Killzone (Source)]]", "[[Trading The Key Swing Points (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]"]
+sources: ["[[Market Maker Primer Course (Source)]]", "[[Asia Session (Source)]]", "[[London Killzone (Source)]]", "[[New York Killzone (Source)]]", "[[London Close Killzone (Source)]]", "[[Trading The Key Swing Points (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]", "[[ICT Gems - London Opening Range + Macros (Source)]]"]
 ---
 
 # ICT Killzones
@@ -34,6 +34,10 @@ gemeinsame Nenner der Folien.
 - Die **Asia-Session reicht über die Mitternachtsstunde hinaus** — sie endet nicht mit dem
   Kalendertag.
 - **London geht bis 7 Uhr**, der Hauptmove wird aber von **2–5 Uhr** gesucht.
+- **Sweetspot innerhalb der Killzone: 2:00–4:00** ([[ICT Gems - London Opening Range + Macros (Source)]]).
+  Keine Korrektur der 2–5-Angabe, sondern eine Verengung: In genau dieses Fenster fallen die beiden
+  frühen [[ICT Macros & Leading Candles|Macros]] **1:50–2:10** und **3:50–4:10** — das Macro-Raster
+  liefert damit die Begründung für die Verengung.
 - Die **NY-Session reicht bis 14 Uhr NY**, die Killzone endet um 9 Uhr.
 
 ## Time & Price Theory: der Schnittpunkt macht den Trade

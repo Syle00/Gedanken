@@ -34,6 +34,10 @@ Diese Regeln sind der eigentliche Zweck dieses Skills. Sie gelten ausnahmslos:
 ## Vorbehalte, die ungefragt mitgehen
 
 - Fenster desselben Handelstags sind **nicht unabhängig**; p-Werte sind optimistisch.
+- **Auch oberhalb n = 20 bleibt die Stichprobe klein** (~20–22 Tage je Fenster) — das
+  Wilson-Intervall ist der eigentliche Wahrheitsgehalt, nicht der Punktwert. Ein Fenster
+  mit "45 % [27–65]" ist keine 45-%-Aussage, sondern "irgendwo zwischen einem Viertel und
+  zwei Dritteln".
 - Fenster **23:50** fehlt fast vollständig (Exportlücke 23:59–00:08), **16:50** ganz
   (ragt über den Sessionschluss 17:00).
 - Level-Quelle ist bisher nur `untouched_levels` (Swing-Level des laufenden Handelstags).

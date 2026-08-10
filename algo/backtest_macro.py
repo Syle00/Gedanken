@@ -36,7 +36,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from scipy.stats import mannwhitneyu  # noqa: E402 -- via scikit-learn, s. requirements.txt
 
-from tools.analyze_ohlc import DATA_DIR, NY, Bar, at, fvgs, load  # noqa: E402
+from tools.analyze_ohlc import DATA_DIR, Bar, at, fvgs, load  # noqa: E402
 
 from backtest_common import write_result  # noqa: E402
 

@@ -251,7 +251,7 @@ nicht in `selfcheck.py` eingehaengt).
   1m-Kerzen? Zaehlt nur echte Nachbarminuten (`t2-t1 == 60s`), damit Session-Pausen nicht als
   Gap durchgehen. Anlass: das 19-Punkte-Vakuum am 2026-08-10 um 12:32 NY.
 - `backtest_macro.py` -- sind die ICT-Macro-Fenster `:50-:10` messbar anders als der Rest?
-  Zerlegt jeden Tag in 72 lueckenlose 20min-Bloecke; pro Stunde steht das Macro gegen die
+  Zerlegt jeden Tag in 69 lueckenlose 20min-Bloecke; pro Stunde steht das Macro gegen die
   beiden direkt benachbarten Kontrollbloecke `:10-:30` und `:30-:50`. **Dieser Vergleich ist
   der Kern des Skripts**: ohne die Nachbarschaft gewaenne 09:50-10:10 allein durch die Naehe
   zum RTH-Open (Tageszeit-Confounder). Kennzahlen je Block: Range, |Netto|, dir = Netto/Range

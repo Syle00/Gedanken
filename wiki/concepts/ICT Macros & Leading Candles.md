@@ -160,6 +160,11 @@ damit als Abgrenzung gegen frei erfundene Zwischenfenster brauchbar:
 [[ICT Gems - How to Trade the Final Hour Macro (Source)]]): *"a macro is a short little list of
 instructions or directives for an algorithm to run, and they tend to repeat."*
 
+**Auch in der London-Session**: [[ICT Gems - London Opening Range + Macros (Source)]] nennt
+ausdrücklich **1:50–2:10** (das erste Macro beim Eintritt in die London Killzone) und
+**3:50–4:10** — das Raster gilt also nicht nur in der NY-Session. Als "Sweetspot" der London
+Killzone nennt ICT dort **2:00–4:00 NY**, womit beide Macros hineinfallen.
+
 **Mindestziel**: Für NASDAQ-Scalps nennt ICT **10 Handles** als Untergrenze — *"if I can't at least
 make 10 handles, I'm not willing to take the trade"*, und ausdrücklich ohne Anspruch auf das
 tiefste Tief oder höchste Hoch. Für den [[Silver Bullet Model|Silver Bullet]] speziell nennt er

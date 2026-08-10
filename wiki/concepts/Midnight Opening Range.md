@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, lecture-2025, sessions, london]
 created: 2026-08-02
 updated: 2026-08-10
-sources: ["[[SMC Midnight Opening Range (Source)]]", "[[London Opening Range +1p FVG (Source)]]", "[[Making Money With SMC Concepts (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]"]
+sources: ["[[SMC Midnight Opening Range (Source)]]", "[[London Opening Range +1p FVG (Source)]]", "[[Making Money With SMC Concepts (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[ICT Gems - London Opening Range + Macros (Source)]]"]
 ---
 
 # Midnight Opening Range
@@ -31,6 +31,27 @@ einzeichnen.
 
 Innerhalb der Range wird nach **PD Arrays aus der Matrix** gesucht — FVG, Order Block, Breaker Block,
 Inefficiencies (siehe [[PD Array]]).
+
+## "First Presentation": das erste FVG der 0:00–0:30-Range (2024-Ergänzung)
+
+Aus [[ICT Gems - London Opening Range + Macros (Source)]] — die Verbindung zwischen dieser Range
+und dem Konzept des 1st Presented FVG:
+
+> Die **erste Ineffizienz innerhalb der 0:00–0:30-Range** ist die **"first presentation"**. Sie
+> wird **nach rechts ausgezogen und über den gesamten Tag mitgeführt**.
+
+Die Begründung ist zeitlich, nicht preislich: *"everything starts from time algorithmically"* — die
+Range definiert das Zeitfenster, aus dem der Referenzpunkt stammt, und dieser bleibt den ganzen Tag
+gültig. Es ist dieselbe Logik wie beim [[ORG (Opening Range Gap) & 1st Presented FVG]], nur auf die
+Midnight-Range statt auf den 9:30-Open angewendet.
+
+**Fallback ohne FVG**: Ist in den 30 Minuten keine saubere Ineffizienz erkennbar, tritt der
+[[Breaker Block|Bullish/Bearish Breaker]] an ihre Stelle — *"even if you don't see this fair value
+gap it's fine, because you'll get the breaker there."*
+
+**Zusammenspiel mit den Macros**: Die so gewonnene Referenz wird in den frühen Macro-Fenstern
+angelaufen — konkret genannt **1:50–2:10** (das erste Macro beim Eintritt in die London Killzone)
+und **3:50–4:10**. Siehe [[ICT Macros & Leading Candles]].
 
 ## Standard-Deviation-Projektion
 

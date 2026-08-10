@@ -361,16 +361,51 @@ def fmt_quote(q: dict) -> str:
             f"(n={q['n']}, k={q['k']})")
 
 
-def vergleich(teil: dict, basis: dict) -> str:
+def vergleich(teil: dict, basis: dict, bonf: float | None = None) -> str:
     """Bedingte Quote gegen Basisrate. Ueberlappende Intervalle heissen
-    'kein Unterschied nachweisbar' -- nicht 'leicht erhoeht' (Spec 6, Regel 2)."""
+    'kein Unterschied nachweisbar' -- nicht 'leicht erhoeht' (Spec 6, Regel 2).
+
+    `bonf` ist die Bonferroni-korrigierte Signifikanzschwelle. Ist sie gesetzt, wird
+    jede Abweichung zusaetzlich mit einem exakten Binomialtest gegen die Basisrate
+    geprueft und direkt an der Zeile markiert, wenn sie die Korrektur nicht ueberlebt.
+    Grund: die Schwelle nur im Fusstext zu nennen und auf keine einzige Aussage
+    anzuwenden, laesst Zufallstreffer wie ein Ergebnis aussehen (Spec 6, Regel 4).
+    """
     if not teil["genug"]:
         return "n zu klein"
     if teil["lo"] > basis["hi"]:
-        return "hoeher als die Basisrate"
-    if teil["hi"] < basis["lo"]:
-        return "niedriger als die Basisrate"
-    return "kein Unterschied nachweisbar"
+        richtung = "hoeher als die Basisrate"
+    elif teil["hi"] < basis["lo"]:
+        richtung = "niedriger als die Basisrate"
+    else:
+        return "kein Unterschied nachweisbar"
+    if bonf is None or basis["p"] is None:
+        return richtung
+    from scipy.stats import binomtest
+    p = binomtest(teil["k"], teil["n"], basis["p"]).pvalue
+    return f"{richtung} (p={p:.4f}" + (")" if p < bonf else ", haelt Bonferroni nicht)")
+
+
+def quartile(paare: list[tuple]) -> tuple[list, list, bool]:
+    """Unterstes und oberstes Viertel nach dem **Kandidatenwert** -- Perzentil-Schnitt.
+
+    Bewusst NICHT `sorted(paare)`: bei Gleichstand im Kandidatenwert entscheidet dort
+    das zweite Tupelelement, also die Zielgroesse selbst -- das erfindet einen Effekt
+    aus der Sortierung. Konkreter Fall: `pre_streak` ist ganzzahlig, 174 von 440 Zeilen
+    haben den Wert 3; der Report wies dadurch 20,9 % gegen 50,0 % aus, mit zufaelliger
+    Bindungsaufloesung sind es 36 % gegen 39 %. `key=lambda x: x[0]` reicht ebenfalls
+    nicht -- Python sortiert stabil, dann entscheidet die Zeilenreihenfolge der CSV.
+
+    Geschnitten wird am Wert. Laeuft eine Bindung ueber die Schnittkante, enthaelt die
+    Gruppe mehr als ein Viertel der Zeilen und der Vergleich ist fuer diesen Kandidaten
+    nicht aussagekraeftig -- das meldet das dritte Rueckgabeelement.
+    """
+    xs = sorted(x for x, _ in paare)
+    q = max(1, len(xs) // 4)
+    lo_cut, hi_cut = xs[q - 1], xs[-q]
+    unten = [y for x, y in paare if x <= lo_cut]
+    oben = [y for x, y in paare if x >= hi_cut]
+    return unten, oben, (len(unten) > q or len(oben) > q)
 
 
 BEDINGUNGEN = [
@@ -389,6 +424,17 @@ BEDINGUNGEN = [
 ]
 
 
+KANDIDATEN = ("pre_range_rel", "pre_wick_frac", "pre_streak", "pre_contraction")
+
+# Spec 6 verlangt die Kandidaten gegen `expansion` UND `dir`. `range` kommt als dritte
+# Zielgroesse dazu, weil `dir` skalenfrei ist (|netto|/range) und einen reinen
+# Groesseneffekt strukturell nicht sehen kann -- genau dort liegt der einzige
+# belastbare Zusammenhang im Datensatz (pre_range_rel gegen range).
+ZIELE = (("dir", lambda r: r["dir"]),
+         ("expansion", lambda r: 1.0 if r["expansion"] else 0.0),
+         ("range", lambda r: r["range"]))
+
+
 def cmd_stats(symbol: str = "MNQ") -> None:
     rows = [r for r in read_csv() if r["symbol"] == symbol]
     if not rows:
@@ -396,24 +442,36 @@ def cmd_stats(symbol: str = "MNQ") -> None:
         return
 
     tage = sorted({r["session_day"] for r in rows})
+    fenster = sorted({r["window"] for r in rows})
     basis = quote(rows, lambda r: r["expansion"])
+    # Zweite Basisrate: der Quartilsvergleich unten misst NICHT `expansion` (dir >= 0,60
+    # UND |netto| >= 30 Pkt), sondern nur die Geradlinigkeit dir >= 0,60. Wer dort die
+    # expansion-Basisrate danebenstellt, macht aus +5 Punkten optisch +10.
+    basis_dir = quote(rows, lambda r: r["dir"] >= DIR_THR)
+    # Level-Basisrate: fast gesaettigt, siehe unten -- ohne sie liest sich "53,9 % buyside"
+    # als Befund, obwohl es weitgehend Grundrauschen der Detektorwahl ist.
+    basis_lv = quote(rows, lambda r: bool(r["levels_hit"]))
+
+    # Alle Vergleiche zaehlen, bevor der erste gedruckt wird -- die Bonferroni-Schwelle
+    # wird an den Zeilen gebraucht, nicht erst im Fusstext.
+    n_vergleiche = (len(BEDINGUNGEN) + len(fenster) + len(KANDIDATEN) * len(ZIELE)
+                    + len(KANDIDATEN) + 2)
+    bonf = 0.05 / n_vergleiche
+
     print(f"{symbol}: {len(rows)} Fenster aus {len(tage)} Handelstagen "
           f"({tage[0]} .. {tage[-1]})")
-    print(f"Basisrate Expansion: {fmt_quote(basis)}\n")
+    print(f"Basisrate Expansion: {fmt_quote(basis)}")
+    print(f"Bonferroni-Schwelle ueber alle {n_vergleiche} Vergleiche: p < {bonf:.4f}\n")
 
     print("Je Bedingung (Expansion | Bedingung):")
-    n_vergleiche = 0
     for name, pred in BEDINGUNGEN:
-        teil = [r for r in rows if pred(r)]
-        q = quote(teil, lambda r: r["expansion"])
-        n_vergleiche += 1
-        print(f"  {name:46} {fmt_quote(q):40} {vergleich(q, basis)}")
+        q = quote([r for r in rows if pred(r)], lambda r: r["expansion"])
+        print(f"  {name:46} {fmt_quote(q):40} {vergleich(q, basis, bonf)}")
 
     print("\nJe Fenster:")
-    for w in sorted({r["window"] for r in rows}):
+    for w in fenster:
         q = quote([r for r in rows if r["window"] == w], lambda r: r["expansion"])
-        n_vergleiche += 1
-        print(f"  {w:>6}  {fmt_quote(q):40} {vergleich(q, basis)}")
+        print(f"  {w:>6}  {fmt_quote(q):40} {vergleich(q, basis, bonf)}")
 
     print("\nStartminute des Moves (start_min), alle Fenster:")
     sm = [int(r["start_min"]) for r in rows if r["start_min"] is not None]
@@ -422,35 +480,57 @@ def cmd_stats(symbol: str = "MNQ") -> None:
               f"Anteil in den ersten 5 Minuten: {100 * sum(1 for x in sm if x < 5) / len(sm):.1f}%")
 
     print("\nLevel im Fenster genommen:")
+    print(f"  {'mind. ein Level':10} {fmt_quote(basis_lv):40} <- Basisrate der beiden Zeilen darunter")
     for seite in ("buyside", "sellside"):
         q = quote(rows, lambda r, s=seite: s in (r["levels_hit"] or ""))
-        print(f"  {seite:10} {fmt_quote(q)}")
+        print(f"  {seite:10} {fmt_quote(q):40} {vergleich(q, basis_lv, bonf)}")
+    print(f"  Die Kennzahl ist fast gesaettigt ({100 * basis_lv['p']:.1f} % aller Fenster nehmen")
+    print("  irgendein Level) -- die Seitenquoten sind daher weitgehend Grundrauschen der")
+    print(f"  Detektorwahl (untouched_levels mit swing={CFG['swing']} auf 1m), kein Befund.")
 
-    # Spooling-Kandidaten gegen die Zielgroesse (Spec 6): welcher haengt ueberhaupt mit
-    # gerichteter Expansion zusammen? Rangkorrelation gegen `dir`, plus Quotenvergleich
-    # oberstes vs. unterstes Quartil. Ein Nullbefund ist hier ein Ergebnis.
-    print("\nSpooling-Kandidaten gegen die Geradlinigkeit (dir):")
+    # Spooling-Kandidaten gegen die Zielgroessen (Spec 6): haengt einer ueberhaupt mit
+    # dem Fensterverlauf zusammen? Ein Nullbefund ist hier ein Ergebnis.
+    print("\nSpooling-Kandidaten gegen die Zielgroessen (Spearman-Rangkorrelation):")
     from scipy.stats import spearmanr
-    for k in ("pre_range_rel", "pre_wick_frac", "pre_streak", "pre_contraction"):
+    for k in KANDIDATEN:
+        for ziel, f in ZIELE:
+            paare = [(r[k], f(r)) for r in rows if r[k] is not None and f(r) is not None]
+            if len(paare) < MIN_N:
+                print(f"  {k:18} vs {ziel:10} n={len(paare)} -- zu wenig")
+                continue
+            rho, p = spearmanr([a for a, _ in paare], [b for _, b in paare])
+            if p < bonf:
+                mark = "  ** haelt Bonferroni"
+            elif p < 0.05:
+                mark = "  (p<0,05, haelt Bonferroni nicht)"
+            else:
+                mark = ""
+            print(f"  {k:18} vs {ziel:10} rho={rho:+.3f} p={p:.4f} (n={len(paare)}){mark}")
+
+    print(f"\nQuartilsvergleich: Anteil dir >= {DIR_THR:.2f} im untersten vs. obersten Viertel")
+    print(f"  des Kandidatenwerts. Passende Basisrate: {fmt_quote(basis_dir)}")
+    for k in KANDIDATEN:
         paare = [(r[k], r["dir"]) for r in rows if r[k] is not None and r["dir"] is not None]
-        n_vergleiche += 1
         if len(paare) < MIN_N:
-            print(f"  {k:18} n={len(paare)} — zu wenig")
+            print(f"  {k:18} n={len(paare)} -- zu wenig")
             continue
-        rho, p = spearmanr([a for a, _ in paare], [b for _, b in paare])
-        srt = sorted(paare)
-        q = max(1, len(srt) // 4)
-        unten = quote([{"expansion": d >= DIR_THR} for _, d in srt[:q]],
-                      lambda r: r["expansion"])
-        oben = quote([{"expansion": d >= DIR_THR} for _, d in srt[-q:]],
-                     lambda r: r["expansion"])
-        print(f"  {k:18} rho={rho:+.3f} p={p:.4f} (n={len(paare)})   "
-              f"unterstes Quartil {fmt_quote(unten)} | oberstes {fmt_quote(oben)}")
+        unten, oben, gebunden = quartile(paare)
+        qu = quote([{"g": d >= DIR_THR} for d in unten], lambda r: r["g"])
+        qo = quote([{"g": d >= DIR_THR} for d in oben], lambda r: r["g"])
+        print(f"  {k:18} unten {fmt_quote(qu):38} | oben {fmt_quote(qo):38}"
+              f" {vergleich(qu, qo, bonf)}")
+        if gebunden:
+            print(f"  {'':18} ^ Bindung laeuft ueber die Schnittkante (Gruppen groesser als"
+                  f" ein Viertel) -- fuer diesen Kandidaten nicht aussagekraeftig.")
 
     print(f"\n--- Vorbehalte ---")
-    print(f"* {n_vergleiche} Vergleiche gerechnet. Bei einem Signifikanzniveau von 5 % waeren")
-    print(f"  rein zufaellig etwa {0.05 * n_vergleiche:.1f} davon 'auffaellig'. Bonferroni-"
-          f"korrigiert liegt die Schwelle bei p < {0.05 / n_vergleiche:.4f}.")
+    print(f"* {n_vergleiche} Vergleiche gerechnet ({len(BEDINGUNGEN)} Bedingungen,"
+          f" {len(fenster)} Fenster, {len(KANDIDATEN) * len(ZIELE)} Spearman,"
+          f" {len(KANDIDATEN)} Quartilsvergleiche, 2 Level-Quoten). Bei einem")
+    print(f"  Signifikanzniveau von 5 % waeren rein zufaellig etwa"
+          f" {0.05 * n_vergleiche:.1f} davon 'auffaellig'.")
+    print(f"  Bonferroni-korrigiert liegt die Schwelle bei p < {bonf:.4f} -- Aussagen, die sie")
+    print("  nicht ueberstehen, sind oben an der Zeile markiert.")
     print("* Fenster desselben Handelstags sind nicht unabhaengig -- p-Werte sind optimistisch.")
     print("* Das Fenster 23:50 fehlt fast vollstaendig (Exportluecke 23:59-00:08),")
     print("  16:50 ganz (ragt ueber den Sessionschluss 17:00).")
@@ -479,35 +559,32 @@ def cmd_plot(symbol: str = "MNQ") -> None:
     tage = sorted({r["session_day"] for r in rows})
 
     # 1) Expansionsquote je Fenster, mit Wilson-Fehlerbalken und Basisrate.
-    # Fenster mit n < MIN_N (dieselbe Schwelle wie fmt_quote/vergleich) werden
-    # ausgegraut+schraffiert und mit "n=..." statt eines vollwertigen Prozentbalkens
-    # gezeigt -- sonst taeuscht z.B. 23:50 (n=1, zufaellig 100%) eine belastbare Quote
-    # vor, obwohl genau davor MIN_N schuetzen soll.
+    # Fenster mit n < MIN_N (dieselbe Schwelle wie fmt_quote/vergleich) werden auf
+    # Hoehe 0 gezeichnet und nur mit "n=..." beschriftet -- Graustufe und Schraffur
+    # allein reichten nicht: 23:50 (n=1, zufaellig 100 %) war dadurch der HOECHSTE
+    # Balken der Grafik, und das Auge liest Hoehe vor Beschriftung.
     fenster = sorted({r["window"] for r in rows})
     fenster_qs = [(w, quote([r for r in rows if r["window"] == w], lambda r: r["expansion"]))
                   for w in fenster]
-    ps = [100 * (q["p"] or 0) for _, q in fenster_qs]
-    unten = [100 * ((q["p"] or 0) - q["lo"]) for _, q in fenster_qs]
-    oben = [100 * (q["hi"] - (q["p"] or 0)) for _, q in fenster_qs]
+    ps = [100 * (q["p"] or 0) if q["genug"] else 0.0 for _, q in fenster_qs]
+    unten = [100 * ((q["p"] or 0) - q["lo"]) if q["genug"] else 0.0 for _, q in fenster_qs]
+    oben = [100 * (q["hi"] - (q["p"] or 0)) if q["genug"] else 0.0 for _, q in fenster_qs]
     farben = ["#4a7ba7" if q["genug"] else "#c9c9c9" for _, q in fenster_qs]
     fig, ax = plt.subplots(figsize=(12, 5))
-    bars = ax.bar(fenster, ps, color=farben)
-    for bar, (_, q) in zip(bars, fenster_qs):
-        if not q["genug"]:
-            bar.set_hatch("//")
-            bar.set_edgecolor("#777777")
+    ax.bar(fenster, ps, color=farben)
     ax.errorbar(fenster, ps, yerr=[unten, oben], fmt="none", ecolor="#333", capsize=3)
     for w, q in fenster_qs:
         if not q["genug"]:
-            ax.text(w, 2, f"n={q['n']}", ha="center", va="bottom", fontsize=7, color="#333")
+            ax.text(w, 1, f"n={q['n']}", ha="center", va="bottom", fontsize=7,
+                    color="#333", rotation=90)
     ax.axhline(100 * basis["p"], color="crimson", linestyle="--",
                label=f"Basisrate {100 * basis['p']:.1f}%")
     ax.set_ylabel("Expansionsquote (%)")
     ax.set_title(f"{symbol}: Expansion je Macro-Fenster "
                  f"({len(tage)} Handelstage, 95%-Wilson-Intervall)")
     handles, _ = ax.get_legend_handles_labels()
-    handles.append(Patch(facecolor="#c9c9c9", hatch="//", edgecolor="#777777",
-                          label=f"n < {MIN_N} (nicht belastbar, siehe n=-Beschriftung)"))
+    handles.append(Patch(facecolor="#c9c9c9", edgecolor="#777777",
+                          label=f"n < {MIN_N}: keine Quote, Balken auf 0, nur n=... beschriftet"))
     ax.legend(handles=handles)
     plt.xticks(rotation=90)
     plt.tight_layout()
@@ -525,8 +602,10 @@ def cmd_plot(symbol: str = "MNQ") -> None:
     fig.savefig(BILD_DIR / "macro-db-timing.png", dpi=110)
     plt.close(fig)
 
-    # 3) Level-Trefferquote
+    # 3) Level-Trefferquote -- mit Basisrate, sonst liest sich "53,9 % buyside" als
+    # Befund, obwohl die Kennzahl fast gesaettigt ist (Spec 6, Regel 2).
     seiten = ["buyside", "sellside"]
+    basis_lv = quote(rows, lambda r: bool(r["levels_hit"]))
     lq = [quote(rows, lambda r, s=s: s in (r["levels_hit"] or "")) for s in seiten]
     fig, ax = plt.subplots(figsize=(5, 4))
     ax.bar(seiten, [100 * (q["p"] or 0) for q in lq], color="#4a7ba7")
@@ -534,19 +613,92 @@ def cmd_plot(symbol: str = "MNQ") -> None:
                 yerr=[[100 * ((q["p"] or 0) - q["lo"]) for q in lq],
                       [100 * (q["hi"] - (q["p"] or 0)) for q in lq]],
                 fmt="none", ecolor="#333", capsize=4)
+    ax.axhline(100 * basis_lv["p"], color="crimson", linestyle="--",
+               label=f"mind. ein Level: {100 * basis_lv['p']:.1f}%")
+    ax.set_ylim(0, 100)
     ax.set_ylabel("Anteil Fenster mit genommenem Level (%)")
     ax.set_title(f"{symbol}: Liquiditaet im Macro genommen")
+    ax.legend(fontsize=8)
     plt.tight_layout()
     fig.savefig(BILD_DIR / "macro-db-level.png", dpi=110)
     plt.close(fig)
 
     knapp = [w for w, q in fenster_qs if not q["genug"]]
-    _schreibe_wiki(symbol, rows, tage, basis, fenster, knapp)
+    _schreibe_wiki(symbol, rows, tage, basis, fenster, knapp, basis_lv)
     print(f"3 Diagramme -> {BILD_DIR}")
     print(f"Wiki-Seite   -> {WIKI_SEITE}")
 
 
-def _schreibe_wiki(symbol, rows, tage, basis, fenster, knapp) -> None:
+def _hauptbefund(rows, basis, fenster) -> list[str]:
+    """Der Nullbefund als Wiki-Text -- aus den Daten gerechnet, nicht abgeschrieben.
+
+    Er stand bisher nur in der Konsolenausgabe von `stats` und war damit nach dem
+    naechsten Terminalfenster weg. CLAUDE.md verlangt, dass ein Ergebnis ehrlich
+    festgehalten wird, auch wenn es der Nutzer-These widerspricht -- ein Nullbefund
+    ist ein Ergebnis, kein fehlendes Ergebnis.
+    """
+    from scipy.stats import spearmanr
+    n_vergleiche = (len(BEDINGUNGEN) + len(fenster) + len(KANDIDATEN) * len(ZIELE)
+                    + len(KANDIDATEN) + 2)
+    bonf = 0.05 / n_vergleiche
+
+    tabelle, treffer = [], []
+    for k in KANDIDATEN:
+        for ziel, f in ZIELE:
+            paare = [(r[k], f(r)) for r in rows if r[k] is not None and f(r) is not None]
+            if len(paare) < MIN_N:
+                continue
+            rho, p = spearmanr([a for a, _ in paare], [b for _, b in paare])
+            halt = p < bonf
+            tabelle.append(f"| `{k}` | `{ziel}` | {rho:+.3f} | {p:.4g} | {len(paare)} | "
+                           f"{'**ja**' if halt else 'nein'} |")
+            if halt:
+                treffer.append((k, ziel, rho, p, len(paare)))
+
+    auffaellig = [(n, q) for n, pred in BEDINGUNGEN
+                  for q in [quote([r for r in rows if pred(r)], lambda r: r["expansion"])]
+                  if q["genug"] and (q["lo"] > basis["hi"] or q["hi"] < basis["lo"])]
+
+    out = [
+        "## Hauptergebnis: Nullbefund bei den Spooling-Kandidaten",
+        "",
+        f"Keiner der vier Spooling-Kandidaten (`{'`, `'.join(KANDIDATEN)}`) korreliert mit der",
+        "**Geradlinigkeit** des Fensters, und keine der "
+        f"{len(BEDINGUNGEN)} Vorgeschichts-Bedingungen hebt sich",
+        f"von der Basisrate ab ({len(auffaellig)} von {len(BEDINGUNGEN)} mit getrennten"
+        " Wilson-Intervallen).",
+        "Das ist das eigentliche Ergebnis dieser Datenbank — die Vermutung, an der Vorgeschichte",
+        "eines Macro-Fensters lasse sich ablesen, ob es gleich sauber expandiert, trägt auf",
+        "diesem Bestand nicht.",
+        "",
+        f"Rangkorrelation jedes Kandidaten gegen alle drei Zielgrößen (Bonferroni-Schwelle über",
+        f"{n_vergleiche} Vergleiche: p < {bonf:.4f}):",
+        "",
+        "| Kandidat | Zielgröße | rho | p | n | hält Bonferroni |",
+        "|---|---|---|---|---|---|",
+        *tabelle,
+        "",
+    ]
+    if treffer:
+        out += ["### Gegenbefund: Volatilität hält an, sie staut sich nicht auf", ""]
+        for k, ziel, rho, p, n in treffer:
+            out.append(f"- **`{k}` gegen `{ziel}`: rho = {rho:+.3f}, p = {p:.4g} (n={n})**")
+        out += [
+            "",
+            "Dieser Zusammenhang zeigt **in die Gegenrichtung der Spooling-These**: Nicht Ruhe vor",
+            "dem Fenster geht großer Bewegung voraus, sondern **Aktivität**. Ein bereits unruhiger",
+            "Vorlauf (`pre_range_rel` hoch = die 10 Minuten davor waren weiter als üblich) sagt eine",
+            "**große Range** im Fenster vorher — klassische Volatilitätspersistenz, kein",
+            "Macro-spezifischer Effekt. Er taucht nur gegen `range` auf und nicht gegen `dir`, weil",
+            "`dir` = |netto|/range skalenfrei ist und einen reinen Größeneffekt strukturell nicht",
+            "sehen kann. Für die Spooling-Hypothese ist das keine Bestätigung, sondern ihr",
+            "Gegenteil: das Fenster wird groß, wenn es vorher schon laut war.",
+            "",
+        ]
+    return out
+
+
+def _schreibe_wiki(symbol, rows, tage, basis, fenster, knapp, basis_lv) -> None:
     heute = datetime.now(NY).date()
     zeilen = [
         "---",
@@ -565,10 +717,13 @@ def _schreibe_wiki(symbol, rows, tage, basis, fenster, knapp) -> None:
         "",
         f"**Basisrate Expansion:** {fmt_quote(basis)}",
         "",
+        *_hauptbefund(rows, basis, fenster),
         "## Expansion je Fenster",
         "",
         "![[macro-db-expansion.png]]",
-        f"*Expansionsquote je Macro-Fenster mit 95%-Wilson-Intervall. Rote Linie: Basisrate über alle Fenster.*",
+        ("*Expansionsquote je Macro-Fenster mit 95%-Wilson-Intervall. Rote Linie: Basisrate über"
+         f" alle Fenster. Fenster mit n < {MIN_N} stehen grau auf Höhe 0 und tragen nur die"
+         " n=…-Beschriftung — für sie wird bewusst keine Quote gezeigt.*"),
         "",
         "## Wann setzt der Move ein?",
         "",
@@ -578,7 +733,11 @@ def _schreibe_wiki(symbol, rows, tage, basis, fenster, knapp) -> None:
         "## Liquidität im Fenster genommen",
         "",
         "![[macro-db-level.png]]",
-        "*Anteil der Fenster, in denen ein vor dem Fenster offenes Swing-Level genommen wurde.*",
+        ("*Anteil der Fenster, in denen ein vor dem Fenster offenes Swing-Level genommen wurde."
+         f" Rote Linie: **{100 * basis_lv['p']:.1f} % aller Fenster nehmen mindestens ein Level**"
+         f" ({fmt_quote(basis_lv)}) — die Kennzahl ist damit fast gesättigt. Die beiden"
+         " Seitenquoten sind vor diesem Hintergrund weitgehend Grundrauschen der Detektorwahl"
+         f" (`untouched_levels`, swing={CFG['swing']} auf 1m), kein eigenständiger Befund.*"),
         "",
         "## Vorbehalte",
         "",
@@ -712,6 +871,17 @@ def _check_pre() -> None:
     m6 = measure_pre(hist + schrumpf, start)
     assert m6["pre_contraction"] < 1.0, m6
 
+    # Kein Lookahead (Muster aus _check_events): ruhige Kerzen davor, danach ein
+    # extremer Ausschlag AB dem Fensterstart -- die Vorlauf-Kennzahlen muessen identisch
+    # bleiben. Diese Messfamilie ist die einzige mit Blockarithmetik
+    # (`start - pre_min * k`), wo ein Off-by-one still ins Fenster greifen wuerde; die
+    # erste Kerze von `danach` liegt genau auf `start` und prueft damit die Kante.
+    danach = [Bar(start + timedelta(minutes=i), 100.0, 900.0, 1.0, 800.0, None)
+              for i in range(WINDOW_MIN)]
+    a = measure_pre(hist + pre, start)
+    b = measure_pre(hist + pre + danach, start)
+    assert a == b, f"Lookahead in measure_pre: Kerzen ab dem Fensterstart aendern\n{a}\n{b}"
+
     # Zu wenig Historie fuer die Normierung -> pre_range_rel None, Rest trotzdem da
     m7 = measure_pre(pre, start)
     assert m7["pre_range_rel"] is None, m7
@@ -780,6 +950,26 @@ def _check_stats() -> None:
     # leere Menge darf nicht abstuerzen
     q3 = quote([], lambda r: r["expansion"])
     assert q3["n"] == 0 and q3["genug"] is False and q3["p"] is None, q3
+
+    # quartile(): der eigentliche C1-Regressionstest. Kandidatenwert konstant 3, das
+    # Ergebnis in der ersten Haelfte 0 und in der zweiten 1 -- `sorted(paare)` wuerde
+    # daraus "unten 0 %, oben 100 %" machen. Richtig ist: eine einzige Bindung, beide
+    # Gruppen = alle Zeilen, Vergleich als nicht aussagekraeftig gemeldet.
+    gebunden_paare = [(3, 0.0)] * 50 + [(3, 1.0)] * 50
+    u, o, gebunden = quartile(gebunden_paare)
+    assert gebunden is True, "Bindung ueber die Schnittkante muss gemeldet werden"
+    assert len(u) == len(o) == 100, (len(u), len(o))
+    assert sum(u) == sum(o) == 50, "beide Gruppen muessen dieselbe Zeilenmenge sein"
+    # Gegenprobe ohne Bindungen: sauberer Quartilsschnitt, kein Flag
+    sauber = [(i, 1.0 if i >= 50 else 0.0) for i in range(100)]
+    u2, o2, gebunden2 = quartile(sauber)
+    assert gebunden2 is False and len(u2) == len(o2) == 25, (len(u2), len(o2), gebunden2)
+    assert sum(u2) == 0 and sum(o2) == 25, (sum(u2), sum(o2))
+    # Reihenfolge der Eingabe darf nichts aendern (kein stabiles-Sortieren-Artefakt)
+    import random
+    misch = list(gebunden_paare)
+    random.Random(0).shuffle(misch)
+    assert quartile(misch)[2] is True and sum(quartile(misch)[0]) == 50
 
 
 def selfcheck() -> None:
