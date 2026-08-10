@@ -305,6 +305,9 @@ def selfcheck() -> None:
     # ueber den Datumswechsel: 23:50 gehoert zum Vorabend, 00:50 zum session_day
     lab = {w[0]: w[1].date() for w in ws}
     assert lab["23:50"] == date(2026, 8, 9) and lab["00:50"] == day, lab
+    # jede der 23 Stunden muss genau einer Session zugeordnet sein
+    assert len(SESSION_BY_HOUR) == N_WINDOWS, len(SESSION_BY_HOUR)
+    assert all(w[1].hour in SESSION_BY_HOUR for w in ws), "Stunde ohne Session"
 
     start = at(day, 9, 50)
     full = _bars(start - timedelta(minutes=PRE_MIN), PRE_MIN + WINDOW_MIN)
@@ -424,10 +427,13 @@ def _check_measure() -> None:
     mf = measure_window(flat)
     assert mf["range"] == 0.0 and mf["dir"] == 0.0 and mf["expansion"] is False, mf
 
-    # Expansion: dir >= 0.60 UND netto >= 30 Punkte
-    assert measure_window(win, dir_thr=0.60, netto_thr=30.0)["expansion"] is True
-    assert measure_window(win, dir_thr=0.60, netto_thr=999.0)["expansion"] is False
-    assert measure_window(win, dir_thr=0.99, netto_thr=30.0)["expansion"] is False
+    # Expansion: dir >= Schwelle UND |netto| >= Punkte-Schwelle.
+    # Dieses Fenster hat netto=28 und dir=0,80 -- also greift die Netto-Schwelle
+    # bei 25 (True) und bei 30 nicht mehr (False). Genau dieser Randfall ist der
+    # Sinn des Tests: beide Bedingungen muessen einzeln blocken koennen.
+    assert measure_window(win, dir_thr=0.60, netto_thr=25.0)["expansion"] is True
+    assert measure_window(win, dir_thr=0.60, netto_thr=30.0)["expansion"] is False
+    assert measure_window(win, dir_thr=0.99, netto_thr=25.0)["expansion"] is False
 ```
 
 Und in `selfcheck()` als letzte Zeile vor dem `print` aufrufen:
@@ -448,6 +454,18 @@ In `algo/macro_db.py` nach `is_complete` einfügen:
 ```python
 DIR_THR = 0.60      # Startwert; Macro-Median liegt laut backtest_macro.py bei 0,52
 NETTO_THR = 30.0    # Startwert in Punkten; Macro-Median liegt bei 31,50
+
+# Eindeutige Session je Fenster-Startstunde. Bewusst nicht ueber
+# analyze_ohlc.session_windows(): die dortigen Fenster ueberlappen sich absichtlich
+# ("NY AM" und "Premarket", "RTH" und "Lunch"), was fuer eine Report-Zeile taugt, aber
+# nicht fuer eine eindeutige Spalte. Die 23 Stunden des Handelstags werden hier
+# ueberschneidungsfrei aufgeteilt.
+SESSION_BY_HOUR = {**{h: "Asia" for h in (18, 19, 20, 21, 22, 23, 0, 1)},
+                   **{h: "London" for h in (2, 3, 4, 5, 6)},
+                   **{h: "Premarket" for h in (7, 8)},
+                   **{h: "NY AM" for h in (9, 10, 11)},
+                   12: "Lunch",
+                   **{h: "NY PM" for h in (13, 14, 15, 16)}}
 
 
 def measure_window(win: list[Bar], dir_thr: float = DIR_THR,
@@ -494,7 +512,7 @@ import csv  # oben zu den Imports
 
 CSV_PATH = Path(__file__).resolve().parent / "results" / "macro_db.csv"
 
-FIELDS = ["symbol", "session_day", "window", "weekday",
+FIELDS = ["symbol", "session_day", "window", "weekday", "session",
           "range", "netto", "dir", "direction", "start_min", "expansion"]
 
 
@@ -522,6 +540,7 @@ def build(symbol: str = "MNQ", dir_thr: float = DIR_THR,
             win = window_bars(bars, start, end)
             rows.append({"symbol": symbol, "session_day": str(session_day),
                          "window": label, "weekday": start.strftime("%a"),
+                         "session": SESSION_BY_HOUR[start.hour],
                          **measure_window(win, dir_thr, netto_thr)})
     return rows, skipped
 
@@ -755,6 +774,7 @@ In `build()` die Zeile mit `**measure_window(...)` ergänzen zu:
 ```python
             rows.append({"symbol": symbol, "session_day": str(session_day),
                          "window": label, "weekday": start.strftime("%a"),
+                         "session": SESSION_BY_HOUR[start.hour],
                          **measure_pre(bars, start),
                          **measure_window(win, dir_thr, netto_thr)})
 ```
@@ -762,7 +782,7 @@ In `build()` die Zeile mit `**measure_window(...)` ergänzen zu:
 Und `FIELDS` erweitern (Vorgeschichte vor Verlauf, wie in der Spec):
 
 ```python
-FIELDS = ["symbol", "session_day", "window", "weekday",
+FIELDS = ["symbol", "session_day", "window", "weekday", "session",
           "pre_range_rel", "pre_wick_frac", "pre_streak", "pre_contraction",
           "range", "netto", "dir", "direction", "start_min", "expansion"]
 ```
@@ -834,10 +854,23 @@ def _check_events() -> None:
     b = measure_events(ruhig + danach, start)
     assert a == b, f"Lookahead: Kerzen nach dem Fenster aendern die Vorgeschichte\n{a}\n{b}"
 
-    # levels_hit: ein offenes Level knapp ueber dem Vorlauf-Hoch wird im Fenster genommen
-    lv = measure_levels(ruhig, start, start + timedelta(minutes=WINDOW_MIN))
-    assert "levels_open" in lv and "levels_hit" in lv and "nearest_level_dist" in lv, lv
+    # Ohne Kerzen IM Fenster liefert measure_levels die leere Form, ohne abzustuerzen
+    leer_lv = measure_levels(ruhig, start, start + timedelta(minutes=WINDOW_MIN))
+    assert leer_lv["levels_open"] is None and leer_lv["levels_hit"] == "", leer_lv
+
+    # Echter Fall: eine Zickzack-Historie erzeugt Swing-Level, das Fenster laeuft
+    # darueber hinaus -> buyside muss als genommen auftauchen.
+    zick = []
+    for i in range(120):
+        base = 100.0 + (5.0 if i % 10 < 5 else 0.0)
+        zick.append(Bar(start - timedelta(minutes=120 - i), base, base + 1, base - 1, base, None))
+    hoch = max(b.h for b in zick)
+    win = [Bar(start + timedelta(minutes=i), hoch, hoch + 20, hoch - 1, hoch + 15, None)
+           for i in range(WINDOW_MIN)]
+    lv = measure_levels(zick + win, start, start + timedelta(minutes=WINDOW_MIN))
     assert isinstance(lv["levels_hit"], str), "levels_hit muss CSV-tauglich (str) sein"
+    assert lv["levels_open"] is not None and lv["levels_open"] >= 0, lv
+    assert "|" in lv["levels_hit"] or lv["levels_hit"] in ("", "buyside", "sellside"), lv
 ```
 
 In `selfcheck()` ergänzen:
@@ -913,12 +946,19 @@ def measure_levels(bars: list[Bar], start: datetime, end: datetime) -> dict:
     bis zum Fensterstart nie wieder genommen wurden -- das ist die ICT-Kernliquiditaet
     ("Target Liquiditaet min. 2 H/L").
 
-    Bewusst NICHT enthalten: NDOG/NWOG/ORG. Die Funktionen `ndog_gap`/`nwog_gap`/
-    `org_gap` in analyze_ohlc.py filtern ueber `b.t.date() == day`, also ueber den
-    Kalendertag. Eine 1m-Session-Datei enthaelt aber zwei Kalendertage (18:00 Vorabend
-    .. 17:00), wodurch sie den Gap ueber die Globex-Pause verfehlen und stattdessen den
-    Sprung ueber Mitternacht messen wuerden. Eine session-taugliche Variante ist ein
-    eigener Schritt -- siehe algo/PLAN.md.
+    Bewusst NICHT enthalten, obwohl die Spec sie in 4.1 nennt:
+
+    * **NDOG/NWOG/ORG.** Die Funktionen `ndog_gap`/`nwog_gap`/`org_gap` in
+      analyze_ohlc.py filtern ueber `b.t.date() == day`, also ueber den Kalendertag.
+      Eine 1m-Session-Datei enthaelt aber zwei Kalendertage (18:00 Vorabend .. 17:00),
+      wodurch sie den Gap ueber die Globex-Pause verfehlen und stattdessen den Sprung
+      ueber Mitternacht messen wuerden -- und der ist auf diesem Bestand ohnehin ein
+      Exportartefakt (Luecke 23:59-00:08).
+    * **PDH/PDL und Session-Extreme des Vortags.** Beide brauchen die *vorherige*
+      Tagesdatei, also Mehrdatei-Logik, die `build()` heute nicht hat. Die Level des
+      laufenden Handelstags decken `untouched_levels` bereits ab.
+
+    Beides ist ein eigener Schritt -- siehe algo/PLAN.md.
     """
     hist = [b for b in bars if b.t < start]
     win = window_bars(bars, start, end)
@@ -953,6 +993,7 @@ Die `rows.append`-Stelle in `build()` erweitern:
 ```python
             rows.append({"symbol": symbol, "session_day": str(session_day),
                          "window": label, "weekday": start.strftime("%a"),
+                         "session": SESSION_BY_HOUR[start.hour],
                          **measure_pre(bars, start),
                          **measure_events(bars, start),
                          **measure_levels(bars, start, end),
@@ -962,7 +1003,7 @@ Die `rows.append`-Stelle in `build()` erweitern:
 `FIELDS` erweitern:
 
 ```python
-FIELDS = ["symbol", "session_day", "window", "weekday",
+FIELDS = ["symbol", "session_day", "window", "weekday", "session",
           "pre_range_rel", "pre_wick_frac", "pre_streak", "pre_contraction",
           "sweep_age", "sweep_dir", "mss_age", "mss_dir", "displacement_age",
           "fvg_open_dist", "levels_open", "nearest_level_dist",
@@ -993,7 +1034,7 @@ Expected: `sweep_age` und `mss_age` sind in einem nennenswerten Teil der Zeilen 
 Ans Ende der Log-Tabelle:
 
 ```markdown
-| 2026-08-10 | **NDOG/NWOG/ORG fehlen bewusst in `macro_db.py`.** `ndog_gap()`/`nwog_gap()`/`org_gap()` in `analyze_ohlc.py` filtern ueber `b.t.date() == day`, also den **Kalendertag**. Eine 1m-Session-Datei enthaelt zwei Kalendertage (18:00 Vorabend .. 17:00), dadurch wuerden die Funktionen nicht den Gap ueber die Globex-Pause messen, sondern den Sprung ueber Mitternacht — und der ist auf diesem Bestand ohnehin ein Exportartefakt (Luecke 23:59-00:08). Level-Quelle in `macro_db` ist daher zunaechst nur `untouched_levels`. Eine session-taugliche Gap-Variante ist ein eigener Schritt. |
+| 2026-08-10 | **NDOG/NWOG/ORG und PDH/PDL fehlen bewusst in `macro_db.py`.** (1) `ndog_gap()`/`nwog_gap()`/`org_gap()` in `analyze_ohlc.py` filtern ueber `b.t.date() == day`, also den **Kalendertag**. Eine 1m-Session-Datei enthaelt zwei Kalendertage (18:00 Vorabend .. 17:00), dadurch wuerden die Funktionen nicht den Gap ueber die Globex-Pause messen, sondern den Sprung ueber Mitternacht — und der ist auf diesem Bestand ohnehin ein Exportartefakt (Luecke 23:59-00:08). (2) PDH/PDL und die Session-Extreme des Vortags brauchen die vorherige Tagesdatei, also Mehrdatei-Logik, die `build()` nicht hat. Level-Quelle in `macro_db` ist daher zunaechst nur `untouched_levels` (Swing-Level des laufenden Handelstags). Beides ist ein eigener Schritt. |
 ```
 
 - [ ] **Step 8: Commit**
@@ -1032,7 +1073,7 @@ def _check_stats() -> None:
     assert 0.0 <= lo <= 1.0 and 0.0 <= hi <= 1.0 and lo < hi, (lo, hi)
     assert hi == 1.0 or hi > 0.9, (lo, hi)      # 1/1 darf nicht als "100% sicher" gelten
     lo0, hi0 = wilson(0, 10)
-    assert lo0 == 0.0 and 0.0 < hi0 < 0.5, (lo0, hi0)   # 0/10 heisst nicht "nie"
+    assert lo0 < 1e-9 and 0.0 < hi0 < 0.5, (lo0, hi0)   # 0/10 heisst nicht "nie"
     # symmetrisch: p=0,5 muss ein um 0,5 zentriertes Intervall geben
     lo5, hi5 = wilson(10, 20)
     assert abs((lo5 + hi5) / 2 - 0.5) < 1e-9, (lo5, hi5)
@@ -1183,6 +1224,27 @@ def cmd_stats(symbol: str = "MNQ") -> None:
         q = quote(rows, lambda r, s=seite: s in (r["levels_hit"] or ""))
         print(f"  {seite:10} {fmt_quote(q)}")
 
+    # Spooling-Kandidaten gegen die Zielgroesse (Spec 6): welcher haengt ueberhaupt mit
+    # gerichteter Expansion zusammen? Rangkorrelation gegen `dir`, plus Quotenvergleich
+    # oberstes vs. unterstes Quartil. Ein Nullbefund ist hier ein Ergebnis.
+    print("\nSpooling-Kandidaten gegen die Geradlinigkeit (dir):")
+    from scipy.stats import spearmanr
+    for k in ("pre_range_rel", "pre_wick_frac", "pre_streak", "pre_contraction"):
+        paare = [(r[k], r["dir"]) for r in rows if r[k] is not None and r["dir"] is not None]
+        n_vergleiche += 1
+        if len(paare) < MIN_N:
+            print(f"  {k:18} n={len(paare)} — zu wenig")
+            continue
+        rho, p = spearmanr([a for a, _ in paare], [b for _, b in paare])
+        srt = sorted(paare)
+        q = max(1, len(srt) // 4)
+        unten = quote([{"expansion": d >= DIR_THR} for _, d in srt[:q]],
+                      lambda r: r["expansion"])
+        oben = quote([{"expansion": d >= DIR_THR} for _, d in srt[-q:]],
+                     lambda r: r["expansion"])
+        print(f"  {k:18} rho={rho:+.3f} p={p:.4f} (n={len(paare)})   "
+              f"unterstes Quartil {fmt_quote(unten)} | oberstes {fmt_quote(oben)}")
+
     print(f"\n--- Vorbehalte ---")
     print(f"* {n_vergleiche} Vergleiche gerechnet. Bei einem Signifikanzniveau von 5 % waeren")
     print(f"  rein zufaellig etwa {0.05 * n_vergleiche:.1f} davon 'auffaellig'. Bonferroni-"
@@ -1204,7 +1266,11 @@ Den `__main__`-Block ergänzen:
 Run: `python algo/macro_db.py stats`
 Expected: Report mit Basisrate, Bedingungstabelle, Fenstertabelle, Startminute, Level, Vorbehalten.
 
-Pflichtprüfung der Ausgabe: In der Fenstertabelle **muss** bei ~21 Zeilen pro Fenster überall `n=... — zu wenig` **oder** ein sehr breites Intervall stehen. Steht dort eine schmale Spanne, ist `MIN_N` oder `wilson` falsch. Und mindestens eine Bedingung sollte `kein Unterschied nachweisbar` liefern — kommt bei jeder Bedingung „höher als die Basisrate" heraus, stimmt der Vergleich nicht.
+Pflichtprüfung der Ausgabe:
+- In der Fenstertabelle **muss** bei ~21 Zeilen pro Fenster überall `n=... — zu wenig` **oder** ein sehr breites Intervall stehen. Steht dort eine schmale Spanne, ist `MIN_N` oder `wilson` falsch.
+- Mindestens eine Bedingung sollte `kein Unterschied nachweisbar` liefern — kommt bei jeder Bedingung „höher als die Basisrate" heraus, stimmt der Vergleich nicht.
+- Der Spooling-Block muss für alle vier Kandidaten eine Zeile zeigen. `rho` nahe 0 bei großem `p` ist ein **gültiges Ergebnis** (der Kandidat trägt nicht) und kein Fehler — genau dafür wurden vier gemessen statt einer festgelegt.
+- Die Bonferroni-Zeile muss eine Vergleichszahl > 25 nennen (7 Bedingungen + ~21 Fenster + 4 Spooling-Kandidaten).
 
 - [ ] **Step 7: Commit**
 
@@ -1424,16 +1490,25 @@ Zum Import-Block hinzufügen:
 from macro_db import selfcheck as macro_db_selfcheck  # noqa: E402
 ```
 
-Und in der Liste der aufgerufenen Checks ergänzen (dem bestehenden Muster der Datei folgen — dort, wo `backtest_common_demo` und die anderen aufgerufen werden):
+Und die `CHECKS`-Liste (ab Zeile 78) um einen Eintrag erweitern — `("dedup", _results_demo)` bleibt bewusst der letzte, weil er am längsten läuft:
 
 ```python
-    macro_db_selfcheck()
+CHECKS = [
+    ("pnl", pnl_demo),
+    ("masters", masters_demo),
+    ("rules", rules_demo),
+    ("signals", signals_demo),
+    ("backtest_ensemble", ensemble_demo),
+    ("backtest_common", backtest_common_demo),
+    ("macro_db", macro_db_selfcheck),
+    ("dedup", _results_demo),
+]
 ```
 
 - [ ] **Step 2: Gesamten Selfcheck laufen lassen**
 
 Run: `python algo/selfcheck.py`
-Expected: Alle Checks OK, inklusive `macro_db.selfcheck: OK`. Bricht ein *anderer* Check ab, ist das eine Regression aus Task 1 — dort nachsehen.
+Expected: `[OK]   macro_db` in der Liste und am Ende `Alle 8 Selbstchecks bestanden.` Bricht ein *anderer* Check ab, ist das eine Regression aus Task 1 — dort nachsehen, nicht hier.
 
 - [ ] **Step 3: Skill anlegen**
 
@@ -1478,14 +1553,16 @@ Diese Regeln sind der eigentliche Zweck dieses Skills. Sie gelten ausnahmslos:
 - Fenster desselben Handelstags sind **nicht unabhängig**; p-Werte sind optimistisch.
 - Fenster **23:50** fehlt fast vollständig (Exportlücke 23:59–00:08), **16:50** ganz
   (ragt über den Sessionschluss 17:00).
-- Level-Quelle ist bisher nur `untouched_levels` — **NDOG/NWOG/ORG fehlen** noch
-  (Kalendertag- statt Session-Logik, siehe `algo/PLAN.md`).
+- Level-Quelle ist bisher nur `untouched_levels` (Swing-Level des laufenden Handelstags).
+  **NDOG/NWOG/ORG fehlen** (Kalendertag- statt Session-Logik) und **PDH/PDL ebenso**
+  (bräuchte die Vortagsdatei) — siehe `algo/PLAN.md`.
 - Die Spooling-Kandidaten sind rein preisbasiert; die Exporte enthalten kein Volumen.
 
 ## Spalten
 
-`symbol, session_day, window, weekday` — Identität. `window` ist die Startzeit (`"09:50"`),
-`session_day` das **Ende** des Handelstags (18:00 Vorabend bis 17:00).
+`symbol, session_day, window, weekday, session` — Identität. `window` ist die Startzeit
+(`"09:50"`), `session_day` das **Ende** des Handelstags (18:00 Vorabend bis 17:00), `session`
+eine der sechs überschneidungsfreien Phasen (Asia, London, Premarket, NY AM, Lunch, NY PM).
 
 `pre_range_rel, pre_wick_frac, pre_streak, pre_contraction` — Spooling-Kandidaten aus den
 10 Minuten davor. Keiner davon ist als "das ist Spooling" bestätigt; welcher trägt, sagt
