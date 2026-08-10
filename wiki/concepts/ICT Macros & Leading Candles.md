@@ -102,6 +102,21 @@ Macro-Fenster zu genau einem von drei Dingen:
 Punkt 3 ist die eigentliche Feinheit: Der Lauf ins FVG ist die *Vorbereitung*, der Lauf zur
 Liquidität ist das Spooling.
 
+**Die knappste Fassung** stammt aus [[ICT Gems - Non-Farm Payroll Profile + Macros (Source)]] und
+verbindet Spooling und Macro in einem Satz:
+
+> *"**All a macro is, is the beginning of a spooling event.** Spooling is where price starts to
+> reach for it — it's like casting price away, higher or lower. And I'm watching these specific
+> times of day to do those very things. **It is not going to give you a direction.**"*
+
+Zwei Dinge fallen damit zusammen: das Macro ist ein **Startfenster** (siehe Abschnitt oben), und
+Spooling ist der **Lauf**, den es startet. Der Nachsatz ist ebenso wichtig — ein Macro liefert
+**keine Richtung**. Die kommt aus dem Narrativ und der Liquiditätslage, nicht aus der Uhr.
+
+**Und wenn nichts passiert?** Ebenfalls eine Regel, keine Stimmung: *"If the macros do not provide
+that timing aspect and the market simply doesn't budge, that is many times a beautiful illustration
+for you to stop looking and **close your charts**."*
+
 ### Was das für die eigenen Daten bedeutet
 
 Die Auflösung passt zum eigenen Backtest weiter unten, und zwar besser als die alte Lesart: Wenn

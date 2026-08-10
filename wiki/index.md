@@ -42,6 +42,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Equilibrium Vs. Discount]] — Dealing-Range-Konstruktion, EQ, verschachteltes Premium/Discount (2026-08-01)
 - [[Event Horizon]] — 50%-Punkt zwischen zwei Liquidity Pools für Partials (2026-08-01)
 - [[External vs. Internal Range Liquidity]] — Entry an Internal (OB/FVG in der Range), Exit an External (Stops außerhalb) (2026-08-06)
+- [[Gauntlet (PD Array)]] — das erste SIBI im Liquiditäts-Bein eines Breakers, als Turtle-Soup-Entry (2026-08-10)
 - [[Fair Value Gap (FVG)]] — Preiszone ohne Trading zwischen zwei Candles (2026-08-06)
 - [[Filling The Numbers (4 Level pro Tag)]] — IPDA füllt vier Level pro Tag; vier Messlatten (Pivots, CBDR, Asia Range, Flout) über Konfluenz kombiniert (2026-08-10)
 - [[Flout (15-00 NY Range)]] — Range 15:00–00:00 NY, halbiert; die halbe Range ist die Projektionseinheit (2026-08-10)
@@ -52,6 +53,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Daily Range Session Timing]] — Session-Ablauf, der die Daily Range formt (2026-08-01)
 - [[ICT Killzones]] — Die vier Handelsfenster mit idealen Paaren und Pip-Erwartung (2026-08-02)
 - [[ICT Macros & Leading Candles]] — Session-Zeitfenster mit auffälligen Referenz-Candles, auch als Reversal-Check für laufende Positionen nutzbar (2026-08-01, erg. 2026-08-07)
+- [[Implied Dealing Range]] — noch nicht abgeschlossene Preisstrecke; Breakaway Gap bei 20–30 %, Measuring Gap bei 50 % (2026-08-10)
 - [[Implementation Shortfall]] — Gesamtkosten der Umsetzung einer Handelsidee (Perold); im Buchbeispiel gehen 52 % des Ideenwerts in der Ausführung verloren; algo-methodology (2026-08-08)
 - [[IFVG (Inverse Fair Value Gap)]] — FVG, das nach Durchhandeln die Polarität wechselt (2026-08-01)
 - [[Indikator-Stationarität & Entropie]] — STATN-Gap-Analyse gegen langsames Wandern, relative Entropie ≥ 0,5, monotones Tail-Cleaning; algo-methodology (2026-08-08)
@@ -227,6 +229,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 
 - [[ICT Gems - The Functions of a Macro (Source)]], [[ICT Gems - How Price Behaves At Specific Times (Source)]], [[ICT Gems - When To Anticipate Price Spooling (Source)]]
 - [[ICT Gems - How to Trade the Final Hour Macro (Source)]], [[ICT Gems - Blending Silver Bullets and Macros (Source)]], [[ICT Gems - ICT Teaches how to Scalp Every 1 Hour Candle (Source)]]
+- [[ICT Gems - London Opening Range + Macros (Source)]], [[ICT Gems - Non-Farm Payroll Profile + Macros (Source)]], [[ICT Gems - Turtle Soup Entries Using ICT Gauntlet (Source)]]
+- [[ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)]], [[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]]
 
 ### MentorShip 2025
 

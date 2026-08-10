@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">118</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">206</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">210</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">12</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -133,6 +133,7 @@
 <li><a href="#2026-08-10-ingest-core-content-month-09-8-youtube-lektionen-playlist">[2026-08-10] ingest | Core Content Month 09 (8 YouTube-Lektionen, Playlist)</a></li>
 <li><a href="#2026-08-10-ingest-ict-gems-macro-reihe-6-von-11-videos-playlist">[2026-08-10] ingest | ICT Gems — Macro-Reihe (6 von 11 Videos, Playlist)</a></li>
 <li><a href="#2026-08-10-setup-macro-datenbank-skill-macro-db">[2026-08-10] setup | Macro-Datenbank + Skill macro-db</a></li>
+<li><a href="#2026-08-10-ingest-ict-gems-restliche-5-videos-playlist-jetzt-1111">[2026-08-10] ingest | ICT Gems — restliche 5 Videos (Playlist jetzt 11/11)</a></li>
 </ul>
 </div>
 </details>
@@ -1833,6 +1834,44 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   statt Punktschaetzung, Basisrate danebenstellen, unter n=20 keine Prozentzahl).</li>
 <li>Seiten erstellt: wiki/synthesis/Macro-Datenbank (laufend).md</li>
 <li>Seiten aktualisiert: wiki/index.md, algo/README.md, algo/PLAN.md</li>
+</ul>
+<h2 id="2026-08-10-ingest-ict-gems-restliche-5-videos-playlist-jetzt-1111">[2026-08-10] ingest | ICT Gems — restliche 5 Videos (Playlist jetzt 11/11)</h2>
+<ul>
+<li>Nutzerwunsch: die beim vorherigen Batch bewusst ausgelassenen 5 Videos nachziehen.</li>
+<li><strong>Rate-Limit</strong>: Session lag bereits bei 15 Fetches (Grenze ~16). Deshalb 180s Abstand, seriell,
+  mit Abbruchpruefung auf <code>IpBlocked</code> nach jedem Video, wertvollste zuerst. Ergebnis: <strong>alle 5
+  geholt, 20 Fetches gesamt, kein Block</strong>. Die ~16er-Grenze aus frueheren Logs gilt offenbar nur
+  bei paralleler Ausfuehrung — seriell mit Pausen liegt die Schwelle deutlich hoeher. Skill-Notiz
+  dazu bereits vorhanden, Zahl hier aktualisiert.</li>
+<li>Seiten erstellt: 5x wiki/sources/youtube/ICT Gems - ... (Source).md sowie zwei Konzeptseiten:</li>
+<li>wiki/concepts/Gauntlet (PD Array).md — benannte, im Vault unbekannte PD Array: das erste SIBI
+    im Liquiditaets-Bein eines Breakers, als Turtle-Soup-Entry.</li>
+<li>wiki/concepts/Implied Dealing Range.md — noch nicht abgeschlossene Preisstrecke; <strong>Breakaway
+    Gap bei 20-30 %, Measuring Gap bei 50 %</strong>, plus Fib-Verifikationsverfahren.</li>
+<li>Seiten erweitert: wiki/concepts/{ICT Macros &amp; Leading Candles, Balanced Price Range (BPR),
+  Algorithmic Price Delivery Continuum, ORG (Opening Range Gap) &amp; 1st Presented FVG,
+  Institutional Order Flow Entry Drill (IOFED), Midnight Opening Range, ICT Killzones,
+  Two Stage News Delivery (FOMC &amp; NFP), Propulsion Block}.md,
+  wiki/models/Market on Close (MOC) Macro Model.md, wiki/index.md.</li>
+<li><strong>Spooling endgueltig geklaert</strong>: <em>"All a macro is, is the beginning of a spooling event...
+  it is not going to give you a direction."</em> Damit ist die heute frueh aufgeloeste Hypothese
+  zusaetzlich aus einer zweiten Quelle bestaetigt — Macro = Timing, nicht Richtung.</li>
+<li><strong>MOC-Widerspruch praezisiert statt aufgeloest</strong>: Eine dritte ICT-Quelle nennt wieder <strong>15:50</strong>
+  (Stand damit 2:1 gegen 15:45) und beschreibt 15:15-15:45 als <strong>vorgelagertes Setup-Fenster</strong>.
+  Moegliche Zusammenfuehrung ("Setup-Fenster, dann Ausfuehrung") auf der MOC-Seite notiert, aber
+  ausdruecklich <strong>nicht</strong> als gesichert markiert.</li>
+<li><strong>Grosse inhaltliche Zugewinne</strong>: BPR-innerhalb-FVG vollstaendig (welche Haelfte, warum balanced,
+  Stop in den oberen Quadranten, <strong>Re-Entry mit halber Kontraktzahl</strong>); Price Delivery Continuum
+  als Cycling-Methode statt Top-Down; Opening Range 9:30-10:00 als eigenes Messobjekt mit
+  Quadranten und STD-Projektionen (plus PM-Variante 13:30-14:00); Bedingungen, unter denen das
+  1st Presented FVG <strong>verworfen</strong> wird.</li>
+<li>Backlog nach algo/PLAN.md: Vier-FVG-pro-Stunde-These (mit ausdruecklicher Warnung, dass sie
+  trivial wahr sein koennte — 95 % der Macro-Fenster enthalten bereits ein FVG &gt;= 2 Punkte).</li>
+<li>Nebenbefund/Handwerksfehler: Ein Python-Einzeiler zum Frontmatter-Patchen hat die <code>sources:</code>-Zeile
+  von "ORG (Opening Range Gap) &amp; 1st Presented FVG.md" zerschossen (<code>find(']')</code> traf das schliessende
+  <code>]]</code> eines Wikilinks statt das Listenende). Sofort repariert und per YAML-Parse verifiziert.</li>
+<li>Ausgefiltert: Telegram-Eigenwerbung, Publikumsansprachen, ein im Auto-Transkript verstuemmelter
+  Zahlenvergleich (bewusst <strong>nicht</strong> als Zahlenbeispiel uebernommen), Korrelationsbruch-Exkurs.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

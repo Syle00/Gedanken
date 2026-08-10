@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, macro, news-driven, hypothesis]
 created: 2026-08-07
-updated: 2026-08-07
-sources: ["[[FOMC (Federal Open Market Committee)]]", "raw/journal/Daily Bias 2026-08-07.md", "raw/marktdaten/2026/08/07.08.2026/MNQ 2026-08-07 1m.csv", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]"]
+updated: 2026-08-10
+sources: ["[[FOMC (Federal Open Market Committee)]]", "raw/journal/Daily Bias 2026-08-07.md", "raw/marktdaten/2026/08/07.08.2026/MNQ 2026-08-07 1m.csv", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]", "[[ICT Gems - Non-Farm Payroll Profile + Macros (Source)]]"]
 ---
 
 # Two Stage News Delivery (FOMC & NFP)
@@ -92,6 +92,44 @@ Primärquellen-statt Rohdatensicht):
 - Bei Gelegenheit prüfen, ob Lektion 02 der MentorShip-2025-Reihe („Trading FOMC Two Stage
   Delivery") doch noch als Notion-Export auftaucht — würde diese Hypothese direkt mit
   Primärquelle unterlegen.
+
+## Das NFP-Profil in ICTs eigener Formulierung (2023)
+
+Aus [[ICT Gems - Non-Farm Payroll Profile + Macros (Source)]] — die Regel, die das oben
+beschriebene Zwei-Stufen-Muster für NFP auf einen Satz bringt:
+
+> **Die Seite, auf die Preis beim 8:30-Print *zuerst* läuft, ist in der Regel der False Run.**
+> *"Whatever side of the marketplace it goes for first as 8:30 news hits — usually, not always —
+> that will be the false run."*
+
+Die vollständige Sequenz, die ICT im Beispiel durchzählt:
+
+1. Rally in die **Buyside** → Trader werden **long getrappt**, Shorts ausgestoppt.
+2. Abverkauf **unter** die Relative Equal Lows → die frisch eingestiegenen Longs werden
+   ausgestoppt, neue Shorts induziert.
+3. Diese Shorts sitzen jetzt falsch → der Markt ist **frei**, in die eigentliche Richtung zu
+   laufen (hier: Buyside und das übergeordnete Draw on Liquidity).
+
+Spiegelbildlich möglich (erst Sellside, dann Buyside), oder — ausdrücklich genannt — schlicht *"a
+choppy mess that non-farm payroll can many times be"*.
+
+**Warum Preis danach frei ist**: *"no one's long, they got stopped out; anyone buying the breakout
+was raked across the coals; anyone short below those relative equal lows is trapped — then the
+market can go higher."*
+
+### Breaker Blocks taugen an diesen Tagen weniger
+
+Eigene Einschränkung von ICT: **NFP, CPI und FOMC** sind genau die Ereignisse, an denen
+[[Breaker Block|Breakers]] *"not the cleanest points of rejection"* liefern. Wo er sonst
+High–Low–Higher-High als Breaker lesen würde, liest er die Zone an solchen Tagen eher als
+[[Balanced Price Range (BPR)]].
+
+### Zusammenspiel mit den Macro-Fenstern
+
+Im Beispiel läuft die Sequenz durch die Macros hindurch: **9:50–10:10** liefert die Balancierung
+der Ineffizienz und danach die Protraction nach unten in die engineerte Sellside; der eigentliche
+Lauf fällt in das **Silver-Bullet-Fenster 10:00–11:00**; **10:50–11:10** leitet in die
+NY-Lunch-Phase über. Siehe [[ICT Macros & Leading Candles]].
 
 ## Verwandt
 

@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
 updated: 2026-08-10
-sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
+sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
 ---
 
 # ORG (Opening Range Gap) & 1st Presented FVG
@@ -131,6 +131,61 @@ Die ersten **30 Minuten** der ORG sind entscheidend für den Tages-Bias:
 - Closen wir am unteren Ende (im Discount) und der Algo zeigt in diesen 30 Minuten **keine
   Intention, zu repricen** → bearish.
 - Haben wir ein Premium Gap und korrigieren in den 30 Minuten **nicht nach unten** → stark bullish.
+
+## Die Opening **Range** als eigenes Messobjekt (2025-Ergänzung)
+
+Aus [[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]]. ICT grenzt das ausdrücklich
+gegen das ORG ab: *"I'm not saying opening range **gap**. It's the opening **range** — the first
+30 minutes, 9:30 to 10:00."* Es geht also um High und Low dieser halben Stunde, nicht um die Lücke
+zum Vortagesschluss.
+
+**Konstruktion**: Fib über **Low → High** der 9:30–10:00-Range legen, zusätzlich **oberen und
+unteren Quadranten** einzeichnen.
+
+### Der obere Quadrant als Entry-Zone
+
+> **Bullisher Bias + Preis handelt zurück in die Opening Range → der obere Quadrant ist die
+> Zone, auf die man wartet.** (Spiegelbildlich der untere Quadrant bei bearishem Bias.)
+
+Im Beispiel fiel genau dieser Treffer mit dem Beginn des **Lunch Macros um 11:30** zusammen — Zeit
+und Preis konvergieren ([[NY Lunch Macro Model]]). Als Auslöser in der Zone kommen ein
+[[IFVG (Inverse Fair Value Gap)|IFVG]], ein [[Turtle Soup]] oder schlicht der antizipierte Rücklauf
+über die Zone mit anschließendem FVG/Order Block infrage.
+
+### Standardabweichungen der Opening Range
+
+Dieselbe Range wird nach **oben und unten** als STD-Projektion verlängert und liefert die Ziele des
+Tages — im Beispiel genannt: **0,5 / 1,0 / 1,5 / 2,0 / 2,5** sowie die **negativen** Level (−1,
+−2,5) für die Gegenrichtung. Der Schluss-Run des Beispieltags endete exakt an **−2,5 STD**.
+
+Damit ist die Opening Range das Intraday-Pendant zur STD-Logik der
+[[Midnight Opening Range]] und der [[Central Bank Dealers Range (CBDR)|CBDR]].
+
+### Die PM-Session hat ihre eigene Opening Range
+
+**13:30–14:00 NY** — *"that's what sets the tone for the market structure"* für den Nachmittag.
+Auch dort wird nach dem **1st Presented FVG** innerhalb der 30 Minuten gesucht. Vgl.
+[[NY PM Trend]] und den ORG-Abschnitt für die PM-Session weiter unten.
+
+## Wann das 1st Presented FVG verworfen wird (2025-Ergänzung)
+
+Die bisherige Regel lautet "das erste FVG der Session". Dieselbe Quelle nennt die Bedingungen, unter
+denen ICT es **nicht** nimmt:
+
+- Es ist **winzig** ("minuscule") **und** es hat nichts bewirkt — es hat insbesondere kein tieferes
+  Low geholt. ICT: *"there's one strike against it."*
+- Das **Narrativ hat sich gedreht**: Wurde das Wochenziel bereits erreicht und bildet sich ein MSS
+  in die Gegenrichtung, ist ein kleines gegenläufiges FVG *"cancelled out"*.
+
+**Was stattdessen zählt**: das nächste, **deutlich größere** FVG in der **jetzt erwarteten**
+Richtung — erkennbar am spürbar stärkeren Displacement. Es wird dann *"the very first presented
+fair value gap **within the context and narrative**"*. Der Kontext schlägt also die reine
+Reihenfolge.
+
+**Alternativen, falls kein brauchbares FVG da ist**: Order Block, [[Breaker Block|Breaker]],
+[[Institutional Order Flow Entry Drill (IOFED)|IOFED]], [[Propulsion Block]] oder
+[[Volume Imbalance (VII)]] — ICT: *"it may be anything that I've ever taught, that's your PD
+array."* Das FVG bevorzugt er nur, weil es am leichtesten zu erkennen ist.
 
 ## "Blackholes" & Multi-Day-Marking
 

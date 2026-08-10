@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li class="active"><a href="../index.html#concepts">Konzepte<span class="count">118</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">206</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">210</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">12</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -153,12 +153,13 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Institutional Order Flow Entry Drill (IOFED)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2024</span> <span class="tag">entry</span> <span class="tag">macros</span></div><div class="dates">erstellt 2026-08-10 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-gems-how-price-behaves-at-specific-times-source.html">ICT Gems - How Price Behaves At Specific Times (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2024</span> <span class="tag">entry</span> <span class="tag">macros</span></div><div class="dates">erstellt 2026-08-10 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-gems-how-price-behaves-at-specific-times-source.html">ICT Gems - How Price Behaves At Specific Times (Source)</a>, <a href="../p/ict-gems-algorithmic-timings-with-opening-ranges-source.html">ICT Gems - Algorithmic Timings With Opening Ranges (Source)</a>, <a href="../p/ict-gems-when-to-anticipate-price-spooling-source.html">ICT Gems - When To Anticipate Price Spooling (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#der-mechanismus-ein-tick-genugt">Der Mechanismus: ein Tick genügt</a></li>
 <li><a href="#die-fill-zone-obere-halfte-nie-die-unterkante">Die Fill-Zone: obere Hälfte, nie die Unterkante</a></li>
 <li><a href="#woran-man-erkennt-dass-das-gap-offen-bleibt">Woran man erkennt, dass das Gap offen bleibt</a></li>
+<li><a href="#der-beste-vorbote-eine-bpr-im-ziel-fvg">Der beste Vorbote: eine BPR im Ziel-FVG</a></li>
 <li><a href="#skalierung-uber-die-quadranten">Skalierung über die Quadranten</a></li>
 <li><a href="#wenn-kein-gap-da-ist">Wenn kein Gap da ist</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
@@ -222,6 +223,24 @@ der Konsolidierungsgrenze abgeholt wurden. Dann verhält es sich als
 <p>Gegenprobe vor dem Entry: Stößt Preis das Level ab und beginnt zu brechen, statt es zu
 respektieren? Dann fällt die Prämisse und man wechselt in eine tiefere Timeframe (ICT nennt den
 <strong>15-Sekunden-Chart</strong>), um die Struktur neu zu lesen.</p>
+<h2 id="der-beste-vorbote-eine-bpr-im-ziel-fvg">Der beste Vorbote: eine BPR im Ziel-FVG</h2>
+<p>Die klarste Antizipationsregel, aus
+<a href="../p/ict-gems-algorithmic-timings-with-opening-ranges-source.html">ICT Gems - Algorithmic Timings With Opening Ranges (Source)</a>:</p>
+<blockquote>
+<p><em>"The easiest way to anticipate the institutional order flow entry drill is </em><em>if there's a
+balanced price range in the fair value gap that it's trading up into</em><em>. </em><em>Nine times out of ten</em><em>,
+if you're bearish, it's not going to completely close that in."</em></p>
+</blockquote>
+<p>Damit hängt der Drill nicht an einem Bauchgefühl, sondern an einer prüfbaren Struktur: Enthält die
+relevante Hälfte des Ziel-FVG bereits eine <a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a>, ist sie abgearbeitet und
+wird nicht erneut gefüllt. Genau dann reicht ein <strong>sehr flacher Lauf über das High</strong> als Einstieg —
+statt auf C.E. oder volle Füllung zu warten.</p>
+<p>Praktische Reihenfolge:</p>
+<ol>
+<li>Ziel-FVG bestimmen, in das Preis hineinläuft.</li>
+<li>Eine Timeframe tiefer prüfen: Liegt in der relevanten Hälfte eine BPR?</li>
+<li>Wenn ja → Limit knapp jenseits des Extrems, Drill statt Tiefenwarten.</li>
+</ol>
 <h2 id="skalierung-uber-die-quadranten">Skalierung über die Quadranten</h2>
 <p>Ist das Gap breit genug, wird der Drill zum ersten von mehreren Teilen. ICTs eigenes Beispiel:</p>
 <ol>
@@ -246,7 +265,7 @@ abstößt. Siehe die Auswahlregel unter
 <li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a> — das allgemeinere Entry-Modell daneben</li>
 <li><a href="../p/ict-gems-how-price-behaves-at-specific-times-source.html">ICT Gems - How Price Behaves At Specific Times (Source)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">9</span></h2><ul><li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a><span class="cat">Konzepte</span></li><li><a href="../p/breakaway-gap.html">Breakaway Gap</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-gems-how-price-behaves-at-specific-times-source.html">ICT Gems - How Price Behaves At Specific Times (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-gems-how-to-trade-the-final-hour-macro-source.html">ICT Gems - How to Trade the Final Hour Macro (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-gems-when-to-anticipate-price-spooling-source.html">ICT Gems - When To Anticipate Price Spooling (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">13</span></h2><ul><li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a><span class="cat">Konzepte</span></li><li><a href="../p/breakaway-gap.html">Breakaway Gap</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-gems-algorithmic-timings-with-opening-ranges-source.html">ICT Gems - Algorithmic Timings With Opening Ranges (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-gems-balanced-price-ranges-inside-fair-value-gaps-source.html">ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-gems-how-price-behaves-at-specific-times-source.html">ICT Gems - How Price Behaves At Specific Times (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-gems-how-to-trade-the-final-hour-macro-source.html">ICT Gems - How to Trade the Final Hour Macro (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-gems-turtle-soup-entries-using-ict-gauntlet-source.html">ICT Gems - Turtle Soup Entries Using ICT Gauntlet (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-gems-when-to-anticipate-price-spooling-source.html">ICT Gems - When To Anticipate Price Spooling (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Institutional Order Flow Entry Drill (IOFED).md</code></footer>
 </article>
 </main>

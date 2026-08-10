@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li class="active"><a href="../index.html#concepts">Konzepte<span class="count">118</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">206</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">210</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">12</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -153,11 +153,12 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Propulsion Block</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-06 · aktualisiert 2026-08-06</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-mentorship-core-content-month-04-ict-propulsion-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-06 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-mentorship-core-content-month-04-ict-propulsion-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)</a>, <a href="../p/ict-gems-non-farm-payroll-profile-macros-source.html">ICT Gems - Non-Farm Payroll Profile + Macros (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#definition">Definition</a></li>
 <li><a href="#entry-risiko">Entry &amp; Risiko</a></li>
+<li><a href="#die-halbe-body-grenze-2023-erganzung">Die Halbe-Body-Grenze (2023-Ergänzung)</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
@@ -185,13 +186,34 @@ Block zurücktradet, bevor sie selbst als Order Block genutzt wird.</p>
 <li>Charakteristik: <strong>sofortige, heftige Reaktion</strong> direkt nach dem Touch — kein längeres Verweilen
   im Block. Macht den Propulsion Block besonders für sehr kurzfristige/Scalping-Entries geeignet.</li>
 </ul>
+<h2 id="die-halbe-body-grenze-2023-erganzung">Die Halbe-Body-Grenze (2023-Ergänzung)</h2>
+<p>Aus <a href="../p/ict-gems-non-farm-payroll-profile-macros-source.html">ICT Gems - Non-Farm Payroll Profile + Macros (Source)</a> — die Invalidierungsregel, die auf
+dieser Seite bislang fehlte:</p>
+<blockquote>
+<p><strong>Preis darf nicht unter die Hälfte des Bodys der Propulsion-Kerze fallen.</strong> <em>"You don't ever
+want to see price go down below half of this candle's body."</em></p>
+</blockquote>
+<p>Hält diese Grenze — auch knapp —, bleibt die Erwartung höherer Preise für den Folgetag bestehen.
+Im Beispiel kam Preis sehr nah heran, ohne sie zu brechen, und genau das wertete ICT als Freigabe
+für den bullishen Ansatz am nächsten Tag.</p>
+<p><strong>Welche Preispunkte den Block aufspannen</strong>: das <strong>High</strong> der letzten Down-Close-Kerze und deren
+<strong>Opening Price</strong> — ausdrücklich <strong>nicht</strong> der Mean Threshold des Bodys und <strong>nicht</strong> der Mean
+Threshold von High bis Low. Der Algorithmus behandelt die Spanne High↔Open wie ein Gap.</p>
+<p><strong>Praktisch nutzbar wird der Block über seine C.E.</strong>: Die Mitte zwischen Propulsion-Block-High
+(Wick) und Opening Price ist der sensible Punkt — im Beispiel drehte der Markt exakt dort, und
+dieselbe Stelle deckte sich mit der C.E. eines Hourly FVG. Vgl.
+<a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a>.</p>
+<blockquote>
+<p>Merkhilfe von ICT für jede Wick: <em>"whenever I look at a tail or a wick, my eye goes immediately
+to the midpoint — that's consequent encroachment."</em></p>
+</blockquote>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/order-block.html">Order Block</a> — Basiskonzept</li>
 <li><a href="../p/breaker-block.html">Breaker Block</a>, <a href="../p/rejection-block.html">Rejection Block</a>, <a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a>, <a href="../p/mitigation-block.html">Mitigation Block</a> — weitere
   Order-Block-Varianten aus derselben Lecture-Reihe (<a href="../p/month-04-source.html">Month 04 (Source)</a>)</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">8</span></h2><ul><li><a href="../p/breaker-block.html">Breaker Block</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-mentorship-core-content-month-04-ict-propulsion-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/mitigation-block.html">Mitigation Block</a><span class="cat">Konzepte</span></li><li><a href="../p/month-04-source.html">Month 04 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/order-block.html">Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/rejection-block.html">Rejection Block</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">11</span></h2><ul><li><a href="../p/breaker-block.html">Breaker Block</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-gems-algorithmic-timings-with-opening-ranges-source.html">ICT Gems - Algorithmic Timings With Opening Ranges (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-gems-non-farm-payroll-profile-macros-source.html">ICT Gems - Non-Farm Payroll Profile + Macros (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-04-ict-propulsion-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/mitigation-block.html">Mitigation Block</a><span class="cat">Konzepte</span></li><li><a href="../p/month-04-source.html">Month 04 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/order-block.html">Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li><li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/rejection-block.html">Rejection Block</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Propulsion Block.md</code></footer>
 </article>
 </main>

@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, 2024, entry, macros]
 created: 2026-08-10
 updated: 2026-08-10
-sources: ["[[ICT Gems - How Price Behaves At Specific Times (Source)]]"]
+sources: ["[[ICT Gems - How Price Behaves At Specific Times (Source)]]", "[[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]]", "[[ICT Gems - When To Anticipate Price Spooling (Source)]]"]
 ---
 
 # Institutional Order Flow Entry Drill (IOFED)
@@ -56,6 +56,26 @@ der Konsolidierungsgrenze abgeholt wurden. Dann verhält es sich als
 Gegenprobe vor dem Entry: Stößt Preis das Level ab und beginnt zu brechen, statt es zu
 respektieren? Dann fällt die Prämisse und man wechselt in eine tiefere Timeframe (ICT nennt den
 **15-Sekunden-Chart**), um die Struktur neu zu lesen.
+
+## Der beste Vorbote: eine BPR im Ziel-FVG
+
+Die klarste Antizipationsregel, aus
+[[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]]:
+
+> *"The easiest way to anticipate the institutional order flow entry drill is **if there's a
+> balanced price range in the fair value gap that it's trading up into**. **Nine times out of ten**,
+> if you're bearish, it's not going to completely close that in."*
+
+Damit hängt der Drill nicht an einem Bauchgefühl, sondern an einer prüfbaren Struktur: Enthält die
+relevante Hälfte des Ziel-FVG bereits eine [[Balanced Price Range (BPR)]], ist sie abgearbeitet und
+wird nicht erneut gefüllt. Genau dann reicht ein **sehr flacher Lauf über das High** als Einstieg —
+statt auf C.E. oder volle Füllung zu warten.
+
+Praktische Reihenfolge:
+
+1. Ziel-FVG bestimmen, in das Preis hineinläuft.
+2. Eine Timeframe tiefer prüfen: Liegt in der relevanten Hälfte eine BPR?
+3. Wenn ja → Limit knapp jenseits des Extrems, Drill statt Tiefenwarten.
 
 ## Skalierung über die Quadranten
 

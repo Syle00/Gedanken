@@ -1613,3 +1613,40 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   statt Punktschaetzung, Basisrate danebenstellen, unter n=20 keine Prozentzahl).
 - Seiten erstellt: wiki/synthesis/Macro-Datenbank (laufend).md
 - Seiten aktualisiert: wiki/index.md, algo/README.md, algo/PLAN.md
+
+## [2026-08-10] ingest | ICT Gems — restliche 5 Videos (Playlist jetzt 11/11)
+- Nutzerwunsch: die beim vorherigen Batch bewusst ausgelassenen 5 Videos nachziehen.
+- **Rate-Limit**: Session lag bereits bei 15 Fetches (Grenze ~16). Deshalb 180s Abstand, seriell,
+  mit Abbruchpruefung auf `IpBlocked` nach jedem Video, wertvollste zuerst. Ergebnis: **alle 5
+  geholt, 20 Fetches gesamt, kein Block**. Die ~16er-Grenze aus frueheren Logs gilt offenbar nur
+  bei paralleler Ausfuehrung — seriell mit Pausen liegt die Schwelle deutlich hoeher. Skill-Notiz
+  dazu bereits vorhanden, Zahl hier aktualisiert.
+- Seiten erstellt: 5x wiki/sources/youtube/ICT Gems - ... (Source).md sowie zwei Konzeptseiten:
+  - wiki/concepts/Gauntlet (PD Array).md — benannte, im Vault unbekannte PD Array: das erste SIBI
+    im Liquiditaets-Bein eines Breakers, als Turtle-Soup-Entry.
+  - wiki/concepts/Implied Dealing Range.md — noch nicht abgeschlossene Preisstrecke; **Breakaway
+    Gap bei 20-30 %, Measuring Gap bei 50 %**, plus Fib-Verifikationsverfahren.
+- Seiten erweitert: wiki/concepts/{ICT Macros & Leading Candles, Balanced Price Range (BPR),
+  Algorithmic Price Delivery Continuum, ORG (Opening Range Gap) & 1st Presented FVG,
+  Institutional Order Flow Entry Drill (IOFED), Midnight Opening Range, ICT Killzones,
+  Two Stage News Delivery (FOMC & NFP), Propulsion Block}.md,
+  wiki/models/Market on Close (MOC) Macro Model.md, wiki/index.md.
+- **Spooling endgueltig geklaert**: *"All a macro is, is the beginning of a spooling event...
+  it is not going to give you a direction."* Damit ist die heute frueh aufgeloeste Hypothese
+  zusaetzlich aus einer zweiten Quelle bestaetigt — Macro = Timing, nicht Richtung.
+- **MOC-Widerspruch praezisiert statt aufgeloest**: Eine dritte ICT-Quelle nennt wieder **15:50**
+  (Stand damit 2:1 gegen 15:45) und beschreibt 15:15-15:45 als **vorgelagertes Setup-Fenster**.
+  Moegliche Zusammenfuehrung ("Setup-Fenster, dann Ausfuehrung") auf der MOC-Seite notiert, aber
+  ausdruecklich **nicht** als gesichert markiert.
+- **Grosse inhaltliche Zugewinne**: BPR-innerhalb-FVG vollstaendig (welche Haelfte, warum balanced,
+  Stop in den oberen Quadranten, **Re-Entry mit halber Kontraktzahl**); Price Delivery Continuum
+  als Cycling-Methode statt Top-Down; Opening Range 9:30-10:00 als eigenes Messobjekt mit
+  Quadranten und STD-Projektionen (plus PM-Variante 13:30-14:00); Bedingungen, unter denen das
+  1st Presented FVG **verworfen** wird.
+- Backlog nach algo/PLAN.md: Vier-FVG-pro-Stunde-These (mit ausdruecklicher Warnung, dass sie
+  trivial wahr sein koennte — 95 % der Macro-Fenster enthalten bereits ein FVG >= 2 Punkte).
+- Nebenbefund/Handwerksfehler: Ein Python-Einzeiler zum Frontmatter-Patchen hat die `sources:`-Zeile
+  von "ORG (Opening Range Gap) & 1st Presented FVG.md" zerschossen (`find(']')` traf das schliessende
+  `]]` eines Wikilinks statt das Listenende). Sofort repariert und per YAML-Parse verifiziert.
+- Ausgefiltert: Telegram-Eigenwerbung, Publikumsansprachen, ein im Auto-Transkript verstuemmelter
+  Zahlenvergleich (bewusst **nicht** als Zahlenbeispiel uebernommen), Korrelationsbruch-Exkurs.

@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict]
 created: 2026-08-06
-updated: 2026-08-06
-sources: ["[[ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)]]"]
+updated: 2026-08-10
+sources: ["[[ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)]]", "[[ICT Gems - Non-Farm Payroll Profile + Macros (Source)]]"]
 ---
 
 # Propulsion Block
@@ -29,6 +29,30 @@ Block zurücktradet, bevor sie selbst als Order Block genutzt wird.
   gebrochen, ist die Idee wahrscheinlich ungültig, sofortiger Ausstieg statt Aussitzen.
 - Charakteristik: **sofortige, heftige Reaktion** direkt nach dem Touch — kein längeres Verweilen
   im Block. Macht den Propulsion Block besonders für sehr kurzfristige/Scalping-Entries geeignet.
+
+## Die Halbe-Body-Grenze (2023-Ergänzung)
+
+Aus [[ICT Gems - Non-Farm Payroll Profile + Macros (Source)]] — die Invalidierungsregel, die auf
+dieser Seite bislang fehlte:
+
+> **Preis darf nicht unter die Hälfte des Bodys der Propulsion-Kerze fallen.** *"You don't ever
+> want to see price go down below half of this candle's body."*
+
+Hält diese Grenze — auch knapp —, bleibt die Erwartung höherer Preise für den Folgetag bestehen.
+Im Beispiel kam Preis sehr nah heran, ohne sie zu brechen, und genau das wertete ICT als Freigabe
+für den bullishen Ansatz am nächsten Tag.
+
+**Welche Preispunkte den Block aufspannen**: das **High** der letzten Down-Close-Kerze und deren
+**Opening Price** — ausdrücklich **nicht** der Mean Threshold des Bodys und **nicht** der Mean
+Threshold von High bis Low. Der Algorithmus behandelt die Spanne High↔Open wie ein Gap.
+
+**Praktisch nutzbar wird der Block über seine C.E.**: Die Mitte zwischen Propulsion-Block-High
+(Wick) und Opening Price ist der sensible Punkt — im Beispiel drehte der Markt exakt dort, und
+dieselbe Stelle deckte sich mit der C.E. eines Hourly FVG. Vgl.
+[[Institutional Order Flow (Body vs Wick)]].
+
+> Merkhilfe von ICT für jede Wick: *"whenever I look at a tail or a wick, my eye goes immediately
+> to the midpoint — that's consequent encroachment."*
 
 ## Verwandt
 
