@@ -1451,3 +1451,19 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   eines >= 10 Pkt. Beide Vergleichsfaelle in duennen Randzeiten -> Jannes' "so noch nie
   gesehen" ist quantitativ bestaetigt.
 - Erinnerung fuer den Bias am 2026-08-11 als Memory hinterlegt (Nutzerwunsch).
+
+## [2026-08-10] synthesis | Macro-Fenster (:50-:10) gebacktestet + Spooling-Beispiel korrigiert
+- Anlass: Jannes markiert im MNQ-Chart (2026-08-10, 1min/5min) das Macro 09:50-10:10.
+- Neu: algo/backtest_macro.py — jeder Tag in 72 lueckenlose 20min-Bloecke, Macro `:50-:10`
+  gegen die beiden Kontrollbloecke derselben Stunde (schaltet den Tageszeit-Confounder aus).
+  --selfcheck mit 5 Asserts. Basis: MNQ 23 Tage, 1091 Bloecke.
+- Befund: Macros liefern nicht mehr Volatilitaet, sondern gerichtetere — median Range +9 %,
+  median Netto +32 % (31,50 vs 23,88), dir 0,52 vs 0,46 (Mann-Whitney Netto p<0,0001).
+  Gegen die These: 09:50-10:10 ist nur Median-Rang 3 von 49, der RTH-Open-Block 09:30-09:50
+  ist groesser (medRange 199,12 vs 152,38).
+- Seiten aktualisiert: wiki/concepts/ICT Macros & Leading Candles.md — neuer Backtest-Abschnitt,
+  neues Beispiel 09:50-10:10 mit Screenshot, **und Korrektur des heute frueh angelegten
+  Spooling-Beispiels**: 10:50-11:10 war entgegen der Chart-Lesart der staerkste gerichtete Block
+  des Tages (netto -87,25, dir 0,82); die Kompression lag 11:10-11:50, die Aufloesung im naechsten
+  Macro 11:50-12:10. Spooling beschreibt damit die Phase *zwischen* zwei Macros.
+- Neues Asset: raw/trading-ict/assets/MNQ 2026-08-10 - 09-50 Macro.png

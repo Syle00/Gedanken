@@ -2,6 +2,7 @@
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
 updated: 2026-08-10
+backtest: algo/backtest_macro.py
 sources: ["[[From Vision To Execution (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]"]
 ---
 
@@ -54,17 +55,81 @@ Candle-Ranges mit steigendem Volumen direkt vor dem Fenster, mehrere kleine Same
 in Folge, sinkende Wick-Anteile). Bis zur Präzisierung als **offene Hypothese** behandelt, nicht
 als bestätigte Regel — bei mehr Beispielen/Daten hier ergänzen und in `algo/PLAN.md` backtesten.
 
-### Erstes Beispiel (2026-08-10, MNQ 1min)
+### Erstes Beispiel (2026-08-10, MNQ 1min) — nach Datenprüfung korrigiert
 
 Vom Nutzer per Chart-Screenshot geliefert (TradingView, MNQU2026, 1min, Montag 2026-08-10,
-09:30–12:30 NY): Preis fällt ab ~10:00 aus einem Hoch bei ~29.890 in eine Zone um ~29.790–29.810
-(brauner Band-Bereich im Chart, vermutlich FVG/OB) und **verbringt anschließend die gesamte
-10:50–11:10-Macro-Zeit dort in kleinen, überlappenden Candles ohne klare Nettobewegung** — genau
-das "Spooling"-Bild: viele kleine Pushes, kaum Fortschritt. Erst **nach** dem Macro-Fenster (ab
-ca. 11:15–11:30) löst sich die Kompression in eine echte Expansion nach oben auf, bis zu den
-NWOG-33-Leveln bei 29.841,00 / 29.851,50. Deckt sich mit dem generellen Chain-of-Custody-Muster
-"Konsolidierung zwischen zwei Q/O-Leveln kündigt keinen Trade an, aber oft eine folgende
-Expansion" — hier speziell an die Macro-Uhrzeit gekoppelt. Einzelbeispiel, noch kein Beleg.
+09:30–12:30 NY). Die ursprüngliche Lesart aus dem Chart war, Preis verbringe die **gesamte**
+10:50–11:10-Macro-Zeit komprimiert in der Zone um 29.790–29.810 und expandiere erst danach. Die
+Gegenprüfung an den 1m-Daten widerlegt das: 10:50–11:10 war der **stärkste gerichtete Block des
+ganzen Tages** — Open 29.870,25 → Close 29.783,00, also **−87,25 Punkte netto bei 106,50 Punkten
+Range (dir 0,82)**. Die Kompression lag **nach** dem Macro, nämlich 11:10–11:50 (netto −5,00 bei
+64,00 Range, dir 0,08; danach +18,50 bei 77,25, dir 0,24), und die Auflösung nach oben Richtung
+NWOG 33 (29.841,00 / 29.851,50) fiel wiederum in das **nächste** Macro 11:50–12:10 (+30,25, dir
+0,46).
+
+Das ändert die Deutung: nicht "Spooling *im* Macro, Expansion danach", sondern **Expansion im
+Macro, Spooling zwischen zwei Macros**. Das Auge hatte die Fensterlage um ~20 Minuten verschoben
+— derselbe Fehlertyp wie beim 1m-Vakuum am selben Tag ([[Statistische Muster jenseits der ICT-Konzepte (laufend)]],
+Punkt 7). Die Spooling-Hypothese als solche ist damit nicht erledigt, aber sie beschreibt die
+**Zwischenphase**, nicht den Macro-Start.
+
+### Zweites Beispiel: Macro 09:50–10:10 (2026-08-10, MNQ 1min/5min)
+
+![[MNQ 2026-08-10 - 09-50 Macro.png]]
+*MNQU2026 1min (links) / 5min (rechts), 2026-08-10: das Macro 09:50–10:10 gelb markiert, darunter
+die NDOG-Level 29.819,50 / 29.781,25 und NWOG 33 bei 29.841,00 / 29.851,50.*
+
+Ablauf laut 1m-Daten: das Fenster öffnet bei 29.817,75 (direkt am NDOG-05.08-Level 29.819,50),
+läuft zuerst **gegen** die spätere Richtung bis 29.754,25 herunter und schließt bei 29.874,50 —
+**+56,75 Punkte netto bei 122,00 Range (dir 0,47)**, Hoch am Fensterende. Klassische
+Manipulation-vor-Expansion-Sequenz innerhalb der 20 Minuten
+([[AMD Cycle (Accumulation – Manipulation – Distribution)]]).
+
+Der Kontrast zu den Nachbarblöcken desselben Tages ist deutlicher als die Range vermuten lässt:
+
+| Block | Range | Netto | dir |
+|---|---|---|---|
+| 09:30–09:50 (RTH-Open) | 122,25 | +12,25 | 0,10 |
+| **09:50–10:10 (Macro)** | **122,00** | **+56,75** | **0,47** |
+| 10:10–10:30 | 98,75 | −17,00 | 0,17 |
+| 10:30–10:50 | 54,25 | +12,00 | 0,22 |
+| **10:50–11:10 (Macro)** | **106,50** | **−87,25** | **0,82** |
+
+Der Open-Block 09:30–09:50 hatte praktisch dieselbe Range, aber nur ein Fünftel des Nettowegs —
+viel Bewegung, kein Fortschritt. **Nicht die Range unterscheidet Macro von Nicht-Macro, sondern
+wie gerade sie durchlaufen wird.** Alle fünf Macros des Tages lagen bei dir ≥ 0,27, vier von fünf
+bei ≥ 0,46; die Kontrollblöcke der gleichen Stunden bei 0,06 / 0,10 / 0,17 / 0,08 / 0,24.
+
+## Backtest: sind die Macro-Fenster messbar anders? (2026-08-10)
+
+`algo/backtest_macro.py` zerlegt jeden Handelstag in 72 lückenlose 20-Minuten-Blöcke — pro Stunde
+genau drei: `:50–:10` (Macro), `:10–:30` und `:30–:50` (Kontrolle). Die Kontrollen liegen damit
+unmittelbar neben dem Macro, was den Tageszeit-Confounder ausschaltet (sonst gewänne 09:50–10:10
+allein deshalb, weil nach dem RTH-Open ohnehin die meiste Bewegung liegt).
+
+Basis: MNQ, 23 Handelstage 1min (2026-07-08 … 2026-08-07), 1091 auswertbare Blöcke.
+
+| | n | median Range | median Netto | median dir |
+|---|---|---|---|---|
+| Macro (`:50–:10`) | 351 | 63,50 | **31,50** | **0,52** |
+| Kontrolle | 740 | 58,25 | 23,88 | 0,46 |
+
+Mann-Whitney einseitig (Macro > Kontrolle): Range p = 0,0028, Netto p < 0,0001, dir p = 0,0003.
+
+**Befund**: Die Macro-Fenster sind real, aber der Effekt liegt woanders als erwartet. Die Range
+ist nur **+9 %** größer — der Nettoweg dagegen **+32 %** und die Geradlinigkeit systematisch
+höher. Macros produzieren also nicht mehr Volatilität, sondern **gerichtetere** Volatilität. Das
+passt zu ICTs Formulierung ("Leading Candles"), widerspricht aber der landläufigen Lesart "im
+Macro ist am meisten los".
+
+**Gegen die These**: 09:50–10:10 ist **nicht** das größte Fenster des Tages. Über 22 Tage liegt
+sein Median-Rang bei 3 von 49 Blöcken — geschlagen von 09:30–09:50 (Median-Rang 2, Median-Range
+199,12 gegen 152,38). Der RTH-Open ist der Expansionsblock, das Macro der Anschlussblock. Wer
+09:50 auf "jetzt kommt der große Move" wartet, hat den größeren Move meist schon verpasst; was
+das Macro liefert, ist die **saubere** Bewegung.
+
+Vorbehalt: 23 Tage sind wenig, und Blöcke desselben Tages sind nicht unabhängig — der p-Wert ist
+dadurch optimistisch. Mit wachsendem Datenbestand nachziehen.
 
 ![[MNQ 2026-08-10 - 10-50 Macro Spooling.png]]
 *MNQU2026 1min, 2026-08-10: Spooling in der 10:50–11:10-Macro-Zeit (gelb markiert) knapp über der

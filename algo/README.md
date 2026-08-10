@@ -240,6 +240,28 @@ Downstream-Konsumenten `backtest_fvg_specialness.py`/`backtest_midnight_range_st
 vom 2026-08-07. Sonst keine weiteren Bugs gefunden. `pearson()`-Duplikat (4x) und
 `load_rows()`/`find_1d_days()`-Seiteneingaenge in `backtest_common.py` konsolidiert.
 
+## 1m-Thesenskripte (`backtest_1m_gaps.py`, `backtest_macro.py`)
+
+**Was:** Zwei eigenstaendige Skripte auf 1m-Basis, jeweils aus einer konkreten
+Nutzerbeobachtung entstanden. Sie folgen nicht dem `run()`/`main()`-Muster der
+exploratorischen Skripte oben, sondern bringen einen eigenen `--selfcheck` mit (deshalb auch
+nicht in `selfcheck.py` eingehaengt).
+
+- `backtest_1m_gaps.py` -- wie selten ist ein Preisvakuum zwischen zwei benachbarten
+  1m-Kerzen? Zaehlt nur echte Nachbarminuten (`t2-t1 == 60s`), damit Session-Pausen nicht als
+  Gap durchgehen. Anlass: das 19-Punkte-Vakuum am 2026-08-10 um 12:32 NY.
+- `backtest_macro.py` -- sind die ICT-Macro-Fenster `:50-:10` messbar anders als der Rest?
+  Zerlegt jeden Tag in 72 lueckenlose 20min-Bloecke; pro Stunde steht das Macro gegen die
+  beiden direkt benachbarten Kontrollbloecke `:10-:30` und `:30-:50`. **Dieser Vergleich ist
+  der Kern des Skripts**: ohne die Nachbarschaft gewaenne 09:50-10:10 allein durch die Naehe
+  zum RTH-Open (Tageszeit-Confounder). Kennzahlen je Block: Range, |Netto|, dir = Netto/Range
+  und der Tagesrang nach Range. Signifikanz per Mann-Whitney (einseitig, Macro > Kontrolle).
+
+**Bekannte Grenzen:** Beide haengen an den 1m-Dateien in `raw/marktdaten/` -- die reichen nur
+~30 Tage zurueck (yfinance-Grenze), aktuell 23 MNQ-Tage. Bloecke desselben Tages sind nicht
+unabhaengig, der p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_BARS = 15`
+verwirft Bloecke mit Datenluecken, statt sie als ruhigen Markt zu zaehlen.
+
 ## Security-Scan
 
 2026-08-06: keine hartkodierten Secrets in `algo/*.py` gefunden. `algo/.secrets.yaml`
