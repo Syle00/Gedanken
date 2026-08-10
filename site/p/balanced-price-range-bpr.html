@@ -21,7 +21,7 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">116</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">118</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">206</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">12</span></a></li>
@@ -68,6 +68,7 @@
 <li><a href="../p/flout-15-00-ny-range.html">Flout (15-00 NY Range)</a></li>
 <li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
 <li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
+<li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a></li>
 <li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
 <li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
 <li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
@@ -75,6 +76,7 @@
 <li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
 <li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
 <li><a href="../p/implementation-shortfall.html">Implementation Shortfall</a></li>
+<li><a href="../p/implied-dealing-range.html">Implied Dealing Range</a></li>
 <li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
 <li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
 <li><a href="../p/institutional-order-flow-entry-drill-iofed.html">Institutional Order Flow Entry Drill (IOFED)</a></li>
@@ -151,10 +153,18 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Balanced Price Range (BPR)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a>, <span class="broken" title="Seite existiert noch nicht">ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)</span>, <span class="broken" title="Seite existiert noch nicht">ICT Gems - Algorithmic Timings With Opening Ranges (Source)</span></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#regel">Regel</a></li>
+<li><a href="#welche-halfte-man-uberhaupt-anschaut-2025-erganzung">Welche Hälfte man überhaupt anschaut (2025-Ergänzung)</a></li>
+<li><a href="#was-man-praktisch-damit-macht">Was man praktisch damit macht</a><ul>
+<li><a href="#1-stop-platzierung">1. Stop-Platzierung</a></li>
+<li><a href="#2-re-entry-nach-einem-stopout">2. Re-Entry nach einem Stopout</a></li>
+<li><a href="#3-die-bpr-macht-das-gap-zum-breakaway-gap">3. Die BPR macht das Gap zum Breakaway Gap</a></li>
+<li><a href="#4-sie-ist-der-beste-vorbote-eines-iofed">4. Sie ist der beste Vorbote eines IOFED</a></li>
+</ul>
+</li>
 <li><a href="#wodurch-eine-bpr-entsteht">Wodurch eine BPR entsteht</a></li>
 <li><a href="#antizipieren-ob-ein-fvg-offen-bleibt">Antizipieren, ob ein FVG offen bleibt</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
@@ -176,6 +186,74 @@ Timeframe tiefer</strong> geht, um zu sehen, wie Preis sich innerhalb des FVG ta
   bis wieder ein FVG entsteht. Sobald wieder ein FVG da ist, den Lower Timeframe nutzen, um zu
   prüfen, ob dieses FVG eine BPR enthält oder nicht.</li>
 </ul>
+<h2 id="welche-halfte-man-uberhaupt-anschaut-2025-erganzung">Welche Hälfte man überhaupt anschaut (2025-Ergänzung)</h2>
+<p>Aus <span class="broken" title="Seite existiert noch nicht">ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)</span> — die Regel, welche
+Hälfte des FVG untersucht wird, war oben implizit; hier steht sie explizit:</p>
+<table>
+<thead>
+<tr>
+<th>FVG-Typ</th>
+<th>zu untersuchende Hälfte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>bearish (SIBI)</strong></td>
+<td>die <strong>obere</strong> Hälfte</td>
+</tr>
+<tr>
+<td><strong>bullish (BISI)</strong></td>
+<td>die <strong>untere</strong> Hälfte</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Warum diese Hälfte "balanced" wird</strong>: Läuft Preis dort im Lower Timeframe <strong>hin und her</strong> —
+hinein, wieder heraus, erneut hinein, mit Bodies, die das Niveau respektieren — dann ist diese
+Hälfte <strong>effizient beliefert</strong> worden. Sie ist damit <strong>nicht</strong> mehr ineffizient, und Preis hat
+<strong>keinen Grund</strong>, dorthin zurückzukehren.</p>
+<p><strong>Die andere Hälfte ist die eigentliche Ineffizienz</strong>: Sie sah nur <strong>einseitige</strong> Lieferung (bei
+einem SIBI nur Sellside) und ist deshalb der Teil, der noch angeboten werden muss. ICT: Das
+Anliefern bis zum <strong>Mittelpunkt</strong> genügt, um das Coding des Algorithmus zu erfüllen —
+<em>"delivering price up to the halfway point satisfies the coding in that algorithm, it need not go
+any higher."</em></p>
+<blockquote>
+<p><strong>Kernaussage</strong>: Ein 15-Min-FVG muss seine obere Hälfte <strong>nicht</strong> füllen, wenn diese bereits
+balanced ist. Das "echte" FVG ist dann nur der untere Teil — auf dem 5-Min-Chart sichtbar. Wer
+auf die volle Füllung wartet, wartet auf etwas, das nicht kommt.</p>
+</blockquote>
+<h2 id="was-man-praktisch-damit-macht">Was man praktisch damit macht</h2>
+<h3 id="1-stop-platzierung">1. Stop-Platzierung</h3>
+<p>Weil die balanced Hälfte nicht mehr gefüllt wird, darf der Stop <strong>hinein</strong>:</p>
+<ul>
+<li><strong>Oberer Quadrant</strong> der balanced Zone — ICTs Standardwahl.</li>
+<li><strong>Konservativer</strong>: knapp <strong>über</strong> der gesamten Zone.</li>
+<li><strong>Nicht an der C.E.</strong> — zu nah; Spread und Wicks holen einen dort heraus (<em>"we allow the wick to
+  do damage"</em>).</li>
+</ul>
+<h3 id="2-re-entry-nach-einem-stopout">2. Re-Entry nach einem Stopout</h3>
+<p>Wird man trotzdem ausgestoppt, gilt die Prämisse weiter, <strong>solange Preis in die andere (noch
+ineffiziente) Hälfte zurückgehandelt hat</strong> und die balanced Hälfte weiterhin nicht gefüllt werden
+sollte:</p>
+<blockquote>
+<p><strong>Erneut einsteigen, aber mit der halben Kontraktzahl</strong> des ursprünglichen Trades, Stop wieder im
+oberen Quadranten oder knapp über dem High.</p>
+</blockquote>
+<p>Das ist eine ausdrücklich benannte Size-Reduktion beim Re-Entry — vgl.
+<a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a>.</p>
+<h3 id="3-die-bpr-macht-das-gap-zum-breakaway-gap">3. Die BPR macht das Gap zum Breakaway Gap</h3>
+<p>Bleibt der balanced Teil offen, ist das Gap ein <a href="../p/breakaway-gap.html">Breakaway Gap</a> — <em>"it's not likely to fill, so
+we're going to likely see a lot of movement lower"</em>. Und weiter unten in derselben Bewegung folgt
+dann auf halber Strecke das <strong>Measuring Gap</strong> (siehe <a href="../p/implied-dealing-range.html">Implied Dealing Range</a>).</p>
+<h3 id="4-sie-ist-der-beste-vorbote-eines-iofed">4. Sie ist der beste Vorbote eines IOFED</h3>
+<p>Die klarste Formulierung dieser Verbindung stammt aus
+<span class="broken" title="Seite existiert noch nicht">ICT Gems - Algorithmic Timings With Opening Ranges (Source)</span>:</p>
+<blockquote>
+<p><em>"The easiest way to anticipate the institutional order flow entry drill is </em><em>if there's a
+balanced price range in the fair value gap that it's trading up into</em><em>. </em><em>Nine times out of ten</em><em>,
+if you're bearish, it's not going to completely close that in."</em></p>
+</blockquote>
+<p>Praktisch heißt das: Statt auf C.E. oder volle Füllung zu warten, genügt ein <strong>sehr flacher Lauf
+über das High</strong> als Einstieg — siehe <a href="../p/institutional-order-flow-entry-drill-iofed.html">Institutional Order Flow Entry Drill (IOFED)</a>.</p>
 <h2 id="wodurch-eine-bpr-entsteht">Wodurch eine BPR entsteht</h2>
 <p><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a> ist die Lecture hinter den Merksätzen oben und
 liefert den Mechanismus — entscheidend ist die <strong>verbrachte Zeit</strong>, nicht die reine Berührung:</p>
@@ -204,7 +282,7 @@ gehalten, macht das diese Hälfte zur Balanced Price Range. Spiegelbildlich beim
 <li><a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a> — die BPR als Ausschlusskriterium für Schein-FVGs</li>
 <li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">15</span></h2><ul><li><a href="../p/2026-08-07-case-study-with-nonfarm-payroll-nq-futures-source.html">2026-08-07 - Case Study With NonFarm Payroll &amp; NQ Futures (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a><span class="cat">Konzepte</span></li><li><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/balanced-price-chart-bsp-source.html">Balanced Price Chart Bsp (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">16</span></h2><ul><li><a href="../p/2026-08-07-case-study-with-nonfarm-payroll-nq-futures-source.html">2026-08-07 - Case Study With NonFarm Payroll &amp; NQ Futures (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a><span class="cat">Konzepte</span></li><li><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/balanced-price-chart-bsp-source.html">Balanced Price Chart Bsp (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/implied-dealing-range.html">Implied Dealing Range</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Balanced Price Range (BPR).md</code></footer>
 </article>
 </main>

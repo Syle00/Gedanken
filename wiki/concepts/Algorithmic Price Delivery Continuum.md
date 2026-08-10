@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, lecture-2025, routine, fvg]
 created: 2026-08-02
-updated: 2026-08-02
-sources: ["[[Algorithmic Price Delivery Continuum (Source)]]", "[[Balanced Price Chart Bsp (Source)]]"]
+updated: 2026-08-10
+sources: ["[[Algorithmic Price Delivery Continuum (Source)]]", "[[Balanced Price Chart Bsp (Source)]]", "[[ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)]]"]
 ---
 
 # Algorithmic Price Delivery Continuum
@@ -73,6 +73,28 @@ FVGs bilden sich nach bestimmten Zeiten — genannt werden die Viertelstunden-Fe
 In jedem Timeframe ab 15M bildet sich über den Tag verteilt ein FVG. Vgl.
 [[ICT Macros & Leading Candles]].
 
+### Präzisierung 2025: vier FVGs pro Stunde als Erwartung
+
+[[ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)]] formuliert das als
+durchgehende Regel statt als Beispielliste:
+
+> In **jedem** Viertelstunden-Fenster bildet sich ein FVG — auf dem 15M- oder 5M-Chart. Damit
+> entstehen **vier potenzielle FVGs pro Stunde**. ICT nennt das ausdrücklich
+> *"high frequency trading algorithmically"* und leitet daraus ab: *"I can trade every single
+> 60-minute candlestick, because I have four opportunities."*
+
+**Wichtige Einschränkung**: Das FVG muss sich in diesem Viertelstunden-Fenster nur **bilden** — es
+muss **nicht** angehandelt werden. *"It need not trade into the fair value gap in that 15-minute
+interval; it just means that you have to see them forming, because that's the algorithm posting
+little areas where it's going to refer back to later on."*
+
+**Richtungsfilter dazu**: Zieht Preis zur **Buyside**, sucht man bullishe FVGs — **oder** bearishe
+FVGs, die **scheitern** und zu [[IFVG (Inverse Fair Value Gap)|IFVGs]] werden. Spiegelbildlich zur
+Sellside.
+
+> Diese Vier-pro-Stunde-These ist konkret genug für einen eigenen Backtest auf MNQ und wurde als
+> Backlog-Punkt in `algo/PLAN.md` eingetragen.
+
 ## Kein FVG = Hände still
 
 Bildet sich im **15M- oder 5M-Timeframe kein FVG**, befindet man sich sicher in einem
@@ -82,6 +104,41 @@ Bildet sich im **15M- oder 5M-Timeframe kein FVG**, befindet man sich sicher in 
 *Kein FVG in 15M/5M → High Resistance Liquidity Run.*
 
 Gegenstück: [[Low Resistance Liquidity Run]].
+
+### Das Warteverfahren, ausformuliert (2025)
+
+Die 2025er Fassung macht daraus eine explizite Schleife statt einer Haltung — und benennt den
+Extremfall:
+
+1. Bildet sich im laufenden Viertelstunden-Fenster kein FVG → **15 Minuten warten**.
+2. Immer noch keines → **weitere 15 Minuten warten**.
+3. So weiter **bis zum Sessionende**.
+4. *"If the entire session was high resistance, you did nothing and you took no trade — come back
+   the following afternoon or next trading day."*
+
+ICT stellt das ausdrücklich als **erste Prüfung überhaupt** voran: *"that's the reason why I teach
+that number one premise is: are we in low resistance or high resistance liquidity run conditions?"*
+
+## Der Zyklus in Reinform: "nicht Top-Down, sondern Cycling"
+
+Die deutlichste Beschreibung der Methode, die dieser Seite den Namen gibt:
+
+- Bei **jedem** Stundenschluss zurück auf den 60-Min-Chart — Ineffizienzen? Werden welche
+  respektiert? Zielt es auf Buyside oder Sellside?
+- Bei **jedem** 15-Min-Schluss dasselbe auf dem 15-Min-Chart.
+- Bei **jedem** 5-Min-Schluss dasselbe auf dem 5-Min-Chart.
+- Dazwischen zurück auf den **1-Min-Chart** für die Ausführung (bei Executions laut ICT sogar den
+  **15-Sekunden-Chart**).
+
+> *"I'm not living on those time frames — I'm just referring to it real quick and then going right
+> back. **It's not top-down analysis, it's cycling through continuously.**"*
+
+Der Zweck ist nicht Vollständigkeit, sondern laufende Rückkopplung: Man sucht die Stellen, an denen
+Preis eine PD Array respektiert — **oder scheitert**, denn auch das Scheitern ist Information.
+
+**Universalitätsanspruch**: ICT betont, dieselbe Logik auf NASDAQ, ES, Commodities und Bonds
+anzuwenden — *"everything that's traded uses this logic"*; das Beispiel läuft nur zufällig auf
+GBP/USD.
 
 ## Verwandt
 

@@ -24,11 +24,19 @@ stattdessen:
 | **15:45–16:00** | **Market on Close** |
 | 16:01 (nur Earnings-Saison) | eigener Algorithmus feuert, danach Run bis **16:15** |
 
-> ⚠️ **Widerspruch zur Fensterlänge oben.** Diese Seite datiert das MOC-Fenster auf **15:50–16:00
-> (10 Minuten)** nach den 2026er Chronicles-Lectures. Die 2024er Gems-Fassung sagt ausdrücklich das
-> Gegenteil: *"Market on Close is that last 15-minute window — **it's not 10 minutes, it's 15
-> minutes**, 3:45 to 4:00."* Beide Aussagen stammen von ICT. Hier bewusst nebeneinander
-> stehengelassen; für einen Backtest sind **beide Fensterlängen** zu prüfen, statt eine zu wählen.
+> ⚠️ **Widerspruch zur Fensterlänge oben — Stand nach vollständigem Playlist-Ingest: 2:1 für
+> 15:50.** Diese Seite datiert das MOC-Fenster auf **15:50–16:00 (10 Minuten)** nach den 2026er
+> Chronicles-Lectures. Die Gems-Fassung
+> [[ICT Gems - When To Anticipate Price Spooling (Source)|When To Anticipate Price Spooling]] sagt
+> ausdrücklich das Gegenteil: *"it's not 10 minutes, it's 15 minutes, 3:45 to 4:00."* Eine dritte
+> ICT-Quelle, [[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]], nennt dagegen wieder
+> **15:50** (*"that's the 3:50 little price run that usually takes off"*) und beschreibt 15:15–15:45
+> als das **vorgelagerte** 30-Minuten-Macro, in dem man das Setup *sucht*, das dann in den
+> MOC-Run mündet.
+>
+> **Lesart, die alle drei Aussagen zusammenbringt** (nicht als gesichert markiert): 15:15–15:45 =
+> Setup-Fenster, 15:45/15:50–16:00 = Ausführung. Der Unterschied 15:45 vs. 15:50 bleibt offen.
+> Für einen Backtest weiterhin **beide Fensterlängen** prüfen.
 
 ICT nennt außerdem eine Zahl, die auf dieser Seite bislang fehlte: *"there's four macros in that
 last hour"* — enumeriert werden im Transkript aber nur die beiden oberen (plus die

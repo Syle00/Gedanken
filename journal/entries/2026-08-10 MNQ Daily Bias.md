@@ -10,6 +10,7 @@ typ: daily-bias
 modus: live
 kw: 2026-W33
 wochentag: Montag
+bias_korrekt: nein
 liquidity_ziel: "C.E. der Premium Wick vom Mittwoch 05.08. — Close darueber oder darunter entscheidet; Daily BISI, falls hoeher als Donnerstag geschlossen wird"
 pd_arrays: [Chain of Custody (Q-Validation), New Week Opening Gap (NWOG) Bias, BISI & SIBI (Buyside-Sellside Imbalance), Fair Value Gap (FVG), Order Block]
 fehler: [P07]
@@ -47,7 +48,20 @@ fehler: [P07]
 
 - P09: Bias noch nicht nachgehalten — nach Sessionende eintragen, ob er aufging. Ohne das bleibt die Trefferquote des Bias unbekannt.
 - Offene Frage aus dem Text, bewusst als Erinnerung stehengelassen: wird der 1H-Orderblock von Sonntag 19:00/20:00 ein OB+? Am 11.08. nachtragen.
-- bias_korrekt noch offen — Tag war beim Erfassen (14:10 NY) nicht geschlossen. Zwischenstand: RTH-Open ~29.805, um 14:00 ~29.750, also gegen den bullishen Bias.
+- ~~bias_korrekt noch offen~~ — **nachgetragen: nein**, siehe unten.
+
+## Nachtrag — Bias-Auswertung (Daten bis 16:18 NY)
+
+| | |
+|---|---|
+| Tag (Globex) | O 29.878,25 · H 29.985,00 · L 29.719,00 · C 29.743,50 |
+| RTH ab 09:30 | O 29.805,50 · H 29.900,00 · L 29.719,00 · C 29.748,50 |
+
+**bias_korrekt: nein.** Der Tag eröffnet bei 29.878 und schließt ~135 Punkte tiefer;
+auch RTH schließt 57 Punkte unter dem eigenen Open. Der Bullish-Bias ist damit
+widerlegt, das erwartete Daily BISI (Close über Donnerstag) ist nicht entstanden.
+Die Weekly-Buyside 30.094,00 blieb ebenfalls unerreicht (Tageshoch 29.985,00) —
+der Weekly Bias bleibt offen, nicht widerlegt.
 
 ## Verwandt
 

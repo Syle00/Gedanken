@@ -21,7 +21,7 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">116</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">118</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">206</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">12</span></a></li>
@@ -68,6 +68,7 @@
 <li><a href="../p/flout-15-00-ny-range.html">Flout (15-00 NY Range)</a></li>
 <li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
 <li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
+<li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a></li>
 <li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
 <li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
 <li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
@@ -75,6 +76,7 @@
 <li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
 <li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
 <li><a href="../p/implementation-shortfall.html">Implementation Shortfall</a></li>
+<li><a href="../p/implied-dealing-range.html">Implied Dealing Range</a></li>
 <li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
 <li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
 <li><a href="../p/institutional-order-flow-entry-drill-iofed.html">Institutional Order Flow Entry Drill (IOFED)</a></li>
@@ -151,14 +153,21 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Algorithmic Price Delivery Continuum</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">lecture-2025</span> <span class="tag">routine</span> <span class="tag">fvg</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a>, <a href="../p/balanced-price-chart-bsp-source.html">Balanced Price Chart Bsp (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">lecture-2025</span> <span class="tag">routine</span> <span class="tag">fvg</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a>, <a href="../p/balanced-price-chart-bsp-source.html">Balanced Price Chart Bsp (Source)</a>, <span class="broken" title="Seite existiert noch nicht">ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)</span></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#der-durchlauf">Der Durchlauf</a></li>
 <li><a href="#welche-halfte-eines-fvg-zahlt">Welche Hälfte eines FVG zählt</a></li>
 <li><a href="#wann-ein-fvg-offen-bleibt">Wann ein FVG offen bleibt</a></li>
-<li><a href="#fvg-bildungszeiten">FVG-Bildungszeiten</a></li>
-<li><a href="#kein-fvg-hande-still">Kein FVG = Hände still</a></li>
+<li><a href="#fvg-bildungszeiten">FVG-Bildungszeiten</a><ul>
+<li><a href="#prazisierung-2025-vier-fvgs-pro-stunde-als-erwartung">Präzisierung 2025: vier FVGs pro Stunde als Erwartung</a></li>
+</ul>
+</li>
+<li><a href="#kein-fvg-hande-still">Kein FVG = Hände still</a><ul>
+<li><a href="#das-warteverfahren-ausformuliert-2025">Das Warteverfahren, ausformuliert (2025)</a></li>
+</ul>
+</li>
+<li><a href="#der-zyklus-in-reinform-nicht-top-down-sondern-cycling">Der Zyklus in Reinform: "nicht Top-Down, sondern Cycling"</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
@@ -220,12 +229,63 @@ erwartet wird ein Fill der unteren 50 %, während die oberen offen bleiben.</em>
 <p><strong>10:00–10:15 / 10:15–10:30 / 10:30–10:45 / 10:45–11:00</strong></p>
 <p>In jedem Timeframe ab 15M bildet sich über den Tag verteilt ein FVG. Vgl.
 <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a>.</p>
+<h3 id="prazisierung-2025-vier-fvgs-pro-stunde-als-erwartung">Präzisierung 2025: vier FVGs pro Stunde als Erwartung</h3>
+<p><span class="broken" title="Seite existiert noch nicht">ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)</span> formuliert das als
+durchgehende Regel statt als Beispielliste:</p>
+<blockquote>
+<p>In <strong>jedem</strong> Viertelstunden-Fenster bildet sich ein FVG — auf dem 15M- oder 5M-Chart. Damit
+entstehen <strong>vier potenzielle FVGs pro Stunde</strong>. ICT nennt das ausdrücklich
+<em>"high frequency trading algorithmically"</em> und leitet daraus ab: <em>"I can trade every single
+60-minute candlestick, because I have four opportunities."</em></p>
+</blockquote>
+<p><strong>Wichtige Einschränkung</strong>: Das FVG muss sich in diesem Viertelstunden-Fenster nur <strong>bilden</strong> — es
+muss <strong>nicht</strong> angehandelt werden. <em>"It need not trade into the fair value gap in that 15-minute
+interval; it just means that you have to see them forming, because that's the algorithm posting
+little areas where it's going to refer back to later on."</em></p>
+<p><strong>Richtungsfilter dazu</strong>: Zieht Preis zur <strong>Buyside</strong>, sucht man bullishe FVGs — <strong>oder</strong> bearishe
+FVGs, die <strong>scheitern</strong> und zu <a href="../p/ifvg-inverse-fair-value-gap.html">IFVGs</a> werden. Spiegelbildlich zur
+Sellside.</p>
+<blockquote>
+<p>Diese Vier-pro-Stunde-These ist konkret genug für einen eigenen Backtest auf MNQ und wurde als
+Backlog-Punkt in <code>algo/PLAN.md</code> eingetragen.</p>
+</blockquote>
 <h2 id="kein-fvg-hande-still">Kein FVG = Hände still</h2>
 <p>Bildet sich im <strong>15M- oder 5M-Timeframe kein FVG</strong>, befindet man sich sicher in einem
 <strong>High Resistance Liquidity Run</strong> — dann Abstand halten und nicht handeln.</p>
 <figure><img class="wiki-img" src="../../raw/trading-ict/assets/ICT 2025 - APDC 06.png" alt="ICT 2025 - APDC 06" loading="lazy"><figcaption>Kein FVG in 15M/5M → High Resistance Liquidity Run.</figcaption></figure>
 
 <p>Gegenstück: <a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a>.</p>
+<h3 id="das-warteverfahren-ausformuliert-2025">Das Warteverfahren, ausformuliert (2025)</h3>
+<p>Die 2025er Fassung macht daraus eine explizite Schleife statt einer Haltung — und benennt den
+Extremfall:</p>
+<ol>
+<li>Bildet sich im laufenden Viertelstunden-Fenster kein FVG → <strong>15 Minuten warten</strong>.</li>
+<li>Immer noch keines → <strong>weitere 15 Minuten warten</strong>.</li>
+<li>So weiter <strong>bis zum Sessionende</strong>.</li>
+<li><em>"If the entire session was high resistance, you did nothing and you took no trade — come back
+   the following afternoon or next trading day."</em></li>
+</ol>
+<p>ICT stellt das ausdrücklich als <strong>erste Prüfung überhaupt</strong> voran: <em>"that's the reason why I teach
+that number one premise is: are we in low resistance or high resistance liquidity run conditions?"</em></p>
+<h2 id="der-zyklus-in-reinform-nicht-top-down-sondern-cycling">Der Zyklus in Reinform: "nicht Top-Down, sondern Cycling"</h2>
+<p>Die deutlichste Beschreibung der Methode, die dieser Seite den Namen gibt:</p>
+<ul>
+<li>Bei <strong>jedem</strong> Stundenschluss zurück auf den 60-Min-Chart — Ineffizienzen? Werden welche
+  respektiert? Zielt es auf Buyside oder Sellside?</li>
+<li>Bei <strong>jedem</strong> 15-Min-Schluss dasselbe auf dem 15-Min-Chart.</li>
+<li>Bei <strong>jedem</strong> 5-Min-Schluss dasselbe auf dem 5-Min-Chart.</li>
+<li>Dazwischen zurück auf den <strong>1-Min-Chart</strong> für die Ausführung (bei Executions laut ICT sogar den
+  <strong>15-Sekunden-Chart</strong>).</li>
+</ul>
+<blockquote>
+<p><em>"I'm not living on those time frames — I'm just referring to it real quick and then going right
+back. </em><em>It's not top-down analysis, it's cycling through continuously.</em><em>"</em></p>
+</blockquote>
+<p>Der Zweck ist nicht Vollständigkeit, sondern laufende Rückkopplung: Man sucht die Stellen, an denen
+Preis eine PD Array respektiert — <strong>oder scheitert</strong>, denn auch das Scheitern ist Information.</p>
+<p><strong>Universalitätsanspruch</strong>: ICT betont, dieselbe Logik auf NASDAQ, ES, Commodities und Bonds
+anzuwenden — <em>"everything that's traded uses this logic"</em>; das Beispiel läuft nur zufällig auf
+GBP/USD.</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a> — die Regel, deren Mechanismus hier erklärt wird</li>
@@ -234,7 +294,7 @@ erwartet wird ein Fill der unteren 50 %, während die oberen offen bleiben.</em>
 <li><a href="../p/ict-day-trade-routine.html">ICT Day Trade Routine</a> — die tägliche Analyse-Routine, in die dieser Durchlauf gehört</li>
 <li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-2025-lecture-series-source.html">ICT 2025 Lecture Series (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">7</span></h2><ul><li><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a><span class="cat">Konzepte</span></li><li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-2025-lecture-series-source.html">ICT 2025 Lecture Series (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Algorithmic Price Delivery Continuum.md</code></footer>
 </article>
 </main>

@@ -124,6 +124,23 @@ pd_arrays: [Silver Bullet Model, ICT Macros & Leading Candles, Chain of Custody 
 > welche der beiden Definitionen gilt, ist das Fenster erfüllt oder knapp verfehlt — beim nächsten
 > Mal festlegen, welche zählt.
 
+## Nachtrag — was danach passierte (Daten bis 16:18 NY, yfinance 1m)
+
+Der abgesagte Short wird damit nachrechenbar. Entry wäre der Rücklauf ins SB FVG
+(C.E. ~29.764,75), Stop über dem 14:10er Hoch 29.772,25, Ziele 29.730,25 / 29.719,00.
+
+| | |
+|---|---|
+| Tief nach 14:07 (bis 15:00) | **29.742,25** (14:15) — ~22 Punkte, Ziel 1 nicht erreicht |
+| Danach | Umkehr nach oben bis **29.796,50** (15:18) — ~32 Punkte über dem Entry |
+| Lunch Sellside 29.730,25 | erst **15:50** genommen (Tief 29.733,75 → 15:59 29.722,75), 1h43 nach der Absage |
+| NY AM Sellside 29.719,00 | **nicht** genommen — Tagestief 29.719,00 ist genau dieses AM-Tief, es wurde nicht unterboten |
+
+**Der Trade wäre ein Verlust gewesen.** Bereits um 14:40/14:45 (Hochs 29.774,50 /
+29.775,75) läuft der Preis über den Stop, davor gab es nie mehr als ~22 Punkte
+Buchgewinn — also nicht einmal Ziel 1. Die Absage war nicht nur regelkonform,
+sondern im Ergebnis richtig.
+
 ## Fehleranalyse
 
 Keine Regelverstöße erkennbar — Ausführung sauber, unabhängig vom Ergebnis.
@@ -140,8 +157,8 @@ Keine Regelverstöße erkennbar — Ausführung sauber, unabhängig vom Ergebnis
 *Nicht bewertbar, weil die Information fehlt — beim nächsten Mal mitloggen.*
 
 - Emotionslabels fehlen — aus „abwarten!" und der Absage laesst sich Ruhe vermuten, aber nicht belegen. Beim naechsten Mal ein Wort dazu.
-- Kein Screenshot nach 14:07 — ob die Sellside 29.730,25 / 29.719,00 spaeter doch noch genommen wurde, ist aus dem Material nicht belegbar.
-- Tagesbias (Bullish) noch nicht nachgehalten, Tag beim Erfassen nicht geschlossen. Auffaellig: im PM lag der Fokus auf Sellside, also gegen den eigenen Tagesbias — beim Rueckblick pruefen, ob das eine bewusste Anpassung an die Priceaction war oder ein stiller Bias-Wechsel.
+- ~~Kein Screenshot nach 14:07 — ob die Sellside spaeter genommen wurde, nicht belegbar.~~ **Geschlossen**, siehe Nachtrag oben: Lunch Sellside erst 15:50, NY AM Sellside gar nicht.
+- Tagesbias (Bullish) war **falsch** (siehe [[2026-08-10 MNQ Daily Bias]]) — sein PM-Fokus auf Sellside lag damit richtiger als sein eigener Tagesbias. Offen bleibt, ob das eine bewusste Anpassung an die Priceaction war oder ein stiller Bias-Wechsel; das gehört beim nächsten Mal in einem Satz notiert.
 
 ## Hinweise
 

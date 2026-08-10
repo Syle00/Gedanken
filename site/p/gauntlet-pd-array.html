@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gauntlet (PD Array) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">118</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">206</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">12</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/average-daily-range-5-tage-adr.html">Average Daily Range (5-Tage-ADR)</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/datenbeschaffung-fuer-backtests-optionen-grenzen.html">Datenbeschaffung für Backtests (Optionen &amp; Grenzen)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/filling-the-numbers-4-level-pro-tag.html">Filling The Numbers (4 Level pro Tag)</a></li>
+<li><a href="../p/flout-15-00-ny-range.html">Flout (15-00 NY Range)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
+<li class="here"><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/implementation-shortfall.html">Implementation Shortfall</a></li>
+<li><a href="../p/implied-dealing-range.html">Implied Dealing Range</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-order-flow-entry-drill-iofed.html">Institutional Order Flow Entry Drill (IOFED)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/meta-labeling-lopez-de-prado.html">Meta-Labeling (López de Prado)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/performance-kennzahlen-katalog.html">Performance-Kennzahlen-Katalog</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/prop-firmen-regeln-challenge-mathematik.html">Prop-Firmen-Regeln &amp; Challenge-Mathematik</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/reinforcement-learning-fuer-handel-grenzen-starke.html">Reinforcement Learning für Handel — Grenzen (Starke)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trader-s-dilemma-efficient-trading-frontier.html">Trader&#x27;s Dilemma &amp; Efficient Trading Frontier</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/transaktionskosten-taxonomie-kissell.html">Transaktionskosten-Taxonomie (Kissell)</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/universal-model-instrument-pooling.html">Universal Model &amp; Instrument-Pooling</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Gauntlet (PD Array)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">ict-gems</span> <span class="tag">pd-array</span> <span class="tag">entry</span> <span class="tag">2025</span></div><div class="dates">erstellt 2026-08-10 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">ICT Gems - Turtle Soup Entries Using ICT Gauntlet (Source)</span></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#identifikation-bullisher-fall">Identifikation (bullisher Fall)</a></li>
+<li><a href="#entry">Entry</a></li>
+<li><a href="#verhaltnis-zu-silver-bullet-und-iofed">Verhältnis zu Silver Bullet und IOFED</a></li>
+<li><a href="#konfluenz-stack-aus-dem-beispiel">Konfluenz-Stack aus dem Beispiel</a></li>
+<li><a href="#wick-projektion-als-zusatzwerkzeug">Wick-Projektion als Zusatzwerkzeug</a></li>
+<li><a href="#ausfuhrung-auf-dem-15-sekunden-chart">Ausführung auf dem 15-Sekunden-Chart</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="gauntlet-pd-array">Gauntlet (PD Array)</h1>
+<p>Eigenständige, von ICT benannte PD Array — im Vault bislang unbekannt. Der Gauntlet ist <strong>ein ganz
+bestimmtes FVG innerhalb des Preis-Beins eines <a href="../p/breaker-block.html">Breakers</a></strong>, das als Entry für ein
+<a href="../p/turtle-soup.html">Turtle Soup</a>-Setup dient.</p>
+<blockquote>
+<p>Namensherkunft: <em>"laying down the gauntlet"</em> — man geht long in der Überzeugung, dass das
+gerade genommene Low <strong>ausreichend Liquidität</strong> abgeholt hat.</p>
+</blockquote>
+<h2 id="identifikation-bullisher-fall">Identifikation (bullisher Fall)</h2>
+<ol>
+<li>Ein Liquidity Pool wird genommen und es bildet sich ein <strong>Breaker</strong>: Low → High → Lauf, der
+   dieses Low ausnimmt und in einen <strong>größeren</strong> Liquiditätspool hineinläuft.</li>
+<li>Man betrachtet <strong>nur das Bein des Breakers, das zur Liquidität läuft</strong> — nicht den ganzen
+   Breaker.</li>
+<li>Innerhalb dieses Beins <strong>vom Low aus rückwärts</strong> gehen: Das <strong>allererste SIBI</strong>
+   (<a href="../p/bisi-sibi-buyside-sellside-imbalance.html">Sellside Imbalance / Buyside Inefficiency</a>), auf
+   das man trifft, <strong>ist der Gauntlet</strong>.</li>
+<li>Die <strong><a href="../p/volume-imbalance-vii.html">Volume Imbalance</a> muss beim Einzeichnen mitgenommen werden</strong> —
+   ICT nennt das ausdrücklich als Bedingung, sonst stimmen die Grenzen nicht.</li>
+</ol>
+<p>Spiegelbildlich beim bearishen Breaker: Dort ist es das erste BISI im Bein, das zur Liquidität
+läuft.</p>
+<blockquote>
+<p><strong>Merkmal in einem Satz</strong>: das <strong>tiefste, erste</strong> SIBI innerhalb des Liquiditäts-Beins eines
+bullishen Breakers.</p>
+</blockquote>
+<h2 id="entry">Entry</h2>
+<ul>
+<li>Preis handelt <strong>über</strong> den Gauntlet und kommt anschließend <strong>zurück hinein</strong> → Entry.</li>
+<li>Jeder weitere Rücklauf, bei dem die <strong>Bodies oberhalb bleiben</strong>, ist eine Gelegenheit zum
+  <strong>Nachlegen</strong> — oder zum Ersteinstieg, falls man den ersten verpasst hat.</li>
+<li>Der eigentliche Zielbereich ist das darüberliegende Breaker-Level, das sich als klassischer
+  Breaker-Entry nutzen lässt.</li>
+</ul>
+<h2 id="verhaltnis-zu-silver-bullet-und-iofed">Verhältnis zu Silver Bullet und IOFED</h2>
+<p>ICT trennt im selben Beispiel sauber zwischen drei Dingen, die optisch nah beieinander liegen:</p>
+<ul>
+<li>Der <strong>Gauntlet</strong> ist das erste SIBI im Breaker-Bein.</li>
+<li>Das <strong>SIBI, das zu einem <a href="../p/ifvg-inverse-fair-value-gap.html">IFVG</a> wird</strong>, ist der
+  <a href="../p/silver-bullet-model.html">Silver Bullet</a> — <em>"forget the gauntlet for now, this is your silver
+  bullet"</em>.</li>
+<li>Der Einstieg an dessen Oberkante ist der
+  <a href="../p/institutional-order-flow-entry-drill-iofed.html">IOFED</a>.</li>
+</ul>
+<p>Alle drei können im selben Preisabschnitt auftreten und sich gegenseitig bestätigen.</p>
+<h2 id="konfluenz-stack-aus-dem-beispiel">Konfluenz-Stack aus dem Beispiel</h2>
+<p>ICT zählt für den gezeigten Trade auf, was gleichzeitig zusammenfiel — brauchbar als Checkliste:</p>
+<ul>
+<li><strong>Macro-Zeit 9:50–10:10</strong> (<a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a>)</li>
+<li>Rücklauf in ein <strong>Daily Bullish FVG</strong></li>
+<li><strong>Market Structure Shift</strong> (<a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a>)</li>
+<li><strong>Silver Bullet</strong> (SIBI → IFVG) plus <strong>IOFED</strong> als Einstieg</li>
+<li>der <strong>Gauntlet</strong></li>
+<li><strong>Turtle Soup Low-to-Low</strong></li>
+<li>die <strong>C.E. einer Wick</strong> als zusätzliches Level</li>
+</ul>
+<h2 id="wick-projektion-als-zusatzwerkzeug">Wick-Projektion als Zusatzwerkzeug</h2>
+<p>Aus derselben Quelle: Eine markante <strong>Daily-Premium-Wick</strong> wird in fünf Level zerlegt — <strong>High,
+oberer Quadrant, C.E., unterer Quadrant, Low</strong> (= der Close der Kerze) — und diese Level werden
+<strong>nach rechts projiziert</strong>. Sie wirken danach wie jede andere PD-Referenz.</p>
+<h2 id="ausfuhrung-auf-dem-15-sekunden-chart">Ausführung auf dem 15-Sekunden-Chart</h2>
+<p>ICT ausdrücklich: <em>"every time I talk about executions, I'm looking at a 15-second chart, folks.
+Just because you don't see it doesn't mean I'm not looking at it."</em> Auf dieser Ebene wird der
+Einstieg in ein reclaimed Bullish FVG bei Relative Equal Lows gesucht; der <strong>Stop</strong> liegt unter dem
+Low, etwa am <strong>unteren Quadranten</strong> der maßgeblichen Wick. Vgl.
+<a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a>.</p>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/breaker-block.html">Breaker Block</a>, <a href="../p/turtle-soup.html">Turtle Soup</a>, <a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/institutional-order-flow-entry-drill-iofed.html">Institutional Order Flow Entry Drill (IOFED)</a>, <a href="../p/silver-bullet-model.html">Silver Bullet Model</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a>, <a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/pd-array.html">PD Array</a>, <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><span class="broken" title="Seite existiert noch nicht">ICT Gems - Turtle Soup Entries Using ICT Gauntlet (Source)</span></li>
+</ul></div>
+  
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Gauntlet (PD Array).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>
