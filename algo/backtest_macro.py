@@ -36,11 +36,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from scipy.stats import mannwhitneyu  # noqa: E402 -- via scikit-learn, s. requirements.txt
 
-from tools.analyze_ohlc import DATA_DIR, NY, Bar, at, load  # noqa: E402
+from tools.analyze_ohlc import DATA_DIR, NY, Bar, at, fvgs, load  # noqa: E402
 
 from backtest_common import write_result  # noqa: E402
 
 MIN_BARS = 15  # von 20 Minuten -- weniger heisst Datenluecke, nicht ruhiger Markt
+MIN_FVG_PTS = 2.0  # kleiner ist auf MNQ-1m Rauschen, kein handelbares PD Array
 
 
 def blocks(day):
@@ -65,7 +66,11 @@ def measure(bars: list[Bar], start, end) -> dict | None:
     hi, lo = max(b.h for b in win), min(b.l for b in win)
     rng = hi - lo
     net = abs(win[-1].c - win[0].o)
-    return {"range": rng, "netto": net, "dir": net / rng if rng else 0.0}
+    # Jannes' These (2026-08-10): das SB-FVG soll optimalerweise IM Macro entstehen.
+    # Testbarer Kern davon: haeufen sich 1m-FVGs ueberhaupt in den Macro-Fenstern?
+    fvg = [f for f in fvgs(win) if f["size"] >= MIN_FVG_PTS]
+    return {"range": rng, "netto": net, "dir": net / rng if rng else 0.0,
+            "fvgs": len(fvg), "fvg_pts": sum(f["size"] for f in fvg)}
 
 
 def collect(symbol: str) -> dict[str, list[dict]]:
@@ -113,9 +118,14 @@ def report(symbol: str) -> dict:
     # Mann-Whitney statt t-Test: Block-Ranges sind rechtsschief, nicht normalverteilt.
     # Vorbehalt: Bloecke desselben Tages sind nicht unabhaengig -> p ist optimistisch.
     pvals = {k: mannwhitneyu([m[k] for m in macro], [m[k] for m in ctrl],
-                             alternative="greater").pvalue for k in ("range", "netto", "dir")}
+                             alternative="greater").pvalue
+             for k in ("range", "netto", "dir", "fvgs")}
     print("  Mann-Whitney (Macro > Kontrolle), einseitig:  "
           + "  ".join(f"{k} p={v:.4f}" for k, v in pvals.items()))
+    print(f"  FVGs (>= {MIN_FVG_PTS:.0f} Pkt) je Block:  Macro {sum(m['fvgs'] for m in macro)/len(macro):.2f}"
+          f"   Kontrolle {sum(m['fvgs'] for m in ctrl)/len(ctrl):.2f}"
+          f"   | Bloecke ganz ohne FVG: Macro {100*sum(1 for m in macro if not m['fvgs'])/len(macro):.0f} %"
+          f"  Kontrolle {100*sum(1 for m in ctrl if not m['fvgs'])/len(ctrl):.0f} %")
 
     print("\nJe Block, sortiert nach median range (nur Bloecke mit >=5 Tagen):")
     print(f"  {'Block':<12} {'M':<2} {'n':>3} {'medRange':>9} {'medNetto':>9} {'dir':>5} {'medRang':>8}")
@@ -129,6 +139,7 @@ def report(symbol: str) -> dict:
             "med_netto": med([m["netto"] for m in ms]),
             "med_dir": med([m["dir"] for m in ms]),
             "med_rank": med([m["rank"] for m in ms]),
+            "fvgs_je_block": sum(m["fvgs"] for m in ms) / len(ms),
         }
     for label, s in sorted(stats.items(), key=lambda kv: -kv[1]["med_range"]):
         print(f"  {label:<12} {'M' if s['macro'] else ' ':<2} {s['n']:>3} {s['med_range']:>9.2f} "
@@ -179,6 +190,9 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--symbol", default="MNQ")
+    p.add_argument("--min-fvg", type=float, default=MIN_FVG_PTS,
+                   help="Mindestgroesse eines FVG in Punkten (Default 2.0)")
     p.add_argument("--selfcheck", action="store_true")
     a = p.parse_args()
+    MIN_FVG_PTS = a.min_fvg
     selfcheck() if a.selfcheck else report(a.symbol)

@@ -158,7 +158,11 @@
 <li><a href="#zweites-beispiel-macro-09501010-2026-08-10-mnq-1min5min">Zweites Beispiel: Macro 09:50–10:10 (2026-08-10, MNQ 1min/5min)</a></li>
 </ul>
 </li>
-<li><a href="#backtest-sind-die-macro-fenster-messbar-anders-2026-08-10">Backtest: sind die Macro-Fenster messbar anders? (2026-08-10)</a></li>
+<li><a href="#backtest-sind-die-macro-fenster-messbar-anders-2026-08-10">Backtest: sind die Macro-Fenster messbar anders? (2026-08-10)</a><ul>
+<li><a href="#entstehen-fvgs-bevorzugt-im-macro-ja-aber-erst-die-groen-2026-08-10">Entstehen FVGs bevorzugt im Macro? Ja — aber erst die großen (2026-08-10)</a></li>
+</ul>
+</li>
+<li><a href="#chart-konvention-nutzer">Chart-Konvention (Nutzer)</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
@@ -322,6 +326,67 @@ sein Median-Rang bei 3 von 49 Blöcken — geschlagen von 09:30–09:50 (Median-
 das Macro liefert, ist die <strong>saubere</strong> Bewegung.</p>
 <p>Vorbehalt: 23 Tage sind wenig, und Blöcke desselben Tages sind nicht unabhängig — der p-Wert ist
 dadurch optimistisch. Mit wachsendem Datenbestand nachziehen.</p>
+<h3 id="entstehen-fvgs-bevorzugt-im-macro-ja-aber-erst-die-groen-2026-08-10">Entstehen FVGs bevorzugt im Macro? Ja — aber erst die großen (2026-08-10)</h3>
+<p>Anlass: Nutzeraussage am 2026-08-10 zum SB FVG (SIBI) um 14:12 — <em>"genau das will ich
+optimalerweise im Macro sehen"</em>. Testbarer Kern davon: häufen sich 1m-<a href="../p/fair-value-gap-fvg.html">FVGs</a>
+in den Macro-Fenstern? <code>algo/backtest_macro.py --min-fvg &lt;n&gt;</code> zählt sie je Block:</p>
+<table>
+<thead>
+<tr>
+<th>Mindestgröße</th>
+<th>Macro</th>
+<th>Kontrolle</th>
+<th>Vorsprung</th>
+<th>Blöcke <strong>ohne</strong> FVG (Macro / Kontrolle)</th>
+<th>p</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>≥ 2 Pkt</td>
+<td>2,82</td>
+<td>2,59</td>
+<td>+9 %</td>
+<td>4 % / 7 %</td>
+<td>0,0034</td>
+</tr>
+<tr>
+<td>≥ 5 Pkt</td>
+<td>1,71</td>
+<td>1,51</td>
+<td>+13 %</td>
+<td>17 % / 26 %</td>
+<td>0,0035</td>
+</tr>
+<tr>
+<td><strong>≥ 10 Pkt</strong></td>
+<td><strong>0,79</strong></td>
+<td><strong>0,62</strong></td>
+<td><strong>+27 %</strong></td>
+<td><strong>47 % / 60 %</strong></td>
+<td><strong>0,0001</strong></td>
+</tr>
+<tr>
+<td>≥ 15 Pkt</td>
+<td>0,36</td>
+<td>0,30</td>
+<td>+20 %</td>
+<td>74 % / 79 %</td>
+<td>0,0225</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Je größer das FVG, desto stärker sitzt es im Macro.</strong> Und daraus folgt die praktisch wichtigere
+Hälfte: <em>"ein FVG im Macro"</em> ist als Filter wertlos — <strong>96 % aller Macro-Fenster enthalten
+mindestens ein FVG ≥ 2 Punkte</strong>, im Schnitt fast drei pro 20 Minuten. Wer darauf wartet, wartet
+auf etwas, das praktisch immer passiert. Erst ab ~10 Punkten wird das FVG selten genug, um zu
+selektieren: dann hat es nur noch gut jedes zweite Macro (53 %) gegen 40 % der Kontrollblöcke.</p>
+<p>Das passt zum Hauptbefund oben: der Macro-Vorteil steckt in der <strong>Größe und Geradlinigkeit</strong> der
+Bewegung, nicht in der bloßen Existenz einer Ineffizienz.</p>
+<h2 id="chart-konvention-nutzer">Chart-Konvention (Nutzer)</h2>
+<p>In Jannes' TradingView-Charts markiert ein <strong>lila/violettes FVG-Rechteck immer ein
+Silver-Bullet-FVG</strong> (<a href="../p/silver-bullet-model.html">Silver Bullet Model</a>) — nie ein beliebiges FVG. Andere Farben sind nicht
+festgelegt; lila <strong>Linien</strong> sind dagegen NWOG-Level, blau gestrichelt NDOG, grün Liquidity-Level.</p>
 <figure><img class="wiki-img" src="../../raw/trading-ict/assets/MNQ 2026-08-10 - 10-50 Macro Spooling.png" alt="MNQ 2026-08-10 - 10-50 Macro Spooling" loading="lazy"></figure>
 
 <p><em>MNQU2026 1min, 2026-08-10: Spooling in der 10:50–11:10-Macro-Zeit (gelb markiert) knapp über der

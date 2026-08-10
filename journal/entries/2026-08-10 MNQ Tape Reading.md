@@ -113,6 +113,16 @@ pd_arrays: [Silver Bullet Model, ICT Macros & Leading Candles, Chain of Custody 
 - **14:03** — Chart-Notiz: „abwarten!". Preis 29.756,25, weiter Hin und Her ohne Displacement.
 - **14:06** — Sellside sauber getrennt und beschriftet: Lunch Sellside Liquidity 29.730,25, NY AM Sellside Liquidity 29.719,00 — zwei 1m-Ziele statt eines pauschalen „nach unten".
 - **14:07** — Entscheidung: kein Trade. Chart-Notiz: „Ich bekomme zu wenig Punkte gerade mal 30 ab hier das lohnt sich nicht fuer mich zu viel risiko fuer zu wenig profit".
+- **14:12** — **SB FVG (SIBI) entsteht** — lila markiert, laut seiner Konvention immer ein Silver-Bullet-FVG. Ungefähre Lage aus dem Chart: ~29.769,50 / ~29.760,00, C.E. ~29.764,75. Sein Kommentar: „genau das will ich optimalerweise im Macro sehen". Nachtrag *nach* der Absage um 14:07 — die Checkliste oben bleibt bewusst auf dem Stand von 14:07, sie hält fest, was zum Entscheidungszeitpunkt vorlag.
+
+![[2026-08-10-pm-10.png]]
+
+*14:12 — das lila SB FVG (SIBI) direkt unterhalb des 14:08er Hochs. Preis um 14:17 bereits bei 29.749,50, also unterhalb des Gaps — Rücklauf hinein wäre der Short-Entry gewesen.*
+
+> ⚠️ Zeitlage: 14:12 liegt **zwei Minuten nach** dem Macro 13:50–14:10, das er selbst im Chart
+> markiert hatte. Innerhalb des Silver-Bullet-Fensters 14:00–15:00 liegt es dagegen. Je nachdem,
+> welche der beiden Definitionen gilt, ist das Fenster erfüllt oder knapp verfehlt — beim nächsten
+> Mal festlegen, welche zählt.
 
 ## Fehleranalyse
 

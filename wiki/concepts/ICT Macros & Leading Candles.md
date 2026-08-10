@@ -131,6 +131,34 @@ das Macro liefert, ist die **saubere** Bewegung.
 Vorbehalt: 23 Tage sind wenig, und Blöcke desselben Tages sind nicht unabhängig — der p-Wert ist
 dadurch optimistisch. Mit wachsendem Datenbestand nachziehen.
 
+### Entstehen FVGs bevorzugt im Macro? Ja — aber erst die großen (2026-08-10)
+
+Anlass: Nutzeraussage am 2026-08-10 zum SB FVG (SIBI) um 14:12 — *"genau das will ich
+optimalerweise im Macro sehen"*. Testbarer Kern davon: häufen sich 1m-[[Fair Value Gap (FVG)|FVGs]]
+in den Macro-Fenstern? `algo/backtest_macro.py --min-fvg <n>` zählt sie je Block:
+
+| Mindestgröße | Macro | Kontrolle | Vorsprung | Blöcke **ohne** FVG (Macro / Kontrolle) | p |
+|---|---|---|---|---|---|
+| ≥ 2 Pkt | 2,82 | 2,59 | +9 % | 4 % / 7 % | 0,0034 |
+| ≥ 5 Pkt | 1,71 | 1,51 | +13 % | 17 % / 26 % | 0,0035 |
+| **≥ 10 Pkt** | **0,79** | **0,62** | **+27 %** | **47 % / 60 %** | **0,0001** |
+| ≥ 15 Pkt | 0,36 | 0,30 | +20 % | 74 % / 79 % | 0,0225 |
+
+**Je größer das FVG, desto stärker sitzt es im Macro.** Und daraus folgt die praktisch wichtigere
+Hälfte: *"ein FVG im Macro"* ist als Filter wertlos — **96 % aller Macro-Fenster enthalten
+mindestens ein FVG ≥ 2 Punkte**, im Schnitt fast drei pro 20 Minuten. Wer darauf wartet, wartet
+auf etwas, das praktisch immer passiert. Erst ab ~10 Punkten wird das FVG selten genug, um zu
+selektieren: dann hat es nur noch gut jedes zweite Macro (53 %) gegen 40 % der Kontrollblöcke.
+
+Das passt zum Hauptbefund oben: der Macro-Vorteil steckt in der **Größe und Geradlinigkeit** der
+Bewegung, nicht in der bloßen Existenz einer Ineffizienz.
+
+## Chart-Konvention (Nutzer)
+
+In Jannes' TradingView-Charts markiert ein **lila/violettes FVG-Rechteck immer ein
+Silver-Bullet-FVG** ([[Silver Bullet Model]]) — nie ein beliebiges FVG. Andere Farben sind nicht
+festgelegt; lila **Linien** sind dagegen NWOG-Level, blau gestrichelt NDOG, grün Liquidity-Level.
+
 ![[MNQ 2026-08-10 - 10-50 Macro Spooling.png]]
 *MNQU2026 1min, 2026-08-10: Spooling in der 10:50–11:10-Macro-Zeit (gelb markiert) knapp über der
 NDOG-Zone, danach Expansion Richtung NWOG 33.*

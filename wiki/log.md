@@ -1467,3 +1467,17 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   des Tages (netto -87,25, dir 0,82); die Kompression lag 11:10-11:50, die Aufloesung im naechsten
   Macro 11:50-12:10. Spooling beschreibt damit die Phase *zwischen* zwei Macros.
 - Neues Asset: raw/trading-ict/assets/MNQ 2026-08-10 - 09-50 Macro.png
+
+## [2026-08-10] synthesis | FVG-Haeufigkeit in Macro-Fenstern + Chart-Konvention "lila = SB FVG"
+- Anlass: Jannes' SB FVG (SIBI) um 14:12 NY, lila markiert, mit der Aussage "genau das will ich
+  optimalerweise im Macro sehen". Dazu die Dauerkonvention: lila FVG-Flaeche = immer SB FVG.
+- algo/backtest_macro.py um FVG-Zaehlung je Block erweitert (reuse tools.analyze_ohlc.fvgs,
+  neue CLI-Option --min-fvg).
+- Befund: FVGs haeufen sich in Macros, und der Effekt waechst mit der Groesse — >=2 Pkt +9 %,
+  >=5 Pkt +13 %, >=10 Pkt +27 % (p=0,0001), >=15 Pkt +20 %. Aber: 96 % aller Macro-Bloecke
+  enthalten ohnehin ein FVG >=2 Pkt (fast drei pro 20 min), "ein FVG im Macro" filtert also
+  nichts. Erst ab ~10 Punkten wird es selektiv (53 % der Macros vs 40 % der Kontrollbloecke).
+- Seiten aktualisiert: wiki/concepts/ICT Macros & Leading Candles.md (neuer Abschnitt zur
+  FVG-Haeufigkeit + Abschnitt "Chart-Konvention (Nutzer)").
+- Journal: journal/entries/2026-08-10 MNQ Tape Reading.md um den 14:12-Eintrag ergaenzt, inkl.
+  Hinweis, dass 14:12 zwei Minuten nach dem markierten Macro 13:50-14:10 liegt.
