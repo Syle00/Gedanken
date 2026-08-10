@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-07
-sources: ["[[Institutional Order Flow (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]"]
+updated: 2026-08-10
+sources: ["[[Institutional Order Flow (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]"]
 ---
 
 # Institutional Order Flow (Body vs Wick)
@@ -29,6 +29,27 @@ zwangsweise über die Wicks laufen.
 ![[DCD7BD7A-9F2B-43B0-B61E-B72363979EDE.png]]
 *Back-and-forth-Prinzip: hin und her, sobald Liquidität und eine PD Array (oder die
 gegensätzliche Liquidität) genommen wurden.*
+
+## Wick-C.E. als Body-Grenze — "no bodies buried" (Live-Trade 2026-08-10)
+
+Die operative Zuspitzung der Body-vs-Wick-Regel aus
+[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]:
+Ein relevanter Wick wird **gegradet** (C.E. = Mittelpunkt einzeichnen) und dient danach als
+Body-Grenze, nicht als Preis-Grenze.
+
+- Bullish: *"I don't want to see any bodies buried south of its consequent encroachment level."*
+  Preis darf ins Wick hineinstechen ("it can flirt with the lower wick") — ein **Body-Close**
+  unter dem Wick-C.E. ist der Bruch. Spiegelbildlich bearish.
+- Bricht ein Body doch durch, ist die Idee nicht sofort tot, aber die **unmittelbar nächste
+  Candle** muss sofortige Bereitschaft nach oben zeigen; bevorzugt ein Close wieder über dem
+  Level. Passiert das nicht, ist die Position auf dem Weg zum Stop.
+- Noch stärkeres Signal als der C.E.-Reclaim: ein Close über dem **Opening Price** der Candle, die
+  durchgebrochen ist ("if it closes above 29.873,75 … then it should resume going higher").
+- Die Levels bilden eine **Verteidigungs-Kaskade** von oben nach unten: Wick-C.E. #1 → Wick-C.E. #2
+  ("PDA number two") → der darunterliegende Swing Low, direkt unter dem der eigene Stop sitzt. Erst
+  wenn alle drei fallen, war die Prämisse falsch.
+- Ist Preis auf Seite, ist das *beste* Verhalten, den Wick gar nicht erst zu nehmen ("it won't take
+  out that low, it'll just rip higher").
 
 ## Wick-Counting: Reentry vs. Sellside/Buyside-Liquidity (Kurz Notizen)
 

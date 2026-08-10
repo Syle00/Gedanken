@@ -109,6 +109,31 @@ allein deshalb, weil nach dem RTH-Open ohnehin die meiste Bewegung liegt).
 
 Basis: MNQ, 23 Handelstage 1min (2026-07-08 … 2026-08-07), 1091 auswertbare Blöcke.
 
+> ⚠️ **Alle Zahlen dieses Abschnitts decken nur einen verkürzten Handelstag ab (2026-08-10).**
+> `blocks()` in `algo/backtest_macro.py` startet bei **00:10 des Kalendertags**. Der MNQ-Handelstag
+> beginnt aber um **18:00 des Vorabends** (die 1m-Exporte enthalten ihn korrekt: `MNQ 2026-07-09
+> 1m.csv` reicht von 2026-07-08 18:00 bis 2026-07-09 17:00). Dadurch fallen die Blöcke von 18:00
+> bis 24:00 heraus — **6 der 23 Macro-Fenster**, also die gesamte Abend- und frühe Asia-Session.
+> Betroffen: die Blockzahlen (351 / 740 / 1091), die drei p-Werte und die Median-Rang-Aussage
+> ("3 von 49 Blöcken" — bei vollem Handelstag sind es 69 Blöcke, nicht 72, da 17:50 in der
+> Globex-Pause liegt). Die *Richtung* des Befunds (Macros liefern gerichtetere, nicht größere
+> Bewegung) ist davon unberührt, die *Zahlen* sind nach dem Fix neu zu erzeugen.
+> Details: `docs/superpowers/specs/2026-08-10-macro-datenbank-design.md` §9.2.
+
+**Datenqualität, am 2026-08-10 gemessen** (gilt für alle Auswertungen auf diesem Bestand):
+
+- **Kein Volumen.** Die TradingView-1m-Exporte enthalten nur `time,open,high,low,close`. Jede
+  volumenbasierte Kennzahl ist auf diesem Bestand unmöglich — das trifft insbesondere die
+  naheliegende Spooling-Definition "enge Kerzen bei steigendem Volumen" (siehe Abschnitt oben).
+- **Systematische Exportlücke am Datumswechsel.** An 15 von 19 vollen Tagen fehlen die Minuten
+  **23:59–00:08**. Immer dieselben zehn Minuten. MNQ handelt dort durchgehend (Asia-Session läuft),
+  zehn tickfreie Minuten sind praktisch ausgeschlossen — das ist ein TradingView-Exportartefakt,
+  kein Marktverhalten. Es macht genau das Macro-Fenster **23:50–00:10** unbrauchbar (nur 1 von 23
+  Tagen vollständig). Schließbar über `algo/fetch_yfinance.py` (MNQ=F, 1m, ~30 Tage rückwärts).
+- **Vier Fragmenttage** im Bestand: 2026-07-08, 08-03 (nur 11:19–16:18), 08-05, 08-07.
+- **16:50–17:10** ist grundsätzlich unvollständig — das Fenster ragt über den Sessionschluss 17:00
+  hinaus und existiert nur zur Hälfte.
+
 | | n | median Range | median Netto | median dir |
 |---|---|---|---|---|
 | Macro (`:50–:10`) | 351 | 63,50 | **31,50** | **0,52** |

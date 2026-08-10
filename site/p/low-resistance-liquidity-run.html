@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li class="active"><a href="../index.html#concepts">Konzepte<span class="count">112</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">190</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">191</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">11</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -147,7 +147,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Low Resistance Liquidity Run</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-06</div><div class="srcline"><span>Quellen:</span> <a href="../p/low-resistance-liquidity-runs-part-1-source.html">Low Resistance Liquidity Runs Part 1 (Source)</a>, <a href="../p/low-resistance-liquidity-runs-part-2-source.html">Low Resistance Liquidity Runs Part 2 (Source)</a>, <a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a>, <a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">ICT Algorithmic Time &amp; Price Grids (Source)</a>, <a href="../p/ict-mentorship-core-content-month-1-liquidity-runs-source.html">ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <a href="../p/low-resistance-liquidity-runs-part-1-source.html">Low Resistance Liquidity Runs Part 1 (Source)</a>, <a href="../p/low-resistance-liquidity-runs-part-2-source.html">Low Resistance Liquidity Runs Part 2 (Source)</a>, <a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a>, <a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">ICT Algorithmic Time &amp; Price Grids (Source)</a>, <a href="../p/ict-mentorship-core-content-month-1-liquidity-runs-source.html">ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)</a>, <a href="../p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">Navigating High Resistance Liquidity Run Conditions (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#verschachtelte-eq-messung">Verschachtelte EQ-Messung</a></li>
@@ -156,6 +156,7 @@
 <li><a href="#setup-erkennung-leere-zone-zwischen-zwei-daily-pd-arrays-2026-erganzung">Setup-Erkennung: leere Zone zwischen zwei Daily PD Arrays (2026-Ergänzung)</a></li>
 <li><a href="#gegenstuck-high-resistance-liquidity-run">Gegenstück: High Resistance Liquidity Run</a><ul>
 <li><a href="#mechanik-2022er-video-erganzung">Mechanik (2022er Video-Ergänzung)</a></li>
+<li><a href="#navigieren-statt-aussitzen-live-trade-2026-08-10">Navigieren statt Aussitzen (Live-Trade 2026-08-10)</a></li>
 </ul>
 </li>
 <li><a href="#verwandt">Verwandt</a></li>
@@ -226,6 +227,29 @@ Preis-Struktur-Erklärung, warum manche Highs/Lows "verteidigt" sind:</p>
 <li>Je <strong>mehr Preisaktion</strong> (Candles, Konsolidierung) um ein Level herum stattgefunden hat, desto
   stärker ist es institutionell verteidigt — Faustregel für die Einschätzung ohne zusätzliche Tools.</li>
 </ul>
+<h3 id="navigieren-statt-aussitzen-live-trade-2026-08-10">Navigieren statt Aussitzen (Live-Trade 2026-08-10)</h3>
+<p>Die bestehende Regel "kein FVG in 15M/5M → nicht handeln" (siehe
+<a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a>, <a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a>) ist ein <strong>Entry-Filter</strong>.
+<a href="../p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">Navigating High Resistance Liquidity Run Conditions (Source)</a>
+ergänzt den Fall, dass man bereits in einem Lauf sitzt, der in eine widerstandsreiche Zone
+hineinläuft — ICT handelt dort bewusst weiter, aber mit verändertem Management:</p>
+<ul>
+<li><strong>HRLR vorab erkennen</strong>: mehrere ungetestete bzw. bereits invertierte Gaps übereinander zwischen
+  Preis und Ziel, dazwischen der Midnight Opening Price, plus schwere News-Woche (im Beispiel
+  CPI/PPI Mi+Do). Ansage vorab: <em>"see how I told you it can get a little messy in here?"</em> — die
+  Unruhe wird antizipiert, nicht als Überraschung behandelt.</li>
+<li><strong>Ziele auf die nahen Pools staffeln</strong>, nicht auf das Endziel setzen: erstes Partial knapp unter
+  dem Midnight Opening Price (<a href="../p/midnight-opening-range.html">Midnight Opening Range</a>), zweites am nächsten minoren
+  Buyside-Pool. Danach gilt der Trade als bezahlt, unabhängig vom Ausgang des Rests.</li>
+<li><strong>Nicht "das Magazin leeren"</strong>, solange das eigentliche Ziel (hier: relativ gleiche
+  Overnight-Swing-Highs) noch weit entfernt ist — sonst fehlt Size für den Teil des Laufs, der die
+  Widerstände tatsächlich durchbricht.</li>
+<li>Der Midnight Opening Price wirkt beim Anlaufen von unten selbst als <strong>massiver Widerstand</strong>
+  ("offering a whole lot of initial resistance"), nicht nur als Magnet — genau das macht die Zone
+  darüber zum HRLR-Abschnitt.</li>
+<li>Gegen sich laufende Bewegung: Teil-Stops statt Alles-oder-Nichts, siehe
+  <a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a>.</li>
+</ul>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/pd-array.html">PD Array</a>, <a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
@@ -233,7 +257,7 @@ Preis-Struktur-Erklärung, warum manche Highs/Lows "verteidigt" sind:</p>
 <li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a></li>
 <li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a> — dieselbe Unterscheidung, aus Range-Perspektive statt Preis-Struktur-Perspektive</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">19</span></h2><ul><li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a><span class="cat">Konzepte</span></li><li><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a><span class="cat">Konzepte</span></li><li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a><span class="cat">Konzepte</span></li><li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a><span class="cat">Konzepte</span></li><li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-mentorship-core-content-month-04-reinforcing-liquidity-concepts-price-delivery-source.html">ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts &amp; Price Delivery (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-1-liquidity-runs-source.html">ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-runs-part-1-source.html">Low Resistance Liquidity Runs Part 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/low-resistance-liquidity-runs-part-2-source.html">Low Resistance Liquidity Runs Part 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-07-weekly-source.html">Month 07 - Weekly (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-1-source.html">Month 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a><span class="cat">Modelle</span></li><li><a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">21</span></h2><ul><li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a><span class="cat">Konzepte</span></li><li><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a><span class="cat">Konzepte</span></li><li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a><span class="cat">Konzepte</span></li><li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a><span class="cat">Konzepte</span></li><li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-mentorship-core-content-month-04-reinforcing-liquidity-concepts-price-delivery-source.html">ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts &amp; Price Delivery (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-1-liquidity-runs-source.html">ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-runs-part-1-source.html">Low Resistance Liquidity Runs Part 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/low-resistance-liquidity-runs-part-2-source.html">Low Resistance Liquidity Runs Part 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a><span class="cat">Konzepte</span></li><li><a href="../p/month-07-weekly-source.html">Month 07 - Weekly (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-1-source.html">Month 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a><span class="cat">Modelle</span></li><li><a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Low Resistance Liquidity Run.md</code></footer>
 </article>
 </main>

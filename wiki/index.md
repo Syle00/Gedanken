@@ -215,6 +215,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
   Notion-Export offene Lücke, eingeordnet wie jeder andere Monat über [[Month 02 (Source)]]
   (Curriculum-Sprungseite, listet alle 8 Lectures samt Ziel-Konzeptseite) (2026-08-06)
 - [[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]] — YouTube 2026-08-07: Live-Nacherzählung der NFP-Fallstudie vom selben Tag, Pre-Market-STD-Projektion, generalisierte "Mohawk"-Regel (2026-08-07)
+- [[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]] — YouTube 2026-08-10: Live-Long in NQ durch High-Resistance-Bedingungen, IFVG-Doppelqualifizierung, "no bodies buried" am Wick-C.E., Stop-Order als Retracement-Partial (2026-08-10)
 
 ### MentorShip 2025
 

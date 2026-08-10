@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-06
-sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]]"]
+updated: 2026-08-10
+sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]"]
 ---
 
 # Low Resistance Liquidity Run
@@ -75,6 +75,30 @@ Preis-Struktur-Erklärung, warum manche Highs/Lows "verteidigt" sind:
   Rücklauf zum letzten Swing praktisch widerstandsfrei zum nächsten alten High/Low durchläuft.
 - Je **mehr Preisaktion** (Candles, Konsolidierung) um ein Level herum stattgefunden hat, desto
   stärker ist es institutionell verteidigt — Faustregel für die Einschätzung ohne zusätzliche Tools.
+
+### Navigieren statt Aussitzen (Live-Trade 2026-08-10)
+
+Die bestehende Regel "kein FVG in 15M/5M → nicht handeln" (siehe
+[[Algorithmic Price Delivery Continuum]], [[Balanced Price Range (BPR)]]) ist ein **Entry-Filter**.
+[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]
+ergänzt den Fall, dass man bereits in einem Lauf sitzt, der in eine widerstandsreiche Zone
+hineinläuft — ICT handelt dort bewusst weiter, aber mit verändertem Management:
+
+- **HRLR vorab erkennen**: mehrere ungetestete bzw. bereits invertierte Gaps übereinander zwischen
+  Preis und Ziel, dazwischen der Midnight Opening Price, plus schwere News-Woche (im Beispiel
+  CPI/PPI Mi+Do). Ansage vorab: *"see how I told you it can get a little messy in here?"* — die
+  Unruhe wird antizipiert, nicht als Überraschung behandelt.
+- **Ziele auf die nahen Pools staffeln**, nicht auf das Endziel setzen: erstes Partial knapp unter
+  dem Midnight Opening Price ([[Midnight Opening Range]]), zweites am nächsten minoren
+  Buyside-Pool. Danach gilt der Trade als bezahlt, unabhängig vom Ausgang des Rests.
+- **Nicht "das Magazin leeren"**, solange das eigentliche Ziel (hier: relativ gleiche
+  Overnight-Swing-Highs) noch weit entfernt ist — sonst fehlt Size für den Teil des Laufs, der die
+  Widerstände tatsächlich durchbricht.
+- Der Midnight Opening Price wirkt beim Anlaufen von unten selbst als **massiver Widerstand**
+  ("offering a whole lot of initial resistance"), nicht nur als Magnet — genau das macht die Zone
+  darüber zum HRLR-Abschnitt.
+- Gegen sich laufende Bewegung: Teil-Stops statt Alles-oder-Nichts, siehe
+  [[Partial Profit-Taking & R-Multiple-Skalierung]].
 
 ## Verwandt
 

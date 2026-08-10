@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">112</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">190</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">191</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">11</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -128,6 +128,8 @@
 <li><a href="#2026-08-10-query-mnq-1m-vakuum-12311232-ny-anzeigefehler-ausgeschlossen">[2026-08-10] query | MNQ 1m-Vakuum 12:31/12:32 NY — Anzeigefehler ausgeschlossen</a></li>
 <li><a href="#2026-08-10-synthesis-macro-fenster-50-10-gebacktestet-spooling-beispiel-korrigiert">[2026-08-10] synthesis | Macro-Fenster (:50-:10) gebacktestet + Spooling-Beispiel korrigiert</a></li>
 <li><a href="#2026-08-10-synthesis-fvg-haeufigkeit-in-macro-fenstern-chart-konvention-lila-sb-fvg">[2026-08-10] synthesis | FVG-Haeufigkeit in Macro-Fenstern + Chart-Konvention "lila = SB FVG"</a></li>
+<li><a href="#2026-08-10-synthesis-macro-datenbank-design-datenqualitaetsbefunde">[2026-08-10] synthesis | Macro-Datenbank — Design + Datenqualitaetsbefunde</a></li>
+<li><a href="#2026-08-10-ingest-youtube-navigating-high-resistance-liquidity-run-conditions">[2026-08-10] ingest | YouTube: Navigating High Resistance Liquidity Run Conditions</a></li>
 </ul>
 </div>
 </details>
@@ -1690,6 +1692,55 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   FVG-Haeufigkeit + Abschnitt "Chart-Konvention (Nutzer)").</li>
 <li>Journal: journal/entries/2026-08-10 MNQ Tape Reading.md um den 14:12-Eintrag ergaenzt, inkl.
   Hinweis, dass 14:12 zwei Minuten nach dem markierten Macro 13:50-14:10 liegt.</li>
+</ul>
+<h2 id="2026-08-10-synthesis-macro-datenbank-design-datenqualitaetsbefunde">[2026-08-10] synthesis | Macro-Datenbank — Design + Datenqualitaetsbefunde</h2>
+<ul>
+<li>Brainstorming-Session zu einem Skill, der jedes Macro-Fenster des Handelstags erfasst
+  (Vorgeschichte, Verlauf, Startminute, getroffene Level) und daraus Wahrscheinlichkeiten
+  mit Diagrammen rechnet. Spec: docs/superpowers/specs/2026-08-10-macro-datenbank-design.md</li>
+<li><strong>Sessionfehler gefunden</strong>: algo/backtest_macro.py zerlegt den <em>Kalendertag</em> ab 00:10, der
+  MNQ-Handelstag beginnt aber 18:00 am Vorabend. Dadurch fehlen 6 der 23 Macro-Fenster
+  (Abend-/fruehe Asia-Session). Die publizierten Zahlen auf der Konzeptseite (351/740/1091
+  Bloecke, drei p-Werte, "Median-Rang 3 von 49") beruhen auf diesem verkuerzten Tag.
+  Noch nicht behoben — Warnblock auf der Seite gesetzt, Fix vor dem Datenbank-Bau.</li>
+<li><strong>Der Handelstag hat 23 Macro-Fenster, nicht 24</strong> — 17:50 liegt in der Globex-Pause.</li>
+<li><strong>Datenqualitaet vermessen</strong>: kein Volumen in den TradingView-Exporten (schliesst
+  volumenbasierte Spooling-Definitionen aus); systematische Exportluecke 23:59-00:08 an
+  15 von 19 Tagen (macht Fenster 23:50 unbrauchbar); vier Fragmenttage; bei strikter
+  Vollstaendigkeit 440 von 529 Fenstern nutzbar (21 Fenster, +21 je Handelstag).</li>
+<li><strong>Nebenbefund Datenquellen</strong>: Dukascopy liefert kostenlos Nasdaq-CFD-Tickdaten
+  (USATECHIDXUSD, per Ladetest bis 2012 bestaetigt). Bewusst nicht genutzt — Nutzerentscheidung
+  zugunsten ausschliesslich echter MNQ-Daten, Datenbank waechst stattdessen taeglich mit.</li>
+<li>Seiten aktualisiert: wiki/concepts/ICT Macros &amp; Leading Candles.md (Warnblock + Abschnitt
+  "Datenqualitaet"), algo/PLAN.md (drei Log-Eintraege).</li>
+</ul>
+<h2 id="2026-08-10-ingest-youtube-navigating-high-resistance-liquidity-run-conditions">[2026-08-10] ingest | YouTube: Navigating High Resistance Liquidity Run Conditions</h2>
+<ul>
+<li>Scan-Fenster: gezielter Einzel-Ingest auf Nutzerwunsch (heute hochgeladen), kein Kanal-Scan.
+  Kandidat: O217xQsEUgI, Upload 2026-08-10, 26:50, noch nicht ingested.</li>
+<li>Transkript geholt: raw/trading-ict/2026/yt-O217xQsEUgI-transcript.md (~3.900 Woerter,
+  Auto-Captions praktisch vollstaendig, letzter Satz bricht mitten im Wort ab).</li>
+<li>Seiten erstellt: wiki/sources/youtube/2026-08-10 - Navigating High Resistance Liquidity Run
+  Conditions (Source).md</li>
+<li>Seiten erweitert:</li>
+<li>concepts/IFVG (Inverse Fair Value Gap).md — Abschnitt "Mehrfach-Qualifizierung vor dem
+    Entry": zwei Closes ueber dem Gap noetig, Entries ueber das ganze Gap verteilt (4 -&gt; 12
+    Kontrakte, Durchschnitt = Gap-High, Stop auf Gap-Low - 1 Tick).</li>
+<li>concepts/Institutional Order Flow (Body vs Wick).md — Abschnitt "Wick-C.E. als Body-Grenze
+    ('no bodies buried')" inkl. Verteidigungs-Kaskade Wick-C.E. #1 -&gt; #2 -&gt; Swing Low.</li>
+<li>concepts/Low Resistance Liquidity Run.md — HRLR-Unterabschnitt "Navigieren statt Aussitzen".</li>
+<li>concepts/Partial Profit-Taking &amp; R-Multiple-Skalierung.md — "Stop-Order auf Teilposition als
+    Retracement-Partial" (2 von 7 Kontrakten unter den verteidigten Wick).</li>
+<li>concepts/Fair Value Gap (FVG).md — teilweise offen gelassenes FVG als Continuation-Signatur.</li>
+<li>concepts/Midnight Opening Range.md — MOP als Magnet und Widerstand zugleich, erstes
+    Partial-Ziel (5 von 12 Kontrakten knapp darunter).</li>
+<li>wiki/index.md — neue Quelle eingetragen.</li>
+<li>Entscheidung offengelegt: Die HRLR-Ergaenzung steht in scheinbarer Spannung zur bestehenden
+  Regel "kein FVG in 15M/5M -&gt; nicht handeln". Bewusst <strong>nicht</strong> als Widerspruch markiert,
+  sondern als Praezisierung formuliert (Entry-Filter vs. Management einer laufenden Position) —
+  selber Autor, keine zwei gleichwertigen Lehrmeinungen.</li>
+<li>Ausgefiltert: Market-Replay-/Konkurrenz-Polemik, Paper-Account-Begruendung (Lizenzrecht),
+  "predict statt react"-Rhetorik — kein neuer Regelinhalt.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

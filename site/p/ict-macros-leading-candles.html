@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li class="active"><a href="../index.html#concepts">Konzepte<span class="count">112</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">190</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">191</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">11</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -286,6 +286,32 @@ genau drei: <code>:50–:10</code> (Macro), <code>:10–:30</code> und <code>:30
 unmittelbar neben dem Macro, was den Tageszeit-Confounder ausschaltet (sonst gewänne 09:50–10:10
 allein deshalb, weil nach dem RTH-Open ohnehin die meiste Bewegung liegt).</p>
 <p>Basis: MNQ, 23 Handelstage 1min (2026-07-08 … 2026-08-07), 1091 auswertbare Blöcke.</p>
+<blockquote>
+<p>⚠️ <strong>Alle Zahlen dieses Abschnitts decken nur einen verkürzten Handelstag ab (2026-08-10).</strong>
+<code>blocks()</code> in <code>algo/backtest_macro.py</code> startet bei <strong>00:10 des Kalendertags</strong>. Der MNQ-Handelstag
+beginnt aber um <strong>18:00 des Vorabends</strong> (die 1m-Exporte enthalten ihn korrekt: <code>MNQ 2026-07-09
+1m.csv</code> reicht von 2026-07-08 18:00 bis 2026-07-09 17:00). Dadurch fallen die Blöcke von 18:00
+bis 24:00 heraus — <strong>6 der 23 Macro-Fenster</strong>, also die gesamte Abend- und frühe Asia-Session.
+Betroffen: die Blockzahlen (351 / 740 / 1091), die drei p-Werte und die Median-Rang-Aussage
+("3 von 49 Blöcken" — bei vollem Handelstag sind es 69 Blöcke, nicht 72, da 17:50 in der
+Globex-Pause liegt). Die <em>Richtung</em> des Befunds (Macros liefern gerichtetere, nicht größere
+Bewegung) ist davon unberührt, die <em>Zahlen</em> sind nach dem Fix neu zu erzeugen.
+Details: <code>docs/superpowers/specs/2026-08-10-macro-datenbank-design.md</code> §9.2.</p>
+</blockquote>
+<p><strong>Datenqualität, am 2026-08-10 gemessen</strong> (gilt für alle Auswertungen auf diesem Bestand):</p>
+<ul>
+<li><strong>Kein Volumen.</strong> Die TradingView-1m-Exporte enthalten nur <code>time,open,high,low,close</code>. Jede
+  volumenbasierte Kennzahl ist auf diesem Bestand unmöglich — das trifft insbesondere die
+  naheliegende Spooling-Definition "enge Kerzen bei steigendem Volumen" (siehe Abschnitt oben).</li>
+<li><strong>Systematische Exportlücke am Datumswechsel.</strong> An 15 von 19 vollen Tagen fehlen die Minuten
+  <strong>23:59–00:08</strong>. Immer dieselben zehn Minuten. MNQ handelt dort durchgehend (Asia-Session läuft),
+  zehn tickfreie Minuten sind praktisch ausgeschlossen — das ist ein TradingView-Exportartefakt,
+  kein Marktverhalten. Es macht genau das Macro-Fenster <strong>23:50–00:10</strong> unbrauchbar (nur 1 von 23
+  Tagen vollständig). Schließbar über <code>algo/fetch_yfinance.py</code> (MNQ=F, 1m, ~30 Tage rückwärts).</li>
+<li><strong>Vier Fragmenttage</strong> im Bestand: 2026-07-08, 08-03 (nur 11:19–16:18), 08-05, 08-07.</li>
+<li><strong>16:50–17:10</strong> ist grundsätzlich unvollständig — das Fenster ragt über den Sessionschluss 17:00
+  hinaus und existiert nur zur Hälfte.</li>
+</ul>
 <table>
 <thead>
 <tr>

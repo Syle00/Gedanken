@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, trade-management]
 created: 2026-08-06
-updated: 2026-08-06
-sources: ["[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]"]
+updated: 2026-08-10
+sources: ["[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]"]
 ---
 
 # Partial Profit-Taking & R-Multiple-Skalierung
@@ -35,6 +35,29 @@ Ausgangsposition: 2 % Kontorisiko.
 3. Ergebnis in der Beispielrechnung: **>10 % Monatsrendite allein aus dem zweiten Positionsteil**,
    zusätzlich zu den 3 % aus dem ersten Teil — auch wenn nur die Hälfte der potenziellen Range
    (statt des vollen Zielbereichs) erreicht wird.
+
+## Stop-Order auf Teilposition als Retracement-Partial (Live-Trade 2026-08-10)
+
+Aus
+[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]
+— die Spiegelvariante zum Partial nach oben: Ein Partial lässt sich auch **gegen** die eigene
+Richtung als Stop-Order platzieren, wenn die Fortsetzung fraglich wird.
+
+- Umsetzung: 7 Kontrakte long, davon **2 mit eigenem Stop** knapp unter den zuletzt verteidigten
+  Wick; die restlichen 5 behalten den weiteren Stop unter dem Swing Low.
+- Bricht Preis den Wick, werden nur die 2 verkauft — *"it's kind of like taking a partial on a
+  retracement"*. Ausdrücklich **nicht** die ideale Seite der Kurve (ideal wäre ein Limit über
+  Markt bei bullisher Position), aber besser als die volle Position auf den Endstop laufen zu
+  lassen.
+- Drei Effekte: (1) realisierter Gewinn statt Buchgewinn, (2) mentale Entlastung — der Zwang,
+  Recht zu behalten, fällt weg, (3) **Information**: löst der Teilstop aus und folgt danach ein
+  Close unter dem Gap, ist der volle Rücklauf wahrscheinlich und der Reststop darf laufen.
+- Vorher: erstes Partial von **5 aus 12** Kontrakten knapp unter dem Midnight Opening Price. Danach
+  gilt der Trade als erledigt — *"it doesn't make a difference to me because it's done what I hoped
+  it would do"*; der Rest ist ein "free look" auf höhere Preise.
+- Grundhaltung dahinter: *"If you don't allow the trades that you're part of pay by any means
+  necessary, you're not trading, you're gambling."* — Partials sind kein Verzicht, sondern das
+  Zulassen, dass die Idee anders als geplant aufgehen darf.
 
 ## Bezug zum Reward-to-Risk-Modell
 

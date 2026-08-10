@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-06
-sources: ["[[Fair Valuation (Source)]]", "[[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]]", "[[ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)]]", "[[2026-08-06 - ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)|ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)]]"]
+updated: 2026-08-10
+sources: ["[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[Fair Valuation (Source)]]", "[[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]]", "[[ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)]]", "[[2026-08-06 - ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)|ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)]]"]
 ---
 
 # Fair Value Gap (FVG)
@@ -43,6 +43,13 @@ Erst wenn alle drei Ebenen übereinstimmen, gilt der Preis als "im fairen Bereic
   C.E, sinkt die Wahrscheinlichkeit stark, dass die Idee noch aufgeht — zu viel Zeit gebraucht.
   Optimal sind **1–3 Candles** mit einem starken, explosiven Move Richtung Ziel-DOL. Bei einem SIBI
   muss Preis dabei unter dem C.E bleiben, bei einem BISI darüber.
+- **Teilweise offen gelassenes FVG = Continuation-Signatur** (Live-Trade 2026-08-10): Läuft Preis
+  bullish weiter und füllt ein neu entstandenes BISI **nicht komplett**, ist der offen gebliebene
+  Rest laut ICT *"one of the strongest signatures that the market's still likely to go higher"*.
+  Vollständige Füllung ist früh im Lauf nicht per se schlecht, macht den Nachweis der Fortsetzung
+  aber schwerer. Wird das Gap gar nicht erst angetastet, wirkt es als Breakaway-/Measuring-Gap
+  ([[Breakaway Gap]]) relativ zum Ursprung des Laufs. Spiegelbildlich bei SIBI im bearishen Lauf.
+  Quelle: [[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]].
 - **Pflicht-Check eine Timeframe tiefer**: Sobald sich ein FVG bildet, MUSS mindestens eine
   Timeframe tiefer geprüft werden, was Preis innerhalb des FVG gemacht hat — siehe
   [[Balanced Price Range (BPR)]]. Bildet sich auf 15-/5-Min kein FVG, gilt das als **High

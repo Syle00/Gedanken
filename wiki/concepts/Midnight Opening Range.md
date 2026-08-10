@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, lecture-2025, sessions, london]
 created: 2026-08-02
-updated: 2026-08-02
-sources: ["[[SMC Midnight Opening Range (Source)]]", "[[London Opening Range +1p FVG (Source)]]", "[[Making Money With SMC Concepts (Source)]]"]
+updated: 2026-08-10
+sources: ["[[SMC Midnight Opening Range (Source)]]", "[[London Opening Range +1p FVG (Source)]]", "[[Making Money With SMC Concepts (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]"]
 ---
 
 # Midnight Opening Range
@@ -61,6 +61,23 @@ Dasselbe Verfahren lässt sich auch auf ein **einzelnes FVG** anwenden (−0,5 /
 
 > Die Midnight Range ist **den ganzen Tag aktiv**, inklusive ihrer STD-Level. Bevor irgendetwas
 > anderes gemacht wird, geht man auf die Midnight Range zurück — sie wird den ganzen Tag respektiert.
+
+## Midnight Opening Price: Magnet und Widerstand zugleich (Live-Trade 2026-08-10)
+
+Aus
+[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]
+— der reine **Opening Price** (Punkt 1 oben) als eigenständiges Handelsziel, unabhängig von der
+0:00–0:30-Range:
+
+- *"The midnight opening price is something I teach. It's like a magnet. It's a very strong draw on
+  liquidity."* Er trägt einen **Session-Bias**, nicht zwingend den Daily Bias — das reicht als
+  Prämisse für einen Intraday-Trade aus.
+- Praktische Nutzung als **erstes Partial-Ziel**: Im Beispiel wurden 5 von 12 Kontrakten knapp
+  **unter** dem MOP (29.878,25) realisiert, statt auf einen Durchbruch zu setzen.
+- Von unten angelaufen wirkt er zugleich als **massiver Widerstand** ("offering a whole lot of
+  initial resistance") — der Bereich darüber wird dadurch zum
+  [[Low Resistance Liquidity Run|High Resistance Liquidity Run]]-Abschnitt. Beides gilt
+  gleichzeitig: starker Draw hin zum Level, zäher Handel darüber.
 
 ## 3:30 als Sweetspot
 

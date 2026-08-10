@@ -1481,3 +1481,50 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   FVG-Haeufigkeit + Abschnitt "Chart-Konvention (Nutzer)").
 - Journal: journal/entries/2026-08-10 MNQ Tape Reading.md um den 14:12-Eintrag ergaenzt, inkl.
   Hinweis, dass 14:12 zwei Minuten nach dem markierten Macro 13:50-14:10 liegt.
+
+## [2026-08-10] synthesis | Macro-Datenbank — Design + Datenqualitaetsbefunde
+- Brainstorming-Session zu einem Skill, der jedes Macro-Fenster des Handelstags erfasst
+  (Vorgeschichte, Verlauf, Startminute, getroffene Level) und daraus Wahrscheinlichkeiten
+  mit Diagrammen rechnet. Spec: docs/superpowers/specs/2026-08-10-macro-datenbank-design.md
+- **Sessionfehler gefunden**: algo/backtest_macro.py zerlegt den *Kalendertag* ab 00:10, der
+  MNQ-Handelstag beginnt aber 18:00 am Vorabend. Dadurch fehlen 6 der 23 Macro-Fenster
+  (Abend-/fruehe Asia-Session). Die publizierten Zahlen auf der Konzeptseite (351/740/1091
+  Bloecke, drei p-Werte, "Median-Rang 3 von 49") beruhen auf diesem verkuerzten Tag.
+  Noch nicht behoben — Warnblock auf der Seite gesetzt, Fix vor dem Datenbank-Bau.
+- **Der Handelstag hat 23 Macro-Fenster, nicht 24** — 17:50 liegt in der Globex-Pause.
+- **Datenqualitaet vermessen**: kein Volumen in den TradingView-Exporten (schliesst
+  volumenbasierte Spooling-Definitionen aus); systematische Exportluecke 23:59-00:08 an
+  15 von 19 Tagen (macht Fenster 23:50 unbrauchbar); vier Fragmenttage; bei strikter
+  Vollstaendigkeit 440 von 529 Fenstern nutzbar (21 Fenster, +21 je Handelstag).
+- **Nebenbefund Datenquellen**: Dukascopy liefert kostenlos Nasdaq-CFD-Tickdaten
+  (USATECHIDXUSD, per Ladetest bis 2012 bestaetigt). Bewusst nicht genutzt — Nutzerentscheidung
+  zugunsten ausschliesslich echter MNQ-Daten, Datenbank waechst stattdessen taeglich mit.
+- Seiten aktualisiert: wiki/concepts/ICT Macros & Leading Candles.md (Warnblock + Abschnitt
+  "Datenqualitaet"), algo/PLAN.md (drei Log-Eintraege).
+
+## [2026-08-10] ingest | YouTube: Navigating High Resistance Liquidity Run Conditions
+- Scan-Fenster: gezielter Einzel-Ingest auf Nutzerwunsch (heute hochgeladen), kein Kanal-Scan.
+  Kandidat: O217xQsEUgI, Upload 2026-08-10, 26:50, noch nicht ingested.
+- Transkript geholt: raw/trading-ict/2026/yt-O217xQsEUgI-transcript.md (~3.900 Woerter,
+  Auto-Captions praktisch vollstaendig, letzter Satz bricht mitten im Wort ab).
+- Seiten erstellt: wiki/sources/youtube/2026-08-10 - Navigating High Resistance Liquidity Run
+  Conditions (Source).md
+- Seiten erweitert:
+  - concepts/IFVG (Inverse Fair Value Gap).md — Abschnitt "Mehrfach-Qualifizierung vor dem
+    Entry": zwei Closes ueber dem Gap noetig, Entries ueber das ganze Gap verteilt (4 -> 12
+    Kontrakte, Durchschnitt = Gap-High, Stop auf Gap-Low - 1 Tick).
+  - concepts/Institutional Order Flow (Body vs Wick).md — Abschnitt "Wick-C.E. als Body-Grenze
+    ('no bodies buried')" inkl. Verteidigungs-Kaskade Wick-C.E. #1 -> #2 -> Swing Low.
+  - concepts/Low Resistance Liquidity Run.md — HRLR-Unterabschnitt "Navigieren statt Aussitzen".
+  - concepts/Partial Profit-Taking & R-Multiple-Skalierung.md — "Stop-Order auf Teilposition als
+    Retracement-Partial" (2 von 7 Kontrakten unter den verteidigten Wick).
+  - concepts/Fair Value Gap (FVG).md — teilweise offen gelassenes FVG als Continuation-Signatur.
+  - concepts/Midnight Opening Range.md — MOP als Magnet und Widerstand zugleich, erstes
+    Partial-Ziel (5 von 12 Kontrakten knapp darunter).
+  - wiki/index.md — neue Quelle eingetragen.
+- Entscheidung offengelegt: Die HRLR-Ergaenzung steht in scheinbarer Spannung zur bestehenden
+  Regel "kein FVG in 15M/5M -> nicht handeln". Bewusst **nicht** als Widerspruch markiert,
+  sondern als Praezisierung formuliert (Entry-Filter vs. Management einer laufenden Position) —
+  selber Autor, keine zwei gleichwertigen Lehrmeinungen.
+- Ausgefiltert: Market-Replay-/Konkurrenz-Polemik, Paper-Account-Begruendung (Lizenzrecht),
+  "predict statt react"-Rhetorik — kein neuer Regelinhalt.
