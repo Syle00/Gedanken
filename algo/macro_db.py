@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import statistics
 import sys
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -116,9 +117,58 @@ def measure_window(win: list[Bar], dir_thr: float = DIR_THR,
             "start_min": start_min, "expansion": bool(d >= dir_thr and ab >= netto_thr)}
 
 
+NORM_BLOCKS = 12    # 12 x 10 Minuten = 2 Stunden Rueckschau fuer die Normierung
+
+
+def measure_pre(bars: list[Bar], start: datetime, pre_min: int = PRE_MIN) -> dict:
+    """Spooling-Kandidaten aus den `pre_min` Minuten VOR dem Fenster.
+
+    Alle vier Kennzahlen sind preisbasiert, weil die TradingView-Exporte kein Volumen
+    enthalten (Spec 3.2) -- die naheliegende Definition "enge Kerzen bei steigendem
+    Volumen" ist auf diesem Bestand nicht baubar.
+
+    Sieht ausschliesslich Kerzen mit `t < start`: kein Lookahead.
+    """
+    pre = window_bars(bars, start - timedelta(minutes=pre_min), start)
+    if not pre:
+        return {"pre_range_rel": None, "pre_wick_frac": None,
+                "pre_streak": None, "pre_contraction": None}
+
+    rng_pre = max(b.h for b in pre) - min(b.l for b in pre)
+
+    # Normierung gegen die 12 vorangegangenen 10-Minuten-Bloecke (nicht gegen den
+    # Tagesmedian -- der enthielte Kerzen NACH dem Fenster und waere Lookahead).
+    refs = []
+    for k in range(1, NORM_BLOCKS + 1):
+        b_end = start - timedelta(minutes=pre_min * k)
+        blk = window_bars(bars, b_end - timedelta(minutes=pre_min), b_end)
+        if len(blk) == pre_min:
+            refs.append(max(b.h for b in blk) - min(b.l for b in blk))
+    med = statistics.median(refs) if len(refs) >= NORM_BLOCKS // 2 else None
+    pre_range_rel = (rng_pre / med) if med else None
+
+    ges_rng = sum(b.rng for b in pre)
+    ges_body = sum(b.body for b in pre)
+    pre_wick_frac = ((ges_rng - ges_body) / ges_rng) if ges_rng > 0 else None
+
+    best = cur = 1
+    for a, b in zip(pre, pre[1:]):
+        cur = cur + 1 if a.bull == b.bull else 1
+        best = max(best, cur)
+
+    half = len(pre) // 2
+    erst = statistics.median(b.rng for b in pre[:half]) if half else None
+    letzt = statistics.median(b.rng for b in pre[half:]) if half else None
+    pre_contraction = (letzt / erst) if erst else None
+
+    return {"pre_range_rel": pre_range_rel, "pre_wick_frac": pre_wick_frac,
+            "pre_streak": best, "pre_contraction": pre_contraction}
+
+
 CSV_PATH = Path(__file__).resolve().parent / "results" / "macro_db.csv"
 
 FIELDS = ["symbol", "session_day", "window", "weekday", "session",
+          "pre_range_rel", "pre_wick_frac", "pre_streak", "pre_contraction",
           "range", "netto", "dir", "direction", "start_min", "expansion"]
 
 
@@ -147,6 +197,7 @@ def build(symbol: str = "MNQ", dir_thr: float = DIR_THR,
             rows.append({"symbol": symbol, "session_day": str(session_day),
                          "window": label, "weekday": start.strftime("%a"),
                          "session": SESSION_BY_HOUR[start.hour],
+                         **measure_pre(bars, start),
                          **measure_window(win, dir_thr, netto_thr)})
     return rows, skipped
 
@@ -240,6 +291,60 @@ def _check_measure() -> None:
     assert measure_window(win, dir_thr=0.99, netto_thr=25.0)["expansion"] is False
 
 
+def _check_pre() -> None:
+    start = at(date(2026, 8, 10), 9, 50)
+
+    def mk(t0, n, rng, step=0.0, body_frac=1.0):
+        """n Kerzen ab t0 mit fester Range `rng`; body_frac steuert den Dochtanteil."""
+        out = []
+        for i in range(n):
+            base = 100.0 + i * step
+            half = rng / 2
+            body = rng * body_frac
+            o = base - body / 2
+            c = base + body / 2
+            out.append(Bar(t0 + timedelta(minutes=i), o, base + half, base - half, c, None))
+        return out
+
+    # 130 Minuten Historie mit Range 10, danach 10 Minuten mit Range 2 -> Kompression
+    hist = mk(start - timedelta(minutes=130), 120, rng=10.0)
+    pre = mk(start - timedelta(minutes=10), 10, rng=2.0)
+    m = measure_pre(hist + pre, start)
+    assert m["pre_range_rel"] is not None and m["pre_range_rel"] < 1.0, m
+    # Gegenprobe: Vorlauf so volatil wie die Historie -> etwa 1.0
+    pre_gleich = mk(start - timedelta(minutes=10), 10, rng=10.0)
+    m2 = measure_pre(hist + pre_gleich, start)
+    assert 0.5 < m2["pre_range_rel"] < 2.0, m2
+
+    # Dochtanteil: body_frac=1.0 heisst Koerper = ganze Range -> Wick-Anteil ~0
+    assert m["pre_wick_frac"] < 0.2, m
+    pre_docht = mk(start - timedelta(minutes=10), 10, rng=10.0, body_frac=0.1)
+    m3 = measure_pre(hist + pre_docht, start)
+    assert m3["pre_wick_frac"] > 0.7, m3
+
+    # Streak: 10 durchgehend steigende Closes -> Serie 10
+    pre_up = [Bar(start - timedelta(minutes=10 - i), 100.0 + i, 100.0 + i + 2,
+                  100.0 + i - 1, 100.0 + i + 1, None) for i in range(10)]
+    m4 = measure_pre(hist + pre_up, start)
+    assert m4["pre_streak"] == 10, m4
+    # abwechselnd bull/bear -> Serie 1
+    pre_alt = [Bar(start - timedelta(minutes=10 - i), 100.0, 102.0, 98.0,
+                   101.0 if i % 2 == 0 else 99.0, None) for i in range(10)]
+    m5 = measure_pre(hist + pre_alt, start)
+    assert m5["pre_streak"] == 1, m5
+
+    # Kontraktion: erste 5 Kerzen gross, letzte 5 klein -> Wert < 1
+    schrumpf = (mk(start - timedelta(minutes=10), 5, rng=10.0)
+                + mk(start - timedelta(minutes=5), 5, rng=2.0))
+    m6 = measure_pre(hist + schrumpf, start)
+    assert m6["pre_contraction"] < 1.0, m6
+
+    # Zu wenig Historie fuer die Normierung -> pre_range_rel None, Rest trotzdem da
+    m7 = measure_pre(pre, start)
+    assert m7["pre_range_rel"] is None, m7
+    assert m7["pre_wick_frac"] is not None and m7["pre_streak"] is not None, m7
+
+
 def selfcheck() -> None:
     day = date(2026, 8, 10)         # Montag; session_day = Ende der Session
     ws = macro_windows_session(day)
@@ -275,6 +380,7 @@ def selfcheck() -> None:
     assert len(window_bars(full, start, start + timedelta(minutes=WINDOW_MIN))) == WINDOW_MIN
 
     _check_measure()
+    _check_pre()
     print("macro_db.selfcheck: OK")
 
 
