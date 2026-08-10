@@ -134,6 +134,7 @@
 <li><a href="#2026-08-10-ingest-ict-gems-macro-reihe-6-von-11-videos-playlist">[2026-08-10] ingest | ICT Gems — Macro-Reihe (6 von 11 Videos, Playlist)</a></li>
 <li><a href="#2026-08-10-setup-macro-datenbank-skill-macro-db">[2026-08-10] setup | Macro-Datenbank + Skill macro-db</a></li>
 <li><a href="#2026-08-10-ingest-ict-gems-restliche-5-videos-playlist-jetzt-1111">[2026-08-10] ingest | ICT Gems — restliche 5 Videos (Playlist jetzt 11/11)</a></li>
+<li><a href="#2026-08-10-setup-macro_db-startfehler-behoben-exkursion-nach-ict-korrektur-ergaenzt">[2026-08-10] setup | macro_db: Startfehler behoben, Exkursion nach ICT-Korrektur ergaenzt</a></li>
 </ul>
 </div>
 </details>
@@ -1872,6 +1873,23 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   <code>]]</code> eines Wikilinks statt das Listenende). Sofort repariert und per YAML-Parse verifiziert.</li>
 <li>Ausgefiltert: Telegram-Eigenwerbung, Publikumsansprachen, ein im Auto-Transkript verstuemmelter
   Zahlenvergleich (bewusst <strong>nicht</strong> als Zahlenbeispiel uebernommen), Korrelationsbruch-Exkurs.</li>
+</ul>
+<h2 id="2026-08-10-setup-macro_db-startfehler-behoben-exkursion-nach-ict-korrektur-ergaenzt">[2026-08-10] setup | macro_db: Startfehler behoben, Exkursion nach ICT-Korrektur ergaenzt</h2>
+<ul>
+<li>Fehler behoben: <code>python algo/macro_db.py</code> ohne Subcommand endete mit argparse-Fehler.
+  Laeuft jetzt <code>stats</code>, baut vorher neu wenn die CSV fehlt, veraltet ist oder nicht mehr
+  zum Spaltensatz passt (Letzteres verhinderte bisher, dass neue Spalten sichtbar wurden).</li>
+<li>Neue Wiki-Quellen (ICT Gems Macro-Reihe) eingearbeitet: ICT sagt, der Move <strong>beginne</strong>
+  im Macro und laufe darueber hinaus. Dafuer <code>mfe_20/40/60</code> als Zielgroesse erhoben.</li>
+<li><strong>Befund: kein Startfenster-Effekt.</strong> Die Auslenkung waechst mit x1,40 / x1,71 exakt so
+  wie ein Random Walk (x1,41 / x1,73). Aus der Uhrzeit allein folgt kein Bewegungsvorteil.</li>
+<li><strong>Befund: ICTs Mindestziel von 10 Handles</strong> wird in 100 % der Fenster erreicht (n=440) --
+  als Filter unbrauchbar, nur als Untergrenze fuer die Stopwahl.</li>
+<li>Terminologie korrigiert: die vier <code>pre_*</code>-Spalten sind <strong>Vorlauf-Kandidaten</strong>, nicht
+  Spooling-Kandidaten. Spooling ist laut ICT der gerichtete Lauf selbst.</li>
+<li>Seiten aktualisiert: wiki/concepts/ICT Macros &amp; Leading Candles.md (Messergebnis zum
+  Startfenster), wiki/synthesis/Macro-Datenbank (laufend).md, .claude/skills/macro-db/SKILL.md,
+  algo/README.md, algo/PLAN.md</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

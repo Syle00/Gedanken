@@ -166,7 +166,10 @@
 <li><a href="#messergebnis-zur-vorlauf-lesart-2026-08-10-algomacro_dbpy">Messergebnis zur Vorlauf-Lesart (2026-08-10, algo/macro_db.py)</a></li>
 </ul>
 </li>
-<li><a href="#der-move-beginnt-im-macro-er-lauft-nicht-darin-ab">⚠️ Der Move beginnt im Macro — er läuft nicht darin ab</a></li>
+<li><a href="#der-move-beginnt-im-macro-er-lauft-nicht-darin-ab">⚠️ Der Move beginnt im Macro — er läuft nicht darin ab</a><ul>
+<li><a href="#umgesetzt-und-gemessen-2026-08-10-kein-startfenster-effekt-nachweisbar">✅ Umgesetzt und gemessen (2026-08-10) — kein Startfenster-Effekt nachweisbar</a></li>
+</ul>
+</li>
 <li><a href="#jede-stunde-hat-ein-macro">Jede Stunde hat ein Macro</a></li>
 <li><a href="#wonach-ein-macro-greift-gap-oder-order-block-oder-short-term-low">Wonach ein Macro greift: Gap oder Order Block oder Short-Term Low</a></li>
 <li><a href="#immer-relevante-daily-level">Immer relevante Daily-Level</a><ul>
@@ -328,8 +331,54 @@ darüber hinausläuft.</p>
 <p><strong>Konsequenz für <code>algo/backtest_macro.py</code></strong>: Das Skript misst Range, Nettoweg und <code>dir</code> <strong>innerhalb</strong>
 des 20-Minuten-Blocks. Nach ICTs Definition unterschätzt das den Effekt systematisch — ein Macro,
 das um 10:05 einen Lauf startet, der bis 10:40 trägt, wird als schwacher Block gewertet. Die
-passendere Kennzahl wäre die <strong>Exkursion ab Macro-Start über die folgenden N Minuten</strong>
-(MFE/MAE-artig), nicht der Blockinhalt. Als Auftrag in <code>algo/PLAN.md</code> notiert.</p>
+passendere Kennzahl ist die <strong>Exkursion ab Macro-Start über die folgenden N Minuten</strong>
+(MFE/MAE-artig), nicht der Blockinhalt.</p>
+<h3 id="umgesetzt-und-gemessen-2026-08-10-kein-startfenster-effekt-nachweisbar">✅ Umgesetzt und gemessen (2026-08-10) — kein Startfenster-Effekt nachweisbar</h3>
+<p><code>algo/macro_db.py</code> erhebt seit 2026-08-10 genau diese Kennzahl: <code>mfe_20/40/60</code> = größte
+Auslenkung ab Fenster-Open über 20 / 40 / 60 Minuten, richtungsagnostisch (ICT: <em>"It is not going
+to give you a direction"</em>). Basis: MNQ, 440 Fenster aus 23 Handelstagen.</p>
+<table>
+<thead>
+<tr>
+<th>Horizont</th>
+<th>Median MFE</th>
+<th>gemessenes Wachstum</th>
+<th>Random Walk erwartet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+20 Min</td>
+<td>48,38 Pkt</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>+40 Min</td>
+<td>67,50 Pkt</td>
+<td>×1,40</td>
+<td><strong>×1,41</strong></td>
+</tr>
+<tr>
+<td>+60 Min</td>
+<td>82,75 Pkt</td>
+<td>×1,71</td>
+<td><strong>×1,73</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Befund</strong>: Die Auslenkung wächst nach dem Macro exakt so weiter, wie sie es bei reiner Diffusion
+täte (Wurzel der Zeit). Ein Startfenster müsste <strong>schneller</strong> als √t wachsen — das tut es nicht.
+Über alle Fenster gemittelt lässt sich aus dem bloßen Zeitpunkt also <strong>kein Bewegungsvorteil</strong>
+ableiten.</p>
+<p>Das widerlegt ICTs Aussage nicht direkt: Er spricht vom <em>Setup</em>, das im Macro startet, nicht vom
+Durchschnitt aller Macros ohne Kontext. Aber es setzt die Erwartung gerade — die Uhrzeit allein
+liefert nichts, erst die Kombination mit Narrativ und Liquiditätslage könnte etwas liefern. Genau
+das sagt ICT im selben Atemzug ("It is not going to give you a direction").</p>
+<p><strong>Nebenbefund zum Mindestziel</strong>: Die genannten <strong>10 Handles</strong> werden in praktisch <em>jedem</em>
+Macro-Fenster erreicht (Median-MFE liegt bei 48 Punkten in 20 Minuten). Als Filter für die
+Fensterauswahl taugt die Schwelle damit nicht — nur als Untergrenze für Stop- und Zielwahl.</p>
+<p>Laufender Stand: <a href="../p/macro-datenbank-laufend.html">Macro-Datenbank (laufend)</a>.</p>
 <p>Das erklärt außerdem den bisherigen "Befund gegen die These" weiter unten: Dass 09:50–10:10 nicht
 das größte Fenster des Tages ist, ist nach dieser Lesart <strong>kein Widerspruch</strong> — der RTH-Open
 liefert die Range, das Macro liefert den <strong>Startschuss</strong> für den gerichteten Anschlusslauf. Genau

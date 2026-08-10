@@ -50,10 +50,11 @@
   <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">macro</span> <span class="tag">laufend</span></div><div class="dates">erstellt 2026-08-10 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#hauptergebnis-nullbefund-bei-den-spooling-kandidaten">Hauptergebnis: Nullbefund bei den Spooling-Kandidaten</a><ul>
+<li><a href="#hauptergebnis-nullbefund-bei-den-vorlauf-kandidaten">Hauptergebnis: Nullbefund bei den Vorlauf-Kandidaten</a><ul>
 <li><a href="#gegenbefund-volatilitat-halt-an-sie-staut-sich-nicht-auf">Gegenbefund: Volatilität hält an, sie staut sich nicht auf</a></li>
 </ul>
 </li>
+<li><a href="#ist-das-macro-ein-startfenster-gemessen-nein">Ist das Macro ein Startfenster? Gemessen: nein</a></li>
 <li><a href="#expansion-je-fenster">Expansion je Fenster</a></li>
 <li><a href="#wann-setzt-der-move-ein">Wann setzt der Move ein?</a></li>
 <li><a href="#liquiditat-im-fenster-genommen">Liquidität im Fenster genommen</a></li>
@@ -68,15 +69,21 @@ erfasste Macro-Fenster aus 23 Handelstagen (2026-07-08 … 2026-08-07).
 Diese Seite wird bei jedem Lauf überschrieben — sie ist ein laufender Stand,
 kein Schnappschuss.</p>
 <p><strong>Basisrate Expansion:</strong> 35.2% [30.9–39.8] (n=440, k=155)</p>
-<h2 id="hauptergebnis-nullbefund-bei-den-spooling-kandidaten">Hauptergebnis: Nullbefund bei den Spooling-Kandidaten</h2>
-<p>Keiner der vier Spooling-Kandidaten (<code>pre_range_rel</code>, <code>pre_wick_frac</code>, <code>pre_streak</code>, <code>pre_contraction</code>) korreliert mit der
+<h2 id="hauptergebnis-nullbefund-bei-den-vorlauf-kandidaten">Hauptergebnis: Nullbefund bei den Vorlauf-Kandidaten</h2>
+<blockquote>
+<p><strong>Begriffsklärung (2026-08-10).</strong> Diese vier Kandidaten messen die <strong>Ruhe vor</strong> dem
+Fenster — die ursprüngliche Lesart von „Spooling". Die inzwischen belegte
+ICT-Definition meint mit Spooling das Gegenteil, nämlich den <strong>gerichteten Lauf</strong>
+selbst (siehe <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a>). Sie heißen hier deshalb
+Vorlauf-Kandidaten; das Spooling im ICT-Sinn steckt in <code>dir</code> und <code>mfe_*</code>.</p>
+</blockquote>
+<p>Keiner der vier Vorlauf-Kandidaten (<code>pre_range_rel</code>, <code>pre_wick_frac</code>, <code>pre_streak</code>, <code>pre_contraction</code>) korreliert mit der
 <strong>Geradlinigkeit</strong> des Fensters, und keine der 7 Vorgeschichts-Bedingungen hebt sich
 von der Basisrate ab (0 von 7 mit getrennten Wilson-Intervallen).
-Das ist das eigentliche Ergebnis dieser Datenbank — die Vermutung, an der Vorgeschichte
-eines Macro-Fensters lasse sich ablesen, ob es gleich sauber expandiert, trägt auf
-diesem Bestand nicht.</p>
-<p>Rangkorrelation jedes Kandidaten gegen alle drei Zielgrößen (Bonferroni-Schwelle über
-47 Vergleiche: p &lt; 0.0011):</p>
+Die Vermutung, an der Vorgeschichte eines Macro-Fensters lasse sich ablesen, ob es
+gleich sauber expandiert, trägt auf diesem Bestand nicht.</p>
+<p>Rangkorrelation jedes Kandidaten gegen alle 4 Zielgrößen (Bonferroni-Schwelle über
+54 Vergleiche: p &lt; 0.0009):</p>
 <table>
 <thead>
 <tr>
@@ -114,6 +121,14 @@ diesem Bestand nicht.</p>
 <td><strong>ja</strong></td>
 </tr>
 <tr>
+<td><code>pre_range_rel</code></td>
+<td><code>mfe_60</code></td>
+<td>+0.227</td>
+<td>3.752e-06</td>
+<td>405</td>
+<td><strong>ja</strong></td>
+</tr>
+<tr>
 <td><code>pre_wick_frac</code></td>
 <td><code>dir</code></td>
 <td>-0.015</td>
@@ -135,6 +150,14 @@ diesem Bestand nicht.</p>
 <td>-0.042</td>
 <td>0.3801</td>
 <td>440</td>
+<td>nein</td>
+</tr>
+<tr>
+<td><code>pre_wick_frac</code></td>
+<td><code>mfe_60</code></td>
+<td>-0.031</td>
+<td>0.5237</td>
+<td>427</td>
 <td>nein</td>
 </tr>
 <tr>
@@ -162,6 +185,14 @@ diesem Bestand nicht.</p>
 <td>nein</td>
 </tr>
 <tr>
+<td><code>pre_streak</code></td>
+<td><code>mfe_60</code></td>
+<td>+0.062</td>
+<td>0.2037</td>
+<td>427</td>
+<td>nein</td>
+</tr>
+<tr>
 <td><code>pre_contraction</code></td>
 <td><code>dir</code></td>
 <td>-0.020</td>
@@ -185,20 +216,80 @@ diesem Bestand nicht.</p>
 <td>440</td>
 <td>nein</td>
 </tr>
+<tr>
+<td><code>pre_contraction</code></td>
+<td><code>mfe_60</code></td>
+<td>+0.033</td>
+<td>0.4956</td>
+<td>427</td>
+<td>nein</td>
+</tr>
 </tbody>
 </table>
 <h3 id="gegenbefund-volatilitat-halt-an-sie-staut-sich-nicht-auf">Gegenbefund: Volatilität hält an, sie staut sich nicht auf</h3>
 <ul>
 <li><strong><code>pre_range_rel</code> gegen <code>range</code>: rho = +0.258, p = 9.458e-08 (n=417)</strong></li>
+<li><strong><code>pre_range_rel</code> gegen <code>mfe_60</code>: rho = +0.227, p = 3.752e-06 (n=405)</strong></li>
 </ul>
-<p>Dieser Zusammenhang zeigt <strong>in die Gegenrichtung der Spooling-These</strong>: Nicht Ruhe vor
-dem Fenster geht großer Bewegung voraus, sondern <strong>Aktivität</strong>. Ein bereits unruhiger
-Vorlauf (<code>pre_range_rel</code> hoch = die 10 Minuten davor waren weiter als üblich) sagt eine
-<strong>große Range</strong> im Fenster vorher — klassische Volatilitätspersistenz, kein
-Macro-spezifischer Effekt. Er taucht nur gegen <code>range</code> auf und nicht gegen <code>dir</code>, weil
-<code>dir</code> = |netto|/range skalenfrei ist und einen reinen Größeneffekt strukturell nicht
-sehen kann. Für die Spooling-Hypothese ist das keine Bestätigung, sondern ihr
-Gegenteil: das Fenster wird groß, wenn es vorher schon laut war.</p>
+<p>Dieser Zusammenhang zeigt <strong>in die Gegenrichtung der ursprünglichen Lesart</strong>: Nicht
+Ruhe vor dem Fenster geht großer Bewegung voraus, sondern <strong>Aktivität</strong>. Ein bereits
+unruhiger Vorlauf (<code>pre_range_rel</code> hoch = die 10 Minuten davor waren weiter als
+üblich) sagt eine <strong>große Auslenkung</strong> vorher — klassische Volatilitätspersistenz,
+kein Macro-spezifischer Effekt. Gegen <code>dir</code> taucht er nicht auf, weil <code>dir</code> =
+|netto|/range skalenfrei ist und einen reinen Größeneffekt strukturell nicht sehen
+kann. Das Fenster wird groß, wenn es vorher schon laut war.</p>
+<h2 id="ist-das-macro-ein-startfenster-gemessen-nein">Ist das Macro ein Startfenster? Gemessen: nein</h2>
+<p>ICT korrigiert ausdrücklich die Lesart, der Move finde <em>innerhalb</em> der 20 Minuten
+statt: <em>„The move </em><em>begins</em><em> in those 20 minutes. It's not the entirety of the
+move."</em> Ein Macro wäre demnach ein <strong>Startfenster</strong>, kein Container.</p>
+<p>Testbar gemacht: die größte Auslenkung ab Fenster-Open (<code>mfe</code>, richtungsagnostisch,
+weil ein Macro laut ICT keine Richtung liefert) über wachsende Horizonte. Ein
+Startfenster müsste die Auslenkung <strong>schneller</strong> wachsen lassen als die Wurzel der
+Zeit — das ist der Maßstab eines reinen Random Walk.</p>
+<table>
+<thead>
+<tr>
+<th>Horizont</th>
+<th>Median MFE (Pkt)</th>
+<th>n</th>
+<th>gemessenes Wachstum</th>
+<th>Random Walk erwartet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+20 Min</td>
+<td>48.38</td>
+<td>440</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>+40 Min</td>
+<td>67.50</td>
+<td>435</td>
+<td>×1.40</td>
+<td>×1.41</td>
+</tr>
+<tr>
+<td>+60 Min</td>
+<td>82.75</td>
+<td>427</td>
+<td>×1.71</td>
+<td>×1.73</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Befund</strong>: Das gemessene Wachstum entspricht der Wurzel-der-Zeit-Erwartung praktisch
+exakt. Die Auslenkung wächst nach dem Macro also genau so weiter, wie sie es bei
+reiner Diffusion täte — <strong>kein messbarer Startfenster-Effekt</strong> auf diesem Bestand.
+Das widerlegt ICTs Aussage nicht (sie betrifft die <em>Richtung</em> eines Setups, nicht die
+mittlere Auslenkung über alle Fenster), aber es zeigt: aus dem bloßen Zeitpunkt allein
+lässt sich kein Bewegungsvorteil ableiten.</p>
+<p><strong>Nebenbefund</strong>: ICTs Mindestziel von 10 Handles für NASDAQ-Scalps wird in praktisch
+<strong>jedem</strong> Fenster erreicht — der Median-MFE liegt ein Vielfaches darüber. Die Schwelle
+taugt damit nicht als Filter für die Fensterauswahl, sondern höchstens als Untergrenze
+für die Stop- und Zielwahl.</p>
 <h2 id="expansion-je-fenster">Expansion je Fenster</h2>
 <figure><img class="wiki-img" src="../../wiki/assets/macro-db-expansion.png" alt="macro-db-expansion" loading="lazy"><figcaption>Expansionsquote je Macro-Fenster mit 95%-Wilson-Intervall. Rote Linie: Basisrate über alle Fenster. Fenster mit n < 20 stehen grau auf Höhe 0 und tragen nur die n=…-Beschriftung — für sie wird bewusst keine Quote gezeigt.</figcaption></figure>
 
