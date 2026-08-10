@@ -23,6 +23,7 @@ from rules import demo as rules_demo  # noqa: E402
 from signals import _demo as signals_demo  # noqa: E402
 from backtest_ensemble import _demo as ensemble_demo  # noqa: E402
 from backtest_common import demo as backtest_common_demo  # noqa: E402
+from macro_db import selfcheck as macro_db_selfcheck  # noqa: E402
 
 
 def _results_demo() -> None:
@@ -82,6 +83,7 @@ CHECKS = [
     ("signals", signals_demo),
     ("backtest_ensemble", ensemble_demo),
     ("backtest_common", backtest_common_demo),
+    ("macro_db", macro_db_selfcheck),
     ("dedup", _results_demo),
 ]
 

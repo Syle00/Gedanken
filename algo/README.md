@@ -262,6 +262,25 @@ nicht in `selfcheck.py` eingehaengt).
 unabhaengig, der p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_BARS = 15`
 verwirft Bloecke mit Datenluecken, statt sie als ruhigen Markt zu zaehlen.
 
+## `macro_db.py`
+
+**Was:** Eine Zeile je Macro-Fenster (`:50–:10`) je Handelstag in `algo/results/macro_db.csv` --
+Vorgeschichte (Spooling-Kandidaten, Sweep-/MSS-/Displacement-Alter, offene Level), Verlauf
+(Range, Nettoweg, Geradlinigkeit, Richtung), Startminute des Moves, genommene Level.
+
+**Wie:** `build` rechnet immer alles neu und schreibt nur **vollstaendig erfasste** Fenster
+(20/20 Kerzen im Fenster, 10/10 im Vorlauf); ausgeschlossene Fenster werden aufgelistet, nicht
+verschwiegen. `stats` rechnet Quoten mit Wilson-Intervall gegen die Basisrate. `plot` erzeugt
+drei Diagramme und `wiki/synthesis/Macro-Datenbank (laufend).md`.
+
+**Warum:** `backtest_macro.py` beantwortet eine Frage und aggregiert sofort. Diese
+Zwischenschicht macht beliebige Folgefragen rechenbar, ohne die Rohdaten erneut zu durchlaufen.
+
+**Bekannte Grenzen:** Kleine Stichprobe -- auf Fenster-Ebene rund 21 Tage, damit sind
+Einzelfenster-Aussagen nicht belastbar. Fenster desselben Tages sind nicht unabhaengig.
+Fenster 23:50 fehlt fast ganz (Exportluecke), 16:50 ganz (Sessionschluss). NDOG/NWOG/ORG sind
+noch keine Level-Quelle. Spooling-Kandidaten sind rein preisbasiert (kein Volumen in den Exporten).
+
 ## Security-Scan
 
 2026-08-06: keine hartkodierten Secrets in `algo/*.py` gefunden. `algo/.secrets.yaml`

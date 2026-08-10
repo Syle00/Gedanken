@@ -1607,3 +1607,9 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Ausgefiltert: Polemik gegen andere Lehrer (ueber den sachlichen Korrekturkern hinaus),
   Begeisterungsausrufe beim Chart-Durchgang, "das gehoert in eure Notizen"-Einschuebe,
   Kursnotierungs-Vorlesen ohne Regelinhalt.
+## [2026-08-10] setup | Macro-Datenbank + Skill macro-db
+- algo/macro_db.py neu: build/stats/plot, eine Zeile je Macro-Fenster je Handelstag.
+- Skill .claude/skills/macro-db/SKILL.md: Antwortdisziplin (n nennen, Wilson-Intervall
+  statt Punktschaetzung, Basisrate danebenstellen, unter n=20 keine Prozentzahl).
+- Seiten erstellt: wiki/synthesis/Macro-Datenbank (laufend).md
+- Seiten aktualisiert: wiki/index.md, algo/README.md, algo/PLAN.md
