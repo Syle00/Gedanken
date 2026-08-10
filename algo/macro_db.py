@@ -26,7 +26,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from tools.analyze_ohlc import CFG, DATA_DIR, NY, Bar, at, load  # noqa: E402
+from tools.analyze_ohlc import (CFG, DATA_DIR, NY, Bar, at, displacements, fvgs,  # noqa: E402
+                                load, structure_breaks, sweeps, untouched_levels)
 
 from backtest_macro import session_day_from_path  # noqa: E402
 
@@ -165,11 +166,98 @@ def measure_pre(bars: list[Bar], start: datetime, pre_min: int = PRE_MIN) -> dic
             "pre_streak": best, "pre_contraction": pre_contraction}
 
 
+def _minuten(a: datetime, b: datetime) -> float:
+    return (a - b).total_seconds() / 60.0
+
+
+def measure_events(bars: list[Bar], start: datetime) -> dict:
+    """Letztes Sweep-/MSS-/Displacement-Ereignis vor dem Fenster.
+
+    Laeuft ausschliesslich auf `bars[t < start]` -- kein Lookahead. Die
+    Detektor-Parameter entsprechen den 1m-Werten aus `CFG`: `main()` in
+    analyze_ohlc.py skaliert mit max(3, round(15/tf_min)) bzw. max(2, round(5/tf_min)),
+    bei tf_min=1 sind das genau die CFG-Defaults. `min_pen` muss als
+    CFG["min_pen"] * Median-Kerzenrange uebergeben werden, nicht als roher 0,75 --
+    diese Falle ist in algo/PLAN.md dokumentiert.
+    """
+    hist = [b for b in bars if b.t < start]
+    leer = {"sweep_age": None, "sweep_dir": None, "mss_age": None, "mss_dir": None,
+            "displacement_age": None, "fvg_open_dist": None}
+    if len(hist) < CFG["min_age"] + CFG["swing"] * 2 + 1:
+        return leer
+
+    med_bar = statistics.median(b.rng for b in hist) or 1.0
+    sw = sweeps(hist, CFG["swing"], CFG["min_age"], CFG["min_pen"] * med_bar, CFG["confirm"])
+    sb = [x for x in structure_breaks(hist, CFG["swing"], CFG["min_age"]) if x["type"] == "MSS"]
+    dp = displacements(hist, factor=CFG["disp_factor"])
+    fv = [f for f in fvgs(hist) if not f["filled"]]
+
+    ref = hist[-1].c
+    out = dict(leer)
+    if sw:
+        last = sw[-1]
+        out["sweep_age"] = _minuten(start, last["t"])
+        out["sweep_dir"] = last["side"]          # "buyside" | "sellside"
+    if sb:
+        last = sb[-1]
+        out["mss_age"] = _minuten(start, last["t"])
+        out["mss_dir"] = last["dir"]             # "bullish" | "bearish"
+    if dp:
+        out["displacement_age"] = _minuten(start, dp[-1]["t"])
+    if fv:
+        out["fvg_open_dist"] = min(abs(ref - f["ce"]) for f in fv)
+    return out
+
+
+def measure_levels(bars: list[Bar], start: datetime, end: datetime) -> dict:
+    """Offene Liquiditaets-Level vor dem Fenster und welche davon im Fenster fielen.
+
+    Level-Quelle ist `untouched_levels` auf `bars[t < start]`: Swing-Hochs/-Tiefs, die
+    bis zum Fensterstart nie wieder genommen wurden -- das ist die ICT-Kernliquiditaet
+    ("Target Liquiditaet min. 2 H/L").
+
+    Bewusst NICHT enthalten, obwohl die Spec sie in 4.1 nennt:
+
+    * **NDOG/NWOG/ORG.** Die Funktionen `ndog_gap`/`nwog_gap`/`org_gap` in
+      analyze_ohlc.py filtern ueber `b.t.date() == day`, also ueber den Kalendertag.
+      Eine 1m-Session-Datei enthaelt aber zwei Kalendertage (18:00 Vorabend .. 17:00),
+      wodurch sie den Gap ueber die Globex-Pause verfehlen und stattdessen den Sprung
+      ueber Mitternacht messen wuerden -- und der ist auf diesem Bestand ohnehin ein
+      Exportartefakt (Luecke 23:59-00:08).
+    * **PDH/PDL und Session-Extreme des Vortags.** Beide brauchen die *vorherige*
+      Tagesdatei, also Mehrdatei-Logik, die `build()` heute nicht hat. Die Level des
+      laufenden Handelstags decken `untouched_levels` bereits ab.
+
+    Beides ist ein eigener Schritt -- siehe algo/PLAN.md.
+    """
+    hist = [b for b in bars if b.t < start]
+    win = window_bars(bars, start, end)
+    if not hist or not win:
+        return {"levels_open": None, "levels_hit": "", "nearest_level_dist": None}
+
+    offen = untouched_levels(hist, CFG["swing"])
+    hi = max(b.h for b in win)
+    lo = min(b.l for b in win)
+    ref = hist[-1].c
+
+    getroffen = []
+    for lv in offen:
+        if lv["side"] == "buyside" and hi >= lv["level"]:
+            getroffen.append("buyside")
+        elif lv["side"] == "sellside" and lo <= lv["level"]:
+            getroffen.append("sellside")
+    return {"levels_open": len(offen),
+            "levels_hit": "|".join(sorted(set(getroffen))),
+            "nearest_level_dist": min((abs(ref - lv["level"]) for lv in offen), default=None)}
+
+
 CSV_PATH = Path(__file__).resolve().parent / "results" / "macro_db.csv"
 
 FIELDS = ["symbol", "session_day", "window", "weekday", "session",
           "pre_range_rel", "pre_wick_frac", "pre_streak", "pre_contraction",
-          "range", "netto", "dir", "direction", "start_min", "expansion"]
+          "sweep_age", "sweep_dir", "mss_age", "mss_dir", "displacement_age",
+          "fvg_open_dist", "levels_open", "nearest_level_dist",
+          "range", "netto", "dir", "direction", "start_min", "expansion", "levels_hit"]
 
 
 def build(symbol: str = "MNQ", dir_thr: float = DIR_THR,
@@ -198,6 +286,8 @@ def build(symbol: str = "MNQ", dir_thr: float = DIR_THR,
                          "window": label, "weekday": start.strftime("%a"),
                          "session": SESSION_BY_HOUR[start.hour],
                          **measure_pre(bars, start),
+                         **measure_events(bars, start),
+                         **measure_levels(bars, start, end),
                          **measure_window(win, dir_thr, netto_thr)})
     return rows, skipped
 
@@ -345,6 +435,42 @@ def _check_pre() -> None:
     assert m7["pre_wick_frac"] is not None and m7["pre_streak"] is not None, m7
 
 
+def _check_events() -> None:
+    start = at(date(2026, 8, 10), 9, 50)
+
+    # Kein Vorlauf ueberhaupt -> alle Felder None, kein Absturz
+    leer = measure_events([], start)
+    assert all(v is None for v in leer.values()), leer
+
+    # Kein Lookahead: Kerzen NACH dem Fenster duerfen die Vorgeschichte nicht aendern.
+    # 200 ruhige Kerzen davor, dann ein extremer Ausschlag nach dem Fenster.
+    ruhig = [Bar(start - timedelta(minutes=200 - i), 100.0, 100.5, 99.5, 100.0, None)
+             for i in range(200)]
+    danach = [Bar(start + timedelta(minutes=30 + i), 100.0, 500.0, 1.0, 400.0, None)
+              for i in range(20)]
+    a = measure_events(ruhig, start)
+    b = measure_events(ruhig + danach, start)
+    assert a == b, f"Lookahead: Kerzen nach dem Fenster aendern die Vorgeschichte\n{a}\n{b}"
+
+    # Ohne Kerzen IM Fenster liefert measure_levels die leere Form, ohne abzustuerzen
+    leer_lv = measure_levels(ruhig, start, start + timedelta(minutes=WINDOW_MIN))
+    assert leer_lv["levels_open"] is None and leer_lv["levels_hit"] == "", leer_lv
+
+    # Echter Fall: eine Zickzack-Historie erzeugt Swing-Level, das Fenster laeuft
+    # darueber hinaus -> buyside muss als genommen auftauchen.
+    zick = []
+    for i in range(120):
+        base = 100.0 + (5.0 if i % 10 < 5 else 0.0)
+        zick.append(Bar(start - timedelta(minutes=120 - i), base, base + 1, base - 1, base, None))
+    hoch = max(b.h for b in zick)
+    win = [Bar(start + timedelta(minutes=i), hoch, hoch + 20, hoch - 1, hoch + 15, None)
+           for i in range(WINDOW_MIN)]
+    lv = measure_levels(zick + win, start, start + timedelta(minutes=WINDOW_MIN))
+    assert isinstance(lv["levels_hit"], str), "levels_hit muss CSV-tauglich (str) sein"
+    assert lv["levels_open"] is not None and lv["levels_open"] >= 0, lv
+    assert "|" in lv["levels_hit"] or lv["levels_hit"] in ("", "buyside", "sellside"), lv
+
+
 def selfcheck() -> None:
     day = date(2026, 8, 10)         # Montag; session_day = Ende der Session
     ws = macro_windows_session(day)
@@ -381,6 +507,7 @@ def selfcheck() -> None:
 
     _check_measure()
     _check_pre()
+    _check_events()
     print("macro_db.selfcheck: OK")
 
 
