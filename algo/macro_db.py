@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import math
 import statistics
 import sys
 from datetime import date, datetime, timedelta
@@ -324,6 +325,137 @@ def read_csv() -> list[dict]:
     return out
 
 
+MIN_N = 20      # darunter wird keine Prozentzahl ausgegeben (Spec 6, Regel 3)
+
+
+def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
+    """Wilson-Score-Konfidenzintervall fuer eine Quote k/n (95 % bei z=1,96).
+
+    Bewusst Wilson statt des ueblichen Normal-Intervalls: bei kleinem n und Quoten
+    nahe 0 oder 1 liefert das Normal-Intervall Grenzen ausserhalb [0,1] und viel zu
+    enge Bereiche. Bei n=0 ist das Intervall das ganze Einheitsintervall.
+    """
+    if n == 0:
+        return 0.0, 1.0
+    p = k / n
+    d = 1 + z * z / n
+    mitte = (p + z * z / (2 * n)) / d
+    rand = (z / d) * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
+    return max(0.0, mitte - rand), min(1.0, mitte + rand)
+
+
+def quote(rows: list[dict], pred) -> dict:
+    """Quote von `pred` ueber `rows`, mit Wilson-Intervall und Mindest-n-Flag."""
+    n = len(rows)
+    k = sum(1 for r in rows if pred(r))
+    lo, hi = wilson(k, n)
+    return {"n": n, "k": k, "p": (k / n if n else None),
+            "lo": lo, "hi": hi, "genug": n >= MIN_N}
+
+
+def fmt_quote(q: dict) -> str:
+    """Eine Quote als Text -- nie ohne n, nie ohne Intervall (Spec 6, Regeln 1+3)."""
+    if not q["genug"]:
+        return f"n={q['n']} — zu wenig"
+    return (f"{100 * q['p']:.1f}% [{100 * q['lo']:.1f}–{100 * q['hi']:.1f}] "
+            f"(n={q['n']}, k={q['k']})")
+
+
+def vergleich(teil: dict, basis: dict) -> str:
+    """Bedingte Quote gegen Basisrate. Ueberlappende Intervalle heissen
+    'kein Unterschied nachweisbar' -- nicht 'leicht erhoeht' (Spec 6, Regel 2)."""
+    if not teil["genug"]:
+        return "n zu klein"
+    if teil["lo"] > basis["hi"]:
+        return "hoeher als die Basisrate"
+    if teil["hi"] < basis["lo"]:
+        return "niedriger als die Basisrate"
+    return "kein Unterschied nachweisbar"
+
+
+BEDINGUNGEN = [
+    ("Sweep in den 30 Min davor",     lambda r: r["sweep_age"] is not None and r["sweep_age"] <= 30),
+    ("MSS in den 30 Min davor",       lambda r: r["mss_age"] is not None and r["mss_age"] <= 30),
+    ("Displacement in den 30 Min davor",
+     lambda r: r["displacement_age"] is not None and r["displacement_age"] <= 30),
+    ("Kompression davor (pre_range_rel < 0,7)",
+     lambda r: r["pre_range_rel"] is not None and r["pre_range_rel"] < 0.7),
+    ("Kontraktion davor (pre_contraction < 0,8)",
+     lambda r: r["pre_contraction"] is not None and r["pre_contraction"] < 0.8),
+    ("hoher Dochtanteil davor (pre_wick_frac > 0,6)",
+     lambda r: r["pre_wick_frac"] is not None and r["pre_wick_frac"] > 0.6),
+    ("Serie >= 5 gleichgerichtete Closes davor",
+     lambda r: r["pre_streak"] is not None and r["pre_streak"] >= 5),
+]
+
+
+def cmd_stats(symbol: str = "MNQ") -> None:
+    rows = [r for r in read_csv() if r["symbol"] == symbol]
+    if not rows:
+        print("Keine Daten. Erst `python algo/macro_db.py build` laufen lassen.")
+        return
+
+    tage = sorted({r["session_day"] for r in rows})
+    basis = quote(rows, lambda r: r["expansion"])
+    print(f"{symbol}: {len(rows)} Fenster aus {len(tage)} Handelstagen "
+          f"({tage[0]} .. {tage[-1]})")
+    print(f"Basisrate Expansion: {fmt_quote(basis)}\n")
+
+    print("Je Bedingung (Expansion | Bedingung):")
+    n_vergleiche = 0
+    for name, pred in BEDINGUNGEN:
+        teil = [r for r in rows if pred(r)]
+        q = quote(teil, lambda r: r["expansion"])
+        n_vergleiche += 1
+        print(f"  {name:46} {fmt_quote(q):40} {vergleich(q, basis)}")
+
+    print("\nJe Fenster:")
+    for w in sorted({r["window"] for r in rows}):
+        q = quote([r for r in rows if r["window"] == w], lambda r: r["expansion"])
+        n_vergleiche += 1
+        print(f"  {w:>6}  {fmt_quote(q):40} {vergleich(q, basis)}")
+
+    print("\nStartminute des Moves (start_min), alle Fenster:")
+    sm = [int(r["start_min"]) for r in rows if r["start_min"] is not None]
+    if sm:
+        print(f"  Median {statistics.median(sm):.1f}, "
+              f"Anteil in den ersten 5 Minuten: {100 * sum(1 for x in sm if x < 5) / len(sm):.1f}%")
+
+    print("\nLevel im Fenster genommen:")
+    for seite in ("buyside", "sellside"):
+        q = quote(rows, lambda r, s=seite: s in (r["levels_hit"] or ""))
+        print(f"  {seite:10} {fmt_quote(q)}")
+
+    # Spooling-Kandidaten gegen die Zielgroesse (Spec 6): welcher haengt ueberhaupt mit
+    # gerichteter Expansion zusammen? Rangkorrelation gegen `dir`, plus Quotenvergleich
+    # oberstes vs. unterstes Quartil. Ein Nullbefund ist hier ein Ergebnis.
+    print("\nSpooling-Kandidaten gegen die Geradlinigkeit (dir):")
+    from scipy.stats import spearmanr
+    for k in ("pre_range_rel", "pre_wick_frac", "pre_streak", "pre_contraction"):
+        paare = [(r[k], r["dir"]) for r in rows if r[k] is not None and r["dir"] is not None]
+        n_vergleiche += 1
+        if len(paare) < MIN_N:
+            print(f"  {k:18} n={len(paare)} — zu wenig")
+            continue
+        rho, p = spearmanr([a for a, _ in paare], [b for _, b in paare])
+        srt = sorted(paare)
+        q = max(1, len(srt) // 4)
+        unten = quote([{"expansion": d >= DIR_THR} for _, d in srt[:q]],
+                      lambda r: r["expansion"])
+        oben = quote([{"expansion": d >= DIR_THR} for _, d in srt[-q:]],
+                     lambda r: r["expansion"])
+        print(f"  {k:18} rho={rho:+.3f} p={p:.4f} (n={len(paare)})   "
+              f"unterstes Quartil {fmt_quote(unten)} | oberstes {fmt_quote(oben)}")
+
+    print(f"\n--- Vorbehalte ---")
+    print(f"* {n_vergleiche} Vergleiche gerechnet. Bei einem Signifikanzniveau von 5 % waeren")
+    print(f"  rein zufaellig etwa {0.05 * n_vergleiche:.1f} davon 'auffaellig'. Bonferroni-"
+          f"korrigiert liegt die Schwelle bei p < {0.05 / n_vergleiche:.4f}.")
+    print("* Fenster desselben Handelstags sind nicht unabhaengig -- p-Werte sind optimistisch.")
+    print("* Das Fenster 23:50 fehlt fast vollstaendig (Exportluecke 23:59-00:08),")
+    print("  16:50 ganz (ragt ueber den Sessionschluss 17:00).")
+
+
 def cmd_build(symbol: str) -> None:
     rows, skipped = build(symbol)
     write_csv(rows)
@@ -471,6 +603,34 @@ def _check_events() -> None:
     assert "|" in lv["levels_hit"] or lv["levels_hit"] in ("", "buyside", "sellside"), lv
 
 
+def _check_stats() -> None:
+    # Wilson gegen von Hand nachgerechnete Werte
+    lo, hi = wilson(1, 1)
+    assert 0.0 <= lo <= 1.0 and 0.0 <= hi <= 1.0 and lo < hi, (lo, hi)
+    assert hi == 1.0 or hi > 0.9, (lo, hi)      # 1/1 darf nicht als "100% sicher" gelten
+    lo0, hi0 = wilson(0, 10)
+    assert lo0 < 1e-9 and 0.0 < hi0 < 0.5, (lo0, hi0)   # 0/10 heisst nicht "nie"
+    # symmetrisch: p=0,5 muss ein um 0,5 zentriertes Intervall geben
+    lo5, hi5 = wilson(10, 20)
+    assert abs((lo5 + hi5) / 2 - 0.5) < 1e-9, (lo5, hi5)
+    # mehr Daten -> engeres Intervall
+    a_lo, a_hi = wilson(60, 100)
+    b_lo, b_hi = wilson(600, 1000)
+    assert (b_hi - b_lo) < (a_hi - a_lo), "mehr n muss das Intervall verengen"
+
+    # quote(): Mindest-n greift
+    rows = [{"expansion": True} for _ in range(5)] + [{"expansion": False} for _ in range(5)]
+    q = quote(rows, lambda r: r["expansion"])
+    assert q["n"] == 10 and q["k"] == 5, q
+    assert q["genug"] is False, "n=10 liegt unter MIN_N und darf nicht als belastbar gelten"
+    gross = [{"expansion": True} for _ in range(30)] + [{"expansion": False} for _ in range(30)]
+    q2 = quote(gross, lambda r: r["expansion"])
+    assert q2["genug"] is True and abs(q2["p"] - 0.5) < 1e-9, q2
+    # leere Menge darf nicht abstuerzen
+    q3 = quote([], lambda r: r["expansion"])
+    assert q3["n"] == 0 and q3["genug"] is False and q3["p"] is None, q3
+
+
 def selfcheck() -> None:
     day = date(2026, 8, 10)         # Montag; session_day = Ende der Session
     ws = macro_windows_session(day)
@@ -508,6 +668,7 @@ def selfcheck() -> None:
     _check_measure()
     _check_pre()
     _check_events()
+    _check_stats()
     print("macro_db.selfcheck: OK")
 
 
@@ -522,5 +683,7 @@ if __name__ == "__main__":
         selfcheck()
     elif a.cmd == "build":
         cmd_build(a.symbol)
+    elif a.cmd == "stats":
+        cmd_stats(a.symbol)
     else:
-        p.error("stats/plot folgen in spaeteren Tasks")
+        p.error("plot folgt in einem spaeteren Task")
