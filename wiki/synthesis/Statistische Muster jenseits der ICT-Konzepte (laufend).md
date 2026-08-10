@@ -1,8 +1,8 @@
 ---
 tags: [synthesis, algo, backtest, generiert]
 created: 2026-08-04
-updated: 2026-08-08
-sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_ndog.py]]", "[[../../algo/backtest_nwog.py]]", "[[../../algo/backtest_tgif.py]]"]
+updated: 2026-08-10
+sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_ndog.py]]", "[[../../algo/backtest_nwog.py]]", "[[../../algo/backtest_tgif.py]]", "[[../../algo/backtest_1m_gaps.py]]"]
 ---
 
 # Statistische Muster jenseits der ICT-Konzepte (laufend)
@@ -137,6 +137,34 @@ in % der Wochenrange. `algo/backtest_tgif.py`, n=27 Wochen:
 **Fazit**: die 20–30 %-Zahl ist als Median richtig, aber als Erwartung für eine einzelne Woche
 irreführend — TGIF liefert eher "kaum" oder "viel" Retracement, selten genau die Zielzone.
 
+## 7. Intraday-Vakuen zwischen zwei 1m-Kerzen: extrem selten, praktisch immer randständig
+
+Anlass war eine Beobachtung von Jannes am 2026-08-10: ein „unnatürlich großer offener Bereich"
+im MNQ-1m-Chart um die Mittagszeit, den er für einen TradingView-Anzeigefehler hielt. Ein
+*Vakuum* ist hier der Preisbereich, den weder Kerze `i` noch Kerze `i+1` berührt hat — nicht zu
+verwechseln mit einem [[Fair Value Gap]], der über **drei** Kerzen definiert ist. Gezählt wird
+nur zwischen echt benachbarten Minuten (`t2 - t1 == 60 s`), damit Session-Pausen und
+Tagesgrenzen nicht als Vakuum durchgehen. `algo/backtest_1m_gaps.py`:
+
+- **MNQ, n=23 Tage / 28.839 Minutenpaare: nur 16 Vakuen überhaupt (0,055 % aller Minuten)**,
+  Median 0,25 Pkt. Genau **eines ≥ 10 Punkte** (20,75 Pkt am 2026-08-04, 16:15 NY — nach
+  RTH-Close).
+- **ES, n=18 Tage / 24.096 Minutenpaare: 139 Vakuen (0,577 %)**, ebenfalls nur eines ≥ 10 Punkte
+  (20,50 Pkt am 2026-07-28, 01:19 NY — Asia-Session).
+- Beide Vergleichsfälle liegen in **dünnen Randzeiten**, nicht in einer liquiden Phase. Beide
+  wurden innerhalb einer Minute wieder berührt.
+- Der ES zeigt rund zehnmal so viele Mikro-Vakuen wie der MNQ, bei praktisch gleicher Zahl
+  großer — ein Tick-Size-Effekt (ES 0,25 Pkt auf ~7.400, MNQ 0,25 auf ~29.800), kein
+  Verhaltensunterschied.
+
+**Fazit**: Ein Vakuum ≥ 10 Punkten tritt im MNQ etwa **alle 23 Handelstage** auf. Jannes'
+Einschätzung „so noch nie gesehen" ist damit quantitativ bestätigt — die Seltenheit ist real,
+die Kerze selbst aber nicht falsch. Ein solches Vakuum ist also kein Anlass, die Daten
+anzuzweifeln, sondern ein Marker für einen echten Liquiditätsabriss. Praktische Prüfregel, um
+beides zu unterscheiden: Ein **Anzeigefehler** zeigt fehlende Bars (Lücken im Minutenraster) und
+normales Volumen; ein **echtes Vakuum** hat ein lückenloses Minutenraster und eine
+Volumenspitze in der Bar, die den Sprung erzeugt.
+
 ## Einordnung
 
 Punkt 1 ist der robusteste Fund hier (großes n, deutlicher Effekt) und Kandidat für eine
@@ -146,7 +174,10 @@ bestätigt eine bestehende ICT-Regel quantitativ für einen neuen Gap-Typ. Punkt
 eine bestehende ICT-Regel deutlich (Bias-intakt-Quote nur 7 %) und widerlegt die
 Donnerstag-Reversal-Behauptung klar. Punkt 6 zeigt einen Median-Treffer bei gleichzeitig
 niedriger Einzeltreffer-Quote — Vorsicht vor Medianen, die eine bimodale Verteilung verdecken.
-Bei n=27/28 Wochen ist das noch keine große Stichprobe. Für die kalendarischen Funde
+Bei n=27/28 Wochen ist das noch keine große Stichprobe. Punkt 7 ist weniger ein Handelsmuster
+als ein **Datenqualitäts-Werkzeug**: er gibt die Häufigkeitsbasis, an der sich eine
+Chart-Auffälligkeit als „echt, aber selten" statt als Feedfehler einordnen lässt. Für die
+kalendarischen Funde
 (Montag-Effekt, Turn-of-Month, Woche-im-Monat, Monatszahlen) siehe
 [[Seasonal Tendency (Eigene Daten, laufend)]]. Alle Skripte laufen bei wachsendem
 `raw/marktdaten/`-Bestand automatisch mit größerer Stichprobe erneut — siehe `algo/PLAN.md`-Log

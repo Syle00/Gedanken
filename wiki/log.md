@@ -1434,3 +1434,20 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   Kollisionsgefahr) — nach raw/trading-ict/assets/ verschoben und in
   `MNQ 2026-08-10 - 10-50 Macro Spooling.png` umbenannt, dann per `![[...]]` in obiges Beispiel
   eingebunden.
+
+## [2026-08-10] query | MNQ 1m-Vakuum 12:31/12:32 NY — Anzeigefehler ausgeschlossen
+- Anlass: Jannes meldete einen "unnatuerlich grossen offenen Bereich" im MNQ-1m-Chart um
+  12:30/12:31 NY und vermutete einen TradingView-Anzeigefehler. Pruefung sofort statt erst
+  morgen (Marktdaten-Nulltoleranz, CLAUDE.md).
+- Befund: **kein Anzeigefehler.** yfinance als unabhaengige Quelle zeigt dieselbe Luecke.
+  19,00 Punkte ohne Print zwischen 12:31 Low (29.806,25) und 12:32 High (29.787,25),
+  Volumenspitze 3,2x, kein Bar-Ausfall (0 fehlende Minuten 09:30-13:30). Um 13:10 NY
+  komplett durchgehandelt. Zeitlage eine Minute spaeter als per Auge geschaetzt.
+- Seiten aktualisiert: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md
+  (neuer Punkt 7: Haeufigkeitsbasis fuer 1m-Vakuen + Unterscheidungsregel Anzeigefehler
+  vs. echtes Vakuum)
+- Neu: algo/backtest_1m_gaps.py (Vakuen nur zwischen benachbarten Minuten, --selfcheck).
+  MNQ 23 Tage: 16 Vakuen (0,055 %), genau eines >= 10 Pkt. ES 18 Tage: 139 Vakuen, ebenfalls
+  eines >= 10 Pkt. Beide Vergleichsfaelle in duennen Randzeiten -> Jannes' "so noch nie
+  gesehen" ist quantitativ bestaetigt.
+- Erinnerung fuer den Bias am 2026-08-11 als Memory hinterlegt (Nutzerwunsch).

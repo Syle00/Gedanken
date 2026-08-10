@@ -170,19 +170,19 @@
   relevant zu sein.</li>
 <li>Ein Bullish OB gilt als <strong>validiert</strong>, wenn eine Up-Closing-Candle über dem OB closed.</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/Screenshot_2025-01-21_071042.png" alt="Screenshot_2025-01-21_071042" loading="lazy"><figcaption>Bullish OB validiert durch eine Upclosing Candle, die über dem OB closed — Support Level als altes High/Low.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/Screenshot_2025-01-21_071042.png" alt="Screenshot_2025-01-21_071042" loading="lazy"><figcaption>Bullish OB validiert durch eine Upclosing Candle, die über dem OB closed — Support Level als altes High/Low.</figcaption></figure>
 
 <ul>
 <li><strong>Theoretischer Reentry</strong> ist bereits mit der nächsten Candle möglich, sobald diese das High des
   OB+ berührt — kein langes Abwarten auf ein vollständiges Zurücktraden nötig. Ein zweiter,
   sicherer validierter Reentry-Punkt eignet sich für die größte Limit-Order.</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/Screenshot_2025-01-21_070018.png" alt="Screenshot_2025-01-21_070018" loading="lazy"><figcaption>Zweiter, sicher validierter Reentry-Punkt — eignet sich für die größte Limit-Order.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/Screenshot_2025-01-21_070018.png" alt="Screenshot_2025-01-21_070018" loading="lazy"><figcaption>Zweiter, sicher validierter Reentry-Punkt — eignet sich für die größte Limit-Order.</figcaption></figure>
 
 <ul>
 <li><strong>Qualitätsmerkmal</strong>: bei den besten OBs geht Preis nicht über das <strong>50%-Level</strong> des OB hinaus.</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/Screenshot_2025-01-21_070728.png" alt="Screenshot_2025-01-21_070728" loading="lazy"><figcaption>Bei den besten Order Blocks geht Price nicht über das 50%-Level hinaus.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/Screenshot_2025-01-21_070728.png" alt="Screenshot_2025-01-21_070728" loading="lazy"><figcaption>Bei den besten Order Blocks geht Price nicht über das 50%-Level hinaus.</figcaption></figure>
 
 <ul>
 <li>Nach Validierung erwartet ICT einen Spike von <strong>2–3× der Candle-Range</strong>, bevor das eigentliche
@@ -195,7 +195,7 @@
 <p>Das ist die schärfste Formulierung im Vault dazu — und sie erklärt zugleich, warum ein OB aus
 <strong>mehreren Candles</strong> bestehen kann: im Beispiel bilden <strong>zwei Up-Closing Candles zusammen einen OB</strong>,
 weil nach beiden zusammen das Displacement in Form eines SIBI folgt. Gilt spiegelbildlich bullish.</p>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/ICT 2022 - Ep17 03.png" alt="ICT 2022 - Ep17 03" loading="lazy"><figcaption>Zwei Up-Closing Candles bilden zusammen einen Order Block — bestätigt durch das nachfolgende SIBI.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/ICT 2022 - Ep17 03.png" alt="ICT 2022 - Ep17 03" loading="lazy"><figcaption>Zwei Up-Closing Candles bilden zusammen einen Order Block — bestätigt durch das nachfolgende SIBI.</figcaption></figure>
 
 <h2 id="high-probability-ob-zwei-pflichtmerkmale">High Probability OB: zwei Pflichtmerkmale</h2>
 <p>Ein High-Probability-OB hat <strong>immer</strong> beides:</p>
@@ -205,7 +205,7 @@ weil nach beiden zusammen das Displacement in Form eines SIBI folgt. Gilt spiege
 </ol>
 <p>Fehlt das Target, ist der OB nicht high probability — er zeigt dann nicht, wohin geliefert werden
 soll.</p>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/ICT 2022 - Ep13 03.png" alt="ICT 2022 - Ep13 03" loading="lazy"></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/ICT 2022 - Ep13 03.png" alt="ICT 2022 - Ep13 03" loading="lazy"></figure>
 
 <p><em>1H-OB im 15M ausgemalt; im Lower Timeframe das Displacement mit eindeutigem Target auf der
 High-Probability-Buyside.</em></p>
@@ -215,7 +215,7 @@ High-Probability-Buyside.</em></p>
   <strong>Open der (letzten) Candle</strong> genau auf oder sogar unter dem C.E, gilt der OB als <strong>High
   Probability</strong> — unwahrscheinlich, dass Preis überhaupt bis zum C.E oder tiefer zurücktradet.</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/Kurz Notizen - OB Mean Threshold Example.png" alt="Kurz Notizen - OB Mean Threshold Example" loading="lazy"><figcaption>Multi-Candle-OB: liegt das Open der Candle auf oder unter dem C.E, ist der OB High Probability.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/Kurz Notizen - OB Mean Threshold Example.png" alt="Kurz Notizen - OB Mean Threshold Example" loading="lazy"><figcaption>Multi-Candle-OB: liegt das Open der Candle auf oder unter dem C.E, ist der OB High Probability.</figcaption></figure>
 
 <ul>
 <li><strong>OB + FVG kombiniert</strong>: Um bei einem OB/<a href="../p/cisd-change-in-state-of-delivery.html">CISD</a> das
