@@ -113,6 +113,15 @@ einzelner Kontrakt** offen ("I am leaving a single contract on in case it runs..
 kostengünstiger "Lottery-Ticket"-Runner auf eine größere Fortsetzung — eine dritte Variante neben
 "kompletter Exit" und "R-Multiple-Skalierung auf 2 Teile".
 
+## Gegenbeispiel: Stop bewusst unverändert lassen (Swing-Trade)
+
+Aus [[2023-12-04 - Leaving Stop Unchanged After 3 Partials Taken Swing Trade Logic (Source)]]:
+bei einem auf größere Range-Bewegung ausgelegten Swing-Trade bleibt der Stop **trotz drei
+genommener Partials unverändert** — *"no strangling the trade if the Large Range Down Close
+manifests..."*. Kontrastiert die übrigen Beispiele dieser Seite (die den Stop nach Partials aktiv
+auf Breakeven/"Risk Removed" verschieben): welche Variante gilt, hängt vom Zieltyp ab
+(Intraday-Ziel vs. größere Swing-Range).
+
 ## Bezug zum Reward-to-Risk-Modell
 
 Baut direkt auf [[Erwartungswert & Reward-to-Risk-Modell]] auf: das erste Partial bei 3:1 sichert

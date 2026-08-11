@@ -295,6 +295,10 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2023-12-14 - Fading Retail Buyers For NQ (Source)]] — Runner-Kontrakt-Technik (8 Min, Stichprobe)
 - [[2023-12-14 - December 2023 FOMC NQ Front Month Execution Initial Stop Out 50pct Reentry (Source)]] — FOMC-Front-Month-Regel, 50%-Reentry (12 Min, Stichprobe)
 - [[2023-12-06 - Why Do I Avoid NFP Weeks NQ 3 Trades 2 Losses (Source)]] — NFP-Verlustwarnung, "Risk & Costs"-Terminologie (19 Min, Stichprobe)
+- [[2023-12-04 - Leaving Stop Unchanged After 3 Partials Taken Swing Trade Logic (Source)]] — SL bewusst unverändert bei Swing-Ziel, Quadranten-Level (8 Min, Stichprobe)
+- [[2023-11-30 - NQ Futures Housing Sales Sellside Delivery Live Execution (Source)]] — News-Fortsetzung nach Housing-Daten (7 Min, Stichprobe)
+- [[2023-11-28 - E Mini Futures Lunch Hour Macro Live Execution (Source)]] — Standard-Lunch-Macro (8 Min, Stichprobe)
+- [[2023-11-28 - ES Futures Live Trade Example FVG Silver Bullet (Source)]] — letztes Playlist-Video, Standard-FVG-SB
 
 ### MentorShip 2025
 

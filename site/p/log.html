@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">118</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">268</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">272</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">12</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -150,6 +150,10 @@
 <li><a href="#2026-08-11-ingest-ict-executions-playlist-batch-1061-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 10/61, chart-only ohne Voiceover)</a></li>
 <li><a href="#2026-08-11-ingest-ict-executions-playlist-batch-1161-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 11/61, chart-only ohne Voiceover)</a></li>
 <li><a href="#2026-08-11-ingest-ict-executions-playlist-batch-12a61-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 12a/61, chart-only ohne Voiceover)</a></li>
+<li><a href="#2026-08-11-ingest-ict-executions-playlist-abgeschlossen-batch-12b61-6161">[2026-08-11] ingest | ICT Executions Playlist ABGESCHLOSSEN (Batch 12b/61 — 61/61)</a><ul>
+<li><a href="#gesamt-zusammenfassung-des-ict-executions-ingests-61-videos-12-batches-2026-08-11">Gesamt-Zusammenfassung des ICT-Executions-Ingests (61 Videos, 12 Batches, 2026-08-11)</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </details>
@@ -2193,6 +2197,61 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 <li>Assets: 5 weitere Chart-Frames unter <code>raw/trading-ict/assets/ict-exec-*.png</code>.</li>
 <li>Platzhalter-Rohdateien für die 5 IDs angelegt.</li>
 <li>Stand: 58 von 61 Videos erledigt, 3 verbleibend (letzter Teil-Lauf).</li>
+</ul>
+<h2 id="2026-08-11-ingest-ict-executions-playlist-abgeschlossen-batch-12b61-6161">[2026-08-11] ingest | ICT Executions Playlist ABGESCHLOSSEN (Batch 12b/61 — 61/61)</h2>
+<ul>
+<li>Letzter Teil der letzten Charge (4 verbleibende Videos), damit ist die komplette 61-Video-
+  Playlist ingested. Alle 4 Downloads liefen fehlerfrei.</li>
+<li>Batch 12b (4 Videos): rZFisy9AILQ (Dec 4 2023, 8:10, SL unverändert nach 3 Partials),
+  7IttD8JmDIo (Nov 30 2023, 6:49, Housing-Sales-News), qW0_Mxfp_Z4 (Nov 28 2023, 8:09,
+  Lunch-Macro), 779jcCqyldY (Nov 28 2023, 4:04, FVG/Silver Bullet — letztes Video der
+  Playlist). Alle vier erstmalig ingested, keine Duplikate.</li>
+<li>Seiten erstellt: 4 neue <code>wiki/sources/youtube/2023-1[12]-*.md</code>-Sourceseiten.</li>
+<li>Seiten erweitert: <code>wiki/concepts/Partial Profit-Taking &amp; R-Multiple-Skalierung.md</code> (neuer
+  Abschnitt "Gegenbeispiel: Stop bewusst unverändert lassen" — Swing-Trade-Kontrast zu den
+  übrigen Breakeven-Beispielen).</li>
+</ul>
+<h3 id="gesamt-zusammenfassung-des-ict-executions-ingests-61-videos-12-batches-2026-08-11">Gesamt-Zusammenfassung des ICT-Executions-Ingests (61 Videos, 12 Batches, 2026-08-11)</h3>
+<p><strong>Bestätigte/verstärkte Bestandsmuster</strong> (über mehrere unabhängige Videos hinweg):</p>
+<ul>
+<li>CE-Linien (50%) als durchgängiger Entry-Punkt über FVG, IFVG, Opening-Gap-Strukturen hinweg.</li>
+<li>Macro-Fenster 10:50–11:10 ET (3×), MOC/Final-Hour-Fenster (mehrfach), Lunch-Macro
+  "Seek Buyside"/"Sellside Purged→Rally" (mehrfach) — alle mit der bestehenden
+  <code>algo/macro_db.py</code>-Logik deckungsgleich, kein Code-Änderungsbedarf.</li>
+<li>Silver-Bullet-Fenster teils direkt im Chart als "ICT AM Silver Bullet" beschriftet, durchweg
+  mit zweistelligen Kontraktzahlen (10-20) — höher als reine Macro-Trades (2-7).</li>
+<li>Pyramiding (Kontrakt-Aufstockung in Trendrichtung) als gleichwertige Alternative zu
+  Partial-Reduktion, mit eigener Terminologie ("Pyramided").</li>
+</ul>
+<p><strong>Neue Begriffe/Regeln, erstmals durch diesen Ingest ins Wiki aufgenommen:</strong></p>
+<ul>
+<li>Risikofreistellungs-Terminologie: "Risk Removed", "Funded", "Risk &amp; Costs covered" (SL-Move
+  deckt auch Kommissionen/Spread, nicht nur Punkte-Risiko).</li>
+<li>SL-Breite ist PD-Array-abhängig: volle IFVG-Zone vs. einzelner Wick bei NWOG-CE.</li>
+<li>Gegenbeispiel: bei Swing-Zielen bleibt der Stop trotz mehrerer Partials bewusst unverändert
+  ("no strangling the trade").</li>
+<li>Runner-Technik: ein einzelner Kontrakt bleibt nach Hauptexit als "Lottery-Ticket" offen.</li>
+<li>Warnung vor 1-Minuten-Wick-Leveln ("Wicks are 'Ugly'"), "Too Smooth"-Kerzenfolgen als
+  Warnsignal statt Bestätigung.</li>
+<li>Cross-Market-Bestätigung (Light Crude Oil neben NQ/ES/MNQ) und Cross-Symbol-Parallelhandel
+  (ES+NQ gleichzeitig, "Dual Dealings").</li>
+<li>FOMC-Regel: nur Front-Month-Kontrakt, explizite Warnung an unerfahrene Trader; Reentry nach
+  Stop-Out mit halbierter Größe.</li>
+<li>Neue, noch nicht gebacktestete These geloggt (<code>algo/PLAN.md</code>): NFP-Wochen bergen laut ICT
+  selbst erhöhtes Verlustrisiko (2/3 Trades im gezeigten Beispiel verloren).</li>
+<li>Erstes dokumentiertes "No Trade"-Beispiel (Setup erkannt, bewusst nicht gehandelt).</li>
+<li>"2nd Stage Redistribution" als neuer, bislang nur einmal beobachteter Begriff.</li>
+<li>Quadranten-Level (25/50/75% einer Dealing Range) als Referenzsystem neben CE-Linien.</li>
+</ul>
+<p><strong>Methodik-Hinweis</strong>: alle 61 Videos sind chart-only ohne Voiceover — Inhalt wurde durch
+ffmpeg-Frame-Extraktion + visuelle Auswertung rekonstruiert, bei Videos &gt;5 Minuten nur
+stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite vermerkt).</p>
+<ul>
+<li>Seiten erstellt insgesamt: 61 neue <code>wiki/sources/youtube/</code>-Sourceseiten, ~15 Concept-/
+  Model-Seiten erweitert, 1 neue These in <code>algo/PLAN.md</code> geloggt.</li>
+<li>Assets: 66 zugeschnittene Chart-Frames unter <code>raw/trading-ict/assets/ict-exec-*.png</code>.</li>
+<li>Platzhalter-Rohdateien für alle 61 IDs unter <code>raw/trading-ict/2026/yt-&lt;id&gt;-transcript.md</code>.</li>
+<li><strong>Playlist vollständig: 61 von 61 Videos ingested.</strong></li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

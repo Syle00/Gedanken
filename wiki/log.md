@@ -1940,3 +1940,56 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für die 5 IDs angelegt.
 - Stand: 58 von 61 Videos erledigt, 3 verbleibend (letzter Teil-Lauf).
+
+## [2026-08-11] ingest | ICT Executions Playlist ABGESCHLOSSEN (Batch 12b/61 — 61/61)
+- Letzter Teil der letzten Charge (4 verbleibende Videos), damit ist die komplette 61-Video-
+  Playlist ingested. Alle 4 Downloads liefen fehlerfrei.
+- Batch 12b (4 Videos): rZFisy9AILQ (Dec 4 2023, 8:10, SL unverändert nach 3 Partials),
+  7IttD8JmDIo (Nov 30 2023, 6:49, Housing-Sales-News), qW0_Mxfp_Z4 (Nov 28 2023, 8:09,
+  Lunch-Macro), 779jcCqyldY (Nov 28 2023, 4:04, FVG/Silver Bullet — letztes Video der
+  Playlist). Alle vier erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 4 neue `wiki/sources/youtube/2023-1[12]-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md` (neuer
+  Abschnitt "Gegenbeispiel: Stop bewusst unverändert lassen" — Swing-Trade-Kontrast zu den
+  übrigen Breakeven-Beispielen).
+
+### Gesamt-Zusammenfassung des ICT-Executions-Ingests (61 Videos, 12 Batches, 2026-08-11)
+
+**Bestätigte/verstärkte Bestandsmuster** (über mehrere unabhängige Videos hinweg):
+- CE-Linien (50%) als durchgängiger Entry-Punkt über FVG, IFVG, Opening-Gap-Strukturen hinweg.
+- Macro-Fenster 10:50–11:10 ET (3×), MOC/Final-Hour-Fenster (mehrfach), Lunch-Macro
+  "Seek Buyside"/"Sellside Purged→Rally" (mehrfach) — alle mit der bestehenden
+  `algo/macro_db.py`-Logik deckungsgleich, kein Code-Änderungsbedarf.
+- Silver-Bullet-Fenster teils direkt im Chart als "ICT AM Silver Bullet" beschriftet, durchweg
+  mit zweistelligen Kontraktzahlen (10-20) — höher als reine Macro-Trades (2-7).
+- Pyramiding (Kontrakt-Aufstockung in Trendrichtung) als gleichwertige Alternative zu
+  Partial-Reduktion, mit eigener Terminologie ("Pyramided").
+
+**Neue Begriffe/Regeln, erstmals durch diesen Ingest ins Wiki aufgenommen:**
+- Risikofreistellungs-Terminologie: "Risk Removed", "Funded", "Risk & Costs covered" (SL-Move
+  deckt auch Kommissionen/Spread, nicht nur Punkte-Risiko).
+- SL-Breite ist PD-Array-abhängig: volle IFVG-Zone vs. einzelner Wick bei NWOG-CE.
+- Gegenbeispiel: bei Swing-Zielen bleibt der Stop trotz mehrerer Partials bewusst unverändert
+  ("no strangling the trade").
+- Runner-Technik: ein einzelner Kontrakt bleibt nach Hauptexit als "Lottery-Ticket" offen.
+- Warnung vor 1-Minuten-Wick-Leveln ("Wicks are 'Ugly'"), "Too Smooth"-Kerzenfolgen als
+  Warnsignal statt Bestätigung.
+- Cross-Market-Bestätigung (Light Crude Oil neben NQ/ES/MNQ) und Cross-Symbol-Parallelhandel
+  (ES+NQ gleichzeitig, "Dual Dealings").
+- FOMC-Regel: nur Front-Month-Kontrakt, explizite Warnung an unerfahrene Trader; Reentry nach
+  Stop-Out mit halbierter Größe.
+- Neue, noch nicht gebacktestete These geloggt (`algo/PLAN.md`): NFP-Wochen bergen laut ICT
+  selbst erhöhtes Verlustrisiko (2/3 Trades im gezeigten Beispiel verloren).
+- Erstes dokumentiertes "No Trade"-Beispiel (Setup erkannt, bewusst nicht gehandelt).
+- "2nd Stage Redistribution" als neuer, bislang nur einmal beobachteter Begriff.
+- Quadranten-Level (25/50/75% einer Dealing Range) als Referenzsystem neben CE-Linien.
+
+**Methodik-Hinweis**: alle 61 Videos sind chart-only ohne Voiceover — Inhalt wurde durch
+ffmpeg-Frame-Extraktion + visuelle Auswertung rekonstruiert, bei Videos >5 Minuten nur
+stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite vermerkt).
+
+- Seiten erstellt insgesamt: 61 neue `wiki/sources/youtube/`-Sourceseiten, ~15 Concept-/
+  Model-Seiten erweitert, 1 neue These in `algo/PLAN.md` geloggt.
+- Assets: 66 zugeschnittene Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für alle 61 IDs unter `raw/trading-ict/2026/yt-<id>-transcript.md`.
+- **Playlist vollständig: 61 von 61 Videos ingested.**
