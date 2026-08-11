@@ -16,6 +16,38 @@ import pandas as pd
 # Nur tatsaechlich im Projekt genutzte Symbole -- keine spekulative Vollstaendigkeit.
 POINT_VALUE = {"MNQ": 2.0, "NQ": 20.0, "ES": 50.0}
 
+# Kleinste Preisaenderung je Symbol. NQ/MNQ handeln in 0,25-Punkt-Schritten, ES ebenso --
+# ein berechneter Preis wie 29 299,225 existiert am Markt nicht und ist als Order nicht
+# platzierbar (IBKR weist sie ab oder rundet still). Nutzerkorrektur 2026-08-11.
+TICK_SIZE = {"MNQ": 0.25, "NQ": 0.25, "ES": 0.25}
+
+
+def round_to_tick(price: float, symbol: str = "MNQ", mode: str = "nearest") -> float:
+    """Rundet `price` auf das Tick-Raster von `symbol`.
+
+    `mode="nearest"` fuer Analyse-Level (Quadranten, C.E.), die nur im Chart liegen.
+    Fuer Order-Preise stattdessen bewusst gerichtet runden, damit die Rundung nie zugunsten
+    des Backtests ausfaellt: "down"/"up" heisst hier schlicht ab-/aufrunden, die konservative
+    Richtung haengt von Seite und Preistyp ab (siehe rules.py::plan_trade).
+    """
+    if symbol not in TICK_SIZE:
+        raise ValueError(f"Keine Tick-Groesse fuer {symbol!r} hinterlegt (TICK_SIZE: {list(TICK_SIZE)})")
+    t = TICK_SIZE[symbol]
+    n = price / t
+    if mode == "nearest":
+        # Bankers Rounding von Python vermeiden: .5 immer vom Nullpunkt weg
+        import math
+        n = math.floor(n + 0.5) if n >= 0 else math.ceil(n - 0.5)
+    elif mode == "down":
+        import math
+        n = math.floor(n + 1e-9)
+    elif mode == "up":
+        import math
+        n = math.ceil(n - 1e-9)
+    else:
+        raise ValueError(f"mode muss nearest|down|up sein, war {mode!r}")
+    return round(n * t, 10)
+
 
 def real_pnl(trades: pd.DataFrame, symbol: str) -> pd.DataFrame:
     """Kopie von `trades` mit zusaetzlicher Spalte 'RealPnL_USD' = NETTO-Ergebnis in Dollar,
@@ -115,6 +147,23 @@ def risk_size(equity: float, max_risk_pct: float, entry: float, stop: float,
 
 
 def demo() -> None:
+    # --- Tick-Raster ---
+    assert round_to_tick(29299.225, "MNQ") == 29299.25
+    assert round_to_tick(29299.375, "MNQ") == 29299.50, "0.5 muss vom Nullpunkt weg runden"
+    assert round_to_tick(29299.375, "MNQ", "down") == 29299.25
+    assert round_to_tick(29299.375, "MNQ", "up") == 29299.50
+    # exakt auf dem Raster liegende Preise duerfen sich nie verschieben
+    for p in (29299.0, 29299.25, 29299.5, 29299.75):
+        for m in ("nearest", "down", "up"):
+            assert round_to_tick(p, "MNQ", m) == p, f"{p} ({m}) wurde verschoben"
+    # negative Preise gibt es bei Futures nicht, die Rundung muss trotzdem symmetrisch sein
+    assert round_to_tick(-10.375, "MNQ") == -10.5
+    try:
+        round_to_tick(1.0, "UNBEKANNT")
+        raise AssertionError("unbekanntes Symbol muss auffliegen")
+    except ValueError:
+        pass
+
     trades = pd.DataFrame({
         "EntryTime": pd.to_datetime(["2026-01-01 10:00", "2026-01-01 10:05", "2026-01-01 10:10"]),
         "ExitTime":  pd.to_datetime(["2026-01-01 10:05", "2026-01-01 10:05", "2026-01-01 10:20"]),

@@ -29,7 +29,9 @@ from datetime import date, datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from analyze_ohlc import Bar, at, fvgs, untouched_levels, CFG  # noqa: E402
+from pnl import round_to_tick  # noqa: E402
 
 # (Name, Start-Stunde, End-Stunde) in NY-Zeit, siehe wiki/models/Silver Bullet Model.md
 WINDOWS = [
@@ -58,7 +60,7 @@ def _active_window(day: date, when: datetime) -> tuple[str, datetime] | None:
 
 
 def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
-                min_target_points: float = 10.0) -> TradeSetup | None:
+                min_target_points: float = 10.0, symbol: str = "MNQ") -> TradeSetup | None:
     """Silver-Bullet-Setup zum Zeitpunkt `when`, oder None. Nur bars[t<=when] werden benutzt.
 
     `stop_buffer_pct` (Anteil der FVG-Groesse als SL-Puffer) ist optimierbar/testbar --
@@ -96,6 +98,14 @@ def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
     entry = fvg["ce"]
     buffer = stop_buffer_pct * fvg["size"]
     stop = fvg["lo"] - buffer if side == "long" else fvg["hi"] + buffer
+
+    # Auf das Tick-Raster zwingen: C.E. ist ein Mittelwert (landet zur Haelfte auf dem
+    # 0,125-Raster) und der Stop-Puffer ist ein Prozentwert -- beides ergibt Preise, die es
+    # am Markt nicht gibt und die IBKR nicht annimmt. Richtung immer konservativ, damit die
+    # Rundung nie zugunsten des Backtests ausfaellt: Entry schwerer zu fuellen, Stop weiter
+    # weg (groesserer Verlust), Ziel weiter weg (schwerer erreichbar).
+    entry = round_to_tick(entry, symbol, "down" if side == "long" else "up")
+    stop = round_to_tick(stop, symbol, "down" if side == "long" else "up")
 
     levels = untouched_levels(hist, CFG["swing"])
     if side == "long":
@@ -171,6 +181,15 @@ def demo() -> None:
     assert s2 is not None
     assert s2.entry == (103 + 104) / 2, (
         f"randueberlappendes FVG genommen (C.E {s2.entry}) statt des innenliegenden 103.5")
+
+    # Tick-Raster: MNQ handelt in 0,25-Schritten. Der Stop entsteht aus einem Prozent-Puffer
+    # und landet ungerundet auf krummen Werten (hier 97.9) -- solche Orders nimmt IBKR nicht
+    # an, und ein Backtest wuerde Fills an nie existierenden Preisen simulieren.
+    for s in (setup, s2):
+        for feld, wert in (("entry", s.entry), ("stop", s.stop), ("target", s.target)):
+            assert abs(round(wert / 0.25) * 0.25 - wert) < 1e-9, \
+                f"{feld} {wert} liegt nicht auf dem 0,25-Tick-Raster"
+    assert setup.stop == 97.75, f"Stop muss konservativ abgerundet sein (97.75), war {setup.stop}"
 
     print("plan_trade demo ok:", setup)
 
