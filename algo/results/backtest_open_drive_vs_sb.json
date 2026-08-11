@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-08-11T17:39:32.875462+00:00",
+  "symbol": "MNQ",
+  "n_tage": 21,
+  "zeitraum": [
+    "2026-07-08",
+    "2026-08-06"
+  ],
+  "median_open_range": 201.0,
+  "median_sb_range": 231.0,
+  "median_sb_dir": 0.43,
+  "sb_range_nach_starkem_open": {
+    "schwelle_open_range": 254.0,
+    "n_starker_open": 7,
+    "n_rest": 14,
+    "median_starker_open": 223.0,
+    "median_rest": 240.62,
+    "p": 0.332
+  },
+  "sb_dir_nach_starkem_open": {
+    "schwelle_open_range": 254.0,
+    "n_starker_open": 7,
+    "n_rest": 14,
+    "median_starker_open": 0.46,
+    "median_rest": 0.42,
+    "p": 0.6888
+  }
+}
