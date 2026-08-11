@@ -2296,6 +2296,7 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Ergebnis: unentschieden -- kein Test signifikant (p=1,00 / 0,58 / 0,40 / 0,32), 9 bzw. 4 Montage zu wenig. Einziger Punkt fuer die These: Montags-FVGs liegen weiter weg und werden trotzdem gleich oft angelaufen.</li>
 <li>Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md (offene Hypothese), wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md</li>
 <li>Aktualisiert: algo/README.md (Modulabschnitt), algo/PLAN.md (Log mit Zahlen)</li>
+<li>DATENFEHLER: yfinance liefert fuer MNQ=F systematisch 00:00-00:08 NY nicht (19/24 Tage, inkl. 0:00-Kerze; 5m ebenso). Gegen den Rohabruf verifiziert — Quelle, nicht fetch_yfinance.py. Jede bisher berichtete Midnight-Range-/STD-Zahl ist dadurch aufgeblaeht; die "-1 STD reisst an 52,3 % der Tage"-Angabe wird zurueckgezogen (Basisrate derzeit unbekannt, n=10 statt 44). Riegel in window_gaps()/session_range(expect_complete)/mor_levels.py eingebaut, betroffene Backtests weisen verworfene Tage aus.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

@@ -48,7 +48,22 @@ def window_gaps(bars, day, start_hm, end_hm) -> list[int]:
     have = {int((b.t - start).total_seconds() // 60) for b in bars if start <= b.t < end}
     if not have:
         return []
-    return sorted(set(range(int((end - start).total_seconds() // 60))) - have)
+    step = bar_minutes(bars)
+    return sorted(set(range(0, int((end - start).total_seconds() // 60), step)) - have)
+
+
+def bar_minutes(bars) -> int:
+    """Haeufigster Abstand zwischen aufeinanderfolgenden Kerzen, in Minuten.
+
+    `find_days()` liefert 1m bevorzugt, faellt aber auf **5m** zurueck, wenn fuer den Tag
+    keine 1m-Datei existiert. Eine fest in Minuten gerechnete Vollstaendigkeitspruefung haelt
+    die 6 Kerzen eines 5m-Fensters dann faelschlich fuer 24 fehlende Minuten und verwirft den
+    Tag (aufgefallen 2026-08-11: 20 gesunde 7:00-7:30-Fenster wurden so weggeworfen).
+    Der Modalwert ist robuster als min/mean -- eine einzelne Sessionpause verschiebt ihn nicht.
+    """
+    deltas = [int((b.t - a.t).total_seconds() // 60) for a, b in zip(bars, bars[1:])]
+    deltas = [d for d in deltas if d > 0]
+    return statistics.mode(deltas) if deltas else 1
 
 
 def session_range(bars, day, start_hm: tuple[int, int], end_hm: tuple[int, int],

@@ -303,6 +303,37 @@ nicht in `selfcheck.py` eingehaengt).
   erlebt hat, und faellt bei reiner Range-Betrachtung nicht auf. Stand 2026-08-11: kein Signal
   (p = 0,45 bzw. 0,97 bei n=22), These damit unentschieden, nicht widerlegt.
 
+### ⚠️ yfinance liefert die ersten Minuten nach Mitternacht NY nicht
+
+**Betrifft jede Midnight-Opening-Range-Auswertung.** Fuer `MNQ=F` fehlen in Yahoos Daten
+systematisch die Kerzen **00:00-00:08 NY** — an 19 von 24 MNQ-1m-Tagen, immer exakt dieselben
+neun Minuten, **inklusive der 0:00-Kerze und damit des Midnight Opening Price**. Die 5m-Datei
+hat dieselbe Luecke (die 00:00-00:05-Kerze fehlt), es gibt also keinen Ausweg ueber eine
+groebere Aufloesung.
+
+Am 2026-08-11 gegen den rohen `yf.download()`-Abruf verifiziert: **die Luecke steckt in der
+Quelle, nicht in `fetch_yfinance.py`.** Aufgefallen ist sie nur, weil Jannes den Midnight Open
+aus TradingView nannte (29 832,25) und der aus unseren Daten gerechnete Wert 7 Punkte daneben
+lag (29 839,25 — das war der Open der 00:09-Kerze).
+
+Auswirkung: eine aus 21 von 30 Minuten gerechnete Opening Range faellt **zu klein** aus, und
+weil alle STD-Level Vielfache dieser Range sind, ist jede abgeleitete k-Kennzahl **aufgeblaeht**.
+Zahlen, die vor dem 2026-08-11 aus diesen Skripten berichtet wurden, sind entsprechend
+unbrauchbar (konkret: die frueher gemeldeten „52,3 % der Tage reissen −1 STD in London" bei
+n=44 — auf sauberen Daten bleiben n=10 uebrig).
+
+Der Riegel sitzt in `window_gaps()` (in `backtest_midnight_range_std.py`): `session_range()`
+nimmt `expect_complete=True` und verwirft loechrige Fenster, `mor_levels.py` bricht mit einer
+erklaerenden Meldung ab statt zu rechnen. Beide Backtests weisen die Zahl der verworfenen Tage
+aus. `window_gaps()` leitet den erwarteten Kerzenabstand ueber `bar_minutes()` aus den Daten ab
+— ohne das haelt es die 6 Kerzen eines 5m-Fensters faelschlich fuer 24 fehlende Minuten
+(`find_days()` faellt auf 5m zurueck, wenn keine 1m-Datei existiert). Ein komplett leeres
+Fenster gilt bewusst **nicht** als Luecke: ein Tag ohne Intraday-Daten ist keine loechrige
+Messung, sondern gar keine.
+
+**Ausweg:** 1m-Export aus TradingView fuer die betroffenen Tage nach `raw/marktdaten/` legen.
+Mittelfristig loest der IBKR-Adapter (PLAN.md Schritt 4) das Problem an der Wurzel.
+
 **Bekannte Grenzen:** Alle drei haengen an den 1m-Dateien in `raw/marktdaten/` -- die reichen
 nur ~30 Tage zurueck (yfinance-Grenze), aktuell 22 MNQ-Tage bis einschliesslich 2026-08-10.
 Der laufende Handelstag fehlt immer, weil `fetch_yfinance.py` ihn bewusst nicht schreibt

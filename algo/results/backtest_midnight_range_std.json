@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-11T18:38:57.098960+00:00",
-  "days_used": 5,
-  "exceed_1std_pct": 40.0,
+  "generated_at": "2026-08-11T18:40:29.798377+00:00",
+  "days_used": 10,
+  "exceed_1std_pct": 30.0,
   "london_low_median": 0.0,
-  "london_high_median": 1.2585365853658537,
-  "day_low_median": 4.78125,
-  "day_high_median": 2.3591160220994474
+  "london_high_median": 1.6149825783972127,
+  "day_low_median": 2.9086916319926033,
+  "day_high_median": 3.2852584982878144
 }
