@@ -2286,6 +2286,7 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Nutzerkorrektur uebernommen: die 3-Kerzen-Formation muss KOMPLETT in der Session liegen, frueheste Position in NY AM ist 09:30/09:31/09:32 (deckt sich mit der bestehenden Wiki-Regel "zaehlt ab 9:31" auf <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>, dort bisher nur fuer die 9:30-Session formuliert -- jetzt als sessionuebergreifende Regel praezisiert)</li>
 <li>Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md</li>
 <li>Bugfix daraus: algo/rules.py::plan_trade nahm randueberlappende FVGs als "erstes im Fenster" -- 39,4 % der Silver-Bullet-Fenster betroffen, 11 mit Richtungswechsel; Details in algo/PLAN.md</li>
+<li>Neu: algo/mor_levels.py (MOR-Tagesreadout: Open/Range/Quarters/STD/first presentation). Auswertung 11.08.: weder Tages-High (k=1,72, Trefferabstand schlechter als Zufall) noch Tages-Low (k=14,03) wurden von einem STD-Level festgelegt; MOR mit 18,75 Pkt zu eng, um zu tragen. Wiki-These "-1 STD als Manipulationsgrenze in London" gegengeprueft: reisst an 52,3 % der Tage (n=44), also kein Bias-Signal.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
