@@ -59,7 +59,10 @@
 <li><a href="#pro-tag">Pro Tag</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 <li><a href="#1st-presented-fvg-wochenrelevanz-des-montags-offene-hypothese-stand-2026-08-11">1st Presented FVG — Wochenrelevanz des Montags (offene Hypothese, Stand 2026-08-11)</a></li>
-<li><a href="#std-projektionen-und-die-tages-session-extrema-offene-hypothese-stand-2026-08-11">STD-Projektionen und die Tages-/Session-Extrema (offene Hypothese, Stand 2026-08-11)</a></li>
+<li><a href="#std-projektionen-und-die-tages-session-extrema-offene-hypothese-stand-2026-08-11">STD-Projektionen und die Tages-/Session-Extrema (offene Hypothese, Stand 2026-08-11)</a><ul>
+<li><a href="#nachtrag-2026-08-11-opening-range-statt-org-gap-als-std-basis">Nachtrag 2026-08-11: Opening Range statt ORG-Gap als STD-Basis</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </details>
@@ -574,7 +577,41 @@ mit 0,10–0,20 STD ueberwiegend <strong>ueber</strong> dem Zufallswert 0,125 ST
 gegen die Toleranzwahl geprueft (0,03/0,05/0,10), Bild unveraendert. Wiederholen bei
 groesserem 1m-Bestand.</p>
 <p>Datenpunkt 2026-08-11: Tagestief 29 533,50 lag zwischen −2,0 STD (29 554,75, erreicht) und
-−2,5 STD (29 507,25, offen) — also nicht auf einem Level.</p></div>
+−2,5 STD (29 507,25, offen) — also nicht auf einem Level.</p>
+<h3 id="nachtrag-2026-08-11-opening-range-statt-org-gap-als-std-basis">Nachtrag 2026-08-11: Opening Range statt ORG-Gap als STD-Basis</h3>
+<p>Nutzerpraezisierung: gemeint ist die <strong>Opening Range 9:30–10:00</strong>, nicht das Gap. Die
+Unterscheidung ist nicht kosmetisch — am 11.08. liefert sie ein qualitativ anderes Ergebnis:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OR 9:30–10:00</td>
+<td>High 29 842,75 (09:30) / Low 29 636,00 (09:47), Range 206,75 Pkt</td>
+</tr>
+<tr>
+<td>−0,5 STD</td>
+<td>29 532,62</td>
+</tr>
+<tr>
+<td>Tagestief ab 10:00</td>
+<td>29 533,50</td>
+</tr>
+<tr>
+<td><strong>Abweichung</strong></td>
+<td><strong>0,88 Pkt (3,5 Ticks)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Aus dem <strong>Gap</strong> projiziert lag dasselbe Tief zwischen −2,0 und −2,5 STD, also auf keinem
+Level. Der frueher notierte Datenpunkt war damit an der falschen Range gemessen und ist
+hiermit korrigiert. Passt zum Backtest, wo <code>or_:post_daily_low</code> (26 %, 1m) bereits der beste
+aller acht Werte war.</p>
+<p>Vorbehalt: Tag lief beim Erfassen noch (Daten bis 14:39 NY).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/macro-datenbank-laufend.html">Macro-Datenbank (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a><span class="cat">Modelle</span></li><li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Muster-Validierung (laufend).md</code></footer>
 </article>

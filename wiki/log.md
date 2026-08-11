@@ -2038,3 +2038,8 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Ergebnis: nicht gestuetzt -- keine Kennzahl ueber der 20-%-Zufallserwartung (bestes p=0,305), Median-Abstand eher groesser als bei Zufall
 - Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md
 - Aktualisiert: algo/README.md, algo/PLAN.md
+
+## [2026-08-11] query | Korrektur: Opening Range NY AM (9:30-10:00) statt ORG-Gap
+- Qs/Os/Hs-Raster der Opening Range 9:30-10:00 fuer den 11.08. berechnet (Range 206,75 Pkt, C.E. 29 739,38)
+- Befund: -0,5-STD-Projektion 29 532,62 vs. Tagestief 29 533,50 -- 0,88 Pkt Abweichung, waehrend dasselbe Tief aus der Gap-Basis auf keinem Level lag
+- Frueherer Datenpunkt in Muster-Validierung (laufend) entsprechend korrigiert statt stehengelassen
