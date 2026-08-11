@@ -299,6 +299,34 @@ nicht in `selfcheck.py` eingehaengt).
 unabhaengig, der p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_BARS = 15`
 verwirft Bloecke mit Datenluecken, statt sie als ruhigen Markt zu zaehlen.
 
+## `fetch_dukascopy.py` -- Forex-Tickdaten-Downloader (M1-Aggregation)
+
+**Was:** Laedt historische Tickdaten von Dukascopy (`datafeed.dukascopy.com`, bi5-Format:
+LZMA-komprimiert, 20-Byte-Records) und aggregiert sie zu 1-Minuten-Kerzen. Reine
+Standardbibliothek (kein `pip install`), OHLC aus dem Mittelkurs (bid+ask)/2 -- IBKR liefert
+Devisen standardmaessig als Midpoint-Bars, beide Quellen muessen dieselbe Groesse messen. Spread
+wird als Zusatzspalte mitgeschrieben. Aufruf: `python algo/fetch_dukascopy.py EURUSD GBPUSD --von
+2003-01-01 --bis 2026-08-11 --bericht results/x.json`.
+
+**Warum:** Nutzerentscheidung 2026-08-11, das Projekt bewusst auf Forex-Paare zu erweitern
+(bisher nur MNQ). Ablage getrennt von `raw/marktdaten/` unter `raw/marktdaten-tief/<jjjj>/<mm>/
+<tt.mm.jjjj>/<SYMBOL> <jjjj-mm-tt> 1m.csv` (gitignored) -- zweite Datenstufe, Umfang gehoert
+nicht ins Git-Repo. Nur M1 wird geladen, keine rohen Tick-Dateien (Groessenersparnis); alle
+groeberen Timeframes (5m/15m/1h/4h/1d) werden bei Bedarf lokal aus M1 resampled.
+
+**Bulk-Lauf 2026-08-11:** `algo/dukascopy_bulk.sh` laedt sequenziell EURUSD, USDJPY, GBPUSD,
+USDCHF, AUDUSD, USDCAD, NZDUSD, EURJPY, EURGBP, GBPJPY je 2003-01-01 bis 2026-08-11 (maximale
+verfuegbare Historie je Paar). Log: `algo/dukascopy_bulk.log`, Einzelberichte
+`algo/results/dukascopy_<SYM>_report.json`. Laeuft als Hintergrundprozess, bei ~24
+Stundenabfragen/Tag ueber 23 Jahre und 10 Paaren realistisch mehrstuendig bis mehrtaegig.
+
+**Bekannte Grenzen:** Sequenziell, ein HTTP-Request pro Stunde -- kein Concurrency-Limit noetig,
+aber entsprechend langsam bei grossen Zeitraeumen. Fruehe Jahre liefern fuer manche Paare
+erwartungsgemaess durchgehend leere Stunden (Paar noch nicht gehandelt) -- das ist keine Luecke,
+sondern korrekt, muss aber beim Luecken-Report nach Abschluss beruecksichtigt werden. Nach
+Abschluss steht die Vollstaendigkeits-/Luecken-Pruefung laut Arbeitsstandards ("Marktdaten wie
+Gold behandeln") noch aus.
+
 ## `macro_db.py`
 
 **Was:** Eine Zeile je Macro-Fenster (`:50–:10`) je Handelstag in `algo/results/macro_db.csv` --
