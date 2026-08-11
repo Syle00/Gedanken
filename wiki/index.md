@@ -290,6 +290,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2024-01-22 - NQ Break-Away Gap Entry Turtle Soup Short (Source)]] — Breakaway Gap + Turtle Soup kombiniert
 - [[2024-01-17 - ICT Final Hour MOC Macro NQ Live Execution (Source)]] — MOC-Macro-Fenster (12 Min, Stichprobe)
 - [[2024-01-09 - NQ Live Execution 10-50-11-10 Algorithmic Macro Targeting Previous Day High (Source)]] — dritte Bestätigung 10:50-11:10 Macro
+- [[2023-12-27 - NQ Live Execution Turtle Soup Short (Source)]] — "Funded"-Terminologie (8 Min, Stichprobe)
+- [[2023-12-15 - How Smart Money Targets Retail Traders Fake Bear Flag (Source)]] — Fake Bear Flag
+- [[2023-12-14 - Fading Retail Buyers For NQ (Source)]] — Runner-Kontrakt-Technik (8 Min, Stichprobe)
+- [[2023-12-14 - December 2023 FOMC NQ Front Month Execution Initial Stop Out 50pct Reentry (Source)]] — FOMC-Front-Month-Regel, 50%-Reentry (12 Min, Stichprobe)
+- [[2023-12-06 - Why Do I Avoid NFP Weeks NQ 3 Trades 2 Losses (Source)]] — NFP-Verlustwarnung, "Risk & Costs"-Terminologie (19 Min, Stichprobe)
 
 ### MentorShip 2025
 

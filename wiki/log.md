@@ -1921,3 +1921,22 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für die 5 IDs angelegt.
 - Stand: 53 von 61 Videos erledigt, 8 verbleibend (letzte Charge).
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 12a/61, chart-only ohne Voiceover)
+- Erster Teil der letzten Charge (5 von 9 verbleibenden Videos), aufgeteilt wegen Turn-Länge.
+  Alle 5 Downloads liefen fehlerfrei (leicht langsamer, aber ohne HTTP-Fehler).
+- Batch 12a (5 Videos): rYwsypxkRX4 (Dec 27 2023, 8:09, Turtle Soup), gq2Q2y4ch9k (Dec 15 2023,
+  5:12, Fake Bear Flag), Tbcj6fyDVdo (Dec 14 2023, 8:06, Runner-Kontrakt), _ZOFkSXfvsg (Dec 14
+  2023, 12:18, FOMC/50%-Reentry), hMvyE0qhads (Dec 6 2023, 18:51, NFP-Verlustbeispiel — mit
+  Abstand längstes Video im gesamten Ingest). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-12-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md` (Begriffe
+  "Funded" und "Risk & Costs" ergänzt, neuer Abschnitt "Runner statt vollständiger
+  Glattstellung"), `algo/PLAN.md` (neue These geloggt: NFP-Wochen-Vermeidung wegen erhöhter
+  Verlustrate, Primärquelle 2023-12-06-Video, **noch nicht gebacktestet** — Backlog-Punkt,
+  braucht NFP-Releasedaten-Quelle).
+- Wichtigster Fund: seltenes selbstkritisches Video mit dokumentierten Verlust-Trades (2 von 3)
+  in einer NFP-Woche — direkte Primärquelle für eine neue, noch zu prüfende Trading-These.
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 58 von 61 Videos erledigt, 3 verbleibend (letzter Teil-Lauf).

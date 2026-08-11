@@ -93,13 +93,25 @@ Zwei weitere Partial-Beispiele aus demselben Batch:
   **unterhalb** einer New Week Opening Gap-Range ("Partial Opportunity Here"), nicht am
   NWOG-Rand selbst.
 
-## Terminologie-Bestätigung aus Primärquellen (Batch 10)
+## Terminologie-Bestätigung aus Primärquellen (Batch 10-12)
 
 [[2024-04-08 - April 08, 2024 NQ Market Maker Buy Model Example (Source)]] liefert den
 Fachbegriff **"Risk Removed"** für die Stop-auf-Breakeven-Verschiebung nach dem ersten Teilziel.
 [[2024-02-01 - NQ Futures Live Execution Pre-Opening Bell (Source)]] bestätigt live eingetippt den
-Begriff **"Pyramided"** ("Pyramided 5 more at...") für das Kontrakt-Aufstockungsmuster — beide
-Begriffe stammen direkt aus ICTs eigener Chart-Beschriftung, nicht aus Ableitung.
+Begriff **"Pyramided"** ("Pyramided 5 more at...") für das Kontrakt-Aufstockungsmuster —
+[[2023-12-27 - NQ Live Execution Turtle Soup Short (Source)]] ergänzt **"Funded"** ("Trade is
+'Funded' and locked in profit...") für dieselbe Risikofreistellungs-Idee, und
+[[2023-12-06 - Why Do I Avoid NFP Weeks NQ 3 Trades 2 Losses (Source)]] zeigt, dass der
+Breakeven-Stop explizit **"Risk & Costs"** (nicht nur Punkte-Risiko, sondern auch
+Kommissionen/Spread) abdecken soll — alle vier Begriffe stammen direkt aus ICTs eigener
+Chart-Beschriftung, nicht aus Ableitung.
+
+## Runner statt vollständiger Glattstellung (Live-Beispiel)
+
+[[2023-12-14 - Fading Retail Buyers For NQ (Source)]]: nach dem Hauptexit bleibt bewusst **ein
+einzelner Kontrakt** offen ("I am leaving a single contract on in case it runs...") als
+kostengünstiger "Lottery-Ticket"-Runner auf eine größere Fortsetzung — eine dritte Variante neben
+"kompletter Exit" und "R-Multiple-Skalierung auf 2 Teile".
 
 ## Bezug zum Reward-to-Risk-Modell
 
