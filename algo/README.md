@@ -306,7 +306,16 @@ LZMA-komprimiert, 20-Byte-Records) und aggregiert sie zu 1-Minuten-Kerzen. Reine
 Standardbibliothek (kein `pip install`), OHLC aus dem Mittelkurs (bid+ask)/2 -- IBKR liefert
 Devisen standardmaessig als Midpoint-Bars, beide Quellen muessen dieselbe Groesse messen. Spread
 wird als Zusatzspalte mitgeschrieben. Aufruf: `python algo/fetch_dukascopy.py EURUSD GBPUSD --von
-2003-01-01 --bis 2026-08-11 --bericht results/x.json`.
+2003-01-01 --bis 2026-08-11 --pause 1.0 --bericht results/x.json`.
+
+**Drosselung (`--pause`, Default 0,5s):** Proaktive Pause zwischen JEDER Stundenabfrage, nicht
+nur nach Fehlern -- Dukascopy blockt bei zu hoher Anfragerate mit HTTP 429. `hole_stunde()`
+behandelt 429 zusaetzlich mit eigenem 15s×Versuch-Backoff statt des generischen 2^Versuch.
+**Wichtig:** eine IP-seitige 429-Sperre kann laenger anhalten als jede sinnvolle Pause ausgleicht
+-- wenn selbst ein isolierter Einzel-Request ohne jede Bulk-Last weiterhin 429/Timeout liefert
+(siehe Vorfall 2026-08-11, `algo/PLAN.md`), hilft nur Abwarten, kein weiteres Erhoehen von
+`--pause`. In diesem Fall nicht weiter testen (verlaengert die Sperre eher) und den Nutzer
+informieren statt automatisch neu zu starten.
 
 **Warum:** Nutzerentscheidung 2026-08-11, das Projekt bewusst auf Forex-Paare zu erweitern
 (bisher nur MNQ). Ablage getrennt von `raw/marktdaten/` unter `raw/marktdaten-tief/<jjjj>/<mm>/
@@ -314,13 +323,17 @@ wird als Zusatzspalte mitgeschrieben. Aufruf: `python algo/fetch_dukascopy.py EU
 nicht ins Git-Repo. Nur M1 wird geladen, keine rohen Tick-Dateien (Groessenersparnis); alle
 groeberen Timeframes (5m/15m/1h/4h/1d) werden bei Bedarf lokal aus M1 resampled.
 
-**Bulk-Lauf 2026-08-11 -- abgebrochen (Nutzerwunsch):** `algo/dukascopy_bulk.sh` sollte
+**Bulk-Lauf 2026-08-11 -- zweimal gescheitert, aktuell pausiert:** `algo/dukascopy_bulk.sh` soll
 sequenziell EURUSD, USDJPY, GBPUSD, USDCHF, AUDUSD, USDCAD, NZDUSD, EURJPY, EURGBP, GBPJPY je
-2003-01-01 bis 2026-08-11 laden, wurde aber noch waehrend EURUSD/Tag 1 per `taskkill` beendet --
-keine unvollstaendigen Dateien entstanden. Skript und Log (`algo/dukascopy_bulk.sh`,
-`algo/dukascopy_bulk.log`) bleiben liegen, falls der Bulk-Lauf spaeter erneut gestartet wird.
-Statt dessen kam am selben Tag ein manueller histdata.com-Import dazu, siehe
-`ingest_histdata_xlsx.py` unten.
+2003-01-01 bis 2026-08-11 laden. 1. Versuch (ungedrosselt) noch waehrend EURUSD/Tag 1 per
+`taskkill` beendet (Nutzerwunsch, keine unvollstaendigen Dateien). 2. Versuch mit `--pause 1.0`
+lief ~1h ohne eine einzige neue Datei, dann Diagnose: selbst ein isolierter Einzel-Request ohne
+Bulk-Last lieferte weiterhin HTTP 429/Timeout -- **IP-seitige Sperre bei Dukascopy**, kein
+Tempoproblem mehr. Auf Nutzerwunsch gestoppt, bewusst nicht weiter gegen die Sperre getestet
+(Details siehe `algo/PLAN.md`, Eintrag "Dukascopy-Bulk-Lauf (2.) an IP-Sperre gescheitert").
+Skript und Log (`algo/dukascopy_bulk.sh`, `algo/dukascopy_bulk.log`) bleiben liegen; naechster
+Versuch braucht eine laengere Wartezeit plus hoehere `--pause` (3-6s). Am selben Tag kam
+zusaetzlich ein manueller histdata.com-Import dazu, siehe `ingest_histdata_xlsx.py` unten.
 
 **Bekannte Grenzen:** Sequenziell, ein HTTP-Request pro Stunde -- kein Concurrency-Limit noetig,
 aber entsprechend langsam bei grossen Zeitraeumen. Fruehe Jahre liefern fuer manche Paare
