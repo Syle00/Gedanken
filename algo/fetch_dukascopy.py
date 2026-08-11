@@ -57,11 +57,15 @@ DECIMALS = {
 REC = struct.Struct(">3I2f")  # ms-Offset, ask, bid, ask-Volumen, bid-Volumen (Big-Endian)
 
 
-def hole_stunde(sym: str, tag: date, stunde: int, versuche: int = 3) -> bytes | None:
+def hole_stunde(sym: str, tag: date, stunde: int, versuche: int = 5) -> bytes | None:
     """Rohe bi5-Bytes einer Stunde. None = kein Datenfile (Wochenende/Feiertag/Luecke).
 
     Achtung, klassische Falle: Dukascopy zaehlt Monate ab 0. Ein Off-by-one hier verschiebt
     saemtliche Daten um einen Monat, ohne dass irgendetwas auffaellig aussieht.
+
+    429 (Too Many Requests) bekommt eine deutlich laengere Pause als andere Fehler -- ein
+    Bulk-Lauf ueber 10 Paare x 23 Jahre hat den Server vorher in die Rate-Limitierung getrieben
+    (kurze 2**versuch-Backoffs reichen dagegen nicht).
     """
     url = URL.format(sym=sym, y=tag.year, m=tag.month - 1, d=tag.day, h=stunde)
     for versuch in range(versuche):
@@ -71,6 +75,11 @@ def hole_stunde(sym: str, tag: date, stunde: int, versuche: int = 3) -> bytes | 
         except urllib.error.HTTPError as e:
             if e.code == 404:
                 return None
+            if e.code == 429:
+                if versuch == versuche - 1:
+                    raise
+                time.sleep(15 * (versuch + 1))
+                continue
             if versuch == versuche - 1:
                 raise
         except (urllib.error.URLError, TimeoutError):
@@ -135,9 +144,15 @@ def schreibe_tag(sym: str, ny_tag: date, kerzen: dict[int, dict]) -> Path:
     return ziel
 
 
-def lade_symbol(sym: str, von: date, bis: date, ueberspringe_vorhandene: bool = True) -> dict:
+def lade_symbol(sym: str, von: date, bis: date, ueberspringe_vorhandene: bool = True,
+                pause: float = 0.5) -> dict:
     """Laedt einen Zeitraum. Gruppiert nach NY-Kalendertag, weil eine UTC-Stunde in den
-    NY-Vortag fallen kann."""
+    NY-Vortag fallen kann.
+
+    `pause` bremst proaktiv zwischen JEDER Stundenabfrage (nicht nur nach Fehlern) -- der
+    vorherige Bulk-Lauf ueber 10 Paare x 23 Jahre hat Dukascopy ohne Drosselung angefragt und
+    wurde mit HTTP 429 blockiert.
+    """
     if sym not in DECIMALS:
         sys.exit(f"Unbekanntes Symbol {sym}. Bekannt: {', '.join(sorted(DECIMALS))}")
 
@@ -151,7 +166,9 @@ def lade_symbol(sym: str, von: date, bis: date, ueberspringe_vorhandene: bool = 
                 roh = hole_stunde(sym, tag, stunde)
             except Exception as e:  # Netzfehler nach allen Versuchen
                 bericht["fehler"].append(f"{tag} {stunde:02d}h: {e}")
+                time.sleep(pause)
                 continue
+            time.sleep(pause)
             if not roh:
                 bericht["leere_stunden"] += 1
                 continue
@@ -212,6 +229,8 @@ def main() -> int:
     ap.add_argument("--von", help="JJJJ-MM-TT")
     ap.add_argument("--bis", help="JJJJ-MM-TT")
     ap.add_argument("--bericht", help="Pfad fuer einen JSON-Bericht")
+    ap.add_argument("--pause", type=float, default=0.5,
+                     help="Sekunden Pause zwischen Stundenabfragen (Default 0.5, gegen HTTP 429)")
     ap.add_argument("--demo", action="store_true", help="Nur Selbstcheck, kein Netzzugriff")
     a = ap.parse_args()
 
@@ -225,7 +244,7 @@ def main() -> int:
     berichte = []
     for sym in a.symbole:
         print(f"[{sym}] {von} .. {bis}", flush=True)
-        b = lade_symbol(sym, von, bis)
+        b = lade_symbol(sym, von, bis, pause=a.pause)
         berichte.append(b)
         print(f"  {b['tage_geschrieben']} Tage, {b['kerzen']} Minutenkerzen, "
               f"{b['leere_stunden']} leere Stunden, {len(b['fehler'])} Fehler", flush=True)
