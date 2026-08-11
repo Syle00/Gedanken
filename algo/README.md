@@ -301,11 +301,12 @@ nicht in `selfcheck.py` eingehaengt).
   Open-Range dem Rest gegenueber (Mann-Whitney). **Range und Direktionalitaet werden bewusst
   getrennt gefragt** -- eine grosse, aber richtungslose Stunde ist genau der Fall, den er
   erlebt hat, und faellt bei reiner Range-Betrachtung nicht auf. Stand 2026-08-11: kein Signal
-  (p = 0,33 bzw. 0,69 bei n=21), These damit unentschieden, nicht widerlegt.
+  (p = 0,45 bzw. 0,97 bei n=22), These damit unentschieden, nicht widerlegt.
 
 **Bekannte Grenzen:** Alle drei haengen an den 1m-Dateien in `raw/marktdaten/` -- die reichen
-nur ~30 Tage zurueck (yfinance-Grenze), aktuell 23 MNQ-Tage, und **MNQ-1m endet am 2026-08-07**
-(10.08./11.08. liegen nur als Forex vor). Bloecke desselben Tages sind nicht unabhaengig, der
+nur ~30 Tage zurueck (yfinance-Grenze), aktuell 22 MNQ-Tage bis einschliesslich 2026-08-10.
+Der laufende Handelstag fehlt immer, weil `fetch_yfinance.py` ihn bewusst nicht schreibt
+(`end` exklusiv, sonst bliebe ein Tagesstumpf liegen). Bloecke desselben Tages sind nicht unabhaengig, der
 p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_BARS = 15` verwirft Bloecke mit
 Datenluecken, statt sie als ruhigen Markt zu zaehlen; `backtest_open_drive_vs_sb.py` macht
 dasselbe mit `MIN_BARS_OPEN = 15` / `MIN_BARS_SB = 45` und wirft damit Fragmenttage raus. Bei

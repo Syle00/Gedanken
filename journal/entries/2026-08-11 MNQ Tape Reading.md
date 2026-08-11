@@ -298,6 +298,7 @@ fehler: [S05, S13, S01]
 
 - Screenshot 2026-08-11-sb-32.png (10:31 NY) ist 167 Byte gross und nicht lesbar — Export ist beim Speichern abgebrochen. Kein Inhalt rekonstruierbar.
 - Bias fuer diesen Eintrag als Baerish gesetzt (aus „Viel Session Liq Baerish gefaellt mir gut!" 09:47). bias_korrekt noch offen — Tag war beim Erfassen nicht geschlossen.
+- **MNQ-1m fuer den 11.08. fehlt in `raw/marktdaten/`.** `fetch_yfinance.py` schreibt den laufenden Handelstag bewusst nicht (`end` exklusiv). Die Zahlen dieses Eintrags stammen daher aus den Screenshots, nicht aus den Rohdaten — nach 17:00 NY mit `python algo/fetch_yfinance.py 2026-08-10 2026-08-12` nachladen, dann ist der Tag gegenpruefbar und faellt in die Backtests. Der 10.08. wurde beim Erfassen bereits nachgeladen und verifiziert (1369 Bars, Zeitachse gegen das 12:31→12:32-Vakuum gegengeprueft).
 
 ## Hinweise
 
