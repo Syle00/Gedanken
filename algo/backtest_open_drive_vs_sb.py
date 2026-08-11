@@ -125,7 +125,7 @@ def selfcheck() -> None:
     for i in range(60):  # 10:00-11:00, Zickzack ohne Netto
         p = 200.0 + (10 if i % 2 else 0)
         bars.append(Bar(at(day, 10, 0) + (at(day, 10, 1) - at(day, 10, 0)) * i,
-                        p, p + 10, p - 10, p, 0))
+                        p, p + 20, p - 20, p, 0))
     op, sb = window(bars, day, *OPEN_WIN), window(bars, day, *SB_WIN)
     assert len(op) == 20 and len(sb) == 60, (len(op), len(sb))
     assert stats(op)["dir"] > 0.9, stats(op)          # glatter Drive
