@@ -277,7 +277,7 @@ Downstream-Konsumenten `backtest_fvg_specialness.py`/`backtest_midnight_range_st
 vom 2026-08-07. Sonst keine weiteren Bugs gefunden. `pearson()`-Duplikat (4x) und
 `load_rows()`/`find_1d_days()`-Seiteneingaenge in `backtest_common.py` konsolidiert.
 
-## 1m-Thesenskripte (`backtest_1m_gaps.py`, `backtest_macro.py`)
+## 1m-Thesenskripte (`backtest_1m_gaps.py`, `backtest_macro.py`, `backtest_open_drive_vs_sb.py`)
 
 **Was:** Zwei eigenstaendige Skripte auf 1m-Basis, jeweils aus einer konkreten
 Nutzerbeobachtung entstanden. Sie folgen nicht dem `run()`/`main()`-Muster der
@@ -294,10 +294,22 @@ nicht in `selfcheck.py` eingehaengt).
   zum RTH-Open (Tageszeit-Confounder). Kennzahlen je Block: Range, |Netto|, dir = Netto/Range
   und der Tagesrang nach Range. Signifikanz per Mann-Whitney (einseitig, Macro > Kontrolle).
 
-**Bekannte Grenzen:** Beide haengen an den 1m-Dateien in `raw/marktdaten/` -- die reichen nur
-~30 Tage zurueck (yfinance-Grenze), aktuell 23 MNQ-Tage. Bloecke desselben Tages sind nicht
-unabhaengig, der p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_BARS = 15`
-verwirft Bloecke mit Datenluecken, statt sie als ruhigen Markt zu zaehlen.
+- `backtest_open_drive_vs_sb.py` -- laesst ein starker RTH-Open-Drive (09:30-09:50) die
+  Silver-Bullet-Stunde (10:00-11:00) leerlaufen? Anlass: Jannes' Satz nach dem Tapereading vom
+  2026-08-11, der Move sei vor seinem Fenster gelaufen. Misst je Tag Range und
+  Direktionalitaet (dir = |Netto|/Range) beider Fenster und stellt das obere Drittel der
+  Open-Range dem Rest gegenueber (Mann-Whitney). **Range und Direktionalitaet werden bewusst
+  getrennt gefragt** -- eine grosse, aber richtungslose Stunde ist genau der Fall, den er
+  erlebt hat, und faellt bei reiner Range-Betrachtung nicht auf. Stand 2026-08-11: kein Signal
+  (p = 0,33 bzw. 0,69 bei n=21), These damit unentschieden, nicht widerlegt.
+
+**Bekannte Grenzen:** Alle drei haengen an den 1m-Dateien in `raw/marktdaten/` -- die reichen
+nur ~30 Tage zurueck (yfinance-Grenze), aktuell 23 MNQ-Tage, und **MNQ-1m endet am 2026-08-07**
+(10.08./11.08. liegen nur als Forex vor). Bloecke desselben Tages sind nicht unabhaengig, der
+p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_BARS = 15` verwirft Bloecke mit
+Datenluecken, statt sie als ruhigen Markt zu zaehlen; `backtest_open_drive_vs_sb.py` macht
+dasselbe mit `MIN_BARS_OPEN = 15` / `MIN_BARS_SB = 45` und wirft damit Fragmenttage raus. Bei
+n=21 sind beide Nicht-Befunde dort schwach -- der Test gehoert mit wachsendem Bestand wiederholt.
 
 ## `fetch_dukascopy.py` -- Forex-Tickdaten-Downloader (M1-Aggregation)
 
