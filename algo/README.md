@@ -314,11 +314,13 @@ wird als Zusatzspalte mitgeschrieben. Aufruf: `python algo/fetch_dukascopy.py EU
 nicht ins Git-Repo. Nur M1 wird geladen, keine rohen Tick-Dateien (Groessenersparnis); alle
 groeberen Timeframes (5m/15m/1h/4h/1d) werden bei Bedarf lokal aus M1 resampled.
 
-**Bulk-Lauf 2026-08-11:** `algo/dukascopy_bulk.sh` laedt sequenziell EURUSD, USDJPY, GBPUSD,
-USDCHF, AUDUSD, USDCAD, NZDUSD, EURJPY, EURGBP, GBPJPY je 2003-01-01 bis 2026-08-11 (maximale
-verfuegbare Historie je Paar). Log: `algo/dukascopy_bulk.log`, Einzelberichte
-`algo/results/dukascopy_<SYM>_report.json`. Laeuft als Hintergrundprozess, bei ~24
-Stundenabfragen/Tag ueber 23 Jahre und 10 Paaren realistisch mehrstuendig bis mehrtaegig.
+**Bulk-Lauf 2026-08-11 -- abgebrochen (Nutzerwunsch):** `algo/dukascopy_bulk.sh` sollte
+sequenziell EURUSD, USDJPY, GBPUSD, USDCHF, AUDUSD, USDCAD, NZDUSD, EURJPY, EURGBP, GBPJPY je
+2003-01-01 bis 2026-08-11 laden, wurde aber noch waehrend EURUSD/Tag 1 per `taskkill` beendet --
+keine unvollstaendigen Dateien entstanden. Skript und Log (`algo/dukascopy_bulk.sh`,
+`algo/dukascopy_bulk.log`) bleiben liegen, falls der Bulk-Lauf spaeter erneut gestartet wird.
+Statt dessen kam am selben Tag ein manueller histdata.com-Import dazu, siehe
+`ingest_histdata_xlsx.py` unten.
 
 **Bekannte Grenzen:** Sequenziell, ein HTTP-Request pro Stunde -- kein Concurrency-Limit noetig,
 aber entsprechend langsam bei grossen Zeitraeumen. Fruehe Jahre liefern fuer manche Paare
@@ -326,6 +328,36 @@ erwartungsgemaess durchgehend leere Stunden (Paar noch nicht gehandelt) -- das i
 sondern korrekt, muss aber beim Luecken-Report nach Abschluss beruecksichtigt werden. Nach
 Abschluss steht die Vollstaendigkeits-/Luecken-Pruefung laut Arbeitsstandards ("Marktdaten wie
 Gold behandeln") noch aus.
+
+## `ingest_histdata_xlsx.py` -- Import manueller histdata.com-XLSX-Exporte
+
+**Was:** Importiert `HISTDATA_COM_XLSX_<SYMBOL>_M1<JAHR>.zip`-Archive (histdata.com, Generic-XLSX,
+fertige M1-Bars statt Ticks) nach `raw/marktdaten-tief/`. Aufruf: `python
+algo/ingest_histdata_xlsx.py raw/HISTDATA_COM_XLSX_EURUSD_M12000.zip`. Zeitkonvertierung: histdata
+liefert laut eigener FAQ eine **feste EST-Zeitzone (UTC-5) ohne DST** -- einfache
++5h-Verschiebung, keine Fallunterscheidung noetig. Tagesordner richten sich trotzdem nach dem
+echten NY-Kalendertag (`ZoneInfo`, mit DST), gleiche Begruendung wie bei `fetch_dukascopy.py`.
+Sekundenaufloesung ueber `.as_unit("s")`, nie manuelle Division (CLAUDE.md-Vorgabe).
+
+**Warum eigenes Dateisuffix ` 1m (bid).csv`:** histdata.com liefert laut FAQ **Bid-Preise, nicht
+Mid** ("bar prices ... are based on the tick Bid price") -- eine andere Konvention als
+`fetch_dukascopy.py` (dort bewusst Mid, weil IBKR Devisen als Midpoint-Bars liefert). Damit Bid-
+und Mid-Bestand nie versehentlich in denselben Backtest gemischt werden, tragen histdata-Importe
+das Suffix ` (bid)` statt ` 1m.csv`.
+
+**Erster Import 2026-08-11 (EURUSD, Jahr 2000):** 182 Handelstage, 143.042 Minutenkerzen,
+2000-05-30 bis 2000-12-29 (Jan-Mai 2000 fehlt, vermutlich histdata.com-seitige Grenze fuers erste
+verfuegbare Jahr). Gegen zwei unabhaengige Fakten geprueft, bevor der Import als vertrauenswuerdig
+galt: (1) Wochenend-Luecken-Muster (Freitagsschluss ~16:20-16:47 unabhaengig von Sommer-/
+Winterzeit) passt zu einer festen statt lokal-NY-Zeitzone. (2) Minimum der Datei **0,8229 am
+2000-10-26** trifft das dokumentierte EUR/USD-Allzeittief (0,8225-0,8230, 26.10.2000) fast exakt.
+OHLC-Konsistenz und Monotonie sauber, keine Duplikate.
+
+**Bekannte Grenzen:** Bid-Bestand ist bis auf Weiteres von Backtests ausgeschlossen (Preisbasis
+weicht von der Mid-Konvention ab, siehe oben) -- bewusste Entscheidung noch offen, ob/wie beide
+Bestaende kombiniert werden. Weitere Jahre/Paare kommen vermutlich manuell dazu (Nutzer laedt
+selbst von histdata.com herunter, kein automatisierter Downloader -- deren Anti-Scraping-Token
+macht das unattraktiv gegenueber Dukascopy).
 
 ## `macro_db.py`
 

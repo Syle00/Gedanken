@@ -1,6 +1,7 @@
 # Abhaengigkeiten fuer die pandas-Prototypen in algo/ (nicht fuer tools/analyze_ohlc.py,
 # das bewusst Standardbibliothek bleibt).
 pandas>=2.2
+openpyxl>=3.1        # pandas-Backend fuer histdata.com-XLSX-Exporte (ingest_histdata_xlsx.py)
 matplotlib>=3.8
 yfinance>=1.5
 backtesting>=0.6
