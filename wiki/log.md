@@ -1890,3 +1890,20 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für die 5 IDs angelegt.
 - Stand: 43 von 61 Videos erledigt, 18 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 10/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt, alle 5 Downloads liefen fehlerfrei.
+- Batch 10 (5 Videos): 1vsIPazjfGQ (Apr 8 2024, 13:34, Market Maker Buy Model), 0OIplRTKYOA
+  (Mar 6 2024, 5:50, Short Mitigation/MNQ), 7duYYeLleUA (Feb 12 2024, 1:01, "No Trade"-
+  Beispiel), JJGjP08M7gs (Feb 1 2024, 28:13, Pre-Opening Bell), gxjWD4TC2ew (Jan 30 2024, 7:41,
+  Crude Oil statt NQ/ES). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2024-0[1-4]-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md` (neuer
+  Abschnitt "Terminologie-Bestätigung aus Primärquellen" — "Risk Removed" und "Pyramided" direkt
+  aus ICTs eigener Chart-Beschriftung).
+- Neue Beobachtungen: erstes "No Trade"-Dokumentationsbeispiel (Setup erkennbar, aber bewusst
+  nicht gehandelt — Selektivität über reine Regelerfüllung hinaus); erste Cross-Market-
+  Bestätigung der FVG/IFVG-Methodik auf Light Crude Oil statt NQ/ES/MNQ.
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 48 von 61 Videos erledigt, 13 verbleibend.

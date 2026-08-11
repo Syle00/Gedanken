@@ -280,6 +280,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2024-05-13 - NQ May 13, 2024 Premarket Short Live Execution (Source)]] — Premarket-Short (11 Min, Stichprobe)
 - [[2024-05-08 - NQ Premium Wick Entry Live Execution (Source)]] — Warnung "Wicks are 'Ugly'", Volume Imbalance statt 1m-Wick
 - [[2024-05-06 - Micro-Scalping Without Bias ES (Source)]] — "Too Smooth"-Warnsignal
+- [[2024-04-08 - April 08, 2024 NQ Market Maker Buy Model Example (Source)]] — "Risk Removed"-Terminologie (13 Min, Stichprobe)
+- [[2024-03-06 - Short Mitigation To Sellside Review Of PD Arrays Narrative MNQ (Source)]] — Mitigation-Block-Short auf MNQ
+- [[2024-02-12 - Sometimes I Let Them Pass Me By No Trade (Source)]] — bewusst nicht gehandeltes Setup
+- [[2024-02-01 - NQ Futures Live Execution Pre-Opening Bell (Source)]] — "Pyramided"-Terminologie live bestätigt (28 Min, Stichprobe)
+- [[2024-01-30 - Not To Be Crude It Works Here Too (Source)]] — Cross-Market-Bestätigung auf Light Crude Oil
 
 ### MentorShip 2025
 

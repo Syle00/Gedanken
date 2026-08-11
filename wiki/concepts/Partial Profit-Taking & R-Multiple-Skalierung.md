@@ -93,6 +93,14 @@ Zwei weitere Partial-Beispiele aus demselben Batch:
   **unterhalb** einer New Week Opening Gap-Range ("Partial Opportunity Here"), nicht am
   NWOG-Rand selbst.
 
+## Terminologie-Bestätigung aus Primärquellen (Batch 10)
+
+[[2024-04-08 - April 08, 2024 NQ Market Maker Buy Model Example (Source)]] liefert den
+Fachbegriff **"Risk Removed"** für die Stop-auf-Breakeven-Verschiebung nach dem ersten Teilziel.
+[[2024-02-01 - NQ Futures Live Execution Pre-Opening Bell (Source)]] bestätigt live eingetippt den
+Begriff **"Pyramided"** ("Pyramided 5 more at...") für das Kontrakt-Aufstockungsmuster — beide
+Begriffe stammen direkt aus ICTs eigener Chart-Beschriftung, nicht aus Ableitung.
+
 ## Bezug zum Reward-to-Risk-Modell
 
 Baut direkt auf [[Erwartungswert & Reward-to-Risk-Modell]] auf: das erste Partial bei 3:1 sichert
