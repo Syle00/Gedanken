@@ -89,7 +89,7 @@ def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
     win_bars = [b for b in hist if b.t >= win_start]
     if len(win_bars) < 3:
         return None
-    window_fvgs = fvgs(win_bars)
+    window_fvgs = fvgs(win_bars, tick=symbol)
     if not window_fvgs:
         return None
     fvg = window_fvgs[0]  # erstes FVG im Fenster

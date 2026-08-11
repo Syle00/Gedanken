@@ -2064,3 +2064,9 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Vault-Root") ist damit ueberholt — die Notizen liegen jetzt unter `raw/trading-ict/notizen/`.
 - Pfadverweise nachgezogen in wiki/index.md, algo/PLAN.md und 6 wiki/sources-Seiten (`raw_path`-
   Frontmatter + Fliesstext). `wiki/log.md` bleibt als Historie unveraendert, `site/` wird neu gebaut.
+
+## [2026-08-11] setup | Tick-Raster hinterlegt (MNQ 0,25) und projektweit erzwungen
+- Neue Seite: wiki/concepts/Kontraktspezifikation MNQ (Tick, Punktwert).md
+- Anlass: Nutzerkorrektur -- berechnete Preise wie 29 833,34 existieren am Markt nicht
+- Vor dem Fix: 34 % der Entries, 88 % der Stops und 50 % aller FVG-C.E. nicht platzierbar; danach 0 von 6962 geprueften Preisen ungueltig
+- Code: TICK_SIZE/to_tick in tools/analyze_ohlc.py (einzige Quelle), algo/pnl.py reicht durch; fvgs()/org_gap() runden den C.E.

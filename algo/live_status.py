@@ -33,6 +33,9 @@ import yfinance as yf
 from fetch_yfinance import trading_day, flatten, SYMBOL  # noqa: E402
 
 DISPLAY_SYMBOL = "MNQ"
+# Tick-Raster des gehandelten Kontrakts -- abgeleitete Preise (FVG-C.E., ORG-C.E.)
+# muessen darauf liegen, sonst sind es keine handelbaren Preise.
+SYMBOL_TICK = DISPLAY_SYMBOL
 INTERVALS = ["1m", "5m", "15m", "1h", "1d"]
 
 BASE_TF = "5m"
@@ -137,7 +140,7 @@ def run_detectors(bars: list[Bar], day: date, now: datetime,
     stable_bars = scoped[:-1] if len(scoped) > 1 else scoped
 
     med_bar = (statistics.median(b.rng for b in stable_bars) or 1.0) if stable_bars else 1.0
-    fg = fvgs(stable_bars)
+    fg = fvgs(stable_bars, tick=SYMBOL_TICK)
     sw = sweeps(stable_bars, CFG["swing"], CFG["min_age"], CFG["min_pen"] * med_bar,
                 CFG["confirm"])
     sb = structure_breaks(stable_bars, CFG["swing"], CFG["min_age"])
@@ -160,7 +163,7 @@ def run_detectors(bars: list[Bar], day: date, now: datetime,
     # org_gap()/ndog_gap() brauchen Kerzen des Vortags -- die liegen VOR session_start (18:00
     # Vorabend), deshalb hier bewusst auf `org_bars` (Default: `bars`) gerechnet, nicht stable_bars.
     wide_bars = org_bars if org_bars is not None else bars
-    org = org_gap(wide_bars, day)
+    org = org_gap(wide_bars, day, tick=SYMBOL_TICK)
     ndog = ndog_gap(wide_bars, day)
     nwog = nwog_gap(wide_bars, day)  # None ausser montags, siehe nwog_gap()
     return {

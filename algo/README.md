@@ -500,3 +500,24 @@ das High/Low der Opening Range selbst der Treffer.
 **Bekannte Grenzen:** 42 Tage (5m) bzw. 23 (1m) -- kein Test signifikant, Ergebnis ist
 "nicht gestuetzt", nicht "widerlegt". Der ORG-Anker ist bei groberen TFs ungenau (5m liefert
 die 16:10-Kerze statt 16:14), darum ist 1m die belastbarere Variante. Eigener `--selfcheck`.
+
+## Tick-Raster (`analyze_ohlc.TICK_SIZE`, `pnl.round_to_tick`)
+
+**Was:** Der Kontrakt bewegt sich nur in festen Schritten (MNQ/NQ/ES 0,25 Punkte). Jeder
+*abgeleitete* Preis muss darauf liegen, sonst ist er nicht handelbar.
+
+**Wo:** `tools/analyze_ohlc.py::TICK_SIZE` + `to_tick()` sind die einzige Quelle der Wahrheit
+(stdlib-only, unterste Schicht). `algo/pnl.py` importiert von dort und bietet
+`round_to_tick(price, symbol, mode)` fuer die `algo/`-Module. Zwei getrennte Tabellen waeren
+frueher oder spaeter auseinandergelaufen.
+
+**Betroffen sind nur abgeleitete Werte** -- Kursdaten selbst kommen tick-konform von der
+Boerse. Krumm werden: C.E. (`(lo+hi)/2` trifft zur Haelfte zwischen zwei Ticks), Quadranten/
+Oktanten/16tel einer Range, Stops aus prozentualen Puffern.
+
+**Rundungsrichtung:** `nearest` fuer Analyse-Level. Order-Preise gerichtet, nie zugunsten des
+Backtests -- Entry schwerer zu fuellen (long ab, short auf), Stop und Ziel weiter weg.
+
+**Bekannte Grenze:** `fvgs()`/`org_gap()` runden nur, wenn `tick` uebergeben wird. Ohne den
+Parameter bleibt der rohe Mittelwert stehen -- Absicht, damit das Modul symbolagnostisch
+bleibt (Forex hat 0,00001), aber es heisst: neue Aufrufer muessen `tick` mitgeben.

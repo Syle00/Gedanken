@@ -279,7 +279,7 @@ def measure_events(bars: list[Bar], start: datetime) -> dict:
     sw = sweeps(hist, CFG["swing"], CFG["min_age"], CFG["min_pen"] * med_bar, CFG["confirm"])
     sb = [x for x in structure_breaks(hist, CFG["swing"], CFG["min_age"]) if x["type"] == "MSS"]
     dp = displacements(hist, factor=CFG["disp_factor"])
-    fv = [f for f in fvgs(hist) if not f["filled"]]
+    fv = [f for f in fvgs(hist, tick="MNQ") if not f["filled"]]
 
     ref = hist[-1].c
     out = dict(leer)

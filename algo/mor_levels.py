@@ -60,7 +60,7 @@ def levels(rh: float, rl: float) -> list[tuple[str, float]]:
 def first_presentation(bars, day):
     """Erstes FVG *innerhalb* der 0:00-0:30-Range (Wiki: "first presentation")."""
     win = [b for b in bars if at(day, 0, 0) <= b.t < at(day, 0, 30)]
-    found = sorted(fvgs(win), key=lambda f: f["t"] if "t" in f else 0)
+    found = sorted(fvgs(win, tick="MNQ"), key=lambda f: f["t"] if "t" in f else 0)
     return found[0] if found else None
 
 

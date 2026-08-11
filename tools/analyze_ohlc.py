@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import math
 import statistics
 import sys
 from dataclasses import dataclass
@@ -39,6 +40,51 @@ TF_MINUTES = {"1m": 1, "5m": 5, "15m": 15, "1h": 60, "4h": 240, "1d": 1440}
 # Rauschfilter — per CLI justierbar. min_age/min_swing in Kerzen des Basis-TF,
 # min_pen in Vielfachen der Median-Kerzenrange.
 CFG = {"swing": 2, "min_age": 15, "min_pen": 0.75, "disp_factor": 2.0, "confirm": 5}
+
+# Kleinste Preisaenderung je Symbol -- der Kontrakt bewegt sich AUSSCHLIESSLICH in diesen
+# Schritten. Ein berechneter Preis dazwischen (z.B. ein C.E. bei 29 792,125) existiert am
+# Markt nicht: er kann weder gehandelt noch als Order platziert werden, und ein Backtest,
+# der dort einen Fill annimmt, rechnet mit einem Preis, den es nie gab.
+# Nutzerkorrektur 2026-08-11. Einzige Quelle der Wahrheit im Projekt -- algo/pnl.py
+# importiert von hier, damit die Werte nicht auseinanderlaufen.
+TICK_SIZE = {
+    "MNQ": 0.25, "NQ": 0.25, "ES": 0.25, "MES": 0.25,   # CME Aktienindex-Futures
+    "EURUSD": 0.00001, "GBPUSD": 0.00001, "AUDUSD": 0.00001, "NZDUSD": 0.00001,
+    "USDCAD": 0.00001, "USDCHF": 0.00001, "EURGBP": 0.00001,
+    "USDJPY": 0.001, "EURJPY": 0.001, "GBPJPY": 0.001,   # JPY-Paare: 3 Nachkommastellen
+}
+
+
+def to_tick(price: float, symbol_or_tick, mode: str = "nearest") -> float:
+    """Zwingt `price` auf das Tick-Raster. Zweites Argument ist entweder ein Symbolname
+    ("MNQ") oder direkt eine Tick-Groesse (0.25).
+
+    mode: "nearest" fuer Analyse-Level, "down"/"up" wenn die Richtung bewusst gewaehlt
+    werden muss (Order-Preise, siehe algo/rules.py::plan_trade).
+    """
+    tick = (TICK_SIZE[symbol_or_tick] if isinstance(symbol_or_tick, str)
+            else float(symbol_or_tick))
+    if tick <= 0:
+        raise ValueError(f"Tick-Groesse muss > 0 sein, war {tick}")
+    n = price / tick
+    if mode == "nearest":
+        # .5 immer vom Nullpunkt weg -- Pythons Bankers Rounding wuerde 0.5 auf 0 ziehen
+        n = math.floor(n + 0.5) if n >= 0 else math.ceil(n - 0.5)
+    elif mode == "down":
+        n = math.floor(n + 1e-9)
+    elif mode == "up":
+        n = math.ceil(n - 1e-9)
+    else:
+        raise ValueError(f"mode muss nearest|down|up sein, war {mode!r}")
+    return round(n * tick, 10)
+
+
+def tick_of(symbol: str) -> float:
+    """Tick-Groesse zu einem Symbolnamen, mit sprechendem Fehler statt KeyError."""
+    if symbol not in TICK_SIZE:
+        raise ValueError(f"Keine Tick-Groesse fuer {symbol!r} hinterlegt "
+                         f"(bekannt: {sorted(TICK_SIZE)})")
+    return TICK_SIZE[symbol]
 
 
 # --------------------------------------------------------------------------- Daten
@@ -152,11 +198,15 @@ def open_price(bars: list[Bar], when: datetime) -> float | None:
     return None
 
 
-def org_gap(bars: list[Bar], day, tol_min: int = 10) -> dict | None:
+def org_gap(bars: list[Bar], day, tol_min: int = 10, tick: float | str | None = None) -> dict | None:
     """ORG (Opening Range Gap): Gap zwischen der ~16:14-Schlusskerze des Vortags und der
     9:30-Kerze von `day`. C.E. = Mittelpunkt. Prueft, ob der Preis den C.E. bis 10:00 NY
     (erste 30 Minuten) beruehrt. Quelle:
     wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md.
+
+    `tick`: Symbolname oder Tick-Groesse. Gesetzt, wird der C.E. aufs Tick-Raster gezwungen
+    (Pflicht fuer alles, was als Preis genutzt wird). None laesst den rohen Mittelwert stehen
+    -- nur fuer rein rechnerische Zwecke sinnvoll.
 
     None, wenn die 9:30-Kerze fehlt oder die naechstgelegene Vortagskerze mehr als
     `tol_min` Minuten von 16:14 entfernt liegt (z.B. duennes/unvollstaendiges Vortagesfenster).
@@ -175,7 +225,9 @@ def org_gap(bars: list[Bar], day, tol_min: int = 10) -> dict | None:
 
     prev_close, today_open = prev_close_bar.c, open_bar.o
     lo, hi = sorted([prev_close, today_open])
-    ce = (lo + hi) / 2
+    # C.E. ist ein Mittelwert und landet damit zur Haelfte zwischen zwei Ticks -- auf das
+    # Raster zwingen, sonst ist es kein handelbarer Preis (siehe TICK_SIZE oben).
+    ce = to_tick((lo + hi) / 2, tick) if tick else (lo + hi) / 2
     window = [b for b in bars if at(day, 9, 30) <= b.t < at(day, 10, 0)]
     fill_t = next((b.t for b in window if b.l <= ce <= b.h), None)
     return {"prev_close": prev_close, "prev_close_t": prev_close_bar.t, "today_open": today_open,
@@ -342,7 +394,7 @@ def displacements(bars: list[Bar], lookback: int = 20, factor: float = 2.0,
     return out
 
 
-def fvgs(bars: list[Bar], min_size: float = 0.0):
+def fvgs(bars: list[Bar], min_size: float = 0.0, tick: float | str | None = None):
     """3-Kerzen-FVG. Liegt an einer Seite eine VII (Close/Open-Luecke zur mittleren Kerze),
     wird deren aeusserer Rand statt des Wicks als Grenze genutzt -- siehe
     wiki/concepts/Volume Imbalance (VII).md. Fuellstand wird ueber alle Folgekerzen geprueft."""
@@ -359,7 +411,10 @@ def fvgs(bars: list[Bar], min_size: float = 0.0):
             hi = a.c if m.o < a.c else a.l
         else:
             continue
-        ce = (lo + hi) / 2
+        # lo/hi stammen aus echten Kursen und liegen damit bereits auf dem Raster; der C.E.
+        # als Mittelwert nicht -- er landet zur Haelfte genau zwischen zwei Ticks. Da er als
+        # Entry-Preis dient (algo/rules.py), muss er ein echter Preis sein.
+        ce = to_tick((lo + hi) / 2, tick) if tick else (lo + hi) / 2
         rest = bars[i + 2:]
         touched = ce_hit = filled = False
         fill_t = None
@@ -587,7 +642,8 @@ def day_report(symbol, day, data: dict[str, list[Bar]], tf: str) -> list[str]:
     L.append("")
 
     # -- FVG
-    fg = [g for g in fvgs(bars) if at(day, 0) <= g["t"] < at(day, 17)]
+    fg = [g for g in fvgs(bars, tick=TICK_SIZE.get(symbol))
+          if at(day, 0) <= g["t"] < at(day, 17)]
     med_rng = med_bar
     big = [g for g in fg if g["size"] >= med_rng]
     L.append(f"## Fair Value Gaps ({len(fg)} gesamt, {len(big)} groesser als Median-Kerzenrange)")
