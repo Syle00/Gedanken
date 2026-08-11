@@ -43,7 +43,15 @@ moved..." — Kostenbewusstsein bei der SL-Verschiebung.*
 - Aufgrund der Videolänge nur stichprobenartig geprüft — die konkreten 3 Trades/2 Verluste sind
   nicht einzeln nachvollzogen, nur das Gesamtnarrativ.
 
+## Bereits gebacktestet
+
+`algo/backtest_nfp_week.py` (2026-08-11): NFP-Freitage zeigen 56% höhere Range als andere
+Freitage, aber niedrigere statt höhere Whipsaw-Ratio — bestätigt "volatiler", nicht eindeutig
+"choppier". n=6 zu klein für ein belastbares Ergebnis. Details:
+[[Statistische Muster jenseits der ICT-Konzepte (laufend)]] Abschnitt 8.
+
 ## Verwandt
 
 - [[Risikomanagement (1% pro Trade)]]
 - [[Ensemble-Strategie — Backtest-Ergebnis & Commission-Verzerrung (laufend)]]
+- [[Statistische Muster jenseits der ICT-Konzepte (laufend)]]

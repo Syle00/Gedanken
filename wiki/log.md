@@ -1993,3 +1993,17 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Assets: 66 zugeschnittene Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für alle 61 IDs unter `raw/trading-ict/2026/yt-<id>-transcript.md`.
 - **Playlist vollständig: 61 von 61 Videos ingested.**
+
+## [2026-08-11] synthesis | NFP-Wochen-These erster Backtest
+- Fortsetzung des offenen Punkts aus dem ICT-Executions-Ingest (siehe vorheriger Log-Eintrag):
+  `algo/backtest_nfp_week.py` neu, testet die im Ingest gefundene NFP-Vermeidungsthese.
+- NFP-Freitag genähert als erster Freitag im Monat (keine echte BLS-Terminliste verfügbar,
+  explizit als Näherung markiert).
+- Ergebnis (n=6 NFP-Freitage, n=23 andere Freitage, n=150 alle Handelstage): Range 56% höher
+  an NFP-Freitagen (749 vs. 480 Pkt Ø), Whipsaw-Ratio aber niedriger statt höher (2,5 vs. 4,33)
+  — bestätigt "volatiler", widerspricht der reinen "choppier"-Lesart. n=6 zu klein für ein
+  belastbares Ergebnis, als offene These markiert.
+- Seiten aktualisiert: `wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md`
+  (neuer Abschnitt 8), `wiki/sources/youtube/2023-12-06 - Why Do I Avoid NFP Weeks NQ 3 Trades 2
+  Losses (Source).md` (Backtest-Ergebnis verlinkt), `algo/PLAN.md`-Log.
+- `algo/results/backtest_nfp_week.json` neu geschrieben.

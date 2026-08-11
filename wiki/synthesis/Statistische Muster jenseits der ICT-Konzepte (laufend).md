@@ -1,8 +1,8 @@
 ---
 tags: [synthesis, algo, backtest, generiert]
 created: 2026-08-04
-updated: 2026-08-10
-sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_ndog.py]]", "[[../../algo/backtest_nwog.py]]", "[[../../algo/backtest_tgif.py]]", "[[../../algo/backtest_1m_gaps.py]]"]
+updated: 2026-08-11
+sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_ndog.py]]", "[[../../algo/backtest_nwog.py]]", "[[../../algo/backtest_tgif.py]]", "[[../../algo/backtest_1m_gaps.py]]", "[[../../algo/backtest_nfp_week.py]]"]
 ---
 
 # Statistische Muster jenseits der ICT-Konzepte (laufend)
@@ -164,6 +164,25 @@ anzuzweifeln, sondern ein Marker für einen echten Liquiditätsabriss. Praktisch
 beides zu unterscheiden: Ein **Anzeigefehler** zeigt fehlende Bars (Lücken im Minutenraster) und
 normales Volumen; ein **echtes Vakuum** hat ein lückenloses Minutenraster und eine
 Volumenspitze in der Bar, die den Sprung erzeugt.
+
+## 8. NFP-Freitage: höhere Range, aber nicht mehr Whipsaw (n zu klein, offen)
+
+Ausgangsthese aus [[2023-12-06 - Why Do I Avoid NFP Weeks NQ 3 Trades 2 Losses (Source)]]: ICT
+meidet NFP-Wochen (Non-Farm-Payroll-Freitag) wegen erhöhter Verlustrate. `algo/backtest_nfp_week.py`
+neu — NFP-Freitag genähert als erster Freitag im Monat (keine echte BLS-Terminliste verfügbar,
+explizite Näherung). Kein Trade-P&L pro NFP-Tag reproduzierbar, da das Quellvideo reale statt
+regelbasierte Trades zeigt — stattdessen zwei Proxy-Metriken:
+
+- **Range** (n=6 NFP-Freitage vs. n=23 andere Freitage): **56 % höher** an NFP-Freitagen
+  (749 vs. 480 Punkte Ø) — bestätigt "volatiler".
+- **Whipsaw-Ratio** (Range / |Netto-Bewegung Close−Open|): an NFP-Freitagen **niedriger**
+  (2,5 vs. 4,33) statt höher — NFP-Tage sind eher stärker gerichtet als "choppy", was der
+  reinen "schwerer zu halten, weil viel Gegenbewegung"-Lesart widerspricht.
+
+**Ehrliches Zwischenfazit**: höhere Volatilität bestätigt, die im Video gezeigte Verlustursache
+lässt sich mit dieser Datenlage nicht auf "mehr Chop" zurückführen — plausibler ist ein größerer
+nötiger Stop-Abstand bei unveränderter Positionsgröße. Bei n=6 ist das **keine belastbare
+Stichprobe** — als offene, laufend zu beobachtende Frage markiert, kein abschließendes Ergebnis.
 
 ## Einordnung
 

@@ -154,6 +154,7 @@
 <li><a href="#gesamt-zusammenfassung-des-ict-executions-ingests-61-videos-12-batches-2026-08-11">Gesamt-Zusammenfassung des ICT-Executions-Ingests (61 Videos, 12 Batches, 2026-08-11)</a></li>
 </ul>
 </li>
+<li><a href="#2026-08-11-synthesis-nfp-wochen-these-erster-backtest">[2026-08-11] synthesis | NFP-Wochen-These erster Backtest</a></li>
 </ul>
 </div>
 </details>
@@ -2252,6 +2253,21 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Assets: 66 zugeschnittene Chart-Frames unter <code>raw/trading-ict/assets/ict-exec-*.png</code>.</li>
 <li>Platzhalter-Rohdateien für alle 61 IDs unter <code>raw/trading-ict/2026/yt-&lt;id&gt;-transcript.md</code>.</li>
 <li><strong>Playlist vollständig: 61 von 61 Videos ingested.</strong></li>
+</ul>
+<h2 id="2026-08-11-synthesis-nfp-wochen-these-erster-backtest">[2026-08-11] synthesis | NFP-Wochen-These erster Backtest</h2>
+<ul>
+<li>Fortsetzung des offenen Punkts aus dem ICT-Executions-Ingest (siehe vorheriger Log-Eintrag):
+  <code>algo/backtest_nfp_week.py</code> neu, testet die im Ingest gefundene NFP-Vermeidungsthese.</li>
+<li>NFP-Freitag genähert als erster Freitag im Monat (keine echte BLS-Terminliste verfügbar,
+  explizit als Näherung markiert).</li>
+<li>Ergebnis (n=6 NFP-Freitage, n=23 andere Freitage, n=150 alle Handelstage): Range 56% höher
+  an NFP-Freitagen (749 vs. 480 Pkt Ø), Whipsaw-Ratio aber niedriger statt höher (2,5 vs. 4,33)
+  — bestätigt "volatiler", widerspricht der reinen "choppier"-Lesart. n=6 zu klein für ein
+  belastbares Ergebnis, als offene These markiert.</li>
+<li>Seiten aktualisiert: <code>wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md</code>
+  (neuer Abschnitt 8), <code>wiki/sources/youtube/2023-12-06 - Why Do I Avoid NFP Weeks NQ 3 Trades 2
+  Losses (Source).md</code> (Backtest-Ergebnis verlinkt), <code>algo/PLAN.md</code>-Log.</li>
+<li><code>algo/results/backtest_nfp_week.json</code> neu geschrieben.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
