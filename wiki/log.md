@@ -1763,3 +1763,19 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Assets: 7 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für die 5 IDs angelegt (Skip-Erkennung künftiger Loop-Durchläufe).
 - Stand: 8 von 61 Videos erledigt, 53 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 3/61, chart-only ohne Voiceover)
+- Fortsetzung im vom Nutzer festgelegten Tempo (5 Videos / 5-Minuten-Takt), keine
+  Drosselungs-Anzeichen bei den Downloads.
+- Batch 3 (5 Videos): YDuUzz-QBes (Feb 8 2023, ES Short), gcUE2QntJ8Y (Feb 16 2023, ES Short),
+  eseZaxGw_f0 (Feb 22 2023, ES Short/PM Session), eIucb7ovAUk (Feb 23 2023, ES Short),
+  yY0mcOtv2fc (Feb 28 2023, ES Short). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-02-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/models/Three Timeframe Framing.md` (neuer Abschnitt "Live-Beispiel" mit
+  1H/15M/5M-Panel-Nachweis).
+- Wiederkehrendes Muster bestätigt: CE-Linien (50%) als bevorzugter Entry-Punkt über
+  verschiedene PD-Array-Typen hinweg (FVG, IFVG, Opening-Gap), NWOG/NWOG-High als konkret
+  benanntes Kursziel.
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 13 von 61 Videos erledigt, 48 verbleibend.

@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, timeframes, workflow]
 created: 2026-08-02
 updated: 2026-08-02
-sources: ["[[Essentials To ICT Market Structure (Source)]]", "[[ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)]]", "[[ICT 2022 - Episode 05 Intraday Orderflow & Swing H-L 8.30-13.30 (Source)]]", "[[ICT 2022 - Episode 08 Institutionel Orderflow (Source)]]", "[[ICT Mentorship Core Content - Month 03 - Timeframe Selection & Defining Setups (Source)]]"]
+sources: ["[[Essentials To ICT Market Structure (Source)]]", "[[ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)]]", "[[ICT 2022 - Episode 05 Intraday Orderflow & Swing H-L 8.30-13.30 (Source)]]", "[[ICT 2022 - Episode 08 Institutionel Orderflow (Source)]]", "[[ICT Mentorship Core Content - Month 03 - Timeframe Selection & Defining Setups (Source)]]", "[[2023-02-23 - ICT Executions February 23, 2023 ES Short (Source)]]"]
 ---
 
 # Three Timeframe Framing
@@ -109,6 +109,13 @@ Tripel: **Monthly** = Position Trading, **Weekly** = Swing Trading (~1–2 Trade
 Struktur für kurzfristiges Trading), **4H oder kürzer** = Day Trading. Empfehlung: Analyse immer mit
 dem Daily beginnen, selbst wenn das Ziel Day Trading ist — es liefert den Directional Bias, den die
 kürzeren Timeframes dann nur noch verfeinern.
+
+## Live-Beispiel (ICT Executions, 2023-02-23)
+
+Aus [[2023-02-23 - ICT Executions February 23, 2023 ES Short (Source)]] (chart-only, kein
+Voiceover): reales Drei-Panel-Layout mit 1H (HTF-Kontext) und 15M (Struktur) links, 5M-Entry-FVG
+rechts — bestätigt visuell, dass die Rollenverteilung auch außerhalb der Lehrvideos konsequent so
+umgesetzt wird.
 
 ## Verwandt
 

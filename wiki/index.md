@@ -245,6 +245,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2023-01-12 - ICT Executions January 12, 2023 ES Short Last Hour Setup (Source)]] — Partial exakt innerhalb der Ziel-FVG
 - [[2023-01-17 - ICT Executions January 17, 2023 ES Short (Source)]] — Fake-Bull-Flag-Erkennung während laufendem Short
 - [[2023-02-01 - ICT Executions February 1, 2023 ES Short (Source)]] — NWOG als aktive Handelsrange, Partial darunter
+- [[2023-02-08 - ICT Executions February 8, 2023 ES Short (Source)]] — NWOG-High als konkretes Kursziel (4146.00)
+- [[2023-02-16 - ICT Executions February 16, 2023 ES Short (Source)]] — Entry an CE-Linie einer Opening-Gap-Struktur
+- [[2023-02-22 - ICT Executions February 22, 2023 ES Short PM Session (Source)]] — prädiktive Annotation vor Kaskaden-Abwärtsbewegung
+- [[2023-02-23 - ICT Executions February 23, 2023 ES Short (Source)]] — Drei-Timeframe-Framing live (1H/15M/5M)
+- [[2023-02-28 - ICT Executions February 28, 2023 ES Short (Source)]] — Standard-FVG-Short mit mehrstufigen Zielen
 
 ### MentorShip 2025
 
