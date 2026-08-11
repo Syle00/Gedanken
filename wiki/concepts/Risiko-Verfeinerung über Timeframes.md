@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, risikomanagement, timeframes]
 created: 2026-08-06
 updated: 2026-08-06
-sources: ["[[ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)]]", "[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2023-03-20 - ICT Executions March 20, 2023 ES Long (Source)]]"]
+sources: ["[[ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)]]", "[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2023-03-20 - ICT Executions March 20, 2023 ES Long (Source)]]", "[[2023-10-10 - ICT Executions October 10, 2023 NQ Long (Source)]]"]
 ---
 
 # Risiko-Verfeinerung über Timeframes
@@ -41,6 +41,13 @@ einer NWOG-Range liegt der Stop nicht unter der gesamten Range, sondern **unter 
 Consequent-Encroachment-Linie (0,5) des entscheidenden Wicks** — dieselbe Grundidee wie die
 Timeframe-Verfeinerung oben (enger Stop am jüngsten relevanten Preis-Level), hier aber auf einen
 einzelnen Wick statt eine tiefere Timeframe-Struktur angewandt.
+
+## SL-Breite hängt vom PD-Array-Typ ab (Live-Beispiel)
+
+Aus [[2023-10-10 - ICT Executions October 10, 2023 NQ Long (Source)]]: bei einem IFVG-Entry lautet
+die Regel **"Stop Loss Under IFVG"** — der Stop liegt unter der **gesamten** IFVG-Zone, nicht nur
+unter einem einzelnen Wick wie bei der NWOG-CE-Regel oben. Beide Beispiele zusammen zeigen: die
+SL-Breite ist keine feste Distanz, sondern hängt vom PD-Array-Typ ab, der den Entry begründet.
 
 ## Verwandt
 

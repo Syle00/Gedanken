@@ -265,6 +265,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2023-06-29 - ICT Executions June 29, 2023 NQ Long (Source)]] — "10:50 to 11:10 Macro" explizit benannt, Jagged-Spike-Delivery
 - [[2023-07-07 - ICT Executions July 7, 2023 NQ Long (Source)]] — zweite Bestätigung 10:50-11:10 Macro
 - [[2023-07-07 - ICT Executions July 7, 2023 NQ Short (Source)]] — Standard-PM-Session-Short
+- [[2023-08-18 - ICT Executions August 18, 2023 ES Trade (Source)]] — Parallele FVG-Setups auf ES+NQ
+- [[2023-09-20 - ICT Executions September 20, 2023 NQ Short (Source)]] — Standard-CE-Short
+- [[2023-09-21 - ICT Executions September 21, 2023 NQ Long (Source)]] — Post-Lunch-Fortsetzungsthese
+- [[2023-09-29 - ICT Executions September 29, 2023 NQ Short (Source)]] — Pyramiding mit zwischenzeitlichem Buchverlust
+- [[2023-10-10 - ICT Executions October 10, 2023 NQ Long (Source)]] — SL-Regel "Stop Loss Under IFVG"
 
 ### MentorShip 2025
 

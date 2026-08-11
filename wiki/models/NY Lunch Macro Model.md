@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, lecture-2025, daytrade, macro, sessions]
 created: 2026-08-02
 updated: 2026-08-10
-sources: ["[[NY Lunch Macro Rules & PM Session & Final RTH Hour (Source)]]", "[[ICT Gems - When To Anticipate Price Spooling (Source)]]", "[[2023-06-12 - ICT Executions June 12, 2023 ES Long Lunch Macro (Source)]]"]
+sources: ["[[NY Lunch Macro Rules & PM Session & Final RTH Hour (Source)]]", "[[ICT Gems - When To Anticipate Price Spooling (Source)]]", "[[2023-06-12 - ICT Executions June 12, 2023 ES Long Lunch Macro (Source)]]", "[[2023-09-21 - ICT Executions September 21, 2023 NQ Long (Source)]]"]
 ---
 
 # NY Lunch Macro Model
@@ -112,6 +112,14 @@ dem Move herausgenommen, den das Modell vorhersagt.
 selbst mit **"Algorithmic Lunch Macro – 'Seek Buyside'"**, gefolgt von der Sequenz
 Sellside-Sweep → *"Big Up Candles Incoming..."* → Buyside-Liquidity-Ziel — direkte
 Primärquellen-Namensgebung statt nur abgeleiteter Beobachtung.
+
+## Post-Lunch-Fortsetzung (Live-Beispiel, 2023-09-21)
+
+[[2023-09-21 - ICT Executions September 21, 2023 NQ Long (Source)]] zeigt eine
+Fortsetzungs-Annotation *"These Buy Stops Are Being Targeted Right Now Post Lunch Hour"* — die
+Stop-Run-These gilt hier explizit **nach** 13:00 ET, außerhalb des klassischen
+Lunch-Macro-Fensters selbst. Ergänzt das Modell um eine Post-Lunch-Fortsetzungsphase, in der
+dieselbe Grundlogik (Sweep → Fortsetzung) noch nachwirkt.
 
 ## Verwandt
 

@@ -1835,3 +1835,20 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für die 5 IDs angelegt.
 - Stand: 28 von 61 Videos erledigt, 33 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 7/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt, alle 5 Downloads liefen ohne jeden Fehler.
+- Batch 7 (5 Videos): WzX3oHELDe4 (Aug 18 2023, ES-Trade), mDqePprcXIY (Sep 20 2023, NQ Short),
+  XlHLx2vXUkY (Sep 21 2023, NQ Long), BwPhyu3LTOs (Sep 29 2023, NQ Short), 8NF8vp7LYUc (Oct 10
+  2023, NQ Long). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-08-18*`/`2023-09-2*`/`2023-10-10*.md`-
+  Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Risiko-Verfeinerung über Timeframes.md` (neuer Abschnitt
+  "SL-Breite hängt vom PD-Array-Typ ab" — IFVG-Stop unter ganzer Zone vs. NWOG-Stop unter
+  Wick-CE), `wiki/models/NY Lunch Macro Model.md` (neuer Abschnitt "Post-Lunch-Fortsetzung").
+- Neue Erkenntnis: SL-Platzierungsbreite ist nicht einheitlich, sondern hängt vom
+  PD-Array-Typ ab (volle IFVG-Zone vs. einzelner Wick bei NWOG). Lunch-Macro-These wirkt laut
+  Primärquelle auch noch nach 13:00 ET nach (Post-Lunch-Fortsetzung).
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 33 von 61 Videos erledigt, 28 verbleibend.
