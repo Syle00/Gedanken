@@ -1,7 +1,7 @@
 ---
 tags: [synthesis, journal, ict, trading-ict, auswertung, generiert]
-created: 2026-08-02
-updated: 2026-08-02
+created: 2026-08-11
+updated: 2026-08-11
 ---
 
 # Journal-Auswertung

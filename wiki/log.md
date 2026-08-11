@@ -1687,3 +1687,24 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   wiki/concepts/Walk-Forward Guard Buffer & Varianz-Inflation.md,
   wiki/concepts/Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa).md,
   wiki/concepts/Grenzen für Einzelrenditen & Drawdown.md, algo/README.md, algo/PLAN.md
+
+## [2026-08-11] ingest | Daily Bias 11.08. (Journal, live)
+
+- Nutzer: "neuer daily bias für heute" — `raw/daily bias 11.08.md` nach
+  `raw/journal/Daily Bias 2026-08-11.md` verschoben (Konvention analog 08-03/08-06/08-07),
+  verarbeitet zu `journal/entries/2026-08-11 MNQ Daily Bias.md` + Zeile in `journal/journal.csv`
+  (id `2026-08-11-01`).
+- **Bias: Neutral bis Baerish.** Rückblick Montag (10.08.): Buyside nicht genommen, stattdessen
+  konsolidiert und unter dem C.E. der Premium Wick vom 05.08. geschlossen — der bullishe
+  Weekly-Orderflow (siehe `2026-08-10 MNQ Weekly Bias`) hat damit bereits einen Dämpfer bekommen.
+  Kleines Daily BISI vom 07.08. (Relevanz unklar), großes BISI vom 04.08. als Invalidierungslevel
+  (C.E. darf nicht unterschritten werden). Aktuell unterhalb eines kleinen NDOG. Nur Yellow-Folder-News
+  heute, erwartete Konsolidierung bis zum Hauptmove (Red-Folder-News später in der Woche laut
+  Weekly-Roadmap). Plan: Midnight Opening Range ausmessen.
+- Fehler: P07 (kein Chartbild). Datenlücke P09 (`bias_korrekt` offen, Tag beim Erfassen nicht
+  geschlossen) + fehlende Exakt-Preise im Text (NDOG/C.E./BISI nur qualitativ beschrieben).
+- `tools/journal_wiki.py` neu gelaufen — Journal-Auswertung.md unverändert (Checkliste betrifft
+  nur Tape-Reading-Einträge, keine Daily-Bias-Einträge).
+- Kein `wiki/index.md`-Eintrag nötig — einzelne `journal/entries/`-Seiten werden dort nicht
+  katalogisiert (nur aggregierende `wiki/synthesis/`-Reviews wie `KW32 2026 — Weekly Review`).
+- Offen: `bias_korrekt` nachtragen, sobald der Tag geschlossen hat.

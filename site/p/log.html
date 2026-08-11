@@ -136,6 +136,7 @@
 <li><a href="#2026-08-10-ingest-ict-gems-restliche-5-videos-playlist-jetzt-1111">[2026-08-10] ingest | ICT Gems — restliche 5 Videos (Playlist jetzt 11/11)</a></li>
 <li><a href="#2026-08-10-setup-macro_db-startfehler-behoben-exkursion-nach-ict-korrektur-ergaenzt">[2026-08-10] setup | macro_db: Startfehler behoben, Exkursion nach ICT-Korrektur ergaenzt</a></li>
 <li><a href="#2026-08-11-synthesis-masters-validierung-in-die-backtest-reports-verdrahtet-backlog-789">[2026-08-11] synthesis | Masters-Validierung in die Backtest-Reports verdrahtet (Backlog 7/8/9)</a></li>
+<li><a href="#2026-08-11-ingest-daily-bias-1108-journal-live">[2026-08-11] ingest | Daily Bias 11.08. (Journal, live)</a></li>
 </ul>
 </div>
 </details>
@@ -1913,6 +1914,27 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   wiki/concepts/Walk-Forward Guard Buffer &amp; Varianz-Inflation.md,
   wiki/concepts/Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa).md,
   wiki/concepts/Grenzen für Einzelrenditen &amp; Drawdown.md, algo/README.md, algo/PLAN.md</li>
+</ul>
+<h2 id="2026-08-11-ingest-daily-bias-1108-journal-live">[2026-08-11] ingest | Daily Bias 11.08. (Journal, live)</h2>
+<ul>
+<li>Nutzer: "neuer daily bias für heute" — <code>raw/daily bias 11.08.md</code> nach
+  <code>raw/journal/Daily Bias 2026-08-11.md</code> verschoben (Konvention analog 08-03/08-06/08-07),
+  verarbeitet zu <code>journal/entries/2026-08-11 MNQ Daily Bias.md</code> + Zeile in <code>journal/journal.csv</code>
+  (id <code>2026-08-11-01</code>).</li>
+<li><strong>Bias: Neutral bis Baerish.</strong> Rückblick Montag (10.08.): Buyside nicht genommen, stattdessen
+  konsolidiert und unter dem C.E. der Premium Wick vom 05.08. geschlossen — der bullishe
+  Weekly-Orderflow (siehe <code>2026-08-10 MNQ Weekly Bias</code>) hat damit bereits einen Dämpfer bekommen.
+  Kleines Daily BISI vom 07.08. (Relevanz unklar), großes BISI vom 04.08. als Invalidierungslevel
+  (C.E. darf nicht unterschritten werden). Aktuell unterhalb eines kleinen NDOG. Nur Yellow-Folder-News
+  heute, erwartete Konsolidierung bis zum Hauptmove (Red-Folder-News später in der Woche laut
+  Weekly-Roadmap). Plan: Midnight Opening Range ausmessen.</li>
+<li>Fehler: P07 (kein Chartbild). Datenlücke P09 (<code>bias_korrekt</code> offen, Tag beim Erfassen nicht
+  geschlossen) + fehlende Exakt-Preise im Text (NDOG/C.E./BISI nur qualitativ beschrieben).</li>
+<li><code>tools/journal_wiki.py</code> neu gelaufen — Journal-Auswertung.md unverändert (Checkliste betrifft
+  nur Tape-Reading-Einträge, keine Daily-Bias-Einträge).</li>
+<li>Kein <code>wiki/index.md</code>-Eintrag nötig — einzelne <code>journal/entries/</code>-Seiten werden dort nicht
+  katalogisiert (nur aggregierende <code>wiki/synthesis/</code>-Reviews wie <code>KW32 2026 — Weekly Review</code>).</li>
+<li>Offen: <code>bias_korrekt</code> nachtragen, sobald der Tag geschlossen hat.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
