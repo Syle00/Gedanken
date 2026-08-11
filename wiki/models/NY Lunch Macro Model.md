@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, lecture-2025, daytrade, macro, sessions]
 created: 2026-08-02
 updated: 2026-08-10
-sources: ["[[NY Lunch Macro Rules & PM Session & Final RTH Hour (Source)]]", "[[ICT Gems - When To Anticipate Price Spooling (Source)]]"]
+sources: ["[[NY Lunch Macro Rules & PM Session & Final RTH Hour (Source)]]", "[[ICT Gems - When To Anticipate Price Spooling (Source)]]", "[[2023-06-12 - ICT Executions June 12, 2023 ES Long Lunch Macro (Source)]]"]
 ---
 
 # NY Lunch Macro Model
@@ -105,6 +105,13 @@ dem Move herausgenommen, den das Modell vorhersagt.
 > ⚠️ Der Abschnitt **„RTH Final Hour Of Trading"** ist in der Rohquelle nur als Überschrift
 > vorhanden und **inhaltlich leer** — trotz des Seitentitels gibt es dazu nichts. Ebenso bricht die
 > PM-Regel-Liste nach Punkt 1 ab.
+
+## Chart-Titel-Bestätigung "Seek Buyside" (ICT Executions, 2023-06-12)
+
+[[2023-06-12 - ICT Executions June 12, 2023 ES Long Lunch Macro (Source)]] betitelt den Chart
+selbst mit **"Algorithmic Lunch Macro – 'Seek Buyside'"**, gefolgt von der Sequenz
+Sellside-Sweep → *"Big Up Candles Incoming..."* → Buyside-Liquidity-Ziel — direkte
+Primärquellen-Namensgebung statt nur abgeleiteter Beobachtung.
 
 ## Verwandt
 

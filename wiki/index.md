@@ -255,6 +255,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2023-03-13 - ICT Executions March 13, 2023 ES Short Final Hour of NY Session (Source)]] — MOC-Macro prädiktiv angekündigt vor Fensterbeginn
 - [[2023-03-20 - ICT Executions March 20, 2023 ES Long (Source)]] — NWOG-Entry, SL unter Wick-C.E. statt voller Range
 - [[2023-05-26 - ICT Executions May 26, 2023 ES Long No Secret Weapons (Source)]] — Weekly Volume Imbalance + Lunch Macro + Breaker
+- [[2023-06-08 - ICT Executions June 8, 2023 ES Long Silver Bullet (Source)]] — 20-Kontrakt-Silver-Bullet-Long
+- [[2023-06-12 - ICT Executions June 12, 2023 ES Long Lunch Macro (Source)]] — Chart-Titel "Algorithmic Lunch Macro – Seek Buyside"
+- [[2023-06-13 - ICT Executions June 13, 2023 ES Long Post CPI Inversion Breaker (Source)]] — 4-fach-Pyramiding (35 Kontrakte) nach CPI-Spike
+- [[2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)]] — "ICT AM Silver Bullet" explizit im Chart beschriftet
+- [[2023-06-21 - ICT Executions June 21, 2023 ES Short (Source)]] — Standard-Short mit Fibonacci-Referenzlinien
 
 ### MentorShip 2025
 

@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, daytrade, sessions]
 created: 2026-08-02
 updated: 2026-08-05
-sources: ["[[Kurz Notizen]]", "[[ICT Silver Bullet (Source)]]"]
+sources: ["[[Kurz Notizen]]", "[[ICT Silver Bullet (Source)]]", "[[2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)]]", "[[2023-06-08 - ICT Executions June 8, 2023 ES Long Silver Bullet (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]"]
 ---
 
 # Silver Bullet Model
@@ -107,6 +107,17 @@ Bewegungsanfang.
   Silver Bullet").
 - ✅ Damit ist der bisher offene Punkt geklärt, dass die AM-/Lunch-Fenster noch nicht als eigene
   Zeiten belegt waren.
+
+## Chart-Label-Bestätigung & Positionsgröße (ICT Executions, mehrere 2023/2024)
+
+[[2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)]] zeigt eine im Chart
+eingezeichnete Box, beschriftet **"ICT AM Silver Bullet"**, exakt im 10:00–11:00-ET-Fenster —
+direkteste bisherige Primärquellen-Bestätigung der Fensterbezeichnung. Drei Executions-Beispiele
+([[2023-06-08 - ICT Executions June 8, 2023 ES Long Silver Bullet (Source)]] 20 Kontrakte,
+[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]] 18 Kontrakte,
+[[2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)]] 10 Kontrakte) zeigen
+durchweg zweistellige Kontraktzahlen — konsistent höher als die meisten reinen Macro-Fenster-Trades
+in [[Partial Profit-Taking & R-Multiple-Skalierung]].
 
 ## Verwandt
 

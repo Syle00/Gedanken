@@ -1798,3 +1798,22 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für die 5 IDs angelegt.
 - Stand: 18 von 61 Videos erledigt, 43 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 5/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt. Ein Download (ciyKAwF1RdI) schlug mit HTTP 403 fehl,
+  Retry mit alternativem Format-Fallback ("best[height<=480]/best") sofort erfolgreich — kein
+  IP-Ban (nachfolgende Downloads liefen normal weiter), sondern transienter Einzelfehler.
+- Batch 5 (5 Videos): un0pXGljqbY (Jun 8 2023, ES Long/Silver Bullet), 9OrQc_RsNHs (Jun 12 2023,
+  ES Long/Lunch Macro), ciyKAwF1RdI (Jun 13 2023, ES Long/Post CPI/Inversion Breaker),
+  tBsCa5wrtx8 (Jun 20 2023, NQ Short/Silver Bullet), rVwERMRB6rs (Jun 21 2023, ES Short). Alle
+  fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-06-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/models/Silver Bullet Model.md` (neuer Abschnitt
+  "Chart-Label-Bestätigung & Positionsgröße" — "ICT AM Silver Bullet" direkt im Chart
+  beschriftet, durchweg zweistellige Kontraktzahlen über 3 Videos), `wiki/models/NY Lunch Macro
+  Model.md` (neuer Abschnitt "Chart-Titel-Bestätigung 'Seek Buyside'").
+- Stärkste bisherige Primärquellen-Bestätigungen: Silver-Bullet-Fenster und Lunch-Macro-These
+  jeweils direkt von ICT selbst im Chart benannt, nicht nur abgeleitet.
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 23 von 61 Videos erledigt, 38 verbleibend.
