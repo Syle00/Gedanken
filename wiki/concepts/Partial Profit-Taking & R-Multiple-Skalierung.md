@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, trade-management]
 created: 2026-08-06
-updated: 2026-08-10
-sources: ["[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]"]
+updated: 2026-08-11
+sources: ["[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)]]", "[[2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]"]
 ---
 
 # Partial Profit-Taking & R-Multiple-Skalierung
@@ -58,6 +58,24 @@ Richtung als Stop-Order platzieren, wenn die Fortsetzung fraglich wird.
 - Grundhaltung dahinter: *"If you don't allow the trades that you're part of pay by any means
   necessary, you're not trading, you're gambling."* — Partials sind kein Verzicht, sondern das
   Zulassen, dass die Idee anders als geplant aufgehen darf.
+
+## Kontraktbasierte Skalierung statt SL-Nachziehen (ICT-Executions-Beispiele, 2024)
+
+Aus der chart-only [[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)|ICT-Executions-Reihe]]
+(keine Sprachspur, reine Order-Panel-Auswertung): In mehreren Beispielen wird Risiko **nicht**
+über SL-Wanderung reduziert, sondern rein über gestaffelte Teilverkäufe der Kontraktzahl:
+
+- **2024-10-03 (NQ Short, Lunch Macro)**: Entry 2 Kontrakte in einer FVG → Partial 1 (4 von
+  ursprünglich mehr Kontrakten) bei ~46 Punkten, Partial 2 bei ~69 Punkten, Rest läuft bis zur
+  **Weekly BSL Consequent Encroachment**. Stop bleibt sichtbar unverändert, nur die Positionsgröße
+  schrumpft.
+- **2024-09-23 (NQ Long, Macro)**: Entry an der 0,5-CE-Linie einer **+IFVG**
+  ([[IFVG (Inverse Fair Value Gap)]]), 1/Rest-Split: 1 Kontrakt bei +580 USD gesichert, Rest läuft
+  mit sichtbarem Buchgewinn +710 USD weiter.
+- **2024-09-13 (NQ Short, Silver Bullet)**: mit 18 Kontrakten deutlich größere Positionsgröße als
+  bei den Macro-Setups — offene Hypothese, dass Silver-Bullet-Entries hier mit höherer Konfidenz
+  (mehr Kontrakten) gehandelt werden als reine Macro-Fenster-Entries; noch nicht über mehrere
+  Videos verifiziert.
 
 ## Bezug zum Reward-to-Risk-Modell
 

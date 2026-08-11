@@ -40,6 +40,13 @@ Diese Regeln sind der eigentliche Zweck dieses Skills. Sie gelten ausnahmslos:
   zwei Dritteln".
 - Fenster **23:50** fehlt fast vollständig (Exportlücke 23:59–00:08), **16:50** ganz
   (ragt über den Sessionschluss 17:00).
+- Die letzte Handelsstunde hat **drei eigene Fenster** statt des generischen 20-Min-Rasters:
+  **15:15** (30 Min, Final Hour Macro, unstrittig) sowie **beide** MOC-Lesarten nebeneinander
+  — **15:45** (15 Min, Gems-Quelle) und **15:50** (10 Min, 2:1-Mehrheit der Chronicles-Quellen).
+  Beleg: `raw/trading-ict/2026/yt-VH7Dh1OONj4-transcript.md` ("there's four of four macros in
+  that last hour"). Ein vierter Teil (Algo feuert 16:01, Run bis 16:15) gilt nur zur
+  Earnings-Season und ist aus OHLC allein nicht erkennbar, siehe
+  `wiki/models/Market on Close (MOC) Macro Model.md`.
 - Level-Quelle ist bisher nur `untouched_levels` (Swing-Level des laufenden Handelstags).
   **NDOG/NWOG/ORG fehlen** (Kalendertag- statt Session-Logik) und **PDH/PDL ebenso**
   (bräuchte die Vortagsdatei) — siehe `algo/PLAN.md`.

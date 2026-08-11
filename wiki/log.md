@@ -1708,3 +1708,40 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Kein `wiki/index.md`-Eintrag nötig — einzelne `journal/entries/`-Seiten werden dort nicht
   katalogisiert (nur aggregierende `wiki/synthesis/`-Reviews wie `KW32 2026 — Weekly Review`).
 - Offen: `bias_korrekt` nachtragen, sobald der Tag geschlossen hat.
+
+## [2026-08-11] synthesis | Letztes-Stunden-Macro: 3 statt 1 Fenster
+- Nutzerkorrektur: `algo/macro_db.py` bildete die letzte Handelsstunde bisher als eine
+  generische Zeile `15:50` (20 Min) ab, die zudem über den RTH-Schluss 16:00 hinauslief.
+- Recherche im Volltext-Transkript `raw/trading-ict/2026/yt-VH7Dh1OONj4-transcript.md`
+  ("ICT Gems - When To Anticipate Price Spooling") bestätigt: "there's four of four macros
+  in that last hour" — mit Zeiten belegt sind zwei/drei: 15:15–15:45 (Final Hour Macro,
+  unstrittig) und Market on Close, dessen Länge selbst zwischen Primärquellen strittig ist
+  (2:1 für 15:50–16:00/10 Min vs. Gems-Quelle 15:45–16:00/15 Min). Ein vierter Teil
+  (16:01/bis 16:15) gilt nur zur Earnings-Saison, aus OHLC allein nicht erkennbar.
+- `LAST_HOUR_WINDOWS` in `algo/macro_db.py`: drei eigene Fenster (15:15/30min, 15:45/15min,
+  15:50/10min) statt der einen generischen Zeile — löst den Primärquellen-Streit nicht
+  einseitig auf, sondern hält beide MOC-Lesarten nebeneinander (Wiki verlangte das bereits).
+- Seiten aktualisiert: `wiki/models/Market on Close (MOC) Macro Model.md`,
+  `.claude/skills/macro-db/SKILL.md`.
+- `algo/results/macro_db.csv` neu gebaut (483 statt 461 Zeilen), `--selfcheck` grün.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 1/61, chart-only ohne Voiceover)
+- Playlist https://www.youtube.com/playlist?list=PLEch7yirIOV8T1ZPGDzi2Ch2aQdjhgPwR: 61 Videos,
+  alle chart-only ohne Voiceover/Untertitel — Analyse per ffmpeg-Frame-Extraktion (alle 3-4s) +
+  visueller Auswertung statt Transkript, auf Nutzerwunsch per `/loop`-Skill in Batches verteilt.
+- Batch 1 (3 Videos, neueste zuerst): c0v2aA0HvcE (Okt 3 2024, NQ Short/Lunch Macro),
+  1dPzqoVvNtY (Sep 23 2024, NQ Long/Macro), ubHLQcaHCUg (Sep 13 2024, NQ Short/Silver Bullet).
+  Alle drei erstmalig ingested, keine Duplikate.
+- Seiten erstellt: `wiki/sources/youtube/2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source).md`,
+  `wiki/sources/youtube/2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source).md`,
+  `wiki/sources/youtube/2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source).md`.
+- Seiten erweitert: `wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md` (neuer Abschnitt
+  "Kontraktbasierte Skalierung statt SL-Nachziehen" mit drei konkreten $-Beispielen).
+- Assets: 5 zugeschnittene Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien (kein Text, nur Metadaten+Verweis) unter
+  `raw/trading-ict/2026/yt-<id>-transcript.md` für die 3 IDs angelegt, damit künftige
+  Loop-Durchläufe sie als bereits verarbeitet erkennen.
+- Offene Beobachtung: Silver-Bullet-Trade zeigt deutlich höhere Kontraktzahl (18) als
+  Macro-Trades (2-7) — noch nicht über mehrere Videos verifiziert, im Auge behalten.
+- Nächste Charge: `/loop`-Wakeup fährt fort mit den nächsten 2-3 Videos aus derselben Playlist
+  (58 verbleibend), gleiche Vorgehensweise.

@@ -38,9 +38,20 @@ stattdessen:
 > Setup-Fenster, 15:45/15:50–16:00 = Ausführung. Der Unterschied 15:45 vs. 15:50 bleibt offen.
 > Für einen Backtest weiterhin **beide Fensterlängen** prüfen.
 
-ICT nennt außerdem eine Zahl, die auf dieser Seite bislang fehlte: *"there's four macros in that
-last hour"* — enumeriert werden im Transkript aber nur die beiden oberen (plus die
-Earnings-Erweiterung). Die vollständige Aufzählung liefert die Quelle nicht.
+ICT nennt außerdem eine Zahl: *"there's four of four macros in that last hour"* — enumeriert
+werden im Transkript aber nur die beiden oberen mit klaren Zeiten (plus die
+Earnings-Erweiterung als bedingter dritter/vierter Teil). Die vollständige Aufzählung liefert
+die Quelle nicht — Wortlaut geprüft in `raw/trading-ict/2026/yt-VH7Dh1OONj4-transcript.md`
+("ICT Gems - When To Anticipate Price Spooling"), keine weitere Quelle im Vault ergänzt die
+fehlenden zwei.
+
+`algo/macro_db.py` bildet seit 2026-08-11 drei eigenständige Fenster ab (`LAST_HOUR_WINDOWS`):
+`15:15` (30 Min, Final Hour Macro, unstrittig), sowie **beide** MOC-Lesarten nebeneinander —
+`15:45` (15 Min, Gems-Quelle) und `15:50` (10 Min, 2:1-Mehrheit der Chronicles-Quellen) — statt
+den Streit einseitig aufzulösen oder sie im generischen `:50`-Raster als eine Zeile `15:50`
+(20 Min) zu verschmelzen, die über den RTH-Schluss 16:00 hinauslief. Der bedingte
+Earnings-Season-Teil (16:01/bis 16:15) fließt nicht in die Datenbank ein — aus OHLC allein
+nicht von einem normalen Handelstag unterscheidbar.
 
 **Position bis 16:00 glattstellen**: *"the final candle at 1600 — you want to have your position
 squared by then."*

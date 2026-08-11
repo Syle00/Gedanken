@@ -5929,3 +5929,341 @@ $EURUSD=X: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01
 === USDJPY=X medium (1h, max 730d) 2026-08-11T10:44:14Z ===
 1566 Datei(en) geschrieben.
 === USDJPY=X shallow (1m,5m,15m) 2026-08-11T10:44:21Z ===
+$USDJPY=X: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDJPY=X']: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+$USDJPY=X: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDJPY=X']: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+$USDJPY=X: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDJPY=X']: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+$USDJPY=X: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDJPY=X']: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+$USDJPY=X: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDJPY=X']: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+$USDJPY=X: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDJPY=X']: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+$USDJPY=X: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['USDJPY=X']: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+$USDJPY=X: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['USDJPY=X']: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+59 Datei(en) geschrieben.
+=== GBPUSD=X deep (1d) 2026-08-11T10:44:29Z ===
+5900 Datei(en) geschrieben.
+=== GBPUSD=X medium (1h, max 730d) 2026-08-11T10:44:55Z ===
+1565 Datei(en) geschrieben.
+=== GBPUSD=X shallow (1m,5m,15m) 2026-08-11T10:45:03Z ===
+$GBPUSD=X: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPUSD=X']: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+$GBPUSD=X: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPUSD=X']: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+$GBPUSD=X: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPUSD=X']: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+$GBPUSD=X: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPUSD=X']: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+$GBPUSD=X: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPUSD=X']: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+$GBPUSD=X: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPUSD=X']: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+$GBPUSD=X: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['GBPUSD=X']: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+$GBPUSD=X: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['GBPUSD=X']: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+59 Datei(en) geschrieben.
+=== USDCHF=X deep (1d) 2026-08-11T10:45:14Z ===
+5954 Datei(en) geschrieben.
+=== USDCHF=X medium (1h, max 730d) 2026-08-11T10:45:39Z ===
+1565 Datei(en) geschrieben.
+=== USDCHF=X shallow (1m,5m,15m) 2026-08-11T10:45:47Z ===
+$USDCHF=X: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCHF=X']: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+$USDCHF=X: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCHF=X']: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+$USDCHF=X: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCHF=X']: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+$USDCHF=X: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCHF=X']: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+$USDCHF=X: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCHF=X']: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+$USDCHF=X: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCHF=X']: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+$USDCHF=X: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['USDCHF=X']: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+$USDCHF=X: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['USDCHF=X']: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+59 Datei(en) geschrieben.
+=== AUDUSD=X deep (1d) 2026-08-11T10:45:56Z ===
+5264 Datei(en) geschrieben.
+=== AUDUSD=X medium (1h, max 730d) 2026-08-11T10:46:18Z ===
+1573 Datei(en) geschrieben.
+=== AUDUSD=X shallow (1m,5m,15m) 2026-08-11T10:46:25Z ===
+$AUDUSD=X: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['AUDUSD=X']: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+$AUDUSD=X: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['AUDUSD=X']: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+$AUDUSD=X: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['AUDUSD=X']: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+$AUDUSD=X: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['AUDUSD=X']: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+$AUDUSD=X: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['AUDUSD=X']: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+$AUDUSD=X: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['AUDUSD=X']: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+$AUDUSD=X: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['AUDUSD=X']: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+$AUDUSD=X: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['AUDUSD=X']: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+59 Datei(en) geschrieben.
+=== USDCAD=X deep (1d) 2026-08-11T10:46:33Z ===
+5956 Datei(en) geschrieben.
+=== USDCAD=X medium (1h, max 730d) 2026-08-11T10:46:52Z ===
+1585 Datei(en) geschrieben.
+=== USDCAD=X shallow (1m,5m,15m) 2026-08-11T10:46:59Z ===
+$USDCAD=X: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCAD=X']: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+$USDCAD=X: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCAD=X']: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+$USDCAD=X: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCAD=X']: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+$USDCAD=X: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCAD=X']: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+$USDCAD=X: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCAD=X']: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+$USDCAD=X: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['USDCAD=X']: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+$USDCAD=X: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['USDCAD=X']: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+$USDCAD=X: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['USDCAD=X']: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+59 Datei(en) geschrieben.
+=== NZDUSD=X deep (1d) 2026-08-11T10:47:07Z ===
+5889 Datei(en) geschrieben.
+=== NZDUSD=X medium (1h, max 730d) 2026-08-11T10:47:25Z ===
+1577 Datei(en) geschrieben.
+=== NZDUSD=X shallow (1m,5m,15m) 2026-08-11T10:47:32Z ===
+$NZDUSD=X: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['NZDUSD=X']: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+$NZDUSD=X: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['NZDUSD=X']: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+$NZDUSD=X: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['NZDUSD=X']: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+$NZDUSD=X: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['NZDUSD=X']: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+$NZDUSD=X: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['NZDUSD=X']: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+$NZDUSD=X: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['NZDUSD=X']: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+$NZDUSD=X: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['NZDUSD=X']: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+$NZDUSD=X: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['NZDUSD=X']: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+59 Datei(en) geschrieben.
+=== EURJPY=X deep (1d) 2026-08-11T10:47:41Z ===
+6113 Datei(en) geschrieben.
+=== EURJPY=X medium (1h, max 730d) 2026-08-11T10:48:01Z ===
+1567 Datei(en) geschrieben.
+=== EURJPY=X shallow (1m,5m,15m) 2026-08-11T10:48:08Z ===
+$EURJPY=X: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURJPY=X']: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+$EURJPY=X: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURJPY=X']: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+$EURJPY=X: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURJPY=X']: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+$EURJPY=X: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURJPY=X']: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+$EURJPY=X: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURJPY=X']: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+$EURJPY=X: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURJPY=X']: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+$EURJPY=X: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['EURJPY=X']: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+$EURJPY=X: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['EURJPY=X']: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+59 Datei(en) geschrieben.
+=== EURGBP=X deep (1d) 2026-08-11T10:48:16Z ===
+6928 Datei(en) geschrieben.
+=== EURGBP=X medium (1h, max 730d) 2026-08-11T10:48:37Z ===
+1569 Datei(en) geschrieben.
+=== EURGBP=X shallow (1m,5m,15m) 2026-08-11T10:48:45Z ===
+$EURGBP=X: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURGBP=X']: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+$EURGBP=X: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURGBP=X']: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+$EURGBP=X: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURGBP=X']: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+$EURGBP=X: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURGBP=X']: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+$EURGBP=X: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURGBP=X']: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+$EURGBP=X: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['EURGBP=X']: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+$EURGBP=X: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['EURGBP=X']: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+$EURGBP=X: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['EURGBP=X']: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+59 Datei(en) geschrieben.
+=== GBPJPY=X deep (1d) 2026-08-11T10:48:53Z ===
+5904 Datei(en) geschrieben.
+=== GBPJPY=X medium (1h, max 730d) 2026-08-11T10:49:12Z ===
+1569 Datei(en) geschrieben.
+=== GBPJPY=X shallow (1m,5m,15m) 2026-08-11T10:49:19Z ===
+$GBPJPY=X: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPJPY=X']: possibly delisted; no price data found  (1m 2026-06-07 -> 2026-06-14) (Yahoo error = "1m data not available for startTime=1780786800 and endTime=1781391600. The requested range must be within the last 30 days.")
+$GBPJPY=X: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPJPY=X']: possibly delisted; no price data found  (1m 2026-06-14 -> 2026-06-21) (Yahoo error = "1m data not available for startTime=1781391600 and endTime=1781996400. The requested range must be within the last 30 days.")
+$GBPJPY=X: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPJPY=X']: possibly delisted; no price data found  (1m 2026-06-21 -> 2026-06-28) (Yahoo error = "1m data not available for startTime=1781996400 and endTime=1782601200. The requested range must be within the last 30 days.")
+$GBPJPY=X: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPJPY=X']: possibly delisted; no price data found  (1m 2026-06-28 -> 2026-07-05) (Yahoo error = "1m data not available for startTime=1782601200 and endTime=1783206000. The requested range must be within the last 30 days.")
+$GBPJPY=X: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPJPY=X']: possibly delisted; no price data found  (1m 2026-07-05 -> 2026-07-12) (Yahoo error = "1m data not available for startTime=1783206000 and endTime=1783810800. The requested range must be within the last 30 days.")
+$GBPJPY=X: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+
+1 Failed download:
+['GBPJPY=X']: possibly delisted; no price data found  (1m 2026-07-12 -> 2026-07-19) (Yahoo error = "1m data not available for startTime=1783810800 and endTime=1784415600. The requested range must be within the last 30 days.")
+$GBPJPY=X: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['GBPJPY=X']: possibly delisted; no price data found  (5m 2026-06-07 -> 2026-08-01) (Yahoo error = "5m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+$GBPJPY=X: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+
+1 Failed download:
+['GBPJPY=X']: possibly delisted; no price data found  (15m 2026-06-07 -> 2026-08-01) (Yahoo error = "15m data not available for startTime=1780786800 and endTime=1785538800. The requested range must be within the last 60 days.")
+59 Datei(en) geschrieben.
+=== ALL DONE 2026-08-11T10:49:27Z ===

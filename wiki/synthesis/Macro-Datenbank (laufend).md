@@ -1,18 +1,18 @@
 ---
 tags: [synthesis, algo, macro, laufend]
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources: ["[[ICT Macros & Leading Candles]]"]
 ---
 
 # Macro-Datenbank (laufend)
 
-Erzeugt von `algo/macro_db.py plot`. Basis: **MNQ**, 440 vollständig
+Erzeugt von `algo/macro_db.py plot`. Basis: **MNQ**, 483 vollständig
 erfasste Macro-Fenster aus 23 Handelstagen (2026-07-08 … 2026-08-07).
 Diese Seite wird bei jedem Lauf überschrieben — sie ist ein laufender Stand,
 kein Schnappschuss.
 
-**Basisrate Expansion:** 35.2% [30.9–39.8] (n=440, k=155)
+**Basisrate Expansion:** 35.0% [30.9–39.3] (n=483, k=169)
 
 ## Hauptergebnis: Nullbefund bei den Vorlauf-Kandidaten
 
@@ -29,31 +29,31 @@ Die Vermutung, an der Vorgeschichte eines Macro-Fensters lasse sich ablesen, ob 
 gleich sauber expandiert, trägt auf diesem Bestand nicht.
 
 Rangkorrelation jedes Kandidaten gegen alle 4 Zielgrößen (Bonferroni-Schwelle über
-54 Vergleiche: p < 0.0009):
+56 Vergleiche: p < 0.0009):
 
 | Kandidat | Zielgröße | rho | p | n | hält Bonferroni |
 |---|---|---|---|---|---|
-| `pre_range_rel` | `dir` | -0.004 | 0.9329 | 417 | nein |
-| `pre_range_rel` | `expansion` | +0.027 | 0.5836 | 417 | nein |
-| `pre_range_rel` | `range` | +0.258 | 9.458e-08 | 417 | **ja** |
-| `pre_range_rel` | `mfe_60` | +0.227 | 3.752e-06 | 405 | **ja** |
-| `pre_wick_frac` | `dir` | -0.015 | 0.7541 | 440 | nein |
-| `pre_wick_frac` | `expansion` | -0.024 | 0.6089 | 440 | nein |
-| `pre_wick_frac` | `range` | -0.042 | 0.3801 | 440 | nein |
-| `pre_wick_frac` | `mfe_60` | -0.031 | 0.5237 | 427 | nein |
-| `pre_streak` | `dir` | -0.004 | 0.9383 | 440 | nein |
-| `pre_streak` | `expansion` | +0.004 | 0.9257 | 440 | nein |
-| `pre_streak` | `range` | +0.018 | 0.7018 | 440 | nein |
-| `pre_streak` | `mfe_60` | +0.062 | 0.2037 | 427 | nein |
-| `pre_contraction` | `dir` | -0.020 | 0.6787 | 440 | nein |
-| `pre_contraction` | `expansion` | -0.024 | 0.6108 | 440 | nein |
-| `pre_contraction` | `range` | +0.043 | 0.3683 | 440 | nein |
-| `pre_contraction` | `mfe_60` | +0.033 | 0.4956 | 427 | nein |
+| `pre_range_rel` | `dir` | +0.008 | 0.8718 | 460 | nein |
+| `pre_range_rel` | `expansion` | +0.021 | 0.6578 | 460 | nein |
+| `pre_range_rel` | `range` | +0.258 | 1.98e-08 | 460 | **ja** |
+| `pre_range_rel` | `mfe_60` | +0.198 | 2.538e-05 | 447 | **ja** |
+| `pre_wick_frac` | `dir` | -0.012 | 0.7933 | 483 | nein |
+| `pre_wick_frac` | `expansion` | -0.021 | 0.6389 | 483 | nein |
+| `pre_wick_frac` | `range` | -0.072 | 0.1161 | 483 | nein |
+| `pre_wick_frac` | `mfe_60` | -0.034 | 0.4583 | 469 | nein |
+| `pre_streak` | `dir` | +0.006 | 0.897 | 483 | nein |
+| `pre_streak` | `expansion` | +0.014 | 0.7585 | 483 | nein |
+| `pre_streak` | `range` | +0.025 | 0.5865 | 483 | nein |
+| `pre_streak` | `mfe_60` | +0.044 | 0.3363 | 469 | nein |
+| `pre_contraction` | `dir` | -0.028 | 0.5417 | 483 | nein |
+| `pre_contraction` | `expansion` | -0.031 | 0.4992 | 483 | nein |
+| `pre_contraction` | `range` | +0.024 | 0.5916 | 483 | nein |
+| `pre_contraction` | `mfe_60` | +0.027 | 0.5617 | 469 | nein |
 
 ### Gegenbefund: Volatilität hält an, sie staut sich nicht auf
 
-- **`pre_range_rel` gegen `range`: rho = +0.258, p = 9.458e-08 (n=417)**
-- **`pre_range_rel` gegen `mfe_60`: rho = +0.227, p = 3.752e-06 (n=405)**
+- **`pre_range_rel` gegen `range`: rho = +0.258, p = 1.98e-08 (n=460)**
+- **`pre_range_rel` gegen `mfe_60`: rho = +0.198, p = 2.538e-05 (n=447)**
 
 Dieser Zusammenhang zeigt **in die Gegenrichtung der ursprünglichen Lesart**: Nicht
 Ruhe vor dem Fenster geht großer Bewegung voraus, sondern **Aktivität**. Ein bereits
@@ -76,9 +76,9 @@ Zeit — das ist der Maßstab eines reinen Random Walk.
 
 | Horizont | Median MFE (Pkt) | n | gemessenes Wachstum | Random Walk erwartet |
 |---|---|---|---|---|
-| +20 Min | 48.38 | 440 | — | — |
-| +40 Min | 67.50 | 435 | ×1.40 | ×1.41 |
-| +60 Min | 82.75 | 427 | ×1.71 | ×1.73 |
+| +20 Min | 49.00 | 483 | — | — |
+| +40 Min | 67.50 | 477 | ×1.38 | ×1.41 |
+| +60 Min | 83.00 | 469 | ×1.69 | ×1.73 |
 
 **Befund**: Das gemessene Wachstum entspricht der Wurzel-der-Zeit-Erwartung praktisch
 exakt. Die Auslenkung wächst nach dem Macro also genau so weiter, wie sie es bei
@@ -105,7 +105,7 @@ für die Stop- und Zielwahl.
 ## Liquidität im Fenster genommen
 
 ![[macro-db-level.png]]
-*Anteil der Fenster, in denen ein vor dem Fenster offenes Swing-Level genommen wurde. Rote Linie: **87.5 % aller Fenster nehmen mindestens ein Level** (87.5% [84.1–90.3] (n=440, k=385)) — die Kennzahl ist damit fast gesättigt. Die beiden Seitenquoten sind vor diesem Hintergrund weitgehend Grundrauschen der Detektorwahl (`untouched_levels`, swing=2 auf 1m), kein eigenständiger Befund.*
+*Anteil der Fenster, in denen ein vor dem Fenster offenes Swing-Level genommen wurde. Rote Linie: **88.2 % aller Fenster nehmen mindestens ein Level** (88.2% [85.0–90.8] (n=483, k=426)) — die Kennzahl ist damit fast gesättigt. Die beiden Seitenquoten sind vor diesem Hintergrund weitgehend Grundrauschen der Detektorwahl (`untouched_levels`, swing=2 auf 1m), kein eigenständiger Befund.*
 
 ## Vorbehalte
 

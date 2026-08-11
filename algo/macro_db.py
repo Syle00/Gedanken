@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Macro-Datenbank: eine Zeile je Macro-Fenster je Handelstag.
 
-Erfasst fuer jedes Macro-Fenster (:50-:10) eines MNQ-Handelstags, was davor passierte
+Erfasst fuer jedes Macro-Fenster (:50-:10, in der letzten Handelsstunde 15:15/15:45/15:50
+-- siehe LAST_HOUR_WINDOWS) eines MNQ-Handelstags, was davor passierte
 (Spooling-Kandidaten, Sweeps, Structure Breaks, Displacements, offene Level), was im
 Fenster geschah (Range, Nettoweg, Geradlinigkeit, Richtung), wann der Move einsetzte
 und welche Level dabei genommen wurden.
@@ -33,23 +34,55 @@ from tools.analyze_ohlc import (CFG, DATA_DIR, NY, Bar, at, displacements, fvgs,
 from backtest_macro import session_day_from_path  # noqa: E402
 
 # Der MNQ-Handelstag laeuft 18:00 (Vorabend) .. 17:00. Das erste Macro-Fenster ist
-# 18:50, das letzte 16:50 -- 23 Stueck. 17:50 liegt in der Globex-Pause.
-N_WINDOWS = 23
-WINDOW_MIN = 20     # Laenge eines Macro-Fensters
+# 18:50, das letzte 16:50 -- 23 Stunden. 17:50 liegt in der Globex-Pause.
+N_HOURS = 23
+WINDOW_MIN = 20     # Laenge eines generischen Macro-Fensters (Standard-Raster)
 PRE_MIN = 10        # Vorlauf, der fuer die Spooling-Kennzahlen vollstaendig sein muss
+
+# Die letzte Handelsstunde folgt laut ICT einem eigenen Raster, nicht dem generischen
+# `:50-:10`. Quelle: raw/trading-ict/2026/yt-VH7Dh1OONj4-transcript.md ("ICT Gems -
+# When To Anticipate Price Spooling"): "there's four of four macros in that last
+# hour" -- mit Zeiten belegt sind aber nur zwei/drei Fenster, und die MOC-Laenge ist
+# selbst zwischen Primaerquellen strittig (siehe wiki/models/Market on Close (MOC)
+# Macro Model.md, Abschnitt "Die letzte Stunde hat ein eigenes Macro-Raster"):
+#
+# * 15:15-15:45 (30 Min): Final Hour Macro -- unstrittig, alle Quellen einig.
+# * Market on Close: 2:1 der Quellen (beide 2026er Chronicles-Lectures sowie
+#   "Algorithmic Timings With Opening Ranges") sagen 15:50-16:00 (10 Min), die
+#   Gems-Quelle sagt ausdruecklich das Gegenteil: "it's not 10 minutes, it's 15
+#   minutes, 3:45 to 4:00." Die Wiki-Seite loest das NICHT einseitig auf, sondern
+#   verlangt "fuer einen Backtest weiterhin beide Fensterlaengen pruefen" -- deshalb
+#   hier beide als eigene Zeilen, nicht nur eine.
+#
+# Ein vierter Teil (Algo feuert 16:01, Run bis 16:15) gilt laut Quelle nur zur
+# Earnings-Season und ist aus OHLC allein nicht erkennbar, fehlt daher hier. Ersetzt
+# die vormalige generische Zeile "15:50" (20 Min, lief ueber den RTH-Schluss 16:00
+# hinaus und vermischte beide MOC-Lesarten mit falscher Laenge).
+LAST_HOUR_WINDOWS = (("15:15", 15, 15, 30), ("15:45", 15, 45, 15), ("15:50", 15, 50, 10))
+
+# 22 generische Stunden liefern je ein Fenster, die 23. (15:50) liefert stattdessen
+# die len(LAST_HOUR_WINDOWS) Fenster oben.
+N_WINDOWS = N_HOURS - 1 + len(LAST_HOUR_WINDOWS)
 
 
 def macro_windows_session(session_day: date):
-    """Die 23 Macro-Fenster eines Handelstags: (label, start, ende).
+    """Die Macro-Fenster eines Handelstags: (label, start, ende).
 
     Label ist die Startzeit (`"09:50"`), Start/Ende sind NY-Zeitpunkte. Das erste
-    Fenster liegt am Vorabend (18:50), die spaeteren am `session_day` selbst.
+    Fenster liegt am Vorabend (18:50), die spaeteren am `session_day` selbst. Die
+    Stunde 15 liefert LAST_HOUR_WINDOWS-Fenster mit eigener Laenge statt eines
+    generischen.
     """
     out = []
     t = at(session_day - timedelta(days=1), 18, 50)
-    for _ in range(N_WINDOWS):
-        end = t + timedelta(minutes=WINDOW_MIN)
-        out.append((f"{t:%H:%M}", t, end))
+    for _ in range(N_HOURS):
+        if t.hour == 15 and t.minute == 50:
+            for label, h, m, minuten in LAST_HOUR_WINDOWS:
+                start = at(session_day, h, m)
+                out.append((label, start, start + timedelta(minutes=minuten)))
+        else:
+            end = t + timedelta(minutes=WINDOW_MIN)
+            out.append((f"{t:%H:%M}", t, end))
         t += timedelta(hours=1)
     return out
 
@@ -76,13 +109,16 @@ def is_complete(bars: list[Bar], start: datetime, end: datetime,
                 pre_min: int = PRE_MIN) -> bool:
     """True, wenn Fenster und Vorlauf lueckenlos sind.
 
-    Streng: alle 20 Minuten des Fensters und alle `pre_min` Minuten davor muessen je
-    eine Kerze haben. Grund (Nutzerentscheidung, Spec 4.2): nur vollstaendig erfasste
-    Fenster gehen in die Statistik -- eine halbe Kerzenreihe verzerrt Range, Nettoweg
-    und Startminute, ohne dass man es der Zahl ansieht.
+    Streng: alle Minuten des Fensters (Laenge aus `end - start`, nicht fest 20 --
+    die letzte Handelsstunde hat abweichende Fensterlaengen) und alle `pre_min`
+    Minuten davor muessen je eine Kerze haben. Grund (Nutzerentscheidung, Spec 4.2):
+    nur vollstaendig erfasste Fenster gehen in die Statistik -- eine halbe
+    Kerzenreihe verzerrt Range, Nettoweg und Startminute, ohne dass man es der Zahl
+    ansieht.
     """
     have = {b.t for b in bars}
-    soll_win = {start + timedelta(minutes=i) for i in range(WINDOW_MIN)}
+    win_min = int((end - start).total_seconds() // 60)
+    soll_win = {start + timedelta(minutes=i) for i in range(win_min)}
     soll_pre = {start - timedelta(minutes=i + 1) for i in range(pre_min)}
     return soll_win <= have and soll_pre <= have
 
@@ -332,8 +368,9 @@ def build(symbol: str = "MNQ", dir_thr: float = DIR_THR,
         for label, start, end in macro_windows_session(session_day):
             if not is_complete(bars, start, end):
                 win = window_bars(bars, start, end)
+                soll = int((end - start).total_seconds() // 60)
                 skipped.append({"session_day": str(session_day), "window": label,
-                                "grund": f"unvollstaendig ({len(win)}/{WINDOW_MIN} Kerzen"
+                                "grund": f"unvollstaendig ({len(win)}/{soll} Kerzen"
                                          f" im Fenster)"})
                 continue
             win = window_bars(bars, start, end)
@@ -657,11 +694,14 @@ def cmd_stats(symbol: str = "MNQ") -> None:
     print("* Fenster desselben Handelstags sind nicht unabhaengig -- p-Werte sind optimistisch.")
     print("* Das Fenster 23:50 fehlt fast vollstaendig (Exportluecke 23:59-00:08),")
     print("  16:50 ganz (ragt ueber den Sessionschluss 17:00).")
-    print("* In der LETZTEN Handelsstunde gilt das :50-:10-Raster laut ICT nicht -- dort")
-    print("  nennt er 15:15-15:45 (Final Hour Macro) und 15:45/15:50-16:00 (Market on")
-    print("  Close). Die Zeile 15:50 misst 15:50-16:10 und laeuft damit ueber den")
-    print("  RTH-Schluss 16:00 hinaus; sie ist als Macro-Zeile nur eingeschraenkt")
-    print("  vergleichbar. Siehe wiki/models/Market on Close (MOC) Macro Model.md.")
+    print("* Die letzte Handelsstunde hat drei eigene Fenster statt des generischen")
+    print("  20-Min-Rasters: 15:15 (30 Min, Final Hour Macro, unstrittig) sowie BEIDE")
+    print("  MOC-Lesarten nebeneinander -- 15:45 (15 Min, Gems-Quelle) und 15:50 (10 Min,")
+    print("  2:1-Mehrheit der Chronicles-Quellen). Quelle: 'there's four of four macros")
+    print("  in that last hour' (ICT Gems - When To Anticipate Price Spooling). Ein")
+    print("  vierter Teil (Algo feuert 16:01, Run bis 16:15) gilt nur zur Earnings-Season")
+    print("  und ist aus OHLC allein nicht erkennbar. Siehe")
+    print("  wiki/models/Market on Close (MOC) Macro Model.md.")
     print("* Die Exkursions-Spalten (exc_*, mfe_*, reach10_*) sind ZIELgroessen und sehen")
     print("  bewusst Kerzen nach dem Fensterstart. Sie sind kein Lookahead-Verstoss, aber")
     print("  auch nicht als Vorhersagemerkmal verwendbar.")
@@ -1213,14 +1253,24 @@ def selfcheck() -> None:
     # das erste Fenster liegt am Vorabend, das letzte am session_day
     assert ws[0][1].date() == date(2026, 8, 9), ws[0][1]
     assert ws[-1][1].date() == day, ws[-1][1]
-    # Fenster sind eine Stunde auseinander und je 20 Minuten lang
-    assert all((b[1] - a[1]) == timedelta(hours=1) for a, b in zip(ws, ws[1:]))
-    assert all((w[2] - w[1]) == timedelta(minutes=WINDOW_MIN) for w in ws)
+    # Fenster sind eine Stunde auseinander, ausser rund um die letzte Handelsstunde:
+    # dort loest LAST_HOUR_WINDOWS die generische Stunde 15:50 in drei eigene
+    # Fenster auf (siehe LAST_HOUR_WINDOWS-Kommentar).
+    abweichend = {(a[0], b[0]): (b[1] - a[1]) for a, b in zip(ws, ws[1:])
+                  if (b[1] - a[1]) != timedelta(hours=1)}
+    assert abweichend == {("14:50", "15:15"): timedelta(minutes=25),
+                           ("15:15", "15:45"): timedelta(minutes=30),
+                           ("15:45", "15:50"): timedelta(minutes=5)}, abweichend
+    # jedes Fenster ist so lang wie in LAST_HOUR_WINDOWS vorgesehen, sonst WINDOW_MIN
+    laenge_sonder = {label: timedelta(minutes=m) for label, _, _, m in LAST_HOUR_WINDOWS}
+    assert all((w[2] - w[1]) == laenge_sonder.get(w[0], timedelta(minutes=WINDOW_MIN))
+               for w in ws)
     # ueber den Datumswechsel: 23:50 gehoert zum Vorabend, 00:50 zum session_day
     lab = {w[0]: w[1].date() for w in ws}
     assert lab["23:50"] == date(2026, 8, 9) and lab["00:50"] == day, lab
-    # jede der 23 Stunden muss genau einer Session zugeordnet sein
-    assert len(SESSION_BY_HOUR) == N_WINDOWS, len(SESSION_BY_HOUR)
+    # jede der 23 Stunden muss genau einer Session zugeordnet sein (N_WINDOWS Fenster,
+    # aber Stunde 15 liefert drei davon -- siehe LAST_HOUR_WINDOWS)
+    assert len(SESSION_BY_HOUR) == len({w[1].hour for w in ws}) == 23, len(SESSION_BY_HOUR)
     assert all(w[1].hour in SESSION_BY_HOUR for w in ws), "Stunde ohne Session"
 
     start = at(day, 9, 50)

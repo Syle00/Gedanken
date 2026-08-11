@@ -232,6 +232,15 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Gems - London Opening Range + Macros (Source)]], [[ICT Gems - Non-Farm Payroll Profile + Macros (Source)]], [[ICT Gems - Turtle Soup Entries Using ICT Gauntlet (Source)]]
 - [[ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)]], [[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]]
 
+### ICT Executions (Chart-only Trade-Beispiele, ohne Voiceover)
+
+> Playlist mit 61 Videos, laufender Batch-Ingest (siehe `wiki/log.md`). Jedes Video zeigt nur den
+> Chart ohne gesprochenen Kommentar — Inhalt wird per Frame-Extraktion visuell rekonstruiert.
+
+- [[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)]] — Lunch-Macro-Short, FVG-Entry, gestaffelte Partials, Ziel an Weekly BSL C.E.
+- [[2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source)]] — Macro-Long, Entry an +IFVG-CE-Linie, 1/Rest-Partial-Split
+- [[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]] — AM-Silver-Bullet, 18-Kontrakt-Größe
+
 ### MentorShip 2025
 
 **Überknotenpunkt der Reihe: [[MentorShip 2025]]** — was die Lektionen gemeinsam sagen, Querbelege und offene Punkte.
