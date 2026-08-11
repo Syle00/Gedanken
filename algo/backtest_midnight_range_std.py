@@ -30,11 +30,43 @@ from backtest_common import write_result  # noqa: E402
 BUCKETS = [0.5, 1.0, 1.5, 2.0, 3.0, 5.0, float("inf")]
 
 
-def session_range(bars, day, start_hm: tuple[int, int], end_hm: tuple[int, int]):
+def window_gaps(bars, day, start_hm, end_hm) -> list[int]:
+    """Fehlende Minuten in einem **teilweise** befuellten 1m-Fenster, als Offsets ab `start_hm`.
+
+    Existiert, weil yfinance fuer MNQ=F systematisch die ersten ~9 Minuten nach Mitternacht
+    NY nicht liefert (verifiziert am 2026-08-11 gegen den yfinance-Rohabruf: die Luecke
+    steckt in der Quelle, nicht in fetch_yfinance.py). An 19 von 24 MNQ-1m-Tagen fehlten
+    genau 00:00-00:08 -- inklusive der 0:00-Kerze, also des Midnight Opening Price.
+
+    Ein **komplett leeres** Fenster gibt bewusst `[]` zurueck, nicht "alle Minuten fehlen":
+    ein Tag ohne Intraday-Daten ist keine loechrige Messung, sondern gar keine, und die
+    Aufrufer verwerfen ihn ohnehin ueber `session_range() is None`. Ohne diese Unterscheidung
+    zaehlte jeder 1d-only-Tag als Datenluecke und blies die Warnung auf (aufgefallen
+    2026-08-11: `judas` meldete 23 "Luecken" im sauberen 7:00-7:30-Fenster).
+    """
+    start, end = at(day, *start_hm), at(day, *end_hm)
+    have = {int((b.t - start).total_seconds() // 60) for b in bars if start <= b.t < end}
+    if not have:
+        return []
+    return sorted(set(range(int((end - start).total_seconds() // 60))) - have)
+
+
+def session_range(bars, day, start_hm: tuple[int, int], end_hm: tuple[int, int],
+                   expect_complete: bool = False):
     """Kerzen-High/Low ueber ein Zeitfenster (z.B. eine Opening Range). None, wenn keine
-    Kerzen im Fenster liegen oder das Fenster keine echte Range hat (rng <= 0)."""
+    Kerzen im Fenster liegen oder das Fenster keine echte Range hat (rng <= 0).
+
+    `expect_complete=True` verlangt zusaetzlich, dass **jede** Minute des Fensters vorliegt,
+    und gibt sonst None zurueck. Fuer Opening Ranges ist das Pflicht: fehlen ausgerechnet die
+    ersten Minuten, fehlt der Opening Price, und High/Low stammen aus einem verkuerzten
+    Fenster -- die Range faellt dann typischerweise zu klein aus und blaeht jede daraus
+    abgeleitete STD-Kennzahl auf. Der Aufrufer sieht die Verwerfung nicht; wer zaehlt, wie
+    viele Tage wegfallen, muss `window_gaps()` selbst aufrufen und die Zahl ausweisen.
+    """
     win = [b for b in bars if at(day, *start_hm) <= b.t < at(day, *end_hm)]
     if not win:
+        return None
+    if expect_complete and window_gaps(bars, day, start_hm, end_hm):
         return None
     rh, rl = max(b.h for b in win), min(b.l for b in win)
     rng = rh - rl
@@ -42,8 +74,9 @@ def session_range(bars, day, start_hm: tuple[int, int], end_hm: tuple[int, int])
 
 
 def midnight_range(bars, day):
-    """Rueckwaertskompatibler Spezialfall: Midnight/London Opening Range 0:00-0:30 NY."""
-    return session_range(bars, day, (0, 0), (0, 30))
+    """Midnight/London Opening Range 0:00-0:30 NY. Verlangt ein vollstaendiges Fenster --
+    siehe `window_gaps()` fuer den Grund."""
+    return session_range(bars, day, (0, 0), (0, 30), expect_complete=True)
 
 
 def k_extension(bars, day, start, end, rh, rl, rng):
@@ -82,8 +115,11 @@ def report(name: str, ks: list[float]) -> None:
 def run() -> dict:
     london_high, london_low, day_high, day_low = [], [], [], []
     days_used = 0
+    days_incomplete = []
     for day, path in find_days():
         bars = load(path)
+        if window_gaps(bars, day, (0, 0), (0, 30)):
+            days_incomplete.append(str(day))
         mr = midnight_range(bars, day)
         if mr is None:
             continue
@@ -102,12 +138,22 @@ def run() -> dict:
 
     return {"days_used": days_used, "london_high": london_high, "london_low": london_low,
             "day_high": day_high, "day_low": day_low,
+            "days_incomplete": days_incomplete,
             "exceed_1std_pct": 100 * exceed_1std if exceed_1std is not None else None}
 
 
 def main() -> None:
     result = run()
-    print(f"{result['days_used']} Handelstage mit Midnight-Range-Daten.")
+    print(f"{result['days_used']} Handelstage mit vollstaendiger Midnight-Range.")
+    if result["days_incomplete"]:
+        n = len(result["days_incomplete"])
+        print(f"WARNUNG: {n} Tage wegen Luecken im 0:00-0:30-Fenster verworfen "
+              f"(yfinance liefert die ersten Minuten nach Mitternacht oft nicht). "
+              f"Betroffen: {', '.join(result['days_incomplete'][:5])}"
+              f"{' ...' if n > 5 else ''}")
+        if result["days_used"] < n:
+            print("         Es bleiben weniger gueltige als verworfene Tage — die Zahlen "
+                  "unten sind eine Stichprobe, keine Basisrate.")
     print("\n-- Waehrend London (1:00-5:00 NY) -- These: 'max. Manipulation bis -1 STD' --")
     report("London-Low unter Range-Tief", result["london_low"])
     report("London-High ueber Range-Hoch", result["london_high"])

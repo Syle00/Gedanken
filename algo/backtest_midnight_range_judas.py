@@ -31,7 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import load, at, fvgs  # noqa: E402
 from backtest_org_ce import find_days  # noqa: E402
-from backtest_midnight_range_std import session_range  # noqa: E402
+from backtest_midnight_range_std import session_range, window_gaps  # noqa: E402
 from backtest_common import write_result  # noqa: E402
 
 # (Label, Range-Fenster, Test-Fenster) -- alle drei per Rohquelle als eigene Opening Range
@@ -108,8 +108,16 @@ def compute_session(label: str, range_hm: tuple, range_end_hm: tuple,
                      test_start_hm: tuple, test_end_hm: tuple, use_fvg: bool = False) -> dict:
     low_results, high_results = [], []
     either_count = both_count = days_used = 0
+    days_incomplete = 0
     for day, path in find_days():
         bars = load(path)
+        # Luecken im Range-Fenster verwerfen den Tag -- sonst wird die Basiseinheit der
+        # STD-Rechnung aus zu wenigen Minuten gebildet und alle k-Werte sind aufgeblaeht.
+        # Trifft praktisch nur die Midnight-Fenster (yfinance liefert 0:00-0:08 fuer MNQ=F
+        # meist nicht, siehe window_gaps()); 7:00-7:30 und 13:30-14:00 sind sauber.
+        if window_gaps(bars, day, range_hm, range_end_hm):
+            days_incomplete += 1
+            continue
         rr = (fvg_range(bars, day, range_hm, range_end_hm) if use_fvg
               else session_range(bars, day, range_hm, range_end_hm))
         if rr is None:
@@ -129,13 +137,16 @@ def compute_session(label: str, range_hm: tuple, range_end_hm: tuple,
     window_label = f"{test_start_hm[0]:02d}:{test_start_hm[1]:02d}-{test_end_hm[0]:02d}:{test_end_hm[1]:02d}"
     return {"label": label, "range_label": range_label, "window_label": window_label,
             "use_fvg": use_fvg, "days_used": days_used, "low_results": low_results,
-            "high_results": high_results, "either_count": either_count, "both_count": both_count}
+            "high_results": high_results, "either_count": either_count, "both_count": both_count,
+            "days_incomplete": days_incomplete}
 
 
 def print_session(data: dict) -> None:
     print(f"\n{'=' * 70}\n{data['label']} (Range {data['range_label']}"
           f"{' , groesstes FVG darin' if data['use_fvg'] else ''}, Testfenster {data['window_label']}) "
-          f"-- {data['days_used']} Tage")
+          f"-- {data['days_used']} Tage"
+          + (f"  [WARNUNG: {data['days_incomplete']} Tage wegen Datenluecken im Range-Fenster "
+             f"verworfen]" if data.get("days_incomplete") else ""))
     report("Sellside (unter Range-Low)", data["low_results"], data["range_label"], data["window_label"])
     report("Buyside (ueber Range-High)", data["high_results"], data["range_label"], data["window_label"])
 

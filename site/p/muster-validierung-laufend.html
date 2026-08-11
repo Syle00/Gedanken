@@ -58,6 +58,7 @@
 <li><a href="#macro-fenster-expansion">Macro-Fenster-Expansion</a></li>
 <li><a href="#pro-tag">Pro Tag</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
+<li><a href="#1st-presented-fvg-wochenrelevanz-des-montags-offene-hypothese-stand-2026-08-11">1st Presented FVG — Wochenrelevanz des Montags (offene Hypothese, Stand 2026-08-11)</a></li>
 </ul>
 </div>
 </details>
@@ -471,7 +472,56 @@
 <li><a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a> — Detektoren, die diese Seite aggregiert</li>
 <li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>, <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>, <a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
 <li><code>algo/PLAN.md</code> — Code-Idee 1 (Backtest-Harness), diese Seite ist die erste Version</li>
-</ul></div>
+</ul>
+<h2 id="1st-presented-fvg-wochenrelevanz-des-montags-offene-hypothese-stand-2026-08-11">1st Presented FVG — Wochenrelevanz des Montags (offene Hypothese, Stand 2026-08-11)</h2>
+<p><strong>Behauptung (Jannes, aus ICT):</strong> 1.p FVGs sind besonders; insbesondere das 1.p FVG der
+<strong>Montags</strong>-NY-AM-Session bleibt die <strong>gesamte Handelswoche</strong> relevant und wird respektiert.
+Zugehoerige Definitionspraezisierung auf <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>: die
+komplette 3-Kerzen-Formation muss in der Session liegen (frueheste Position 9:30/9:31/9:32) —
+ein frueher gebildetes FVG bleibt ein <strong>normales</strong> FVG, es ist nur kein 1.p FVG.</p>
+<p>Geprueft von <code>algo/backtest_1p_fvg_woche.py</code> (MNQ, NY AM 9:30–11:00).</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>5m (2026-06-08..08-11)</th>
+<th>1m (2026-07-08..08-11)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(A) Touch am <strong>Folgetag</strong>, Mo vs. Di/Mi/Do</td>
+<td>56 % (5/9) vs. 50 % (11/22), p=1,00</td>
+<td>75 % (3/4) vs. 43 % (6/14), p=0,58</td>
+</tr>
+<tr>
+<td>(B) Montags-FVG <strong>irgendwann Di–Fr</strong> beruehrt</td>
+<td>78 % (7/9), C.E. ebenso</td>
+<td>100 % (4/4)</td>
+</tr>
+<tr>
+<td>(C) 1.p FVG vs. <strong>uebrige</strong> FVGs derselben Session</td>
+<td>52 % vs. 62 %, p=0,40</td>
+<td>50 % vs. 63 %, p=0,32</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stand: unentschieden, weder bestaetigt noch widerlegt.</strong> Kein Test wird signifikant, und mit
+9 bzw. 4 Montagen ist die Datenbasis fuer eine Aussage in beide Richtungen zu duenn.</p>
+<p>Zwei Beobachtungen, die beim Nachladen von Daten weiterzuverfolgen sind:</p>
+<ul>
+<li><strong>Fuer die These:</strong> Montags-FVGs liegen im Median <strong>weiter vom Tagesschluss entfernt</strong>
+  (5m: 214 vs. 176 Pkt; 1m: 284 vs. 183 Pkt) und werden trotzdem mindestens gleich oft
+  angelaufen. Bei gleicher Distanz waere die Rate also hoeher — genau das, was "wird
+  respektiert" bedeuten wuerde.</li>
+<li><strong>Gegen eine naive Lesart von (C):</strong> das 1.p FVG wird <em>seltener</em> beruehrt als spaetere FVGs
+  derselben Session — aber es liegt auch deutlich weiter weg (1m: 197 vs. 135 Pkt), weil der
+  Preis im Lauf der Session davonlaeuft. Der Unterschied ist damit plausibel durch die Distanz
+  erklaert und <strong>kein</strong> Beleg gegen die Besonderheit.</li>
+<li>Nebenbefund ohne Bezug zur These: das 1.p FVG des <strong>Donnerstags</strong> wird am Freitag auffallend
+  selten angelaufen (5m: 1/7). Eigene Pruefung wert, sobald mehr Wochen vorliegen.</li>
+</ul>
+<p>Wiederholen, sobald mehr als ~20 Montage in 1m vorliegen.</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/macro-datenbank-laufend.html">Macro-Datenbank (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a><span class="cat">Modelle</span></li><li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Muster-Validierung (laufend).md</code></footer>
 </article>

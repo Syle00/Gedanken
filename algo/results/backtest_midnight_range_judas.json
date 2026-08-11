@@ -1,28 +1,28 @@
 {
-  "generated_at": "2026-08-11T13:33:55.711644+00:00",
+  "generated_at": "2026-08-11T18:38:54.514518+00:00",
   "sessions": [
     {
       "label": "Midnight/London ORG",
-      "days_used": 42,
-      "either_pct": 33.333333333333336,
+      "days_used": 5,
+      "either_pct": 40.0,
       "both_pct": 0.0
     },
     {
       "label": "NY Pre-Session ORG",
-      "days_used": 42,
-      "either_pct": 47.61904761904762,
+      "days_used": 24,
+      "either_pct": 70.83333333333333,
       "both_pct": 0.0
     },
     {
       "label": "NY PM ORG",
-      "days_used": 42,
-      "either_pct": 50.0,
+      "days_used": 23,
+      "either_pct": 56.52173913043478,
       "both_pct": 0.0
     },
     {
       "label": "Midnight/London ORG -- groesstes FVG statt Kerzen-Range",
-      "days_used": 37,
-      "either_pct": 29.72972972972973,
+      "days_used": 5,
+      "either_pct": 40.0,
       "both_pct": 0.0
     }
   ]

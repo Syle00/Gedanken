@@ -32,7 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from tools.analyze_ohlc import DATA_DIR, at, fvgs, load  # noqa: E402
 
-from backtest_midnight_range_std import session_range  # noqa: E402
+from backtest_midnight_range_std import session_range, window_gaps  # noqa: E402
 
 STDS = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0]
 
@@ -69,9 +69,22 @@ def report(symbol: str, day) -> None:
     sess = [b for b in bars if at(day, 0, 0) <= b.t]
     if not sess:
         raise SystemExit(f"Keine Kerzen ab 0:00 NY am {day}.")
-    mor = session_range(bars, day, (0, 0), (0, 30))
+    gaps = window_gaps(bars, day, (0, 0), (0, 30))
+    if gaps:
+        raise SystemExit(
+            f"MOR am {day} nicht berechenbar: {len(gaps)} von 30 Minuten fehlen in den Daten\n"
+            f"  fehlende Minuten (Offset ab 0:00): {gaps}\n"
+            f"  {'Die 0:00-Kerze fehlt -- der Midnight Opening Price ist damit unbekannt.' if 0 in gaps else ''}\n"
+            f"  Ursache: yfinance liefert fuer MNQ=F die ersten Minuten nach Mitternacht NY\n"
+            f"  systematisch nicht (am 2026-08-11 gegen den Rohabruf verifiziert -- die Luecke\n"
+            f"  steckt in der Quelle, nicht in fetch_yfinance.py).\n"
+            f"  Ausweg: 1m-Export aus TradingView fuer diesen Tag nach raw/marktdaten/ legen.\n"
+            f"  Bewusst kein --force: eine aus 21 von 30 Minuten gerechnete Opening Range faellt\n"
+            f"  zu klein aus und blaeht jede STD-Ableitung auf. Falsche Zahlen sind hier\n"
+            f"  schaedlicher als gar keine.")
+    mor = session_range(bars, day, (0, 0), (0, 30), expect_complete=True)
     if not mor:
-        raise SystemExit(f"Keine Midnight Opening Range am {day} (Datenluecke 0:00-0:30).")
+        raise SystemExit(f"Keine Midnight Opening Range am {day} (Range <= 0).")
     rh, rl, rng = mor
     op = next(b.o for b in bars if b.t >= at(day, 0, 0))
 

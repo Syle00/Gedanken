@@ -100,3 +100,37 @@ Testet die verbreitete ICT-Behauptung "das C.E eines FVG/ORG wird meist erreicht
 - [[OHLC-Datenanalyse (Workflow)]] — Detektoren, die diese Seite aggregiert
 - [[Fair Value Gap (FVG)]], [[ORG (Opening Range Gap) & 1st Presented FVG]], [[CISD (Change in State of Delivery)]]
 - `algo/PLAN.md` — Code-Idee 1 (Backtest-Harness), diese Seite ist die erste Version
+
+## 1st Presented FVG — Wochenrelevanz des Montags (offene Hypothese, Stand 2026-08-11)
+
+**Behauptung (Jannes, aus ICT):** 1.p FVGs sind besonders; insbesondere das 1.p FVG der
+**Montags**-NY-AM-Session bleibt die **gesamte Handelswoche** relevant und wird respektiert.
+Zugehoerige Definitionspraezisierung auf [[ORG (Opening Range Gap) & 1st Presented FVG]]: die
+komplette 3-Kerzen-Formation muss in der Session liegen (frueheste Position 9:30/9:31/9:32) —
+ein frueher gebildetes FVG bleibt ein **normales** FVG, es ist nur kein 1.p FVG.
+
+Geprueft von `algo/backtest_1p_fvg_woche.py` (MNQ, NY AM 9:30–11:00).
+
+| Test | 5m (2026-06-08..08-11) | 1m (2026-07-08..08-11) |
+|---|---|---|
+| (A) Touch am **Folgetag**, Mo vs. Di/Mi/Do | 56 % (5/9) vs. 50 % (11/22), p=1,00 | 75 % (3/4) vs. 43 % (6/14), p=0,58 |
+| (B) Montags-FVG **irgendwann Di–Fr** beruehrt | 78 % (7/9), C.E. ebenso | 100 % (4/4) |
+| (C) 1.p FVG vs. **uebrige** FVGs derselben Session | 52 % vs. 62 %, p=0,40 | 50 % vs. 63 %, p=0,32 |
+
+**Stand: unentschieden, weder bestaetigt noch widerlegt.** Kein Test wird signifikant, und mit
+9 bzw. 4 Montagen ist die Datenbasis fuer eine Aussage in beide Richtungen zu duenn.
+
+Zwei Beobachtungen, die beim Nachladen von Daten weiterzuverfolgen sind:
+
+- **Fuer die These:** Montags-FVGs liegen im Median **weiter vom Tagesschluss entfernt**
+  (5m: 214 vs. 176 Pkt; 1m: 284 vs. 183 Pkt) und werden trotzdem mindestens gleich oft
+  angelaufen. Bei gleicher Distanz waere die Rate also hoeher — genau das, was "wird
+  respektiert" bedeuten wuerde.
+- **Gegen eine naive Lesart von (C):** das 1.p FVG wird *seltener* beruehrt als spaetere FVGs
+  derselben Session — aber es liegt auch deutlich weiter weg (1m: 197 vs. 135 Pkt), weil der
+  Preis im Lauf der Session davonlaeuft. Der Unterschied ist damit plausibel durch die Distanz
+  erklaert und **kein** Beleg gegen die Besonderheit.
+- Nebenbefund ohne Bezug zur These: das 1.p FVG des **Donnerstags** wird am Freitag auffallend
+  selten angelaufen (5m: 1/7). Eigene Pruefung wert, sobald mehr Wochen vorliegen.
+
+Wiederholen, sobald mehr als ~20 Montage in 1m vorliegen.

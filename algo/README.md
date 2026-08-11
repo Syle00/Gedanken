@@ -419,3 +419,30 @@ Vorhersagemerkmal verwendbar.
 (FRED-API-Key) ist korrekt gitignored und wurde nie committet. Naechster Scan: woechentlich
 oder sobald eine echte IBKR-Broker-Anbindung (Live-Keys) dazukommt -- taeglich waere aktuell
 unnoetiger Aufwand ohne Live-Handel.
+
+## `backtest_1p_fvg_woche.py` -- Wochenrelevanz des 1st Presented FVG
+
+**Was:** Prueft die ICT-Behauptung, dass das 1.p FVG der Montags-NY-AM-Session die ganze Woche
+relevant bleibt, und ob das erste FVG einer Session ueberhaupt besonders ist.
+
+**Wie:** Drei getrennte Tests, alle auf der 1.p-Definition "komplette 3-Kerzen-Formation
+innerhalb 9:30-11:00" (`am_fvgs()`/`first_presented_fvg()`):
+
+- **(A)** Touch am unmittelbaren Folgetag, Montag gegen Di/Mi/Do. Der Vergleich muss auf einen
+  Tag normiert sein, sonst haette das Montags-FVG vier Resttage Zeit und das Donnerstags-FVG
+  einen -- der scheinbare Vorsprung waere reine Exposure.
+- **(B)** Deskriptiv: wird das Montags-FVG irgendwann Di-Fr beruehrt, an welchem Tag zuerst.
+  Das ist die woertliche Behauptung, aber ohne Kontrollgruppe und darum allein nicht belastbar.
+- **(C)** 1.p FVG gegen die uebrigen FVGs derselben Session (gleicher Tag, gleiche Exposure).
+
+**Warum die Distanz mitlaeuft:** ein FVG dicht am Preis wird fast zwangslaeufig beruehrt. Ohne
+den Median-Abstand Schlusskurs->Zone waere (C) systematisch unfair zuungunsten des 1.p FVG, das
+als frueheste Zone am weitesten weg liegt. Fisher exact statt Mann-Whitney, weil die Kennzahl
+binaer ist (beruehrt ja/nein).
+
+**Bekannte Grenzen:** Datenbasis klein (5m: 9 Montage, 1m: 4) -- kein Test wird signifikant, das
+Ergebnis ist unentschieden, nicht negativ. FVGs desselben Tages sind nicht unabhaengig
+(Clustering), der p-Wert in (C) ist dadurch zu optimistisch. Tagesdateien ueberlappen sich
+(Globex 18:00-17:00), darum werden Bars ueber `b.t.date() == d` eindeutig einem Kalendertag
+zugeordnet. Eigener `--selfcheck` (nicht in `selfcheck.py` eingehaengt, wie die anderen
+Thesenskripte).

@@ -80,6 +80,10 @@ def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
     # Session. Darum das Fenster vor der Detektion schneiden statt danach auf g["t"]
     # (= mittlere Kerze) zu filtern. Siehe wiki/concepts/ORG (Opening Range Gap) &
     # 1st Presented FVG.md ("fuer die 9:30-Session zaehlt das 1.p FVG ab 9:31").
+    #
+    # Wichtig (Jannes, 2026-08-11): ein randueberlappendes FVG ist NICHT ungueltig -- es
+    # bleibt ein normales FVG/PD Array. Es ist nur kein *1st Presented* FVG, und genau
+    # darauf baut das Silver-Bullet-Setup hier auf.
     win_bars = [b for b in hist if b.t >= win_start]
     if len(win_bars) < 3:
         return None

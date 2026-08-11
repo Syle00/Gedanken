@@ -2022,3 +2022,10 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md
 - Bugfix daraus: algo/rules.py::plan_trade nahm randueberlappende FVGs als "erstes im Fenster" -- 39,4 % der Silver-Bullet-Fenster betroffen, 11 mit Richtungswechsel; Details in algo/PLAN.md
 - Neu: algo/mor_levels.py (MOR-Tagesreadout: Open/Range/Quarters/STD/first presentation). Auswertung 11.08.: weder Tages-High (k=1,72, Trefferabstand schlechter als Zufall) noch Tages-Low (k=14,03) wurden von einem STD-Level festgelegt; MOR mit 18,75 Pkt zu eng, um zu tragen. Wiki-These "-1 STD als Manipulationsgrenze in London" gegengeprueft: reisst an 52,3 % der Tage (n=44), also kein Bias-Signal.
+
+## [2026-08-11] synthesis | 1.p FVG -- Wochenrelevanz des Montags geprueft
+- Nutzerpraezisierung: ein vor Sessionbeginn gebildetes FVG bleibt ein normales FVG, nur kein 1.p FVG
+- Neu: algo/backtest_1p_fvg_woche.py (drei Tests: Folgetag-Vergleich Mo vs. Di/Mi/Do, Montag ueber die Restwoche, 1.p gegen uebrige FVGs derselben Session)
+- Ergebnis: unentschieden -- kein Test signifikant (p=1,00 / 0,58 / 0,40 / 0,32), 9 bzw. 4 Montage zu wenig. Einziger Punkt fuer die These: Montags-FVGs liegen weiter weg und werden trotzdem gleich oft angelaufen.
+- Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md (offene Hypothese), wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md
+- Aktualisiert: algo/README.md (Modulabschnitt), algo/PLAN.md (Log mit Zahlen)
