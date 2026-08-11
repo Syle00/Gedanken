@@ -1907,3 +1907,17 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für die 5 IDs angelegt.
 - Stand: 48 von 61 Videos erledigt, 13 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 11/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt, alle 5 Downloads liefen fehlerfrei.
+- Batch 11 (5 Videos): VODMCdDnMs8 (Jan 25 2024, 3:04), rn32EntwGCs (Jan 23 2024, 5:01,
+  Final-Hour-Macro 14:50-15:10), FBsrQ0OunuA (Jan 22 2024, 5:01, Breakaway Gap + Turtle Soup),
+  xGn4UxJiz9M (Jan 17 2024, 11:40, MOC Macro), ylzrm3dZGWw (Jan 9 2024, 8:08, 10:50-11:10
+  Macro/Previous Day High). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2024-01-*.md`-Sourceseiten.
+- Keine Konzeptseiten-Erweiterung nötig — alle beobachteten Muster (Fibonacci+FVG, Breakaway
+  Gap+Turtle Soup, MOC/Final-Hour/10:50-11:10-Macro) waren bereits dokumentiert; dieser Batch
+  liefert primär weitere Primärquellen-Bestätigungen (dritte Bestätigung für 10:50-11:10-Fenster).
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 53 von 61 Videos erledigt, 8 verbleibend (letzte Charge).

@@ -343,14 +343,20 @@ def displacements(bars: list[Bar], lookback: int = 20, factor: float = 2.0,
 
 
 def fvgs(bars: list[Bar], min_size: float = 0.0):
-    """3-Kerzen-FVG. Fuellstand wird ueber alle Folgekerzen geprueft."""
+    """3-Kerzen-FVG. Liegt an einer Seite eine VII (Close/Open-Luecke zur mittleren Kerze),
+    wird deren aeusserer Rand statt des Wicks als Grenze genutzt -- siehe
+    wiki/concepts/Volume Imbalance (VII).md. Fuellstand wird ueber alle Folgekerzen geprueft."""
     out = []
     for i in range(1, len(bars) - 1):
-        a, c = bars[i - 1], bars[i + 1]
+        a, m, c = bars[i - 1], bars[i], bars[i + 1]
         if c.l > a.h and c.l - a.h > min_size:
-            lo, hi, side = a.h, c.l, "bullish"
+            side = "bullish"
+            lo = a.c if m.o > a.c else a.h
+            hi = c.o if c.o > m.c else c.l
         elif c.h < a.l and a.l - c.h > min_size:
-            lo, hi, side = c.h, a.l, "bearish"
+            side = "bearish"
+            lo = c.o if c.o < m.c else c.h
+            hi = a.c if m.o < a.c else a.l
         else:
             continue
         ce = (lo + hi) / 2

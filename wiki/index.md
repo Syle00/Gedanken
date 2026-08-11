@@ -285,6 +285,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2024-02-12 - Sometimes I Let Them Pass Me By No Trade (Source)]] — bewusst nicht gehandeltes Setup
 - [[2024-02-01 - NQ Futures Live Execution Pre-Opening Bell (Source)]] — "Pyramided"-Terminologie live bestätigt (28 Min, Stichprobe)
 - [[2024-01-30 - Not To Be Crude It Works Here Too (Source)]] — Cross-Market-Bestätigung auf Light Crude Oil
+- [[2024-01-25 - Algorithmic High Frequency Trading The Opposite Direction (Source)]] — FVG + Fibonacci kombiniert
+- [[2024-01-23 - NQ Final Hour 2-50pm To 3-10pm EST Macro (Source)]] — Cross-Session-Level-Kontinuität
+- [[2024-01-22 - NQ Break-Away Gap Entry Turtle Soup Short (Source)]] — Breakaway Gap + Turtle Soup kombiniert
+- [[2024-01-17 - ICT Final Hour MOC Macro NQ Live Execution (Source)]] — MOC-Macro-Fenster (12 Min, Stichprobe)
+- [[2024-01-09 - NQ Live Execution 10-50-11-10 Algorithmic Macro Targeting Previous Day High (Source)]] — dritte Bestätigung 10:50-11:10 Macro
 
 ### MentorShip 2025
 
