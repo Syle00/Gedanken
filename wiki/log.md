@@ -2015,3 +2015,9 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Aktualisiert: algo/PLAN.md (Log-Eintrag mit Zahlen), algo/README.md (Modulabschnitt 1m-Thesenskripte)
 - Datenlage aktiv gemeldet: MNQ-1m endet 2026-08-07, fuer 10.08./11.08. liegen nur Forex-Dateien in raw/marktdaten/
 - Korrektur 11.08.: Bias war Daily-Bias und ist aufgegangen (Daily Candle −152,25 Pkt baerish, bias_korrekt: ja). Der Move kam im Macro 10:50-11:10, neun Minuten nach dem Ausstieg um 10:56 — 223 Pkt in Bias-Richtung. Neuer Fehlerkatalog-Eintrag P12 „Fenster vor Ablauf verlassen"; Bias-Vokabular (Daily/Weekly statt Session) in references/fields.md verankert.
+
+## [2026-08-11] query | 1st Presented FVG der NY AM Session (11.08.)
+- Frage: wann bildete sich heute das 1.p FVG der NY AM Session
+- Nutzerkorrektur uebernommen: die 3-Kerzen-Formation muss KOMPLETT in der Session liegen, frueheste Position in NY AM ist 09:30/09:31/09:32 (deckt sich mit der bestehenden Wiki-Regel "zaehlt ab 9:31" auf [[ORG (Opening Range Gap) & 1st Presented FVG]], dort bisher nur fuer die 9:30-Session formuliert -- jetzt als sessionuebergreifende Regel praezisiert)
+- Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md
+- Bugfix daraus: algo/rules.py::plan_trade nahm randueberlappende FVGs als "erstes im Fenster" -- 39,4 % der Silver-Bullet-Fenster betroffen, 11 mit Richtungswechsel; Details in algo/PLAN.md

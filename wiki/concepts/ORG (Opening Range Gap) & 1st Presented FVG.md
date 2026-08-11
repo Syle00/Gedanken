@@ -93,6 +93,14 @@ verwendet werden — laut ICT seine eigene Einstiegsmethode aus den 1990ern, ein
   Referenzpunkt genutzt (z.B. am Dienstag direkt wieder angelaufen).
 - **Zeitliche Grenze**: für die 9:30-Session zählt das 1.p FVG **ab 9:31**, da die 9:30-Candle
   selbst mitzählt ([[SMC Trading Opening Range Gaps (Source)]]).
+- **Verallgemeinert (2026-08-11, Jannes)**: das gilt für **jede** Session, nicht nur für 9:30 —
+  die **komplette 3-Kerzen-Formation** muss innerhalb des Session-Fensters liegen. Die früheste
+  mögliche Formation in NY AM ist damit **9:30 / 9:31 / 9:32**, das FVG trägt die Zeit der
+  mittleren Kerze (9:31) und ist mit dem Close von 9:32 bestätigt. Ein FVG, dessen mittlere Kerze
+  auf dem Session-Start liegt, beginnt eine Kerze davor und zählt **nicht**.
+  > Dieser Randfall war in `algo/rules.py::plan_trade` falsch implementiert (Filter auf die
+  > mittlere statt die erste Kerze) und betraf **39,4 % aller Silver-Bullet-Fenster**, davon 11
+  > mit gekippter Handelsrichtung — siehe `algo/PLAN.md`, Eintrag 2026-08-11.
 
 ![[image 40.png]]
 *1.p FVG am Montag: für die gesamte Handelswoche relevant.*

@@ -75,7 +75,15 @@ def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
     if len(hist) < 3:
         return None
 
-    window_fvgs = [g for g in fvgs(hist) if win_start <= g["t"] <= when]
+    # Die 3-Kerzen-Formation muss KOMPLETT im Fenster liegen: ein FVG, dessen mittlere
+    # Kerze exakt auf win_start faellt, beginnt eine Kerze davor -- also ausserhalb der
+    # Session. Darum das Fenster vor der Detektion schneiden statt danach auf g["t"]
+    # (= mittlere Kerze) zu filtern. Siehe wiki/concepts/ORG (Opening Range Gap) &
+    # 1st Presented FVG.md ("fuer die 9:30-Session zaehlt das 1.p FVG ab 9:31").
+    win_bars = [b for b in hist if b.t >= win_start]
+    if len(win_bars) < 3:
+        return None
+    window_fvgs = fvgs(win_bars)
     if not window_fvgs:
         return None
     fvg = window_fvgs[0]  # erstes FVG im Fenster
@@ -135,6 +143,30 @@ def demo() -> None:
 
     assert plan_trade(bars, at(day, 9, 0)) is None  # ausserhalb jedes Fensters
     assert plan_trade(bars, at(day, 14, 30)) is None  # PM-Fenster, aber kein FVG darin
+
+    # Grenzfall Session-Rand: ein FVG, dessen MITTLERE Kerze exakt auf den Fensterstart
+    # (10:00) faellt, beginnt eine Kerze davor (9:55) und liegt damit nicht komplett im
+    # Fenster -- es zaehlt nicht als erstes FVG der Session. Genommen werden muss das
+    # spaetere, vollstaendig innenliegende FVG (10:10/10:15/10:20, C.E 103.5).
+    rand = [
+        bar(9, 20, 95, 96, 94, 95.5),
+        bar(9, 25, 95.5, 96, 95, 95.5),
+        bar(9, 30, 95.5, 130, 95, 96),        # Spike -> unberuehrte Buyside 130
+        bar(9, 35, 96, 97, 95.5, 96.5),
+        bar(9, 40, 96.5, 97, 96, 96.5),
+        bar(9, 45, 96.5, 97.5, 96, 97),
+        bar(9, 50, 97, 97.5, 96.5, 97),
+        bar(9, 55, 97, 98, 96.5, 97.5),       # a1: h=98  (VOR dem Fenster)
+        bar(10, 0, 97.5, 101, 97.4, 100),     # b1: mittlere Kerze == win_start
+        bar(10, 5, 100, 102, 99, 101),        # c1: l=99 > 98 -> FVG, aber randueberlappend
+        bar(10, 10, 101, 103, 100.5, 102),    # a2: h=103
+        bar(10, 15, 102, 106, 101.5, 105),    # b2
+        bar(10, 20, 105, 108, 104, 107),      # c2: l=104 > 103 -> erstes gueltiges FVG
+    ]
+    s2 = plan_trade(rand, at(day, 10, 20))
+    assert s2 is not None
+    assert s2.entry == (103 + 104) / 2, (
+        f"randueberlappendes FVG genommen (C.E {s2.entry}) statt des innenliegenden 103.5")
 
     print("plan_trade demo ok:", setup)
 

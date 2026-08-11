@@ -156,6 +156,7 @@
 </li>
 <li><a href="#2026-08-11-synthesis-nfp-wochen-these-erster-backtest">[2026-08-11] synthesis | NFP-Wochen-These erster Backtest</a></li>
 <li><a href="#2026-08-11-query-ny-silver-bullet-tapereading-these-move-lief-vor-meinem-fenster">[2026-08-11] query | NY Silver Bullet Tapereading + These "Move lief vor meinem Fenster"</a></li>
+<li><a href="#2026-08-11-query-1st-presented-fvg-der-ny-am-session-1108">[2026-08-11] query | 1st Presented FVG der NY AM Session (11.08.)</a></li>
 </ul>
 </div>
 </details>
@@ -2277,6 +2278,14 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Neu: algo/backtest_open_drive_vs_sb.py — testet Jannes' These, dass ein starker RTH-Open-Drive die SB-Stunde leerlaufen laesst. Ergebnis: kein Signal (p=0,33 / 0,69 bei n=21), These unentschieden statt widerlegt.</li>
 <li>Aktualisiert: algo/PLAN.md (Log-Eintrag mit Zahlen), algo/README.md (Modulabschnitt 1m-Thesenskripte)</li>
 <li>Datenlage aktiv gemeldet: MNQ-1m endet 2026-08-07, fuer 10.08./11.08. liegen nur Forex-Dateien in raw/marktdaten/</li>
+<li>Korrektur 11.08.: Bias war Daily-Bias und ist aufgegangen (Daily Candle −152,25 Pkt baerish, bias_korrekt: ja). Der Move kam im Macro 10:50-11:10, neun Minuten nach dem Ausstieg um 10:56 — 223 Pkt in Bias-Richtung. Neuer Fehlerkatalog-Eintrag P12 „Fenster vor Ablauf verlassen"; Bias-Vokabular (Daily/Weekly statt Session) in references/fields.md verankert.</li>
+</ul>
+<h2 id="2026-08-11-query-1st-presented-fvg-der-ny-am-session-1108">[2026-08-11] query | 1st Presented FVG der NY AM Session (11.08.)</h2>
+<ul>
+<li>Frage: wann bildete sich heute das 1.p FVG der NY AM Session</li>
+<li>Nutzerkorrektur uebernommen: die 3-Kerzen-Formation muss KOMPLETT in der Session liegen, frueheste Position in NY AM ist 09:30/09:31/09:32 (deckt sich mit der bestehenden Wiki-Regel "zaehlt ab 9:31" auf <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>, dort bisher nur fuer die 9:30-Session formuliert -- jetzt als sessionuebergreifende Regel praezisiert)</li>
+<li>Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md</li>
+<li>Bugfix daraus: algo/rules.py::plan_trade nahm randueberlappende FVGs als "erstes im Fenster" -- 39,4 % der Silver-Bullet-Fenster betroffen, 11 mit Richtungswechsel; Details in algo/PLAN.md</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
