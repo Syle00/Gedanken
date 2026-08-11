@@ -1745,3 +1745,21 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
   Macro-Trades (2-7) — noch nicht über mehrere Videos verifiziert, im Auge behalten.
 - Nächste Charge: `/loop`-Wakeup fährt fort mit den nächsten 2-3 Videos aus derselben Playlist
   (58 verbleibend), gleiche Vorgehensweise.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 2/61, chart-only ohne Voiceover)
+- Fortsetzung des Batch-Ingests (siehe vorheriger Eintrag), Tempo auf Nutzerwunsch erhöht
+  (5 Videos statt 2-3 pro Durchgang) — alle 5 Downloads liefen ohne Drosselungs-Anzeichen.
+- Batch 2 (5 Videos): hI3JEJcRtSs (Sep 11 2024, NQ Long/MOC Macro), rHAWHgfyyHs (Jan 12 2023,
+  ES Long — Chart zeigt tats. NQH2023, vermutlich Begleit-Chart), uByH6V7z9Qw (Jan 12 2023,
+  ES Short/Last Hour Setup), bFVu1XHa2Ls (Jan 17 2023, ES Short), 0Z6EFk2bHfA (Feb 1 2023,
+  ES Short). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-*`/`2024-*.md`-Sourceseiten (siehe
+  `wiki/index.md` → ICT Executions).
+- Seiten erweitert: `wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md` (neuer
+  Abschnitt "Pyramiding als Gegenstück" — Kontrakt-Aufstockung statt nur -Reduzierung, plus
+  FVG-interne und NWOG-nahe Partial-Beispiele).
+- Neue Primärquellen-Bestätigung: MOC-Macro-Fenster 15:15-15:45 ET direkt aus Chart-Annotation
+  (deckt sich mit bestehender `algo/macro_db.py`-Regel).
+- Assets: 7 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt (Skip-Erkennung künftiger Loop-Durchläufe).
+- Stand: 8 von 61 Videos erledigt, 53 verbleibend.

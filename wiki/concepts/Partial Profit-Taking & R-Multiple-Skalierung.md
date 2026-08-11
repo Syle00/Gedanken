@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, trade-management]
 created: 2026-08-06
 updated: 2026-08-11
-sources: ["[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)]]", "[[2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]"]
+sources: ["[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)]]", "[[2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]", "[[2024-09-11 - ICT Executions September 11, 2024 NQ Long MOC Macro (Source)]]", "[[2023-01-12 - ICT Executions January 12, 2023 ES Short Last Hour Setup (Source)]]", "[[2023-02-01 - ICT Executions February 1, 2023 ES Short (Source)]]"]
 ---
 
 # Partial Profit-Taking & R-Multiple-Skalierung
@@ -76,6 +76,22 @@ Aus der chart-only [[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Sourc
   bei den Macro-Setups — offene Hypothese, dass Silver-Bullet-Entries hier mit höherer Konfidenz
   (mehr Kontrakten) gehandelt werden als reine Macro-Fenster-Entries; noch nicht über mehrere
   Videos verifiziert.
+
+## Pyramiding als Gegenstück (ICT Executions, Batch 2)
+
+Aus [[2024-09-11 - ICT Executions September 11, 2024 NQ Long MOC Macro (Source)]]: statt Kontrakte
+zu reduzieren, wird hier **in eine bestätigte Trendrichtung hinein aufgestockt** — 3 Adds während
+des MOC-Macro-Fensters (10 → 20 → 30 → 40 Kontrakte), Buchgewinn wächst auf +60.050 USD. Zeigt,
+dass die R-Skalierungslogik in beide Richtungen gilt: reduzieren bei erreichtem Ziel, aufstocken
+bei bestätigter Prämisse — nicht nur eine der beiden Varianten ist "die" ICT-Methode.
+
+Zwei weitere Partial-Beispiele aus demselben Batch:
+- [[2023-01-12 - ICT Executions January 12, 2023 ES Short Last Hour Setup (Source)]]: Partial
+  explizit **innerhalb** der Ziel-FVG genommen ("1st Partial Profit In This FVG") — die FVG selbst
+  ist der Skalierungspunkt, nicht ein davon unabhängiges Punkteziel.
+- [[2023-02-01 - ICT Executions February 1, 2023 ES Short (Source)]]: Partial-Level liegt
+  **unterhalb** einer New Week Opening Gap-Range ("Partial Opportunity Here"), nicht am
+  NWOG-Rand selbst.
 
 ## Bezug zum Reward-to-Risk-Modell
 

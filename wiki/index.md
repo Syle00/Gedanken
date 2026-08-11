@@ -240,6 +240,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)]] — Lunch-Macro-Short, FVG-Entry, gestaffelte Partials, Ziel an Weekly BSL C.E.
 - [[2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source)]] — Macro-Long, Entry an +IFVG-CE-Linie, 1/Rest-Partial-Split
 - [[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]] — AM-Silver-Bullet, 18-Kontrakt-Größe
+- [[2024-09-11 - ICT Executions September 11, 2024 NQ Long MOC Macro (Source)]] — Pyramiding im 15:15-15:45-MOC-Fenster, OB-Entry
+- [[2023-01-12 - ICT Executions January 12, 2023 ES Long (Source)]] — Lunch-Macro-Stop-Run-Prognose vor Eintritt
+- [[2023-01-12 - ICT Executions January 12, 2023 ES Short Last Hour Setup (Source)]] — Partial exakt innerhalb der Ziel-FVG
+- [[2023-01-17 - ICT Executions January 17, 2023 ES Short (Source)]] — Fake-Bull-Flag-Erkennung während laufendem Short
+- [[2023-02-01 - ICT Executions February 1, 2023 ES Short (Source)]] — NWOG als aktive Handelsrange, Partial darunter
 
 ### MentorShip 2025
 
