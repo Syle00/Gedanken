@@ -2014,3 +2014,4 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Neu: algo/backtest_open_drive_vs_sb.py — testet Jannes' These, dass ein starker RTH-Open-Drive die SB-Stunde leerlaufen laesst. Ergebnis: kein Signal (p=0,33 / 0,69 bei n=21), These unentschieden statt widerlegt.
 - Aktualisiert: algo/PLAN.md (Log-Eintrag mit Zahlen), algo/README.md (Modulabschnitt 1m-Thesenskripte)
 - Datenlage aktiv gemeldet: MNQ-1m endet 2026-08-07, fuer 10.08./11.08. liegen nur Forex-Dateien in raw/marktdaten/
+- Korrektur 11.08.: Bias war Daily-Bias und ist aufgegangen (Daily Candle −152,25 Pkt baerish, bias_korrekt: ja). Der Move kam im Macro 10:50-11:10, neun Minuten nach dem Ausstieg um 10:56 — 223 Pkt in Bias-Richtung. Neuer Fehlerkatalog-Eintrag P12 „Fenster vor Ablauf verlassen"; Bias-Vokabular (Daily/Weekly statt Session) in references/fields.md verankert.

@@ -13,6 +13,7 @@ typ: tape-reading
 modus: live
 kw: 2026-W33
 wochentag: Dienstag
+bias_korrekt: ja
 modell: "Silver Bullet"
 liquidity_ziel: "kein eindeutiges Ziel definiert — im Fenster zwischen Sellside 29 448,75 (15m, als 'zu perfekt' verworfen) und Buyside im 15m hin- und hergewechselt"
 checks_erfuellt: 4
@@ -266,6 +267,28 @@ fehler: [S05, S13, S01]
 - **10:45** — „5min bis zum naechstem Macro" (10:50-11:10).
 - **10:56** — Preis 29 796, zurueck im 1st Presented FVG von Montag. „Das will ich nicht sehen ich bin raus / kein Trade wirklich schade sehr schwierige Priceaction in meinem Zeitfenster zuvor / gab es gute Bewegung aber konnte erst ab 16Uhr aktiv was machen ... Icj fuehle mich schlecht / obwohl kein Los da ist aber ich wieder nichts gecatched habe bzw. mein Bias wieder falsch war / fuck man"
 
+## Was nach dem Ausstieg geschah (aus `raw/marktdaten/`, nachgeladen 11.08.)
+
+Der Bias war **richtig** — die Daily Candle vom 11.08. schloss baerish: O 29 764,25 → C 29 612,00,
+**−152,25 Punkte**, Tagestief 29 573,00 (Stand des Nachlads, Settlement noch offen). `bias_korrekt: ja`.
+
+Und der Move, den er handeln wollte, kam — im **Macro 10:50-11:10**, neun Minuten nach seinem Ausstieg:
+
+| Zeit (NY) | Ereignis |
+|---|---|
+| 10:45 | er notiert selbst „5min bis zum naechstem Macro" |
+| 10:52 | Hoch der zweiten Tageshälfte bei **29 805,00** |
+| 10:56 | **Ausstieg** bei 29 796 — „Das will ich nicht sehen ich bin raus" |
+| 11:05-11:09 | Abverkauf 29 777 → 29 712, **65 Punkte in vier Minuten**, im Macro |
+| 11:00-12:00 | Netto **−114,25** Pkt, dir 0,85 — die saubere gerichtete Bewegung des Tages |
+| danach | Tagestief 29 573 — **223 Punkte unter seinem Ausstiegskurs** |
+
+Damit ist die Bewertung dieses Tages eine andere: nicht „Bias falsch, Stunde gab nichts her",
+sondern **Bias richtig, Setup-Disziplin richtig, Ausdauer neun Minuten zu kurz.** Die Ungeduld
+um 10:27 („warum verbringt er so viel zeit hier?? Das dauert zu lang ...") war das Vorzeichen;
+der Ausstieg um 10:56 hat sie ausgeführt — genau vor dem Fenster, das er 11 Minuten vorher
+selbst angekündigt hatte.
+
 ## Gefühlslage
 
 - **Vorher:** fokussiert
@@ -279,8 +302,9 @@ fehler: [S05, S13, S01]
 **Belegt:**
 
 - **S05** — Kein DOL im gesamten Fenster. Seine eigenen Worte um 10:09: „Ich habe kein eindeutiges Ziel ich switche wieder gin und her". Vorbereitet war das um 09:51, als er die einzige klare Sellside (29 448,75) als „zu perfekt" selbst verworfen hat, ohne ein Ersatzziel zu setzen. Kein Geldverlust, weil nicht gehandelt — aber es ist die Ursache der 80 Minuten Hin und Her.
-- **S13** — Macro-Expansion 09:50-10:10 fand statt, aber gegen den Bias (29 682 -> 29 784). Fuer ein Short-Setup damit kein erfuellter Punkt, sondern ein Gegensignal — um 10:06 selbst notiert: „Macro spoolt in eine Richtung gerade Hoch".
-- **S01** — Im Fenster 10:00-11:00 kein Displacement in Bias-Richtung. Das einzige Displacement des Vormittags lag um 09:30, also vor dem Fenster. Um 10:27 selbst bemerkt: „warum verbringt er so viel zeit hier?? Das dauert zu lang".
+- **S13** — Die Macro-Expansion 09:50-10:10 lief nach oben (29 682 → 29 784), also gegen die Trade-Richtung. Im Rückblick war das der Retracement ins Premium vor dem eigentlichen Move, nicht ein Bias-Bruch — die Daily Candle schloss baerish. Für sein Short-Setup war der Punkt in diesem Fenster trotzdem nicht erfüllt.
+- **S01** — Im Fenster 10:00-11:00 kein Displacement in Bias-Richtung. Das einzige Displacement des Vormittags lag um 09:30, also vor dem Fenster. Um 10:27 selbst bemerkt: „warum verbringt er so viel zeit hier?? Das dauert zu lang". Das Displacement in seiner Richtung kam um 11:05-11:09 — im nächsten Macro, nach seinem Ausstieg.
+- **P12** — Fenster vor Ablauf verlassen. Ausstieg 10:56, obwohl er um 10:45 selbst „5min bis zum naechstem Macro" (10:50-11:10) notiert hatte. Genau in diesem Macro kam der Move: 65 Punkte in vier Minuten, insgesamt 223 Punkte in Bias-Richtung unter seinen Ausstiegskurs. Kein Geldverlust, aber der teuerste Nicht-Trade des Tages — und ein Muster, das ab jetzt gezählt wird.
 
 ## Was gut lief
 
