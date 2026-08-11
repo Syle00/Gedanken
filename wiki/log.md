@@ -1852,3 +1852,20 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für die 5 IDs angelegt.
 - Stand: 33 von 61 Videos erledigt, 28 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 8/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt, alle 5 Downloads liefen fehlerfrei (ein Video,
+  CRE7Pmch5G0, war mit 16 MB/11:34 Min deutlich größer als der Rest, aber ohne Fehler).
+- Batch 8 (5 Videos): ER7V8PoK_nA (Oct 13 2023, NQ Short), RULEloNVbEk (Oct 20 2023, NQ
+  Short/2nd Stage Redistribution), O_NG144r6e8 (Oct 23 2023, NQ Long/Michael Myers Mode),
+  TxKhUPONXk4 (Oct 24 2023, NQ Short/Pre-Opening Bell Antics), CRE7Pmch5G0 (Jun 10 2024, NQ
+  Lunch Macro, 11:34 Min — deutlich länger als üblich, nur stichprobenartig statt vollständig
+  per Frame geprüft). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-10-*`/`2024-06-10*.md`-Sourceseiten.
+- Neue Begriffe (noch nicht als eigene Konzeptseite, nur vermerkt): "2nd Stage Redistribution"
+  (verlinkt zu [[Accumulation & Reaccumulation Model]]), "Volume Imbalance" kombiniert mit IFVG
+  in derselben Zone. Pyramiding-Beispiel (40 Kontrakte) auch außerhalb offizieller RTH-Session
+  (vor Opening Bell) bestätigt.
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 38 von 61 Videos erledigt, 23 verbleibend.

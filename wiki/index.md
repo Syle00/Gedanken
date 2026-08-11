@@ -270,6 +270,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2023-09-21 - ICT Executions September 21, 2023 NQ Long (Source)]] — Post-Lunch-Fortsetzungsthese
 - [[2023-09-29 - ICT Executions September 29, 2023 NQ Short (Source)]] — Pyramiding mit zwischenzeitlichem Buchverlust
 - [[2023-10-10 - ICT Executions October 10, 2023 NQ Long (Source)]] — SL-Regel "Stop Loss Under IFVG"
+- [[2023-10-13 - ICT Executions October 13, 2023 NQ Short (Source)]] — Standard-OB-Short
+- [[2023-10-20 - ICT Executions October 20, 2023 NQ Short 2nd Stage Redistribution (Source)]] — "2nd Stage Redistribution"-Begriff
+- [[2023-10-23 - ICT Executions October 23, 2023 NQ Long Michael Myers Mode (Source)]] — Standard-Long-Entry
+- [[2023-10-24 - ICT Executions October 24, 2023 NQ Short Pre-Opening Bell Antics (Source)]] — 40er-Pyramiding vor Opening Bell, Volume Imbalance + IFVG kombiniert
+- [[2024-06-10 - NQ Lunch Macro 06-10-2024 (Source)]] — Vollständige Live-Lunch-Session (11:34, stichprobenartig geprüft)
 
 ### MentorShip 2025
 
