@@ -1869,3 +1869,24 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für die 5 IDs angelegt.
 - Stand: 38 von 61 Videos erledigt, 23 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 9/61, chart-only ohne Voiceover)
+- Playlist wechselt ab hier zu deutlich längeren Live-Aufzeichnungen (8-50 Min statt ~2 Min) —
+  ab diesem Batch nur noch Stichprobenauswertung statt vollständiger Frame-Prüfung, in jeder
+  Sourceseite transparent vermerkt. Ein Download (-eFpwS3qU5w) schlug mit HTTP 403 fehl, Retry
+  mit Format-Fallback sofort erfolgreich — weiterhin kein IP-Ban-Muster.
+- Batch 9 (5 Videos): fRS8m-wShIo (May 24 2024, 28:09, Premarket/Friday's Range), _Ts5bpglOdU
+  (May 14 2024, 50:26, PPI-Macro — längstes Video bisher), -eFpwS3qU5w (May 13 2024, 11:01,
+  Premarket Short), HUxK8GN4DHs (May 8 2024, 8:06, Premium Wick Entry), My9wQ8_UtZk (May 6
+  2024, 3:22, Micro-Scalping Without Bias). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2024-05-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Signal-Following & Crowd Liquidity Risk.md` (neuer Abschnitt
+  "'Too Smooth' als Warnsignal").
+- Neue Erkenntnisse: explizite Warnung **"Do NOT Trade 1MIN Levels..." / "Wicks are 'Ugly'"** —
+  1-Minuten-Wicks gelten als zu unpräzise für Level-Ableitung, Volume Imbalance wird bevorzugt
+  (relevant für `algo/rules.py`-Level-Bildung). "Too Smooth"-Kerzenfolgen gelten als
+  Warnsignal, nicht als Bestätigung. PPI-News-Release fällt zeitlich mit generischem
+  `:50-:10`-Stundenmacro zusammen (8:50-9:10 ET).
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 43 von 61 Videos erledigt, 18 verbleibend.

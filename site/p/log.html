@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">118</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">248</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">253</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">12</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -146,6 +146,7 @@
 <li><a href="#2026-08-11-ingest-ict-executions-playlist-batch-661-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 6/61, chart-only ohne Voiceover)</a></li>
 <li><a href="#2026-08-11-ingest-ict-executions-playlist-batch-761-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 7/61, chart-only ohne Voiceover)</a></li>
 <li><a href="#2026-08-11-ingest-ict-executions-playlist-batch-861-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 8/61, chart-only ohne Voiceover)</a></li>
+<li><a href="#2026-08-11-ingest-ict-executions-playlist-batch-961-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 9/61, chart-only ohne Voiceover)</a></li>
 </ul>
 </div>
 </details>
@@ -2114,6 +2115,28 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 <li>Assets: 5 weitere Chart-Frames unter <code>raw/trading-ict/assets/ict-exec-*.png</code>.</li>
 <li>Platzhalter-Rohdateien für die 5 IDs angelegt.</li>
 <li>Stand: 38 von 61 Videos erledigt, 23 verbleibend.</li>
+</ul>
+<h2 id="2026-08-11-ingest-ict-executions-playlist-batch-961-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 9/61, chart-only ohne Voiceover)</h2>
+<ul>
+<li>Playlist wechselt ab hier zu deutlich längeren Live-Aufzeichnungen (8-50 Min statt ~2 Min) —
+  ab diesem Batch nur noch Stichprobenauswertung statt vollständiger Frame-Prüfung, in jeder
+  Sourceseite transparent vermerkt. Ein Download (-eFpwS3qU5w) schlug mit HTTP 403 fehl, Retry
+  mit Format-Fallback sofort erfolgreich — weiterhin kein IP-Ban-Muster.</li>
+<li>Batch 9 (5 Videos): fRS8m-wShIo (May 24 2024, 28:09, Premarket/Friday's Range), _Ts5bpglOdU
+  (May 14 2024, 50:26, PPI-Macro — längstes Video bisher), -eFpwS3qU5w (May 13 2024, 11:01,
+  Premarket Short), HUxK8GN4DHs (May 8 2024, 8:06, Premium Wick Entry), My9wQ8_UtZk (May 6
+  2024, 3:22, Micro-Scalping Without Bias). Alle fünf erstmalig ingested, keine Duplikate.</li>
+<li>Seiten erstellt: 5 neue <code>wiki/sources/youtube/2024-05-*.md</code>-Sourceseiten.</li>
+<li>Seiten erweitert: <code>wiki/concepts/Signal-Following &amp; Crowd Liquidity Risk.md</code> (neuer Abschnitt
+  "'Too Smooth' als Warnsignal").</li>
+<li>Neue Erkenntnisse: explizite Warnung <strong>"Do NOT Trade 1MIN Levels..." / "Wicks are 'Ugly'"</strong> —
+  1-Minuten-Wicks gelten als zu unpräzise für Level-Ableitung, Volume Imbalance wird bevorzugt
+  (relevant für <code>algo/rules.py</code>-Level-Bildung). "Too Smooth"-Kerzenfolgen gelten als
+  Warnsignal, nicht als Bestätigung. PPI-News-Release fällt zeitlich mit generischem
+  <code>:50-:10</code>-Stundenmacro zusammen (8:50-9:10 ET).</li>
+<li>Assets: 5 weitere Chart-Frames unter <code>raw/trading-ict/assets/ict-exec-*.png</code>.</li>
+<li>Platzhalter-Rohdateien für die 5 IDs angelegt.</li>
+<li>Stand: 43 von 61 Videos erledigt, 18 verbleibend.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

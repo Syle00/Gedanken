@@ -275,6 +275,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2023-10-23 - ICT Executions October 23, 2023 NQ Long Michael Myers Mode (Source)]] — Standard-Long-Entry
 - [[2023-10-24 - ICT Executions October 24, 2023 NQ Short Pre-Opening Bell Antics (Source)]] — 40er-Pyramiding vor Opening Bell, Volume Imbalance + IFVG kombiniert
 - [[2024-06-10 - NQ Lunch Macro 06-10-2024 (Source)]] — Vollständige Live-Lunch-Session (11:34, stichprobenartig geprüft)
+- [[2024-05-24 - May 24, 2024 NQ Premarket Trading Inside Fridays Range (Source)]] — Weekly Range Trading live (28 Min, Stichprobe)
+- [[2024-05-14 - May 14, 2024 NQ PPI 8-50-9-10 ET Macro (Source)]] — PPI-News-Macro-Fenster (50 Min, Stichprobe)
+- [[2024-05-13 - NQ May 13, 2024 Premarket Short Live Execution (Source)]] — Premarket-Short (11 Min, Stichprobe)
+- [[2024-05-08 - NQ Premium Wick Entry Live Execution (Source)]] — Warnung "Wicks are 'Ugly'", Volume Imbalance statt 1m-Wick
+- [[2024-05-06 - Micro-Scalping Without Bias ES (Source)]] — "Too Smooth"-Warnsignal
 
 ### MentorShip 2025
 

@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, 2026, risiko, psychologie]
 created: 2026-08-05
 updated: 2026-08-05
-sources: ["[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
+sources: ["[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2024-05-06 - Micro-Scalping Without Bias ES (Source)]]", "[[2023-01-17 - ICT Executions January 17, 2023 ES Short (Source)]]"]
 ---
 
 # Signal-Following & Crowd Liquidity Risk
@@ -67,6 +67,13 @@ Schlägt ein Setup fehl, ist das laut Quelle in der überwältigenden Mehrheit e
 Traders** (falsche Richtung angenommen), nicht ein Versagen der zugrundeliegenden Order-Flow-Logik.
 Die Regeln selbst ändern sich nicht — die Fähigkeit, den Bias korrekt zu bestimmen, ist die eigentliche
 Lernkurve.
+
+## "Too Smooth" als Warnsignal (Live-Beispiel)
+
+Aus [[2024-05-06 - Micro-Scalping Without Bias ES (Source)]]: eine ungewöhnlich glatte,
+gleichmäßige Kerzenfolge wird explizit mit **"Too Smooth"** markiert und als Misstrauensgrund
+behandelt statt als Fortsetzungsbestätigung — ergänzt die Grundthese um ein konkretes visuelles
+Warnmuster (zu perfekt aussehende Bewegungen sind eher künstlich/nicht organisch als vertrauenswürdig).
 
 ## Verwandt
 
