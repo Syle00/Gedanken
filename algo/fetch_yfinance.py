@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-"""Laedt MNQ-Marktdaten per yfinance und legt sie im raw/marktdaten/-Format ab
-(gleiches Schema wie die TradingView-Exporte: time,open,high,low,close).
+"""Laedt Marktdaten per yfinance und legt sie im raw/marktdaten/-Format ab
+(gleiches Schema wie die TradingView-Exporte: time,open,high,low,close). Default-Symbol ist
+MNQ=F, aber ueber --symbol generisch fuer jeden yfinance-Ticker nutzbar (z.B. --symbol
+EURUSD=X fuer Forex-Paare, siehe algo/README.md).
 
 Intraday-TFs werden geladen, wo yfinance es hergibt -- 1m nur die letzten ~30 Tage
 (7-Tage-Haeppchen pro Request), 5m/15m nur die letzten ~60 Tage (55-Tage-Haeppchen,
@@ -100,7 +102,13 @@ def download_interval(symbol: str, tf: str, start: str, end: str) -> pd.DataFram
     return pd.concat(chunks) if chunks else pd.DataFrame()
 
 
-def fetch(start: str, end: str, symbol: str = SYMBOL) -> list[Path]:
+def fetch(start: str, end: str, symbol: str = SYMBOL, intervals: list[str] | None = None) -> list[Path]:
+    """`intervals` grenzt ab, welche Timeframes geladen werden -- wichtig bei sehr langen
+    Zeitraeumen: 1m/5m/15m sind ueber CHUNK_DAYS in Haeppchen zerlegt, ein 20+ Jahre langer
+    Bereich erzeugt dort hunderte leere Requests (Yahoo liefert fuer diese TFs ohnehin nur
+    ~30/60 Tage zurueck). 1h/1d sind ungechunkt (ein Request unabhaengig von der Spanne) und
+    vertragen problemlos die volle Historie."""
+    intervals = intervals if intervals is not None else INTERVALS
     written = []
     hourly = None
     end_day = date.fromisoformat(end)
@@ -116,7 +124,7 @@ def fetch(start: str, end: str, symbol: str = SYMBOL) -> list[Path]:
         if f:
             written.append(f)
 
-    for tf in INTERVALS:
+    for tf in intervals:
         df = download_interval(symbol, tf, start, end)
         if df.empty:
             print(f"  ! {tf}: keine Daten (yfinance-Limit fuer diesen Zeitraum?)")
@@ -148,8 +156,10 @@ def main(argv=None) -> int:
     ap.add_argument("start")
     ap.add_argument("end", help="exklusiv")
     ap.add_argument("--symbol", default=SYMBOL)
+    ap.add_argument("--intervals", help="Komma-Liste, z.B. 1d,1h (Default: alle)")
     a = ap.parse_args(argv)
-    files = fetch(a.start, a.end, a.symbol)
+    intervals = a.intervals.split(",") if a.intervals else None
+    files = fetch(a.start, a.end, a.symbol, intervals)
     print(f"{len(files)} Datei(en) geschrieben.")
     return 0
 
