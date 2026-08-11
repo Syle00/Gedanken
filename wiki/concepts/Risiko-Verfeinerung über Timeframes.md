@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, risikomanagement, timeframes]
 created: 2026-08-06
 updated: 2026-08-06
-sources: ["[[ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)]]", "[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]"]
+sources: ["[[ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)]]", "[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2023-03-20 - ICT Executions March 20, 2023 ES Long (Source)]]"]
 ---
 
 # Risiko-Verfeinerung über Timeframes
@@ -33,6 +33,14 @@ Funktioniert nur, wenn die tiefere Timeframe **denselben Grund** liefert, warum 
 reagieren sollte — d.h. es muss tatsächlich ein neuer, gültiger Order Block auf dem Weg zum
 HTF-Level sein, kein beliebig enger Stop ohne strukturelle Begründung. ICT warnt explizit vor
 "Ultra short stop-loss" ohne Verständnis, warum Preis genau dort reagieren soll.
+
+## Stop unter Wick-C.E. statt volle Range (Live-Beispiel)
+
+Aus [[2023-03-20 - ICT Executions March 20, 2023 ES Long (Source)]]: bei einem Long-Entry innerhalb
+einer NWOG-Range liegt der Stop nicht unter der gesamten Range, sondern **unter der
+Consequent-Encroachment-Linie (0,5) des entscheidenden Wicks** — dieselbe Grundidee wie die
+Timeframe-Verfeinerung oben (enger Stop am jüngsten relevanten Preis-Level), hier aber auf einen
+einzelnen Wick statt eine tiefere Timeframe-Struktur angewandt.
 
 ## Verwandt
 

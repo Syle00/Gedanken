@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict]
 created: 2026-08-01
 updated: 2026-08-06
-sources: ["[[Reeinforced Orderblock Theory BreakerBlock (Source)]]", "[[ICT Mentorship Core Content - Month 04 - ICT Breaker Block (Source)]]"]
+sources: ["[[Reeinforced Orderblock Theory BreakerBlock (Source)]]", "[[ICT Mentorship Core Content - Month 04 - ICT Breaker Block (Source)]]", "[[2023-03-02 - ICT Executions March 2, 2023 ES Long Inversion Breaker (Source)]]", "[[2023-05-26 - ICT Executions May 26, 2023 ES Long No Secret Weapons (Source)]]"]
 ---
 
 # Breaker Block
@@ -11,6 +11,15 @@ sources: ["[[Reeinforced Orderblock Theory BreakerBlock (Source)]]", "[[ICT Ment
 
 - **Bullish Breaker Block**: Fokus auf das Short-Term-High am durchspikten Punkt — dort liegen die
   Stop-Losses der Trader, die dort Short gegangen sind.
+
+## Inversion Breaker (Live-Beispiel)
+
+Aus [[2023-03-02 - ICT Executions March 2, 2023 ES Long Inversion Breaker (Source)]]: ein
+ursprünglich bearisher Breaker wird nach Bruch als **"-Breaker Now Inversion"** zur bullishen
+Long-Entry-Zone. Explizite Invalidierungsregel im Chart: *"Should not hit low of -Breaker"* — der
+Trade gilt als ungültig, sobald der alte Breaker-Tiefpunkt erneut unterschritten wird. Weiteres
+Beispiel für Breaker-Zonen als Entry in
+[[2023-05-26 - ICT Executions May 26, 2023 ES Long No Secret Weapons (Source)]].
 
 ![[Screenshot_2025-01-20_175158.png]]
 *Bullish Breaker Block: Fokus auf das Short-Term-High am durchspikten Punkt.*

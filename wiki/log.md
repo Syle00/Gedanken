@@ -1779,3 +1779,22 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für die 5 IDs angelegt.
 - Stand: 13 von 61 Videos erledigt, 48 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 4/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt. Ein Download (KGIHDHTwvpU) lief spürbar langsamer
+  (~15s statt ~1s) als die übrigen, aber ohne Fehler — kein eindeutiges Drosselungssignal,
+  weiter beobachtet, kein Abbruch nötig.
+- Batch 4 (5 Videos): 0r9tpiNMeqI (Mar 2 2023, ES Long/Inversion Breaker), qr2l0r2wvqw (Mar 10
+  2023, ES Short), asz4AKRyvJU (Mar 13 2023, ES Short/Final Hour), KGIHDHTwvpU (Mar 20 2023,
+  ES Long), ifbLJCULf1U (May 26 2023, ES Long/No Secret Weapons). Alle fünf erstmalig
+  ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-03-*`/`2023-05-26*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Breaker Block.md` (neuer Abschnitt "Inversion Breaker" mit
+  Invalidierungsregel), `wiki/concepts/Risiko-Verfeinerung über Timeframes.md` (neuer Abschnitt
+  "Stop unter Wick-C.E. statt volle Range").
+- Neue Muster: Inversion Breaker (Breaker-Pendant zur IFVG) mit expliziter
+  Invalidierungsregel; SL unter Wick-CE statt voller PD-Array-Range; MOC-Macro erneut prädiktiv
+  vor Fensterbeginn angekündigt (zweite Bestätigung nach Batch 2).
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 18 von 61 Videos erledigt, 43 verbleibend.
