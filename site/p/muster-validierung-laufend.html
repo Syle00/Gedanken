@@ -59,6 +59,7 @@
 <li><a href="#pro-tag">Pro Tag</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 <li><a href="#1st-presented-fvg-wochenrelevanz-des-montags-offene-hypothese-stand-2026-08-11">1st Presented FVG — Wochenrelevanz des Montags (offene Hypothese, Stand 2026-08-11)</a></li>
+<li><a href="#std-projektionen-und-die-tages-session-extrema-offene-hypothese-stand-2026-08-11">STD-Projektionen und die Tages-/Session-Extrema (offene Hypothese, Stand 2026-08-11)</a></li>
 </ul>
 </div>
 </details>
@@ -521,7 +522,59 @@ ein frueher gebildetes FVG bleibt ein <strong>normales</strong> FVG, es ist nur 
 <li>Nebenbefund ohne Bezug zur These: das 1.p FVG des <strong>Donnerstags</strong> wird am Freitag auffallend
   selten angelaufen (5m: 1/7). Eigene Pruefung wert, sobald mehr Wochen vorliegen.</li>
 </ul>
-<p>Wiederholen, sobald mehr als ~20 Montage in 1m vorliegen.</p></div>
+<p>Wiederholen, sobald mehr als ~20 Montage in 1m vorliegen.</p>
+<h2 id="std-projektionen-und-die-tages-session-extrema-offene-hypothese-stand-2026-08-11">STD-Projektionen und die Tages-/Session-Extrema (offene Hypothese, Stand 2026-08-11)</h2>
+<p><strong>Behauptung (Jannes):</strong> Mit den STD-Projektionen wird ein High/Low fixiert — entweder das
+Session- oder das Daily-High/Low. Bezug: <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>
+(Partial-Leiter −0,2/−0,5/−1,0 STD sowie die Opening-Range-STDs, die laut Quelle "die Ziele
+des Tages" liefern).</p>
+<p>Geprueft von <code>algo/backtest_org_std_extrema.py</code> gegen <strong>beide</strong> Basen (ORG-Gap und Opening
+Range 9:30–10:00; bei letzterer nur Extrema ab 10:00, sonst zirkular).</p>
+<table>
+<thead>
+<tr>
+<th>Basis</th>
+<th>Extremum</th>
+<th>5m (42 Tage)</th>
+<th>1m (23 Tage)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ORG-Gap</td>
+<td>Daily High / Low</td>
+<td>5 % / 12 %</td>
+<td>9 % / 13 %</td>
+</tr>
+<tr>
+<td>ORG-Gap</td>
+<td>AM High / Low</td>
+<td>10 % / 17 %</td>
+<td>17 % / 17 %</td>
+</tr>
+<tr>
+<td>Opening Range</td>
+<td>Daily High / Low (ab 10:00)</td>
+<td>14 % / 19 %</td>
+<td>13 % / <strong>26 %</strong></td>
+</tr>
+<tr>
+<td>Opening Range</td>
+<td>AM High / Low (ab 10:00)</td>
+<td>21 % / 19 %</td>
+<td>22 % / 26 %</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Zufallserwartung: 20 %</strong> — die STD-Level stehen im Abstand 0,5 STD, ein ±5-%-Fenster deckt
+damit bereits ein Fuenftel der Preisachse ab. Gemessen an dieser Baseline liegt <strong>keine</strong>
+Kennzahl signifikant darueber (bestes p=0,305). Der Median-Abstand zum naechsten Level liegt
+mit 0,10–0,20 STD ueberwiegend <strong>ueber</strong> dem Zufallswert 0,125 STD.</p>
+<p><strong>Stand: nicht gestuetzt, aber nicht widerlegt</strong> — 42 bzw. 23 Tage sind zu wenig. Sensitivitaet
+gegen die Toleranzwahl geprueft (0,03/0,05/0,10), Bild unveraendert. Wiederholen bei
+groesserem 1m-Bestand.</p>
+<p>Datenpunkt 2026-08-11: Tagestief 29 533,50 lag zwischen −2,0 STD (29 554,75, erreicht) und
+−2,5 STD (29 507,25, offen) — also nicht auf einem Level.</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/macro-datenbank-laufend.html">Macro-Datenbank (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a><span class="cat">Modelle</span></li><li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Muster-Validierung (laufend).md</code></footer>
 </article>

@@ -477,3 +477,26 @@ Ergebnis ist unentschieden, nicht negativ. FVGs desselben Tages sind nicht unabh
 (Globex 18:00-17:00), darum werden Bars ueber `b.t.date() == d` eindeutig einem Kalendertag
 zugeordnet. Eigener `--selfcheck` (nicht in `selfcheck.py` eingehaengt, wie die anderen
 Thesenskripte).
+
+## `backtest_org_std_extrema.py` -- Setzen STD-Projektionen die Extrema?
+
+**Was:** Prueft, ob Session- oder Daily-High/Low auf den STD-Projektionen der ORG bzw. der
+Opening Range liegen.
+
+**Wie:** Zwei Basen, weil das Wiki beide kennt -- `org` (Gap 16:14->9:30) und `or_`
+(Opening Range 9:30-10:00). Level in 0,5er-Schritten bis 3,0 STD beidseitig vom jeweiligen
+Rand. Pro Tag wird der Abstand des Extremums zum naechsten Level gemessen, relativ zur
+Gap-/Range-Groesse.
+
+**Warum die Nullerwartung der Kern ist:** die Level stehen im Abstand 0,5 STD. Ein
+Trefferfenster von +-`tol` deckt damit `2*tol/0,5` der Preisachse ab -- bei tol=0,05 sind das
+20 %. Eine Trefferquote von "20 %" waere also **exakt Zufall**, nicht Bestaetigung. Der
+Binomialtest laeuft einseitig gegen genau diesen Wert. Zusaetzlich wird der Median-Abstand
+ausgegeben: bei Gleichverteilung liegt er bei 0,125 STD.
+
+**Zirkularitaet vermieden:** fuer die `or_`-Basis zaehlen nur Extrema ab 10:00. Sonst waere
+das High/Low der Opening Range selbst der Treffer.
+
+**Bekannte Grenzen:** 42 Tage (5m) bzw. 23 (1m) -- kein Test signifikant, Ergebnis ist
+"nicht gestuetzt", nicht "widerlegt". Der ORG-Anker ist bei groberen TFs ungenau (5m liefert
+die 16:10-Kerze statt 16:14), darum ist 1m die belastbarere Variante. Eigener `--selfcheck`.

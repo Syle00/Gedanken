@@ -158,6 +158,7 @@
 <li><a href="#2026-08-11-query-ny-silver-bullet-tapereading-these-move-lief-vor-meinem-fenster">[2026-08-11] query | NY Silver Bullet Tapereading + These "Move lief vor meinem Fenster"</a></li>
 <li><a href="#2026-08-11-query-1st-presented-fvg-der-ny-am-session-1108">[2026-08-11] query | 1st Presented FVG der NY AM Session (11.08.)</a></li>
 <li><a href="#2026-08-11-synthesis-1p-fvg-wochenrelevanz-des-montags-geprueft">[2026-08-11] synthesis | 1.p FVG -- Wochenrelevanz des Montags geprueft</a></li>
+<li><a href="#2026-08-11-query-org-1108-mit-qsoshs-std-these-geprueft">[2026-08-11] query | ORG 11.08. mit Qs/Os/Hs + STD-These geprueft</a></li>
 </ul>
 </div>
 </details>
@@ -2297,6 +2298,15 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md (offene Hypothese), wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md</li>
 <li>Aktualisiert: algo/README.md (Modulabschnitt), algo/PLAN.md (Log mit Zahlen)</li>
 <li>DATENFEHLER: yfinance liefert fuer MNQ=F systematisch 00:00-00:08 NY nicht (19/24 Tage, inkl. 0:00-Kerze; 5m ebenso). Gegen den Rohabruf verifiziert — Quelle, nicht fetch_yfinance.py. Jede bisher berichtete Midnight-Range-/STD-Zahl ist dadurch aufgeblaeht; die "-1 STD reisst an 52,3 % der Tage"-Angabe wird zurueckgezogen (Basisrate derzeit unbekannt, n=10 statt 44). Riegel in window_gaps()/session_range(expect_complete)/mor_levels.py eingebaut, betroffene Backtests weisen verworfene Tage aus.</li>
+</ul>
+<h2 id="2026-08-11-query-org-1108-mit-qsoshs-std-these-geprueft">[2026-08-11] query | ORG 11.08. mit Qs/Os/Hs + STD-These geprueft</h2>
+<ul>
+<li>ORG-Tabelle (Qs/Os/Hs, 17 Level) fuer den 11.08. berechnet, inkl. Respektierung je Level</li>
+<li>Anker-Konflikt offengelegt: 16:14-Close 29 744,75 (Wiki-Definition, verwendet) vs. 16:00-RTH-Close 29 750,00 vs. yfinance 29 743,75</li>
+<li>Neue These geprueft: setzen STD-Projektionen Session-/Daily-Extrema? Neues Skript algo/backtest_org_std_extrema.py, beide Basen (ORG-Gap und Opening Range)</li>
+<li>Ergebnis: nicht gestuetzt -- keine Kennzahl ueber der 20-%-Zufallserwartung (bestes p=0,305), Median-Abstand eher groesser als bei Zufall</li>
+<li>Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md</li>
+<li>Aktualisiert: algo/README.md, algo/PLAN.md</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

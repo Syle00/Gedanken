@@ -2030,3 +2030,11 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md (offene Hypothese), wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md
 - Aktualisiert: algo/README.md (Modulabschnitt), algo/PLAN.md (Log mit Zahlen)
 - DATENFEHLER: yfinance liefert fuer MNQ=F systematisch 00:00-00:08 NY nicht (19/24 Tage, inkl. 0:00-Kerze; 5m ebenso). Gegen den Rohabruf verifiziert — Quelle, nicht fetch_yfinance.py. Jede bisher berichtete Midnight-Range-/STD-Zahl ist dadurch aufgeblaeht; die "-1 STD reisst an 52,3 % der Tage"-Angabe wird zurueckgezogen (Basisrate derzeit unbekannt, n=10 statt 44). Riegel in window_gaps()/session_range(expect_complete)/mor_levels.py eingebaut, betroffene Backtests weisen verworfene Tage aus.
+
+## [2026-08-11] query | ORG 11.08. mit Qs/Os/Hs + STD-These geprueft
+- ORG-Tabelle (Qs/Os/Hs, 17 Level) fuer den 11.08. berechnet, inkl. Respektierung je Level
+- Anker-Konflikt offengelegt: 16:14-Close 29 744,75 (Wiki-Definition, verwendet) vs. 16:00-RTH-Close 29 750,00 vs. yfinance 29 743,75
+- Neue These geprueft: setzen STD-Projektionen Session-/Daily-Extrema? Neues Skript algo/backtest_org_std_extrema.py, beide Basen (ORG-Gap und Opening Range)
+- Ergebnis: nicht gestuetzt -- keine Kennzahl ueber der 20-%-Zufallserwartung (bestes p=0,305), Median-Abstand eher groesser als bei Zufall
+- Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md
+- Aktualisiert: algo/README.md, algo/PLAN.md

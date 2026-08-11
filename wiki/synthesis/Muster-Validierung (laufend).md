@@ -134,3 +134,32 @@ Zwei Beobachtungen, die beim Nachladen von Daten weiterzuverfolgen sind:
   selten angelaufen (5m: 1/7). Eigene Pruefung wert, sobald mehr Wochen vorliegen.
 
 Wiederholen, sobald mehr als ~20 Montage in 1m vorliegen.
+
+## STD-Projektionen und die Tages-/Session-Extrema (offene Hypothese, Stand 2026-08-11)
+
+**Behauptung (Jannes):** Mit den STD-Projektionen wird ein High/Low fixiert — entweder das
+Session- oder das Daily-High/Low. Bezug: [[ORG (Opening Range Gap) & 1st Presented FVG]]
+(Partial-Leiter −0,2/−0,5/−1,0 STD sowie die Opening-Range-STDs, die laut Quelle "die Ziele
+des Tages" liefern).
+
+Geprueft von `algo/backtest_org_std_extrema.py` gegen **beide** Basen (ORG-Gap und Opening
+Range 9:30–10:00; bei letzterer nur Extrema ab 10:00, sonst zirkular).
+
+| Basis | Extremum | 5m (42 Tage) | 1m (23 Tage) |
+|---|---|---|---|
+| ORG-Gap | Daily High / Low | 5 % / 12 % | 9 % / 13 % |
+| ORG-Gap | AM High / Low | 10 % / 17 % | 17 % / 17 % |
+| Opening Range | Daily High / Low (ab 10:00) | 14 % / 19 % | 13 % / **26 %** |
+| Opening Range | AM High / Low (ab 10:00) | 21 % / 19 % | 22 % / 26 % |
+
+**Zufallserwartung: 20 %** — die STD-Level stehen im Abstand 0,5 STD, ein ±5-%-Fenster deckt
+damit bereits ein Fuenftel der Preisachse ab. Gemessen an dieser Baseline liegt **keine**
+Kennzahl signifikant darueber (bestes p=0,305). Der Median-Abstand zum naechsten Level liegt
+mit 0,10–0,20 STD ueberwiegend **ueber** dem Zufallswert 0,125 STD.
+
+**Stand: nicht gestuetzt, aber nicht widerlegt** — 42 bzw. 23 Tage sind zu wenig. Sensitivitaet
+gegen die Toleranzwahl geprueft (0,03/0,05/0,10), Bild unveraendert. Wiederholen bei
+groesserem 1m-Bestand.
+
+Datenpunkt 2026-08-11: Tagestief 29 533,50 lag zwischen −2,0 STD (29 554,75, erreicht) und
+−2,5 STD (29 507,25, offen) — also nicht auf einem Level.

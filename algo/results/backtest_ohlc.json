@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-08-11T13:34:23.743560+00:00",
+  "generated_at": "2026-08-11T18:54:41.971206+00:00",
   "symbol": "MNQ",
-  "n_days": 43,
+  "n_days": 45,
   "agg": {
-    "fvg_all": 1826,
-    "fvg_all_ce_hit": 1603,
-    "fvg_all_filled": 1517,
-    "fvg_big": 420,
-    "fvg_big_ce_hit": 342,
-    "fvg_big_filled": 303,
-    "vii": 6892,
-    "vii_filled": 6582,
-    "sweeps": 437,
-    "sweeps_immediate": 262,
-    "bos": 400,
-    "mss": 306,
-    "macro_windows": 766,
-    "macro_expansions": 180
+    "fvg_all": 1896,
+    "fvg_all_ce_hit": 1669,
+    "fvg_all_filled": 1578,
+    "fvg_big": 440,
+    "fvg_big_ce_hit": 360,
+    "fvg_big_filled": 316,
+    "vii": 7189,
+    "vii_filled": 6868,
+    "sweeps": 455,
+    "sweeps_immediate": 273,
+    "bos": 421,
+    "mss": 317,
+    "macro_windows": 798,
+    "macro_expansions": 189
   }
 }
