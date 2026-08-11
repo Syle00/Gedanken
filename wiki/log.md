@@ -2007,3 +2007,10 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   (neuer Abschnitt 8), `wiki/sources/youtube/2023-12-06 - Why Do I Avoid NFP Weeks NQ 3 Trades 2
   Losses (Source).md` (Backtest-Ergebnis verlinkt), `algo/PLAN.md`-Log.
 - `algo/results/backtest_nfp_week.json` neu geschrieben.
+
+## [2026-08-11] query | NY Silver Bullet Tapereading + These "Move lief vor meinem Fenster"
+- Journal-Eintrag erstellt: journal/entries/2026-08-11 MNQ Tape Reading.md (tape-reading, MNQ, kein Trade, 4/8 Checks, 39 Screenshots mit Slot/Zeit/Kommentar)
+- Screenshots uebernommen: journal/screenshots/2026-08-11-sb-01..40.png (sb-32 unbrauchbar, 167 Byte)
+- Neu: algo/backtest_open_drive_vs_sb.py — testet Jannes' These, dass ein starker RTH-Open-Drive die SB-Stunde leerlaufen laesst. Ergebnis: kein Signal (p=0,33 / 0,69 bei n=21), These unentschieden statt widerlegt.
+- Aktualisiert: algo/PLAN.md (Log-Eintrag mit Zahlen), algo/README.md (Modulabschnitt 1m-Thesenskripte)
+- Datenlage aktiv gemeldet: MNQ-1m endet 2026-08-07, fuer 10.08./11.08. liegen nur Forex-Dateien in raw/marktdaten/
