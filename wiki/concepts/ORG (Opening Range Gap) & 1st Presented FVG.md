@@ -320,6 +320,7 @@ Remaining Undelivered"* wird typischerweise durch einen abrupten Kerzenspike gel
 - [[Central Bank Dealers Range (CBDR)]] (C.E-Grundkonzept)
 - [[Chain of Custody (Q-Validation)]], [[Enigma FVG Projection]]
 - [[Fair Value Gap (FVG)]], [[IFVG (Inverse Fair Value Gap)]], [[Breakaway Gap]]
+- [[Kontraktspezifikation MNQ (Tick, Punktwert)]] — C.E. und Quadranten des ORG aufs Tick-Raster
 - [[ICT Daily Range Session Timing]], [[ICT Macros & Leading Candles]]
 - [[Midnight Opening Range]] — die 0:00–0:30-Range, gegen die das ORG abzugrenzen ist
 - [[Balanced Price Range (BPR)]], [[Algorithmic Price Delivery Continuum]]

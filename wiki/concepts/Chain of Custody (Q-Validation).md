@@ -96,4 +96,6 @@ NDOG/NWOG, FVG, OB, BISI/SIBI):
 - [[IFVG (Inverse Fair Value Gap)]]
 - [[BISI & SIBI (Buyside-Sellside Imbalance)]], [[Suspension Block]], [[Event Horizon]]
 - [[Market on Close (MOC) Macro Model]] — nutzt das 16tel-Level in der Praxis
+- [[Kontraktspezifikation MNQ (Tick, Punktwert)]] — Qs/Os/Hs teilen eine Range selten glatt;
+  die Level müssen auf das 0,25-Tick-Raster gerundet werden, sonst sind es keine handelbaren Preise
 - [[Kurz Notizen (Source)]], [[Chain Of Custody Of Price With Daily Inefficiencies (Source)]]
