@@ -1817,3 +1817,21 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 - Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
 - Platzhalter-Rohdateien für die 5 IDs angelegt.
 - Stand: 23 von 61 Videos erledigt, 38 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 6/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt. Erneut ein einzelner HTTP-403-Download-Fehler
+  (UjiUidVS4xI), sofortiger Retry mit Format-Fallback erfolgreich — Muster bestätigt sich als
+  transienter YouTube-Einzelfehler, kein IP-Ban (Downloads davor/danach liefen normal).
+- Batch 6 (5 Videos): kYFFaN3Tz-s (Jun 26 2023, ES+NQ Short/Dual Dealings), 1K59ooyTPrA (Jun 27
+  2023, ES Short/Silver Bullet), UjiUidVS4xI (Jun 29 2023, NQ Long), _fWokebVLsY (Jul 7 2023,
+  NQ Long), U1rkjCXitQA (Jul 7 2023, NQ Short). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-06-2*`/`2023-07-07*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md` (neuer
+  Abschnitt "Cross-Symbol-Bestätigung & 'Repricing Macro'").
+- Neues Muster: **10:50–11:10-ET-Macro-Fenster** zweimal in diesem Batch explizit im Chart
+  benannt — deckt sich mit der generischen `:50–:10`-Stundenregel in `algo/macro_db.py`
+  (kein Code-Änderungsbedarf, zusätzliche Primärquellen-Bestätigung). "Jagged Spike"-Liefermuster
+  für ORG-Ziele explizit beschrieben (abrupter Kerzenspike statt graduelle Bewegung).
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 28 von 61 Videos erledigt, 33 verbleibend.

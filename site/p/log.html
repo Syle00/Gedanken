@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">118</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">233</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">238</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">12</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -143,6 +143,7 @@
 <li><a href="#2026-08-11-ingest-ict-executions-playlist-batch-361-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 3/61, chart-only ohne Voiceover)</a></li>
 <li><a href="#2026-08-11-ingest-ict-executions-playlist-batch-461-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 4/61, chart-only ohne Voiceover)</a></li>
 <li><a href="#2026-08-11-ingest-ict-executions-playlist-batch-561-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 5/61, chart-only ohne Voiceover)</a></li>
+<li><a href="#2026-08-11-ingest-ict-executions-playlist-batch-661-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 6/61, chart-only ohne Voiceover)</a></li>
 </ul>
 </div>
 </details>
@@ -2056,6 +2057,25 @@ suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengele
 <li>Assets: 5 weitere Chart-Frames unter <code>raw/trading-ict/assets/ict-exec-*.png</code>.</li>
 <li>Platzhalter-Rohdateien für die 5 IDs angelegt.</li>
 <li>Stand: 23 von 61 Videos erledigt, 38 verbleibend.</li>
+</ul>
+<h2 id="2026-08-11-ingest-ict-executions-playlist-batch-661-chart-only-ohne-voiceover">[2026-08-11] ingest | ICT Executions Playlist (Batch 6/61, chart-only ohne Voiceover)</h2>
+<ul>
+<li>Fortsetzung im 5-Videos/5-Minuten-Takt. Erneut ein einzelner HTTP-403-Download-Fehler
+  (UjiUidVS4xI), sofortiger Retry mit Format-Fallback erfolgreich — Muster bestätigt sich als
+  transienter YouTube-Einzelfehler, kein IP-Ban (Downloads davor/danach liefen normal).</li>
+<li>Batch 6 (5 Videos): kYFFaN3Tz-s (Jun 26 2023, ES+NQ Short/Dual Dealings), 1K59ooyTPrA (Jun 27
+  2023, ES Short/Silver Bullet), UjiUidVS4xI (Jun 29 2023, NQ Long), _fWokebVLsY (Jul 7 2023,
+  NQ Long), U1rkjCXitQA (Jul 7 2023, NQ Short). Alle fünf erstmalig ingested, keine Duplikate.</li>
+<li>Seiten erstellt: 5 neue <code>wiki/sources/youtube/2023-06-2*</code>/<code>2023-07-07*.md</code>-Sourceseiten.</li>
+<li>Seiten erweitert: <code>wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md</code> (neuer
+  Abschnitt "Cross-Symbol-Bestätigung &amp; 'Repricing Macro'").</li>
+<li>Neues Muster: <strong>10:50–11:10-ET-Macro-Fenster</strong> zweimal in diesem Batch explizit im Chart
+  benannt — deckt sich mit der generischen <code>:50–:10</code>-Stundenregel in <code>algo/macro_db.py</code>
+  (kein Code-Änderungsbedarf, zusätzliche Primärquellen-Bestätigung). "Jagged Spike"-Liefermuster
+  für ORG-Ziele explizit beschrieben (abrupter Kerzenspike statt graduelle Bewegung).</li>
+<li>Assets: 5 weitere Chart-Frames unter <code>raw/trading-ict/assets/ict-exec-*.png</code>.</li>
+<li>Platzhalter-Rohdateien für die 5 IDs angelegt.</li>
+<li>Stand: 28 von 61 Videos erledigt, 33 verbleibend.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

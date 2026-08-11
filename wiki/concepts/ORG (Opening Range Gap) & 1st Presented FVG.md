@@ -297,6 +297,16 @@ ORG**, nicht nur das RTH-9:30-Gap: NY-AM-ORG (16:14→9:30), PM-Session-ORG (13:
 (1:30–2:00) und NY Pre Session Opening Range (7:00–7:30). Schwerpunkt bleibt das **C.E** — bei
 jeder dieser Ranges prüfen, ob es bereits respektiert wurde.
 
+## Cross-Symbol-Bestätigung & "Repricing Macro" (ICT Executions, 2023-06-26)
+
+Aus [[2023-06-26 - ICT Executions June 26, 2023 ES and NQ Short Dual Dealings (Source)]]:
+identisches ORG-Setup wird zeitgleich auf ES und NQ gehandelt ("Dual Dealings"), Chart-Label
+**"Opening Range Gap Repricing Macro"** verbindet den ORG explizit mit einem Zeitfenster-Konzept
+statt nur einem statischen Preislevel. Aus
+[[2023-06-29 - ICT Executions June 29, 2023 NQ Long (Source)]]: Ziel *"Opening Range Gap Portion
+Remaining Undelivered"* wird typischerweise durch einen abrupten Kerzenspike geliefert
+("Smooth Highs Will Be Made 'Jagged'..."), nicht durch eine graduelle Bewegung.
+
 ## Verwandt
 
 - [[Central Bank Dealers Range (CBDR)]] (C.E-Grundkonzept)

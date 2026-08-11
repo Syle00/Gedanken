@@ -260,6 +260,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2023-06-13 - ICT Executions June 13, 2023 ES Long Post CPI Inversion Breaker (Source)]] — 4-fach-Pyramiding (35 Kontrakte) nach CPI-Spike
 - [[2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)]] — "ICT AM Silver Bullet" explizit im Chart beschriftet
 - [[2023-06-21 - ICT Executions June 21, 2023 ES Short (Source)]] — Standard-Short mit Fibonacci-Referenzlinien
+- [[2023-06-26 - ICT Executions June 26, 2023 ES and NQ Short Dual Dealings (Source)]] — ORG Repricing Macro parallel auf ES+NQ
+- [[2023-06-27 - ICT Executions June 27, 2023 ES Short Silver Bullet (Source)]] — "ICT Silver Bullet"-Banner, dritte Chart-Bestätigung
+- [[2023-06-29 - ICT Executions June 29, 2023 NQ Long (Source)]] — "10:50 to 11:10 Macro" explizit benannt, Jagged-Spike-Delivery
+- [[2023-07-07 - ICT Executions July 7, 2023 NQ Long (Source)]] — zweite Bestätigung 10:50-11:10 Macro
+- [[2023-07-07 - ICT Executions July 7, 2023 NQ Short (Source)]] — Standard-PM-Session-Short
 
 ### MentorShip 2025
 
