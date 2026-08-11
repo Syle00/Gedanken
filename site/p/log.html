@@ -161,6 +161,7 @@
 <li><a href="#2026-08-11-query-org-1108-mit-qsoshs-std-these-geprueft">[2026-08-11] query | ORG 11.08. mit Qs/Os/Hs + STD-These geprueft</a></li>
 <li><a href="#2026-08-11-query-korrektur-opening-range-ny-am-930-1000-statt-org-gap">[2026-08-11] query | Korrektur: Opening Range NY AM (9:30-10:00) statt ORG-Gap</a></li>
 <li><a href="#2026-08-11-lint-begriffskorrektur-org-vs-opening-range">[2026-08-11] lint | Begriffskorrektur ORG vs. Opening Range</a></li>
+<li><a href="#2026-08-11-tooling-raw-sortiert-vault-root-aufgeraeumt-nichts-geloescht">[2026-08-11] tooling | raw/ sortiert: Vault-Root aufgeraeumt, nichts geloescht</a></li>
 </ul>
 </div>
 </details>
@@ -2320,6 +2321,24 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <ul>
 <li>Eigene Fehlinterpretation richtiggestellt: "ORG NY AM" meint das Gap 16:14-&gt;9:30 (NY-AM-Variante), nicht die Opening Range 9:30-10:00</li>
 <li>PLAN.md-Eintrag und Muster-Validierung (laufend) entsprechend umgeschrieben; der Opening-Range-Befund bleibt als eigenstaendiger Datenpunkt erhalten</li>
+</ul>
+<h2 id="2026-08-11-tooling-raw-sortiert-vault-root-aufgeraeumt-nichts-geloescht">[2026-08-11] tooling | raw/ sortiert: Vault-Root aufgeraeumt, nichts geloescht</h2>
+<ul>
+<li>Einmalige Freigabe des Nutzers, den <code>raw/</code>-Ordner zu ordnen (sortieren, nicht loeschen). 30 lose Dateien
+  im <code>raw/</code>-Root in thematische Unterordner einsortiert; <code>raw/marktdaten/</code>, <code>raw/trading-ict/</code>,
+  <code>raw/journal/</code>, <code>raw/bilder/</code>, <code>raw/algo-ml/</code>, <code>raw/marktdaten-tief/</code> blieben unberuehrt.</li>
+<li>Neue Ordner: <code>raw/literatur/</code> (9 Buecher/Papers/Transkripte zum Algo-Trading),
+  <code>raw/_notion-exports/</code> (8 bereits ingestete Notion-Export-ZIPs, per <code>.gitignore</code> ohnehin unversioniert),
+  <code>raw/journal/bias/</code> (Daily/Weekly-Bias-Notizen), <code>raw/trading-ict/notizen/</code> (lose ICT-Notizen),
+  <code>raw/marktdaten/_defekt/</code> (ein leerer Export, s.u.).</li>
+<li><code>_OceanofPDF...Testing_and_Tuning...pdf</code> zu seinem bereits vorhandenen Markdown-Zwilling nach
+  <code>raw/testing-and-tuning/</code> gelegt.</li>
+<li>4 lose OHLC-CSVs (2x TradingView MNQ, 2x IBKR EURUSD) ueber das bestehende
+  <code>tools/sort_marktdaten.py</code> in die Tagesordner eingeraeumt statt von Hand verschoben.</li>
+<li>Entscheidung ohne Rueckfrage: der Log-Eintrag vom 2026-08-04 ("lose Notizen bleiben bewusst im
+  Vault-Root") ist damit ueberholt — die Notizen liegen jetzt unter <code>raw/trading-ict/notizen/</code>.</li>
+<li>Pfadverweise nachgezogen in wiki/index.md, algo/PLAN.md und 6 wiki/sources-Seiten (<code>raw_path</code>-
+  Frontmatter + Fliesstext). <code>wiki/log.md</code> bleibt als Historie unveraendert, <code>site/</code> wird neu gebaut.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

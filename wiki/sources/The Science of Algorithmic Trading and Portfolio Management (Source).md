@@ -8,7 +8,7 @@ sources: ["[[The Science of Algorithmic Trading and Portfolio Management, Robert
 # The Science of Algorithmic Trading and Portfolio Management (Source)
 
 **Robert Kissell, Ph.D., Elsevier/Academic Press 2014.**
-Rohquelle: `raw/The Science of Algorithmic Trading and Portfolio Management, Robert Kissell.md`
+Rohquelle: `raw/literatur/The Science of Algorithmic Trading and Portfolio Management, Robert Kissell.md`
 (42.871 Zeilen, aus dem beiliegenden PDF extrahiert).
 
 Institutionelle Perspektive: **Transaktionskostenanalyse (TCA)**, Market-Impact-Modelle,
@@ -51,7 +51,7 @@ Rohtext:  POV 5 30%                → POV = 30 %
 ```
 
 **Formeln ohne mitgeliefertes Rechenbeispiel wurden NICHT ins Wiki übernommen.** Wer sie braucht,
-muss `raw/The Science of Algorithmic Trading and Portfolio Management, Robert Kissell.pdf`
+muss `raw/literatur/The Science of Algorithmic Trading and Portfolio Management, Robert Kissell.pdf`
 danebenlegen. Das betrifft insbesondere das I-Star-Market-Impact-Modell mit seinen kalibrierten
 Parametern und die Herleitungen zur Effizienzgrenze.
 

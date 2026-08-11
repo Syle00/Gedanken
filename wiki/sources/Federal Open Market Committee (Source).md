@@ -3,7 +3,7 @@ tags: [source, macro, trading-ict]
 created: 2026-08-01
 updated: 2026-08-01
 raw: "[[Federal Open Market Committee]]"
-raw_path: "raw/Federal Open Market Committee.md"
+raw_path: "raw/trading-ict/notizen/Federal Open Market Committee.md"
 ---
 
 # Federal Open Market Committee (Source)

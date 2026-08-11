@@ -1,4 +1,4 @@
-﻿# Index
+# Index
 
 Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE.md]] für das Schema.
 
@@ -158,7 +158,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 
 ## Sources
 
-*(Alle Quellen aus `raw/trading-ict/` und `raw/Federal Open Market Committee.md`, ingested 2026-08-01)*
+*(Alle Quellen aus `raw/trading-ict/` und `raw/trading-ict/notizen/Federal Open Market Committee.md`, ingested 2026-08-01)*
 
 ### Core Content
 

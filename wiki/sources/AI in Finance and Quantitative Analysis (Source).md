@@ -8,7 +8,7 @@ sources: ["[[AI_in_Finance_and_Quantitative_Analysis]]"]
 # AI in Finance and Quantitative Analysis (Source)
 
 **Min-Yuh Day (National Taipei University), Vorlesungsfolien 1111AIFQA10**, 13.12.2022.
-Rohquelle: `raw/AI_in_Finance_and_Quantitative_Analysis.md` (10.175 Zeilen).
+Rohquelle: `raw/literatur/AI_in_Finance_and_Quantitative_Analysis.md` (10.175 Zeilen).
 
 > **Einordnung vorweg — diese Quelle ist deutlich dünner, als ihre Zeilenzahl vermuten lässt.**
 > Rund **7.600 der 10.175 Zeilen** sind ein eingebetteter **Literatur-Survey** (Ozbayoglu,

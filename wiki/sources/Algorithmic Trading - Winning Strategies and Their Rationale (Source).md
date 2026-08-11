@@ -8,8 +8,8 @@ sources: ["[[Winning strategies and ther rationale]]"]
 # Algorithmic Trading - Winning Strategies and Their Rationale (Source)
 
 **Ernest P. Chan, Wiley Trading Series 2013**, 8 Kapitel, MATLAB-Beispielcode.
-Rohquelle: `raw/Winning strategies and ther rationale.md` (6.741 Zeilen, aus
-`raw/Winning strategies and ther rationale.pdf` extrahiert).
+Rohquelle: `raw/literatur/Winning strategies and ther rationale.md` (6.741 Zeilen, aus
+`raw/literatur/Winning strategies and ther rationale.pdf` extrahiert).
 
 Nachfolgeband zu Chans *Quantitative Trading* (2009). Während das erste Buch die Grundtechniken
 behandelte, geht es hier ausschließlich um **Strategien und ihre Begründung** — plus ein

@@ -10,7 +10,7 @@ sources: ["[[How I Develop Trading Strategies  Permutation Tests and Trading Str
 YouTube-Transkript, Kanal neurotrader (neurotrader888), veröffentlicht 2026-08-03,
 [github.com/neurotrader888/mcpt](https://github.com/neurotrader888/mcpt). Kein ICT/SMC-Material —
 gehört zur `algo/`-Domäne (Validierungsmethodik), nicht zu `trading-ict`. Rohquelle:
-`raw/How I Develop Trading Strategies  Permutation Tests and Trading Strategy Development with
+`raw/literatur/How I Develop Trading Strategies  Permutation Tests and Trading Strategy Development with
 Python.md` (inhaltsgleiches Duplikat ohne Metadaten unter `raw/md.md`, das als erster
 Ingest-Anlass bereits `docs/superpowers/specs/2026-08-08-algo-permutation-test-design.md` erzeugt
 hat — diese Seite holt den dort als offen vermerkten Wiki-Ingest-Schritt nach).

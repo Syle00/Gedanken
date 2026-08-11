@@ -2047,3 +2047,20 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 ## [2026-08-11] lint | Begriffskorrektur ORG vs. Opening Range
 - Eigene Fehlinterpretation richtiggestellt: "ORG NY AM" meint das Gap 16:14->9:30 (NY-AM-Variante), nicht die Opening Range 9:30-10:00
 - PLAN.md-Eintrag und Muster-Validierung (laufend) entsprechend umgeschrieben; der Opening-Range-Befund bleibt als eigenstaendiger Datenpunkt erhalten
+
+## [2026-08-11] tooling | raw/ sortiert: Vault-Root aufgeraeumt, nichts geloescht
+- Einmalige Freigabe des Nutzers, den `raw/`-Ordner zu ordnen (sortieren, nicht loeschen). 30 lose Dateien
+  im `raw/`-Root in thematische Unterordner einsortiert; `raw/marktdaten/`, `raw/trading-ict/`,
+  `raw/journal/`, `raw/bilder/`, `raw/algo-ml/`, `raw/marktdaten-tief/` blieben unberuehrt.
+- Neue Ordner: `raw/literatur/` (9 Buecher/Papers/Transkripte zum Algo-Trading),
+  `raw/_notion-exports/` (8 bereits ingestete Notion-Export-ZIPs, per `.gitignore` ohnehin unversioniert),
+  `raw/journal/bias/` (Daily/Weekly-Bias-Notizen), `raw/trading-ict/notizen/` (lose ICT-Notizen),
+  `raw/marktdaten/_defekt/` (ein leerer Export, s.u.).
+- `_OceanofPDF...Testing_and_Tuning...pdf` zu seinem bereits vorhandenen Markdown-Zwilling nach
+  `raw/testing-and-tuning/` gelegt.
+- 4 lose OHLC-CSVs (2x TradingView MNQ, 2x IBKR EURUSD) ueber das bestehende
+  `tools/sort_marktdaten.py` in die Tagesordner eingeraeumt statt von Hand verschoben.
+- Entscheidung ohne Rueckfrage: der Log-Eintrag vom 2026-08-04 ("lose Notizen bleiben bewusst im
+  Vault-Root") ist damit ueberholt — die Notizen liegen jetzt unter `raw/trading-ict/notizen/`.
+- Pfadverweise nachgezogen in wiki/index.md, algo/PLAN.md und 6 wiki/sources-Seiten (`raw_path`-
+  Frontmatter + Fliesstext). `wiki/log.md` bleibt als Historie unveraendert, `site/` wird neu gebaut.

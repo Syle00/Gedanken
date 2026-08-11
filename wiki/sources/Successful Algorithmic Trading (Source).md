@@ -10,7 +10,7 @@ sources: ["[[Successful Algorithmic Trading]]"]
 Buch (PDF, 208 Seiten, LaTeX/QuantStart-Eigenverlag) von **Michael Halls-Moore**, Gründer von
 QuantStart. Kein ICT/SMC-Material — algo-methodology-Domäne, wie
 [[How I Develop Trading Strategies (Source)]]. Rohquelle:
-`raw/Successful Algorithmic Trading.pdf`. Umfassendes Referenzwerk zum vollständigen
+`raw/literatur/Successful Algorithmic Trading.pdf`. Umfassendes Referenzwerk zum vollständigen
 Algo-Trading-Stack in Python: von der Strategiefindung über Datenhaltung, Statistik/Modellierung,
 Performance-/Risikomanagement bis zur Event-Driven-Backtest-Engine.
 
