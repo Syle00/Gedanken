@@ -164,10 +164,11 @@ groesserem 1m-Bestand.
 Datenpunkt 2026-08-11: Tagestief 29 533,50 lag zwischen −2,0 STD (29 554,75, erreicht) und
 −2,5 STD (29 507,25, offen) — also nicht auf einem Level.
 
-### Nachtrag 2026-08-11: Opening Range statt ORG-Gap als STD-Basis
+### Nachtrag 2026-08-11: beide STD-Basen bleiben offen
 
-Nutzerpraezisierung: gemeint ist die **Opening Range 9:30–10:00**, nicht das Gap. Die
-Unterscheidung ist nicht kosmetisch — am 11.08. liefert sie ein qualitativ anderes Ergebnis:
+Zur Begriffsklaerung: das **ORG** ist der Closing Price des Vortags um **16:14** zum **9:30**-Opening Price; "NY AM" benennt nur, welches ORG gemeint ist (gegen PM 13:30–14:00, London, Midnight). Davon zu unterscheiden ist die **Opening Range** 9:30–10:00. Beide tragen im Wiki STD-Projektionen, beide bleiben in Pruefung.
+
+Als eigenstaendiger Datenpunkt vom 11.08. bemerkenswert ist die **Opening-Range**-Projektion:
 
 | | |
 |---|---|
@@ -176,9 +177,9 @@ Unterscheidung ist nicht kosmetisch — am 11.08. liefert sie ein qualitativ and
 | Tagestief ab 10:00 | 29 533,50 |
 | **Abweichung** | **0,88 Pkt (3,5 Ticks)** |
 
-Aus dem **Gap** projiziert lag dasselbe Tief zwischen −2,0 und −2,5 STD, also auf keinem
-Level. Der frueher notierte Datenpunkt war damit an der falschen Range gemessen und ist
-hiermit korrigiert. Passt zum Backtest, wo `or_:post_daily_low` (26 %, 1m) bereits der beste
-aller acht Werte war.
+Aus dem **ORG-Gap** projiziert lag dasselbe Tief zwischen −2,0 und −2,5 STD, also auf keinem
+Level. Das ist kein Argument gegen eine der beiden Basen — es zeigt nur, dass sie sich am
+selben Tag unterschiedlich verhalten und getrennt gefuehrt werden muessen. Passt zum
+Backtest, wo `or_:post_daily_low` (26 %, 1m) der beste aller acht Werte war.
 
 Vorbehalt: Tag lief beim Erfassen noch (Daten bis 14:39 NY).

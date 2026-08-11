@@ -2043,3 +2043,7 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Qs/Os/Hs-Raster der Opening Range 9:30-10:00 fuer den 11.08. berechnet (Range 206,75 Pkt, C.E. 29 739,38)
 - Befund: -0,5-STD-Projektion 29 532,62 vs. Tagestief 29 533,50 -- 0,88 Pkt Abweichung, waehrend dasselbe Tief aus der Gap-Basis auf keinem Level lag
 - Frueherer Datenpunkt in Muster-Validierung (laufend) entsprechend korrigiert statt stehengelassen
+
+## [2026-08-11] lint | Begriffskorrektur ORG vs. Opening Range
+- Eigene Fehlinterpretation richtiggestellt: "ORG NY AM" meint das Gap 16:14->9:30 (NY-AM-Variante), nicht die Opening Range 9:30-10:00
+- PLAN.md-Eintrag und Muster-Validierung (laufend) entsprechend umgeschrieben; der Opening-Range-Befund bleibt als eigenstaendiger Datenpunkt erhalten
