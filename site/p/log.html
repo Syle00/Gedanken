@@ -24,7 +24,7 @@
 <li><a href="../index.html#concepts">Konzepte<span class="count">139</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">317</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">13</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">14</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
@@ -167,6 +167,7 @@
 <li><a href="#2026-08-12-ingest-13-mit-15s08-quant-finance-transkripte-rawquant-finance2026">[2026-08-12] ingest | 13 MIT-15.S08-Quant-Finance-Transkripte (raw/quant-finance/2026/)</a></li>
 <li><a href="#2026-08-12-ingest-restliche-9-mit-15s08-quant-finance-transkripte-rawquant-finance2026">[2026-08-12] ingest | Restliche 9 MIT-15.S08-Quant-Finance-Transkripte (raw/quant-finance/2026/)</a></li>
 <li><a href="#2026-08-12-ingest-batch-yale-econ-252-financial-markets-open-yale-courses-robert-shiller-23-youtube-vorlesungen">[2026-08-12] ingest | Batch: Yale Econ 252 "Financial Markets" (Open Yale Courses, Robert Shiller, 23 YouTube-Vorlesungen)</a></li>
+<li><a href="#2026-08-12-setup-quant-riskmanagement-austauschbare-risk-module">[2026-08-12] setup | Quant-Riskmanagement: austauschbare Risk-Module</a></li>
 </ul>
 </div>
 </details>
@@ -2404,6 +2405,19 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Seiten aktualisiert: wiki/index.md (10 neue Concepts-Einträge, neue Sources-Unterrubrik "Yale
   Econ 252" mit 23 Einträgen und Abgrenzungshinweis zur MIT-15.S08-Reihe).</li>
 <li>Kein Push ausgeführt (push.ps1) — laut Auftrag macht das der Hauptagent/Nutzer separat.</li>
+</ul>
+<h2 id="2026-08-12-setup-quant-riskmanagement-austauschbare-risk-module">[2026-08-12] setup | Quant-Riskmanagement: austauschbare Risk-Module</h2>
+<ul>
+<li>Seiten erstellt: wiki/synthesis/Risk-Management-Vergleich (laufend).md</li>
+<li>Seiten aktualisiert: wiki/index.md</li>
+<li>Vier austauschbare Risk-Sizing-Module (algo/risk_fixed.py, risk_garch.py, risk_kelly.py,
+  risk_killswitch.py) hinter gemeinsamem Interface <code>risk_pct(base_pct=0.01, **ctx) -&gt; float</code>,
+  siehe docs/superpowers/specs/2026-08-12-quant-risk-management-design.md und
+  docs/superpowers/plans/2026-08-12-quant-risk-management.md.</li>
+<li>Aus der finalen Whole-Branch-Review direkt mitgefixt (Zahlen in algo/PLAN.md): der
+  Drawdown-Kill-Switch mass den Drawdown in den Punkteinheiten der <code>backtesting</code>-Lib statt in
+  echten Dollar — derselbe Fehlertyp wie der 2026-08-06-Audit-Fund in <code>pnl.py::risk_size()</code>.
+  Kelly-Sizing ist jetzt wie GARCH auf 1,5 x base_pct gedeckelt.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
