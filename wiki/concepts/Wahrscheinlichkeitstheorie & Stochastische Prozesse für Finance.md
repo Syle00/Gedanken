@@ -2,7 +2,7 @@
 tags: [concept, quant-finance, wahrscheinlichkeitstheorie, stochastische-prozesse, mit-ocw]
 created: 2026-08-12
 updated: 2026-08-12
-sources: ["[[2025-12-03 - MIT 15.S08 Lecture 4 - Linear Algebra cont, Probability Theory (Source)]]", "[[2025-12-03 - MIT 15.S08 Lecture 5 - Probability Theory cont, Stochastic Processes I (Source)]]", "[[2025-12-03 - MIT 15.S08 Lecture 6 - Stochastic Processes I cont, Regression Analysis (Source)]]"]
+sources: ["[[2025-12-03 - MIT 15.S08 Lecture 4 - Linear Algebra cont, Probability Theory (Source)]]", "[[2025-12-03 - MIT 15.S08 Lecture 5 - Probability Theory cont, Stochastic Processes I (Source)]]", "[[2025-12-03 - MIT 15.S08 Lecture 6 - Stochastic Processes I cont, Regression Analysis (Source)]]", "[[2025-12-03 - MIT 15.S08 Lecture 14 - Stochastic Processes II (Source)]]"]
 ---
 
 # Wahrscheinlichkeitstheorie & Stochastische Prozesse für Finance
@@ -70,10 +70,43 @@ Funktionen, Martingale, Random Walks, Markov-Ketten, CAPM-Herleitung.
   `βᵢ` ist exakt der Regressionskoeffizient von `Rᵢ − Rf` auf `R_m − Rf` — Brücke zu
   [[Regressionsanalyse für Finance]].
 
+## Brownsche Bewegung — formale Definition (Lecture 14)
+
+- Definierende Eigenschaften: `B_0=0`, Inkremente `B_{t+Δt}−B_t ~ N(0, σ²Δt)`, disjunkte Inkremente
+  sind unabhängig, Pfade sind stetig. Markov-Eigenschaft: die bedingte Verteilung von `B_{t+Δt}`
+  gegeben der gesamten Vergangenheit hängt nur von `B_t` ab.
+- Konstruktion als Grenzwert: der normierte Random Walk (Partialsummen von i.i.d. Schritten mit
+  Mittel 0, Varianz 1, skaliert mit `1/√n`) konvergiert für `n→∞` gegen Brownsche Bewegung —
+  **unabhängig von der Verteilung der einzelnen Schritte** (Bernoulli- und Gauss-Schritte liefern
+  denselben Grenzprozess). Das rechtfertigt Brownsche Bewegung als Modell für Preisprozesse, deren
+  Mikrostruktur-Schritte nicht notwendig normalverteilt sind.
+- **Reflection Principle**: der um ein Niveau `x` gespiegelte Pfad hat dieselbe Wahrscheinlichkeit
+  wie der Originalpfad. Daraus folgt `P(max_{s≤t} B_s > x) = 2·P(B_t > x)` — das Maximum einer
+  Brownschen Bewegung lässt sich über die Endwertverteilung berechnen, ohne den gesamten Pfad zu
+  betrachten.
+- **First-Passage-/Hitting-Time-Dichte**: durch Differenzieren der obigen Formel nach `t` ergibt
+  sich die Dichte der Zeit, zu der ein Niveau `x` erstmals erreicht wird — je höher das Zielniveau,
+  desto breiter gestreut die Trefferzeit.
+- Erweiterungen: **Absorbed Brownian Motion** (Prozess bleibt bei 0 "kleben", sobald 0 erreicht ist
+  — Modell für den Bankrott-Fall bei Aktienkursen), **Brownian Bridge** (an beiden Enden fixierter
+  Pfad, `X_t = B_t − t·B_1`, taucht bei normierten empirischen Verteilungsfunktionen auf).
+- **Probability Integral Transform**: für jede stetige Zufallsvariable `Y` mit CDF `F_Y` ist
+  `F_Y(Y)` gleichverteilt auf `[0,1]` — Grundlage für Modell-Diagnostik (Test, ob eine angenommene
+  Verteilung zu den Daten passt).
+- **Laplace-Verbindung**: wird Brownsche Bewegung zu zufälligen (exponentialverteilten) statt
+  festen Zeitabständen beobachtet, sind die Inkremente Laplace- statt normalverteilt — passt
+  empirisch besser zu täglichen S&P-500-Renditen, siehe [[Volatilitätsmodelle (GARCH & Co)]].
+- **Adaptierte Prozesse**: eine Handelsstrategie `Y_t`, die von einem Preisprozess `X_t` abhängt,
+  muss "adaptiert" sein — `Y_t` darf nur von Information bis Zeitpunkt `t` abhängen (formale
+  Fassung von "kein Lookahead"). Direkte Brücke zur Martingal-Theorie: adaptierte Transformationen
+  eines Martingals bleiben unter bestimmten Bedingungen Martingale.
+
 ## Bezug zu diesem Projekt
 
 - Martingal-/Random-Walk-Theorie ist die formale Grundlage für "kein Lookahead, keine
-  vorhersagbare Drift" — direkt relevant für die Selbstchecks in `algo/selfcheck.py`.
+  vorhersagbare Drift" — direkt relevant für die Selbstchecks in `algo/selfcheck.py`. Der Begriff
+  "adaptierter Prozess" (Lecture 14) ist die mathematisch präzise Fassung derselben Regel, die in
+  [[Algo-Trading: Arbeitsstandards]] als "nur `bars[t<=when]`" formuliert ist.
 - Markov-Ketten für Bar-Zustandsfolgen (Up/Up/Down etc.) sind eine unmittelbare, noch nicht
   gebaute Backtest-These für `algo/signals.py`, siehe [[Quant-Finance-Formeln für den MNQ-Algo (laufend)]].
 - CAPM-β-Formel und Diversifikationsformel `σ²/n` sind die theoretische Basis für
