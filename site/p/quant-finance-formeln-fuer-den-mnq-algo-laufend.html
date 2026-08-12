@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">130</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">290</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">294</span></a></li>
 <li class="active"><a href="../index.html#synthesis">Synthese<span class="count">13</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -48,7 +48,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#synthesis">Synthese</a></div>
   <h1>Quant-Finance-Formeln für den MNQ-Algo (laufend)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">quant-finance</span> <span class="tag">algo-methodology</span> <span class="tag">laufend</span></div><div class="dates">erstellt 2026-08-12 · aktualisiert 2026-08-12</div><div class="srcline"><span>Quellen:</span> <a href="../p/lineare-algebra-fuer-finance.html">Lineare Algebra für Finance</a>, <a href="../p/wahrscheinlichkeitstheorie-stochastische-prozesse-fuer-finance.html">Wahrscheinlichkeitstheorie &amp; Stochastische Prozesse für Finance</a>, <a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a>, <a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a>, <a href="../p/bond-mathematik-zinskurven.html">Bond-Mathematik &amp; Zinskurven</a>, <a href="../p/portfolio-management-sizing-gain-loss-ratio.html">Portfolio-Management &amp; Sizing (Gain-Loss-Ratio)</a>, <a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">quant-finance</span> <span class="tag">algo-methodology</span> <span class="tag">laufend</span></div><div class="dates">erstellt 2026-08-12 · aktualisiert 2026-08-12</div><div class="srcline"><span>Quellen:</span> <a href="../p/lineare-algebra-fuer-finance.html">Lineare Algebra für Finance</a>, <a href="../p/wahrscheinlichkeitstheorie-stochastische-prozesse-fuer-finance.html">Wahrscheinlichkeitstheorie &amp; Stochastische Prozesse für Finance</a>, <a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a>, <a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a>, <a href="../p/bond-mathematik-zinskurven.html">Bond-Mathematik &amp; Zinskurven</a>, <a href="../p/portfolio-management-sizing-gain-loss-ratio.html">Portfolio-Management &amp; Sizing (Gain-Loss-Ratio)</a>, <a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a>, <a href="../p/zeitreihenanalyse-fuer-finance.html">Zeitreihenanalyse für Finance</a>, <a href="../p/volatilitaetsmodelle-garch-co.html">Volatilitätsmodelle (GARCH &amp; Co)</a>, <a href="../p/black-scholes-risikoneutrale-bewertung.html">Black-Scholes &amp; Risikoneutrale Bewertung</a>, <a href="../p/machine-learning-fuer-finance-grundlagen.html">Machine Learning für Finance (Grundlagen)</a>, <a href="../p/stochastische-analysis-it-kalkuel-sdes.html">Stochastische Analysis (Itô-Kalkül &amp; SDEs)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#pca-fur-regime-erkennung">PCA für Regime-Erkennung</a></li>
@@ -59,6 +59,11 @@
 <li><a href="#bond-durationconvexity-nicht-direkt-relevant-fur-mnq">Bond-Duration/Convexity — nicht direkt relevant für MNQ</a></li>
 <li><a href="#counterparty-risk-optimierung-simmnetzwerk-margin-nicht-relevant">Counterparty-Risk-Optimierung (SIMM/Netzwerk-Margin) — nicht relevant</a></li>
 <li><a href="#stochastische-prozesse-brownsche-bewegung">Stochastische Prozesse / Brownsche Bewegung</a></li>
+<li><a href="#garch-volatilitatsschatzung-fur-dynamisches-sizing-neu-batch-2">GARCH-Volatilitätsschätzung für dynamisches Sizing (neu, Batch 2)</a></li>
+<li><a href="#autokorrelations-these-fur-mnq-returns-neu-batch-2-falsifizierbare-these">Autokorrelations-These für MNQ-Returns (neu, Batch 2, falsifizierbare These)</a></li>
+<li><a href="#black-scholesrisikoneutrale-bewertung-nicht-direkt-anwendbar">Black-Scholes/Risikoneutrale Bewertung — nicht direkt anwendbar</a></li>
+<li><a href="#stochastic-calculusito-konzeptuelle-grundlage-nicht-direkt-codierbar">Stochastic Calculus/Itô — konzeptuelle Grundlage, nicht direkt codierbar</a></li>
+<li><a href="#machine-learning-grundlagen-bestatigung-bestehender-methodik">Machine-Learning-Grundlagen — Bestätigung bestehender Methodik</a></li>
 <li><a href="#offene-punkte">Offene Punkte</a></li>
 </ul>
 </div>
@@ -148,6 +153,63 @@ Zufallssignal-Backtest sollte im Erwartungswert ein Martingal-artiges (driftlose
 liefern; weicht die tatsächliche Regel systematisch davon ab, ist das der eigentliche Beleg für
 einen Edge — ⚠️ nur sinnvoll als Kontrollexperiment neben einer echten Regel, nicht als
 eigenständiges Analyseziel.</p>
+<h2 id="garch-volatilitatsschatzung-fur-dynamisches-sizing-neu-batch-2">GARCH-Volatilitätsschätzung für dynamisches Sizing (neu, Batch 2)</h2>
+<p><strong>Was sie macht</strong>: <a href="../p/volatilitaetsmodelle-garch-co.html">Volatilitätsmodelle (GARCH &amp; Co)</a> liefert mit GARCH(1,1)
+(<code>σ²_t = ω + α·ε²_{t-1} + β·σ²_{t-1}</code>) eine laufend aktualisierte Volatilitätsschätzung, die auf
+Volatilitätsschocks (Displacement, News) schneller reagiert als ein fester ATR-Lookback. Der
+Yang-Zhang-Schätzer (Effizienzfaktor ~8 gegenüber Close-to-Close) ist mit dem vorhandenen
+OHLC-Bestand in <code>raw/marktdaten/</code> ohne zusätzlichen Datenbedarf sofort berechenbar.</p>
+<p><strong>Konkreter Vorschlag</strong>: <code>algo/rules.py</code>/<code>algo/pnl.py</code> um eine GARCH(1,1)-basierte
+Stop-Distance-/Positionsgrößen-Regel erweitern — statt eines festen ATR-Multiplikators eine
+laufende <code>σ̂_t</code>-Schätzung, die Stop-Weite und Kontraktzahl dynamisch skaliert. Dies ist <strong>konkret
+umsetzbar</strong>, nicht nur konzeptionell: Datenbedarf ist vollständig gedeckt.</p>
+<p>⚠️ Noch nicht implementiert — Kandidat für <code>algo/backtest_garch_sizing.py</code> (noch nicht angelegt).</p>
+<h2 id="autokorrelations-these-fur-mnq-returns-neu-batch-2-falsifizierbare-these">Autokorrelations-These für MNQ-Returns (neu, Batch 2, falsifizierbare These)</h2>
+<p><strong>Was sie macht</strong>: <a href="../p/zeitreihenanalyse-fuer-finance.html">Zeitreihenanalyse für Finance</a> liefert mit dem Box-Pierce-Test
+(<code>BP = T·Σ R̂_j²</code>, χ²-verteilt) ein direktes Signifikanzwerkzeug für Autokorrelation. Die Vorlesung
+zeigt empirisch unterschiedliche Autokorrelationsmuster über Anlageklassen (S&amp;P 500 negativ bei
+Lag 1 monatlich, Crude-Oil-Futures negativ/positiv bei Lag 2/3 wöchentlich, Amazon durchgehend
+keine signifikante Autokorrelation) — es ist also <strong>nicht</strong> selbstverständlich, dass ein Future
+wie MNQ Autokorrelation zeigt.</p>
+<p><strong>Konkreter Vorschlag</strong>: die Box-Pierce-/ACF-Signifikanzprüfung auf MNQ-Returns (mehrere
+Timeframes: 1m/5m/15m/1h/1d) in <code>tools/analyze_ohlc.py</code> oder einem neuen
+<code>algo/backtest_autocorrelation.py</code> anwenden. Das ist eine eigenständige, von der bereits
+eingetragenen Markov-Ketten-These unterschiedliche, aber verwandte Prüfung — die Markov-These
+testet Zustandsfolgen (Up/Down-Serien), diese hier testet die lineare Korrelationsstruktur direkt
+über die ACF. Gemäß <span class="broken" title="Seite existiert noch nicht">Algo-Trading: Arbeitsstandards</span> als falsifizierbare These in <code>algo/PLAN.md</code>
+eingetragen (siehe Log-Eintrag zu diesem Ingest).</p>
+<h2 id="black-scholesrisikoneutrale-bewertung-nicht-direkt-anwendbar">Black-Scholes/Risikoneutrale Bewertung — nicht direkt anwendbar</h2>
+<p><strong>Was sie macht</strong>: <a href="../p/black-scholes-risikoneutrale-bewertung.html">Black-Scholes &amp; Risikoneutrale Bewertung</a> liefert die Bewertungsformel für
+Optionen über Replikationsportfolios; hängt nur von Volatilität und risikofreiem Zins ab, nicht vom
+realen Drift.</p>
+<p><strong>Bewertung</strong>: <strong>MNQ ist ein Future, kein Optionsprodukt</strong> — Black-Scholes-PDE und risikoneutrale
+Bewertung sind für die aktuelle <code>algo/</code>-Strategie nicht direkt anwendbar. ⚠️ Notiz für später:
+falls <code>algo/</code> künftig Optionsstrategien auf NQ-Futures (z.B. Absicherung über Puts, oder
+Volatilitäts-Overlay über Optionen) dazunimmt, ist dieser Formelapparat direkt einsatzbereit.
+Aktuell kein Handlungsbedarf.</p>
+<h2 id="stochastic-calculusito-konzeptuelle-grundlage-nicht-direkt-codierbar">Stochastic Calculus/Itô — konzeptuelle Grundlage, nicht direkt codierbar</h2>
+<p><strong>Was sie macht</strong>: <a href="../p/stochastische-analysis-it-kalkuel-sdes.html">Stochastische Analysis (Itô-Kalkül &amp; SDEs)</a> zeigt, dass geometrische
+Brownsche Bewegung (die formale Fassung von "Random Walk auf Log-Preis-Skala") eine driftkorrigierte
+Rendite <code>μ−σ²/2</code> hat und mit Wahrscheinlichkeit 1 gegen 0 gehen kann, obwohl der Erwartungswert
+wächst.</p>
+<p><strong>Bewertung</strong>: primär eine <strong>konzeptuelle Nullhypothese</strong>, kein direkt codierbares Signal — wie
+bereits im ersten Batch für Brownsche Bewegung allgemein festgehalten (siehe Abschnitt oben zu
+"Stochastische Prozesse / Brownsche Bewegung"). Der Ornstein-Uhlenbeck-Prozess ist die
+stetige-Zeit-Entsprechung zur bereits produktiv genutzten
+<a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a>-Formel — keine neue Handlungsanweisung,
+aber zusätzliche mathematische Absicherung.</p>
+<h2 id="machine-learning-grundlagen-bestatigung-bestehender-methodik">Machine-Learning-Grundlagen — Bestätigung bestehender Methodik</h2>
+<p><strong>Was sie macht</strong>: <a href="../p/machine-learning-fuer-finance-grundlagen.html">Machine Learning für Finance (Grundlagen)</a> beschreibt den
+Train/Validation/Test-Split (60/20/20) und die Overfitting-Erkennungsregel (Komplexität erhöhen,
+bis Validation-Performance schlechter wird).</p>
+<p><strong>Bewertung</strong>: <strong>keine neue Methodik</strong> — methodisch identisch mit dem bereits in <code>algo/validate.py</code>
+umgesetzten Walk-Forward-/Out-of-Sample-Prinzip, siehe
+<a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a> und
+<a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a>. Dient als unabhängige Bestätigung der
+bestehenden Projektdisziplin, nicht als Implementierungsauftrag. Reinforcement Learning für
+Hedging ist mangels Optionsportfolio in <code>algo/</code> nicht anwendbar (siehe
+<a href="../p/reinforcement-learning-fuer-handel-grenzen-starke.html">Reinforcement Learning für Handel — Grenzen (Starke)</a> für die bereits dokumentierte Skepsis
+gegenüber RL als Signalgeber).</p>
 <h2 id="offene-punkte">Offene Punkte</h2>
 <ul>
 <li>Markov-Ketten-These (Bar-Zustandsfolgen) noch nicht gegen <code>raw/marktdaten/</code> gebacktestet —
@@ -156,8 +218,13 @@ eigenständiges Analyseziel.</p>
 <li>PCA-Multi-Timeframe-Feature ebenfalls noch nicht implementiert — Datenbedarf (mehrere
   Timeframes derselben Zeitspanne) ist mit dem aktuellen <code>raw/marktdaten/</code>-Bestand grundsätzlich
   gedeckt, aber ungeprüft.</li>
+<li>GARCH(1,1)-basierte Stop-Distance-These (Batch 2) noch nicht implementiert/gebacktestet —
+  <code>algo/backtest_garch_sizing.py</code>, noch nicht angelegt.</li>
+<li>Autokorrelations-/Box-Pierce-These auf MNQ-Returns (Batch 2) noch nicht gebacktestet —
+  <code>algo/backtest_autocorrelation.py</code>, noch nicht angelegt. Siehe <code>algo/PLAN.md</code>-Log-Eintrag zu
+  diesem Ingest.</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">15</span></h2><ul><li><a href="../p/2025-12-03-mit-15-s08-lecture-12-time-series-analysis-source.html">2025-12-03 - MIT 15.S08 Lecture 12 - Time Series Analysis (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-12-03-mit-15-s08-lecture-18-applying-data-science-and-ai-to-managing-biomedical-portfolios-source.html">2025-12-03 - MIT 15.S08 Lecture 18 - Applying Data Science and AI to Managing Biomedical Portfolios (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-12-03-mit-15-s08-lecture-19-volatility-modeling-source.html">2025-12-03 - MIT 15.S08 Lecture 19 - Volatility Modeling (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-12-03-mit-15-s08-lecture-6-stochastic-processes-i-cont-regression-analysis-source.html">2025-12-03 - MIT 15.S08 Lecture 6 - Stochastic Processes I cont, Regression Analysis (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-12-03-mit-15-s08-lecture-9-principal-component-analysis-in-finance-source.html">2025-12-03 - MIT 15.S08 Lecture 9 - Principal Component Analysis in Finance (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/black-scholes-risikoneutrale-bewertung.html">Black-Scholes &amp; Risikoneutrale Bewertung</a><span class="cat">Konzepte</span></li><li><a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/lineare-algebra-fuer-finance.html">Lineare Algebra für Finance</a><span class="cat">Konzepte</span></li><li><a href="../p/machine-learning-fuer-finance-grundlagen.html">Machine Learning für Finance (Grundlagen)</a><span class="cat">Konzepte</span></li><li><a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a><span class="cat">Konzepte</span></li><li><a href="../p/stochastische-analysis-it-kalkuel-sdes.html">Stochastische Analysis (Itô-Kalkül &amp; SDEs)</a><span class="cat">Konzepte</span></li><li><a href="../p/volatilitaetsmodelle-garch-co.html">Volatilitätsmodelle (GARCH &amp; Co)</a><span class="cat">Konzepte</span></li><li><a href="../p/wahrscheinlichkeitstheorie-stochastische-prozesse-fuer-finance.html">Wahrscheinlichkeitstheorie &amp; Stochastische Prozesse für Finance</a><span class="cat">Konzepte</span></li><li><a href="../p/zeitreihenanalyse-fuer-finance.html">Zeitreihenanalyse für Finance</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">17</span></h2><ul><li><a href="../p/2025-12-03-mit-15-s08-lecture-12-time-series-analysis-source.html">2025-12-03 - MIT 15.S08 Lecture 12 - Time Series Analysis (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-12-03-mit-15-s08-lecture-18-applying-data-science-and-ai-to-managing-biomedical-portfolios-source.html">2025-12-03 - MIT 15.S08 Lecture 18 - Applying Data Science and AI to Managing Biomedical Portfolios (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-12-03-mit-15-s08-lecture-19-volatility-modeling-source.html">2025-12-03 - MIT 15.S08 Lecture 19 - Volatility Modeling (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-12-03-mit-15-s08-lecture-21-black-scholes-formula-risk-neutral-valuation-source.html">2025-12-03 - MIT 15.S08 Lecture 21 - Black-Scholes Formula, Risk Neutral Valuation (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-12-03-mit-15-s08-lecture-23-introduction-to-machine-learning-source.html">2025-12-03 - MIT 15.S08 Lecture 23 - Introduction to Machine Learning (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-12-03-mit-15-s08-lecture-6-stochastic-processes-i-cont-regression-analysis-source.html">2025-12-03 - MIT 15.S08 Lecture 6 - Stochastic Processes I cont, Regression Analysis (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-12-03-mit-15-s08-lecture-9-principal-component-analysis-in-finance-source.html">2025-12-03 - MIT 15.S08 Lecture 9 - Principal Component Analysis in Finance (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/black-scholes-risikoneutrale-bewertung.html">Black-Scholes &amp; Risikoneutrale Bewertung</a><span class="cat">Konzepte</span></li><li><a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/lineare-algebra-fuer-finance.html">Lineare Algebra für Finance</a><span class="cat">Konzepte</span></li><li><a href="../p/machine-learning-fuer-finance-grundlagen.html">Machine Learning für Finance (Grundlagen)</a><span class="cat">Konzepte</span></li><li><a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a><span class="cat">Konzepte</span></li><li><a href="../p/stochastische-analysis-it-kalkuel-sdes.html">Stochastische Analysis (Itô-Kalkül &amp; SDEs)</a><span class="cat">Konzepte</span></li><li><a href="../p/volatilitaetsmodelle-garch-co.html">Volatilitätsmodelle (GARCH &amp; Co)</a><span class="cat">Konzepte</span></li><li><a href="../p/wahrscheinlichkeitstheorie-stochastische-prozesse-fuer-finance.html">Wahrscheinlichkeitstheorie &amp; Stochastische Prozesse für Finance</a><span class="cat">Konzepte</span></li><li><a href="../p/zeitreihenanalyse-fuer-finance.html">Zeitreihenanalyse für Finance</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Quant-Finance-Formeln für den MNQ-Algo (laufend).md</code></footer>
 </article>
 </main>

@@ -132,6 +132,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Hauptkomponentenanalyse (PCA) in der Finance]] — Formale Herleitung + Zinskurven-Praxisfallstudie (Level/Slope/Curvature); quant-finance (2026-08-12)
 - [[Bond-Mathematik & Zinskurven]] — Diskontierung, Yield, Duration/Convexity, SOFR-Swaps, Kurvenkonstruktion; quant-finance (2026-08-12)
 - [[Portfolio-Management & Sizing (Gain-Loss-Ratio)]] — Markowitz-Formeln, Rebalancing-These, Gain-Loss-Ratio, Crowding-/Power-Law-Modell; quant-finance (2026-08-12)
+- [[Zeitreihenanalyse für Finance]] — Stationarität, Autokorrelation/Box-Pierce, Wold-Zerlegung, ARMA(p,q), Yule-Walker; quant-finance (2026-08-12)
+- [[Volatilitätsmodelle (GARCH & Co)]] — EWMA/RiskMetrics, Garman-Klass/Yang-Zhang-Schätzer, ARCH/GARCH(1,1), Poisson-Jump-Diffusion, Laplace-Verteilung; quant-finance (2026-08-12)
+- [[Black-Scholes & Risikoneutrale Bewertung]] — Replikationsargument, risikoneutrales Maß, Black-Scholes-PDE, Put-Call-Parität; quant-finance (2026-08-12)
+- [[Machine Learning für Finance (Grundlagen)]] — Train/Validation/Test-Split, neuronale Netze, Backpropagation, Reinforcement Learning/Q-Learning; quant-finance (2026-08-12)
+- [[Stochastische Analysis (Itô-Kalkül & SDEs)]] — Itô-Integral, Itô's Formel, geometrische Brownsche Bewegung, Ornstein-Uhlenbeck-Prozess; quant-finance (2026-08-12)
 
 ## Models
 
@@ -446,7 +451,16 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2025-12-03 - MIT 15.S08 Lecture 9 - Principal Component Analysis in Finance (Source)]] — PCA-Praxisfallstudie US-Zinskurve: Level/Slope/Curvature, handelbare PC-Portfolios (2026-08-12)
 - [[2025-12-03 - MIT 15.S08 Lecture 10 - Counterparty Risk Optimization (Source)]] — VaR vs. Expected Shortfall, Subadditivität/Konvexität, SIMM, Netzwerk-Margin-Optimierung (2026-08-12)
 - [[2025-12-03 - MIT 15.S08 Lecture 11 - Regression Analysis cont (Source)]] — Ridge/Lasso/PCR, empirischer CAPM-Test über alle S&P-500-Werte (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 12 - Time Series Analysis (Source)]] — Stationarität, Autokorrelation/Box-Pierce, Wold-Zerlegung, ARMA (2026-08-12)
 - [[2025-12-03 - MIT 15.S08 Lecture 13 - Portfolio Management (Source)]] — Markowitz-Kritik, Gain-Loss-Ratio-Sizing, Crowding-/Power-Law-Modell (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 14 - Stochastic Processes II (Source)]] — formale Brownsche Bewegung, Reflection Principle, Laplace-Verteilung, adaptierte Prozesse (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 18 - Applying Data Science and AI to Managing Biomedical Portfolios (Source)]] — ⚠️ überwiegend domänenspezifisch (Biomedizin), keine übertragbaren Formeln (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 19 - Volatility Modeling (Source)]] — EWMA/RiskMetrics, Garman-Klass/Yang-Zhang, ARCH/GARCH(1,1) (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 20 - Building the First Federally (CFTC) Regulated Exchange Dedicated to Trading on Events (Source)]] — ⚠️ Marktstruktur/Regulatorik (Kalshi), keine Formeln (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 21 - Black-Scholes Formula, Risk Neutral Valuation (Source)]] — Replikationsargument, risikoneutrales Maß, Black-Scholes-PDE (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 23 - Introduction to Machine Learning (Source)]] — Train/Val/Test-Split, neuronale Netze, Reinforcement Learning/Q-Learning (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 24 - Stochastic Calculus (Source)]] — Itô-Integral-Konstruktion, Itô's Formel, Martingal-PDE-Verbindung (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 25 - Stochastic Calculus cont, Stochastic Differential Equations (Source)]] — geometrische Brownsche Bewegung, zweite Black-Scholes-Herleitung, Ornstein-Uhlenbeck (2026-08-12)
 
 ## Synthesis
 

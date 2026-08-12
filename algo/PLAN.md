@@ -276,6 +276,25 @@ Jannes' These (aus `raw/daily bias 12.08.md`): bei einem **sehr grossen** ORG-Ga
 Fuellrate nach Gap-Groesse (Quartile) statt nur aggregiert auszuweisen — prueft, ob grosse Gaps
 die 35–43%-Gesamtquote nach unten ziehen. Siehe [[../wiki/synthesis/Muster-Validierung (laufend)|Muster-Validierung (laufend)]], Nachtrag 2026-08-12.
 
+### Backlog: zwei quant-finance-Thesen aus MIT-15.S08-Batch-2-Ingest (2026-08-12)
+
+Aus dem Ingest der 9 restlichen MIT-15.S08-Transkripte (Lectures 12/14/18-21/23-25, siehe
+`wiki/log.md`) stammen zwei konkret codierbare, noch nicht implementierte Thesen:
+
+- **Autokorrelations-These (Box-Pierce)**: prueft, ob MNQ-Returns auf einem oder mehreren
+  Timeframes (1m/5m/15m/1h/1d) signifikante Autokorrelation zeigen (`BP = T·Σ R̂_j²`,
+  χ²-verteilt). Siehe [[../wiki/concepts/Zeitreihenanalyse für Finance|Zeitreihenanalyse für
+  Finance]]. Noch kein Code — Kandidat `algo/backtest_autocorrelation.py`.
+- **GARCH(1,1)-Sizing-These**: dynamische Stop-Distance/Positionsgroesse ueber eine laufend
+  aktualisierte GARCH-Volatilitaetsschaetzung statt festem ATR-Multiplikator; Datenbedarf
+  (OHLC) ist mit `raw/marktdaten/` bereits gedeckt. Siehe
+  [[../wiki/concepts/Volatilitätsmodelle (GARCH & Co)|Volatilitätsmodelle (GARCH & Co)]]. Noch
+  kein Code — Kandidat `algo/backtest_garch_sizing.py`.
+
+Beide sind reine Backlog-Eintraege gemaess [[Algo-Trading: Arbeitsstandards]] ("jede neue These
+wird automatisch geloggt") — Backtest folgt in einer kuenftigen Session, nicht Teil dieses
+Ingest-Auftrags.
+
 ## Naechster Schritt
 
 **Korrektur (2026-08-03):** Der urspruengliche Plan war, mit dem Backtest zu warten, bis
@@ -366,3 +385,4 @@ oben), nicht mehr Warten.
 | 2026-08-12 | **YM (`YMU2026`) nachgezogen**, damit sind MNQ, ES, YM und DXY eingelesen. YM 11.08. = 1326 von 1380 Kerzen bei 48 Luecken — davon **43 exakt eine Minute lang und alle zwischen 18:00 und 05:00 NY, keine einzige in der RTH-Session**. Das ist echte Marktstille im duenn gehandelten Dow-Future, nicht das Exportartefakt, das bei MNQ vorlag (dort: Luecke verschwand im zweiten Export, hier: Verteilung folgt dem Volumenprofil). **Folge:** ES und MNQ erreichen 1380 lueckenlos, YM und DXY koennen das strukturell nicht. Die Nutzer-Regel "nur vollstaendige Tage backtesten" braucht darum einen symbolspezifischen Vollstaendigkeitsbegriff (Sollwert je Symbol statt global 1380/1440), sonst fallen YM und DXY dauerhaft aus jedem Backtest heraus. Noch offen, gehoert in `data_gate.py`. |
 | 2026-08-12 | **Neue Daily-Bias-Notiz `raw/daily bias 12.08.md` verarbeitet** (CPI 8:30 NY als Volatilitaetstreiber, Buyside-Weekly-DOL 30 094,00, ORG-C.E.-70%-These live vor RTH-Open angewendet). `algo/live_status.py` frisch gezogen zur Verifikation: 29 800,00 um 05:00 NY, deckt sich mit Jannes' 29 804 (11:00 CEST) — `org_ce` liefert vor 9:30 NY erwartungsgemaess `null`, die eigentliche ORG steht erst mit RTH-Open fest. Jannes' These (grosser Gap → C.E. fuellt seltener innerhalb 30 Min) als Backlog-Idee (Gap-Segmentierung in `backtest_org_ce.py`) und als Nachtrag in `wiki/synthesis/Muster-Validierung (laufend).md` hinterlegt; nach 9:30 NY mit echten Daten nachpruefen. |
 | 2026-08-12 | **Ingest 13 MIT-15.S08-Quant-Finance-Transkripte** (`raw/quant-finance/2026/`) — Formeln aus Linearer Algebra, Wahrscheinlichkeitstheorie/Stochastik, Regression, PCA, Bond-Mathematik, Portfolio-Management, Counterparty-Risk ins Wiki uebernommen (7 Konzeptseiten + 13 Sourceseiten + 1 Synthese-Seite, siehe `wiki/synthesis/Quant-Finance-Formeln für den MNQ-Algo (laufend).md`). **Neue, noch nicht getestete These aus Lecture 6** (automatisch geloggt gemaess Arbeitsstandard "jede neue These wird automatisch geloggt und gebacktestet"): Markov-Ketten-Uebergangswahrscheinlichkeiten fuer MNQ-Bar-Zustandsfolgen (Up/Down-Sequenzen, analog zum Apple-Beispiel der Vorlesung: aufeinanderfolgende Aufwaertstage koennen die Wahrscheinlichkeit eines weiteren Aufwaertstages erhoehen) — noch kein Backtest-Skript gebaut (`algo/backtest_markov_bars.py`, geplanter Dateiname), folgt in einer kommenden Session. Weitere konkrete Einsatzideen (PCA-Multi-Timeframe-Feature fuer `algo/signals.py`, Gain-Loss-Ratio-Kennzahl fuer `algo/validate.py`, Regressions-Signifikanztest fuer Strategie-Alpha) in der Synthese-Seite dokumentiert, ebenfalls noch nicht implementiert. |
+| 2026-08-12 | **Ingest der restlichen 9 MIT-15.S08-Transkripte** (Lectures 12/14/18/19/20/21/23/24/25, `raw/quant-finance/2026/`) — Formeln zu Zeitreihenanalyse, formaler Brownscher Bewegung, Volatilitaetsmodellen (GARCH), Black-Scholes/risikoneutraler Bewertung, Machine-Learning-Grundlagen und Itô-Kalkül/SDEs ins Wiki uebernommen (5 neue Konzeptseiten + 9 Sourceseiten + Erweiterung von `wiki/concepts/Wahrscheinlichkeitstheorie & Stochastische Prozesse für Finance.md` + Erweiterung der Synthese-Seite). Lecture 18 (Biomedical AI) und Lecture 20 (Kalshi/CFTC) bewusst nur als schlanke Source-Seiten angelegt — kein uebertragbarer Formel-/Regel-Content. **Zwei neue, noch nicht getestete Thesen** (siehe Backlog-Abschnitt oben "zwei quant-finance-Thesen aus MIT-15.S08-Batch-2-Ingest"): (1) Box-Pierce-Autokorrelationstest auf MNQ-Returns ueber mehrere Timeframes, (2) GARCH(1,1)-basierte dynamische Stop-Distance/Sizing-Regel statt festem ATR-Multiplikator. Beide noch ohne Backtest-Skript, folgen in einer kommenden Session. Black-Scholes/risikoneutrale Bewertung explizit als "aktuell nicht direkt anwendbar" markiert (MNQ ist Future, kein Optionsprodukt); Machine-Learning-Train/Val/Test-Disziplin als Bestaetigung der bestehenden `algo/validate.py`-Methodik eingeordnet, kein neuer Code. |
