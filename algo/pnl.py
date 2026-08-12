@@ -17,7 +17,7 @@ from pathlib import Path
 import pandas as pd
 
 # Nur tatsaechlich im Projekt genutzte Symbole -- keine spekulative Vollstaendigkeit.
-POINT_VALUE = {"MNQ": 2.0, "NQ": 20.0, "ES": 50.0}
+POINT_VALUE = {"MNQ": 2.0, "NQ": 20.0, "ES": 50.0, "YM": 5.0}
 
 # Tick-Groessen leben in tools/analyze_ohlc.py (unterste, stdlib-only Schicht) und werden
 # hier nur durchgereicht -- zwei Tabellen wuerden frueher oder spaeter auseinanderlaufen.

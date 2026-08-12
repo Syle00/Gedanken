@@ -49,6 +49,7 @@ CFG = {"swing": 2, "min_age": 15, "min_pen": 0.75, "disp_factor": 2.0, "confirm"
 # importiert von hier, damit die Werte nicht auseinanderlaufen.
 TICK_SIZE = {
     "MNQ": 0.25, "NQ": 0.25, "ES": 0.25, "MES": 0.25,   # CME Aktienindex-Futures
+    "YM": 1.0, "MYM": 1.0,                              # CBOT Dow-Futures: Tick = 1 Indexpunkt
     "EURUSD": 0.00001, "GBPUSD": 0.00001, "AUDUSD": 0.00001, "NZDUSD": 0.00001,
     "USDCAD": 0.00001, "USDCHF": 0.00001, "EURGBP": 0.00001,
     "USDJPY": 0.001, "EURJPY": 0.001, "GBPJPY": 0.001,   # JPY-Paare: 3 Nachkommastellen

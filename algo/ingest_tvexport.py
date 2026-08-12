@@ -95,8 +95,14 @@ def ingest(exportdatei, symbol, schreiben=True):
     for tag in sorted(nach_tag):
         pfad = zielpfad(symbol, tag)
         alt = lies(pfad) if pfad.exists() else {}
-        # Konflikt: neuer Export gewinnt, Abweichung zaehlen
-        abweichungen = sum(1 for ts in set(alt) & set(nach_tag[tag]) if alt[ts] != nach_tag[tag][ts])
+        # Konflikt: neuer Export gewinnt, Abweichung zaehlen.
+        # Numerisch vergleichen, nicht als String: "29839.0" und "29839" sind derselbe Kurs,
+        # unterschiedlich formatiert. Als String verglichen meldete das 51 % statt 6 % Revision.
+        abweichungen = sum(
+            1
+            for ts in set(alt) & set(nach_tag[tag])
+            if any(float(a) != float(b) for a, b in zip(alt[ts], nach_tag[tag][ts]))
+        )
         gemerged = {**alt, **nach_tag[tag]}
         ts_sortiert = sorted(gemerged)
         zeile = {
@@ -151,6 +157,13 @@ def demo():
         assert len(gemerged) == 150, f"Merge muss 150 Kerzen ergeben, ergab {len(gemerged)}"
         assert gemerged[basis + 60 * 60] == ("9", "9", "9", "9"), "neuer Export muss gewinnen"
         assert gemerged[basis] == ("1", "2", "0", "1"), "alte Kerze ohne Konflikt bleibt"
+
+        # Unterschiedliche Schreibweise desselben Kurses ist KEINE Revision
+        gleich = all(
+            float(a) == float(b)
+            for a, b in zip(("29839.0", "2", "0", "1"), ("29839", "2.00", "0", "1"))
+        )
+        assert gleich, "numerischer Vergleich muss Formatunterschiede ignorieren"
 
         # Luecke wird erkannt
         mit_luecke = {basis: ("1", "1", "1", "1"), basis + 300: ("1", "1", "1", "1")}
