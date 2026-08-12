@@ -34,6 +34,8 @@ from analyze_ohlc import Bar, load  # noqa: E402
 from rules import plan_trade  # noqa: E402
 from pnl import risk_size, POINT_VALUE, real_pnl, flag_dubious, dubious_pct  # noqa: E402
 from confidence import bar_metrics, print_bar_metrics  # noqa: E402
+import risk_fixed  # noqa: E402
+import risk_killswitch  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -75,15 +77,22 @@ class SilverBulletStrategy(Strategy):
     leverage = 20               # muss zu Backtest(margin=...) in main() passen (0.05 -> 20x),
                                  # siehe EnsembleStrategy.leverage -- ohne diesen Deckel
                                  # stornierte der Broker Orders mit engem Stop stillschweigend
+    risk_module = risk_fixed    # austauschbar: risk_fixed/risk_garch/risk_kelly, siehe
+                                 # docs/superpowers/specs/2026-08-12-quant-risk-management-design.md
+    max_drawdown_pct = risk_killswitch.DEFAULT_MAX_DRAWDOWN_PCT  # Kill-Switch-Schwelle, pro Strategie
 
     def init(self):
-        self._taken: set[tuple] = set()  # (Tag, Fenstername) -- ein Versuch pro Fenster/Tag
-        self._hist: list[Bar] = []       # inkrementell fortgeschrieben, siehe extend_hist()
+        self._taken: set[tuple] = set()       # (Tag, Fenstername) -- ein Versuch pro Fenster/Tag
+        self._hist: list[Bar] = []            # inkrementell fortgeschrieben, siehe extend_hist()
+        self._equity_curve: list[float] = []  # fuer den Drawdown-Kill-Switch, waechst pro Bar
 
     def next(self):
         extend_hist(self._hist, self.data)  # muss VOR der Positionspruefung laufen (lueckenlos)
+        self._equity_curve.append(self.equity)
         if self.position:
             return
+        if not risk_killswitch.allowed(self._equity_curve, self.max_drawdown_pct):
+            return  # Drawdown-Kill-Switch aktiv -- kein neuer Trade, bis neues Equity-Hoch
         when = self.data.index[-1]
         setup = plan_trade(self._hist, when, stop_buffer_pct=self.stop_buffer_pct)
         if setup is None:
@@ -91,10 +100,12 @@ class SilverBulletStrategy(Strategy):
         key = (setup.t.date(), setup.window)
         if key in self._taken:
             return
-        size = risk_size(self.equity, self.max_risk_pct, setup.entry, setup.stop, self.point_value,
+        pct = self.risk_module.risk_pct(hist=self._hist, closed_trades=self.closed_trades,
+                                         base_pct=self.max_risk_pct)
+        size = risk_size(self.equity, pct, setup.entry, setup.stop, self.point_value,
                           max_notional=self.equity * self.leverage)
         if size < 1:
-            return  # 1%-Risiko-Budget oder Margin-Obergrenze ergibt 0 Kontrakte
+            return  # Risiko-Budget oder Margin-Obergrenze ergibt 0 Kontrakte
         self._taken.add(key)
         if setup.side == "long":
             self.buy(size=size, limit=setup.entry, sl=setup.stop, tp=setup.target)

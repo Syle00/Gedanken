@@ -93,6 +93,28 @@ wird, fuellt trotzdem noch -- obwohl `rules.py` strikt intraday und fensterbezog
 erklaert die letzte verbleibende Margin-Stornierung eines Laufs und ist ein offener Punkt
 (braucht Order-Verfall am Fenster-/Tagesende, aendert die Trade-Population).
 
+## `risk_fixed.py` / `risk_garch.py` / `risk_kelly.py` / `risk_killswitch.py` -- austauschbare Risk-Module
+
+Siehe docs/superpowers/specs/2026-08-12-quant-risk-management-design.md. Trennt "wie viel %
+Risiko" (diese vier Module) von "wie viele Kontrakte kauft das bei diesem %" (unveraendert
+`pnl.py::risk_size()`). Gemeinsames Interface: `risk_pct(base_pct=0.01, **ctx) -> float`.
+
+- `risk_fixed.risk_pct()` -- liefert immer `base_pct` (Status quo, Default in
+  `SilverBulletStrategy.risk_module`).
+- `risk_garch.risk_pct(hist=...)` -- skaliert `base_pct` mit einer GARCH(1,1)-Vol-Prognose
+  relativ zur langfristigen GARCH-Vol (`sqrt(omega/(1-alpha-beta))`), geclippt auf
+  [0.5, 1.5] x `base_pct`. Fallback auf `base_pct` unter 100 Kerzen Historie.
+- `risk_kelly.risk_pct(closed_trades=...)` -- Half-Kelly (`f* = p - (1-p)/b`) aus den letzten
+  30 abgeschlossenen Trades. Fallback auf `base_pct` unter 20 Trades oder bei einseitigem
+  Sample (nur Gewinner/nur Verlierer).
+- `risk_killswitch.allowed(equity_curve, max_drawdown_pct=0.15)` -- kein Sizing-Modul, sondern
+  ein Gate VOR `risk_pct()`: stoppt neue Trades, sobald der Drawdown seit dem bisherigen
+  Equity-Hoch die Schwelle ueberschreitet. Reset automatisch bei neuem Hoch. Laeuft pro
+  Strategie (`SilverBulletStrategy._equity_curve`), unabhaengig vom gewaehlten `risk_module`.
+
+Umschalten: `SilverBulletStrategy.risk_module = risk_garch` vor `Backtest(...).run()`, siehe
+`algo/backtest_risk_compare.py` fuer den automatisierten Vergleich aller drei Sizing-Module.
+
 ## `backtest_ensemble.py` -- RenTec-artiges Ensemble
 
 **Was:** Taeglicher Bias aus Logistic Regression ueber `signals.py`, filtert die
