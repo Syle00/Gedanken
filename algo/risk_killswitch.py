@@ -17,19 +17,21 @@ def allowed(equity_curve: list[float], max_drawdown_pct: float = DEFAULT_MAX_DRA
     if peak <= 0:
         return True
     dd = (peak - equity_curve[-1]) / peak
-    return dd <= max_drawdown_pct
+    return dd < max_drawdown_pct
 
 
 def demo() -> None:
     assert allowed([]) is True
     assert allowed([100_000]) is True
-    # Genau auf der Schwelle (15% Drawdown) -> noch NICHT gestoppt (strikt kleiner)
-    assert allowed([100_000, 85_000], 0.15) is True
+    # Knapp UNTER der Schwelle (14.999% Drawdown) -> noch erlaubt
+    assert allowed([100_000, 85_001], 0.15) is True
+    # Genau auf der Schwelle (15% Drawdown) -> SOFORT gestoppt (Schwelle erreicht = stop)
+    assert allowed([100_000, 85_000], 0.15) is False
     # Ueber der Schwelle -> gestoppt
     assert allowed([100_000, 84_999], 0.15) is False
     # Reset bei neuem Hoch: Drawdown, dann neues Hoch -> peak folgt dem neuen Hoch,
     # ein erneuter kleiner Ruecksetzer bleibt unter der Schwelle
-    curve = [100_000, 80_000, 110_000, 95_000]  # DD ab 110k: (110k-95k)/110k = 13.6%
+    curve = [100_000, 80_000, 110_000, 95_000]  # DD ab 110k: (110k-95k)/110k = 13.636...% < 15%
     assert allowed(curve, 0.15) is True
     print("risk_killswitch demo: OK")
 
