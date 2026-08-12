@@ -1,5 +1,5 @@
 ---
-name: yt-playlist-ingest
+name: yt-import
 description: Import a large YouTube playlist (any domain, not just trading) into raw/<domain>/ and the wiki, resumably and IP-ban-safely. Use when asked to import/ingest a whole playlist, e.g. "importiere diese Playlist", "importier alle Videos aus <Playlist-URL>", "setz den Playlist-Import fort".
 ---
 
