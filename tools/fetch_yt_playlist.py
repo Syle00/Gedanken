@@ -105,7 +105,7 @@ def run(playlist_url: str, out_dir: Path | None) -> int:
         try:
             status = fetch_one(video_id, raw_dir)
         except Exception as e:
-            if type(e).__name__ == "IpBlocked":
+            if "IpBlocked" in type(e).__name__:
                 save_checkpoint(checkpoint_path, checkpoint)
                 remaining = len(todo) - i
                 print(f"GESTOPPT (IP-Block) bei '{title}' ({video_id}). "
