@@ -1,6 +1,6 @@
 {
   "collapse-filter": false,
-  "search": "London Opening Range + Macros",
+  "search": "",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": false,
@@ -17,6 +17,6 @@
   "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 0.8654776708453573,
+  "scale": 0.08607867797270802,
   "close": true
 }
