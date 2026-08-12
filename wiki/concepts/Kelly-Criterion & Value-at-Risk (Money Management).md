@@ -1,8 +1,8 @@
 ---
 tags: [concept, algo-methodology, risikomanagement]
 created: 2026-08-08
-updated: 2026-08-08
-sources: ["[[Successful Algorithmic Trading (Source)]]"]
+updated: 2026-08-12
+sources: ["[[Successful Algorithmic Trading (Source)]]", "[[2025-12-03 - MIT 15.S08 Lecture 10 - Counterparty Risk Optimization (Source)]]"]
 ---
 
 # Kelly-Criterion & Value-at-Risk (Money Management)
@@ -52,6 +52,27 @@ zeitraum-flexibel, leicht auch gegenüber Nicht-Technikern zu kommunizieren.
 berücksichtigt keine Extremereignisse, ist rückwärtsgewandt (historische Volatilität/Korrelation
 ≠ zukünftige). Sollte nie isoliert, sondern immer zusammen mit Diversifikation und Hebel-Disziplin
 verwendet werden.
+
+## Expected Shortfall (ES) und Subadditivität — Ergänzung aus MIT 15.S08 Lecture 10
+
+[[2025-12-03 - MIT 15.S08 Lecture 10 - Counterparty Risk Optimization (Source)]] liefert die
+formale Begründung, warum VaR ein methodisch schwächeres Maß als Expected Shortfall (ES) ist:
+
+- **Kohärente Risikomaße** (Artzner et al. 1999) müssen u.a. subadditiv sein:
+  `Risiko(X₁+X₂) ≤ Risiko(X₁) + Risiko(X₂)`. VaR erfüllt das nicht allgemein (Gegenbeispiel:
+  zwei Portfolios mit je 0 VaR bei isolierter Betrachtung, aber positivem VaR kombiniert). ES ist
+  dagegen beweisbar subadditiv.
+- Subadditivität ist mathematisch äquivalent zu **Konvexität** — das ist der praktisch relevante
+  Punkt: VaR ist deshalb schlecht direkt optimierbar, ES dagegen (über die Rockafellar-Uryasev-
+  Formulierung) ein konvexes/lineares Optimierungsproblem.
+- `T`-Tage-VaR-Skalierung bei unabhängigen Tagesänderungen: `VaR_T = VaR_1 · √T`. Bei
+  Autokorrelation `ρ` der Tagesänderungen unterschätzt diese Näherung das reale T-Tage-Risiko
+  (empirisch an Aktienindizes: `ρ≈0.1` → ca. 10% Unterschätzung bei 10-Tage-VaR).
+- VaR-Backtesting über die Binomialverteilung: erwartete Zahl der Überschreitungen bei
+  Konfidenzniveau `β` über `N` Tage ist `N·(1−β)`; ein Modell gilt als fragwürdig, wenn die
+  beobachtete Überschreitungszahl eine Wahrscheinlichkeit <5% hätte. ES-Backtesting ist
+  methodisch schwieriger, weil ES ein Erwartungswert der Tail-Verteilung ist und sich nicht gegen
+  einen einzelnen realisierten Datenpunkt prüfen lässt.
 
 ## Bezug zu diesem Projekt
 

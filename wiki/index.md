@@ -126,6 +126,12 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Vier-Stufen-Strategieentwicklung (Masters)]] — In-Sample Excellence → In-Sample MCPT → Walk-Forward → Walk-Forward MCPT, generischer Validierungsprozess; algo-methodology (2026-08-08)
 - [[Volume Imbalance (VII)]] — Lücke Close→Open; bestimmt die FVG-Grenzen und ist selbst eine PD Array (2026-08-02)
 - [[Walk-Forward Guard Buffer & Varianz-Inflation]] — `OMIT = min(Lookahead, Lookback) − 1`; ohne Puffer erreicht ein wertloses System auf Random-Walk-Daten t = 74,64; algo-methodology (2026-08-08)
+- [[Lineare Algebra für Finance]] — Portfolio-Vektoralgebra, Markov-Matrizen, Eigenwertzerlegung, SVD; quant-finance (2026-08-12)
+- [[Wahrscheinlichkeitstheorie & Stochastische Prozesse für Finance]] — Momente, Kovarianzmatrix, Martingale, Gambler's Ruin, CAPM-Herleitung; quant-finance (2026-08-12)
+- [[Regressionsanalyse für Finance]] — OLS über lineare Algebra, t-/F-Tests, Ridge/Lasso/PCR, CAPM-Test; quant-finance (2026-08-12)
+- [[Hauptkomponentenanalyse (PCA) in der Finance]] — Formale Herleitung + Zinskurven-Praxisfallstudie (Level/Slope/Curvature); quant-finance (2026-08-12)
+- [[Bond-Mathematik & Zinskurven]] — Diskontierung, Yield, Duration/Convexity, SOFR-Swaps, Kurvenkonstruktion; quant-finance (2026-08-12)
+- [[Portfolio-Management & Sizing (Gain-Loss-Ratio)]] — Markowitz-Formeln, Rebalancing-These, Gain-Loss-Ratio, Crowding-/Power-Law-Modell; quant-finance (2026-08-12)
 
 ## Models
 
@@ -426,6 +432,22 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
   [[Monte Carlo Permutation Test (MCPT)]]: Guard Buffer, Selection Bias, CSCV, Nested Walkforward,
   Konfidenz-/Drawdown-Grenzen, Return-Partitionierung (2026-08-08)
 
+### Quant-Finance (MIT 15.S08, YouTube-Vorlesungsreihe)
+
+- [[2025-12-03 - MIT 15.S08 Lecture 1 Part I - Introduction of the Class (Source)]] — Kursaufbau, keine Formeln (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 1 Part II - Introduction of Financial Markets (Source)]] — Marktstruktur, Produkte, Teilnehmer, Rolle der Mathematik in Pricing/Risiko/Strategie (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 1 Part III - Bond Mathematics (Source)]] — Zins/Diskontierung/Yield/Duration hergeleitet, e-Herleitung aus Zinseszins (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 2 - Linear Algebra (Source)]] — Portfolio-Vektoralgebra, Markov-Matrizen, Ein-Perioden-Marktmodell, Eigenwerte (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 4 - Linear Algebra cont, Probability Theory (Source)]] — SVD, Perron-Frobenius, Momente, Kovarianzmatrix, PCA-Herleitung (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 5 - Probability Theory cont, Stochastic Processes I (Source)]] — empirische PCA, CAPM-Herleitung über Stein's Lemma, Martingal-Einstieg (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 6 - Stochastic Processes I cont, Regression Analysis (Source)]] — Gambler's-Ruin elegant über MGF gelöst, Credit-Rating-/Aktien-Markov-Ketten, Regressionseinstieg (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 7 - Linear Rates, Products, and Models (Source)]] — Funding=Discounting, LIBOR→SOFR, Swap-Bewertung, Zinskurvenbau (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 8 - Regression Analysis cont (Source)]] — OLS über lineare Algebra hergeleitet, Hat-Matrix, t-/F-Tests, Diagnostik (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 9 - Principal Component Analysis in Finance (Source)]] — PCA-Praxisfallstudie US-Zinskurve: Level/Slope/Curvature, handelbare PC-Portfolios (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 10 - Counterparty Risk Optimization (Source)]] — VaR vs. Expected Shortfall, Subadditivität/Konvexität, SIMM, Netzwerk-Margin-Optimierung (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 11 - Regression Analysis cont (Source)]] — Ridge/Lasso/PCR, empirischer CAPM-Test über alle S&P-500-Werte (2026-08-12)
+- [[2025-12-03 - MIT 15.S08 Lecture 13 - Portfolio Management (Source)]] — Markowitz-Kritik, Gain-Loss-Ratio-Sizing, Crowding-/Power-Law-Modell (2026-08-12)
+
 ## Synthesis
 
 - [[Journal-Auswertung]] — **generiert** aus `raw/journal/`: Erfüllungsquote je Checklistenpunkt über 21 Einträge, verknüpft mit den zuständigen Wiki-Seiten; Ausreißer ist „Entry" mit 24 % (2026-08-02)
@@ -440,6 +462,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Machine Learning für den Algo — Bewertung (laufend)]] — Antwort auf „macht ML Sinn": nicht als Signalgeber, aber Instrument-Pooling ist sofort und ohne ML-Code nutzbar, Meta-Labeling später; mit Bedingungen für eine Neubewertung (2026-08-08)
 - [[Macro-Datenbank (laufend)]] — Wahrscheinlichkeiten je Macro-Fenster: Expansion, Startminute, genommene Liquidität, mit Konfidenzintervallen (2026-08-10)
 - [[KW32 2026 — Weekly Review]] — Wochenübergreifender roter Faden über die bereits einzeln verifizierten `journal/entries/`: Weekly Bias (bullish, DOL 29.363,50) und Montag beide bias_korrekt:true, Donnerstag fehlerfrei; echte Fehler waren Bias-Inkonsistenz Montag (Weekly vs. Daily binnen 33 Min.) und ein veraltetes ORG-Level am Freitag (2026-08-07)
+- [[Quant-Finance-Formeln für den MNQ-Algo (laufend)]] — **generiert**, aktualisiert bei jedem neuen quant-finance-Fund: PCA-Regime-Feature, Regressions-Signifikanztest für Strategie-Alpha, Diversifikationsformel für Multi-Symbol, Markov-Ketten für Bar-Zustandsfolgen, Gain-Loss-Ratio-Sizing — je mit konkretem `algo/`-Modulbezug oder als Layer-0-Verstoß markiert (2026-08-12)
 
 ## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)
 

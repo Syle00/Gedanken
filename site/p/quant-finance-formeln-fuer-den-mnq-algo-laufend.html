@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quant-Finance-Formeln für den MNQ-Algo (laufend) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">125</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">285</span></a></li>
+<li class="active"><a href="../index.html#synthesis">Synthese<span class="count">13</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Synthese</div><ul class="pagelist">
+<li><a href="../p/ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend.html">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</a></li>
+<li><a href="../p/journal-auswertung.html">Journal-Auswertung</a></li>
+<li><a href="../p/kw32-2026-weekly-review.html">KW32 2026 — Weekly Review</a></li>
+<li><a href="../p/machine-learning-fuer-den-algo-bewertung-laufend.html">Machine Learning für den Algo — Bewertung (laufend)</a></li>
+<li><a href="../p/macro-datenbank-laufend.html">Macro-Datenbank (laufend)</a></li>
+<li><a href="../p/makro-fred-zusammenhaenge-eigene-daten-laufend.html">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</a></li>
+<li><a href="../p/mentorship-2025.html">MentorShip 2025</a></li>
+<li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
+<li class="here"><a href="../p/quant-finance-formeln-fuer-den-mnq-algo-laufend.html">Quant-Finance-Formeln für den MNQ-Algo (laufend)</a></li>
+<li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a></li>
+<li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#synthesis">Synthese</a></div>
+  <h1>Quant-Finance-Formeln für den MNQ-Algo (laufend)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">quant-finance</span> <span class="tag">algo-methodology</span> <span class="tag">laufend</span></div><div class="dates">erstellt 2026-08-12 · aktualisiert 2026-08-12</div><div class="srcline"><span>Quellen:</span> <a href="../p/lineare-algebra-fuer-finance.html">Lineare Algebra für Finance</a>, <a href="../p/wahrscheinlichkeitstheorie-stochastische-prozesse-fuer-finance.html">Wahrscheinlichkeitstheorie &amp; Stochastische Prozesse für Finance</a>, <a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a>, <a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a>, <a href="../p/bond-mathematik-zinskurven.html">Bond-Mathematik &amp; Zinskurven</a>, <a href="../p/portfolio-management-sizing-gain-loss-ratio.html">Portfolio-Management &amp; Sizing (Gain-Loss-Ratio)</a>, <a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#pca-fur-regime-erkennung">PCA für Regime-Erkennung</a></li>
+<li><a href="#lineare-regression-ols-fur-signifikanztests-statt-reiner-backtest-zahlen">Lineare Regression (OLS) für Signifikanztests statt reiner Backtest-Zahlen</a></li>
+<li><a href="#kovarianzmatrixdiversifikationsformel-fur-multi-symbol-erweiterung">Kovarianzmatrix/Diversifikationsformel für Multi-Symbol-Erweiterung</a></li>
+<li><a href="#markov-ketten-fur-bar-zustandsfolgen">Markov-Ketten für Bar-Zustandsfolgen</a></li>
+<li><a href="#gain-loss-ratio-als-sizing-kennzahl-neben-profit-factor">Gain-Loss-Ratio als Sizing-Kennzahl neben Profit Factor</a></li>
+<li><a href="#bond-durationconvexity-nicht-direkt-relevant-fur-mnq">Bond-Duration/Convexity — nicht direkt relevant für MNQ</a></li>
+<li><a href="#counterparty-risk-optimierung-simmnetzwerk-margin-nicht-relevant">Counterparty-Risk-Optimierung (SIMM/Netzwerk-Margin) — nicht relevant</a></li>
+<li><a href="#stochastische-prozesse-brownsche-bewegung">Stochastische Prozesse / Brownsche Bewegung</a></li>
+<li><a href="#offene-punkte">Offene Punkte</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="quant-finance-formeln-fur-den-mnq-algo-laufend">Quant-Finance-Formeln für den MNQ-Algo (laufend)</h1>
+<p>Übergreifende Bewertung: welche Formel/Methode aus der 13-teiligen MIT-15.S08-Ingestion
+(Konzeptseiten oben) sich konkret für <code>algo/</code> (Layer 0, siehe CLAUDE.md) einsetzen lässt — nicht
+als allgemeine "das ist nützlich"-Aussage, sondern mit Modul, Funktion und Datenbedarf. Vorschläge,
+die reines Backtesting-Spielzeug ohne Weg zu einer ausführbaren Regel wären, sind explizit als
+Layer-0-Verstoß markiert. Diese Seite wird bei jeder neuen quant-finance-Erkenntnis erweitert
+(Muster "(laufend)").</p>
+<h2 id="pca-fur-regime-erkennung">PCA für Regime-Erkennung</h2>
+<p><strong>Was sie macht</strong>: zerlegt einen multivariaten Datensatz in unkorrelierte Richtungen absteigender
+Varianz. In der Zinskurven-Fallstudie (<a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a>) liefert
+sie ein sauberes Level/Slope/Curvature-Zerlegungsschema für stark korrelierte Zeitreihen.</p>
+<p><strong>Konkreter Vorschlag</strong>: PCA über die letzten N Tage der OHLC-Returns von MNQ auf mehreren
+Timeframes gleichzeitig (z.B. 1m-, 5m-, 15m-, 1h-Returns als Spalten derselben Datenmatrix)
+könnte, analog zum Zinskurven-Level/Slope/Curvature-Muster, ein Feature für <code>algo/signals.py</code>
+liefern: PC1 (~"generelle Volatilitäts-/Trendrichtung über alle Timeframes") als Regime-Indikator,
+PC2/PC3 als Divergenz-Signal zwischen kurz- und langfristigem Preisverhalten (Timeframe-
+Disagreement als potenzieller Kompressions-/Displacement-Vorbote). Praxisregel aus der Vorlesung
+übernehmen: Eigenwert-Separation in log-Skala prüfen, bevor eine Komponente als Signal genutzt
+wird — sonst reines Rauschen.</p>
+<p>⚠️ Nur sinnvoll, wenn direkt auf eine <code>algo/rules.py</code>-taugliche Schwellenwert-Regel hinarbeitend
+(z.B. "PC1-Ladung &gt; X → Trade-Filter aktiv"), nicht als Analyse-Dashboard-Feature ohne
+Entscheidungsbezug.</p>
+<h2 id="lineare-regression-ols-fur-signifikanztests-statt-reiner-backtest-zahlen">Lineare Regression (OLS) für Signifikanztests statt reiner Backtest-Zahlen</h2>
+<p><strong>Was sie macht</strong>: liefert nicht nur einen Punktschätzer, sondern über die t-/F-Statistik direkt
+ein Signifikanzmaß, ob ein Effekt von 0 verschieden ist — siehe
+<a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a> und den CAPM-Alpha-Test (<code>H₀: α=0</code>).</p>
+<p><strong>Konkreter Vorschlag</strong>: statt "Strategie X hatte über N Backtest-Tage einen positiven Return" in
+<code>algo/validate.py</code> einen Regressionstest analog zum CAPM-Alpha-Test einbauen — Strategie-Return
+gegen ein Markt-/Buy&amp;Hold-Benchmark regressieren und testen, ob der Alpha-Achsenabschnitt
+signifikant von 0 verschieden ist. Das ist strenger als der reine Mittelwertvergleich, den
+<code>algo/backtest_ensemble.py</code> aktuell nutzt, weil es implizit für allgemeine Marktrichtung
+kontrolliert.</p>
+<h2 id="kovarianzmatrixdiversifikationsformel-fur-multi-symbol-erweiterung">Kovarianzmatrix/Diversifikationsformel für Multi-Symbol-Erweiterung</h2>
+<p><strong>Was sie macht</strong>: <code>Var(gleichgewichtetes Portfolio aus n unkorrelierten Assets) = σ²/n</code> (siehe
+<a href="../p/wahrscheinlichkeitstheorie-stochastische-prozesse-fuer-finance.html">Wahrscheinlichkeitstheorie &amp; Stochastische Prozesse für Finance</a>) — Risiko sinkt linear mit der
+Anzahl unkorrelierter Positionen, nicht mit der Wurzel.</p>
+<p><strong>Konkreter Vorschlag</strong>: sobald <code>algo/</code> mehr als ein Symbol gleichzeitig handelt (Roadmap-Punkt 1,
+zweite Datenquelle/mehrere Kontrakte), liefert diese Formel die quantitative Begründung für
+Positionsgrößen-Diversifikation über mehrere, möglichst unkorrelierte MNQ-Setups (z.B.
+verschiedene Killzones/Macro-Fenster als separate "Assets" im Sinne dieser Formel) statt einer
+einzelnen konzentrierten Tagesposition.</p>
+<h2 id="markov-ketten-fur-bar-zustandsfolgen">Markov-Ketten für Bar-Zustandsfolgen</h2>
+<p><strong>Was sie macht</strong>: modelliert Übergangswahrscheinlichkeiten zwischen diskreten Zuständen
+(z.B. Up-/Down-Tage) unter der Annahme, dass nur der letzte Zustand zählt.</p>
+<p><strong>Konkreter Vorschlag</strong>: eine Markov-Kette über MNQ-5m-Bar-Zustände (Up/Down, ggf. erweitert um
+"Displacement"/"Kompression") als zusätzlicher Detektor in <code>tools/analyze_ohlc.py</code> — die
+Vorlesung zeigt am Beispiel Apple, dass zwei Aufwärtstage die Wahrscheinlichkeit eines dritten
+erhöhen können. Das ist eine <strong>falsifizierbare These im Sinne von CLAUDE.md</strong> ("jede neue These
+wird automatisch geloggt und gebacktestet") und wurde als solche in <code>algo/PLAN.md</code> eingetragen
+(siehe Log-Eintrag zu diesem Ingest).</p>
+<h2 id="gain-loss-ratio-als-sizing-kennzahl-neben-profit-factor">Gain-Loss-Ratio als Sizing-Kennzahl neben Profit Factor</h2>
+<p><strong>Was sie macht</strong>: <code>(G−L)/(G+L)</code> (siehe <a href="../p/portfolio-management-sizing-gain-loss-ratio.html">Portfolio-Management &amp; Sizing (Gain-Loss-Ratio)</a>) —
+mathematisch identisch mit dem Kelly-Sizing-Anteil bei binären Wetten, bestraft aber hohe
+Rohvolatilität nicht per se wie die Sharpe-Ratio.</p>
+<p><strong>Konkreter Vorschlag</strong>: als zusätzliche Kennzahl neben <code>dubious_pct</code> und Profit Factor in jedem
+<code>algo/backtest_ensemble.py</code>/<code>algo/validate.py</code>-Report ausgeben — direkter interpretierbar für
+eine Positionsgrößen-Entscheidung als die reine Sharpe-Ratio, weil sie bereits auf <code>[-1,+1]</code>
+normiert und Kelly-artig sizing-fähig ist.</p>
+<h2 id="bond-durationconvexity-nicht-direkt-relevant-fur-mnq">Bond-Duration/Convexity — nicht direkt relevant für MNQ</h2>
+<p><strong>Was sie macht</strong>: Preissensitivität eines Anleihe-Investments gegenüber Zinsänderungen (1. und</p>
+<ol start="2">
+<li>Ableitung des Preises nach dem Yield).</li>
+</ol>
+<p><strong>Bewertung</strong>: MNQ ist ein Aktienindex-Future, kein Zinsprodukt — Duration/Convexity im engeren
+Sinn sind nicht direkt auf <code>algo/pnl.py</code> übertragbar. Relevanter Nebeneffekt: das
+"Funding=Discounting"-Prinzip aus <a href="../p/bond-mathematik-zinskurven.html">Bond-Mathematik &amp; Zinskurven</a> wäre ein sauberer Rahmen, um
+Übernachtfinanzierungskosten für gehaltene MNQ-Positionen realistischer in <code>algo/pnl.py</code>
+abzubilden — aktuell laut <code>algo/README.md</code> nicht modelliert. ⚠️ Nur sinnvoll, wenn <code>algo/</code> je
+Overnight-Positionen hält (aktuell primär Intraday-fokussiert laut <code>algo/PLAN.md</code>).</p>
+<h2 id="counterparty-risk-optimierung-simmnetzwerk-margin-nicht-relevant">Counterparty-Risk-Optimierung (SIMM/Netzwerk-Margin) — nicht relevant</h2>
+<p><strong>Bewertung</strong>: die in Lecture 10 behandelte Initial-Margin-Netzwerkoptimierung setzt ein
+Multi-Bank-Netzwerk mit bilateralen Trades voraus — für einen einzelnen autonomen IBKR-Retail-
+Algo ohne Interbanken-Gegenparteien-Netzwerk nicht anwendbar. Die einzige übertragbare Erkenntnis
+ist die VaR/ES-Methodik, bereits in <a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a>
+dokumentiert.</p>
+<h2 id="stochastische-prozesse-brownsche-bewegung">Stochastische Prozesse / Brownsche Bewegung</h2>
+<p><strong>Was sie macht</strong>: Random-Walk-Grenzwertprozess mit normalverteilten Inkrementen, Martingal-
+Eigenschaft (<code>E[zukünftig] = letzter Wert</code>).</p>
+<p><strong>Bewertung</strong>: primär eine <strong>Nullhypothese/Baseline</strong>, kein direktes Signal — ein profitables
+<code>algo/rules.py</code>-Setup muss sich gegen genau dieses Martingal-Nullmodell abheben (kein
+vorhersagbarer Drift ohne Regel). Nützlich als formaler Rahmen für <code>algo/selfcheck.py</code>: ein
+Zufallssignal-Backtest sollte im Erwartungswert ein Martingal-artiges (driftloses) Ergebnis
+liefern; weicht die tatsächliche Regel systematisch davon ab, ist das der eigentliche Beleg für
+einen Edge — ⚠️ nur sinnvoll als Kontrollexperiment neben einer echten Regel, nicht als
+eigenständiges Analyseziel.</p>
+<h2 id="offene-punkte">Offene Punkte</h2>
+<ul>
+<li>Markov-Ketten-These (Bar-Zustandsfolgen) noch nicht gegen <code>raw/marktdaten/</code> gebacktestet —
+  siehe <code>algo/PLAN.md</code>-Log-Eintrag zu diesem Ingest, folgt in einer künftigen Session
+  (<code>algo/backtest_markov_bars.py</code>, noch nicht angelegt).</li>
+<li>PCA-Multi-Timeframe-Feature ebenfalls noch nicht implementiert — Datenbedarf (mehrere
+  Timeframes derselben Zeitspanne) ist mit dem aktuellen <code>raw/marktdaten/</code>-Bestand grundsätzlich
+  gedeckt, aber ungeprüft.</li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">7</span></h2><ul><li><a href="../p/2025-12-03-mit-15-s08-lecture-6-stochastic-processes-i-cont-regression-analysis-source.html">2025-12-03 - MIT 15.S08 Lecture 6 - Stochastic Processes I cont, Regression Analysis (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-12-03-mit-15-s08-lecture-9-principal-component-analysis-in-finance-source.html">2025-12-03 - MIT 15.S08 Lecture 9 - Principal Component Analysis in Finance (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/lineare-algebra-fuer-finance.html">Lineare Algebra für Finance</a><span class="cat">Konzepte</span></li><li><a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a><span class="cat">Konzepte</span></li><li><a href="../p/wahrscheinlichkeitstheorie-stochastische-prozesse-fuer-finance.html">Wahrscheinlichkeitstheorie &amp; Stochastische Prozesse für Finance</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Quant-Finance-Formeln für den MNQ-Algo (laufend).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

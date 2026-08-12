@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2025-12-03 - MIT 15.S08 Lecture 11 - Regression Analysis cont (Source) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">125</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li class="active"><a href="../index.html#sources">Quellen<span class="count">285</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">13</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Quellen</div><ul class="pagelist">
+<li><a href="../p/20-pips-per-day-source.html">20 Pips Per Day (Source)</a></li>
+<li><a href="../p/2019-09-05-reinforcement-learning-for-trading-tom-starke-source.html">2019-09-05 - Reinforcement Learning for Trading (Tom Starke) (Source)</a></li>
+<li><a href="../p/2022-07-05-two-sigma-machine-learning-models-of-financial-data-source.html">2022-07-05 - Two Sigma - Machine Learning Models of Financial Data (Source)</a></li>
+<li><a href="../p/2023-01-12-ict-executions-january-12-2023-es-long-source.html">2023-01-12 - ICT Executions January 12, 2023 ES Long (Source)</a></li>
+<li><a href="../p/2023-01-12-ict-executions-january-12-2023-es-short-last-hour-setup-source.html">2023-01-12 - ICT Executions January 12, 2023 ES Short Last Hour Setup (Source)</a></li>
+<li><a href="../p/2023-01-17-ict-executions-january-17-2023-es-short-source.html">2023-01-17 - ICT Executions January 17, 2023 ES Short (Source)</a></li>
+<li><a href="../p/2023-02-01-ict-executions-february-1-2023-es-short-source.html">2023-02-01 - ICT Executions February 1, 2023 ES Short (Source)</a></li>
+<li><a href="../p/2023-02-08-ict-executions-february-8-2023-es-short-source.html">2023-02-08 - ICT Executions February 8, 2023 ES Short (Source)</a></li>
+<li><a href="../p/2023-02-16-ict-executions-february-16-2023-es-short-source.html">2023-02-16 - ICT Executions February 16, 2023 ES Short (Source)</a></li>
+<li><a href="../p/2023-02-22-ict-executions-february-22-2023-es-short-pm-session-source.html">2023-02-22 - ICT Executions February 22, 2023 ES Short PM Session (Source)</a></li>
+<li><a href="../p/2023-02-23-ict-executions-february-23-2023-es-short-source.html">2023-02-23 - ICT Executions February 23, 2023 ES Short (Source)</a></li>
+<li><a href="../p/2023-02-28-ict-executions-february-28-2023-es-short-source.html">2023-02-28 - ICT Executions February 28, 2023 ES Short (Source)</a></li>
+<li><a href="../p/2023-03-02-ict-executions-march-2-2023-es-long-inversion-breaker-source.html">2023-03-02 - ICT Executions March 2, 2023 ES Long Inversion Breaker (Source)</a></li>
+<li><a href="../p/2023-03-10-ict-executions-march-10-2023-es-short-source.html">2023-03-10 - ICT Executions March 10, 2023 ES Short (Source)</a></li>
+<li><a href="../p/2023-03-13-ict-executions-march-13-2023-es-short-final-hour-of-ny-session-source.html">2023-03-13 - ICT Executions March 13, 2023 ES Short Final Hour of NY Session (Source)</a></li>
+<li><a href="../p/2023-03-20-ict-executions-march-20-2023-es-long-source.html">2023-03-20 - ICT Executions March 20, 2023 ES Long (Source)</a></li>
+<li><a href="../p/2023-05-26-ict-executions-may-26-2023-es-long-no-secret-weapons-source.html">2023-05-26 - ICT Executions May 26, 2023 ES Long No Secret Weapons (Source)</a></li>
+<li><a href="../p/2023-06-08-ict-executions-june-8-2023-es-long-silver-bullet-source.html">2023-06-08 - ICT Executions June 8, 2023 ES Long Silver Bullet (Source)</a></li>
+<li><a href="../p/2023-06-12-ict-executions-june-12-2023-es-long-lunch-macro-source.html">2023-06-12 - ICT Executions June 12, 2023 ES Long Lunch Macro (Source)</a></li>
+<li><a href="../p/2023-06-13-ict-executions-june-13-2023-es-long-post-cpi-inversion-breaker-source.html">2023-06-13 - ICT Executions June 13, 2023 ES Long Post CPI Inversion Breaker (Source)</a></li>
+<li><a href="../p/2023-06-20-ict-executions-june-20-2023-nq-short-silver-bullet-source.html">2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)</a></li>
+<li><a href="../p/2023-06-21-ict-executions-june-21-2023-es-short-source.html">2023-06-21 - ICT Executions June 21, 2023 ES Short (Source)</a></li>
+<li><a href="../p/2023-06-26-ict-executions-june-26-2023-es-and-nq-short-dual-dealings-source.html">2023-06-26 - ICT Executions June 26, 2023 ES and NQ Short Dual Dealings (Source)</a></li>
+<li><a href="../p/2023-06-27-ict-executions-june-27-2023-es-short-silver-bullet-source.html">2023-06-27 - ICT Executions June 27, 2023 ES Short Silver Bullet (Source)</a></li>
+<li><a href="../p/2023-06-29-ict-executions-june-29-2023-nq-long-source.html">2023-06-29 - ICT Executions June 29, 2023 NQ Long (Source)</a></li>
+<li><a href="../p/2023-07-07-ict-executions-july-7-2023-nq-long-source.html">2023-07-07 - ICT Executions July 7, 2023 NQ Long (Source)</a></li>
+<li><a href="../p/2023-07-07-ict-executions-july-7-2023-nq-short-source.html">2023-07-07 - ICT Executions July 7, 2023 NQ Short (Source)</a></li>
+<li><a href="../p/2023-08-18-ict-executions-august-18-2023-es-trade-source.html">2023-08-18 - ICT Executions August 18, 2023 ES Trade (Source)</a></li>
+<li><a href="../p/2023-09-20-ict-executions-september-20-2023-nq-short-source.html">2023-09-20 - ICT Executions September 20, 2023 NQ Short (Source)</a></li>
+<li><a href="../p/2023-09-21-ict-executions-september-21-2023-nq-long-source.html">2023-09-21 - ICT Executions September 21, 2023 NQ Long (Source)</a></li>
+<li><a href="../p/2023-09-29-ict-executions-september-29-2023-nq-short-source.html">2023-09-29 - ICT Executions September 29, 2023 NQ Short (Source)</a></li>
+<li><a href="../p/2023-10-10-ict-executions-october-10-2023-nq-long-source.html">2023-10-10 - ICT Executions October 10, 2023 NQ Long (Source)</a></li>
+<li><a href="../p/2023-10-13-ict-executions-october-13-2023-nq-short-source.html">2023-10-13 - ICT Executions October 13, 2023 NQ Short (Source)</a></li>
+<li><a href="../p/2023-10-20-ict-executions-october-20-2023-nq-short-2nd-stage-redistribution-source.html">2023-10-20 - ICT Executions October 20, 2023 NQ Short 2nd Stage Redistribution (Source)</a></li>
+<li><a href="../p/2023-10-23-ict-executions-october-23-2023-nq-long-michael-myers-mode-source.html">2023-10-23 - ICT Executions October 23, 2023 NQ Long Michael Myers Mode (Source)</a></li>
+<li><a href="../p/2023-10-24-ict-executions-october-24-2023-nq-short-pre-opening-bell-antics-source.html">2023-10-24 - ICT Executions October 24, 2023 NQ Short Pre-Opening Bell Antics (Source)</a></li>
+<li><a href="../p/2023-11-28-e-mini-futures-lunch-hour-macro-live-execution-source.html">2023-11-28 - E Mini Futures Lunch Hour Macro Live Execution (Source)</a></li>
+<li><a href="../p/2023-11-28-es-futures-live-trade-example-fvg-silver-bullet-source.html">2023-11-28 - ES Futures Live Trade Example FVG Silver Bullet (Source)</a></li>
+<li><a href="../p/2023-11-30-nq-futures-housing-sales-sellside-delivery-live-execution-source.html">2023-11-30 - NQ Futures Housing Sales Sellside Delivery Live Execution (Source)</a></li>
+<li><a href="../p/2023-12-04-leaving-stop-unchanged-after-3-partials-taken-swing-trade-logic-source.html">2023-12-04 - Leaving Stop Unchanged After 3 Partials Taken Swing Trade Logic (Source)</a></li>
+<li><a href="../p/2023-12-06-why-do-i-avoid-nfp-weeks-nq-3-trades-2-losses-source.html">2023-12-06 - Why Do I Avoid NFP Weeks NQ 3 Trades 2 Losses (Source)</a></li>
+<li><a href="../p/2023-12-14-december-2023-fomc-nq-front-month-execution-initial-stop-out-50pct-reentry-source.html">2023-12-14 - December 2023 FOMC NQ Front Month Execution Initial Stop Out 50pct Reentry (Source)</a></li>
+<li><a href="../p/2023-12-14-fading-retail-buyers-for-nq-source.html">2023-12-14 - Fading Retail Buyers For NQ (Source)</a></li>
+<li><a href="../p/2023-12-15-how-smart-money-targets-retail-traders-fake-bear-flag-source.html">2023-12-15 - How Smart Money Targets Retail Traders Fake Bear Flag (Source)</a></li>
+<li><a href="../p/2023-12-27-nq-live-execution-turtle-soup-short-source.html">2023-12-27 - NQ Live Execution Turtle Soup Short (Source)</a></li>
+<li><a href="../p/2024-01-09-nq-live-execution-10-50-11-10-algorithmic-macro-targeting-previous-day-high-source.html">2024-01-09 - NQ Live Execution 10-50-11-10 Algorithmic Macro Targeting Previous Day High (Source)</a></li>
+<li><a href="../p/2024-01-17-ict-final-hour-moc-macro-nq-live-execution-source.html">2024-01-17 - ICT Final Hour MOC Macro NQ Live Execution (Source)</a></li>
+<li><a href="../p/2024-01-22-nq-break-away-gap-entry-turtle-soup-short-source.html">2024-01-22 - NQ Break-Away Gap Entry Turtle Soup Short (Source)</a></li>
+<li><a href="../p/2024-01-23-nq-final-hour-2-50pm-to-3-10pm-est-macro-source.html">2024-01-23 - NQ Final Hour 2-50pm To 3-10pm EST Macro (Source)</a></li>
+<li><a href="../p/2024-01-25-algorithmic-high-frequency-trading-the-opposite-direction-source.html">2024-01-25 - Algorithmic High Frequency Trading The Opposite Direction (Source)</a></li>
+<li><a href="../p/2024-01-30-not-to-be-crude-it-works-here-too-source.html">2024-01-30 - Not To Be Crude It Works Here Too (Source)</a></li>
+<li><a href="../p/2024-02-01-nq-futures-live-execution-pre-opening-bell-source.html">2024-02-01 - NQ Futures Live Execution Pre-Opening Bell (Source)</a></li>
+<li><a href="../p/2024-02-12-sometimes-i-let-them-pass-me-by-no-trade-source.html">2024-02-12 - Sometimes I Let Them Pass Me By No Trade (Source)</a></li>
+<li><a href="../p/2024-03-06-short-mitigation-to-sellside-review-of-pd-arrays-narrative-mnq-source.html">2024-03-06 - Short Mitigation To Sellside Review Of PD Arrays Narrative MNQ (Source)</a></li>
+<li><a href="../p/2024-04-08-april-08-2024-nq-market-maker-buy-model-example-source.html">2024-04-08 - April 08, 2024 NQ Market Maker Buy Model Example (Source)</a></li>
+<li><a href="../p/2024-05-06-micro-scalping-without-bias-es-source.html">2024-05-06 - Micro-Scalping Without Bias ES (Source)</a></li>
+<li><a href="../p/2024-05-08-nq-premium-wick-entry-live-execution-source.html">2024-05-08 - NQ Premium Wick Entry Live Execution (Source)</a></li>
+<li><a href="../p/2024-05-13-nq-may-13-2024-premarket-short-live-execution-source.html">2024-05-13 - NQ May 13, 2024 Premarket Short Live Execution (Source)</a></li>
+<li><a href="../p/2024-05-14-may-14-2024-nq-ppi-8-50-9-10-et-macro-source.html">2024-05-14 - May 14, 2024 NQ PPI 8-50-9-10 ET Macro (Source)</a></li>
+<li><a href="../p/2024-05-24-may-24-2024-nq-premarket-trading-inside-fridays-range-source.html">2024-05-24 - May 24, 2024 NQ Premarket Trading Inside Fridays Range (Source)</a></li>
+<li><a href="../p/2024-06-10-nq-lunch-macro-06-10-2024-source.html">2024-06-10 - NQ Lunch Macro 06-10-2024 (Source)</a></li>
+<li><a href="../p/2024-09-11-ict-executions-september-11-2024-nq-long-moc-macro-source.html">2024-09-11 - ICT Executions September 11, 2024 NQ Long MOC Macro (Source)</a></li>
+<li><a href="../p/2024-09-13-ict-executions-september-13-2024-nq-short-silver-bullet-source.html">2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)</a></li>
+<li><a href="../p/2024-09-23-ict-executions-september-23-2024-nq-long-source.html">2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source)</a></li>
+<li><a href="../p/2024-10-03-ict-executions-october-3-2024-nq-short-source.html">2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-1-part-i-introduction-of-the-class-source.html">2025-12-03 - MIT 15.S08 Lecture 1 Part I - Introduction of the Class (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-1-part-ii-introduction-of-financial-markets-source.html">2025-12-03 - MIT 15.S08 Lecture 1 Part II - Introduction of Financial Markets (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-1-part-iii-bond-mathematics-source.html">2025-12-03 - MIT 15.S08 Lecture 1 Part III - Bond Mathematics (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-10-counterparty-risk-optimization-source.html">2025-12-03 - MIT 15.S08 Lecture 10 - Counterparty Risk Optimization (Source)</a></li>
+<li class="here"><a href="../p/2025-12-03-mit-15-s08-lecture-11-regression-analysis-cont-source.html">2025-12-03 - MIT 15.S08 Lecture 11 - Regression Analysis cont (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-13-portfolio-management-source.html">2025-12-03 - MIT 15.S08 Lecture 13 - Portfolio Management (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-2-linear-algebra-source.html">2025-12-03 - MIT 15.S08 Lecture 2 - Linear Algebra (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-4-linear-algebra-cont-probability-theory-source.html">2025-12-03 - MIT 15.S08 Lecture 4 - Linear Algebra cont, Probability Theory (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-5-probability-theory-cont-stochastic-processes-i-source.html">2025-12-03 - MIT 15.S08 Lecture 5 - Probability Theory cont, Stochastic Processes I (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-6-stochastic-processes-i-cont-regression-analysis-source.html">2025-12-03 - MIT 15.S08 Lecture 6 - Stochastic Processes I cont, Regression Analysis (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-7-linear-rates-products-and-models-source.html">2025-12-03 - MIT 15.S08 Lecture 7 - Linear Rates, Products, and Models (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-8-regression-analysis-cont-source.html">2025-12-03 - MIT 15.S08 Lecture 8 - Regression Analysis cont (Source)</a></li>
+<li><a href="../p/2025-12-03-mit-15-s08-lecture-9-principal-component-analysis-in-finance-source.html">2025-12-03 - MIT 15.S08 Lecture 9 - Principal Component Analysis in Finance (Source)</a></li>
+<li><a href="../p/2026-ict-study-source.html">2026 ICT Study (Source)</a></li>
+<li><a href="../p/2026-07-29-predicting-session-low-high-with-executions-source.html">2026-07-29 - Predicting Session Low &amp; High With Executions (Source)</a></li>
+<li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a></li>
+<li><a href="../p/2026-07-31-market-review-nq-july-31-2026-source.html">2026-07-31 - Market Review NQ July 31, 2026 (Source)</a></li>
+<li><a href="../p/2026-08-01-part-1-high-precision-secrets-to-intraday-price-action-source.html">2026-08-01 - Part 1 High Precision Secrets To Intraday Price Action (Source)</a></li>
+<li><a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)</a></li>
+<li><a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)</a></li>
+<li><a href="../p/2026-08-05-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a></li>
+<li><a href="../p/2026-08-06-ict-price-action-chronicles-the-science-of-anticipation-in-price-action-source.html">2026-08-06 - ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)</a></li>
+<li><a href="../p/2026-08-07-case-study-with-nonfarm-payroll-nq-futures-source.html">2026-08-07 - Case Study With NonFarm Payroll &amp; NQ Futures (Source)</a></li>
+<li><a href="../p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)</a></li>
+<li><a href="../p/accumulation-manipulation-distribution-source.html">Accumulation - Manipulation - Distribution (Source)</a></li>
+<li><a href="../p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a></li>
+<li><a href="../p/ai-in-finance-and-quantitative-analysis-source.html">AI in Finance and Quantitative Analysis (Source)</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a></li>
+<li><a href="../p/algorithmic-trading-winning-strategies-and-their-rationale-source.html">Algorithmic Trading - Winning Strategies and Their Rationale (Source)</a></li>
+<li><a href="../p/alltime-highs-und-tgif-source.html">Alltime Highs und TGIF (Source)</a></li>
+<li><a href="../p/asia-session-source.html">Asia Session (Source)</a></li>
+<li><a href="../p/balanced-price-chart-bsp-source.html">Balanced Price Chart Bsp (Source)</a></li>
+<li><a href="../p/basics-opening-range-concept-source.html">Basics &amp; Opening Range Concept (Source)</a></li>
+<li><a href="../p/blending-ipda-data-ranges-pd-arrays-source.html">Blending IPDA Data Ranges &amp; PD Arrays (Source)</a></li>
+<li><a href="../p/bond-mega-trades-source.html">Bond Mega-Trades (Source)</a></li>
+<li><a href="../p/bread-butter-buy-setups-source.html">Bread &amp; Butter Buy Setups (Source)</a></li>
+<li><a href="../p/bread-butter-sell-setups-source.html">Bread &amp; Butter Sell Setups (Source)</a></li>
+<li><a href="../p/central-banks-dealers-range-source.html">Central Banks Dealers Range (Source)</a></li>
+<li><a href="../p/chain-of-custody-of-price-with-daily-inefficiencies-source.html">Chain Of Custody Of Price With Daily Inefficiencies (Source)</a></li>
+<li><a href="../p/cisd-mini-serie-source.html">CISD Mini Serie (Source)</a></li>
+<li><a href="../p/cisd-mini-serie-lecture-1-source.html">CISD Mini Serie - Lecture 1 (Source)</a></li>
+<li><a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a></li>
+<li><a href="../p/classic-swing-trading-approach-source.html">Classic Swing Trading Approach (Source)</a></li>
+<li><a href="../p/claude-opus-5-mcp-new-king-of-algo-trading-source.html">Claude Opus 5 + MCP = New King of Algo Trading! (Source)</a></li>
+<li><a href="../p/commodity-mega-trades-source.html">Commodity Mega-Trades (Source)</a></li>
+<li><a href="../p/core-content-2016-source.html">Core Content 2016 (Source)</a></li>
+<li><a href="../p/defining-open-float-liquidity-pools-source.html">Defining Open Float Liquidity Pools (Source)</a></li>
+<li><a href="../p/defining-open-float-liquidity-pools-2-source.html">Defining Open Float Liquidity Pools 2 (Source)</a></li>
+<li><a href="../p/defining-the-daily-range-source.html">Defining The Daily Range (Source)</a></li>
+<li><a href="../p/elements-to-successful-swing-trading-source.html">Elements To Successful Swing Trading (Source)</a></li>
+<li><a href="../p/enigma-fvg-projections-source.html">Enigma FVG Projections (Source)</a></li>
+<li><a href="../p/equilibrium-vs-discount-source.html">Equilibrium Vs. Discount (Source)</a></li>
+<li><a href="../p/essentials-to-ict-daytrading-source.html">Essentials To ICT Daytrading (Source)</a></li>
+<li><a href="../p/essentials-to-ict-market-structure-source.html">Essentials To ICT Market Structure (Source)</a></li>
+<li><a href="../p/essentials-to-trading-the-daily-bias-source.html">Essentials To Trading The Daily Bias (Source)</a></li>
+<li><a href="../p/fair-valuation-source.html">Fair Valuation (Source)</a></li>
+<li><a href="../p/federal-open-market-committee-source.html">Federal Open Market Committee (Source)</a></li>
+<li><a href="../p/filling-the-numbers-source.html">Filling The Numbers (Source)</a></li>
+<li><a href="../p/from-vision-to-execution-source.html">From Vision To Execution (Source)</a></li>
+<li><a href="../p/high-probability-daytrade-setups-source.html">High Probability Daytrade Setups (Source)</a></li>
+<li><a href="../p/high-probability-swing-trade-setups-in-bull-markets-source.html">High Probability Swing Trade Setups In Bull Markets (Source)</a></li>
+<li><a href="../p/how-do-i-engage-markets-when-i-don-t-have-an-initial-bias-source.html">How Do I Engage Markets When I Don&#x27;t Have An Initial Bias (Source)</a></li>
+<li><a href="../p/how-i-develop-trading-strategies-source.html">How I Develop Trading Strategies (Source)</a></li>
+<li><a href="../p/how-market-makers-condition-the-market-source.html">How Market Makers Condition The Market (Source)</a></li>
+<li><a href="../p/how-market-makers-condition-the-market-2-source.html">How Market Makers Condition The Market 2 (Source)</a></li>
+<li><a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a></li>
+<li><a href="../p/how-to-use-intermarket-analysis-source.html">How To Use Intermarket Analysis (Source)</a></li>
+<li><a href="../p/ict-2022-episode-03-market-st-modell-22-source.html">ICT 2022 - Episode 03 Market ST + Modell 22 (Source)</a></li>
+<li><a href="../p/ict-2022-episode-04-internal-range-liq-mss-source.html">ICT 2022 - Episode 04 Internal Range Liq &amp; MSS (Source)</a></li>
+<li><a href="../p/ict-2022-episode-05-intraday-orderflow-swing-h-l-8-30-13-30-source.html">ICT 2022 - Episode 05 Intraday Orderflow &amp; Swing H-L 8.30-13.30 (Source)</a></li>
+<li><a href="../p/ict-2022-episode-06-institutional-orderflow-source.html">ICT 2022 - Episode 06 Institutional Orderflow (Source)</a></li>
+<li><a href="../p/ict-2022-episode-07-daily-bias-smt-source.html">ICT 2022 - Episode 07 Daily Bias - SMT (Source)</a></li>
+<li><a href="../p/ict-2022-episode-08-institutionel-orderflow-source.html">ICT 2022 - Episode 08 Institutionel Orderflow (Source)</a></li>
+<li><a href="../p/ict-2022-episode-11-important-dealing-range-source.html">ICT 2022 - Episode 11 Important Dealing Range (Source)</a></li>
+<li><a href="../p/ict-2022-episode-13-market-structure-for-precision-source.html">ICT 2022 - Episode 13 Market Structure for Precision (Source)</a></li>
+<li><a href="../p/ict-2022-episode-14-live-trade-source.html">ICT 2022 - Episode 14 Live Trade (Source)</a></li>
+<li><a href="../p/ict-2022-episode-15-live-trade-source.html">ICT 2022 - Episode 15 Live Trade (Source)</a></li>
+<li><a href="../p/ict-2022-episode-16-midnight-open-displacement-source.html">ICT 2022 - Episode 16 Midnight open + Displacement (Source)</a></li>
+<li><a href="../p/ict-2022-episode-17-fx-anwendung-source.html">ICT 2022 - Episode 17 FX Anwendung (Source)</a></li>
+<li><a href="../p/ict-2022-episode-18-higher-timeframe-15m-1h-is-key-source.html">ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)</a></li>
+<li><a href="../p/ict-2023-mentorship-source.html">ICT 2023 Mentorship (Source)</a></li>
+<li><a href="../p/ict-2025-lecture-series-source.html">ICT 2025 Lecture Series (Source)</a></li>
+<li><a href="../p/ict-2026-smart-money-concepts-lecture-january-02-2026-source.html">ICT 2026 Smart Money Concepts Lecture - January 02, 2026 (Source)</a></li>
+<li><a href="../p/ict-chain-of-custody-of-price-source.html">ICT Chain Of Custody Of Price (Source)</a></li>
+<li><a href="../p/ict-day-trade-routine-source.html">ICT Day Trade Routine (Source)</a></li>
+<li><a href="../p/ict-gems-algorithmic-timings-with-opening-ranges-source.html">ICT Gems - Algorithmic Timings With Opening Ranges (Source)</a></li>
+<li><a href="../p/ict-gems-balanced-price-ranges-inside-fair-value-gaps-source.html">ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)</a></li>
+<li><a href="../p/ict-gems-blending-silver-bullets-and-macros-source.html">ICT Gems - Blending Silver Bullets and Macros (Source)</a></li>
+<li><a href="../p/ict-gems-how-price-behaves-at-specific-times-source.html">ICT Gems - How Price Behaves At Specific Times (Source)</a></li>
+<li><a href="../p/ict-gems-how-to-trade-the-final-hour-macro-source.html">ICT Gems - How to Trade the Final Hour Macro (Source)</a></li>
+<li><a href="../p/ict-gems-ict-teaches-how-to-scalp-every-1-hour-candle-source.html">ICT Gems - ICT Teaches how to Scalp Every 1 Hour Candle (Source)</a></li>
+<li><a href="../p/ict-gems-london-opening-range-macros-source.html">ICT Gems - London Opening Range + Macros (Source)</a></li>
+<li><a href="../p/ict-gems-non-farm-payroll-profile-macros-source.html">ICT Gems - Non-Farm Payroll Profile + Macros (Source)</a></li>
+<li><a href="../p/ict-gems-the-functions-of-a-macro-source.html">ICT Gems - The Functions of a Macro (Source)</a></li>
+<li><a href="../p/ict-gems-turtle-soup-entries-using-ict-gauntlet-source.html">ICT Gems - Turtle Soup Entries Using ICT Gauntlet (Source)</a></li>
+<li><a href="../p/ict-gems-when-to-anticipate-price-spooling-source.html">ICT Gems - When To Anticipate Price Spooling (Source)</a></li>
+<li><a href="../p/ict-mentorship-2022-source.html">ICT MentorShip 2022 (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-framing-low-risk-trade-setups-source.html">ICT Mentorship Core Content - Month 02 - Framing Low Risk Trade Setups (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-growing-small-accounts-source.html">ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-how-to-mitigate-losing-trades-effectively-source.html">ICT Mentorship Core Content - Month 02 - How To Mitigate Losing Trades Effectively (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-how-traders-make-10-per-month-source.html">ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-market-maker-trap-false-breakouts-source.html">ICT Mentorship Core Content - Month 02 - Market Maker Trap False Breakouts (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-market-maker-trap-false-flag-source.html">ICT Mentorship Core Content - Month 02 - Market Maker Trap False Flag (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-no-fear-of-losing-source.html">ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-02-the-secrets-to-selecting-high-reward-setups-source.html">ICT Mentorship Core Content - Month 02 - The Secrets To Selecting High Reward Setups (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-03-market-maker-trap-head-shoulders-pattern-source.html">ICT Mentorship Core Content - Month 03 - Market Maker Trap Head Shoulders Pattern (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-03-the-next-setup-anticipatory-skill-development-source.html">ICT Mentorship Core Content - Month 03 - The Next Setup - Anticipatory Skill Development (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-03-timeframe-selection-defining-setups-source.html">ICT Mentorship Core Content - Month 03 - Timeframe Selection &amp; Defining Setups (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-divergence-phantoms-source.html">ICT Mentorship Core Content - Month 04 - Divergence Phantoms (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-double-bottom-double-top-source.html">ICT Mentorship Core Content - Month 04 - Double Bottom Double Top (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-ict-breaker-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Breaker Block (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-ict-fair-value-gaps-fvg-source.html">ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-ict-propulsion-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Propulsion Block (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-ict-rejection-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Rejection Block (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-ict-vacuum-block-source.html">ICT Mentorship Core Content - Month 04 - ICT Vacuum Block (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-interest-rate-effects-on-currency-trades-source.html">ICT Mentorship Core Content - Month 04 - Interest Rate Effects On Currency Trades (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-liquidity-pools-source.html">ICT Mentorship Core Content - Month 04 - Liquidity Pools (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-liquidity-voids-source.html">ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-mitigation-blocks-source.html">ICT Mentorship Core Content - Month 04 - Mitigation Blocks (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-orderblocks-source.html">ICT Mentorship Core Content - Month 04 - Orderblocks (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-reclaimed-ict-orderblock-source.html">ICT Mentorship Core Content - Month 04 - Reclaimed ICT Orderblock (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-04-reinforcing-liquidity-concepts-price-delivery-source.html">ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts &amp; Price Delivery (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-09-20-pips-per-day-source.html">ICT Mentorship Core Content - Month 09 - 20 Pips Per Day (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-09-bread-butter-buy-setups-source.html">ICT Mentorship Core Content - Month 09 - Bread &amp; Butter Buy Setups (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-09-bread-butter-sell-setups-source.html">ICT Mentorship Core Content - Month 09 - Bread &amp; Butter Sell Setups (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-09-filling-the-numbers-source.html">ICT Mentorship Core Content - Month 09 - Filling The Numbers (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-09-ict-day-trade-routine-source.html">ICT Mentorship Core Content - Month 09 - ICT Day Trade Routine (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-09-the-sentiment-effect-source.html">ICT Mentorship Core Content - Month 09 - The Sentiment Effect (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-09-trading-in-consolidations-source.html">ICT Mentorship Core Content - Month 09 - Trading In Consolidations (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-09-trading-market-reversals-source.html">ICT Mentorship Core Content - Month 09 - Trading Market Reversals (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-elements-of-a-trade-setup-source.html">ICT Mentorship Core Content - Month 1 - Elements Of A Trade Setup (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-equilibrium-vs-discount-source.html">ICT Mentorship Core Content - Month 1 - Equilibrium Vs. Discount (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-equilibrium-vs-premium-source.html">ICT Mentorship Core Content - Month 1 - Equilibrium Vs. Premium (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-fair-valuation-source.html">ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-how-market-makers-condition-the-market-source.html">ICT Mentorship Core Content - Month 1 - How Market Makers Condition The Market (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-impulse-price-swings-market-protraction-source.html">ICT Mentorship Core Content - Month 1 - Impulse Price Swings &amp; Market Protraction (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-liquidity-runs-source.html">ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)</a></li>
+<li><a href="../p/ict-mentorship-core-content-month-1-what-to-focus-on-right-now-source.html">ICT Mentorship Core Content - Month 1 - What To Focus On Right Now (Source)</a></li>
+<li><a href="../p/ict-silver-bullet-source.html">ICT Silver Bullet (Source)</a></li>
+<li><a href="../p/ictcross-currency-relationships-und-htf-institutional-order-flow-source.html">ICTCross Currency Relationships und HTF Institutional Order Flow (Source)</a></li>
+<li><a href="../p/ideal-swings-conditions-for-any-market-source.html">Ideal Swings Conditions For Any Market (Source)</a></li>
+<li><a href="../p/implementing-the-asian-range-source.html">Implementing The Asian Range (Source)</a></li>
+<li><a href="../p/institutional-marketstructure-source.html">Institutional Marketstructure (Source)</a></li>
+<li><a href="../p/institutional-order-flow-source.html">Institutional Order Flow (Source)</a></li>
+<li><a href="../p/institutional-sponsorship-source.html">Institutional Sponsorship (Source)</a></li>
+<li><a href="../p/integrating-daytrades-with-htf-trade-entries-source.html">Integrating Daytrades With HTF Trade Entries (Source)</a></li>
+<li><a href="../p/interest-rate-differentials-source.html">Interest Rate Differentials (Source)</a></li>
+<li><a href="../p/intraday-profiles-f-london-source.html">Intraday Profiles f. London (Source)</a></li>
+<li><a href="../p/intraweek-market-reversals-overlapping-models-source.html">Intraweek Market Reversals &amp; Overlapping Models (Source)</a></li>
+<li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a></li>
+<li><a href="../p/london-close-killzone-source.html">London Close Killzone (Source)</a></li>
+<li><a href="../p/london-killzone-source.html">London Killzone (Source)</a></li>
+<li><a href="../p/london-opening-range-1p-fvg-source.html">London Opening Range +1p FVG (Source)</a></li>
+<li><a href="../p/low-resistance-liquidity-runs-part-1-source.html">Low Resistance Liquidity Runs Part 1 (Source)</a></li>
+<li><a href="../p/low-resistance-liquidity-runs-part-2-source.html">Low Resistance Liquidity Runs Part 2 (Source)</a></li>
+<li><a href="../p/macro-economic-to-micro-technical-source.html">Macro Economic To Micro Technical (Source)</a></li>
+<li><a href="../p/making-money-with-smc-concepts-source.html">Making Money With SMC Concepts (Source)</a></li>
+<li><a href="../p/market-maker-manipulation-templates-source.html">Market Maker Manipulation Templates (Source)</a></li>
+<li><a href="../p/market-maker-primer-course-source.html">Market Maker Primer Course (Source)</a></li>
+<li><a href="../p/market-maker-trap-trendline-phantoms-source.html">Market Maker Trap Trendline Phantoms (Source)</a></li>
+<li><a href="../p/midnight-et-principles-in-relationship-to-premarket-session-source.html">Midnight ET Principles In Relationship To PreMarket Session (Source)</a></li>
+<li><a href="../p/missed-entry-how-to-navigate-the-same-trade-idea-source.html">Missed Entry How To Navigate The Same Trade Idea (Source)</a></li>
+<li><a href="../p/mitigation-blocks-source.html">Mitigation Blocks (Source)</a></li>
+<li><a href="../p/month-02-source.html">Month 02 (Source)</a></li>
+<li><a href="../p/month-03-source.html">Month 03 (Source)</a></li>
+<li><a href="../p/month-04-source.html">Month 04 (Source)</a></li>
+<li><a href="../p/month-05-source.html">Month 05 (Source)</a></li>
+<li><a href="../p/month-06-swing-trading-model-source.html">Month 06 - Swing Trading Model (Source)</a></li>
+<li><a href="../p/month-07-weekly-source.html">Month 07 - Weekly (Source)</a></li>
+<li><a href="../p/month-08-daytrades-source.html">Month 08 - Daytrades (Source)</a></li>
+<li><a href="../p/month-1-source.html">Month 1 (Source)</a></li>
+<li><a href="../p/month-10-source.html">Month 10 (Source)</a></li>
+<li><a href="../p/month-11-source.html">Month 11 (Source)</a></li>
+<li><a href="../p/month-9-scalping-daytrades-source.html">Month 9 - Scalping-Daytrades (Source)</a></li>
+<li><a href="../p/new-york-killzone-source.html">New York Killzone (Source)</a></li>
+<li><a href="../p/nq-futures-weekly-range-market-wizardry-source.html">NQ Futures Weekly Range Market Wizardry (Source)</a></li>
+<li><a href="../p/ny-lunch-macro-rules-pm-session-final-rth-hour-source.html">NY Lunch Macro Rules &amp; PM Session &amp; Final RTH Hour (Source)</a></li>
+<li><a href="../p/ny-pm-trend-source.html">NY PM Trend (Source)</a></li>
+<li><a href="../p/one-shot-one-kill-model-source.html">One Shot One Kill Model (Source)</a></li>
+<li><a href="../p/one-trading-setup-for-life-source.html">One Trading Setup For Life (Source)</a></li>
+<li><a href="../p/open-float-source.html">Open Float (Source)</a></li>
+<li><a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a></li>
+<li><a href="../p/ote-primier-ict-optimal-trade-entry-source.html">OTE Primier - ICT optimal Trade Entry (Source)</a></li>
+<li><a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market-source.html">Premium Vs. Carrying Charge Market (Source)</a></li>
+<li><a href="../p/projecting-daily-highs-lows-source.html">Projecting Daily Highs &amp; Lows (Source)</a></li>
+<li><a href="../p/qualifying-trade-conditions-with-10-year-yields-source.html">Qualifying Trade Conditions With 10 Year Yields (Source)</a></li>
+<li><a href="../p/quantifying-market-structure-at-multiple-scales-for-algorithmic-trading-with-python-source.html">Quantifying Market Structure at Multiple Scales for Algorithmic Trading with Python (Source)</a></li>
+<li><a href="../p/quarterly-shifts-ipda-data-ranges-source.html">Quarterly Shifts &amp; IPDA Data Ranges (Source)</a></li>
+<li><a href="../p/reclaimed-ict-orderblock-source.html">Reclaimed ICT Orderblock (Source)</a></li>
+<li><a href="../p/reeinforced-liquidity-pools-when-to-anticipate-raids-source.html">Reeinforced Liquidity Pools - When to anticipate Raids (Source)</a></li>
+<li><a href="../p/reeinforced-orderblock-theory-breakerblock-source.html">Reeinforced Orderblock Theory BreakerBlock (Source)</a></li>
+<li><a href="../p/reeinforced-orderblock-theory-rejection-block-source.html">Reeinforced Orderblock Theory Rejection Block (Source)</a></li>
+<li><a href="../p/reeinforced-orderblock-theory-selecting-avoiding-source.html">Reeinforced Orderblock Theory Selecting &amp; Avoiding (Source)</a></li>
+<li><a href="../p/relative-strength-analysis-accumulation-distribution-source.html">Relative Strength Analysis - Accumulation &amp; Distribution (Source)</a></li>
+<li><a href="../p/smc-midnight-opening-range-source.html">SMC Midnight Opening Range (Source)</a></li>
+<li><a href="../p/smc-opening-range-gaps-source.html">SMC Opening Range Gaps (Source)</a></li>
+<li><a href="../p/smc-trading-opening-range-gaps-source.html">SMC Trading Opening Range Gaps (Source)</a></li>
+<li><a href="../p/smt-smart-money-technique-source.html">SMT Smart Money Technique (Source)</a></li>
+<li><a href="../p/stock-mega-trades-source.html">Stock Mega-Trades (Source)</a></li>
+<li><a href="../p/successful-algorithmic-trading-source.html">Successful Algorithmic Trading (Source)</a></li>
+<li><a href="../p/testing-and-tuning-market-trading-systems-source.html">Testing and Tuning Market Trading Systems (Source)</a></li>
+<li><a href="../p/tgif-thank-god-its-friday-source.html">TGIF - Thank God its Friday (Source)</a></li>
+<li><a href="../p/the-ict-judas-swing-source.html">The ICT Judas Swing (Source)</a></li>
+<li><a href="../p/the-science-of-algorithmic-trading-and-portfolio-management-source.html">The Science of Algorithmic Trading and Portfolio Management (Source)</a></li>
+<li><a href="../p/the-sentiment-effect-source.html">The Sentiment Effect (Source)</a></li>
+<li><a href="../p/time-and-price-source.html">Time and Price (Source)</a></li>
+<li><a href="../p/trading-all-time-market-highs-source.html">Trading All Time Market Highs (Source)</a></li>
+<li><a href="../p/trading-complex-opening-ranges-with-fed-impact-07-14-2026-source.html">Trading Complex Opening Ranges With Fed Impact 07-14-2026 (Source)</a></li>
+<li><a href="../p/trading-in-consolidations-source.html">Trading In Consolidations (Source)</a></li>
+<li><a href="../p/trading-market-reversals-source.html">Trading Market Reversals (Source)</a></li>
+<li><a href="../p/trading-premarket-and-regular-session-liquidity-source.html">Trading Premarket and Regular Session Liquidity (Source)</a></li>
+<li><a href="../p/trading-the-key-swing-points-source.html">Trading The Key Swing Points (Source)</a></li>
+<li><a href="../p/understanding-the-ict-judas-swing-source.html">Understanding The ICT Judas Swing (Source)</a></li>
+<li><a href="../p/using-10-year-notes-in-htf-analysis-source.html">Using 10 Year Notes In HTF Analysis (Source)</a></li>
+<li><a href="../p/using-ipda-data-ranges-source.html">Using IPDA Data Ranges (Source)</a></li>
+<li><a href="../p/using-monthly-weekly-ranges-source.html">Using Monthly &amp; Weekly Ranges (Source)</a></li>
+<li><a href="../p/weekly-range-profiles-source.html">Weekly Range Profiles (Source)</a></li>
+<li><a href="../p/what-to-focus-on-right-now-source.html">What To Focus On Right Now (Source)</a></li>
+<li><a href="../p/when-to-avoid-the-london-session-source.html">When To Avoid The London Session (Source)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#sources">Quellen</a></div>
+  <h1>2025-12-03 - MIT 15.S08 Lecture 11 - Regression Analysis cont (Source)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">source</span> <span class="tag">quant-finance</span> <span class="tag">mit-ocw</span> <span class="tag">regression</span> <span class="tag">capm</span></div><div class="dates">erstellt 2026-08-12 · aktualisiert 2026-08-12</div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#zusammenfassung">Zusammenfassung</a></li>
+<li><a href="#kernpunkte">Kernpunkte</a></li>
+<li><a href="#bezug">Bezug</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="mit-15s08-lecture-11-regression-analysis-cont-source">MIT 15.S08 — Lecture 11: Regression Analysis (cont.) (Source)</h1>
+<p>Quelle: YouTube, Kanal MIT OpenCourseWare, veröffentlicht 2025-12-03, Länge 1:22:42.
+Rohtranskript: <code>raw/quant-finance/2026/yt-RruxdEjIvv0-transcript.md</code>.</p>
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>Regularisierte Regression (Ridge, Lasso, Principal-Components-Regression) und eine vollständige
+empirische CAPM-Studie über alle S&amp;P-500-Aktien. Formeln in <a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a>
+und <a href="../p/portfolio-management-sizing-gain-loss-ratio.html">Portfolio-Management &amp; Sizing (Gain-Loss-Ratio)</a>.</p>
+<h2 id="kernpunkte">Kernpunkte</h2>
+<ul>
+<li>t-/F-Test-Äquivalenz: für einen einzelnen ausgeschlossenen Koeffizienten gilt <code>t² = F</code>.</li>
+<li>Ridge-Regression: <code>min ‖y−Xβ‖² + λ‖β‖²</code> — entspricht Bayes'scher Regression mit Normal-Prior auf
+  β (Mean 0); Schrumpfung ist stärker für Richtungen mit kleinen Singulärwerten (wenig erklärte
+  Varianz), schwächer entlang der ersten Hauptkomponenten.</li>
+<li>Lasso: <code>min ‖y−Xβ‖² + λ‖β‖₁</code> — der L1-Penalty erzeugt exakte Nullen (Variablenselektion), anders
+  als Ridge (L2, nur Schrumpfung, keine exakten Nullen).</li>
+<li>Principal-Components-Regression: Regression auf die ersten <code>m</code> (orthogonalen) Hauptkomponenten
+  der Prädiktoren statt auf die Rohvariablen — kann bei stark korrelierten Regressoren stabiler
+  sein, birgt aber das Risiko, eine statistisch schwache, aber ökonomisch wichtige Komponente zu
+  verwerfen.</li>
+<li><strong>CAPM-Regressionstest</strong>: <code>R*ⱼₜ = αⱼ + βⱼ·R*_mt + εⱼₜ</code> (Excess-Returns, Marktmodell). Test, ob
+  <code>αⱼ = 0</code> (Markteffizienz-Bedingung) über t-Test. Angewendet auf ~380–400 S&amp;P-500-Aktien: die
+  große Mehrheit hat statistisch nicht-signifikante Alphas (konsistent mit CAPM), einzelne
+  Ausreißer (z.B. hohe positive Alphas in Tech/Energie) zeigen die Grenzen des Modells.</li>
+<li>Regime-Wechsel-Test: CAPM-Parameter (α, β) über Sub-Perioden vergleichen via F-Test auf
+  Parameteränderung — bei GE zeigt sich ein signifikanter β-Sprung zwischen zwei Perioden, ein
+  Hinweis, dass CAPM-Parameter über sehr lange Zeiträume nicht stabil sind (Rolling-Window-Ansatz
+  empfohlen).</li>
+<li>Sektor-Beta-Heterogenität: Consumer Staples strukturell niedrige Betas, Technologie strukturell
+  hohe Betas.</li>
+</ul>
+<h2 id="bezug">Bezug</h2>
+<p>CAPM-Formel und Sicherheitsmarktlinie stammen aus Lecture 5, hier empirisch validiert — siehe
+<a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a> für die vollständige Formelsammlung.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/sources/youtube/2025-12-03 - MIT 15.S08 Lecture 11 - Regression Analysis cont (Source).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>
