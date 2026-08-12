@@ -2070,3 +2070,9 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Anlass: Nutzerkorrektur -- berechnete Preise wie 29 833,34 existieren am Markt nicht
 - Vor dem Fix: 34 % der Entries, 88 % der Stops und 50 % aller FVG-C.E. nicht platzierbar; danach 0 von 6962 geprueften Preisen ungueltig
 - Code: TICK_SIZE/to_tick in tools/analyze_ohlc.py (einzige Quelle), algo/pnl.py reicht durch; fvgs()/org_gap() runden den C.E.
+
+## [2026-08-12] synthesis | Daily-Bias-Notiz 12.08. -- ORG-C.E.-70%-These live angewendet
+- Quelle: raw/daily bias 12.08.md (CPI 8:30 NY, Buyside-Weekly-DOL 30 094,00, ORG-C.E.-70%-Regel vor RTH-Open erwartet)
+- Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md (Nachtrag 2026-08-12), algo/PLAN.md (Log + Backlog: Gap-Groessen-Segmentierung)
+- algo/live_status.py gegengeprueft: 29 800,00 um 05:00 NY, deckt sich mit Jannes Beobachtung 29 804 (11:00 CEST); org_ce vor RTH-Open erwartungsgemaess null
+- Offen: Prognose nach 9:30 NY mit echten Daten nachpruefen

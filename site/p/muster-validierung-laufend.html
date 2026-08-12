@@ -47,7 +47,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#synthesis">Synthese</a></div>
   <h1>Muster-Validierung (laufend)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">trading-ict</span> <span class="tag">marktdaten</span> <span class="tag">backtest</span></div><div class="dates">erstellt 2026-08-07 · aktualisiert 2026-08-07</div><div class="srcline"><span>Quellen:</span> <a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">trading-ict</span> <span class="tag">marktdaten</span> <span class="tag">backtest</span></div><div class="dates">erstellt 2026-08-07 · aktualisiert 2026-08-12</div><div class="srcline"><span>Quellen:</span> <a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#abdeckung-nutzerwunsch-alle-pd-arrays-das-gesamte-wiki">Abdeckung (Nutzerwunsch: alle PD Arrays, das gesamte Wiki)</a></li>
@@ -61,6 +61,7 @@
 <li><a href="#1st-presented-fvg-wochenrelevanz-des-montags-offene-hypothese-stand-2026-08-11">1st Presented FVG — Wochenrelevanz des Montags (offene Hypothese, Stand 2026-08-11)</a></li>
 <li><a href="#std-projektionen-und-die-tages-session-extrema-offene-hypothese-stand-2026-08-11">STD-Projektionen und die Tages-/Session-Extrema (offene Hypothese, Stand 2026-08-11)</a><ul>
 <li><a href="#nachtrag-2026-08-11-beide-std-basen-bleiben-offen">Nachtrag 2026-08-11: beide STD-Basen bleiben offen</a></li>
+<li><a href="#nachtrag-2026-08-12-daily-bias-notiz-org-ce-70-these-live-angewendet-vor-rth-open">Nachtrag 2026-08-12: Daily-Bias-Notiz — ORG-C.E.-70%-These live angewendet (vor RTH-Open)</a></li>
 </ul>
 </li>
 </ul>
@@ -611,6 +612,23 @@ groesserem 1m-Bestand.</p>
 Level. Das ist kein Argument gegen eine der beiden Basen — es zeigt nur, dass sie sich am
 selben Tag unterschiedlich verhalten und getrennt gefuehrt werden muessen. Passt zum
 Backtest, wo <code>or_:post_daily_low</code> (26 %, 1m) der beste aller acht Werte war.</p>
+<h3 id="nachtrag-2026-08-12-daily-bias-notiz-org-ce-70-these-live-angewendet-vor-rth-open">Nachtrag 2026-08-12: Daily-Bias-Notiz — ORG-C.E.-70%-These live angewendet (vor RTH-Open)</h3>
+<p>Jannes' Tagesnotiz (<code>raw/daily bias 12.08.md</code>) wendet die offene ORG-C.E.-70%-These (siehe
+Abschnitt „Fair Value Gap / C.E-Fuellung" oben, aktuell 35–43 % statt der behaupteten 70 %)
+live an: CPI-News um 8:30 NY (14:30 CEST) als Volatilitaetstreiber, Buyside noch nicht
+genommen (Ziel), Premium Wick vom 05.08. knapp unterhalb der Buyside noch offen, Discount
+Wick vom 06.08. unberuehrt (bullish bestaetigend). Vortagsschluss (16:14 NY) 29 640,25,
+<code>algo/live_status.py</code>-Check (frisch gezogen, 12 Min. Lag, im tolerierten Bereich) bestaetigt
+Jannes' Beobachtung: 29 800,00 um 05:00 NY (11:00 CEST) — der eigentliche ORG-Wert steht aber
+erst mit dem 9:30-NY-Open fest (<code>org_ce</code> in <code>live_status.py</code> liefert vor RTH-Open <code>null</code>).</p>
+<p>Jannes' Erwartung: bei einem <strong>sehr grossen</strong> ORG-Gap greift die 70%-Regel <em>nicht</em> (C.E. wird
+<strong>nicht</strong> innerhalb 30 Min. gefuellt) — das waere eine Praezisierung der bestehenden
+Hypothese, keine neue: falls grosse Gaps seltener fuellen, erklaert das teilweise, warum die
+Gesamtquote (35–43 %) unter dem behaupteten 70 % liegt. <strong>Backlog-Idee:</strong> <code>org_gap()</code>-Ergebnisse
+nach Gap-Groesse (z. B. Quartile) segmentieren, um "grosser Gap → seltener C.E.-Fill"
+statistisch zu pruefen, statt die Quote nur pauschal auszuweisen — in <code>algo/PLAN.md</code> vermerkt.</p>
+<p>Weekly DOL (Jannes' Ziel fuer die Woche, nicht zwingend heute): Buyside <strong>30 094,00</strong>. Status
+offen, wird nach RTH-Open per <code>algo/live_status.py</code>/<code>algo/backtest_org_ce.py</code> nachgeprueft.</p>
 <p>Vorbehalt: Tag lief beim Erfassen noch (Daten bis 14:39 NY).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">6</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/macro-datenbank-laufend.html">Macro-Datenbank (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a><span class="cat">Modelle</span></li><li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Muster-Validierung (laufend).md</code></footer>

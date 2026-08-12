@@ -1,7 +1,7 @@
 ---
 tags: [synthesis, trading-ict, marktdaten, backtest]
 created: 2026-08-07
-updated: 2026-08-07
+updated: 2026-08-12
 sources: ["[[OHLC-Datenanalyse (Workflow)]]"]
 ---
 
@@ -181,5 +181,26 @@ Aus dem **ORG-Gap** projiziert lag dasselbe Tief zwischen −2,0 und −2,5 STD,
 Level. Das ist kein Argument gegen eine der beiden Basen — es zeigt nur, dass sie sich am
 selben Tag unterschiedlich verhalten und getrennt gefuehrt werden muessen. Passt zum
 Backtest, wo `or_:post_daily_low` (26 %, 1m) der beste aller acht Werte war.
+
+### Nachtrag 2026-08-12: Daily-Bias-Notiz — ORG-C.E.-70%-These live angewendet (vor RTH-Open)
+
+Jannes' Tagesnotiz (`raw/daily bias 12.08.md`) wendet die offene ORG-C.E.-70%-These (siehe
+Abschnitt „Fair Value Gap / C.E-Fuellung" oben, aktuell 35–43 % statt der behaupteten 70 %)
+live an: CPI-News um 8:30 NY (14:30 CEST) als Volatilitaetstreiber, Buyside noch nicht
+genommen (Ziel), Premium Wick vom 05.08. knapp unterhalb der Buyside noch offen, Discount
+Wick vom 06.08. unberuehrt (bullish bestaetigend). Vortagsschluss (16:14 NY) 29 640,25,
+`algo/live_status.py`-Check (frisch gezogen, 12 Min. Lag, im tolerierten Bereich) bestaetigt
+Jannes' Beobachtung: 29 800,00 um 05:00 NY (11:00 CEST) — der eigentliche ORG-Wert steht aber
+erst mit dem 9:30-NY-Open fest (`org_ce` in `live_status.py` liefert vor RTH-Open `null`).
+
+Jannes' Erwartung: bei einem **sehr grossen** ORG-Gap greift die 70%-Regel *nicht* (C.E. wird
+**nicht** innerhalb 30 Min. gefuellt) — das waere eine Praezisierung der bestehenden
+Hypothese, keine neue: falls grosse Gaps seltener fuellen, erklaert das teilweise, warum die
+Gesamtquote (35–43 %) unter dem behaupteten 70 % liegt. **Backlog-Idee:** `org_gap()`-Ergebnisse
+nach Gap-Groesse (z. B. Quartile) segmentieren, um "grosser Gap → seltener C.E.-Fill"
+statistisch zu pruefen, statt die Quote nur pauschal auszuweisen — in `algo/PLAN.md` vermerkt.
+
+Weekly DOL (Jannes' Ziel fuer die Woche, nicht zwingend heute): Buyside **30 094,00**. Status
+offen, wird nach RTH-Open per `algo/live_status.py`/`algo/backtest_org_ce.py` nachgeprueft.
 
 Vorbehalt: Tag lief beim Erfassen noch (Daten bis 14:39 NY).
