@@ -15,9 +15,10 @@ python tools/fetch_yt_playlist.py "<playlist-url>" [--out-dir raw/<domain>]
 ```
 
 - Without `--out-dir`, the tool derives a domain slug from the playlist title and prints it —
-  check the printed domain in the report; if it's wrong, re-run with an explicit `--out-dir`
-  (already-fetched transcripts are not re-fetched, the checkpoint just gets reassigned by pointing
-  `--out-dir` at the new location manually if needed).
+  check the printed domain in the report; if it's wrong, move both the transcript files (`yt-*-transcript.md`)
+  and the checkpoint file (`raw/<wrong-domain>/.yt_playlist_state/<playlist_id>.json`) to `raw/<correct-domain>/`
+  before re-running with `--out-dir raw/<correct-domain>`; otherwise the tool will re-fetch everything from
+  scratch and burn the fetch budget.
 - The tool paces itself (45s/90s between videos) and stops immediately on an IP block, printing
   how many videos were fetched and how many remain. **Do not retry immediately** — an IP block is
   session-wide, not per-video; re-running right away will not help. Report the stop to the user;
