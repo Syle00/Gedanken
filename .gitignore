@@ -53,5 +53,10 @@ algo/live/*/state.json
 # spaeter noch vollstaendig ist. Die Text-Statusberichte (algo/live/<datum>-status-log.md)
 # waren schon vorher versioniert.
 
+# --- YouTube-Playlist-Ingest ---
+# Laufzeit-Checkpoint fuer resumable Playlist-Fetches (fetch_yt_playlist.py) --
+# reine Betriebsbuchhaltung, kein Content.
+**/.yt_playlist_state/
+
 # Bewusst NICHT ignoriert: raw/ (inkl. aller PNGs), wiki/, site/, CLAUDE.md,
 # .claude/settings.json -- das Vault soll vollstaendig gesichert sein.
