@@ -115,6 +115,12 @@ Risiko" (diese vier Module) von "wie viele Kontrakte kauft das bei diesem %" (un
 Umschalten: `SilverBulletStrategy.risk_module = risk_garch` vor `Backtest(...).run()`, siehe
 `algo/backtest_risk_compare.py` fuer den automatisierten Vergleich aller drei Sizing-Module.
 
+`algo/backtest_risk_compare.py MNQ` fuehrt alle drei Sizing-Module nacheinander gegen dieselben
+Silver-Bullet-Signale aus und schreibt die Vergleichstabelle (Equity, Max-Drawdown, Win-Rate,
+Profit Factor, `dubious_pct`, 95%-Tages-VaR/Expected-Shortfall) nach
+`wiki/synthesis/Risk-Management-Vergleich (laufend).md` -- ueberschreibt die Datei bei jedem
+Lauf komplett.
+
 ## `backtest_ensemble.py` -- RenTec-artiges Ensemble
 
 **Was:** Taeglicher Bias aus Logistic Regression ueber `signals.py`, filtert die
