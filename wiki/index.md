@@ -516,6 +516,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Machine Learning für den Algo — Bewertung (laufend)]] — Antwort auf „macht ML Sinn": nicht als Signalgeber, aber Instrument-Pooling ist sofort und ohne ML-Code nutzbar, Meta-Labeling später; mit Bedingungen für eine Neubewertung (2026-08-08)
 - [[Macro-Datenbank (laufend)]] — Wahrscheinlichkeiten je Macro-Fenster: Expansion, Startminute, genommene Liquidität, mit Konfidenzintervallen (2026-08-10)
 - [[KW32 2026 — Weekly Review]] — Wochenübergreifender roter Faden über die bereits einzeln verifizierten `journal/entries/`: Weekly Bias (bullish, DOL 29.363,50) und Montag beide bias_korrekt:true, Donnerstag fehlerfrei; echte Fehler waren Bias-Inkonsistenz Montag (Weekly vs. Daily binnen 33 Min.) und ein veraltetes ORG-Level am Freitag (2026-08-07)
+- [[Risk-Management-Vergleich (laufend)]] — **generiert** von `algo/backtest_risk_compare.py`: Vergleich der drei Risk-Sizing-Module (fix/GARCH/Kelly) auf identischen Silver-Bullet-Signalen, mit Expectancy, VaR95/ES95 und Kleine-Stichprobe-Vorbehalt (2026-08-12)
 - [[Quant-Finance-Formeln für den MNQ-Algo (laufend)]] — **generiert**, aktualisiert bei jedem neuen quant-finance-Fund: PCA-Regime-Feature, Regressions-Signifikanztest für Strategie-Alpha, Diversifikationsformel für Multi-Symbol, Markov-Ketten für Bar-Zustandsfolgen, Gain-Loss-Ratio-Sizing — je mit konkretem `algo/`-Modulbezug oder als Layer-0-Verstoß markiert (2026-08-12)
 
 ## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)

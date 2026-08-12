@@ -12,7 +12,9 @@ derselbe Kein-Lookahead-Vertrag wie in rules.py, hier nur als Strategy.next() ve
 # darum Naeherungen. Die echte Zahl liefert algo/pnl.py aus stats._trades: die "Echte $-P&L"-
 # Zeile unten ist netto (Punktwert-P&L minus Commission), nicht stats["Equity Final"].
 # ponytail: self.equity ist beim Sizing weiterhin in Lib-Punkteinheiten -- siehe die
-# dokumentierte Grenze in pnl.risk_size(), Fix braucht Startkapital-Tracking.
+# dokumentierte Grenze in pnl.risk_size(), Fix braucht Startkapital-Tracking. Der
+# Drawdown-Kill-Switch rechnet dagegen seit 2026-08-12 in echten Dollar (starting_cash +
+# (lib_equity - starting_cash) * point_value), siehe SilverBulletStrategy.next().
 
 Aufruf:
     python algo/backtest_bt.py MNQ
@@ -80,18 +82,30 @@ class SilverBulletStrategy(Strategy):
     risk_module = risk_fixed    # austauschbar: risk_fixed/risk_garch/risk_kelly, siehe
                                  # docs/superpowers/specs/2026-08-12-quant-risk-management-design.md
     max_drawdown_pct = risk_killswitch.DEFAULT_MAX_DRAWDOWN_PCT  # Kill-Switch-Schwelle, pro Strategie
+    starting_cash = 100_000     # muss zu Backtest(cash=...) passen (main() hier und
+                                 # backtest_risk_compare.py::run_one()) -- Basis der
+                                 # Echt-Dollar-Umrechnung fuer den Kill-Switch
 
     def init(self):
         self._taken: set[tuple] = set()       # (Tag, Fenstername) -- ein Versuch pro Fenster/Tag
         self._hist: list[Bar] = []            # inkrementell fortgeschrieben, siehe extend_hist()
-        self._equity_curve: list[float] = []  # fuer den Drawdown-Kill-Switch, waechst pro Bar
+        self._equity_peak: float = 0.0        # laufendes Echt-Dollar-Hoch fuer den Kill-Switch
 
     def next(self):
         extend_hist(self._hist, self.data)  # muss VOR der Positionspruefung laufen (lueckenlos)
-        self._equity_curve.append(self.equity)
+        # self.equity ist in Lib-Punkteinheiten ($1/Punkt) denominiert, nicht in echten Dollar --
+        # derselbe Fehlertyp wie in der ⚠️-Grenze von pnl.py::risk_size() dokumentiert. Ohne diese
+        # Skalierung wuerde die 15%-Schwelle nicht 15% echten Kontos bedeuten.
+        real_equity = self.starting_cash + (self.equity - self.starting_cash) * self.point_value
+        self._equity_peak = max(self._equity_peak, real_equity)
         if self.position:
             return
-        if not risk_killswitch.allowed(self._equity_curve, self.max_drawdown_pct):
+        if not risk_killswitch.allowed(self._equity_peak, real_equity, self.max_drawdown_pct):
+            # Gate blockt nicht nur neue Orders: bereits platzierte, noch nicht gefuellte
+            # Limit-Orders aus frueheren Bars verfallen hier nie von selbst (siehe
+            # algo/README.md) und wuerden nach dem Trip noch fuellen.
+            for o in self.orders:
+                o.cancel()
             return  # Drawdown-Kill-Switch aktiv -- kein neuer Trade, bis neues Equity-Hoch
         when = self.data.index[-1]
         setup = plan_trade(self._hist, when, stop_buffer_pct=self.stop_buffer_pct)
@@ -129,6 +143,7 @@ def main(argv=None):
     # Punktwert muss zum tatsaechlich geladenen Symbol passen -- fest verdrahtetes "MNQ" hiess
     # bei `backtest_bt.py ES` 25x zu grosse Positionen (Fund 3 des Final Review).
     SilverBulletStrategy.point_value = POINT_VALUE[sym]
+    SilverBulletStrategy.starting_cash = 100_000  # muss zum cash= unten passen
     bt = Backtest(df, SilverBulletStrategy, cash=100_000, margin=0.05, commission=0.0002)
     stats = bt.run()
     print(stats)

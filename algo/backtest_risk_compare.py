@@ -46,9 +46,14 @@ def run_one(df: pd.DataFrame, symbol: str, module) -> dict:
     Vergleichskennzahlen. Mutiert `SilverBulletStrategy`-Klassenattribute -- Aufrufe muessen
     sequenziell laufen (keine parallelen run_one()-Aufrufe auf derselben Klasse)."""
     SilverBulletStrategy.point_value = POINT_VALUE[symbol]
+    SilverBulletStrategy.starting_cash = 100_000  # muss zum cash= unten passen (Kill-Switch
+                                                   # rechnet damit in echten Dollar)
     SilverBulletStrategy.risk_module = module
-    bt = Backtest(df, SilverBulletStrategy, cash=100_000, margin=0.05, commission=0.0002)
-    stats = bt.run()
+    try:
+        bt = Backtest(df, SilverBulletStrategy, cash=100_000, margin=0.05, commission=0.0002)
+        stats = bt.run()
+    finally:
+        SilverBulletStrategy.risk_module = risk_fixed  # Klasse in bekanntem Zustand hinterlassen
     trades = flag_dubious(stats._trades, df)
     trades = real_pnl(trades, symbol)
     if len(trades):
@@ -60,7 +65,8 @@ def run_one(df: pd.DataFrame, symbol: str, module) -> dict:
         "equity_final": float(stats["Equity Final [$]"]),
         "max_drawdown_pct": float(stats["Max. Drawdown [%]"]),
         "win_rate_pct": float(stats["Win Rate [%]"]) if len(trades) else 0.0,
-        "profit_factor": float(stats["Profit Factor"]) if len(trades) and stats["Profit Factor"] == stats["Profit Factor"] else 0.0,
+        "profit_factor": float(stats["Profit Factor"]) if len(trades) and pd.notna(stats["Profit Factor"]) else 0.0,
+        "expectancy_pct": float(stats["Expectancy [%]"]) if len(trades) and pd.notna(stats["Expectancy [%]"]) else 0.0,
         "n_trades": int(len(trades)),
         "real_pnl_usd": float(trades["RealPnL_USD"].sum()) if len(trades) else 0.0,
         "dubious_pct": float(dubious_pct(trades)),
@@ -83,19 +89,26 @@ def format_report(results: dict[str, dict], symbol: str) -> str:
         f"**Generiert** von `algo/backtest_risk_compare.py {symbol}` -- ueberschreibt sich bei "
         "jedem Lauf komplett, kein manuell gepflegter Inhalt (siehe CLAUDE.md \"(laufend)\"-Muster). "
         "Gleiche Silver-Bullet-Signale, nur die Positionsgroesse variiert zwischen den drei Modulen "
-        "(siehe [[../algo/README.md|algo/README.md]]). Drawdown-Kill-Switch (15%) laeuft bei allen "
-        "drei mit.",
+        "(siehe `algo/README.md`). Drawdown-Kill-Switch (15% auf die in echte Dollar umgerechnete "
+        "Equity-Kurve) laeuft bei allen drei mit.",
         "",
-        "| Modul | Equity Final $ | Max DD % | Win Rate % | Profit Factor | Trades | Echte $-P&L | Dubious % | VaR95 $ | ES95 $ |",
-        "|---|---|---|---|---|---|---|---|---|---|",
+        "| Modul | Equity Final $ | Max DD % | Win Rate % | Profit Factor | Expectancy % | Trades | Echte $-P&L | Dubious % | VaR95 $ | ES95 $ |",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     for name, r in results.items():
         lines.append(
             f"| {name} | {r['equity_final']:.0f} | {r['max_drawdown_pct']:.1f} | "
-            f"{r['win_rate_pct']:.1f} | {r['profit_factor']:.2f} | {r['n_trades']} | "
+            f"{r['win_rate_pct']:.1f} | {r['profit_factor']:.2f} | {r['expectancy_pct']:+.3f} | "
+            f"{r['n_trades']} | "
             f"{r['real_pnl_usd']:+.0f} | {r['dubious_pct']:.1f} | {r['var95_usd']:.0f} | "
             f"{r['es95_usd']:.0f} |"
         )
+    lines += [
+        "",
+        "> ⚠️ **Kleine Stichprobe** (siehe `algo/PLAN.md`): mit nur einer Handvoll Trades je Modul "
+        "sind die Equity-/Drawdown-Unterschiede zwischen den Modulen noch nicht statistisch "
+        "aussagekraeftig -- Groessenordnungs-Schaetzungen, keine belastbaren Ergebnisse.",
+    ]
     return "\n".join(lines) + "\n"
 
 

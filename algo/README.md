@@ -105,19 +105,31 @@ Risiko" (diese vier Module) von "wie viele Kontrakte kauft das bei diesem %" (un
   relativ zur langfristigen GARCH-Vol (`sqrt(omega/(1-alpha-beta))`), geclippt auf
   [0.5, 1.5] x `base_pct`. Fallback auf `base_pct` unter 100 Kerzen Historie.
 - `risk_kelly.risk_pct(closed_trades=...)` -- Half-Kelly (`f* = p - (1-p)/b`) aus den letzten
-  30 abgeschlossenen Trades. Fallback auf `base_pct` unter 20 Trades oder bei einseitigem
-  Sample (nur Gewinner/nur Verlierer).
-- `risk_killswitch.allowed(equity_curve, max_drawdown_pct=0.15)` -- kein Sizing-Modul, sondern
+  30 abgeschlossenen Trades, nach oben auf `1.5 x base_pct` gedeckelt (gleiche Obergrenze wie
+  `risk_garch`, rohes Half-Kelly kann bis 50 % Kontorisiko pro Trade reichen). Fallback auf
+  `base_pct` unter 20 Trades oder bei einseitigem Sample (nur Gewinner/nur Verlierer).
+- `risk_killswitch.allowed(peak, current, max_drawdown_pct=0.15)` -- kein Sizing-Modul, sondern
   ein Gate VOR `risk_pct()`: stoppt neue Trades, sobald der Drawdown seit dem bisherigen
-  Equity-Hoch die Schwelle ueberschreitet. Reset automatisch bei neuem Hoch. Laeuft pro
-  Strategie (`SilverBulletStrategy._equity_curve`), unabhaengig vom gewaehlten `risk_module`.
+  Equity-Hoch die Schwelle **erreicht** (inklusiv). Reset automatisch bei neuem Hoch. `peak`
+  fuehrt die Strategie inkrementell mit (`SilverBulletStrategy._equity_peak`, O(n) statt eines
+  `max()` ueber die volle Kurve pro Bar), unabhaengig vom gewaehlten `risk_module`.
+  **In ECHTEN Dollar**: `self.equity` der Lib ist in Punkteinheiten ($1/Punkt) denominiert, die
+  Strategie rechnet vorher um (`starting_cash + (lib_equity - starting_cash) * point_value`) --
+  sonst wuerden die 15 % nicht 15 % echten Kontos bedeuten (gleicher Fehlertyp wie die
+  dokumentierte Grenze in `pnl.py::risk_size()`, gefixt 2026-08-12).
+  **Dauerstopp ist gewollt:** solange keine Position offen ist, bewegt sich die Equity nicht, also
+  kann kein neues Hoch entstehen -- ein ausgeloester Kill-Switch stoppt den Handel im Backtest
+  damit praktisch dauerhaft. Bewusste, konservative Nutzerentscheidung fuer das Backtest-Stadium,
+  kein Auto-Reset per Timer/Decay. Beim Trip werden zusaetzlich alle offenen, noch nicht gefuellten
+  Limit-Orders storniert (`self.orders`) -- sie verfallen hier sonst nie (siehe oben) und wuerden
+  nach dem Stop noch fuellen.
 
 Umschalten: `SilverBulletStrategy.risk_module = risk_garch` vor `Backtest(...).run()`, siehe
 `algo/backtest_risk_compare.py` fuer den automatisierten Vergleich aller drei Sizing-Module.
 
 `algo/backtest_risk_compare.py MNQ` fuehrt alle drei Sizing-Module nacheinander gegen dieselben
 Silver-Bullet-Signale aus und schreibt die Vergleichstabelle (Equity, Max-Drawdown, Win-Rate,
-Profit Factor, `dubious_pct`, 95%-Tages-VaR/Expected-Shortfall) nach
+Profit Factor, Expectancy, `dubious_pct`, 95%-Tages-VaR/Expected-Shortfall) nach
 `wiki/synthesis/Risk-Management-Vergleich (laufend).md` -- ueberschreibt die Datei bei jedem
 Lauf komplett.
 

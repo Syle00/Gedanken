@@ -1,6 +1,7 @@
 # Quant-Riskmanagement — austauschbare Risk-Module (Design)
 
-> Status: entworfen 2026-08-12, noch nicht implementiert. Ersetzt keine bestehende Datei,
+> Status: implementiert 2026-08-12, siehe
+> docs/superpowers/plans/2026-08-12-quant-risk-management.md. Ersetzt keine bestehende Datei,
 > ergänzt `algo/pnl.py::risk_size()` um eine vorgeschaltete, austauschbare Schicht.
 
 ## Ziel

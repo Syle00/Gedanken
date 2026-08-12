@@ -2119,3 +2119,15 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Seiten aktualisiert: wiki/index.md (10 neue Concepts-Einträge, neue Sources-Unterrubrik "Yale
   Econ 252" mit 23 Einträgen und Abgrenzungshinweis zur MIT-15.S08-Reihe).
 - Kein Push ausgeführt (push.ps1) — laut Auftrag macht das der Hauptagent/Nutzer separat.
+
+## [2026-08-12] setup | Quant-Riskmanagement: austauschbare Risk-Module
+- Seiten erstellt: wiki/synthesis/Risk-Management-Vergleich (laufend).md
+- Seiten aktualisiert: wiki/index.md
+- Vier austauschbare Risk-Sizing-Module (algo/risk_fixed.py, risk_garch.py, risk_kelly.py,
+  risk_killswitch.py) hinter gemeinsamem Interface `risk_pct(base_pct=0.01, **ctx) -> float`,
+  siehe docs/superpowers/specs/2026-08-12-quant-risk-management-design.md und
+  docs/superpowers/plans/2026-08-12-quant-risk-management.md.
+- Aus der finalen Whole-Branch-Review direkt mitgefixt (Zahlen in algo/PLAN.md): der
+  Drawdown-Kill-Switch mass den Drawdown in den Punkteinheiten der `backtesting`-Lib statt in
+  echten Dollar — derselbe Fehlertyp wie der 2026-08-06-Audit-Fund in `pnl.py::risk_size()`.
+  Kelly-Sizing ist jetzt wie GARCH auf 1,5 x base_pct gedeckelt.
