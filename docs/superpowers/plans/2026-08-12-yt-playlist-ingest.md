@@ -27,6 +27,10 @@ general CLAUDE.md ingest workflow to whatever transcripts landed, then one `push
 - Video IDs/playlist IDs starting with `-` must be passable via a `--` separator.
 - Output transcript file format must match `fetch_yt_transcript.py`'s existing format exactly
   (same header/metadata lines), so downstream ingest tooling and manual review work unchanged.
+- No pytest in this repo (confirmed: not installed, no `requirements.txt` entry). Follow the
+  existing convention in `tools/test_fvg_vii.py`: plain `assert`-based test functions run via a
+  `if __name__ == "__main__":` block, invoked as `python tools/test_x.py`. Do not add pytest as a
+  dependency.
 
 ---
 
@@ -106,11 +110,25 @@ def test_pending_video_ids_filters_status_and_disk():
     ]}
     result = pending_video_ids(checkpoint, already_on_disk={"c"})
     assert result == [("b", "B")]
+
+
+if __name__ == "__main__":
+    test_load_checkpoint_missing_file_returns_empty_shell()
+    test_save_then_load_roundtrip()
+    test_merge_playlist_entries_adds_new_as_pending_and_keeps_existing_status()
+    test_existing_transcript_ids_scans_recursively()
+    test_pending_video_ids_filters_status_and_disk()
+    print("OK")
 ```
+
+This repo has no pytest dependency — tests here follow the existing convention in
+`tools/test_fvg_vii.py`: plain `assert`-based functions, executed directly via a
+`if __name__ == "__main__":` block, run with a bare `python tools/test_x.py` (no test runner, no
+new dependency).
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `python -m pytest tools/test_yt_playlist_checkpoint.py -v`
+Run: `python tools/test_yt_playlist_checkpoint.py`
 Expected: FAIL with `ModuleNotFoundError: No module named 'yt_playlist_checkpoint'`
 
 - [ ] **Step 3: Write the implementation**
@@ -171,8 +189,8 @@ def pending_video_ids(checkpoint: dict, already_on_disk: set[str]) -> list[tuple
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `python -m pytest tools/test_yt_playlist_checkpoint.py -v`
-Expected: PASS (5 tests)
+Run: `python tools/test_yt_playlist_checkpoint.py`
+Expected: prints `OK`
 
 - [ ] **Step 5: Commit**
 
@@ -222,8 +240,10 @@ EOF
     since the tool takes a full URL, not a bare ID).
 
 **Note on testability:** `fetch_one` calls network functions (`get_metadata`, `get_transcript_text`)
-directly by name at module level, so tests monkeypatch `tools.fetch_yt_playlist.get_metadata` /
-`tools.fetch_yt_playlist.get_transcript_text` rather than mocking subprocess/HTTP.
+directly by name at module level, so tests patch `fyp.get_metadata` / `fyp.get_transcript_text`
+directly (save the original, reassign, restore in `finally`) rather than mocking subprocess/HTTP.
+This repo has no pytest dependency — no `monkeypatch` fixture — see the note on test style at the
+end of Task 1.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -231,7 +251,6 @@ directly by name at module level, so tests monkeypatch `tools.fetch_yt_playlist.
 # tools/test_fetch_yt_playlist.py
 from pathlib import Path
 import tempfile
-import pytest
 
 import fetch_yt_playlist as fyp
 
@@ -242,56 +261,76 @@ def test_derive_domain_slugifies_and_strips_generic_words():
     assert fyp.derive_domain("  Weird!!  Chars??  ") == "weird-chars"
 
 
-def test_fetch_one_writes_transcript_file(monkeypatch):
-    monkeypatch.setattr(fyp, "get_metadata", lambda vid: {
+def test_fetch_one_writes_transcript_file():
+    orig_meta, orig_text = fyp.get_metadata, fyp.get_transcript_text
+    fyp.get_metadata = lambda vid: {
         "title": "Test Video", "channel": "Test Channel", "date": "2026-01-02", "duration": "10:00",
-    })
-    monkeypatch.setattr(fyp, "get_transcript_text", lambda vid: "hello world transcript")
+    }
+    fyp.get_transcript_text = lambda vid: "hello world transcript"
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            out_dir = Path(d)
+            status = fyp.fetch_one("vid123", out_dir)
+            assert status == "done"
+            out_file = out_dir / "yt-vid123-transcript.md"
+            assert out_file.exists()
+            content = out_file.read_text(encoding="utf-8")
+            assert "Test Video" in content
+            assert "hello world transcript" in content
+            assert "Quelle: https://www.youtube.com/watch?v=vid123" in content
+    finally:
+        fyp.get_metadata, fyp.get_transcript_text = orig_meta, orig_text
 
-    with tempfile.TemporaryDirectory() as d:
-        out_dir = Path(d)
-        status = fyp.fetch_one("vid123", out_dir)
-        assert status == "done"
-        out_file = out_dir / "yt-vid123-transcript.md"
-        assert out_file.exists()
-        content = out_file.read_text(encoding="utf-8")
-        assert "Test Video" in content
-        assert "hello world transcript" in content
-        assert "Quelle: https://www.youtube.com/watch?v=vid123" in content
 
-
-def test_fetch_one_marks_skipped_when_subtitles_disabled(monkeypatch):
+def test_fetch_one_marks_skipped_when_subtitles_disabled():
+    orig_meta, orig_text = fyp.get_metadata, fyp.get_transcript_text
+    fyp.get_metadata = lambda vid: {
+        "title": "T", "channel": "C", "date": "2026-01-01", "duration": "1:00",
+    }
     def raise_disabled(vid):
         raise Exception("Subtitles are disabled for this video")
-    monkeypatch.setattr(fyp, "get_metadata", lambda vid: {
-        "title": "T", "channel": "C", "date": "2026-01-01", "duration": "1:00",
-    })
-    monkeypatch.setattr(fyp, "get_transcript_text", raise_disabled)
+    fyp.get_transcript_text = raise_disabled
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            status = fyp.fetch_one("vid456", Path(d))
+            assert status == "skipped_no_captions"
+            assert not (Path(d) / "yt-vid456-transcript.md").exists()
+    finally:
+        fyp.get_metadata, fyp.get_transcript_text = orig_meta, orig_text
 
-    with tempfile.TemporaryDirectory() as d:
-        status = fyp.fetch_one("vid456", Path(d))
-        assert status == "skipped_no_captions"
-        assert not (Path(d) / "yt-vid456-transcript.md").exists()
 
-
-def test_fetch_one_reraises_ip_blocked(monkeypatch):
+def test_fetch_one_reraises_ip_blocked():
     class FakeIpBlocked(Exception):
         pass
-    monkeypatch.setattr(fyp, "get_metadata", lambda vid: {
+    orig_meta, orig_text = fyp.get_metadata, fyp.get_transcript_text
+    fyp.get_metadata = lambda vid: {
         "title": "T", "channel": "C", "date": "2026-01-01", "duration": "1:00",
-    })
+    }
     def raise_blocked(vid):
         raise FakeIpBlocked("blocked")
-    monkeypatch.setattr(fyp, "get_transcript_text", raise_blocked)
+    fyp.get_transcript_text = raise_blocked
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            try:
+                fyp.fetch_one("vid789", Path(d))
+                raise AssertionError("expected FakeIpBlocked to propagate")
+            except FakeIpBlocked:
+                pass
+    finally:
+        fyp.get_metadata, fyp.get_transcript_text = orig_meta, orig_text
 
-    with tempfile.TemporaryDirectory() as d:
-        with pytest.raises(FakeIpBlocked):
-            fyp.fetch_one("vid789", Path(d))
+
+if __name__ == "__main__":
+    test_derive_domain_slugifies_and_strips_generic_words()
+    test_fetch_one_writes_transcript_file()
+    test_fetch_one_marks_skipped_when_subtitles_disabled()
+    test_fetch_one_reraises_ip_blocked()
+    print("OK")
 ```
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `python -m pytest tools/test_fetch_yt_playlist.py -v`
+Run: `python tools/test_fetch_yt_playlist.py`
 Expected: FAIL with `ModuleNotFoundError: No module named 'fetch_yt_playlist'`
 
 - [ ] **Step 3: Write the implementation**
@@ -442,8 +481,8 @@ if __name__ == "__main__":
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `python -m pytest tools/test_fetch_yt_playlist.py -v`
-Expected: PASS (4 tests)
+Run: `python tools/test_fetch_yt_playlist.py`
+Expected: prints `OK`
 
 - [ ] **Step 5: Commit**
 
@@ -504,9 +543,11 @@ git commit -m "gitignore yt_playlist_state checkpoint directories"
 - Test: `tools/test_fetch_yt_playlist_integration.py`
 
 **Interfaces:**
-- Consumes: `fetch_yt_playlist.run`, `fetch_yt_playlist.list_playlist_entries` (monkeypatched),
-  `fetch_yt_playlist.get_metadata`/`get_transcript_text` (monkeypatched), `time.sleep`
-  (monkeypatched to avoid real waits in tests).
+- Consumes: `fetch_yt_playlist.run`, `fetch_yt_playlist.list_playlist_entries` (patched),
+  `fetch_yt_playlist.get_metadata`/`get_transcript_text` (patched), `fetch_yt_playlist.time.sleep`
+  (patched to avoid real waits in tests). No pytest — see the test-style note at the end of Task 1;
+  patch by saving the original attribute and restoring it in `finally`, use
+  `tempfile.TemporaryDirectory()` instead of a `tmp_path` fixture.
 
 This is the end-to-end check the spec calls for: a fake 3-entry playlist, one already `done`,
 confirms only the remaining 2 are fetched, and confirms a second `run()` call after an `IpBlocked`
@@ -518,7 +559,6 @@ interruption resumes correctly.
 # tools/test_fetch_yt_playlist_integration.py
 from pathlib import Path
 import tempfile
-import pytest
 
 import fetch_yt_playlist as fyp
 from yt_playlist_checkpoint import load_checkpoint, save_checkpoint
@@ -532,80 +572,100 @@ def _fake_entries():
     return ("PLtest", "My Test Playlist", [("a", "Video A"), ("b", "Video B"), ("c", "Video C")])
 
 
-def test_run_skips_already_done_and_fetches_rest(monkeypatch, tmp_path):
-    monkeypatch.setattr(fyp, "list_playlist_entries", lambda url: _fake_entries())
-    monkeypatch.setattr(fyp, "get_metadata", lambda vid: {
+def test_run_skips_already_done_and_fetches_rest():
+    orig_list, orig_meta, orig_text, orig_sleep = (
+        fyp.list_playlist_entries, fyp.get_metadata, fyp.get_transcript_text, fyp.time.sleep,
+    )
+    fyp.list_playlist_entries = lambda url: _fake_entries()
+    fyp.get_metadata = lambda vid: {
         "title": f"Title {vid}", "channel": "C", "date": "2026-01-01", "duration": "1:00",
-    })
-    monkeypatch.setattr(fyp, "get_transcript_text", lambda vid: f"transcript {vid}")
-    monkeypatch.setattr(fyp.time, "sleep", lambda s: None)
+    }
+    fyp.get_transcript_text = lambda vid: f"transcript {vid}"
+    fyp.time.sleep = lambda s: None
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            out_dir = Path(d) / "raw" / "testdomain"
+            checkpoint_path = out_dir / ".yt_playlist_state" / "PLtest.json"
+            save_checkpoint(checkpoint_path, {
+                "playlist_id": "PLtest", "playlist_title": "My Test Playlist",
+                "videos": [{"id": "a", "title": "Video A", "status": "done"}],
+            })
 
-    out_dir = tmp_path / "raw" / "testdomain"
-    checkpoint_path = out_dir / ".yt_playlist_state" / "PLtest.json"
-    save_checkpoint(checkpoint_path, {
-        "playlist_id": "PLtest", "playlist_title": "My Test Playlist",
-        "videos": [{"id": "a", "title": "Video A", "status": "done"}],
-    })
+            exit_code = fyp.run("http://fake-url", out_dir)
 
-    exit_code = fyp.run("http://fake-url", out_dir)
+            assert exit_code == 0
+            assert not (out_dir / "yt-a-transcript.md").exists()  # already done, not re-fetched
+            assert (out_dir / "yt-b-transcript.md").exists()
+            assert (out_dir / "yt-c-transcript.md").exists()
 
-    assert exit_code == 0
-    assert not (out_dir / "yt-a-transcript.md").exists()  # was already done, no re-fetch attempted
-    assert (out_dir / "yt-b-transcript.md").exists()
-    assert (out_dir / "yt-c-transcript.md").exists()
-
-    final = load_checkpoint(checkpoint_path)
-    statuses = {v["id"]: v["status"] for v in final["videos"]}
-    assert statuses == {"a": "done", "b": "done", "c": "done"}
+            final = load_checkpoint(checkpoint_path)
+            statuses = {v["id"]: v["status"] for v in final["videos"]}
+            assert statuses == {"a": "done", "b": "done", "c": "done"}
+    finally:
+        fyp.list_playlist_entries, fyp.get_metadata, fyp.get_transcript_text, fyp.time.sleep = (
+            orig_list, orig_meta, orig_text, orig_sleep,
+        )
 
 
-def test_run_stops_on_ip_block_and_resumes_on_second_call(monkeypatch, tmp_path):
-    monkeypatch.setattr(fyp, "list_playlist_entries", lambda url: _fake_entries())
-    monkeypatch.setattr(fyp, "get_metadata", lambda vid: {
+def test_run_stops_on_ip_block_and_resumes_on_second_call():
+    orig_list, orig_meta, orig_text, orig_sleep = (
+        fyp.list_playlist_entries, fyp.get_metadata, fyp.get_transcript_text, fyp.time.sleep,
+    )
+    fyp.list_playlist_entries = lambda url: _fake_entries()
+    fyp.get_metadata = lambda vid: {
         "title": f"Title {vid}", "channel": "C", "date": "2026-01-01", "duration": "1:00",
-    })
-    monkeypatch.setattr(fyp.time, "sleep", lambda s: None)
+    }
+    fyp.time.sleep = lambda s: None
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            out_dir = Path(d) / "raw" / "testdomain"
 
-    out_dir = tmp_path / "raw" / "testdomain"
+            def transcript_blocks_on_b(vid):
+                if vid == "b":
+                    raise FakeIpBlocked("blocked")
+                return f"transcript {vid}"
+            fyp.get_transcript_text = transcript_blocks_on_b
 
-    # First call: video "b" raises IpBlocked.
-    def transcript_blocks_on_b(vid):
-        if vid == "b":
-            raise FakeIpBlocked("blocked")
-        return f"transcript {vid}"
-    monkeypatch.setattr(fyp, "get_transcript_text", transcript_blocks_on_b)
+            exit_code = fyp.run("http://fake-url", out_dir)
+            assert exit_code == 1
 
-    exit_code = fyp.run("http://fake-url", out_dir)
-    assert exit_code == 1
+            checkpoint_path = out_dir / ".yt_playlist_state" / "PLtest.json"
+            mid = load_checkpoint(checkpoint_path)
+            statuses = {v["id"]: v["status"] for v in mid["videos"]}
+            assert statuses["a"] == "done"
+            assert statuses["b"] == "pending"  # not marked failed -- eligible for resume
+            assert statuses["c"] == "pending"  # never attempted
 
-    checkpoint_path = out_dir / ".yt_playlist_state" / "PLtest.json"
-    mid = load_checkpoint(checkpoint_path)
-    statuses = {v["id"]: v["status"] for v in mid["videos"]}
-    assert statuses["a"] == "done"
-    assert statuses["b"] == "pending"  # not marked failed -- eligible for resume
-    assert statuses["c"] == "pending"  # never attempted
+            fyp.get_transcript_text = lambda vid: f"transcript {vid}"
+            exit_code_2 = fyp.run("http://fake-url", out_dir)
+            assert exit_code_2 == 0
 
-    # Second call: no more blocking, should finish the rest.
-    monkeypatch.setattr(fyp, "get_transcript_text", lambda vid: f"transcript {vid}")
-    exit_code_2 = fyp.run("http://fake-url", out_dir)
-    assert exit_code_2 == 0
+            final = load_checkpoint(checkpoint_path)
+            statuses = {v["id"]: v["status"] for v in final["videos"]}
+            assert statuses == {"a": "done", "b": "done", "c": "done"}
+    finally:
+        fyp.list_playlist_entries, fyp.get_metadata, fyp.get_transcript_text, fyp.time.sleep = (
+            orig_list, orig_meta, orig_text, orig_sleep,
+        )
 
-    final = load_checkpoint(checkpoint_path)
-    statuses = {v["id"]: v["status"] for v in final["videos"]}
-    assert statuses == {"a": "done", "b": "done", "c": "done"}
+
+if __name__ == "__main__":
+    test_run_skips_already_done_and_fetches_rest()
+    test_run_stops_on_ip_block_and_resumes_on_second_call()
+    print("OK")
 ```
 
 - [ ] **Step 2: Run tests to verify they fail (or pass if Task 2's implementation already covers it)**
 
-Run: `python -m pytest tools/test_fetch_yt_playlist_integration.py -v`
+Run: `python tools/test_fetch_yt_playlist_integration.py`
 Expected: PASS if Task 2 was implemented per spec above. If it fails, the failure output tells you
 which part of `run()`'s resume/IpBlocked handling is off — fix `fetch_yt_playlist.py` (not the
 test) since the test encodes the spec's required behavior.
 
 - [ ] **Step 3: Run the full test suite for this feature together**
 
-Run: `python -m pytest tools/test_yt_playlist_checkpoint.py tools/test_fetch_yt_playlist.py tools/test_fetch_yt_playlist_integration.py -v`
-Expected: PASS (all tests across the three files)
+Run: `python tools/test_yt_playlist_checkpoint.py && python tools/test_fetch_yt_playlist.py && python tools/test_fetch_yt_playlist_integration.py`
+Expected: `OK` printed three times, no errors
 
 - [ ] **Step 4: Commit**
 
