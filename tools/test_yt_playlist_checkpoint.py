@@ -58,10 +58,30 @@ def test_pending_video_ids_filters_status_and_disk():
     assert result == [("b", "B")]
 
 
+def test_merge_playlist_entries_dedupes_duplicate_ids_within_same_call():
+    checkpoint = {"playlist_id": None, "playlist_title": None, "videos": []}
+    merged = merge_playlist_entries(
+        checkpoint, "PL1", "My Playlist",
+        [("a", "A"), ("a", "A")],
+    )
+    matching = [v for v in merged["videos"] if v["id"] == "a"]
+    assert len(matching) == 1
+
+
+def test_load_checkpoint_corrupt_json_returns_empty_shell():
+    with tempfile.TemporaryDirectory() as d:
+        path = Path(d) / "corrupt.json"
+        path.write_text("{not valid json", encoding="utf-8")
+        cp = load_checkpoint(path)
+        assert cp == {"playlist_id": None, "playlist_title": None, "videos": []}
+
+
 if __name__ == "__main__":
     test_load_checkpoint_missing_file_returns_empty_shell()
     test_save_then_load_roundtrip()
     test_merge_playlist_entries_adds_new_as_pending_and_keeps_existing_status()
     test_existing_transcript_ids_scans_recursively()
     test_pending_video_ids_filters_status_and_disk()
+    test_merge_playlist_entries_dedupes_duplicate_ids_within_same_call()
+    test_load_checkpoint_corrupt_json_returns_empty_shell()
     print("OK")

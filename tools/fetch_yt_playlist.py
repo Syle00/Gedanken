@@ -37,29 +37,35 @@ def derive_domain(playlist_title: str) -> str:
     return "-".join(words) if words else "misc"
 
 
-def list_playlist_entries(playlist_url: str) -> tuple[str, str, list[tuple[str, str]]]:
-    out = subprocess.run(
-        [sys.executable, "-m", "yt_dlp", "--flat-playlist", "--print",
-         "%(playlist_id)s | %(playlist_title)s | %(id)s | %(title)s", playlist_url],
-        capture_output=True, text=True, check=True,
-    ).stdout.strip().splitlines()
+def _parse_playlist_entries(stdout: str) -> tuple[str, str, list[tuple[str, str]]]:
     playlist_id, playlist_title = None, None
     entries = []
-    for line in out:
-        pid, ptitle, vid, vtitle = line.split(" | ", 3)
+    for line in stdout.strip().splitlines():
+        pid, ptitle, vid, vtitle = line.split("\t", 3)
         playlist_id, playlist_title = pid, ptitle
         entries.append((vid, vtitle))
     return playlist_id, playlist_title, entries
 
 
+def list_playlist_entries(playlist_url: str) -> tuple[str, str, list[tuple[str, str]]]:
+    out = subprocess.run(
+        [sys.executable, "-m", "yt_dlp", "--flat-playlist", "--print",
+         "%(playlist_id)s\t%(playlist_title)s\t%(id)s\t%(title)s", playlist_url],
+        capture_output=True, text=True, check=True,
+    ).stdout
+    return _parse_playlist_entries(out)
+
+
 def fetch_one(video_id: str, out_dir: Path) -> str:
-    meta = get_metadata(video_id)
     try:
+        meta = get_metadata(video_id)
         text = get_transcript_text(video_id)
     except Exception as e:
+        if "IpBlocked" in type(e).__name__:
+            raise
         if "Subtitles are disabled" in str(e):
             return "skipped_no_captions"
-        raise
+        return "failed"
 
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / f"yt-{video_id}-transcript.md"
@@ -76,6 +82,9 @@ def fetch_one(video_id: str, out_dir: Path) -> str:
 
 def run(playlist_url: str, out_dir: Path | None) -> int:
     playlist_id, playlist_title, entries = list_playlist_entries(playlist_url)
+    if not playlist_id or not entries:
+        print("Playlist leer oder nicht erreichbar.")
+        return 1
     domain = derive_domain(playlist_title) if out_dir is None else out_dir.name
     raw_dir = out_dir if out_dir is not None else Path("raw") / domain
     if out_dir is None:
@@ -94,6 +103,8 @@ def run(playlist_url: str, out_dir: Path | None) -> int:
     todo = pending_video_ids(checkpoint, already_on_disk=set())
     total = len(checkpoint["videos"])
     done_count = sum(1 for v in checkpoint["videos"] if v["status"] == "done")
+    skipped_count = sum(1 for v in checkpoint["videos"] if v["status"] == "skipped_no_captions")
+    failed_count = sum(1 for v in checkpoint["videos"] if v["status"] == "failed")
 
     if not todo:
         print(f"Nichts zu tun: {done_count}/{total} bereits geholt.")
@@ -109,13 +120,18 @@ def run(playlist_url: str, out_dir: Path | None) -> int:
                 save_checkpoint(checkpoint_path, checkpoint)
                 remaining = len(todo) - i
                 print(f"GESTOPPT (IP-Block) bei '{title}' ({video_id}). "
-                      f"{done_count}/{total} geholt, {remaining} verbleibend inkl. diesem Video. "
+                      f"{done_count}/{total} geholt, {skipped_count} ohne Untertitel uebersprungen, "
+                      f"{failed_count} fehlgeschlagen, {remaining} verbleibend inkl. diesem Video. "
                       f"Erneuter Aufruf setzt hier fort.")
                 return 1
             raise
         by_id[video_id]["status"] = status
         if status == "done":
             done_count += 1
+        elif status == "skipped_no_captions":
+            skipped_count += 1
+        elif status == "failed":
+            failed_count += 1
         save_checkpoint(checkpoint_path, checkpoint)
         fetched_this_session += 1
 
@@ -123,7 +139,8 @@ def run(playlist_url: str, out_dir: Path | None) -> int:
             pause = LONG_PAUSE_SECONDS if fetched_this_session >= LONG_PAUSE_THRESHOLD else PAUSE_SECONDS
             time.sleep(pause)
 
-    print(f"Fertig: {done_count}/{total} geholt.")
+    print(f"Fertig: {done_count}/{total} geholt, {skipped_count} ohne Untertitel uebersprungen, "
+          f"{failed_count} fehlgeschlagen.")
     return 0
 
 

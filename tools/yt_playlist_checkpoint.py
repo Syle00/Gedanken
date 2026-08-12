@@ -13,7 +13,10 @@ TRANSCRIPT_ID_RE = re.compile(r"^yt-(.+)-transcript\.md$")
 def load_checkpoint(path: Path) -> dict:
     if not path.exists():
         return {"playlist_id": None, "playlist_title": None, "videos": []}
-    return json.loads(path.read_text(encoding="utf-8"))
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {"playlist_id": None, "playlist_title": None, "videos": []}
 
 
 def save_checkpoint(path: Path, data: dict) -> None:
@@ -29,6 +32,7 @@ def merge_playlist_entries(checkpoint: dict, playlist_id: str, playlist_title: s
     for video_id, title in entries:
         if video_id not in known_ids:
             checkpoint["videos"].append({"id": video_id, "title": title, "status": "pending"})
+            known_ids.add(video_id)
     return checkpoint
 
 

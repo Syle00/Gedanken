@@ -69,9 +69,38 @@ def test_fetch_one_reraises_ip_blocked():
         fyp.get_metadata, fyp.get_transcript_text = orig_meta, orig_text
 
 
+def test_fetch_one_returns_failed_on_unexpected_error():
+    orig_meta, orig_text = fyp.get_metadata, fyp.get_transcript_text
+
+    def raise_unexpected(vid):
+        raise RuntimeError("yt-dlp exited with code 1")
+    fyp.get_metadata = raise_unexpected
+    fyp.get_transcript_text = orig_text
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            status = fyp.fetch_one("vid999", Path(d))
+            assert status == "failed"
+            assert not (Path(d) / "yt-vid999-transcript.md").exists()
+    finally:
+        fyp.get_metadata, fyp.get_transcript_text = orig_meta, orig_text
+
+
+def test_parse_playlist_entries_handles_tab_delimiter():
+    stdout = (
+        "PL1\tICT | Mentorship 2026\tvid1\tVideo One\n"
+        "PL1\tICT | Mentorship 2026\tvid2\tVideo | With Pipe\n"
+    )
+    playlist_id, playlist_title, entries = fyp._parse_playlist_entries(stdout)
+    assert playlist_id == "PL1"
+    assert playlist_title == "ICT | Mentorship 2026"
+    assert entries == [("vid1", "Video One"), ("vid2", "Video | With Pipe")]
+
+
 if __name__ == "__main__":
     test_derive_domain_slugifies_and_strips_generic_words()
     test_fetch_one_writes_transcript_file()
     test_fetch_one_marks_skipped_when_subtitles_disabled()
     test_fetch_one_reraises_ip_blocked()
+    test_fetch_one_returns_failed_on_unexpected_error()
+    test_parse_playlist_entries_handles_tab_delimiter()
     print("OK")
