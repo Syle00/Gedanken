@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Black-Scholes &amp; Risikoneutrale Bewertung — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">129</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">285</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">13</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/average-daily-range-5-tage-adr.html">Average Daily Range (5-Tage-ADR)</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li class="here"><a href="../p/black-scholes-risikoneutrale-bewertung.html">Black-Scholes &amp; Risikoneutrale Bewertung</a></li>
+<li><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a></li>
+<li><a href="../p/bond-mathematik-zinskurven.html">Bond-Mathematik &amp; Zinskurven</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/datenbeschaffung-fuer-backtests-optionen-grenzen.html">Datenbeschaffung für Backtests (Optionen &amp; Grenzen)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/filling-the-numbers-4-level-pro-tag.html">Filling The Numbers (4 Level pro Tag)</a></li>
+<li><a href="../p/flout-15-00-ny-range.html">Flout (15-00 NY Range)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
+<li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
+<li><a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/implementation-shortfall.html">Implementation Shortfall</a></li>
+<li><a href="../p/implied-dealing-range.html">Implied Dealing Range</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-order-flow-entry-drill-iofed.html">Institutional Order Flow Entry Drill (IOFED)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a></li>
+<li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
+<li><a href="../p/lineare-algebra-fuer-finance.html">Lineare Algebra für Finance</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/machine-learning-fuer-finance-grundlagen.html">Machine Learning für Finance (Grundlagen)</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/meta-labeling-lopez-de-prado.html">Meta-Labeling (López de Prado)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/performance-kennzahlen-katalog.html">Performance-Kennzahlen-Katalog</a></li>
+<li><a href="../p/portfolio-management-sizing-gain-loss-ratio.html">Portfolio-Management &amp; Sizing (Gain-Loss-Ratio)</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/prop-firmen-regeln-challenge-mathematik.html">Prop-Firmen-Regeln &amp; Challenge-Mathematik</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/reinforcement-learning-fuer-handel-grenzen-starke.html">Reinforcement Learning für Handel — Grenzen (Starke)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trader-s-dilemma-efficient-trading-frontier.html">Trader&#x27;s Dilemma &amp; Efficient Trading Frontier</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/transaktionskosten-taxonomie-kissell.html">Transaktionskosten-Taxonomie (Kissell)</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/universal-model-instrument-pooling.html">Universal Model &amp; Instrument-Pooling</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volatilitaetsmodelle-garch-co.html">Volatilitätsmodelle (GARCH &amp; Co)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/wahrscheinlichkeitstheorie-stochastische-prozesse-fuer-finance.html">Wahrscheinlichkeitstheorie &amp; Stochastische Prozesse für Finance</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+<li><a href="../p/zeitreihenanalyse-fuer-finance.html">Zeitreihenanalyse für Finance</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Black-Scholes &amp; Risikoneutrale Bewertung</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">quant-finance</span> <span class="tag">derivate</span> <span class="tag">black-scholes</span> <span class="tag">mit-ocw</span></div><div class="dates">erstellt 2026-08-12 · aktualisiert 2026-08-12</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">2025-12-03 - MIT 15.S08 Lecture 21 - Black-Scholes Formula, Risk Neutral Valuation (Source)</span>, <span class="broken" title="Seite existiert noch nicht">2025-12-03 - MIT 15.S08 Lecture 25 - Stochastic Calculus cont, Stochastic Differential Equations (Source)</span></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#grundidee-replikation-statt-wahrscheinlichkeitsschatzung">Grundidee: Replikation statt Wahrscheinlichkeitsschätzung</a></li>
+<li><a href="#diskretes-ein-schritt-modell">Diskretes Ein-Schritt-Modell</a></li>
+<li><a href="#black-scholes-differentialgleichung-herleitung-uber-delta-hedging">Black-Scholes-Differentialgleichung (Herleitung über Delta-Hedging)</a></li>
+<li><a href="#risikoneutrales-ma-im-lognormal-fall">Risikoneutrales Maß im Lognormal-Fall</a></li>
+<li><a href="#put-call-paritat-als-modellfreies-ergebnis">Put-Call-Parität als modellfreies Ergebnis</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="black-scholes-risikoneutrale-bewertung">Black-Scholes &amp; Risikoneutrale Bewertung</h1>
+<p>Formelsammlung aus MIT-15.S08-Lecture 21 (Vasily Strela) und Teilen von Lecture 25 (Peter
+Kempthorne): Replikationsargument, risikoneutrales Maß, Herleitung der Black-Scholes-PDE. Nutzt
+<span class="broken" title="Seite existiert noch nicht">Stochastische Analysis (Itô-Kalkül &amp; SDEs)</span> als mathematisches Fundament.</p>
+<h2 id="grundidee-replikation-statt-wahrscheinlichkeitsschatzung">Grundidee: Replikation statt Wahrscheinlichkeitsschätzung</h2>
+<p>Kernaussage der Vorlesung (illustriert am Pferdewett-Beispiel): ein Buchmacher, der Quoten nach dem
+Marktverhalten statt nach eigenen Wahrscheinlichkeitsschätzungen setzt, kann sich <strong>risikofrei</strong>
+absichern. Übertragen auf Derivate: der Preis eines Derivats hängt <strong>nicht</strong> von der realen
+Wahrscheinlichkeit künftiger Kursbewegungen ab, sondern einzig davon, ob sich sein Payoff aus
+handelbaren Instrumenten replizieren lässt. Das ist der zentrale konzeptionelle Bruch, den
+Black-Scholes-Merton 1973 einführten.</p>
+<h2 id="diskretes-ein-schritt-modell">Diskretes Ein-Schritt-Modell</h2>
+<ul>
+<li>Forward: <code>F_0 = 0</code> (kostenlos zu Beginn), Payoff <code>S_T − K</code>. Replikation durch Kauf des Underlyings
+  auf Kredit liefert bei Zinssatz 0: <code>K = S_0</code> (Strike = aktueller Preis).</li>
+<li><strong>Risikoneutrale Wahrscheinlichkeit</strong> <code>P_n</code>: die (fiktive) Wahrscheinlichkeit, unter der der
+  aktuelle Preis exakt dem diskontierten Erwartungswert des künftigen Preises entspricht,
+  <code>S_0 = P_n·S_1 + (1−P_n)·S_2</code>. Sie muss <strong>nicht</strong> mit der realen Wahrscheinlichkeit
+  übereinstimmen.</li>
+<li>Call-Option-Replikationsportfolio: <code>a</code> Anteile Aktie + <code>B_0</code> Cash, gelöst aus zwei Gleichungen
+  (Payoff-Gleichheit in beiden Endzuständen). Preis <code>C_0 = a·S_0 + B_0</code> — identisch mit dem
+  Erwartungswert des Payoffs unter <code>P_n</code>.</li>
+</ul>
+<h2 id="black-scholes-differentialgleichung-herleitung-uber-delta-hedging">Black-Scholes-Differentialgleichung (Herleitung über Delta-Hedging)</h2>
+<p>Für <code>dP_t = μ·P_t·dt + σ·P_t·dW_t</code> und eine Derivatepreisfunktion <code>G_t = f(P_t, t)</code>: ein Portfolio
+aus <strong>kurzem</strong> Derivat plus <code>∂G/∂P</code> Anteilen des Underlyings eliminiert den Brownschen-Bewegungs-
+Term (Delta-Hedge). Da das resultierende Portfolio risikofrei ist, muss es mit dem risikofreien
+Zinssatz <code>r</code> wachsen. Gleichsetzen liefert die <strong>Black-Scholes-PDE</strong>:</p>
+<p><code>∂f/∂t + ½·σ²·P²·∂²f/∂P² = r·f − r·P·∂f/∂P</code></p>
+<p>Zentrale Eigenschaften:</p>
+<ul>
+<li>Die Gleichung hängt <strong>nicht vom realen Drift <code>μ</code></strong> ab — nur von der Volatilität <code>σ</code> und dem
+  risikofreien Zins <code>r</code>. Das ist der mathematische Kern der risikoneutralen Bewertung.</li>
+<li><code>a = ∂f/∂P</code> ist gleichzeitig die Hedge-Ratio (Delta) — Replikationsstrategie und
+  Hedging-Strategie sind dieselbe Größe.</li>
+<li>Randbedingungen variieren je Kontrakt: Call bei Verfall <code>max(P_T−K, 0)</code>, Put <code>max(K−P_T, 0)</code>,
+  bei <code>P→0</code> bzw. <code>P→∞</code> je nach Optionstyp.</li>
+<li>Die PDE ist eine Form der Wärmeleitungsgleichung (Diffusionsgleichung) — durch Variablenwechsel
+  (Zeitumkehr, Skalierung) direkt darauf zurückführbar, siehe
+  <span class="broken" title="Seite existiert noch nicht">Stochastische Analysis (Itô-Kalkül &amp; SDEs)</span>.</li>
+</ul>
+<h2 id="risikoneutrales-ma-im-lognormal-fall">Risikoneutrales Maß im Lognormal-Fall</h2>
+<p>Unter dem risikoneutralen Maß gilt <code>μ = r</code> (der reale Drift wird durch den risikofreien Zins
+ersetzt). Der Preis eines Derivats ist dann der diskontierte Erwartungswert seines Payoffs unter
+dieser Verteilung — äquivalent zur PDE-Lösung, aber oft einfacher zu berechnen (Integration statt
+PDE-Lösung).</p>
+<h2 id="put-call-paritat-als-modellfreies-ergebnis">Put-Call-Parität als modellfreies Ergebnis</h2>
+<p><code>Call − Put = S_t − K·e^{−r(T−t)}</code> — gilt <strong>unabhängig von der Kursdynamik</strong> (nicht nur unter
+Lognormal-Annahme), weil ein Long-Call/Short-Put-Portfolio bei Verfall exakt einem Forward-Kontrakt
+entspricht. Abweichungen von dieser Gleichung sind eine reine Arbitrage-Gelegenheit — in der
+Vorlesung anhand realer Apple/IBM-Optionsdaten bestätigt (Daten liegen exakt auf der Geraden).
+Zusätzlich: die implizite Volatilität ist über Strikes hinweg <strong>nicht konstant</strong> (Volatility Smile)
+— ein empirischer Beleg, dass reine Lognormal-Dynamik die Realität nicht vollständig erfasst.</p>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<ul>
+<li><strong>MNQ ist ein Future, kein Optionskontrakt</strong> — Black-Scholes-PDE und risikoneutrale Bewertung
+  sind für die aktuelle <code>algo/</code>-Strategie (Layer 0, kein Optionshandel) nicht direkt anwendbar.
+  Siehe <a href="../p/quant-finance-formeln-fuer-den-mnq-algo-laufend.html">Quant-Finance-Formeln für den MNQ-Algo (laufend)</a> für die explizite Einordnung als
+  "aktuell nicht direkt anwendbar, Notiz für falls Optionsstrategien auf NQ-Futures dazukommen".</li>
+<li>Konzeptionell übertragbar ist die <strong>Replikations-/No-Arbitrage-Denkweise</strong>: bevor ein
+  Backtest-Ergebnis als "Edge" gilt, sollte geprüft werden, ob es nicht durch ein einfacheres,
+  risikofreies Konstrukt (z.B. Trendfolge plus Finanzierungskosten) reproduzierbar wäre.</li>
+</ul></div>
+  
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Black-Scholes &amp; Risikoneutrale Bewertung.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

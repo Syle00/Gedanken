@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine Learning für Finance (Grundlagen) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">129</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">285</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">13</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/average-daily-range-5-tage-adr.html">Average Daily Range (5-Tage-ADR)</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/black-scholes-risikoneutrale-bewertung.html">Black-Scholes &amp; Risikoneutrale Bewertung</a></li>
+<li><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a></li>
+<li><a href="../p/bond-mathematik-zinskurven.html">Bond-Mathematik &amp; Zinskurven</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/datenbeschaffung-fuer-backtests-optionen-grenzen.html">Datenbeschaffung für Backtests (Optionen &amp; Grenzen)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/filling-the-numbers-4-level-pro-tag.html">Filling The Numbers (4 Level pro Tag)</a></li>
+<li><a href="../p/flout-15-00-ny-range.html">Flout (15-00 NY Range)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
+<li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
+<li><a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/implementation-shortfall.html">Implementation Shortfall</a></li>
+<li><a href="../p/implied-dealing-range.html">Implied Dealing Range</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-order-flow-entry-drill-iofed.html">Institutional Order Flow Entry Drill (IOFED)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a></li>
+<li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
+<li><a href="../p/lineare-algebra-fuer-finance.html">Lineare Algebra für Finance</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li class="here"><a href="../p/machine-learning-fuer-finance-grundlagen.html">Machine Learning für Finance (Grundlagen)</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/meta-labeling-lopez-de-prado.html">Meta-Labeling (López de Prado)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/performance-kennzahlen-katalog.html">Performance-Kennzahlen-Katalog</a></li>
+<li><a href="../p/portfolio-management-sizing-gain-loss-ratio.html">Portfolio-Management &amp; Sizing (Gain-Loss-Ratio)</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/prop-firmen-regeln-challenge-mathematik.html">Prop-Firmen-Regeln &amp; Challenge-Mathematik</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/reinforcement-learning-fuer-handel-grenzen-starke.html">Reinforcement Learning für Handel — Grenzen (Starke)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trader-s-dilemma-efficient-trading-frontier.html">Trader&#x27;s Dilemma &amp; Efficient Trading Frontier</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/transaktionskosten-taxonomie-kissell.html">Transaktionskosten-Taxonomie (Kissell)</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/universal-model-instrument-pooling.html">Universal Model &amp; Instrument-Pooling</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volatilitaetsmodelle-garch-co.html">Volatilitätsmodelle (GARCH &amp; Co)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/wahrscheinlichkeitstheorie-stochastische-prozesse-fuer-finance.html">Wahrscheinlichkeitstheorie &amp; Stochastische Prozesse für Finance</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+<li><a href="../p/zeitreihenanalyse-fuer-finance.html">Zeitreihenanalyse für Finance</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Machine Learning für Finance (Grundlagen)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">quant-finance</span> <span class="tag">machine-learning</span> <span class="tag">mit-ocw</span></div><div class="dates">erstellt 2026-08-12 · aktualisiert 2026-08-12</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">2025-12-03 - MIT 15.S08 Lecture 23 - Introduction to Machine Learning (Source)</span></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#statistik-vs-machine-learning-methodischer-unterschied">Statistik vs. Machine Learning — methodischer Unterschied</a></li>
+<li><a href="#trainvalidationtest-split">Train/Validation/Test-Split</a></li>
+<li><a href="#neuronale-netze-ann">Neuronale Netze (ANN)</a></li>
+<li><a href="#reinforcement-learning">Reinforcement Learning</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="machine-learning-fur-finance-grundlagen">Machine Learning für Finance (Grundlagen)</h1>
+<p>Formel- und Methodensammlung aus MIT-15.S08-Lecture 23 (Gastvorlesung John Hull, Rotman School):
+Grundunterscheidung Statistik vs. ML, neuronale Netze, Backpropagation, Reinforcement Learning.</p>
+<h2 id="statistik-vs-machine-learning-methodischer-unterschied">Statistik vs. Machine Learning — methodischer Unterschied</h2>
+<p>Statistik: erst Hypothese aufstellen, dann Daten sammeln und die Hypothese testen. Machine
+Learning: erst Daten sammeln, dann Muster/Modelle daraus ableiten, ohne vorherige Hypothese.
+Terminologiewechsel: "unabhängige/abhängige Variable" (Statistik) ↔ "Features/Targets" (ML).</p>
+<h2 id="trainvalidationtest-split">Train/Validation/Test-Split</h2>
+<p>Standardaufteilung <strong>60 % Training / 20 % Validation / 20 % Test</strong>:</p>
+<ul>
+<li>Training Set: Modellparameter schätzen.</li>
+<li>Validation Set: Modellkomplexität wählen (Regel: Komplexität erhöhen, bis die Performance auf
+  dem Validation Set schlechter wird — das ist der Overfitting-Punkt).</li>
+<li>Test Set: <strong>wird nicht</strong> zur Modellauswahl verwendet, dient ausschließlich als finale
+  Out-of-Sample-Schätzung der tatsächlichen Modellgüte.</li>
+<li>Faustregel-Beispiel aus der Vorlesung (Polynomgrad-Wahl für ein Salär-Prognosemodell): ein Grad-5-
+  Polynom passt die Trainingsdaten exzellent, versagt aber am Validation Set (Overfitting); ein
+  lineares Modell ist zu einfach (Underfitting); ein quadratisches Modell war im Beispiel optimal.</li>
+</ul>
+<h2 id="neuronale-netze-ann">Neuronale Netze (ANN)</h2>
+<ul>
+<li>Struktur: Input-Layer (bekannte Variablen) → mehrere Hidden Layers → Output-Layer (Zielgröße).
+  Der Übergang zwischen Layern erfolgt nicht in einem Schritt (anders als lineare Regression),
+  sondern in mehreren Stufen — das macht das Modell flexibler.</li>
+<li>Jeder Knoten: gewichtete Linearkombination der Vorgänger-Knoten, danach eine
+  <strong>Aktivierungsfunktion</strong> (Identität, Sigmoid, Tanh, ReLU, …). Wird durchgehend die Identität
+  verwendet, degeneriert das gesamte Netz zu einem linearen Modell.</li>
+<li>Parameter = alle Kantengewichte. Optimierung per <strong>Gradientenverfahren</strong>: Gewichte iterativ in
+  Richtung des negativen Gradienten der Zielfunktion verschieben, Lernrate bestimmt Schrittweite
+  (zu klein → langsame Konvergenz, zu groß → Oszillation um das Minimum).</li>
+<li><strong>Backpropagation</strong>: nutzt die Kettenregel, um die partiellen Ableitungen der Zielfunktion nach
+  allen Gewichten effizient zu berechnen (Funktion-von-Funktion-von-Funktion-Struktur des Netzes).</li>
+<li>Praxisbeispiel aus der Vorlesung: ein 3-Hidden-Layer-Netz (20 Neuronen/Layer, Sigmoid,
+  Identität in der letzten Schicht) approximiert den Black-Scholes-Preis aus verrauschten
+  Trainingsdaten sehr genau — Trainingsabbruch nach 2.575 Epochen (Validation-Set-Performance wird
+  danach schlechter). Praxisnutzen: Neuronale Netze als <strong>schnelle Surrogat-Modelle</strong> für
+  Monte-Carlo-Preismodelle exotischer Derivate (Sekundenbruchteile statt Minuten pro Preis).</li>
+</ul>
+<h2 id="reinforcement-learning">Reinforcement Learning</h2>
+<ul>
+<li>Rahmen: Zustände (States), Aktionen (Actions), Belohnungen (Rewards) über eine Sequenz von
+  Entscheidungen (nicht nur eine einzelne Entscheidung wie bei supervised learning).</li>
+<li><strong>Exploration vs. Exploitation</strong>: Wahrscheinlichkeit <code>ε</code>, zufällig zu handeln (Exploration), vs.
+  <code>1−ε</code>, die bisher beste bekannte Aktion zu wählen (Exploitation). <code>ε</code> startet bei 1 und fällt mit
+  einem Decay-Faktor (Beispiel Nim-Spiel: <code>0,9995</code> pro Trial).</li>
+<li>Q-Learning-Update: <code>Q(s,a) ← Q(s,a) + α·(Gain − Q(s,a))</code>, Gain entweder als finaler Reward
+  (Monte-Carlo-Methode) oder als Wert des Folgezustands (Temporal-Difference-Learning — konvergiert
+  in der Vorlesung schneller als reines Monte-Carlo).</li>
+<li>Anwendung auf Derivate-Hedging: RL sucht eine Hedge-Strategie über mehrere Perioden statt der
+  myopischen Greeks-Optimierung (Delta/Gamma/Vega). Ergebnis der Vorlesung: bei Vanilla-Optionen
+  vergleichbare Performance wie Greeks-Hedging, aber signifikant geringere Transaktionskosten; bei
+  Barriere-Optionen sogar überlegene Ergebnisse auch ohne Transaktionskosten. Zielfunktion frei
+  wählbar (z.B. VaR95 oder CVaR95 statt reiner Varianzminimierung).</li>
+</ul>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<ul>
+<li>Der Train/Validation/Test-Split und die Overfitting-Erkennungsregel ("Komplexität erhöhen, bis
+  die Validation-Performance schlechter wird") sind <strong>methodisch identisch</strong> mit dem
+  Walk-Forward-/Out-of-Sample-Prinzip, das <code>algo/validate.py</code> bereits umsetzt (siehe
+  <a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a>, <a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a>).
+  Diese Lecture liefert keine neue Methodik, sondern eine unabhängige Bestätigung der bereits
+  gültigen Projektstandards — kein neuer Code nötig, siehe
+  <a href="../p/quant-finance-formeln-fuer-den-mnq-algo-laufend.html">Quant-Finance-Formeln für den MNQ-Algo (laufend)</a>.</li>
+<li>Reinforcement Learning für Hedging ist für <code>algo/</code> aktuell nicht direkt anwendbar (kein
+  Optionsportfolio, keine Delta-Hedging-Notwendigkeit), aber konzeptionell interessant für eine
+  spätere Exit-/Trade-Management-Erweiterung (mehrstufige Entscheidung: halten, Partial, Stop
+  nachziehen — analog zur Hedging-Entscheidungssequenz).</li>
+<li>Neuronale Netze als Signalgeber: laut <a href="../p/reinforcement-learning-fuer-handel-grenzen-starke.html">Reinforcement Learning für Handel — Grenzen (Starke)</a>
+  bereits als grundsätzlich riskant für dieses Projekt eingeordnet (Rauschen statt Struktur) — die
+  hier gezeigten ANN-Erfolge betreffen Preismodell-Approximation (bekannte, glatte Zielfunktion),
+  nicht Signal-Vorhersage in verrauschten Marktdaten. Kein Widerspruch, sondern unterschiedliche
+  Anwendungsklasse.</li>
+</ul></div>
+  
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Machine Learning für Finance (Grundlagen).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

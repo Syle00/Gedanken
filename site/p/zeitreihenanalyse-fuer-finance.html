@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zeitreihenanalyse für Finance — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">129</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">285</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">13</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
+<li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
+<li><a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+<li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a></li>
+<li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a></li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a></li>
+<li><a href="../p/asian-range.html">Asian Range</a></li>
+<li><a href="../p/average-daily-range-5-tage-adr.html">Average Daily Range (5-Tage-ADR)</a></li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a></li>
+<li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a></li>
+<li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a></li>
+<li><a href="../p/black-scholes-risikoneutrale-bewertung.html">Black-Scholes &amp; Risikoneutrale Bewertung</a></li>
+<li><a href="../p/bollinger-baender-scaling-in-kalman-filter.html">Bollinger-Bänder, Scaling-in &amp; Kalman-Filter</a></li>
+<li><a href="../p/bond-mathematik-zinskurven.html">Bond-Mathematik &amp; Zinskurven</a></li>
+<li><a href="../p/breakaway-gap.html">Breakaway Gap</a></li>
+<li><a href="../p/breaker-block.html">Breaker Block</a></li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a></li>
+<li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
+<li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
+<li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
+<li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
+<li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
+<li><a href="../p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a></li>
+<li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a></li>
+<li><a href="../p/datenbeschaffung-fuer-backtests-optionen-grenzen.html">Datenbeschaffung für Backtests (Optionen &amp; Grenzen)</a></li>
+<li><a href="../p/dealing-range.html">Dealing Range</a></li>
+<li><a href="../p/differential-evolution-parameter-sensitivitaet.html">Differential Evolution &amp; Parameter-Sensitivität</a></li>
+<li><a href="../p/directional-change-hierarchische-marktstruktur.html">Directional Change &amp; Hierarchische Marktstruktur</a></li>
+<li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a></li>
+<li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a></li>
+<li><a href="../p/dxy-correlation-risk-on-off.html">DXY Correlation (Risk On_Off)</a></li>
+<li><a href="../p/elemente-eines-trade-setups-4-preis-zustaende.html">Elemente eines Trade-Setups (4 Preis-Zustände)</a></li>
+<li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
+<li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
+<li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
+<li><a href="../p/event-horizon.html">Event Horizon</a></li>
+<li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/filling-the-numbers-4-level-pro-tag.html">Filling The Numbers (4 Level pro Tag)</a></li>
+<li><a href="../p/flout-15-00-ny-range.html">Flout (15-00 NY Range)</a></li>
+<li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a></li>
+<li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
+<li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a></li>
+<li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
+<li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
+<li><a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a></li>
+<li><a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a></li>
+<li><a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a></li>
+<li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a></li>
+<li><a href="../p/implementation-shortfall.html">Implementation Shortfall</a></li>
+<li><a href="../p/implied-dealing-range.html">Implied Dealing Range</a></li>
+<li><a href="../p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a></li>
+<li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a></li>
+<li><a href="../p/institutional-order-flow-entry-drill-iofed.html">Institutional Order Flow Entry Drill (IOFED)</a></li>
+<li><a href="../p/institutional-sponsorship.html">Institutional Sponsorship</a></li>
+<li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
+<li><a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a></li>
+<li><a href="../p/judas-swing.html">Judas Swing</a></li>
+<li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
+<li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
+<li><a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a></li>
+<li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
+<li><a href="../p/lineare-algebra-fuer-finance.html">Lineare Algebra für Finance</a></li>
+<li><a href="../p/liquidity-void.html">Liquidity Void</a></li>
+<li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a></li>
+<li><a href="../p/machine-learning-fuer-finance-grundlagen.html">Machine Learning für Finance (Grundlagen)</a></li>
+<li><a href="../p/market-maker-trap-false-breakout.html">Market Maker Trap - False Breakout</a></li>
+<li><a href="../p/market-maker-trap-false-flag.html">Market Maker Trap - False Flag</a></li>
+<li><a href="../p/market-maker-trap-head-shoulders.html">Market Maker Trap - Head &amp; Shoulders</a></li>
+<li><a href="../p/market-protraction.html">Market Protraction</a></li>
+<li><a href="../p/market-reversal-types.html">Market Reversal Types</a></li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
+<li><a href="../p/meta-labeling-lopez-de-prado.html">Meta-Labeling (López de Prado)</a></li>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/modell-22.html">Modell 22</a></li>
+<li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
+<li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a></li>
+<li><a href="../p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a></li>
+<li><a href="../p/nested-walkforward.html">Nested Walkforward</a></li>
+<li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></li>
+<li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></li>
+<li><a href="../p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a></li>
+<li><a href="../p/order-block.html">Order Block</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a></li>
+<li><a href="../p/pd-array.html">PD Array</a></li>
+<li><a href="../p/performance-kennzahlen-katalog.html">Performance-Kennzahlen-Katalog</a></li>
+<li><a href="../p/portfolio-management-sizing-gain-loss-ratio.html">Portfolio-Management &amp; Sizing (Gain-Loss-Ratio)</a></li>
+<li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a></li>
+<li><a href="../p/profit-pro-bar-vs-pro-trade.html">Profit pro Bar vs. pro Trade</a></li>
+<li><a href="../p/prop-firmen-regeln-challenge-mathematik.html">Prop-Firmen-Regeln &amp; Challenge-Mathematik</a></li>
+<li><a href="../p/propulsion-block.html">Propulsion Block</a></li>
+<li><a href="../p/quarterly-shift.html">Quarterly Shift</a></li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></li>
+<li><a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a></li>
+<li><a href="../p/regularisiertes-lineares-modell-ridge-lasso-elastic-net.html">Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net)</a></li>
+<li><a href="../p/reinforcement-learning-fuer-handel-grenzen-starke.html">Reinforcement Learning für Handel — Grenzen (Starke)</a></li>
+<li><a href="../p/rejection-block.html">Rejection Block</a></li>
+<li><a href="../p/return-partitionierung-skill-trend-training-bias.html">Return-Partitionierung (Skill, Trend, Training Bias)</a></li>
+<li><a href="../p/risiko-verfeinerung-ueber-timeframes.html">Risiko-Verfeinerung über Timeframes</a></li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a></li>
+<li><a href="../p/roll-return-contango-backwardation.html">Roll Return, Contango &amp; Backwardation</a></li>
+<li><a href="../p/rule-significance-test-rst.html">Rule Significance Test (RST)</a></li>
+<li><a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
+<li><a href="../p/signal-following-crowd-liquidity-risk.html">Signal-Following &amp; Crowd Liquidity Risk</a></li>
+<li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></li>
+<li><a href="../p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a></li>
+<li><a href="../p/suspension-block.html">Suspension Block</a></li>
+<li><a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a></li>
+<li><a href="../p/trader-s-dilemma-efficient-trading-frontier.html">Trader&#x27;s Dilemma &amp; Efficient Trading Frontier</a></li>
+<li><a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a></li>
+<li><a href="../p/training-bias-selection-bias.html">Training Bias &amp; Selection Bias</a></li>
+<li><a href="../p/transaktionskosten-taxonomie-kissell.html">Transaktionskosten-Taxonomie (Kissell)</a></li>
+<li><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></li>
+<li><a href="../p/turtle-soup.html">Turtle Soup</a></li>
+<li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/universal-model-instrument-pooling.html">Universal Model &amp; Instrument-Pooling</a></li>
+<li><a href="../p/verlust-mitigation-durch-reduzierte-re-entry-size.html">Verlust-Mitigation durch reduzierte Re-Entry-Size</a></li>
+<li><a href="../p/vier-stufen-strategieentwicklung-masters.html">Vier-Stufen-Strategieentwicklung (Masters)</a></li>
+<li><a href="../p/volatilitaetsmodelle-garch-co.html">Volatilitätsmodelle (GARCH &amp; Co)</a></li>
+<li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/wahrscheinlichkeitstheorie-stochastische-prozesse-fuer-finance.html">Wahrscheinlichkeitstheorie &amp; Stochastische Prozesse für Finance</a></li>
+<li><a href="../p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a></li>
+<li class="here"><a href="../p/zeitreihenanalyse-fuer-finance.html">Zeitreihenanalyse für Finance</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#concepts">Konzepte</a></div>
+  <h1>Zeitreihenanalyse für Finance</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">quant-finance</span> <span class="tag">zeitreihenanalyse</span> <span class="tag">mit-ocw</span></div><div class="dates">erstellt 2026-08-12 · aktualisiert 2026-08-12</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">2025-12-03 - MIT 15.S08 Lecture 12 - Time Series Analysis (Source)</span></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#stationaritat">Stationarität</a></li>
+<li><a href="#autokorrelationsfunktion-acf">Autokorrelationsfunktion (ACF)</a></li>
+<li><a href="#wold-zerlegungstheorem">Wold-Zerlegungstheorem</a></li>
+<li><a href="#lag-operator-und-armapq">Lag-Operator und ARMA(p,q)</a></li>
+<li><a href="#bezug-zu-diesem-projekt">Bezug zu diesem Projekt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="zeitreihenanalyse-fur-finance">Zeitreihenanalyse für Finance</h1>
+<p>Formelsammlung aus MIT-15.S08-Lecture 12 (Peter Kempthorne): Stationarität, Autokorrelation, die
+Wold-Zerlegung und ARMA-Modelle als Werkzeuge, um Preiszeitreihen auf eine analysierbare Skala zu
+bringen. Ergänzt <a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a> um die zeitliche Dimension.</p>
+<h2 id="stationaritat">Stationarität</h2>
+<ul>
+<li><strong>Strikte Stationarität</strong>: die Verteilung jeder endlichen Punktmenge <code>{X_t1,...,X_tm}</code> ist
+  invariant gegenüber einer Zeitverschiebung <code>τ</code>.</li>
+<li><strong>Kovarianzstationarität</strong> (schwächer, praxisrelevant): konstanter Mittelwert <code>E[X_t]=μ</code>,
+  konstante Varianz, und die Kovarianz zwischen <code>X_t</code> und <code>X_{t+τ}</code> hängt nur von <code>τ</code> ab, nicht
+  von <code>t</code>.</li>
+<li>Roh-Preisserien (z.B. S&amp;P 500) sind nicht stationär (Trend). Log-Returns <code>r_t = log(P_t/P_{t-1})</code>
+  sind i.d.R. näherungsweise kovarianzstationär — Standardtransformation vor jeder
+  Zeitreihenmodellierung.</li>
+<li>Leptokurtosis: Log-Returns haben in der Praxis systematisch fettere Tails und eine höhere
+  Zentrumsspitze als die Normalverteilungsanpassung vorhersagt — sichtbar bei S&amp;P 500, Amazon,
+  Crude-Oil-Futures und 10Y-Treasury-Yields gleichermaßen, unabhängig von der Frequenz.</li>
+</ul>
+<h2 id="autokorrelationsfunktion-acf">Autokorrelationsfunktion (ACF)</h2>
+<ul>
+<li><code>ρ(τ) = Cov(X_t, X_{t+τ}) / Var(X_t)</code> — Korrelation der Serie mit sich selbst.</li>
+<li>Geschätzt als <code>R̂_k</code> (Stichproben-Autokorrelation bei Lag k): approximativ normalverteilt mit
+  Varianz <code>1/(T−k)</code>. Signifikanztest gegen <code>H₀: ρ_k=0</code>: Ablehnung falls
+  <code>|R̂_k| &gt; 1.96·√(1/(T−k))</code>.</li>
+<li><strong>Box-Pierce-Test</strong> (Portmanteau-Test über mehrere Lags gleichzeitig):
+  <code>BP = T·Σ_{j=1}^{K} R̂_j²</code> ist approximativ χ²-verteilt mit K Freiheitsgraden unter
+  <code>H₀: ρ_1=...=ρ_K=0</code>.</li>
+<li>Praxisbefund aus der Vorlesung: monatliche S&amp;P-500-Returns zeigen negative Autokorrelation bei
+  Lag 1 (Mean-Reversion-Hinweis); Crude-Oil-Futures zeigen wöchentlich negative Autokorrelation bei
+  Lag 2 und positive bei Lag 3 — ein potenziell ausnutzbares Muster laut Vorlesung; Amazon-Aktie
+  zeigt auf keiner Frequenz signifikante Autokorrelation.</li>
+<li>Residuendiagnose: ein gutes Zeitreihenmodell hinterlässt Residuen, deren ACF überall innerhalb
+  der Zufallsbänder liegt (White Noise: Mittel 0, konstante Varianz, unkorreliert).</li>
+</ul>
+<h2 id="wold-zerlegungstheorem">Wold-Zerlegungstheorem</h2>
+<p>Jeder kovarianzstationäre Prozess lässt sich zerlegen in <code>X_t = V_t + S_t</code>, wobei <code>V_t</code> linear
+deterministisch ist (z.B. eine Summe von Sinus-/Kosinus-Termen, aus der Vergangenheit exakt
+vorhersagbar) und <code>S_t = Σ ψ_i·η_{t-i}</code> ein Moving-Average-Prozess aus unkorreliertem White Noise
+<code>η_t</code> ist. Praktische Konsequenz: sobald eine Serie auf kovarianzstationäre Skala gebracht ist
+(Detrending + Log-Returns), lässt sich jede verbleibende Struktur als (potenziell unendlicher)
+Moving-Average-Prozess auffassen — die theoretische Rechtfertigung für ARMA-Modelle.</p>
+<h2 id="lag-operator-und-armapq">Lag-Operator und ARMA(p,q)</h2>
+<ul>
+<li>Lag-Operator <code>L</code>: <code>L·X_t = X_{t-1}</code>. Polynome in <code>L</code> erlauben kompakte Notation für AR-/MA-Terme.</li>
+<li><strong>ARMA(p,q)</strong>: <code>φ(L)(X_t − μ) = θ(L)η_t</code>, mit <code>φ(L) = 1 − φ_1L − ... − φ_pL^p</code> (AR-Teil) und
+  <code>θ(L) = 1 + θ_1L + ... + θ_qL^q</code> (MA-Teil).</li>
+<li><strong>AR(1)-Stationaritätsbedingung</strong>: <code>|φ| &lt; 1</code> (äquivalent: die Nullstelle der charakteristischen
+  Gleichung <code>1−φz=0</code> liegt außerhalb des Einheitskreises). Für <code>0&lt;φ&lt;1</code>: exponentielle
+  Mean-Reversion. Für <code>−1&lt;φ&lt;0</code>: oszillierende Mean-Reversion. <code>φ=1</code>: Random Walk (nicht
+  stationär). <code>|φ|&gt;1</code>: explosiv.</li>
+<li>AR(1)-Momente: <code>Var(X_t) = σ²/(1−φ²)</code>, <code>j</code>-te Autokorrelation <code>= φ^j</code> — die
+  Autokorrelationsfunktion eines AR(1)-Prozesses zerfällt geometrisch.</li>
+<li><strong>Yule-Walker-Gleichungen</strong>: Methode-der-Momente-Schätzung der AR-Parameter über ein lineares
+  Gleichungssystem aus den empirischen Autokovarianzen <code>γ_j = Σ_i φ_i·γ_{j-i}</code>.</li>
+<li>Differenzierung <code>ΔX_t = (1−L)X_t</code> entfernt einen linearen Trend; zweite Differenzierung entfernt
+  einen quadratischen Trend — Standardvorgehen für nicht-stationäre Serien vor ARMA-Fit (→ ARIMA).</li>
+</ul>
+<h2 id="bezug-zu-diesem-projekt">Bezug zu diesem Projekt</h2>
+<ul>
+<li>Die AR(1)-Mean-Reversion-Formel (<code>φ^j</code>-Zerfall der Autokorrelation) ist die direkte
+  mathematische Fassung der ICT-These "Preis kehrt nach Extremen zum Mittel zurück" — testbar über
+  die ACF von MNQ-Returns statt nur qualitativ zu behaupten. Siehe
+  <a href="../p/quant-finance-formeln-fuer-den-mnq-algo-laufend.html">Quant-Finance-Formeln für den MNQ-Algo (laufend)</a> für die konkrete Backtest-These.</li>
+<li>Box-Pierce/ACF-Signifikanztest ist ein direktes Werkzeug für <code>algo/signals.py</code>: statt eine
+  Autokorrelation zu vermuten, lässt sich <code>|R̂_k| &gt; 1.96·√(1/(T−k))</code> als harter Filter einbauen.</li>
+<li>Ergänzt <a href="../p/regressionsanalyse-fuer-finance.html">Regressionsanalyse für Finance</a>: OLS-Diagnostik geht von unkorrelierten Fehlern aus —
+  bei Zeitreihen-Residuen ist die ACF-Prüfung aus diesem Abschnitt die passende Zusatzkontrolle.</li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/volatilitaetsmodelle-garch-co.html">Volatilitätsmodelle (GARCH &amp; Co)</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Zeitreihenanalyse für Finance.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>
