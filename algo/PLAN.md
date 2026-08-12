@@ -295,6 +295,48 @@ Beide sind reine Backlog-Eintraege gemaess [[Algo-Trading: Arbeitsstandards]] ("
 wird automatisch geloggt") — Backtest folgt in einer kuenftigen Session, nicht Teil dieses
 Ingest-Auftrags.
 
+### Backlog: Risikomanagement-Prinzipien aus Yale-Econ-252-Ingest (2026-08-12)
+
+Aus dem Ingest der 23-teiligen Yale-"Financial Markets"-Playlist (Robert Shiller, siehe
+`wiki/log.md` und die neuen `wiki/concepts/*Yale Econ 252*`-Seiten) stammen sechs Punkte mit
+direktem Bezug zu Korrektheit/Risiko im eigenen Stack — priorisiert nach Aufwand/Nutzen:
+
+1. **Korrelationsbruch in Stressphasen (hoechste Prioritaet, geringer Aufwand).** These: Setups,
+   die im Normalbetrieb unkorreliert wirken, laufen in volatilen Phasen synchron (AIG-Fallstudie,
+   siehe [[../wiki/concepts/Versicherung als Risikomanagement-Institution (Yale Econ 252)|Versicherung
+   als Risikomanagement-Institution]]). Betrifft direkt `algo/backtest_ensemble.py`, das mehrere
+   Regeln kombiniert, ohne die Korrelation ihrer Trade-Returns bedingt auf Vola-Regime zu pruefen.
+   Kandidat: `algo/backtest_ensemble.py` um eine Kennzahl "Korrelation der Strategie-Returns,
+   getrennt nach oberem/unterem ATR-Quartil" erweitern — warnt, falls die Diversifikations-Annahme
+   des Ensembles nur im ruhigen Regime gilt.
+2. **Fat-Tail-Realitaetscheck (hohe Prioritaet, geringer Aufwand).** 1987 (-20,47 % an einem Tag)
+   und der Doppelcrash 1929 als historische Belege gegen Normalverteilungs-Annahmen (siehe
+   [[../wiki/concepts/Value at Risk, CoVaR & Unabhängigkeitsannahme (Yale Econ 252)|Value at Risk,
+   CoVaR & Unabhängigkeitsannahme]]). Ergaenzt die bestehende Doppel-Bootstrap-Drawdown-Schaetzung
+   in `validate.py`/`stress_test.py` um einen expliziten Hinweis, dass Bootstrap aus der eigenen
+   Historie Tail-Ereignisse jenseits des beobachteten Fensters strukturell unterschaetzt — kein
+   Code-Fix, sondern eine Reporting-Ergaenzung ("worst observed" vs. "plausibles Tail-Risiko").
+3. **Sharpe-Ratio-Manipulierbarkeit durch Tail-Verkauf (mittlere Prioritaet).** Formal belegt
+   (Fallbeispiel Integral Investment Management): eine unauffaellig glatte Equity-Kurve mit hoher
+   Sharpe-Ratio kann aus verkauften Tail-Optionen/kurz gehaltenen Crash-Risiken stammen, nicht aus
+   echtem Edge. Bezug zur bestehenden `dubious_pct`-Pflichtkennzahl (siehe
+   [[Algo-Trading: Arbeitsstandards]]) — ergaenzt sie um eine Warnung, wenn Sharpe hoch UND
+   Drawdown-Verteilung stark linksschief ist (Skewness-Check in `selfcheck.py`).
+4. **Gambler's-Ruin-Bestaetigung (kein neuer Code).** Yale-Formel `[(1−p)/p]^S` fuer
+   Market-Maker-Ruin ist mathematisch identisch zur bereits im Vault genutzten Kelly-Ruin-Grenze —
+   reine Bestaetigung, kein Handlungsbedarf.
+5. **Random-Walk-vs.-AR(1) (kein neuer Code).** Liefert die oekonomische Begruendung fuer den
+   bereits eingesetzten Monte-Carlo-Permutationstest — reine Bestaetigung.
+6. **Futures-Fair-Value-Formel fuer Rollover (niedrige Prioritaet).** Contango/Backwardation-Logik
+   (siehe [[../wiki/concepts/Forward- & Futures-Märkte (Contango, Backwardation, Yale Econ 252)|Forward-
+   & Futures-Märkte]]) erklaert strukturell den MNQ/NQ-Rollover-Sprung in den Rohdaten — relevant,
+   sobald Kontraktwechsel in `raw/marktdaten/` explizit behandelt werden (aktuell kein bekanntes
+   Problem, daher niedrige Prioritaet).
+
+Alle sechs sind Backlog-Eintraege gemaess [[Algo-Trading: Arbeitsstandards]] — Umsetzung folgt in
+einer kuenftigen Session, nicht Teil dieses Ingest-Auftrags. Punkt 1 und 2 zuerst, da sie
+bestehende Validierungsluecken direkt schliessen (Korrektheit vor Features).
+
 ## Naechster Schritt
 
 **Korrektur (2026-08-03):** Der urspruengliche Plan war, mit dem Backtest zu warten, bis
@@ -386,3 +428,4 @@ oben), nicht mehr Warten.
 | 2026-08-12 | **Neue Daily-Bias-Notiz `raw/daily bias 12.08.md` verarbeitet** (CPI 8:30 NY als Volatilitaetstreiber, Buyside-Weekly-DOL 30 094,00, ORG-C.E.-70%-These live vor RTH-Open angewendet). `algo/live_status.py` frisch gezogen zur Verifikation: 29 800,00 um 05:00 NY, deckt sich mit Jannes' 29 804 (11:00 CEST) — `org_ce` liefert vor 9:30 NY erwartungsgemaess `null`, die eigentliche ORG steht erst mit RTH-Open fest. Jannes' These (grosser Gap → C.E. fuellt seltener innerhalb 30 Min) als Backlog-Idee (Gap-Segmentierung in `backtest_org_ce.py`) und als Nachtrag in `wiki/synthesis/Muster-Validierung (laufend).md` hinterlegt; nach 9:30 NY mit echten Daten nachpruefen. |
 | 2026-08-12 | **Ingest 13 MIT-15.S08-Quant-Finance-Transkripte** (`raw/quant-finance/2026/`) — Formeln aus Linearer Algebra, Wahrscheinlichkeitstheorie/Stochastik, Regression, PCA, Bond-Mathematik, Portfolio-Management, Counterparty-Risk ins Wiki uebernommen (7 Konzeptseiten + 13 Sourceseiten + 1 Synthese-Seite, siehe `wiki/synthesis/Quant-Finance-Formeln für den MNQ-Algo (laufend).md`). **Neue, noch nicht getestete These aus Lecture 6** (automatisch geloggt gemaess Arbeitsstandard "jede neue These wird automatisch geloggt und gebacktestet"): Markov-Ketten-Uebergangswahrscheinlichkeiten fuer MNQ-Bar-Zustandsfolgen (Up/Down-Sequenzen, analog zum Apple-Beispiel der Vorlesung: aufeinanderfolgende Aufwaertstage koennen die Wahrscheinlichkeit eines weiteren Aufwaertstages erhoehen) — noch kein Backtest-Skript gebaut (`algo/backtest_markov_bars.py`, geplanter Dateiname), folgt in einer kommenden Session. Weitere konkrete Einsatzideen (PCA-Multi-Timeframe-Feature fuer `algo/signals.py`, Gain-Loss-Ratio-Kennzahl fuer `algo/validate.py`, Regressions-Signifikanztest fuer Strategie-Alpha) in der Synthese-Seite dokumentiert, ebenfalls noch nicht implementiert. |
 | 2026-08-12 | **Ingest der restlichen 9 MIT-15.S08-Transkripte** (Lectures 12/14/18/19/20/21/23/24/25, `raw/quant-finance/2026/`) — Formeln zu Zeitreihenanalyse, formaler Brownscher Bewegung, Volatilitaetsmodellen (GARCH), Black-Scholes/risikoneutraler Bewertung, Machine-Learning-Grundlagen und Itô-Kalkül/SDEs ins Wiki uebernommen (5 neue Konzeptseiten + 9 Sourceseiten + Erweiterung von `wiki/concepts/Wahrscheinlichkeitstheorie & Stochastische Prozesse für Finance.md` + Erweiterung der Synthese-Seite). Lecture 18 (Biomedical AI) und Lecture 20 (Kalshi/CFTC) bewusst nur als schlanke Source-Seiten angelegt — kein uebertragbarer Formel-/Regel-Content. **Zwei neue, noch nicht getestete Thesen** (siehe Backlog-Abschnitt oben "zwei quant-finance-Thesen aus MIT-15.S08-Batch-2-Ingest"): (1) Box-Pierce-Autokorrelationstest auf MNQ-Returns ueber mehrere Timeframes, (2) GARCH(1,1)-basierte dynamische Stop-Distance/Sizing-Regel statt festem ATR-Multiplikator. Beide noch ohne Backtest-Skript, folgen in einer kommenden Session. Black-Scholes/risikoneutrale Bewertung explizit als "aktuell nicht direkt anwendbar" markiert (MNQ ist Future, kein Optionsprodukt); Machine-Learning-Train/Val/Test-Disziplin als Bestaetigung der bestehenden `algo/validate.py`-Methodik eingeordnet, kein neuer Code. |
+| 2026-08-12 | **Ingest 23-teilige Yale-"Financial Markets"-Playlist** (Robert Shiller, Econ 252, Fruehjahr 2011, `raw/financial-markets-2011-with-robert-shiller/` — Playlist-Titel liess urspruenglich MIT vermuten, tatsaechliche Quelle ist Yale/YaleCourses, korrekt benannt). 23 Sourceseiten + 9 Konzeptseiten mit Schwerpunkt Risikomanagement (Portfoliotheorie/Diversifikation, Versicherung als Institution inkl. AIG-Fallstudie, VaR/CoVaR/Unabhaengigkeitsannahme, Efficient Markets, Behavioral Finance, Fisher-Zins/Leverage-Zyklen, Optionen, Regulierung, Forward-/Futures-Maerkte). Sechs Backlog-Punkte mit Algo-Bezug dokumentiert (siehe Abschnitt oben "Risikomanagement-Prinzipien aus Yale-Econ-252-Ingest") — hoechste Prioritaet: Korrelationsbruch-Check fuer `backtest_ensemble.py` (Strategien koennen im Stress synchron laufen statt diversifiziert) und Fat-Tail-Reporting-Ergaenzung fuer `validate.py`/`stress_test.py` (Bootstrap aus eigener Historie unterschaetzt Tail-Risiko strukturell). Gambler's-Ruin-Formel und Random-Walk-Argument bestaetigen nur Bestehendes, kein neuer Code. Noch keine Backtest-Skripte gebaut, folgt in kommender Session. |

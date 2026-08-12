@@ -2095,3 +2095,27 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Seiten aktualisiert: wiki/index.md (9 neue Sources-Einträge in "Quant-Finance (MIT 15.S08)", 5 neue Concepts-Einträge), algo/PLAN.md (Backlog-Abschnitt + Log-Eintrag: zwei neue Thesen — Box-Pierce-Autokorrelationstest auf MNQ-Returns, GARCH(1,1)-Sizing-Regel — noch nicht gebacktestet)
 - Bewusste Einordnung ohne Konzept-Seite: Lecture 18 (Biomedical AI/Andrew Lo) ist überwiegend domänenspezifisch ohne finanzrelevante Formeln (einzige Überschneidung: die bereits dokumentierte `σ²/n`-Diversifikationsformel), Lecture 20 (Kalshi/CFTC) ist reine Marktstruktur/Regulatorik ohne Formelinhalt — beide gemäß Ingest-Vorgabe nur als schlanke Source-Seite mit explizitem ⚠️-Vermerk angelegt, kein Formel-Konzept erzwungen.
 - Black-Scholes/risikoneutrale Bewertung explizit als "aktuell nicht direkt anwendbar" markiert (MNQ ist Future, kein Optionsprodukt) statt stillschweigend übergangen; Notiz für falls Optionsstrategien auf NQ-Futures dazukommen.
+
+## [2026-08-12] ingest | Batch: Yale Econ 252 "Financial Markets" (Open Yale Courses, Robert Shiller, 23 YouTube-Vorlesungen)
+- Quelle: 23 Rohtranskripte unter raw/financial-markets-2011-with-robert-shiller/ (Kanal
+  YaleCourses, veröffentlicht 2012-04-05, Yale-Kurs Economics 252, Frühjahr 2011). ⚠️ Auftrag
+  benannte die Quelle als "MIT-Kursreihe"/"MIT Financial Markets 2011" — das ist ein Irrtum: die
+  Transkripte belegen zweifelsfrei Yale (Open Yale Courses, Dozent Robert Shiller, Kanal
+  YaleCourses), nicht MIT. Wiki-Seiten daher korrekt als "Yale Econ 252" benannt und getaggt
+  (yale-econ252), im Bericht an den Hauptagenten explizit korrigiert.
+- Fokus explizit auf Risikomanagement (Nutzeranfrage): 9 neue wiki/concepts/-Seiten mit
+  Risikomanagement-Tiefe — Markowitz-Portfoliotheorie & Diversifikation (inkl. Swensen/
+  Yale-Endowment-Modell), Versicherung als Risikomanagement-Institution (inkl. AIG-Fallstudie aus
+  Lecture 5+14), Value at Risk/CoVaR & Unabhängigkeitsannahme, Efficient Markets Hypothesis &
+  Random Walk, Behavioral Finance (Prospect Theory & kognitive Verzerrungen), Fisher-Zinstheorie &
+  Leverage-Zyklen, Optionen als Risikomanagement-Instrument, Finanzregulierung (Fünf Ebenen &
+  Too-Big-To-Fail), Forward- & Futures-Märkte (Contango/Backwardation — direkt relevant, da MNQ
+  selbst ein Future ist).
+- 23 neue wiki/sources/youtube/-Seiten (eine pro Vorlesung), alle mit Kernpunkten und Verweis auf
+  das Rohtranskript; Themen ohne eigenen Risikomanagement-Schwerpunkt (Corporate Stocks, Real
+  Estate, Banks, Investment Banks, Monetary Policy, Exchanges/Brokers/Dealers, Public/Non-Profit
+  Finance, die drei Gastvorträge sowie Intro-/Abschlussvorlesung) bewusst schlanker gehalten, ohne
+  eigene Concept-Seite, wie in CLAUDE.md vorgesehen.
+- Seiten aktualisiert: wiki/index.md (10 neue Concepts-Einträge, neue Sources-Unterrubrik "Yale
+  Econ 252" mit 23 Einträgen und Abgrenzungshinweis zur MIT-15.S08-Reihe).
+- Kein Push ausgeführt (push.ps1) — laut Auftrag macht das der Hauptagent/Nutzer separat.

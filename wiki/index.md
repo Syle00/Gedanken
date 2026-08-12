@@ -137,6 +137,15 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Black-Scholes & Risikoneutrale Bewertung]] — Replikationsargument, risikoneutrales Maß, Black-Scholes-PDE, Put-Call-Parität; quant-finance (2026-08-12)
 - [[Machine Learning für Finance (Grundlagen)]] — Train/Validation/Test-Split, neuronale Netze, Backpropagation, Reinforcement Learning/Q-Learning; quant-finance (2026-08-12)
 - [[Stochastische Analysis (Itô-Kalkül & SDEs)]] — Itô-Integral, Itô's Formel, geometrische Brownsche Bewegung, Ornstein-Uhlenbeck-Prozess; quant-finance (2026-08-12)
+- [[Markowitz-Portfoliotheorie & Diversifikation (Yale Econ 252)]] — Effiziente Front, Tangentialportfolio, CAPM-Intuition (Kovarianz statt Varianz), Sharpe-Ratio-Manipulation, Swensen-Endowment-Modell; **Risikomanagement**, yale-econ252 (2026-08-12)
+- [[Versicherung als Risikomanagement-Institution (Yale Econ 252)]] — Moral Hazard/Selection Bias, AIG-Fallstudie (CDS-Collateral-Mechanik, Unabhängigkeitsbruch), Cat Bonds; **Risikomanagement**, yale-econ252 (2026-08-12)
+- [[Value at Risk, CoVaR & Unabhängigkeitsannahme (Yale Econ 252)]] — Gesetz der großen Zahlen, Fat Tails (1929/1987-Crashs), CoVaR; **Risikomanagement**, yale-econ252 (2026-08-12)
+- [[Efficient Markets Hypothesis & Random Walk (Yale Econ 252)]] — Random Walk vs. AR(1)-Mean-Reversion, Simulationsbeweis, Sharpe-Ratio-Manipulation; yale-econ252 (2026-08-12)
+- [[Behavioral Finance (Prospect Theory & Kognitive Verzerrungen, Yale Econ 252)]] — Wertfunktion, Overconfidence-Live-Experiment, Cognitive Dissonance, APD; yale-econ252 (2026-08-12)
+- [[Fisher-Zinstheorie & Leverage-Zyklen (Yale Econ 252)]] — Robinson-Crusoe-Zinsmodell, Präsentwert-Formelwerk, VOC-Short-Selling-Skandal 1609; yale-econ252 (2026-08-12)
+- [[Optionen als Risikomanagement-Instrument (Yale Econ 252)]] — Arrow/Ross-Preisfindung, Put-Call-Parität, No-Arbitrage-Binomialmodell, VIX-Historie; **Risikomanagement**, yale-econ252 (2026-08-12)
+- [[Finanzregulierung — Fünf Ebenen & Too-Big-To-Fail (Yale Econ 252)]] — Firma→Branche→lokal→national→international, Basel-III-Rechenbeispiel, prozyklisches Grundproblem; yale-econ252 (2026-08-12)
+- [[Forward- & Futures-Märkte (Contango, Backwardation, Yale Econ 252)]] — Dojima-Reisbörse 1673, Fair-Value-Formel, Convenience Yield, Ölpreisgeschichte; yale-econ252 (2026-08-12)
 
 ## Models
 
@@ -461,6 +470,37 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2025-12-03 - MIT 15.S08 Lecture 23 - Introduction to Machine Learning (Source)]] — Train/Val/Test-Split, neuronale Netze, Reinforcement Learning/Q-Learning (2026-08-12)
 - [[2025-12-03 - MIT 15.S08 Lecture 24 - Stochastic Calculus (Source)]] — Itô-Integral-Konstruktion, Itô's Formel, Martingal-PDE-Verbindung (2026-08-12)
 - [[2025-12-03 - MIT 15.S08 Lecture 25 - Stochastic Calculus cont, Stochastic Differential Equations (Source)]] — geometrische Brownsche Bewegung, zweite Black-Scholes-Herleitung, Ornstein-Uhlenbeck (2026-08-12)
+
+### Yale Econ 252 "Financial Markets" (Open Yale Courses, Robert Shiller, YouTube-Vorlesungsreihe)
+
+> ⚠️ Nicht zu verwechseln mit der MIT-15.S08-Reihe oben — andere Universität (Yale), anderer
+> Dozent (Robert Shiller statt Jake Xia u. a.), anderer Kanal (YaleCourses). Fokus dieses
+> Ingests lag auf **Risikomanagement** (siehe die mit „Risikomanagement" markierten Concept-Seiten
+> oben).
+
+- [[2012-04-05 - Yale Econ 252 Lecture 01 - Introduction and What this Course Will Do for You (Source)]] — Kursüberblick, Finance als Engineering (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 02 - Risk and Financial Crises (Source)]] — VaR/CoVaR, Unabhängigkeitsannahme, Fat Tails (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 03 - Technology and Invention in Finance (Source)]] — Limited Liability 1811, inflationsindexierte Anleihen, Swap-Erfindung (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 04 - Portfolio Diversification and Supporting Financial Institutions (Source)]] — Markowitz-Herleitung, CAPM, Tangentialportfolio (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 05 - Insurance, the Archetypal Risk Management Institution (Source)]] — Moral Hazard, Selection Bias, AIG-Fallstudie (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 06 - Guest Speaker David Swensen (Source)]] — Yale-Endowment-Modell, Ineffizienzgrad je Anlageklasse (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 07 - Efficient Markets (Source)]] — Random Walk, AR(1), Sharpe-Ratio-Manipulation (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 08 - Theory of Debt, Its Proper Role, Leverage Cycles (Source)]] — Fisher-Zinstheorie, Präsentwert-Formeln, Usury-Ethik (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 09 - Corporate Stocks (Source)]] — Bilanzmechanik (Xerox/Microsoft), Lintner-Dividendenmodell (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 10 - Real Estate (Source)]] — Hypothekengeschichte, Fannie Mae/Freddie Mac, CMO/CDO (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 11 - Behavioral Finance and the Role of Psychology (Source)]] — Prospect Theory, Overconfidence, Cognitive Dissonance (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 12 - Misbehavior, Crises, Regulation and Self Regulation (Source)]] — Fünf Regulierungsebenen, Tunneling-Katalog (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 13 - Banks (Source)]] — Fractional-Reserve-Banking, Bank Runs, FDIC (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 14 - Guest Speaker Maurice Hank Greenberg (Source)]] — AIG-Insiderbericht, CDS-Kollateral-Kritik (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 15 - Forward and Futures Markets (Source)]] — Dojima-Reisbörse, Contango/Backwardation, Ölpreisgeschichte (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 16 - Guest Speaker Laura Cha (Source)]] — Regulatorenperspektive, Hongkong/China-Marktaufbau (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 17 - Options Markets (Source)]] — Put-Call-Parität, Binomialmodell, VIX-Historie (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 18 - Monetary Policy (Source)]] — Zentralbankgeschichte, Basel-III-Rechenbeispiel (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 19 - Investment Banks (Source)]] — Glass-Steagall, Shadow-Banking/Repo-Run-These (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 20 - Professional Money Managers and their Influence (Source)]] — Prudent Person Rule, Pensionsfonds-Geschichte (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 21 - Exchanges, Brokers, Dealers, Clearinghouses (Source)]] — Broker vs. Dealer, Flash Crash 2010, Gambler's-Ruin-Formel (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 22 - Public and Non-Profit Finance (Source)]] — Non-Profits, Kommunalfinanzierung, Sozialversicherungsgeschichte (2026-08-12)
+- [[2012-04-05 - Yale Econ 252 Lecture 23 - Finding your Purpose in a World of Financial Capitalism (Source)]] — Kursabschluss, Livelihood Insurance, Continuous Workout Mortgage (2026-08-12)
 
 ## Synthesis
 
