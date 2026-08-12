@@ -21,6 +21,7 @@ from pnl import demo as pnl_demo  # noqa: E402
 from risk_fixed import demo as risk_fixed_demo  # noqa: E402
 from risk_garch import demo as risk_garch_demo  # noqa: E402
 from risk_kelly import demo as risk_kelly_demo  # noqa: E402
+from risk_killswitch import demo as risk_killswitch_demo  # noqa: E402
 from masters import demo as masters_demo  # noqa: E402
 from confidence import demo as confidence_demo  # noqa: E402
 from rules import demo as rules_demo  # noqa: E402
@@ -87,6 +88,7 @@ CHECKS = [
     ("risk_fixed", risk_fixed_demo),
     ("risk_garch", risk_garch_demo),
     ("risk_kelly", risk_kelly_demo),
+    ("risk_killswitch", risk_killswitch_demo),
     ("masters", masters_demo),
     ("confidence", confidence_demo),
     ("rules", rules_demo),
