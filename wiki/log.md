@@ -2206,3 +2206,10 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Auswirkung: MOR 13.08 1.p kippt von 00:23 bullish (8,75) auf 00:13 bearish (10,00, C.E. 29.882,50).
 - Code: tools/analyze_ohlc.py (fvgs + neuer Regressionstest fvg_selfcheck), algo/selfcheck.py
   (Check "fvg_vii", 17/17 gruen), algo/README.md + algo/PLAN.md dokumentiert.
+
+## [2026-08-13] lint | FVG-Messung: Docht-Fuell-Pruefung ergaenzt (Folgekorrektur)
+- Nutzer-Gegenbeispiel: FVG 00:13 (13.08) ist 8 Pkt, nicht 10 -- die untere VII wird vom Docht der
+  00:14 (Low 29869 < m.close 29877,50) durchgehandelt, also gilt unten der Wick (00:14-High 29879,50).
+- fvgs() nimmt die VII jetzt nur mit, wenn sie nicht vom Nachbardocht gefuellt wurde; sonst Wick.
+- Auswirkung: MOR 13.08 1.p 00:13 bearish jetzt 8,00 (C.E. 29.883,50), vorher faelschlich 10,00.
+- Code: tools/analyze_ohlc.py (+ Test um reales Beispiel erweitert), algo/README.md, algo/PLAN.md.

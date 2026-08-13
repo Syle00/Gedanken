@@ -175,6 +175,7 @@
 <li><a href="#2026-08-13-lint-qsoshs-standardverfahren-gilt-auch-fur-order-block-varianten">[2026-08-13] lint | Qs/Os/Hs-Standardverfahren gilt auch für Order-Block-Varianten</a></li>
 <li><a href="#2026-08-13-query-abgrenzung-grotes-statt-erstes-opening-range-vs-org-gap">[2026-08-13] query | Abgrenzung "größtes statt erstes" — Opening Range vs. ORG-Gap</a></li>
 <li><a href="#2026-08-13-lint-fvg-messung-korrigiert-vii-inklusiv-in-analyze_ohlcfvgs">[2026-08-13] lint | FVG-Messung korrigiert (VII-inklusiv) in analyze_ohlc.fvgs()</a></li>
+<li><a href="#2026-08-13-lint-fvg-messung-docht-fuell-pruefung-ergaenzt-folgekorrektur">[2026-08-13] lint | FVG-Messung: Docht-Fuell-Pruefung ergaenzt (Folgekorrektur)</a></li>
 </ul>
 </div>
 </details>
@@ -2507,6 +2508,14 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Auswirkung: MOR 13.08 1.p kippt von 00:23 bullish (8,75) auf 00:13 bearish (10,00, C.E. 29.882,50).</li>
 <li>Code: tools/analyze_ohlc.py (fvgs + neuer Regressionstest fvg_selfcheck), algo/selfcheck.py
   (Check "fvg_vii", 17/17 gruen), algo/README.md + algo/PLAN.md dokumentiert.</li>
+</ul>
+<h2 id="2026-08-13-lint-fvg-messung-docht-fuell-pruefung-ergaenzt-folgekorrektur">[2026-08-13] lint | FVG-Messung: Docht-Fuell-Pruefung ergaenzt (Folgekorrektur)</h2>
+<ul>
+<li>Nutzer-Gegenbeispiel: FVG 00:13 (13.08) ist 8 Pkt, nicht 10 -- die untere VII wird vom Docht der
+  00:14 (Low 29869 &lt; m.close 29877,50) durchgehandelt, also gilt unten der Wick (00:14-High 29879,50).</li>
+<li>fvgs() nimmt die VII jetzt nur mit, wenn sie nicht vom Nachbardocht gefuellt wurde; sonst Wick.</li>
+<li>Auswirkung: MOR 13.08 1.p 00:13 bearish jetzt 8,00 (C.E. 29.883,50), vorher faelschlich 10,00.</li>
+<li>Code: tools/analyze_ohlc.py (+ Test um reales Beispiel erweitert), algo/README.md, algo/PLAN.md.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

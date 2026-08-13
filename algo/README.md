@@ -562,11 +562,15 @@ Backtests -- Entry schwerer zu fuellen (long ab, short auf), Stop und Ziel weite
 Parameter bleibt der rohe Mittelwert stehen -- Absicht, damit das Modul symbolagnostisch
 bleibt (Forex hat 0,00001), aber es heisst: neue Aufrufer muessen `tick` mitgeben.
 
-**FVG-Grenzen sind VII-inklusiv (Fix 2026-08-13).** `fvgs()` misst die FVG-Grenzen ueber
-Open/Close inkl. einer anliegenden Volume Imbalance (VII), nicht ueber die Wicks -- gemaess
-wiki/concepts/Volume Imbalance (VII).md. Bottom = `min(a.close, m.open)`, Top = `max(m.close,
-c.open)` (bullish; bearish spiegelbildlich), Fallback auf den Wick nur wenn keine VII vorliegt
-(Close == Open zur Nachbarkerze). Vorher mass der bearishe Zweig faelschlich ueber die Wicks
-(VII verworfen) und damit systematisch zu klein; das konnte die Groessen-Rangfolge und damit
-das "groesste = 1.p"-Displacement kippen. Regression: `analyze_ohlc.fvg_selfcheck()` (in
-`selfcheck.py` als `fvg_vii`), pinnt das Zahlenbeispiel der VII-Wiki-Seite.
+**FVG-Grenzen sind VII-inklusiv mit Docht-Fuell-Pruefung (Fix 2026-08-13).** `fvgs()` misst die
+FVG-Grenzen ueber Open/Close inkl. einer anliegenden Volume Imbalance (VII), nicht ueber die
+Wicks -- gemaess wiki/concepts/Volume Imbalance (VII).md. **Aber:** die VII wird nur mitgenommen,
+wenn sie NICHT vom Docht der Nachbarkerze durchgehandelt wurde. Konkret (bullish): Bottom =
+`min(a.close, m.open)` nur solange `a.high < m.open`, sonst `a.high`; Top = `max(m.close, c.open)`
+nur solange `c.high < m.close`, sonst `c.low` (bearish spiegelbildlich mit `a.low > m.open` bzw.
+`c.low > m.close`). Beispiel MNQ 2026-08-13 00:13: die 00:14 wickt mit Low 29869 unter den
+m.close 29877,50, fuellt die untere VII -> unten gilt der Wick 29879,50, FVG = 8,00 (nicht 10,00).
+Vorher mass der bearishe Zweig faelschlich ueber die reinen Wicks (VII ganz verworfen); eine
+Zwischenfassung nahm die VII dann pauschal mit (ohne Fuell-Pruefung) und mass zu gross. Beides
+konnte die Groessen-Rangfolge und damit das "groesste = 1.p"-Displacement kippen. Regression:
+`analyze_ohlc.fvg_selfcheck()` (in `selfcheck.py` als `fvg_vii`) pinnt Wiki-Beispiel + reale Kerzen.
