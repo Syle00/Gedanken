@@ -163,10 +163,12 @@ def at(day, hh, mm=0) -> datetime:
 
 
 def session_windows(day):
-    """(Name, Start, Ende) in NY-Zeit. Quelle: wiki/concepts/ICT Daily Range Session Timing.md"""
+    """(Name, Start, Ende) in NY-Zeit. Quellen: wiki/concepts/ICT Daily Range Session Timing.md;
+    Midnight OR 0:00-0:30 aus wiki/concepts/Midnight Opening Range.md (eigenes Session-Fenster)."""
     prev = day - timedelta(days=1)
     return [
         ("Asian Range",     at(prev, 20), at(day, 0)),
+        ("Midnight OR (0:00-0:30)", at(day, 0), at(day, 0, 30)),
         ("London Range",    at(day, 1),   at(day, 5)),
         ("London Lunch",    at(day, 5),   at(day, 7)),
         ("NY AM",           at(day, 7),   at(day, 10)),

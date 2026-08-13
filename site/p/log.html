@@ -170,6 +170,10 @@
 <li><a href="#2026-08-12-setup-quant-riskmanagement-austauschbare-risk-module">[2026-08-12] setup | Quant-Riskmanagement: austauschbare Risk-Module</a></li>
 <li><a href="#2026-08-13-ingest-daily-bias-1308-ndog-gultigkeitsdauer">[2026-08-13] ingest | Daily Bias 13.08 + NDOG-Gültigkeitsdauer</a></li>
 <li><a href="#2026-08-13-query-org-qoh-tabelle-11081208-datenqualitats-root-cause">[2026-08-13] query | ORG-Q/O/H-Tabelle 11.08.→12.08. + Datenqualitäts-Root-Cause</a></li>
+<li><a href="#2026-08-13-lint-terminologie-korrektur-ce-mean-threshold">[2026-08-13] lint | Terminologie-Korrektur C.E. ≠ Mean Threshold</a></li>
+<li><a href="#2026-08-13-lint-mean-threshold-gilt-fur-alle-order-block-varianten">[2026-08-13] lint | Mean Threshold gilt für alle Order-Block-Varianten</a></li>
+<li><a href="#2026-08-13-lint-qsoshs-standardverfahren-gilt-auch-fur-order-block-varianten">[2026-08-13] lint | Qs/Os/Hs-Standardverfahren gilt auch für Order-Block-Varianten</a></li>
+<li><a href="#2026-08-13-query-abgrenzung-grotes-statt-erstes-opening-range-vs-org-gap">[2026-08-13] query | Abgrenzung "größtes statt erstes" — Opening Range vs. ORG-Gap</a></li>
 </ul>
 </div>
 </details>
@@ -267,7 +271,7 @@
 <li>159 Notizen aus dem raw/-Wurzelverzeichnis nach raw/journal/ verschoben: 82 Daily Bias Journal, 27 Weekly Bias Journal, 19 Trade Execution Journal, 30 Tape Reading, dazu Journal.md (die Notion-Datenbanktabelle mit Datum/Bias/Tags aller Einträge, Juni 2025 – 2026).</li>
 <li>695 lose Screenshots aus dem Vault-Root nach raw/journal/assets/ verschoben; 9 Screenshot_2025-01-20_*.png gehören zu ICT Silver Bullet.md und gingen stattdessen nach raw/trading-ict/assets/.</li>
 <li><strong>Fehler behoben, der vorher unbemerkt war</strong>: 382 der Journal-Screenshots trugen exakt dieselben Namen wie Bilder in raw/trading-ict/assets/ (image 1.png … image 383.png), inhaltlich aber verschiedene Bilder (per Hash geprüft, keine echten Duplikate). Da Obsidian und tools/build_site.py Embeds allein über den Dateinamen auflösen und Root-Dateien zuerst gewinnen, zeigten die ICT-Wiki-Seiten seit dem Upload die Journal-Screenshots statt der ICT-Charts (Beispiel: wiki/concepts/PD Array.md → site/p/pd-array.html verwies auf den Journal-Screenshot image 183.png). Die 382 kollidierenden Dateien tragen jetzt das Präfix "journal-"; die Embeds in den Journal-Notizen wurden entsprechend nachgezogen.</li>
-<li>Nebenbei bereinigt: Die Notion-Embeds der Journal-Notizen nutzten die Form <code>&lt;img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 1.png" alt="image 1" loading="lazy"&gt;</code> (wurzel-relativ, mit redundantem Alias). 321 Embeds auf die reine Namensform normalisiert, damit sie ordnerunabhängig auflösen.</li>
+<li>Nebenbei bereinigt: Die Notion-Embeds der Journal-Notizen nutzten die Form <code>&lt;img class="wiki-img" src="../../raw/trading-ict/assets/image 1.png" alt="image 1" loading="lazy"&gt;</code> (wurzel-relativ, mit redundantem Alias). 321 Embeds auf die reine Namensform normalisiert, damit sie ordnerunabhängig auflösen.</li>
 <li>Kontrolle nach der Migration: 0 Bilder im Vault-Root, 0 verbleibende Namenskollisionen vault-weit, 0 unauflösbare Bild-Embeds in raw/journal/, Site-Build 149 Seiten / 1157 Bilder (vorher 775 — die Differenz waren genau die verdeckten ICT-Assets).</li>
 <li>CLAUDE.md aktualisiert: raw/journal/ dokumentiert, plus Warnhinweis zur vault-weiten Eindeutigkeit von Bildnamen bei künftigen Notion-Exporten.</li>
 <li>Noch nicht ingestet: Das Journal ist bislang reines Rohmaterial, es gibt noch keine wiki/-Seiten dazu. 223 der Screenshots werden von keiner Notiz referenziert (Notion-Exportreste).</li>
@@ -284,7 +288,7 @@
 <h2 id="2026-08-02-ingest-mentorship-2025-lektionen-01030405">[2026-08-02] ingest | MentorShip 2025, Lektionen 01/03/04/05</h2>
 <ul>
 <li>Nutzeranweisung: neue Dateien aus raw/ ebenfalls importieren. Betroffen: <code>01 Trading All Time Market Highs.md</code>, <code>03 Trading Premarket and Regular Session Liquidity.md</code>, <code>04 Alltime Highs und TGIF.md</code>, <code>05 Advanced ICT Liquidity Concepts.md</code> (lagen im raw/-Wurzelverzeichnis). Alle vier nach <code>raw/trading-ict/MentorShip 2025/</code> verschoben; die zuvor ingestete Lektion 06 dort zu <code>06 Opening Range Theory - 1st Presented FVG Logic.md</code> umbenannt, damit die Reihe durchnummeriert bleibt (raw/raw_path der Source-Seite nachgezogen).</li>
-<li><strong>Fehler behoben, der sonst still gewirkt hätte</strong>: Die vier Exporte enthielten 22 Embeds der Form <code>&lt;img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image.png" alt="image" loading="lazy"&gt;</code> … <code>&lt;img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 8.png" alt="image 8" loading="lazy"&gt;</code>, ohne dass Bilder mitgeliefert wurden. Dateien mit exakt diesen Namen liegen bereits in <code>raw/trading-ict/assets/</code> und gehören zu anderen ICT-Notizen — Obsidian und tools/build_site.py hätten stillschweigend die falschen Charts angezeigt (dasselbe Muster wie bei der Journal-Migration).</li>
+<li><strong>Fehler behoben, der sonst still gewirkt hätte</strong>: Die vier Exporte enthielten 22 Embeds der Form <code>&lt;img class="wiki-img" src="../../raw/bilder/image.png" alt="image" loading="lazy"&gt;</code> … <code>&lt;img class="wiki-img" src="../../raw/trading-ict/assets/image 8.png" alt="image 8" loading="lazy"&gt;</code>, ohne dass Bilder mitgeliefert wurden. Dateien mit exakt diesen Namen liegen bereits in <code>raw/trading-ict/assets/</code> und gehören zu anderen ICT-Notizen — Obsidian und tools/build_site.py hätten stillschweigend die falschen Charts angezeigt (dasselbe Muster wie bei der Journal-Migration).</li>
 <li>Die 22 Original-Charts stattdessen aus den Notion-Quellseiten nachgeladen (MCP-Fetch → presigned S3-URLs) und unter sprechenden, vault-weit eindeutigen Namen abgelegt: <code>MentorShip 2025 - 01/03/04/05 &lt;Beschreibung&gt;.png</code>. Alle Embeds in den vier Rohdateien entsprechend umgeschrieben (1 + 9 + 3 + 9 = 22, per Assertion gegen die vorhandenen Dateien geprüft).</li>
 <li>Seiten erstellt: wiki/concepts/Trading All Time Highs (ATH).md (neu; trägt Lektion 01 + 05: Continuation-Checkliste mit 7 Key Reference Points, dann die 3 Stages of Accumulation, in denen Smart Money nach dem Candle Body Close über dem ATH heavy Shorts aufbaut, plus die verallgemeinerte Orderflow-Regel "kein Close über dem C.E einer PD Array → short"), wiki/sources/Trading All Time Market Highs (Source).md, wiki/sources/Trading Premarket and Regular Session Liquidity (Source).md, wiki/sources/Alltime Highs und TGIF (Source).md, wiki/sources/Advanced ICT Liquidity Concepts (Source).md</li>
 <li>Seiten aktualisiert: wiki/concepts/ICT Daily Range Session Timing.md (neuer Intraday-Fahrplan 7:00–11:30 als Tabelle: Premarket-Run, 8:30 News Driver, 9:30 Fake Drop, Lunch Macro nach 10 Uhr und ab 11:30), wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md (9:30-Fake-Drop, 4-ORG-Regel = letzte 3 Tage + laufender Tag, ORG am ATH-Tag mit Candle-Body-Close-Bedingung), wiki/concepts/Breakaway Gap.md (Auswahlregel bei zwei Displacements: das zuerst entstandene Gap zählt; Inversion-Varianten jeder PD Array; Frontmatter-Quelle von <code>&lt;a href="../p/kurz-notizen-source.html"&gt;Kurz Notizen&lt;/a&gt;</code> auf die Source-Seite korrigiert), wiki/concepts/IPDA Data Ranges.md (PD Arrays sind bis zu 60 Tage rückwirkend nutzbar — das 20/40/60-Fenster begrenzt nicht nur die High/Low-Suche), wiki/models/Weekly Range Trading Model.md (TGIF-Fallbeispiel), wiki/index.md (4 Quellen unter "MentorShip 2025", neue Konzeptseite unter Concepts).</li>
@@ -624,7 +628,7 @@
 <li>Nutzerauftrag: "sortiere die Dateien im raw Ordner ein, sodass es aufgeräumt und clean ist".</li>
 <li>Bestandsaufnahme <code>raw/</code>: Root enthält nur noch 6 lose <code>.md</code>-Notizen (bewusst dort, siehe Konvention oben) plus die vier einsortierten Ordner <code>bilder/</code>, <code>journal/</code>, <code>marktdaten/</code>, <code>trading-ict/</code>. Keine Zip-/Tmp-/Thumbs-Reste, kein zweites leeres Stub außer dem bereits bekannten (<code>Reeinforced Liquidity Pools -...</code>, siehe „Offene Punkte" in wiki/index.md).</li>
 <li><strong>Echte Namenskollision gefunden</strong>: <code>raw/bilder/image.png</code> sowie <code>image 1.png</code>…<code>image 8.png</code> (9 Dateien, automatisch von <code>tools/sort_bilder.py</code> aus dem Vault-Root dorthin verschoben) trugen exakt dieselben Namen wie aktiv verlinkte Bilder in <code>raw/trading-ict/assets/</code> — per Hash geprüft: inhaltlich <strong>unterschiedliche</strong> Bilder. <code>raw/trading-ict/assets/image*.png</code> wird u.a. von <code>raw/trading-ict/2026/From Vision To Execution.md</code> und 6 Wiki-Seiten (<code>Turtle Soup</code>, <code>ICT Macros &amp; Leading Candles</code>, <code>BISI &amp; SIBI</code>, <code>IFVG</code>, <code>AMD Cycle</code>, <code>Trading Journal &amp; DOL Checklist</code>) referenziert — dasselbe Bug-Muster, das beim Journal-Import 2026-08-02 bereits einmal zu falsch angezeigten Charts führte.</li>
-<li>Die 9 Dateien in <code>raw/bilder/</code> waren selbst <strong>nirgends referenziert</strong> (weder in raw/ noch in wiki/) — reines Kollisionsrisiko ohne aktuellen Schaden, aber eine Falle für jede künftige Notiz, die <code>&lt;img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image.png" alt="image" loading="lazy"&gt;</code> schreibt.</li>
+<li>Die 9 Dateien in <code>raw/bilder/</code> waren selbst <strong>nirgends referenziert</strong> (weder in raw/ noch in wiki/) — reines Kollisionsrisiko ohne aktuellen Schaden, aber eine Falle für jede künftige Notiz, die <code>&lt;img class="wiki-img" src="../../raw/bilder/image.png" alt="image" loading="lazy"&gt;</code> schreibt.</li>
 <li>Behoben: alle 9 Dateien in <code>raw/bilder/</code> mit Präfix versehen (<code>bilder - image.png</code>, <code>bilder - image 1.png</code>, … <code>bilder - image 8.png</code>). Herkunft/Domäne unbekannt (keine Notiz referenziert sie), daher der neutrale Ordner-Präfix statt eines inhaltlichen. Kollisionscheck über alle drei Asset-Ordner (<code>raw/bilder</code>, <code>raw/trading-ict/assets</code>, <code>raw/journal/assets</code>) danach: 0 Kollisionen vault-weit.</li>
 <li>Offener Punkt: die 9 umbenannten Bilder bleiben unzugeordnetes Rohmaterial (Herkunft/Kontext unklar) — falls der Nutzer weiß, wozu sie gehören, können sie beim nächsten Ingest sprechend benannt und einer Notiz zugeordnet werden.</li>
 </ul>
@@ -2452,6 +2456,48 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md (neue Sektion
   "Datenqualität: yfinance-Preisversatz"), CLAUDE.md (Arbeitsstandard ergänzt: yfinance-only-Tage
   vor präzisionskritischen Level-Berechnungen gegenprüfen).</li>
+</ul>
+<h2 id="2026-08-13-lint-terminologie-korrektur-ce-mean-threshold">[2026-08-13] lint | Terminologie-Korrektur C.E. ≠ Mean Threshold</h2>
+<ul>
+<li>Anlass: Beim Sync (dieser Rechner) traf die parallele Branch-Arbeit auf main. Auf beiden Seiten
+  war die 16tel-/Hexadezimant-Terminologie ergänzt worden; main-Konvention <strong>Hs</strong> wird beibehalten,
+  die redundanten Branch-Commits wurden verworfen (Reset auf origin/main).</li>
+<li>Fehler behoben: Die Aussage „Mean Threshold = C.E des OB/CISD" (Chain of Custody (Q-Validation))
+  konfundierte beide Begriffe. Korrekt: das 0,5-Level heißt bei <strong>Wick/FVG → C.E.</strong>, bei
+  <strong>OB/CISD → Mean Threshold</strong> — dasselbe Fib-Level, aber je nach Array-Typ anders benannt, <strong>nicht
+  synonym</strong>.</li>
+<li>Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Absatz +
+  Standardverfahren-Box korrigiert), wiki/concepts/Order Block.md (Abschnitt "Mean Threshold bei
+  Multi-Candle-OBs": OB-0,5-Level durchgehend als Mean Threshold, Klarstellung ergänzt).</li>
+</ul>
+<h2 id="2026-08-13-lint-mean-threshold-gilt-fur-alle-order-block-varianten">[2026-08-13] lint | Mean Threshold gilt für alle Order-Block-Varianten</h2>
+<ul>
+<li>Nutzerpräzisierung: Das 0,5-Level heißt <strong>Mean Threshold bei allen Order-Block-Varianten</strong>
+  (Breaker Block, Rejection Block, Mitigation Block, Propulsion Block, Reclaimed Order Block) und
+  CISD — nicht nur beim "reinen" Order Block. C.E. bleibt der Begriff für Wick/FVG.</li>
+<li>Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Regel auf
+  alle OB-Varianten verallgemeinert + Merksatz; eine wick-Kontext-Stelle "0,5-Mean-Threshold" →
+  "0,5-C.E." korrigiert), wiki/concepts/Breaker Block.md + wiki/concepts/Rejection Block.md
+  (je ein Hinweis "0,5-Level = Mean Threshold").</li>
+</ul>
+<h2 id="2026-08-13-lint-qsoshs-standardverfahren-gilt-auch-fur-order-block-varianten">[2026-08-13] lint | Qs/Os/Hs-Standardverfahren gilt auch für Order-Block-Varianten</h2>
+<ul>
+<li>Nutzerpräzisierung: Das Qs/Os/Hs-Standardverfahren (volle Level-Tabelle einer Range rechnen) gilt
+  ebenso für Order Blocks und alle Varianten (Breaker, Rejection, Mitigation, Propulsion, Reclaimed)
+  — dort das 0,5-Level als <strong>Mean Threshold</strong> beschriften (bei Wick/FVG bleibt es C.E.).</li>
+<li>Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Intro +
+  Standardverfahren-Box um OB-Varianten und typgerechte 0,5-Beschriftung erweitert),
+  wiki/concepts/Breaker Block.md + wiki/concepts/Rejection Block.md (Hinweise um Qs/Os/Hs ergänzt).</li>
+</ul>
+<h2 id="2026-08-13-query-abgrenzung-grotes-statt-erstes-opening-range-vs-org-gap">[2026-08-13] query | Abgrenzung "größtes statt erstes" — Opening Range vs. ORG-Gap</h2>
+<ul>
+<li>Nutzerfrage bestätigt: Die Regel "1.p = größtes/prägnantestes Displacement, nicht das erste" ist
+  eine Auswahlregel und gilt nur innerhalb einer Opening Range (Midnight/London OR 0:00–0:30,
+  9:30-NY-Session), wo es mehrere Kandidaten gibt. Das Opening Range Gap (16:14→9:30) ist ein
+  einziges fixes Gap — dort greift die Regel nicht, man nutzt dessen eigenes Fib/C.E./Gap-Größe.</li>
+<li>Nebenbefund (Backtest 10.08-MOR neu gerechnet, nun korrekt "größtes"): von 3 FVGs im 0:00–0:30-
+  Fenster war das erste (00:08, 6,0 Pkt) zugleich das größte → 1.p = 00:08, C.E. 29.883,50 bestätigt.</li>
+<li>Seite aktualisiert: wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md (Abgrenzungs-Box).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

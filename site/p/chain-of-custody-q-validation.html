@@ -197,30 +197,31 @@ zum DOL gezogen, um die <strong>gesamte Dealing Range</strong> zu antizipieren.<
   validieren eine PD Array: geht ein FVG <strong>durch ein Q</strong> (überlappend), gilt das als Bestätigung,
   dass die PD Array <strong>stark ist und hält</strong> — gilt genauso für andere PD-Typen wie <a href="../p/order-block.html">Order Block</a>s
   (macht einen OB ab diesem Moment "validiert").</li>
-<li><strong>Größere Qs sind relevanter</strong> als kleinere. Besonders relevant: das <strong>0,5-Mean-Threshold</strong> der
-  antizipierten Dealing Range — erfolgt dort ein Displacement, soll dieses Gap als <strong>Measuring Gap</strong>
+<li><strong>Größere Qs sind relevanter</strong> als kleinere. Besonders relevant: das <strong>0,5-C.E.</strong> der
+  antizipierten Dealing Range (aus Wick/FVG projiziert → C.E., nicht Mean Threshold) — erfolgt dort
+  ein Displacement, soll dieses Gap als <strong>Measuring Gap</strong>
   fungieren und <strong>nicht gefüllt</strong> werden (kein Retracement dorthin erwartet).</li>
 <li>Auf den Qs können sich weitere Imbalances bilden — Voraussetzung ist eine korrekt eingezeichnete
   antizipierte Dealing Range.</li>
 <li>Funktioniert auch im Higher Timeframe (z.B. FVG genau auf dem 0,5-Mean-Threshold im 1H-Chart als
   IFVG).</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 41.png" alt="image 41" loading="lazy"><figcaption>Konvergenz mehrerer RTH-C.E-Level: deutet auf eine große Daily Range hin.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 41.png" alt="image 41" loading="lazy"><figcaption>Konvergenz mehrerer RTH-C.E-Level: deutet auf eine große Daily Range hin.</figcaption></figure>
 
 <h2 id="high-probability-fvg-uber-q-lage-kurz-notizen">High-Probability-FVG über Q-Lage (Kurz Notizen)</h2>
 <p>High-Probability-FVGs bilden sich bevorzugt an Quadranten (Q) von Wicks, FVGs, ORGs, NDOGs, NWOGs
 etc. Damit es wirklich High Probability ist, MUSS das Q <strong>innerhalb</strong> des FVG selbst liegen — und
 beide Candles, die das FVG bilden, müssen das Q ebenfalls überschreiten (bullish: über das Q,
 bearish: unter das Q).</p>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/Kurz Notizen - High Probability FVG Quadrant Example 1.png" alt="Kurz Notizen - High Probability FVG Quadrant Example 1" loading="lazy"></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/Kurz Notizen - High Probability FVG Quadrant Example 1.png" alt="Kurz Notizen - High Probability FVG Quadrant Example 1" loading="lazy"></figure>
 
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/Kurz Notizen - High Probability FVG Quadrant Example 2.png" alt="Kurz Notizen - High Probability FVG Quadrant Example 2" loading="lazy"></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/Kurz Notizen - High Probability FVG Quadrant Example 2.png" alt="Kurz Notizen - High Probability FVG Quadrant Example 2" loading="lazy"></figure>
 
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/Kurz Notizen - High Probability FVG Quadrant Example 3.png" alt="Kurz Notizen - High Probability FVG Quadrant Example 3" loading="lazy"></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/Kurz Notizen - High Probability FVG Quadrant Example 3.png" alt="Kurz Notizen - High Probability FVG Quadrant Example 3" loading="lazy"></figure>
 
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/Kurz Notizen - High Probability FVG Quadrant Example 4.png" alt="Kurz Notizen - High Probability FVG Quadrant Example 4" loading="lazy"></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/Kurz Notizen - High Probability FVG Quadrant Example 4.png" alt="Kurz Notizen - High Probability FVG Quadrant Example 4" loading="lazy"></figure>
 
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/Kurz Notizen - High Probability FVG Quadrant Example 5.png" alt="Kurz Notizen - High Probability FVG Quadrant Example 5" loading="lazy"><figcaption>Beispielserie: High-Probability-FVG, dessen Q innerhalb des FVG liegt und von beiden FVG-Candles überschritten wird.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/Kurz Notizen - High Probability FVG Quadrant Example 5.png" alt="Kurz Notizen - High Probability FVG Quadrant Example 5" loading="lazy"><figcaption>Beispielserie: High-Probability-FVG, dessen Q innerhalb des FVG liegt und von beiden FVG-Candles überschritten wird.</figcaption></figure>
 
 <h2 id="oktanten-os-und-vii-einschluss-bei-bisisibi">Oktanten (Os) und VII-Einschluss bei BISI/SIBI</h2>
 <p>Zweite Quelle (<a href="../p/chain-of-custody-of-price-with-daily-inefficiencies-source.html">Chain Of Custody Of Price With Daily Inefficiencies (Source)</a>) verfeinert das
@@ -244,7 +245,8 @@ am E-Mini S&amp;P wurde ein 16tel-Level bei 7.761,75 projiziert, das Tagestief k
 <strong>2 Ticks Abweichung</strong>. Details und Ablauf auf <a href="../p/market-on-close-moc-macro-model.html">Market on Close (MOC) Macro Model</a>.</p>
 <h2 id="terminologie-qs-os-hs">Terminologie: Qs / Os / Hs</h2>
 <p>Ein einheitliches Fib-Raster in drei Verfeinerungsstufen, anwendbar auf jede Range (Wick, ORG,
-NDOG/NWOG, FVG, OB, BISI/SIBI):</p>
+NDOG/NWOG, FVG, <strong>Order Block inkl. aller Varianten</strong> — Breaker/Rejection/Mitigation/Propulsion/
+Reclaimed —, CISD, BISI/SIBI):</p>
 <table>
 <thead>
 <tr>
@@ -275,18 +277,30 @@ NDOG/NWOG, FVG, OB, BISI/SIBI):</p>
 </tr>
 </tbody>
 </table>
-<p><strong>Mean Threshold = C.E des OB/CISD</strong> — das 0,5-Level (50 %) einer Range ist identisch mit dem C.E
-(Consequent Encroachment) des zugrundeliegenden Order Blocks bzw. CISD.</p>
+<p><strong>0,5-Level je nach PD-Array-Typ benannt</strong> (nicht synonym): Es ist immer das 50-%-Level der Range,
+heißt aber unterschiedlich —</p>
+<ul>
+<li><strong>Wick</strong> und <strong><a href="../p/fair-value-gap-fvg.html">FVG</a></strong> → <strong>C.E. (Consequent Encroachment)</strong>.</li>
+<li><strong><a href="../p/order-block.html">Order Block</a> und alle seine Varianten</strong> — <a href="../p/breaker-block.html">Breaker Block</a>, <a href="../p/rejection-block.html">Rejection Block</a>,
+  <a href="../p/mitigation-block.html">Mitigation Block</a>, <a href="../p/propulsion-block.html">Propulsion Block</a>, <a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a> — sowie
+  <strong><a href="../p/cisd-change-in-state-of-delivery.html">CISD</a></strong> → <strong>Mean Threshold</strong>.</li>
+</ul>
+<p>Also: C.E. ≠ Mean Threshold, es sind zwei Namen für dasselbe Fib-Level bei verschiedenen
+Array-Typen. Merksatz: <strong>jeder Order-Block-Abkömmling nutzt „Mean Threshold"</strong>, alles vom Typ
+Wick/Gap nutzt „C.E.".</p>
 <blockquote>
 <p><strong>Standardverfahren ab jetzt</strong>: Fragt der Nutzer nach den Qs, Os oder Hs einer Range (z.B. einer
-Premium Wick oder des ORG), immer eine vollständige tabellarische Übersicht aller Level dieser
-Stufe berechnen und ausgeben (High/Low der Range, dann jedes Q/O/H-Level mit Preis), nicht nur
-das angefragte Einzellevel.</p>
+Premium Wick, des ORG <strong>oder eines Order Blocks bzw. einer OB-Variante — Breaker, Rejection,
+Mitigation, Propulsion, Reclaimed</strong>), immer eine vollständige tabellarische Übersicht aller Level
+dieser Stufe berechnen und ausgeben (High/Low der Range, dann jedes Q/O/H-Level mit Preis), nicht
+nur das angefragte Einzellevel. Das <strong>0,5-Level dabei typgerecht beschriften</strong>: bei Wick/FVG als
+<strong>C.E.</strong>, bei Order Block / OB-Variante / CISD als <strong>Mean Threshold</strong>.</p>
 <p><strong>Erweiterung (2026-08-10)</strong>: Auch <strong>ohne explizite Nachfrage</strong> — sobald der Nutzer in einem
 Daily/Weekly Bias von <strong>Wicks oder FVGs</strong> spricht, automatisch die Qs/Os/Hs-Tabelle für die
 relevante Range dazu erstellen und prüfen, <strong>welche Level Preis bereits respektiert hat</strong>
-(Reaktion/Close/Wick-Reject an dem Level) — mit besonderem Fokus auf das <strong>C.E (0,5-Level, Mean
-Threshold)</strong>, da ein gehaltenes C.E laut obiger Regel die PD Array als stark validiert.</p>
+(Reaktion/Close/Wick-Reject an dem Level) — mit besonderem Fokus auf das <strong>C.E.</strong> (das 0,5-Level;
+bei Wick/FVG so genannt, bei OB/CISD hieße es Mean Threshold), da ein gehaltenes C.E. laut obiger
+Regel die PD Array als stark validiert.</p>
 </blockquote>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
@@ -298,7 +312,7 @@ Threshold)</strong>, da ein gehaltenes C.E laut obiger Regel die PD Array als st
   die Level müssen auf das 0,25-Tick-Raster gerundet werden, sonst sind es keine handelbaren Preise</li>
 <li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/chain-of-custody-of-price-with-daily-inefficiencies-source.html">Chain Of Custody Of Price With Daily Inefficiencies (Source)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">26</span></h2><ul><li><a href="../p/2026-07-29-predicting-session-low-high-with-executions-source.html">2026-07-29 - Predicting Session Low &amp; High With Executions (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-05-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a><span class="cat">Konzepte</span></li><li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a><span class="cat">Konzepte</span></li><li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a><span class="cat">Konzepte</span></li><li><a href="../p/breakaway-gap.html">Breakaway Gap</a><span class="cat">Konzepte</span></li><li><a href="../p/chain-of-custody-of-price-with-daily-inefficiencies-source.html">Chain Of Custody Of Price With Daily Inefficiencies (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a><span class="cat">Konzepte</span></li><li><a href="../p/dealing-range.html">Dealing Range</a><span class="cat">Konzepte</span></li><li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/graded-price-swings.html">Graded Price Swings</a><span class="cat">Modelle</span></li><li><a href="../p/ict-chain-of-custody-of-price-source.html">ICT Chain Of Custody Of Price (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a><span class="cat">Konzepte</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/market-on-close-moc-macro-model.html">Market on Close (MOC) Macro Model</a><span class="cat">Modelle</span></li><li><a href="../p/new-day-opening-gap-ndog.html">New Day Opening Gap (NDOG)</a><span class="cat">Konzepte</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li><li><a href="../p/pd-array.html">PD Array</a><span class="cat">Konzepte</span></li><li><a href="../p/silver-bullet-model.html">Silver Bullet Model</a><span class="cat">Modelle</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">29</span></h2><ul><li><a href="../p/2026-07-29-predicting-session-low-high-with-executions-source.html">2026-07-29 - Predicting Session Low &amp; High With Executions (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-05-ict-price-action-chronicles-moc-crushing-the-buying-selling-pressure-myth-source.html">2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying &amp; Selling Pressure Myth (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a><span class="cat">Konzepte</span></li><li><a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a><span class="cat">Konzepte</span></li><li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a><span class="cat">Konzepte</span></li><li><a href="../p/breakaway-gap.html">Breakaway Gap</a><span class="cat">Konzepte</span></li><li><a href="../p/breaker-block.html">Breaker Block</a><span class="cat">Konzepte</span></li><li><a href="../p/chain-of-custody-of-price-with-daily-inefficiencies-source.html">Chain Of Custody Of Price With Daily Inefficiencies (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/daily-high-low-projektion-konvergenz.html">Daily High &amp; Low Projektion (Konvergenz)</a><span class="cat">Konzepte</span></li><li><a href="../p/dealing-range.html">Dealing Range</a><span class="cat">Konzepte</span></li><li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/graded-price-swings.html">Graded Price Swings</a><span class="cat">Modelle</span></li><li><a href="../p/ict-chain-of-custody-of-price-source.html">ICT Chain Of Custody Of Price (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a><span class="cat">Konzepte</span></li><li><a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/market-on-close-moc-macro-model.html">Market on Close (MOC) Macro Model</a><span class="cat">Modelle</span></li><li><a href="../p/new-day-opening-gap-ndog.html">New Day Opening Gap (NDOG)</a><span class="cat">Konzepte</span></li><li><a href="../p/order-block.html">Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li><li><a href="../p/pd-array.html">PD Array</a><span class="cat">Konzepte</span></li><li><a href="../p/rejection-block.html">Rejection Block</a><span class="cat">Konzepte</span></li><li><a href="../p/silver-bullet-model.html">Silver Bullet Model</a><span class="cat">Modelle</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Chain of Custody (Q-Validation).md</code></footer>
 </article>
 </main>

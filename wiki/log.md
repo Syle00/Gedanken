@@ -2161,3 +2161,41 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (neue Sektion
   "Datenqualität: yfinance-Preisversatz"), CLAUDE.md (Arbeitsstandard ergänzt: yfinance-only-Tage
   vor präzisionskritischen Level-Berechnungen gegenprüfen).
+
+## [2026-08-13] lint | Terminologie-Korrektur C.E. ≠ Mean Threshold
+- Anlass: Beim Sync (dieser Rechner) traf die parallele Branch-Arbeit auf main. Auf beiden Seiten
+  war die 16tel-/Hexadezimant-Terminologie ergänzt worden; main-Konvention **Hs** wird beibehalten,
+  die redundanten Branch-Commits wurden verworfen (Reset auf origin/main).
+- Fehler behoben: Die Aussage „Mean Threshold = C.E des OB/CISD" (Chain of Custody (Q-Validation))
+  konfundierte beide Begriffe. Korrekt: das 0,5-Level heißt bei **Wick/FVG → C.E.**, bei
+  **OB/CISD → Mean Threshold** — dasselbe Fib-Level, aber je nach Array-Typ anders benannt, **nicht
+  synonym**.
+- Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Absatz +
+  Standardverfahren-Box korrigiert), wiki/concepts/Order Block.md (Abschnitt "Mean Threshold bei
+  Multi-Candle-OBs": OB-0,5-Level durchgehend als Mean Threshold, Klarstellung ergänzt).
+
+## [2026-08-13] lint | Mean Threshold gilt für alle Order-Block-Varianten
+- Nutzerpräzisierung: Das 0,5-Level heißt **Mean Threshold bei allen Order-Block-Varianten**
+  (Breaker Block, Rejection Block, Mitigation Block, Propulsion Block, Reclaimed Order Block) und
+  CISD — nicht nur beim "reinen" Order Block. C.E. bleibt der Begriff für Wick/FVG.
+- Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Regel auf
+  alle OB-Varianten verallgemeinert + Merksatz; eine wick-Kontext-Stelle "0,5-Mean-Threshold" →
+  "0,5-C.E." korrigiert), wiki/concepts/Breaker Block.md + wiki/concepts/Rejection Block.md
+  (je ein Hinweis "0,5-Level = Mean Threshold").
+
+## [2026-08-13] lint | Qs/Os/Hs-Standardverfahren gilt auch für Order-Block-Varianten
+- Nutzerpräzisierung: Das Qs/Os/Hs-Standardverfahren (volle Level-Tabelle einer Range rechnen) gilt
+  ebenso für Order Blocks und alle Varianten (Breaker, Rejection, Mitigation, Propulsion, Reclaimed)
+  — dort das 0,5-Level als **Mean Threshold** beschriften (bei Wick/FVG bleibt es C.E.).
+- Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Intro +
+  Standardverfahren-Box um OB-Varianten und typgerechte 0,5-Beschriftung erweitert),
+  wiki/concepts/Breaker Block.md + wiki/concepts/Rejection Block.md (Hinweise um Qs/Os/Hs ergänzt).
+
+## [2026-08-13] query | Abgrenzung "größtes statt erstes" — Opening Range vs. ORG-Gap
+- Nutzerfrage bestätigt: Die Regel "1.p = größtes/prägnantestes Displacement, nicht das erste" ist
+  eine Auswahlregel und gilt nur innerhalb einer Opening Range (Midnight/London OR 0:00–0:30,
+  9:30-NY-Session), wo es mehrere Kandidaten gibt. Das Opening Range Gap (16:14→9:30) ist ein
+  einziges fixes Gap — dort greift die Regel nicht, man nutzt dessen eigenes Fib/C.E./Gap-Größe.
+- Nebenbefund (Backtest 10.08-MOR neu gerechnet, nun korrekt "größtes"): von 3 FVGs im 0:00–0:30-
+  Fenster war das erste (00:08, 6,0 Pkt) zugleich das größte → 1.p = 00:08, C.E. 29.883,50 bestätigt.
+- Seite aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (Abgrenzungs-Box).

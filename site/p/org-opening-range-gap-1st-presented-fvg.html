@@ -222,7 +222,7 @@
 <li>Entscheidend: schafft der Preis im <strong>Daily Chart einen Close unterhalb/oberhalb des C.E</strong> dieser
   Wicks? Ein solcher Close bestätigt den Bias.</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 39.png" alt="image 39" loading="lazy"><figcaption>Die beiden tiefsten/größten Wicks bilden Swing Lows — Close unterhalb ihres C.E bestätigt den Bias.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 39.png" alt="image 39" loading="lazy"><figcaption>Die beiden tiefsten/größten Wicks bilden Swing Lows — Close unterhalb ihres C.E bestätigt den Bias.</figcaption></figure>
 
 <h2 id="org-opening-range-gap">ORG (Opening Range Gap)</h2>
 <p><strong>Definition</strong> (aus <a href="../p/smc-opening-range-gaps-source.html">SMC Opening Range Gaps (Source)</a>): die letzte Candle <strong>16:14 Closing Price</strong>
@@ -306,6 +306,13 @@ im Beispiel von <a href="../p/smc-midnight-opening-range-source.html">SMC Midnig
 PM-Session-ORG und in der Sequenz-Regel unten stand („erstes <em>starkes</em> Displacement, nicht jedes
 kleine Mini-FVG"). Neu ist, dass die Regel <strong>für alle Opening Ranges</strong> gilt und dass der Name
 selbst als irreführend benannt wird.</p>
+<p>⚠️ <strong>Abgrenzung — gilt nur für die Opening Range, nicht für das ORG-Gap.</strong> „Größtes statt erstes"
+ist eine <strong>Auswahlregel</strong> und greift nur dort, wo es mehrere Displacement-Kandidaten <em>innerhalb
+einer Opening Range</em> gibt (Midnight/London OR 0:00–0:30, 9:30-NY-Session). Das <strong>Opening Range Gap
+selbst</strong> (16:14-Close → 9:30-Open, oben) ist <strong>ein einziges fest definiertes Gap</strong> — da gibt es
+nichts auszuwählen; man nutzt direkt dessen eigenes Fib/C.E., die Gap-Größen-Regel und die
+70%-C.E.-Beobachtung. Kurz: <strong>1.p Displacement = Auswahl (größtes) → Opening Ranges; ORG = fixes
+Gap → keine Auswahl.</strong></p>
 </blockquote>
 <ul>
 <li>FVGs, die als erstes innerhalb der NY-Session entstehen, sind grundsätzlich relevant — das
@@ -324,7 +331,7 @@ mit gekippter Handelsrichtung — siehe <code>algo/PLAN.md</code>, Eintrag 2026-
 </blockquote>
 </li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 40.png" alt="image 40" loading="lazy"><figcaption>1.p FVG am Montag: für die gesamte Handelswoche relevant.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 40.png" alt="image 40" loading="lazy"><figcaption>1.p FVG am Montag: für die gesamte Handelswoche relevant.</figcaption></figure>
 
 <h3 id="wann-ein-kandidat-kein-1p-fvg-ist">Wann ein Kandidat <em>kein</em> 1.p FVG ist</h3>
 <p>Ausschlusskriterien aus <a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a> — Maßstab ist immer die
@@ -337,9 +344,9 @@ Lage <strong>relativ zur laufenden Range</strong>, nicht das FVG für sich:</p>
   <a href="../p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a> zu verlassen — das <em>deutet</em> das Verlassen nur an.</li>
 <li><strong>Qualifiziert</strong>, wenn die vorliegende Range <strong>verlassen</strong> wird — dann liegt echte Ineffizienz vor.</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/ICT 2025 - Disqualify FVG 02.png" alt="ICT 2025 - Disqualify FVG 02" loading="lazy"><figcaption>ICTs Frage „Why Is This Not A Valid 1st P. FVG?" — der Kandidat verlässt die laufende Range nicht.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/ICT 2025 - Disqualify FVG 02.png" alt="ICT 2025 - Disqualify FVG 02" loading="lazy"><figcaption>ICTs Frage „Why Is This Not A Valid 1st P. FVG?" — der Kandidat verlässt die laufende Range nicht.</figcaption></figure>
 
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/ICT 2025 - Disqualify FVG 04.png" alt="ICT 2025 - Disqualify FVG 04" loading="lazy"></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/ICT 2025 - Disqualify FVG 04.png" alt="ICT 2025 - Disqualify FVG 04" loading="lazy"></figure>
 
 <p><em>„Look At The Real Inefficiency Here…" — hier wird die Range verlassen; ICT beschriftet es mit
 „1st P. FVG Changes Characteristic to IFVG".</em></p>
@@ -408,7 +415,7 @@ array."</em> Das FVG bevorzugt er nur, weil es am leichtesten zu erkennen ist.</
 <li>Bei wirklich großen ORGs die Range auch <strong>Tage in die Zukunft</strong> markieren. Ist das ORG des
   Folgetags deutlich kleiner, bleibt das größere ORG vom Vortag das relevantere.</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/Kurz Notizen - Opening Range Gap Multi-Day Example.png" alt="Kurz Notizen - Opening Range Gap Multi-Day Example" loading="lazy"><figcaption>Großes ORG über mehrere Tage markiert — bleibt relevanter als ein deutlich kleineres Folgetags-ORG.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/Kurz Notizen - Opening Range Gap Multi-Day Example.png" alt="Kurz Notizen - Opening Range Gap Multi-Day Example" loading="lazy"><figcaption>Großes ORG über mehrere Tage markiert — bleibt relevanter als ein deutlich kleineres Folgetags-ORG.</figcaption></figure>
 
 <ul>
 <li>Die ORG lässt sich zusätzlich mit <strong>Fibonacci</strong> messen: das <strong>-0,5-Level</strong> dient zur Antizipation
@@ -448,7 +455,7 @@ Premium Wicks.</p>
 <p><strong>Schnelle und energetische Moves sind meistens Fake Moves.</strong> Genau das sind die gestellten
 Traps — der bestehende Bias bleibt.</p>
 </blockquote>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/MentorShip 2025 - 03 RTH 930 Fake Drop.png" alt="MentorShip 2025 - 03 RTH 930 Fake Drop" loading="lazy"><figcaption>9:30 Fake Drop über das ORG auf die Quadranten der Premium Wicks.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MentorShip 2025 - 03 RTH 930 Fake Drop.png" alt="MentorShip 2025 - 03 RTH 930 Fake Drop" loading="lazy"><figcaption>9:30 Fake Drop über das ORG auf die Quadranten der Premium Wicks.</figcaption></figure>
 
 <h2 id="wie-viele-orgs-gleichzeitig-relevant-sind">Wie viele ORGs gleichzeitig relevant sind</h2>
 <p>Die ORGs der <strong>letzten 3 Tage plus des laufenden Handelstags</strong> — insgesamt <strong>4 ORGs mit
@@ -465,7 +472,7 @@ mit einem Candle Body Close</strong> (spiegelbildlich Close unter dem Low). Was 
 Money nutzt jede PD Array oberhalb des Closing Price für heavy Shorts — steht auf
 <a href="../p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a>. Die Logik gilt nicht nur für ATH, sondern auch für alte Market
 Highs/Lows sowie LTH/LTL und ITH/ITL.</p>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/MentorShip 2025 - 05 ORG with ATH Equal Highs.png" alt="MentorShip 2025 - 05 ORG with ATH Equal Highs" loading="lazy"><figcaption>ORG am ATH-Tag: Equal Highs per Candle Body Close durchbrochen.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MentorShip 2025 - 05 ORG with ATH Equal Highs.png" alt="MentorShip 2025 - 05 ORG with ATH Equal Highs" loading="lazy"><figcaption>ORG am ATH-Tag: Equal Highs per Candle Body Close durchbrochen.</figcaption></figure>
 
 <h2 id="ny-pre-session-opening-range">NY Pre Session Opening Range</h2>
 <p><strong>7:00–7:30 Uhr NY-Zeit</strong> ist die Opening Range der NY Pre Session — dasselbe Muster wie bei London.</p>
@@ -483,9 +490,9 @@ erfüllt sein:</p>
 </ol>
 <p><strong>90 % der Zeit ist dieses erste FVG ein <a href="../p/ifvg-inverse-fair-value-gap.html">IFVG</a></strong> — bei sauberem
 Bias wird es also invertiert und liefert in die Gegenrichtung.</p>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/MentorShip 2025 - London ORG 1st Presented FVG.png" alt="MentorShip 2025 - London ORG 1st Presented FVG" loading="lazy"><figcaption>Buyside Liquidity vor 1:30 genommen, danach das 1. Presented FVG innerhalb der London Opening Range.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MentorShip 2025 - London ORG 1st Presented FVG.png" alt="MentorShip 2025 - London ORG 1st Presented FVG" loading="lazy"><figcaption>Buyside Liquidity vor 1:30 genommen, danach das 1. Presented FVG innerhalb der London Opening Range.</figcaption></figure>
 
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/MentorShip 2025 - London ORG IFVG Delivery.png" alt="MentorShip 2025 - London ORG IFVG Delivery" loading="lazy"><figcaption>Dasselbe FVG als -IFVG: nach der Inversion Delivery durch die London Killzone bis zur Sellside Liquidity.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/MentorShip 2025 - London ORG IFVG Delivery.png" alt="MentorShip 2025 - London ORG IFVG Delivery" loading="lazy"><figcaption>Dasselbe FVG als -IFVG: nach der Inversion Delivery durch die London Killzone bis zur Sellside Liquidity.</figcaption></figure>
 
 <h2 id="qsoshs-gelten-fur-jedes-org-dieser-seite-2026-erganzung">Qs/Os/Hs gelten für jedes ORG dieser Seite (2026-Ergänzung)</h2>
 <p>Das <a href="../p/chain-of-custody-q-validation.html">Qs/Os/Hs-Raster</a> und die Regel "automatisch die Level-

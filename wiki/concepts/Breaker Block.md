@@ -7,6 +7,10 @@ sources: ["[[Reeinforced Orderblock Theory BreakerBlock (Source)]]", "[[ICT Ment
 
 # Breaker Block
 
+> **Fib-Raster:** Der Breaker Block wird wie jede Range in **Qs/Os/Hs** unterteilt
+> ([[Chain of Custody (Q-Validation)]]); sein **0,5-Level heißt Mean Threshold** (nicht C.E., das
+> ist der Wick/FVG-Begriff). Nach dem Qs/Os/Hs-Standardverfahren also die volle Level-Tabelle rechnen.
+
 [[Order Block]]-Variante, die auf gejagte Stop-Losses fokussiert:
 
 - **Bullish Breaker Block**: Fokus auf das Short-Term-High am durchspikten Punkt — dort liegen die

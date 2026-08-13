@@ -87,6 +87,14 @@ verwendet werden — laut ICT seine eigene Einstiegsmethode aus den 1990ern, ein
 > PM-Session-ORG und in der Sequenz-Regel unten stand („erstes *starkes* Displacement, nicht jedes
 > kleine Mini-FVG"). Neu ist, dass die Regel **für alle Opening Ranges** gilt und dass der Name
 > selbst als irreführend benannt wird.
+>
+> ⚠️ **Abgrenzung — gilt nur für die Opening Range, nicht für das ORG-Gap.** „Größtes statt erstes"
+> ist eine **Auswahlregel** und greift nur dort, wo es mehrere Displacement-Kandidaten *innerhalb
+> einer Opening Range* gibt (Midnight/London OR 0:00–0:30, 9:30-NY-Session). Das **Opening Range Gap
+> selbst** (16:14-Close → 9:30-Open, oben) ist **ein einziges fest definiertes Gap** — da gibt es
+> nichts auszuwählen; man nutzt direkt dessen eigenes Fib/C.E., die Gap-Größen-Regel und die
+> 70%-C.E.-Beobachtung. Kurz: **1.p Displacement = Auswahl (größtes) → Opening Ranges; ORG = fixes
+> Gap → keine Auswahl.**
 
 - FVGs, die als erstes innerhalb der NY-Session entstehen, sind grundsätzlich relevant — das
   **erste FVG am Montag** ist aber für die **gesamte Handelswoche** relevant und wird aktiv als

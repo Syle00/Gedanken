@@ -7,6 +7,10 @@ sources: ["[[Reeinforced Orderblock Theory Rejection Block (Source)]]", "[[ICT M
 
 # Rejection Block
 
+> **Fib-Raster:** Der Rejection Block wird wie jede Range in **Qs/Os/Hs** unterteilt
+> ([[Chain of Custody (Q-Validation)]]); sein **0,5-Level heißt Mean Threshold** (nicht C.E., das
+> ist der Wick/FVG-Begriff). Nach dem Qs/Os/Hs-Standardverfahren also die volle Level-Tabelle rechnen.
+
 [[Order Block]]-Variante: entsteht, wenn Preis ein High/Low (Swing High/Low) formt und sich dabei
 ein Wick bildet — der Candle Body closed über/unter dem Wick, während der Wick selbst kurz darüber
 hinausgeht, um Liquidity zu nehmen, bevor der eigentliche Move (Fortsetzung oder Reversal) startet.
