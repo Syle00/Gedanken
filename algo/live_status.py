@@ -157,14 +157,14 @@ def run_detectors(bars: list[Bar], day: date, now: datetime,
 
     `daily_bars` (optional): 1d-Kerzen ueber ~70 Tage fuer open_gap_history() (noch offene
     NDOG/NWOG-Level der letzten 5 Handelstage/-wochen). None -> beide Historien leer."""
-    ndog_hist = open_gap_history(daily_bars, day, 5, weekly=False) if daily_bars else []
-    nwog_hist = open_gap_history(daily_bars, day, 5, weekly=True) if daily_bars else []
+    ndog_open_hist = open_gap_history(daily_bars, day, 5, weekly=False) if daily_bars else []
+    nwog_open_hist = open_gap_history(daily_bars, day, 5, weekly=True) if daily_bars else []
     if not bars:
         return {"price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None,
                 "fvgs": [], "sweeps": [], "structure_breaks": [], "untouched_levels": [],
-                "org_ce": None, "ndog": None, "nwog": None,
-                "ndog_history": ndog_hist, "nwog_history": nwog_hist}
+                "org_ce": None, "ndog_today": None, "nwog_today": None,
+                "ndog_open_history": ndog_open_hist, "nwog_open_history": nwog_open_hist}
 
     # Detektor-Scope: die Globex-Session *dieses* Handelstages (18:00 NY am Vorabend bis
     # `now`) -- sonst tauchen Ereignisse vom Vortag in einem Bericht auf, der mit `day`
@@ -209,8 +209,8 @@ def run_detectors(bars: list[Bar], day: date, now: datetime,
         "active_silver_bullet_window": win[0] if win else None,
         "setup": asdict(setup) if setup else None,
         "fvgs": fg, "sweeps": sw, "structure_breaks": sb, "untouched_levels": lv,
-        "org_ce": org, "ndog": ndog, "nwog": nwog,
-        "ndog_history": ndog_hist, "nwog_history": nwog_hist,
+        "org_ce": org, "ndog_today": ndog, "nwog_today": nwog,
+        "ndog_open_history": ndog_open_hist, "nwog_open_history": nwog_open_hist,
     }
 
 
@@ -306,17 +306,17 @@ def selftest() -> None:
     assert isinstance(det["fvgs"], list) and isinstance(det["sweeps"], list)
     assert isinstance(det["untouched_levels"], list)  # Fix 5
     assert det["org_ce"] is not None and det["org_ce"]["filled_30m"] is True  # ORG-C.E.-Tracking
-    assert det["ndog"] is not None and isinstance(det["ndog"]["filled"], bool)  # NDOG-Tracking
-    assert day31.weekday() == 4 and det["nwog"] is None  # Freitag -> kein NWOG (nur montags)
+    assert det["ndog_today"] is not None and isinstance(det["ndog_today"]["filled"], bool)  # NDOG-Tracking
+    assert day31.weekday() == 4 and det["nwog_today"] is None  # Freitag -> kein NWOG (nur montags)
     monday_path = (Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
                    / "2026" / "07" / "20.07.2026" / "MNQ 2026-07-20 5m.csv")
     monday_bars = load(monday_path)
     monday_det = run_detectors(monday_bars, date(2026, 7, 20), monday_bars[-1].t)
-    assert monday_det["nwog"] is not None and isinstance(monday_det["nwog"]["filled"], bool)
+    assert monday_det["nwog_today"] is not None and isinstance(monday_det["nwog_today"]["filled"], bool)
     empty_det = run_detectors([], day31, real_bars[-1].t)
     assert empty_det["price"] is None and empty_det["fvgs"] == []
     assert empty_det["untouched_levels"] == [] and empty_det["org_ce"] is None
-    assert empty_det["ndog"] is None and empty_det["nwog"] is None
+    assert empty_det["ndog_today"] is None and empty_det["nwog_today"] is None
 
     # Fix 6: kein Ereignis vor Session-Start (18:00 NY am Vorabend), obwohl die CSV
     # bis 2026-07-30 15:00 zurueckreicht. `price` bleibt die echte letzte Kerze.
@@ -362,8 +362,8 @@ def _dry_run(day_str: str) -> dict:
                 "market_data": False, "error": f"keine {BASE_TF}-Datei fuer {day_str} gefunden",
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
-                "first_run": False, "untouched_levels": [], "org_ce": None, "ndog": None,
-                "nwog": None, "ndog_history": [], "nwog_history": []}
+                "first_run": False, "untouched_levels": [], "org_ce": None, "ndog_today": None,
+                "nwog_today": None, "ndog_open_history": [], "nwog_open_history": []}
     bars = load(path)
     now = bars[-1].t
     det = run_detectors(bars, day, now)
@@ -375,8 +375,8 @@ def _dry_run(day_str: str) -> dict:
             "active_silver_bullet_window": det["active_silver_bullet_window"],
             "setup": det["setup"], "new_events": new_events,
             "first_run": True, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"],
-            "ndog": det["ndog"], "nwog": det["nwog"],
-            "ndog_history": det["ndog_history"], "nwog_history": det["nwog_history"]}
+            "ndog_today": det["ndog_today"], "nwog_today": det["nwog_today"],
+            "ndog_open_history": det["ndog_open_history"], "nwog_open_history": det["nwog_open_history"]}
 
 
 def _live_run() -> dict:
@@ -388,8 +388,8 @@ def _live_run() -> dict:
                 "error": "keine 5m-Daten (Markt geschlossen oder yfinance-Fehler)",
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
-                "first_run": False, "untouched_levels": [], "org_ce": None, "ndog": None,
-                "nwog": None, "ndog_history": [], "nwog_history": []}
+                "first_run": False, "untouched_levels": [], "org_ce": None, "ndog_today": None,
+                "nwog_today": None, "ndog_open_history": [], "nwog_open_history": []}
 
     for tf, df in dfs.items():
         if tf not in ("5m_unfiltered", "1d_unfiltered") and not df.empty:
@@ -412,8 +412,8 @@ def _live_run() -> dict:
             "active_silver_bullet_window": det["active_silver_bullet_window"],
             "setup": det["setup"], "new_events": new_events,
             "first_run": first_run, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"],
-            "ndog": det["ndog"], "nwog": det["nwog"],
-            "ndog_history": det["ndog_history"], "nwog_history": det["nwog_history"]}
+            "ndog_today": det["ndog_today"], "nwog_today": det["nwog_today"],
+            "ndog_open_history": det["ndog_open_history"], "nwog_open_history": det["nwog_open_history"]}
 
 
 def main(argv=None) -> int:

@@ -315,7 +315,7 @@ statt nur einem statischen Preislevel. Aus
 Remaining Undelivered"* wird typischerweise durch einen abrupten Kerzenspike geliefert
 ("Smooth Highs Will Be Made 'Jagged'..."), nicht durch eine graduelle Bewegung.
 
-## ⚠️ Datenqualität: yfinance-Preisversatz bei Qs/Os/Hs/C.E (2026-08-13)
+## ✅ Datenqualität: yfinance-Preisversatz bei Qs/Os/Hs/C.E (2026-08-13, bestätigt & behoben)
 
 Beim ORG 11.08.→12.08.2026 (MNQ) wich der per `raw/marktdaten/` berechnete 9:30-Open (29.991,75,
 Quelle `fetch_yfinance.py`) und die 1.p-FVG-Grenzen um 0,25–0,5 Punkte von Jannes' Chart ab
@@ -324,6 +324,12 @@ siehe `algo/PLAN.md`, Eintrag 2026-08-13): **kein Pipeline-Bug** — Timestamp k
 von `yfinance.download("MNQ=F", interval="1m")` reproduziert exakt dieselben (falschen) Werte wie
 die CSV. Der Fehler liegt im **Yahoo-Feed selbst**: `MNQ=F` als kontinuierlicher Kontrakt weicht auf
 Tick-Ebene von Jannes' Chart-/Broker-Quelle (TradingView/CME direkt) ab.
+
+**Bestätigt** durch Jannes' TradingView-Export (`CME_MINI_MNQU2026`, 1380 von 1440 Minuten für den
+12.08., einzige Lücke 16:59–18:00 NY = reguläre CME-Wartungspause): Open 29.991,25 und FVG
+29.929,25–29.964,75 exakt reproduziert. Die yfinance-Version für den 12.08. wurde in
+`raw/marktdaten/2026/08/12.08.2026/MNQ 2026-08-12 1m.csv` + `... 1m RTH.csv` durch die
+TradingView-Daten ersetzt (vorher ohnehin nur 210 von 1440 Minuten, jetzt vollständig).
 
 **Praxisregel**: Bei Tagen, die **nur** per `fetch_yfinance.py` ins Depot kamen (kein manueller
 TradingView-Export, erkennbar am Fehlen von `(2)`/`(3)`-Dateisuffixen im selben Ordner), vor jeder

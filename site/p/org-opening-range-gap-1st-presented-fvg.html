@@ -207,7 +207,7 @@
 <li><a href="#sequenz-sweep-displacement-shift-1-presented-fvg">Sequenz: Sweep → Displacement → Shift → 1. Presented FVG</a></li>
 <li><a href="#qsoshs-gelten-fur-jedes-org-dieser-seite-2026-erganzung">Qs/Os/Hs gelten für jedes ORG dieser Seite (2026-Ergänzung)</a></li>
 <li><a href="#cross-symbol-bestatigung-repricing-macro-ict-executions-2023-06-26">Cross-Symbol-Bestätigung &amp; "Repricing Macro" (ICT Executions, 2023-06-26)</a></li>
-<li><a href="#datenqualitat-yfinance-preisversatz-bei-qsoshsce-2026-08-13">⚠️ Datenqualität: yfinance-Preisversatz bei Qs/Os/Hs/C.E (2026-08-13)</a></li>
+<li><a href="#datenqualitat-yfinance-preisversatz-bei-qsoshsce-2026-08-13-bestatigt-behoben">✅ Datenqualität: yfinance-Preisversatz bei Qs/Os/Hs/C.E (2026-08-13, bestätigt &amp; behoben)</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
@@ -502,7 +502,7 @@ statt nur einem statischen Preislevel. Aus
 <a href="../p/2023-06-29-ict-executions-june-29-2023-nq-long-source.html">2023-06-29 - ICT Executions June 29, 2023 NQ Long (Source)</a>: Ziel <em>"Opening Range Gap Portion
 Remaining Undelivered"</em> wird typischerweise durch einen abrupten Kerzenspike geliefert
 ("Smooth Highs Will Be Made 'Jagged'..."), nicht durch eine graduelle Bewegung.</p>
-<h2 id="datenqualitat-yfinance-preisversatz-bei-qsoshsce-2026-08-13">⚠️ Datenqualität: yfinance-Preisversatz bei Qs/Os/Hs/C.E (2026-08-13)</h2>
+<h2 id="datenqualitat-yfinance-preisversatz-bei-qsoshsce-2026-08-13-bestatigt-behoben">✅ Datenqualität: yfinance-Preisversatz bei Qs/Os/Hs/C.E (2026-08-13, bestätigt &amp; behoben)</h2>
 <p>Beim ORG 11.08.→12.08.2026 (MNQ) wich der per <code>raw/marktdaten/</code> berechnete 9:30-Open (29.991,75,
 Quelle <code>fetch_yfinance.py</code>) und die 1.p-FVG-Grenzen um 0,25–0,5 Punkte von Jannes' Chart ab
 (korrekt: Open 29.991,25, FVG 29.929,25–29.964,75). Root-Cause-Analyse (systematisches Debugging,
@@ -510,6 +510,11 @@ siehe <code>algo/PLAN.md</code>, Eintrag 2026-08-13): <strong>kein Pipeline-Bug<
 von <code>yfinance.download("MNQ=F", interval="1m")</code> reproduziert exakt dieselben (falschen) Werte wie
 die CSV. Der Fehler liegt im <strong>Yahoo-Feed selbst</strong>: <code>MNQ=F</code> als kontinuierlicher Kontrakt weicht auf
 Tick-Ebene von Jannes' Chart-/Broker-Quelle (TradingView/CME direkt) ab.</p>
+<p><strong>Bestätigt</strong> durch Jannes' TradingView-Export (<code>CME_MINI_MNQU2026</code>, 1380 von 1440 Minuten für den
+12.08., einzige Lücke 16:59–18:00 NY = reguläre CME-Wartungspause): Open 29.991,25 und FVG
+29.929,25–29.964,75 exakt reproduziert. Die yfinance-Version für den 12.08. wurde in
+<code>raw/marktdaten/2026/08/12.08.2026/MNQ 2026-08-12 1m.csv</code> + <code>... 1m RTH.csv</code> durch die
+TradingView-Daten ersetzt (vorher ohnehin nur 210 von 1440 Minuten, jetzt vollständig).</p>
 <p><strong>Praxisregel</strong>: Bei Tagen, die <strong>nur</strong> per <code>fetch_yfinance.py</code> ins Depot kamen (kein manueller
 TradingView-Export, erkennbar am Fehlen von <code>(2)</code>/<code>(3)</code>-Dateisuffixen im selben Ordner), vor jeder
 präzisionskritischen Level-Berechnung (C.E., Qs/Os/Hs, FVG-Grenzen) aktiv gegen Jannes' Chart
