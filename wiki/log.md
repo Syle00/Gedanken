@@ -2190,3 +2190,12 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Intro +
   Standardverfahren-Box um OB-Varianten und typgerechte 0,5-Beschriftung erweitert),
   wiki/concepts/Breaker Block.md + wiki/concepts/Rejection Block.md (Hinweise um Qs/Os/Hs ergänzt).
+
+## [2026-08-13] query | Abgrenzung "größtes statt erstes" — Opening Range vs. ORG-Gap
+- Nutzerfrage bestätigt: Die Regel "1.p = größtes/prägnantestes Displacement, nicht das erste" ist
+  eine Auswahlregel und gilt nur innerhalb einer Opening Range (Midnight/London OR 0:00–0:30,
+  9:30-NY-Session), wo es mehrere Kandidaten gibt. Das Opening Range Gap (16:14→9:30) ist ein
+  einziges fixes Gap — dort greift die Regel nicht, man nutzt dessen eigenes Fib/C.E./Gap-Größe.
+- Nebenbefund (Backtest 10.08-MOR neu gerechnet, nun korrekt "größtes"): von 3 FVGs im 0:00–0:30-
+  Fenster war das erste (00:08, 6,0 Pkt) zugleich das größte → 1.p = 00:08, C.E. 29.883,50 bestätigt.
+- Seite aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (Abgrenzungs-Box).

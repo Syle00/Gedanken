@@ -173,6 +173,7 @@
 <li><a href="#2026-08-13-lint-terminologie-korrektur-ce-mean-threshold">[2026-08-13] lint | Terminologie-Korrektur C.E. ≠ Mean Threshold</a></li>
 <li><a href="#2026-08-13-lint-mean-threshold-gilt-fur-alle-order-block-varianten">[2026-08-13] lint | Mean Threshold gilt für alle Order-Block-Varianten</a></li>
 <li><a href="#2026-08-13-lint-qsoshs-standardverfahren-gilt-auch-fur-order-block-varianten">[2026-08-13] lint | Qs/Os/Hs-Standardverfahren gilt auch für Order-Block-Varianten</a></li>
+<li><a href="#2026-08-13-query-abgrenzung-grotes-statt-erstes-opening-range-vs-org-gap">[2026-08-13] query | Abgrenzung "größtes statt erstes" — Opening Range vs. ORG-Gap</a></li>
 </ul>
 </div>
 </details>
@@ -2487,6 +2488,16 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Intro +
   Standardverfahren-Box um OB-Varianten und typgerechte 0,5-Beschriftung erweitert),
   wiki/concepts/Breaker Block.md + wiki/concepts/Rejection Block.md (Hinweise um Qs/Os/Hs ergänzt).</li>
+</ul>
+<h2 id="2026-08-13-query-abgrenzung-grotes-statt-erstes-opening-range-vs-org-gap">[2026-08-13] query | Abgrenzung "größtes statt erstes" — Opening Range vs. ORG-Gap</h2>
+<ul>
+<li>Nutzerfrage bestätigt: Die Regel "1.p = größtes/prägnantestes Displacement, nicht das erste" ist
+  eine Auswahlregel und gilt nur innerhalb einer Opening Range (Midnight/London OR 0:00–0:30,
+  9:30-NY-Session), wo es mehrere Kandidaten gibt. Das Opening Range Gap (16:14→9:30) ist ein
+  einziges fixes Gap — dort greift die Regel nicht, man nutzt dessen eigenes Fib/C.E./Gap-Größe.</li>
+<li>Nebenbefund (Backtest 10.08-MOR neu gerechnet, nun korrekt "größtes"): von 3 FVGs im 0:00–0:30-
+  Fenster war das erste (00:08, 6,0 Pkt) zugleich das größte → 1.p = 00:08, C.E. 29.883,50 bestätigt.</li>
+<li>Seite aktualisiert: wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md (Abgrenzungs-Box).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
