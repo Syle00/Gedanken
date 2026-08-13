@@ -101,8 +101,12 @@ def write_live_day(tf: str, day: date, rows: pd.DataFrame) -> Path:
 
 
 def _bars_from_df(df: pd.DataFrame) -> list[Bar]:
-    """Wie load(), nur direkt aus einem yfinance-DataFrame statt einer CSV-Datei."""
-    idx = df.index.tz_convert(NY)
+    """Wie load(), nur direkt aus einem yfinance-DataFrame statt einer CSV-Datei.
+
+    1d-Kerzen kommen von yfinance tz-naiv (nur ein Datum, keine Uhrzeit) -- wie in
+    fetch_yfinance.trading_day(daily=True) wird das Datum direkt als NY-Handelstag
+    behandelt statt konvertiert, siehe [[Algo-Trading: Arbeitsstandards]] (Zeit vor Preis)."""
+    idx = df.index.tz_localize(NY) if df.index.tz is None else df.index.tz_convert(NY)
     return [Bar(t.to_pydatetime(), float(o), float(h), float(l), float(c))
             for t, o, h, l, c in zip(idx, df["Open"], df["High"], df["Low"], df["Close"])]
 

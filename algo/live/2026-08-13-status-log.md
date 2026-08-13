@@ -38,3 +38,26 @@ Fehlte im ersten Durchlauf, live_status.py liest nur Marktdaten, keinen Journal-
 **Offener Punkt für `algo/live_status.py`**: aktuell wird nur das NDOG/NWOG der letzten 1-2 Tage
 getrackt. Um die 5-Tage/5-Wochen-These operativ nutzbar zu machen, müsste der Live-Status auch
 ältere, noch ungefüllte NDOG-/NWOG-Level als eigene `untouched_levels`-Kategorie führen.
+
+## [2026-08-13 02:35 NY] Update: NDOG-/NWOG-Historie ergänzt
+
+Der offene Punkt oben ist erledigt: `algo/live_status.py` liefert jetzt zwei neue Felder
+`ndog_history`/`nwog_history` — die letzten 5 Handelstage (NDOG) bzw. 5 Handelswochen (NWOG)
+vor heute, gefiltert auf Level, die seither noch **nicht** wieder erreicht wurden (DOL-These aus
+dem Daily-Bias-Journal 13.08.). Reuse: `ndog_gap()`/`nwog_gap()` aus `tools/analyze_ohlc.py`
+unverändert, neue Funktion `open_gap_history()` prüft nur zusätzlich per Daily-Bars, ob das Level
+zwischen Gap-Tag und heute je berührt wurde (nicht nur am Gap-Tag selbst wie bisher).
+
+Aktueller Live-Lauf zeigt zwei noch offene NDOG-Level und ein offenes NWOG-Level:
+
+| Typ  | Tag        | Level      | Gap-Größe |
+|------|------------|------------|-----------|
+| NDOG | 2026-08-07 | 29.488,25  | 26,75     |
+| NDOG | 2026-08-12 | 29.626,00  | 37,00     |
+| NWOG | 2026-08-03 | 28.404,25  | 163,25    |
+
+Alle drei liegen deutlich unter dem aktuellen Preis (29.902,50) — passt zum bullishen Bias, diese
+Level sind aktuell keine naheliegenden Ziele, bleiben aber als Sellside-DOL im Blick, falls der
+Preis vor dem Buyside-Ziel noch mal zurückfällt. `--dry-run` liefert diese Felder bewusst leer
+(kein Multi-Day-Fetch dort), `--selftest` deckt `open_gap_history()` mit synthetischen Tageskerzen
+ab. Alle 4 Selftests und alle 16 `algo/selfcheck.py`-Checks laufen grün.
