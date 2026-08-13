@@ -2131,3 +2131,22 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Drawdown-Kill-Switch mass den Drawdown in den Punkteinheiten der `backtesting`-Lib statt in
   echten Dollar — derselbe Fehlertyp wie der 2026-08-06-Audit-Fund in `pnl.py::risk_size()`.
   Kelly-Sizing ist jetzt wie GARCH auf 1,5 x base_pct gedeckelt.
+
+## [2026-08-13] ingest | Daily Bias 13.08 + NDOG-Gültigkeitsdauer
+- Quelle: raw/Daily Bias 13.08.md (abweichender Ablageort — liegt direkt in raw/, nicht wie sonst
+  unter raw/journal/Daily Bias YYYY-MM-DD.md; raw/ bleibt unangetastet, nur vermerkt).
+- Seiten erstellt: journal/entries/2026-08-13 MNQ Daily Bias.md (id 2026-08-13-01, Zeile in
+  journal/journal.csv), wiki/concepts/New Day Opening Gap (NDOG).md.
+- Seiten aktualisiert: wiki/index.md (NDOG-Eintrag).
+- Bias: Bullish bis Buyside 29.931,75 (Interimsziel), übergeordnetes Wochenziel bleibt Buyside
+  30.094,00 aus 2026-08-10 MNQ Weekly Bias. Rückblick 12.08. (CPI): trotz News keine große Range,
+  Buyside der letzten 2 Tage genommen, bullish aber ohne Wucht geschlossen.
+- Neue Info übernommen: NDOG bleibt mind. 5 Handelstage aktiv, NWOG mind. 5 Handelswochen,
+  darüber hinaus laut Nutzer weiter als DOL nutzbar — als offene, noch unbacktestete
+  Nutzeraussage in der neuen NDOG-Seite festgehalten (Backtest-Kandidat gemäß
+  Algo-Trading-Arbeitsstandards).
+- Fehler: P07 (kein Chartbild). Datenlücke: `raw/marktdaten/2026/08/12.08.2026/MNQ ... 1m.csv`
+  deckt nur 18:00–03:29 NY ab, CPI-Move und RTH fehlen — der beschriebene 12.08.-Move ist gegen
+  echte OHLC-Daten aktuell nicht verifizierbar. Zusätzlich P09 (`bias_korrekt` offen) und fehlende
+  Exakt-Preise für NWOG/C.E. vom 12.08.
+- Kein Push ausgeführt (push.ps1) — macht der Nutzer selbst.

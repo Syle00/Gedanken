@@ -85,6 +85,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Momentum-Ursachen & Opening-Gap-Strategie]] — fünf Momentum-Ursachen; die Opening-Gap-Regel für Futures (FSTX 13 % APR, Sharpe 1,4) ist direkt auf MNQ testbar; algo-methodology (2026-08-08)
 - [[Monte Carlo Permutation Test (MCPT)]] — Bar-Permutation zerstört Muster statistik-erhaltend, P-Wert prüft Data-Mining-Bias einer Strategie; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Nested Walkforward]] — Walk-Forward in Walk-Forward, nötig sobald laufend zwischen Systemen/Kriterien ausgewählt wird; S&P-100-Beispiel 19,12 % p.a. bei p=0,027; algo-methodology (2026-08-08)
+- [[New Day Opening Gap (NDOG)]] — tägliches Pendant zum NWOG, min. 5 Handelstage aktiv, danach weiter als DOL nutzbar (2026-08-13)
 - [[New Week Opening Gap (NWOG) Bias]] — Wöchentliche Bias-Regel + Intraweek-Reversal-Muster (2026-08-01)
 - [[Open Float & Liquidity Pools]] — Wo liegen die Stops der großen Funds, OI-Bestätigung (2026-08-01)
 - [[Optimal Trade Entry (OTE)]] — Retracement-Entry 62/70,5/79 % mit Targets und protectetem SL (2026-08-02)
