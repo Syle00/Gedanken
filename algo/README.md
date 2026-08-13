@@ -679,8 +679,21 @@ Schreibpfade laufen hindurch: `fetch_yfinance.write_day`, `ingest_tvexport.schre
 
 | Grad | Prueft | Reaktion |
 |---|---|---|
-| hart (`OHLCDefekt`) | High < Low, Body ausserhalb High/Low, NaN, doppelte oder fallende Zeitstempel, leerer Datensatz, **Haeufung degenerierter Bars** (`open==high & low==close` bei >5 % und >=20 Kerzen) | Exception, **Datei entsteht gar nicht erst** |
-| weich (Rueckgabeliste) | Preis nicht auf dem Tick-Raster des Symbols | wird gedruckt, blockiert nicht |
+| hart (`OHLCDefekt`) | High < Low, **Open** ausserhalb High/Low, NaN, doppelte oder fallende Zeitstempel, leerer Datensatz, Haeufung degenerierter Bars **bei Tagesaufloesung** | Exception, **Datei entsteht gar nicht erst** |
+| weich (Rueckgabeliste) | **Close** ausserhalb High/Low, Haeufung degenerierter Bars **intraday**, Preis nicht auf dem Tick-Raster | wird gedruckt, blockiert nicht |
+
+Die Trennung hart/weich ist **gemessen, nicht geraten** (Gegenpruefung 2026-08-13 gegen alle
+101 583 Bestandsdateien — die erste Fassung des Gates haette 2 055 davon abgelehnt und damit jeden
+kuenftigen Forex-Import blockiert):
+
+- **Close ausserhalb High/Low ist real**, nicht defekt: 1 749 von 84 044 Daily-Bars im Bestand
+  (2,1 %), ueber alle Symbole ausser MNQ. Der Close kommt als Settlement bzw. aus einem anderen
+  Session-Fenster als High/Low. **Open** ausserhalb ist dagegen ein echter Defekt — der Open ist der
+  erste gehandelte Preis der Kerze; betroffen sind 281 Bars (0,33 %), MNQ mit **0**.
+- **Degenerierte Bars sind intraday real**: AUDUSD 5m hat 36 % davon, weil Yahoo dort faktisch nur
+  jede zweite Minute einen Tick liefert. Ueber 23 Handelsstunden (1d) ist derselbe Bar dagegen
+  praktisch unmoeglich — deshalb greift die Haeufungsregel hart nur bei Tagesaufloesung, erkannt am
+  Median-Kerzenabstand (`DAILY_SEKUNDEN`), nicht am Dateinamen.
 
 Die Haeufungs-Schwelle ist bewusst kein Einzelkerzen-Verbot: eine einzelne Kerze mit
 `open==high & low==close` ist auf 1m legitim (monotone Bewegung ohne Gegenbewegung). Erst die

@@ -41,6 +41,15 @@ TF_MINUTES = {"1m": 1, "5m": 5, "15m": 15, "1h": 60, "4h": 240, "1d": 1440}
 # min_pen in Vielfachen der Median-Kerzenrange.
 CFG = {"swing": 2, "min_age": 15, "min_pen": 0.75, "disp_factor": 2.0, "confirm": 5}
 
+# Fenster fuer die lokale Volatilitaet, an der sich die FVG-Groesse misst (fvgs()->size_rel).
+# VOL_MIN_BARS ist die Untergrenze, ab der eine Median-Range ueberhaupt aussagekraeftig ist;
+# darunter liefert size_rel None statt einer Scheingenauigkeit.
+VOL_LOOKBACK, VOL_MIN_BARS = 30, 10
+
+# Median size_rel ueber 27 MNQ-1m-Handelstage (7.279 FVG): ein FVG ist typischerweise rund
+# die halbe Kerzenrange gross. Dient als Default-Schwelle fuer "gross" in den Regeln.
+SIZE_REL_MEDIAN = 0.45
+
 # Kleinste Preisaenderung je Symbol -- der Kontrakt bewegt sich AUSSCHLIESSLICH in diesen
 # Schritten. Ein berechneter Preis dazwischen (z.B. ein C.E. bei 29 792,125) existiert am
 # Markt nicht: er kann weder gehandelt noch als Order platziert werden, und ein Backtest,
@@ -97,6 +106,14 @@ class OHLCDefekt(ValueError):
 # Bewegung ohne Gegenbewegung); eine Haeufung ueber einen ganzen Datensatz ist es nicht.
 # Gemessener Realfall 2026-08-13: 71 von 290 Daily-Bars = 24 %.
 DEGEN_MIN_BARS, DEGEN_MAX_ANTEIL = 20, 0.05
+EPS = 1e-9
+
+# Ab diesem Kerzenabstand gilt ein Datensatz als Tagesaufloesung. Nur dort ist die
+# Degenerations-Haeufung ein harter Fehler: ueber 23 Handelsstunden ist open==high &
+# low==close praktisch unmoeglich. Intraday ist es bei duennen Feeds real -- gemessen
+# 2026-08-13: AUDUSD 5m mit 36 % solcher Bars, weil Yahoo dort faktisch nur jede
+# zweite Minute einen Tick liefert (siehe algo/README.md).
+DAILY_SEKUNDEN = 12 * 3600
 
 
 def pruefe_kerzen(kerzen, symbol: str | None = None, quelle: str = "") -> list[str]:
@@ -119,6 +136,7 @@ def pruefe_kerzen(kerzen, symbol: str | None = None, quelle: str = "") -> list[s
         raise OHLCDefekt(f"{quelle}: keine Kerzen")
 
     hart, weich, degeneriert = [], [], 0
+    ts_liste = []
     letzter_ts = None
     for ts, o, h, l, c in kerzen:
         o, h, l, c = float(o), float(h), float(l), float(c)
@@ -127,11 +145,22 @@ def pruefe_kerzen(kerzen, symbol: str | None = None, quelle: str = "") -> list[s
             continue
         if h < l:
             hart.append(f"ts={ts}: high {h} < low {l}")
-        if h < max(o, c) or l > min(o, c):
-            hart.append(f"ts={ts}: Body liegt ausserhalb High/Low (O{o} H{h} L{l} C{c})")
+        # Open ausserhalb High/Low ist immer ein Defekt -- der Open IST der erste
+        # gehandelte Preis der Kerze und damit per Definition innerhalb der Range.
+        if o > h + EPS or o < l - EPS:
+            hart.append(f"ts={ts}: Open liegt ausserhalb High/Low (O{o} H{h} L{l})")
+        # Close ausserhalb dagegen ist bei Daily-Bars real und weit verbreitet: der
+        # Close kommt als Settlement bzw. aus einem anderen Session-Fenster als High/Low.
+        # Gemessen 2026-08-13: 1749 von 84044 Daily-Bars im Bestand (2,1 %), ueber alle
+        # Symbole ausser MNQ. Als harter Fehler behandelt wuerde das jeden kuenftigen
+        # Forex-/ES-/NQ-/YM-Import blockieren.
+        elif c > h + EPS or c < l - EPS:
+            weich.append(f"ts={ts}: Close {c} ausserhalb High/Low ({l}..{h}) "
+                         f"-- Settlement-Effekt oder Feed-Mischung")
         if letzter_ts is not None and ts <= letzter_ts:
             hart.append(f"ts={ts}: Zeitstempel nicht streng steigend (vorher {letzter_ts})")
         letzter_ts = ts
+        ts_liste.append(ts)
         if o == h and l == c and o != c:
             degeneriert += 1
         if symbol and symbol in TICK_SIZE:
@@ -142,8 +171,12 @@ def pruefe_kerzen(kerzen, symbol: str | None = None, quelle: str = "") -> list[s
 
     anteil = degeneriert / len(kerzen)
     if len(kerzen) >= DEGEN_MIN_BARS and anteil > DEGEN_MAX_ANTEIL:
-        hart.append(f"{degeneriert} von {len(kerzen)} Kerzen degeneriert "
-                    f"(open==high & low==close, {anteil:.0%}) -- Feed-Defekt")
+        meldung = (f"{degeneriert} von {len(kerzen)} Kerzen degeneriert "
+                   f"(open==high & low==close, {anteil:.0%})")
+        abstaende = [b - a for a, b in zip(ts_liste, ts_liste[1:])]
+        taeglich = abstaende and statistics.median(abstaende) >= DAILY_SEKUNDEN
+        (hart if taeglich else weich).append(
+            meldung + (" -- Feed-Defekt" if taeglich else " -- duenner Intraday-Feed?"))
     if hart:
         raise OHLCDefekt(f"{quelle or 'OHLC-Daten'}: " + "; ".join(hart[:5])
                          + (f" ... (+{len(hart) - 5} weitere)" if len(hart) > 5 else ""))
@@ -180,9 +213,20 @@ def demo_pruefe_kerzen() -> None:
     einzeln[7] = (7 * 60, 105.0, 105.0, 103.0, 103.0)
     assert pruefe_kerzen(einzeln) == [], "1 degenerierte Kerze von 50 ist kein Defekt"
 
-    viele = [(i * 60, 100 + i, 100 + i, 98 + i, 98 + i) for i in range(50)]
-    for bad, was in ((viele, "Haeufung degenerierter Bars"),
-                     ([(0, 100, 99, 98, 100)], "High unter dem Body"),
+    # Degenerations-Haeufung: hart nur bei Tagesaufloesung. Intraday ist sie bei duennen
+    # Feeds real (AUDUSD 5m: 36 %) und darf keinen Import blockieren.
+    tag = 86400
+    viele_tgl = [(i * tag, 100 + i, 100 + i, 98 + i, 98 + i) for i in range(50)]
+    viele_1m = [(i * 60, 100 + i, 100 + i, 98 + i, 98 + i) for i in range(50)]
+    assert pruefe_kerzen(viele_1m), "Intraday-Haeufung muss als weicher Hinweis kommen"
+
+    # Close ausserhalb High/Low = Settlement-Effekt (weich), Open ausserhalb = Defekt (hart)
+    assert pruefe_kerzen([(0, 100.0, 101.0, 99.0, 98.0)]), "Close unter Low muss gemeldet werden"
+    assert pruefe_kerzen([(0, 100.0, 101.0, 99.0, 102.0)]), "Close ueber High muss gemeldet werden"
+
+    for bad, was in ((viele_tgl, "Haeufung degenerierter Bars (taeglich)"),
+                     ([(0, 102, 101, 99, 100)], "Open ueber dem High"),
+                     ([(0, 98, 101, 99, 100)], "Open unter dem Low"),
                      ([(0, 100, 101, 102, 100)], "Low ueber dem High"),
                      ([(60, 1, 2, 0, 1), (60, 1, 2, 0, 1)], "doppelter Zeitstempel"),
                      ([(60, 1, 2, 0, 1), (30, 1, 2, 0, 1)], "fallender Zeitstempel"),
@@ -574,6 +618,22 @@ def _grade(bars: list[Bar], gaps: list[dict], n: int = 2) -> list[dict]:
     """
     # Ein bereits gebrochener Swing ist keine Liquiditaet mehr -- sonst gilt in einem Trend
     # jedes Folge-FVG als "stark" gegen dasselbe, laengst genommene Level.
+    def size_rel(i: int, size: float) -> float | None:
+        """FVG-Groesse im Verhaeltnis zur lokalen Kerzenrange -- der einzige
+        sessionunabhaengige Groessenmassstab (siehe wiki/synthesis/FVG-Stärke,
+        Session-Volatilität & Confluence (laufend).md: eine 1m-Kerze ist um 9:35 fast
+        dreimal so gross wie um 4:00, das Verhaeltnis FVG÷Kerze aber ueberall ~0,45).
+
+        None, wenn zu wenig Vorlauf da ist -- eine Median-Range aus zwei Kerzen waere
+        keine Volatilitaetsschaetzung, sondern Rauschen. Aufrufer duerfen None nicht als
+        "zu klein" behandeln, sondern als "unbekannt".
+        """
+        prev = [b.rng for b in bars[max(0, i - VOL_LOOKBACK):i] if b.rng > 0]
+        if len(prev) < VOL_MIN_BARS:
+            return None
+        med = statistics.median(prev)
+        return size / med if med > 0 else None
+
     sw = swings(bars, n)
 
     def live(kind):
@@ -612,7 +672,8 @@ def _grade(bars: list[Bar], gaps: list[dict], n: int = 2) -> list[dict]:
             broke = None
         typ = next((e["type"] for b in leg for e in breaks.get(b.t, [])
                     if (e["dir"] == "bullish") == bull), None)
-        g.update(swing=lvl, broke=broke, strong=broke == "close", ms=typ)
+        g.update(swing=lvl, broke=broke, strong=broke == "close", ms=typ,
+                 size_rel=size_rel(i, g["size"]))
     return gaps
 
 
@@ -833,19 +894,31 @@ def day_report(symbol, day, data: dict[str, list[Bar]], tf: str) -> list[str]:
     # -- FVG
     fg = [g for g in fvgs(bars, tick=TICK_SIZE.get(symbol))
           if at(day, 0) <= g["t"] < at(day, 17)]
-    med_rng = med_bar
-    big = [g for g in fg if g["size"] >= med_rng]
-    L.append(f"## Fair Value Gaps ({len(fg)} gesamt, {len(big)} groesser als Median-Kerzenrange)")
+    # "Gross" misst sich an der LOKALEN Kerzenrange (size_rel), nicht an einer Punktzahl und
+    # auch nicht am Tagesmedian: die Volatilitaet schwankt innerhalb des Tages um Faktor 3
+    # (9:30-Open gegen London). Sortiert wird High Probability zuerst -- stark (Displacement
+    # bricht einen intakten Swing per Close) vor gross vor Rest.
+    def gross(g):
+        return g["size_rel"] >= SIZE_REL_MEDIAN if g["size_rel"] is not None \
+            else g["size"] >= med_bar
+
+    big = [g for g in fg if gross(g) or g["strong"]]
+    stark = [g for g in big if g["strong"]]
+    L.append(f"## Fair Value Gaps ({len(fg)} gesamt, {len(big)} relevant, "
+             f"davon {len(stark)} **stark** = Swing-Break)")
     L.append("")
     if big:
-        L.append("| Zeit | Seite | Bereich | CE | Groesse | Status |")
-        L.append("|---|---|---|---|---|---|")
-        for g in sorted(big, key=lambda x: -x["size"])[:20]:
+        L.append("| Zeit | Seite | Bereich | CE | Groesse | x Kerze | Stark | Status |")
+        L.append("|---|---|---|---|---|---|---|---|")
+        for g in sorted(big, key=lambda x: (not x["strong"], -(x["size_rel"] or 0)))[:20]:
             status = ("gefuellt " + g["fill_t"].strftime("%H:%M")) if g["filled"] else \
                      ("CE erreicht" if g["ce_hit"] else "angetippt" if g["touched"] else "**offen**")
+            kraft = ("**ja**" + (f" ({g['ms']})" if g["ms"] else "")) if g["strong"] \
+                else ("nur Docht" if g["broke"] == "wick" else "—")
+            rel = f"{g['size_rel']:.2f}x" if g["size_rel"] is not None else "—"
             L.append(f"| {g['t'].strftime('%H:%M')} | {g['side']} "
                      f"| {fmt(g['lo'])}–{fmt(g['hi'])} | {fmt(g['ce'])} "
-                     f"| {g['size']:.2f} | {status} |")
+                     f"| {g['size']:.2f} | {rel} | {kraft} | {status} |")
     else:
         L.append("_keine nennenswerten_")
     L.append("")
@@ -907,9 +980,11 @@ def day_report(symbol, day, data: dict[str, list[Bar]], tf: str) -> list[str]:
         L.append("_keine_")
     L.append("")
 
-    open_fvgs = [g for g in fg if not g["filled"] and g["size"] >= med_rng]
+    open_fvgs = [g for g in fg if not g["filled"] and (gross(g) or g["strong"])]
+    offen_stark = sum(1 for g in open_fvgs if g["strong"])
     if open_fvgs:
-        L.append(f"Dazu {len(open_fvgs)} ungefuellte FVGs — siehe Tabelle oben.")
+        L.append(f"Dazu {len(open_fvgs)} ungefuellte FVGs ({offen_stark} davon stark) "
+                 f"— siehe Tabelle oben.")
         L.append("")
 
     return L

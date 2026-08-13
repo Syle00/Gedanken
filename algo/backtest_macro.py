@@ -41,7 +41,13 @@ from tools.analyze_ohlc import DATA_DIR, Bar, at, fvgs, load  # noqa: E402
 from backtest_common import write_result  # noqa: E402
 
 MIN_BARS = 15  # von 20 Minuten -- weniger heisst Datenluecke, nicht ruhiger Markt
-MIN_FVG_PTS = 2.0  # kleiner ist auf MNQ-1m Rauschen, kein handelbares PD Array
+# Mindestgroesse eines FVG -- RELATIV zur lokalen Kerzenrange, nicht in Punkten. Eine
+# absolute Schwelle waere hier ein Messfehler: eine 1m-Kerze ist um 9:35 fast dreimal so
+# gross wie um 4:00 (gemessen ueber 27 Tage, siehe wiki/synthesis/FVG-Stärke,
+# Session-Volatilität & Confluence (laufend).md). Mit "2 Punkte" haette derselbe Filter in
+# den NY-Bloecken fast alles durchgelassen und in Asia/London aussortiert -- und genau
+# solche Bloecke werden hier gegeneinander getestet. Median ueber alle FVG: 0,45.
+MIN_FVG_REL = 0.45
 
 
 def blocks(session_day):
@@ -76,7 +82,7 @@ def session_day_from_path(path) -> date:
     return datetime.strptime(path.name.split(" ")[1], "%Y-%m-%d").date()
 
 
-def measure(bars: list[Bar], start, end) -> dict | None:
+def measure(bars: list[Bar], start, end, tages_fvgs=None) -> dict | None:
     win = [b for b in bars if start <= b.t < end]
     if len(win) < MIN_BARS:
         return None
@@ -85,7 +91,15 @@ def measure(bars: list[Bar], start, end) -> dict | None:
     net = abs(win[-1].c - win[0].o)
     # Jannes' These (2026-08-10): das SB-FVG soll optimalerweise IM Macro entstehen.
     # Testbarer Kern davon: haeufen sich 1m-FVGs ueberhaupt in den Macro-Fenstern?
-    fvg = [f for f in fvgs(win) if f["size"] >= MIN_FVG_PTS]
+    #
+    # Die FVGs kommen aus dem GANZEN Tag und werden hier nur zugeschnitten -- nicht aus
+    # dem 20-Minuten-Fenster. Sonst haetten die ersten Kerzen jedes Blocks zu wenig
+    # Vorlauf fuer size_rel (None) und die halbe Messung fiele weg.
+    if tages_fvgs is None:
+        tages_fvgs = fvgs(bars)
+    fvg = [f for f in tages_fvgs
+           if start <= f["t_start"] and f["t_end"] < end
+           and f["size_rel"] is not None and f["size_rel"] >= MIN_FVG_REL]
     return {"range": rng, "netto": net, "dir": net / rng if rng else 0.0,
             "fvgs": len(fvg), "fvg_pts": sum(f["size"] for f in fvg)}
 
@@ -98,9 +112,10 @@ def collect(symbol: str) -> dict[str, list[dict]]:
         if not bars:
             continue
         day = session_day_from_path(path)
+        tages_fvgs = fvgs(bars)     # einmal pro Tag statt 69x je Block
         today = []
         for label, start, end, is_macro in blocks(day):
-            m = measure(bars, start, end)
+            m = measure(bars, start, end, tages_fvgs)
             if m:
                 today.append({"label": label, "macro": is_macro, "day": day, **m})
         for rank, m in enumerate(sorted(today, key=lambda x: -x["range"]), start=1):
@@ -139,7 +154,7 @@ def report(symbol: str) -> dict:
              for k in ("range", "netto", "dir", "fvgs")}
     print("  Mann-Whitney (Macro > Kontrolle), einseitig:  "
           + "  ".join(f"{k} p={v:.4f}" for k, v in pvals.items()))
-    print(f"  FVGs (>= {MIN_FVG_PTS:.0f} Pkt) je Block:  Macro {sum(m['fvgs'] for m in macro)/len(macro):.2f}"
+    print(f"  FVGs (>= {MIN_FVG_REL:.2f} x Kerzenrange) je Block:  Macro {sum(m['fvgs'] for m in macro)/len(macro):.2f}"
           f"   Kontrolle {sum(m['fvgs'] for m in ctrl)/len(ctrl):.2f}"
           f"   | Bloecke ganz ohne FVG: Macro {100*sum(1 for m in macro if not m['fvgs'])/len(macro):.0f} %"
           f"  Kontrolle {100*sum(1 for m in ctrl if not m['fvgs'])/len(ctrl):.0f} %")
@@ -219,9 +234,10 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--symbol", default="MNQ")
-    p.add_argument("--min-fvg", type=float, default=MIN_FVG_PTS,
-                   help="Mindestgroesse eines FVG in Punkten (Default 2.0)")
+    p.add_argument("--min-fvg", type=float, default=MIN_FVG_REL,
+                   help="Mindestgroesse eines FVG als Vielfaches der lokalen "
+                        "Kerzenrange (Default 0.45 = Median)")
     p.add_argument("--selfcheck", action="store_true")
     a = p.parse_args()
-    MIN_FVG_PTS = a.min_fvg
+    MIN_FVG_REL = a.min_fvg
     selfcheck() if a.selfcheck else report(a.symbol)

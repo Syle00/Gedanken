@@ -2313,3 +2313,19 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   wertlos statt schwach profitabel. Die gefilterten Gruppen tragen die Kosten weiterhin.
 - Seiten aktualisiert: wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md
   (Netto-Tabelle + Kostenhinweis), algo/PLAN.md, algo/README.md
+
+## [2026-08-13] lint | Gegenpruefung des OHLC-Gates: es war zu scharf, korrigiert
+- Nutzerauftrag "pruefe gegen". Ergebnis: **das eigene Gate von heute war fehlerhaft** — es haette
+  2 055 von 101 583 Bestandsdateien abgelehnt und damit kuenftige Forex-Importe blockiert.
+- Zwei Regeln waren gemessen falsch: (1) **Close** ausserhalb High/Low ist real (1 749 von 84 044
+  Daily-Bars, Settlement bzw. anderes Session-Fenster) und jetzt weich — nur **Open** ausserhalb
+  bleibt hart (281 Bars, MNQ mit 0 nicht betroffen). (2) Degenerierte Bars sind intraday real
+  (AUDUSD 5m: 36 %) und nur bei Tagesaufloesung ein Defekt. Danach 281 statt 2 055 Ablehnungen,
+  Realfall weiter gefangen.
+- **Neue Datenluecke gefunden**: 08.07.2026 fehlen 379 MNQ-1m-Kerzen (07.07. 18:00 – 08.07. 00:08).
+  Die 5m/15m/1h desselben Tages enthalten die Abendsession vollstaendig — also Datenverlust, keine
+  Illiquiditaet. Per yfinance nicht mehr nachladbar (30-Tage-Grenze), nur per TradingView-Export.
+- **Zirkelschluss korrigiert**: die gestrige Aussage "1 833 Dateien, 0 abweichend" war gegen
+  yfinance geprueft, obwohl die Dateien daher stammen. Gegen die unabhaengige TradingView-Quelle
+  nachgeprueft — Ergebnis haelt, aber der Beweis stammt jetzt aus einer zweiten Quelle.
+- Details: algo/PLAN.md, Eintrag "Gegenpruefung des eigenen Gates".

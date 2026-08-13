@@ -30,8 +30,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from analyze_ohlc import Bar, at, fvgs, untouched_levels, CFG  # noqa: E402
+from analyze_ohlc import (Bar, at, fvgs, untouched_levels,  # noqa: E402
+                          CFG, SIZE_REL_MEDIAN)
 from pnl import round_to_tick  # noqa: E402
+
+# Kerzen VOR dem Silver-Bullet-Fenster, die fvgs() als Kontext bekommt (Volatilitaet
+# fuer size_rel, Swings fuer die Stark-Einstufung). Begrenzt, weil plan_trade je Kerze
+# laeuft -- die volle Historie waere O(n^2) ueber einen Backtest.
+CONTEXT_BARS = 60
 
 # (Name, Start-Stunde, End-Stunde) in NY-Zeit, siehe wiki/models/Silver Bullet Model.md
 WINDOWS = [
@@ -60,14 +66,38 @@ def _active_window(day: date, when: datetime) -> tuple[str, datetime] | None:
 
 
 def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
-                min_target_points: float = 10.0, symbol: str = "MNQ") -> TradeSetup | None:
+                min_target_points: float = 10.0, symbol: str = "MNQ",
+                require_strong: bool = False,
+                min_size_rel: float | None = None) -> TradeSetup | None:
     """Silver-Bullet-Setup zum Zeitpunkt `when`, oder None. Nur bars[t<=when] werden benutzt.
 
     `stop_buffer_pct` (Anteil der FVG-Groesse als SL-Puffer) ist optimierbar/testbar --
     siehe algo/backtest_walkforward.py (Parameter-Sensitivitaet, PLAN.md "Stop-Puffer
     vergroessern/testen"). `min_target_points`: Setup wird nur genommen, wenn Entry->Target
     mindestens so viele Punkte Potenzial hat (Nutzerregel, siehe wiki/models/Silver Bullet
-    Model.md)."""
+    Model.md).
+
+    `require_strong` / `min_size_rel` setzen die High-Probability-Bedingung um (Nutzerregel
+    2026-08-13): nur ein FVG, dessen Displacement einen bestaetigten, noch intakten Swing
+    per Close bricht (-> MSS/BOS) UND das relativ zur lokalen Kerzenrange nicht unter dem
+    Median liegt. `min_size_rel` ist bewusst *relativ*: eine 1m-Kerze ist um 9:35 fast
+    dreimal so gross wie um 4:00, eine absolute Punktschwelle waere sessionabhaengig
+    falsch.
+
+    ⚠️ **Beide stehen bewusst per Default AUS.** Gemessen am 13.08.2026 ueber
+    `backtest_bt.py` verschlechtern sie dieses Setup deutlich, statt es zu verbessern:
+
+        require_strong=False, min_size_rel=None   16 Trades   +2.194 USD   (Baseline)
+        require_strong=True,  min_size_rel=None   10 Trades   -9.790 USD
+        require_strong=True,  min_size_rel=0,45   11 Trades   -9.031 USD
+        require_strong=False, min_size_rel=0,45   13 Trades   -6.281 USD
+
+    Vermutete Ursache: das *1st Presented* FVG entsteht per Konstruktion frueh im Fenster,
+    oft noch BEVOR Struktur genommen wird. Der Swing-Break-Filter waehlt damit systematisch
+    spaetere, schon ausgedehnte Setups (Haltedauer steigt von 64 auf ~200 Bars). Bei n=10-16
+    ist keine der Varianten von Rauschen unterscheidbar -- die Filter bleiben deshalb
+    verfuegbar und getestet, aber nicht aktiv, bis mehr Daten vorliegen. Siehe
+    wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md."""
     win = _active_window(when.date(), when)
     if win is None:
         return None
@@ -86,13 +116,32 @@ def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
     # Wichtig (Jannes, 2026-08-11): ein randueberlappendes FVG ist NICHT ungueltig -- es
     # bleibt ein normales FVG/PD Array. Es ist nur kein *1st Presented* FVG, und genau
     # darauf baut das Silver-Bullet-Setup hier auf.
-    win_bars = [b for b in hist if b.t >= win_start]
+    #
+    # Umgesetzt ueber `t_start` statt ueber einen harten Schnitt bei win_start: mitgegeben
+    # werden zusaetzlich CONTEXT_BARS Kerzen VOR dem Fenster, damit fvgs() die lokale
+    # Volatilitaet (size_rel) und die Swings ueberhaupt schaetzen kann -- ein bei win_start
+    # abgeschnittener Datensatz liefert fuer das erste FVG size_rel=None. Der Kontext ist
+    # bewusst begrenzt: plan_trade laeuft je Kerze, die volle Historie waere O(n^2).
+    first = next((k for k, b in enumerate(hist) if b.t >= win_start), None)
+    if first is None:
+        return None
+    win_bars = hist[max(0, first - CONTEXT_BARS):]
     if len(win_bars) < 3:
         return None
-    window_fvgs = fvgs(win_bars, tick=symbol)
+    window_fvgs = [g for g in fvgs(win_bars, tick=symbol) if g["t_start"] >= win_start]
     if not window_fvgs:
         return None
-    fvg = window_fvgs[0]  # erstes FVG im Fenster
+
+    # Das Silver-Bullet-Setup baut auf dem *1st Presented* FVG auf -- also weiter das erste
+    # im Fenster, nicht das erste passende. Taugt es nichts, gibt es kein Setup, statt auf
+    # ein spaeteres auszuweichen.
+    fvg = window_fvgs[0]
+    if require_strong and not fvg["strong"]:
+        return None
+    # size_rel None = unbekannt (zu wenig Vorlauf), das darf kein Ausschluss sein.
+    if min_size_rel is not None and fvg["size_rel"] is not None \
+            and fvg["size_rel"] < min_size_rel:
+        return None
 
     side = "long" if fvg["side"] == "bullish" else "short"
     entry = fvg["ce"]
@@ -147,7 +196,11 @@ def demo() -> None:
         bar(10, 10, 100, 102, 99, 101),      # c: l=99 > a.h=98 -> bullish FVG bei 10:05
     ]
 
-    setup = plan_trade(bars, at(day, 10, 10))
+    # Geometrie (Entry/Stop/Target) wird ohne die High-Probability-Filter geprueft -- die
+    # haben eine eigene Sektion weiter unten.
+    roh = dict(require_strong=False, min_size_rel=None)
+
+    setup = plan_trade(bars, at(day, 10, 10), **roh)
     assert setup is not None
     assert setup.window == "NY AM Silver Bullet"
     assert setup.side == "long"
@@ -155,8 +208,29 @@ def demo() -> None:
     assert setup.stop < 98
     assert setup.target == 110
 
-    assert plan_trade(bars, at(day, 9, 0)) is None  # ausserhalb jedes Fensters
-    assert plan_trade(bars, at(day, 14, 30)) is None  # PM-Fenster, aber kein FVG darin
+    assert plan_trade(bars, at(day, 9, 0), **roh) is None  # ausserhalb jedes Fensters
+    assert plan_trade(bars, at(day, 14, 30), **roh) is None  # PM-Fenster, kein FVG darin
+
+    # High-Probability-Filter (2026-08-13, per Default AUS -- Begruendung im Docstring):
+    # dasselbe FVG bricht keinen Swing, mit require_strong darf daraus kein Setup werden.
+    assert plan_trade(bars, at(day, 10, 10), require_strong=True) is None, \
+        "schwaches FVG (kein Swing-Break) darf require_strong nicht passieren"
+
+    # Dieselben Bars, aber mit einem Swing High bei 9:45 (h=99), das die Displacement-Kerze
+    # 10:05 per Close (100) nimmt -> starkes FVG, Setup kommt zustande. Entry/Stop/Target
+    # bleiben unveraendert, der Filter aendert nur das Ob.
+    stark = list(bars)
+    stark[5] = bar(9, 45, 96.5, 99, 96, 97)
+    s_stark = plan_trade(stark, at(day, 10, 10), require_strong=True)
+    assert s_stark is not None, "FVG mit Swing-Break muss den Filter passieren"
+    assert (s_stark.entry, s_stark.target) == (setup.entry, setup.target)
+
+    # Groessenfilter mit unbekannter Groesse: in diesem Mini-Datensatz liegen vor dem FVG
+    # nur 9 Kerzen, size_rel ist also None. None heisst "unbekannt", nicht "zu klein" --
+    # selbst eine absurd hohe Schwelle darf das Setup dann NICHT wegfiltern.
+    assert plan_trade(stark, at(day, 10, 10), require_strong=True,
+                      min_size_rel=99) is not None, \
+        "size_rel=None darf nicht als 'zu klein' behandelt werden"
 
     # Grenzfall Session-Rand: ein FVG, dessen MITTLERE Kerze exakt auf den Fensterstart
     # (10:00) faellt, beginnt eine Kerze davor (9:55) und liegt damit nicht komplett im
@@ -177,7 +251,7 @@ def demo() -> None:
         bar(10, 15, 102, 106, 101.5, 105),    # b2
         bar(10, 20, 105, 108, 104, 107),      # c2: l=104 > 103 -> erstes gueltiges FVG
     ]
-    s2 = plan_trade(rand, at(day, 10, 20))
+    s2 = plan_trade(rand, at(day, 10, 20), **roh)
     assert s2 is not None
     assert s2.entry == (103 + 104) / 2, (
         f"randueberlappendes FVG genommen (C.E {s2.entry}) statt des innenliegenden 103.5")

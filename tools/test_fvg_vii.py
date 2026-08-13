@@ -130,6 +130,35 @@ def test_starkes_fvg_braucht_swing_break():
     assert gap(29999.00)["swing"] == 29999.00
 
 
+def test_size_rel_misst_gegen_die_lokale_kerzenrange():
+    """`size_rel` = FVG-Groesse / Median-Range der Kerzen davor. Zwei identische FVGs in
+    unterschiedlicher Volatilitaet muessen unterschiedliche size_rel bekommen -- genau das
+    macht absolute Punktschwellen unbrauchbar. Zu wenig Vorlauf -> None statt Scheinwert."""
+    from datetime import timedelta
+    from analyze_ohlc import VOL_MIN_BARS
+
+    def seq(ruhe_range):
+        rows = [(100, 100 + ruhe_range, 100, 100)] * 12          # Vorlauf mit fester Range
+        rows += [(100, 101, 99, 100), (101, 110, 100, 109), (109, 112, 108, 111)]
+        return [Bar(t=T + timedelta(minutes=k), o=o, h=h, l=lo, c=c)
+                for k, (o, h, lo, c) in enumerate(rows)]
+
+    ruhig = next(g for g in fvgs(seq(2)) if g["i"] == 13)
+    wild = next(g for g in fvgs(seq(20)) if g["i"] == 13)
+    assert ruhig["size"] == wild["size"], "gleiche FVG-Groesse als Ausgangspunkt"
+    assert ruhig["size_rel"] > wild["size_rel"], (ruhig["size_rel"], wild["size_rel"])
+    assert abs(ruhig["size_rel"] - ruhig["size"] / 2) < 1e-9    # Median-Range = 2
+
+    # Weniger als VOL_MIN_BARS Vorlaufkerzen -> None, keine Scheingenauigkeit.
+    # Die Displacement-Kerze landet bei Index VOL_MIN_BARS-1, hat also genau eine Kerze
+    # zu wenig Vorlauf.
+    kurz = [bar(100, 101, 99, 100)] * (VOL_MIN_BARS - 2)
+    kurz += [bar(101, 110, 100, 109), bar(109, 112, 108, 111)]
+    g = fvgs(kurz)
+    assert g and g[0]["i"] == VOL_MIN_BARS - 2, g
+    assert g[0]["size_rel"] is None, g
+
+
 def test_vii_misst_koerper_gegen_koerper():
     """viis(): dieselbe Gegenkerze wie oben -- die Luecke geht von der Koerper-Oberkante
     (29877.25), nicht vom Close (29877.00)."""
@@ -147,5 +176,6 @@ if __name__ == "__main__":
     test_gegenkerze_3_hat_keine_vii()
     test_zeitstempel_ist_die_displacement_kerze()
     test_starkes_fvg_braucht_swing_break()
+    test_size_rel_misst_gegen_die_lokale_kerzenrange()
     test_vii_misst_koerper_gegen_koerper()
     print("OK")

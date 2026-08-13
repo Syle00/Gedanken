@@ -74,6 +74,10 @@ class SilverBulletStrategy(Strategy):
     # Klassen-Attribut statt Konstante, damit bt.optimize() es variieren kann
     # (siehe algo/backtest_walkforward.py).
     stop_buffer_pct = 0.1
+    # High-Probability-Filter aus rules.py -- als Klassenattribute, damit
+    # Vorher/Nachher ohne Codeaenderung vergleichbar bleibt (2026-08-13).
+    require_strong = False
+    min_size_rel = None  # Defaults = Baseline; siehe rules.plan_trade-Docstring
     max_risk_pct = 0.01        # Nutzerregel, siehe wiki/concepts/Risikomanagement (1% pro Trade).md
     point_value = POINT_VALUE["MNQ"]  # main() ueberschreibt das passend zum CLI-Symbol
     leverage = 20               # muss zu Backtest(margin=...) in main() passen (0.05 -> 20x),
@@ -108,7 +112,9 @@ class SilverBulletStrategy(Strategy):
                 o.cancel()
             return  # Drawdown-Kill-Switch aktiv -- kein neuer Trade, bis neues Equity-Hoch
         when = self.data.index[-1]
-        setup = plan_trade(self._hist, when, stop_buffer_pct=self.stop_buffer_pct)
+        setup = plan_trade(self._hist, when, stop_buffer_pct=self.stop_buffer_pct,
+                           require_strong=self.require_strong,
+                           min_size_rel=self.min_size_rel)
         if setup is None:
             return
         key = (setup.t.date(), setup.window)

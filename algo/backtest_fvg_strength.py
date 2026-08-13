@@ -75,11 +75,11 @@ def session_of(t) -> str:
 
 
 def local_vol(bars: list[Bar], i: int) -> float:
-    """Median-Kerzenrange der `VOL_LOOKBACK` Kerzen VOR dem FVG. Der Massstab, an dem
-    sich 'gross' misst -- absolute Punkte sind sessionabhaengig wertlos (T1)."""
-    prev = bars[max(0, i - VOL_LOOKBACK):i]
-    rng = [b.rng for b in prev if b.rng > 0]
-    return statistics.median(rng) if rng else 0.0
+    """Median-Kerzenrange der `VOL_LOOKBACK` Kerzen VOR dem FVG -- nur noch fuer die
+    Session-Tabelle (T1) gebraucht; das Verhaeltnis dazu liefert `fvgs()` selbst als
+    `size_rel`."""
+    prev = [b.rng for b in bars[max(0, i - VOL_LOOKBACK):i] if b.rng > 0]
+    return statistics.median(prev) if prev else 0.0
 
 
 def higher_tf_levels(day_dir: Path) -> list[tuple]:
@@ -141,9 +141,9 @@ def collect() -> list[dict]:
 
         for g in fvgs(bars, tick=SYMBOL):
             i = g["i"]
-            vol = local_vol(bars, i)
-            if vol <= 0:
+            if g["size_rel"] is None:      # zu wenig Vorlauf fuer eine Vola-Schaetzung
                 continue
+            vol = local_vol(bars, i)
             # nur Arrays, die vor diesem FVG fertig waren -- sonst Lookahead
             hi_levels = [p for fertig, lv in htf if fertig < g["t_end"] for p in lv]
             rows.append({
@@ -152,7 +152,7 @@ def collect() -> list[dict]:
                 "session": session_of(g["t"]),
                 "side": g["side"],
                 "size": g["size"],
-                "size_rel": g["size"] / vol,
+                "size_rel": g["size_rel"],
                 "vol": vol,
                 "strong": bool(g["strong"]),
                 "ms": g["ms"],

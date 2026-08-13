@@ -181,6 +181,7 @@
 <li><a href="#2026-08-13-synthesis-fvg-starke-session-volatilitat-groe-confluence">[2026-08-13] synthesis | FVG-Stärke: Session-Volatilität, Größe, Confluence</a></li>
 <li><a href="#2026-08-13-setup-ohlc-nulltoleranz-gate-vor-allen-schreibpfaden-nach-rawmarktdaten">[2026-08-13] setup | OHLC-Nulltoleranz-Gate vor allen Schreibpfaden nach raw/marktdaten/</a></li>
 <li><a href="#2026-08-13-lint-code-review-der-fvg-arbeit-transaktionskosten-fehlten">[2026-08-13] lint | Code-Review der FVG-Arbeit: Transaktionskosten fehlten</a></li>
+<li><a href="#2026-08-13-lint-gegenpruefung-des-ohlc-gates-es-war-zu-scharf-korrigiert">[2026-08-13] lint | Gegenpruefung des OHLC-Gates: es war zu scharf, korrigiert</a></li>
 </ul>
 </div>
 </details>
@@ -2626,6 +2627,23 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   wertlos statt schwach profitabel. Die gefilterten Gruppen tragen die Kosten weiterhin.</li>
 <li>Seiten aktualisiert: wiki/synthesis/FVG-Stärke, Session-Volatilität &amp; Confluence (laufend).md
   (Netto-Tabelle + Kostenhinweis), algo/PLAN.md, algo/README.md</li>
+</ul>
+<h2 id="2026-08-13-lint-gegenpruefung-des-ohlc-gates-es-war-zu-scharf-korrigiert">[2026-08-13] lint | Gegenpruefung des OHLC-Gates: es war zu scharf, korrigiert</h2>
+<ul>
+<li>Nutzerauftrag "pruefe gegen". Ergebnis: <strong>das eigene Gate von heute war fehlerhaft</strong> — es haette
+  2 055 von 101 583 Bestandsdateien abgelehnt und damit kuenftige Forex-Importe blockiert.</li>
+<li>Zwei Regeln waren gemessen falsch: (1) <strong>Close</strong> ausserhalb High/Low ist real (1 749 von 84 044
+  Daily-Bars, Settlement bzw. anderes Session-Fenster) und jetzt weich — nur <strong>Open</strong> ausserhalb
+  bleibt hart (281 Bars, MNQ mit 0 nicht betroffen). (2) Degenerierte Bars sind intraday real
+  (AUDUSD 5m: 36 %) und nur bei Tagesaufloesung ein Defekt. Danach 281 statt 2 055 Ablehnungen,
+  Realfall weiter gefangen.</li>
+<li><strong>Neue Datenluecke gefunden</strong>: 08.07.2026 fehlen 379 MNQ-1m-Kerzen (07.07. 18:00 – 08.07. 00:08).
+  Die 5m/15m/1h desselben Tages enthalten die Abendsession vollstaendig — also Datenverlust, keine
+  Illiquiditaet. Per yfinance nicht mehr nachladbar (30-Tage-Grenze), nur per TradingView-Export.</li>
+<li><strong>Zirkelschluss korrigiert</strong>: die gestrige Aussage "1 833 Dateien, 0 abweichend" war gegen
+  yfinance geprueft, obwohl die Dateien daher stammen. Gegen die unabhaengige TradingView-Quelle
+  nachgeprueft — Ergebnis haelt, aber der Beweis stammt jetzt aus einer zweiten Quelle.</li>
+<li>Details: algo/PLAN.md, Eintrag "Gegenpruefung des eigenen Gates".</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

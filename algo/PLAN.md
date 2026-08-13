@@ -501,3 +501,37 @@ sie aber nicht. Ebenfalls offen: `pruefe_gegen_referenz` ist gebaut, aber noch i
 Abruf-Workflow als Pflichtschritt eingehaengt — bisher manuell aufzurufen.
 | 2026-08-13 | **Vier neue FVG-Staerke-Thesen geloggt und gebacktestet** (neues Skript `algo/backtest_fvg_strength.py`, 27 MNQ-1m-Handelstage, 7.279 FVG, 6.851 simulierte Trades; Regel: Limit am C.E., Stop ferne Kante, Ziel 2R, echter Punktwert $2, Breakeven 33,3 %). Thesen: (T1) FVG-Groesse haengt an Session/Vola, 9:30-Open >> London, NY PM zurueck Richtung London; (T2) starkes FVG bricht Swing/MSS; (T3) gross + MSS = High Probability; (T4) Ueberlappung mit Higher-TF-PD-Array-Qs bzw. NDOG/NWOG hebt die Wahrscheinlichkeit. **T1 klar bestaetigt:** NY Open Median-FVG 13,50 Pkt / Median-1m-Kerze 29,38 gegen London 4,75 / 10,12 — Faktor 2,8 bzw. 2,9; NY PM 5,75 / 13,00, also zurueck Richtung London, aber 20-28 % darueber (Gleichsetzung leicht untertrieben). **Kernbefund:** das Verhaeltnis FVG-Groesse ÷ lokale Kerzenrange liegt in *jeder* Session bei 0,44-0,48 (nur NY AM 0,32) — ein FVG ist immer rund die halbe Kerzenrange gross, es aendert sich nur der Massstab. Folge: Groessen-Schwellwerte gehoeren auf `size_rel = size / Median-Range(30 Kerzen)`, nie auf feste Punkte. **T2/T3 mit hartem Vorbehalt:** roh sehen grosse FVG stark besser aus (Win 45,6 % / 4,25 $ gegen 31,5 % / 1,26 $ bei normalen), aber `dubious_pct` (Stop UND Ziel in derselben 1m-Kerze, konservativ als Verlust gewertet) ist bei kleinen FVG **55,9 %** gegen 27,3 % bei grossen. Rechnet man die strittigen Faelle heraus, **dreht die Rangfolge** (71,5 % gegen 62,8 %) — auf Minutendaten ist der Groesseneffekt **nicht entscheidbar**. Sauber vergleichbar sind nur Gruppen mit aehnlicher dubious-Quote: `nur gross` (27,3 %) gegen `stark + gross` (26,5 %) ergibt 45,6 → 45,8 % bzw. 62,8 → 62,3 % — **der Swing-Break bringt bei kontrollierter Groesse nichts Messbares, T2 ist in dieser Form nicht belegt**, die Groesse erklaert den Effekt. Belastbar bleibt: kleine FVG sind auf 1m nicht sinnvoll *ausfuehrbar* (Stop und Ziel in einer Kerze), das ist eine Ausfuehrbarkeits-, keine Wahrscheinlichkeitsfrage. **T4 gespalten:** `stark + gross + HTF-Qs` 47,9 % / **6,33 $ je Trade** (bester Wert der Tabelle) gegen `stark + gross` 45,8 % / 4,63 $ bei nahezu gleicher dubious-Quote — haelt als kleiner, konsistenter Zusatzeffekt. `stark + gross + NDOG` liegt mit 44,4 % / 55,2 % auf **beiden** Metriken darunter — **kein Beleg fuer die NDOG-Confluence**, n=144 aber auch kein Gegenbeweis. Aufloesen laesst sich der Messvorbehalt erst mit Ausfuehrungsdaten feiner als 1m (Sekunden/Ticks, kommt mit IBKR, Roadmap-Punkt 4). Reuse: `find_days()` in `backtest_common.py` aus `find_1d_days()` generalisiert. Ergebnisseite `wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md`, Rohwerte `algo/results/fvg_strength.json`. `selfcheck.py` jetzt 18/18 (neuer Selbstcheck fuer die Trade-Simulation inkl. Stop-und-Ziel-in-einer-Kerze). |
 | 2026-08-13 | **Code-Review der eigenen Tagesarbeit: vier Funde, alle behoben.** (1) **Korrektheit, Zahlen-Auswirkung:** `backtest_fvg_strength.py` rechnete **ohne Transaktionskosten**. Neu `COMMISSION_RT = 1.24` USD je Round Turn (IBKR-Groessenordnung MNQ inkl. Exchange Fees), Report weist Brutto *und* Netto aus. Auswirkung ist entscheidend fuer die Aussage: Gruppe "normal" faellt von 1,26 auf **0,02 $/Trade** (brutto 4.556 $, netto **87 $** ueber 3.604 Trades) — nach Kosten wertlos statt schwach profitabel; "alle" 1,94 → 0,70; "stark + gross" 4,63 → 3,39; "stark + gross + HTF-Qs" 6,33 → **5,09** (bleibt bester Wert). Slippage bewusst mit 0 modelliert (Limit-Entry) und als Grenze dokumentiert. (2) **Effizienz:** `higher_tf_levels()` lud und rechnete die 15m-/1h-CSVs fuer *jedes* 1m-FVG neu (224x pro Tag statt 1x) — dieselbe Fehlerform wie der `extend_hist()`-Fund vom 2026-08-11. Jetzt einmal pro Tagesordner, Lookahead-Filter (`t_end < FVG-t_end`) wandert in die Auswertung. **Laufzeit 11 s → 3,0 s** ueber alle 27 Tage. (3) **Stilles Wegfallen behoben:** 426 FVG erreichten nie den C.E. (kein Entry) und 2 Trades waren am Datenende offen — beide Zahlen fielen vorher wortlos aus der Trefferquote, jetzt als `n_ohne_entry`/`n_offen_am_datenende` im Report. (4) **Doppelte Berechnung:** `analyze_ohlc._grade()` rief `swings()` zweimal auf, jetzt einmal gehoben. Gegengeprueft und *nicht* beanstandet: Tagesdateien ueberlappen nicht (D-1 18:00 → D 17:00, kein Doppelzaehlen von FVGs), Entry-Simulation startet korrekt bei `bars[i+2]` (kein Fill auf der Bestaetigungskerze), `cand[-1]` liefert tatsaechlich den juengsten Swing, Fill-Reihenfolge bleibt konservativ. Alle Checks nach den Fixes gruen: `test_fvg_vii.py` OK, `selfcheck.py` 18/18, 13/13 Referenzboxen. Syntheseseite mit den Netto-Zahlen aktualisiert. |
+
+### [2026-08-13] Gegenpruefung des eigenen Gates — es war zu scharf
+
+**Anlass:** Nutzerauftrag "pruefe gegen" nach dem Einbau des OHLC-Gates. Die eigenen Behauptungen
+adversarisch geprueft statt bestaetigt — drei waren ungedeckt.
+
+**Fund 1 (eigener Fehler, behoben).** Das Gate haette **2 055 von 101 583** Bestandsdateien
+abgelehnt, also jeden kuenftigen Forex-Import blockiert. Zwei Regeln waren gemessen falsch:
+
+| Regel alt | Messung am Bestand | Regel neu |
+|---|---|---|
+| Body (Open *oder* Close) ausserhalb High/Low = hart | 1 749 von 84 044 Daily-Bars (2,1 %) haben einen **Close** ausserhalb — Settlement bzw. anderes Session-Fenster, alle Symbole ausser MNQ | **Close** ausserhalb = weich, **Open** ausserhalb = hart (281 Bars, 0,33 %, MNQ = 0) |
+| Degenerations-Haeufung >5 % = hart, unabhaengig vom TF | AUDUSD 5m hat 36 % (Yahoo liefert dort faktisch 2m-Ticks) | hart nur bei Tagesaufloesung (Median-Kerzenabstand >=12 h), intraday weich |
+
+Nach der Korrektur: 281 Ablehnungen statt 2 055, der Realfall (71 degenerierte Daily-Bars) wird
+weiterhin gefangen. Regressionstest um beide Richtungen erweitert.
+
+**Fund 2 (Datenluecke, offen).** Timeframe-Kreuzpruefung 1m gegen 5m ueber den ganzen Bestand:
+**08.07.2026 fehlen 379 1m-Kerzen** (07.07. 18:00 bis 08.07. 00:08). Dass real gehandelt wurde,
+belegen die 5m/15m/1h-Dateien desselben Tages, die die Abendsession vollstaendig enthalten — es ist
+ein Datenverlust, keine Illiquiditaet. **Per yfinance nicht mehr nachladbar** (30-Tage-Grenze
+verifiziert, Yahoo-Fehlermeldung), nur ueber einen TradingView-Export. Zwei weitere Treffer der
+Kreuzpruefung (31.07., 03.08.) sind kein Verlust, sondern der bekannte TradingView-Ueberhang
+(5m-Export enthaelt mehrere Tage).
+
+**Fund 3 (Methodenfehler, korrigiert).** Die Behauptung "1 833 Dateien, 0 abweichend" war gegen
+yfinance geprueft — und die Dateien stammen groesstenteils aus yfinance. Zirkelschluss. Gegen die
+unabhaengige TradingView-Quelle (1d gegen aggregierte 1m desselben Tages) blieben von 9 pruefbaren
+Tagen 2 auffaellig; beide loesten sich als unvollstaendige 1m-Dateien auf (Start 18:10 statt 18:00),
+nicht als 1d-Fehler. Die 1d-Daten sind bestaetigt sauber, aber der Beweis stammt jetzt aus einer
+zweiten Quelle statt aus derselben.
+
+**Methodische Lehre:** Ein Gate, das nur gegen die eine Datei getestet wird, die es fangen soll,
+ist nicht getestet — es braucht den Lauf gegen den kompletten Bestand, um Fehlalarme zu finden.
