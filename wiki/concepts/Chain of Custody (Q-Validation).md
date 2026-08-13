@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-10
+updated: 2026-08-13
 sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[Chain Of Custody Of Price With Daily Inefficiencies (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]"]
 ---
 
@@ -89,6 +89,13 @@ NDOG/NWOG, FVG, OB, BISI/SIBI):
 > relevante Range dazu erstellen und prüfen, **welche Level Preis bereits respektiert hat**
 > (Reaktion/Close/Wick-Reject an dem Level) — mit besonderem Fokus auf das **C.E (0,5-Level, Mean
 > Threshold)**, da ein gehaltenes C.E laut obiger Regel die PD Array als stark validiert.
+>
+> **Erweiterung (2026-08-13) — feste Auslöserphrase**: „Gebe mir die **Daily Premium Wick**" (oder
+> jede Nachfrage nach der Premium Wick) bedeutet *immer* die vollständige Ausgabe **Qs + Os + Hs
+> inkl. C.E**, ohne Rückfrage und ohne dass der Nutzer die Kürzel nennen muss. Range dafür ist die
+> obere Wick der Daily-Kerze (Body-High → Daily High), Level auf 0,25 gerundet
+> ([[Kontraktspezifikation MNQ (Tick, Punktwert)]]), plus Vermerk, welche Level der Preis bereits
+> respektiert hat.
 
 ## Verwandt
 

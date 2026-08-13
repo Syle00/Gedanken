@@ -7,8 +7,15 @@ sources: ["[[Enigma FVG Projections (Source)]]", "[[Alltime Highs und TGIF (Sour
 
 # Volume Imbalance (VII)
 
-Die Lücke zwischen dem **Close** einer Candle und dem **Open** der nächsten — die Körper berühren
-sich nicht, obwohl die Wicks überlappen. Im Vault durchgehend als **VII** abgekürzt.
+Die Lücke zwischen den **Körpern** zweier aufeinanderfolgender Candles — die Körper berühren sich
+nicht, obwohl die Wicks überlappen. Im Vault durchgehend als **VII** abgekürzt.
+
+> **Präzisierung (2026-08-13):** Die verbreitete Formulierung „Close der einen gegen Open der
+> nächsten" trifft nur zu, wenn beide Candles in Richtung des Moves schließen. Gemessen wird
+> **Körperkante gegen Körperkante** — `max(o,c)` bzw. `min(o,c)`. Bei einer **Gegenkerze** liegt der
+> Close *innerhalb* des Körpers, und die Close/Open-Variante meldet dann eine Lücke, die der
+> Kerzenkörper selbst schon abgedeckt hat. Kontrolliert an 13 vom Nutzer eingezeichneten
+> MNQ-Boxen (13.08.2026); Regressionstest `tools/test_fvg_vii.py`.
 
 Zwei Rollen, beide wichtig:
 

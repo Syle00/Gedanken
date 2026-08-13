@@ -607,3 +607,24 @@ Backtests -- Entry schwerer zu fuellen (long ab, short auf), Stop und Ziel weite
 **Bekannte Grenze:** `fvgs()`/`org_gap()` runden nur, wenn `tick` uebergeben wird. Ohne den
 Parameter bleibt der rohe Mittelwert stehen -- Absicht, damit das Modul symbolagnostisch
 bleibt (Forex hat 0,00001), aber es heisst: neue Aufrufer muessen `tick` mitgeben.
+
+## FVG-/VII-Grenzen (`analyze_ohlc.fvgs`, `analyze_ohlc.viis`)
+
+**Was:** Die Aussenkanten eines FVG kommen aus der **VII** (Koerperluecke zwischen zwei
+Nachbarkerzen), falls eine vorliegt, sonst aus dem Wick. Siehe
+`wiki/concepts/Fair Value Gap (FVG).md`.
+
+**Wo:** Beide Funktionen bestimmen die Koerperkante ueber `max(o,c)` / `min(o,c)`, nie ueber ein
+festes Feld. Bullish: `lo = max(o₁,c₁)` falls `min(o₂,c₂)` darueber liegt, sonst `high₁`;
+`hi = min(o₃,c₃)` falls es ueber `max(o₂,c₂)` liegt, sonst `low₃`. Bearish gespiegelt.
+
+**Warum (Bugfix 2026-08-13):** Vorher standen dort `a.c` / `m.o` / `m.c` / `c.o` fest verdrahtet
+-- korrekt nur, solange jede der drei Kerzen in Richtung des Moves schliesst. Bei einer
+**Gegenkerze** tauschen Open und Close die Rollen: die Grenze landete mitten im Kerzenkoerper und
+das VII-Kriterium meldete eine Luecke, die der Koerper selbst schon gehandelt hatte. Gemessene
+Auswirkung am 13.08.2026: 1m-FVG 12:26 um 4,5 Punkte zu hoch (30.184,50 statt 30.180,00), 5m-FVG
+12:05 um 22 Punkte zu gross und als "unberuehrt" statt "gefuellt 12:15" gemeldet.
+
+**Regressionstest:** `python tools/test_fvg_vii.py` -- enthaelt zwei Faelle aus Jannes' eigenen
+TradingView-Boxen (13.08.2026 00:01-00:03 und 12:24-12:26), die genau die Gegenkerzen-Faelle
+abdecken.

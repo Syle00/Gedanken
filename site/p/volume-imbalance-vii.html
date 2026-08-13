@@ -190,8 +190,16 @@
 </div>
 </details>
   <div class="content"><h1 id="volume-imbalance-vii">Volume Imbalance (VII)</h1>
-<p>Die Lücke zwischen dem <strong>Close</strong> einer Candle und dem <strong>Open</strong> der nächsten — die Körper berühren
-sich nicht, obwohl die Wicks überlappen. Im Vault durchgehend als <strong>VII</strong> abgekürzt.</p>
+<p>Die Lücke zwischen den <strong>Körpern</strong> zweier aufeinanderfolgender Candles — die Körper berühren sich
+nicht, obwohl die Wicks überlappen. Im Vault durchgehend als <strong>VII</strong> abgekürzt.</p>
+<blockquote>
+<p><strong>Präzisierung (2026-08-13):</strong> Die verbreitete Formulierung „Close der einen gegen Open der
+nächsten" trifft nur zu, wenn beide Candles in Richtung des Moves schließen. Gemessen wird
+<strong>Körperkante gegen Körperkante</strong> — <code>max(o,c)</code> bzw. <code>min(o,c)</code>. Bei einer <strong>Gegenkerze</strong> liegt der
+Close <em>innerhalb</em> des Körpers, und die Close/Open-Variante meldet dann eine Lücke, die der
+Kerzenkörper selbst schon abgedeckt hat. Kontrolliert an 13 vom Nutzer eingezeichneten
+MNQ-Boxen (13.08.2026); Regressionstest <code>tools/test_fvg_vii.py</code>.</p>
+</blockquote>
 <p>Zwei Rollen, beide wichtig:</p>
 <ol>
 <li><strong>Als Hilfsmittel</strong>, um ein <a href="../p/fair-value-gap-fvg.html">FVG</a> <strong>korrekt einzuzeichnen</strong>.</li>

@@ -3,7 +3,7 @@ den Wick -- siehe wiki/concepts/Volume Imbalance (VII).md. Aufruf: python tools/
 """
 from datetime import datetime
 
-from analyze_ohlc import Bar, fvgs
+from analyze_ohlc import Bar, fvgs, viis
 
 T = datetime(2026, 1, 1, 9, 0)
 
@@ -58,8 +58,50 @@ def test_no_vii_falls_back_to_wick():
     assert g["hi"] == 29830.50, g  # Wick-Low Candle3
 
 
+def test_gegenkerze_1_nutzt_koerper_oberkante():
+    """MNQ 13.08.2026 00:01-00:03, vom Nutzer im Chart eingezeichnet: Kerze 1 ist BEARISH,
+    ihre Koerper-Oberkante ist Open (29877.25), nicht Close (29877.00). Die VII liegt zwischen
+    29877.25 und 29877.75 -- eine Grenze bei 29877.00 wuerde den Koerper von Kerze 1
+    faelschlich zur Imbalance erklaeren."""
+    c1 = bar(29877.25, 29878.00, 29876.50, 29877.00)
+    c2 = bar(29877.75, 29879.50, 29876.75, 29879.25)
+    c3 = bar(29879.25, 29886.25, 29879.00, 29881.50)
+
+    g = fvgs([c1, c2, c3])[0]
+    assert g["side"] == "bullish"
+    assert g["lo"] == 29877.25, g
+    assert g["hi"] == 29879.00, g
+
+
+def test_gegenkerze_3_hat_keine_vii():
+    """MNQ 13.08.2026 12:24-12:26, vom Nutzer im Chart eingezeichnet: Kerze 3 ist BEARISH,
+    ihre Koerper-Unterkante ist Close (30180.50) und liegt UNTER der Oberkante von Kerze 2
+    (30184.00) -- die Koerper ueberlappen also, es gibt keine VII. Grenze bleibt der Wick
+    (Low 30180.00); Open 30184.50 waere die falsche Kante."""
+    c1 = bar(30163.75, 30169.25, 30162.75, 30165.25)
+    c2 = bar(30165.50, 30185.50, 30163.75, 30184.00)
+    c3 = bar(30184.50, 30185.75, 30180.00, 30180.50)
+
+    g = fvgs([c1, c2, c3])[0]
+    assert g["side"] == "bullish"
+    assert g["lo"] == 30165.25, g
+    assert g["hi"] == 30180.00, g
+
+
+def test_vii_misst_koerper_gegen_koerper():
+    """viis(): dieselbe Gegenkerze wie oben -- die Luecke geht von der Koerper-Oberkante
+    (29877.25), nicht vom Close (29877.00)."""
+    v = viis([bar(29877.25, 29878.00, 29876.50, 29877.00),
+              bar(29877.75, 29879.50, 29876.75, 29879.25)])
+    assert len(v) == 1, v
+    assert (v[0]["lo"], v[0]["hi"]) == (29877.25, 29877.75), v
+
+
 if __name__ == "__main__":
     test_bisi_uses_vii_edges_not_wicks()
     test_sibi_uses_vii_edges_not_wicks()
     test_no_vii_falls_back_to_wick()
+    test_gegenkerze_1_nutzt_koerper_oberkante()
+    test_gegenkerze_3_hat_keine_vii()
+    test_vii_misst_koerper_gegen_koerper()
     print("OK")

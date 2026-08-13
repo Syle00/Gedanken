@@ -2212,3 +2212,24 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   dort fremde Vendor-Preise in eine TradingView-Datei mischen würde): ES 12.08. 573/1.380,
   YM 10./11./12.08. 875/1.326/509, DXY 10./11./12.08. 203/1.337/519.
 - `algo/selfcheck.py`: 16/16 grün.
+
+## [2026-08-13] lint | FVG-Grenzen: Koerperkante statt Close/Open (Bugfix nach Nutzer-Referenzboxen)
+- Anlass: Jannes' 14 TradingView-Screenshots (13.08.2026) mit selbst eingezeichneten MNQ-FVG-Boxen,
+  teils mit, teils ohne VII, als Referenz gegen die eigene Auswertung des 12-13-Uhr-NY-Fensters.
+- Befund: `tools/analyze_ohlc.py::fvgs()`/`viis()` leiteten die VII-Kante aus festen OHLC-Feldern ab
+  (`a.c`, `m.o`, `m.c`, `c.o`). Korrekt nur, wenn alle Kerzen in Richtung des Moves schliessen — bei
+  einer Gegenkerze tauschen Open und Close die Rollen. Gefixt auf `max(o,c)`/`min(o,c)`.
+- Verifikation: 13/13 der eingezeichneten Referenzboxen exakt getroffen (vorher 11/13).
+- Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (neuer Abschnitt "Praezisierung:
+  Koerperkante, nicht Close bzw. Open"), wiki/concepts/Volume Imbalance (VII).md (Definition
+  praezisiert), algo/README.md (neuer Modulabschnitt), algo/PLAN.md (Log-Eintrag mit Zahlen).
+- Kein Widerspruchsmarker: das ist keine zweite Lehrmeinung, sondern eine Praezisierung derselben
+  Regel — die Kurzform "Close gegen Open" bleibt fuer trendkonforme Kerzen richtig.
+
+## [2026-08-13] setup | Auslöserphrase "Daily Premium Wick" = volle Qs/Os/Hs-Tabelle
+- Nutzeranweisung: Fragt der Nutzer nach der **Daily Premium Wick**, immer die vollständige
+  Level-Ausgabe **Qs + Os + Hs inkl. C.E** liefern — ohne Rückfrage, ohne dass er die Kürzel nennt.
+- Range = obere Wick der Daily-Kerze (Body-High → Daily High), Level auf 0,25 gerundet, plus
+  Vermerk, welche Level Preis bereits respektiert hat.
+- Seite aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Erweiterung des
+  Standardverfahrens von 2026-08-10 um die feste Auslöserphrase).

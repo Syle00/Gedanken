@@ -178,7 +178,10 @@
   <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <a href="../p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">Navigating High Resistance Liquidity Run Conditions (Source)</a>, <a href="../p/fair-valuation-source.html">Fair Valuation (Source)</a>, <a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">ICT Price Action Chronicles - Market On Close Macro (Source)</a>, <a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">Part 2 High Precision Secrets To Intraday Price Action (Source)</a>, <a href="../p/ict-mentorship-core-content-month-1-fair-valuation-source.html">ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)</a>, <a href="../p/ict-mentorship-core-content-month-04-ict-fair-value-gaps-fvg-source.html">ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)</a>, <a href="../p/2026-08-06-ict-price-action-chronicles-the-science-of-anticipation-in-price-action-source.html">ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
-<li><a href="#einzeichnen-open-und-close-nicht-die-wicks">Einzeichnen: Open und Close, nicht die Wicks</a></li>
+<li><a href="#einzeichnen-open-und-close-nicht-die-wicks">Einzeichnen: Open und Close, nicht die Wicks</a><ul>
+<li><a href="#prazisierung-korperkante-nicht-close-bzw-open-2026-08-13">Präzisierung: Körperkante, nicht Close bzw. Open (2026-08-13)</a></li>
+</ul>
+</li>
 <li><a href="#fair-value-zwei-perspektiven">Fair Value — zwei Perspektiven</a></li>
 <li><a href="#checkliste-sind-wir-im-fairen-preisbereich">Checkliste: sind wir im fairen Preisbereich?</a></li>
 <li><a href="#die-vier-level-eines-fvg-wie-tief-darf-der-rucklauf-gehen">Die vier Level eines FVG — wie tief darf der Rücklauf gehen?</a></li>
@@ -205,6 +208,35 @@ nächsten eine <strong><a href="../p/volume-imbalance-vii.html">VII</a></strong>
 <p>Wer das FVG allein über die Wick-Extrema aufzieht, bekommt also falsche Grenzen, sobald eine VII im
 Spiel ist — mit Folgen für C.E, Quadranten und jeden darauf aufbauenden Entry. Details und
 Zahlenbeispiel auf <a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a>.</p>
+<h3 id="prazisierung-korperkante-nicht-close-bzw-open-2026-08-13">Präzisierung: Körperkante, nicht Close bzw. Open (2026-08-13)</h3>
+<p>„Close der einen, Open der nächsten Candle" ist eine Kurzform, die nur gilt, solange beide Candles
+<strong>in Richtung des Moves</strong> schließen. Maßgeblich ist immer die <strong>Körperkante</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Seite eines bullishen FVG</th>
+<th>Grenze</th>
+<th>Formel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>unten</td>
+<td>Körper-<strong>Oberkante</strong> Candle 1, falls Körper Candle 2 darüber beginnt</td>
+<td><code>max(o₁,c₁)</code>, sonst <code>high₁</code></td>
+</tr>
+<tr>
+<td>oben</td>
+<td>Körper-<strong>Unterkante</strong> Candle 3, falls sie über dem Körper von Candle 2 endet</td>
+<td><code>min(o₃,c₃)</code>, sonst <code>low₃</code></td>
+</tr>
+</tbody>
+</table>
+<p>Bei einem <strong>bearishen</strong> FVG gespiegelt. Ist Candle 1 oder 3 eine <strong>Gegenkerze</strong> (bearishe Candle 1
+in einem bullishen FVG o.ä.), tauschen Open und Close die Rollen — die naive Close/Open-Formel
+liefert dann eine Kante mitten im Kerzenkörper und erfindet eine VII, wo der Körper den Bereich
+längst gehandelt hat. Belegt an 13 vom Nutzer im TradingView-Chart eingezeichneten MNQ-Boxen vom
+13.08.2026 (Regressionstest: <code>tools/test_fvg_vii.py</code>).</p>
 <h2 id="fair-value-zwei-perspektiven">Fair Value — zwei Perspektiven</h2>
 <ul>
 <li><strong>Retail</strong>: Fair Value = der Preis, zu dem verkauft (Premium) bzw. gekauft (Discount) wird —

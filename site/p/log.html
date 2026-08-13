@@ -173,6 +173,8 @@
 <li><a href="#2026-08-13-query-mor-1p-fvg-ermittlung-korrigiert-grotes-displacement-statt-chronologisch-erstes">[2026-08-13] query | MOR-1.p-FVG-Ermittlung korrigiert (größtes Displacement statt chronologisch erstes)</a></li>
 <li><a href="#2026-08-13-ingest-mnq-1m-tradingview-export-13082026-nachlauf-bis-1339-ny">[2026-08-13] ingest | MNQ 1m TradingView-Export 13.08.2026 (Nachlauf bis 13:39 NY)</a></li>
 <li><a href="#2026-08-13-ingest-marktdaten-nachzug-tiefhistorie-1d-reparatur-abgebrochener-yfinance-abrufe">[2026-08-13] ingest | Marktdaten-Nachzug: Tiefhistorie 1d + Reparatur abgebrochener yfinance-Abrufe</a></li>
+<li><a href="#2026-08-13-lint-fvg-grenzen-koerperkante-statt-closeopen-bugfix-nach-nutzer-referenzboxen">[2026-08-13] lint | FVG-Grenzen: Koerperkante statt Close/Open (Bugfix nach Nutzer-Referenzboxen)</a></li>
+<li><a href="#2026-08-13-setup-ausloserphrase-daily-premium-wick-volle-qsoshs-tabelle">[2026-08-13] setup | Auslöserphrase "Daily Premium Wick" = volle Qs/Os/Hs-Tabelle</a></li>
 </ul>
 </div>
 </details>
@@ -2509,6 +2511,29 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   dort fremde Vendor-Preise in eine TradingView-Datei mischen würde): ES 12.08. 573/1.380,
   YM 10./11./12.08. 875/1.326/509, DXY 10./11./12.08. 203/1.337/519.</li>
 <li><code>algo/selfcheck.py</code>: 16/16 grün.</li>
+</ul>
+<h2 id="2026-08-13-lint-fvg-grenzen-koerperkante-statt-closeopen-bugfix-nach-nutzer-referenzboxen">[2026-08-13] lint | FVG-Grenzen: Koerperkante statt Close/Open (Bugfix nach Nutzer-Referenzboxen)</h2>
+<ul>
+<li>Anlass: Jannes' 14 TradingView-Screenshots (13.08.2026) mit selbst eingezeichneten MNQ-FVG-Boxen,
+  teils mit, teils ohne VII, als Referenz gegen die eigene Auswertung des 12-13-Uhr-NY-Fensters.</li>
+<li>Befund: <code>tools/analyze_ohlc.py::fvgs()</code>/<code>viis()</code> leiteten die VII-Kante aus festen OHLC-Feldern ab
+  (<code>a.c</code>, <code>m.o</code>, <code>m.c</code>, <code>c.o</code>). Korrekt nur, wenn alle Kerzen in Richtung des Moves schliessen — bei
+  einer Gegenkerze tauschen Open und Close die Rollen. Gefixt auf <code>max(o,c)</code>/<code>min(o,c)</code>.</li>
+<li>Verifikation: 13/13 der eingezeichneten Referenzboxen exakt getroffen (vorher 11/13).</li>
+<li>Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (neuer Abschnitt "Praezisierung:
+  Koerperkante, nicht Close bzw. Open"), wiki/concepts/Volume Imbalance (VII).md (Definition
+  praezisiert), algo/README.md (neuer Modulabschnitt), algo/PLAN.md (Log-Eintrag mit Zahlen).</li>
+<li>Kein Widerspruchsmarker: das ist keine zweite Lehrmeinung, sondern eine Praezisierung derselben
+  Regel — die Kurzform "Close gegen Open" bleibt fuer trendkonforme Kerzen richtig.</li>
+</ul>
+<h2 id="2026-08-13-setup-ausloserphrase-daily-premium-wick-volle-qsoshs-tabelle">[2026-08-13] setup | Auslöserphrase "Daily Premium Wick" = volle Qs/Os/Hs-Tabelle</h2>
+<ul>
+<li>Nutzeranweisung: Fragt der Nutzer nach der <strong>Daily Premium Wick</strong>, immer die vollständige
+  Level-Ausgabe <strong>Qs + Os + Hs inkl. C.E</strong> liefern — ohne Rückfrage, ohne dass er die Kürzel nennt.</li>
+<li>Range = obere Wick der Daily-Kerze (Body-High → Daily High), Level auf 0,25 gerundet, plus
+  Vermerk, welche Level Preis bereits respektiert hat.</li>
+<li>Seite aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Erweiterung des
+  Standardverfahrens von 2026-08-10 um die feste Auslöserphrase).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

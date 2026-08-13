@@ -21,6 +21,22 @@ Wer das FVG allein über die Wick-Extrema aufzieht, bekommt also falsche Grenzen
 Spiel ist — mit Folgen für C.E, Quadranten und jeden darauf aufbauenden Entry. Details und
 Zahlenbeispiel auf [[Volume Imbalance (VII)]].
 
+### Präzisierung: Körperkante, nicht Close bzw. Open (2026-08-13)
+
+„Close der einen, Open der nächsten Candle" ist eine Kurzform, die nur gilt, solange beide Candles
+**in Richtung des Moves** schließen. Maßgeblich ist immer die **Körperkante**:
+
+| Seite eines bullishen FVG | Grenze | Formel |
+|---|---|---|
+| unten | Körper-**Oberkante** Candle 1, falls Körper Candle 2 darüber beginnt | `max(o₁,c₁)`, sonst `high₁` |
+| oben | Körper-**Unterkante** Candle 3, falls sie über dem Körper von Candle 2 endet | `min(o₃,c₃)`, sonst `low₃` |
+
+Bei einem **bearishen** FVG gespiegelt. Ist Candle 1 oder 3 eine **Gegenkerze** (bearishe Candle 1
+in einem bullishen FVG o.ä.), tauschen Open und Close die Rollen — die naive Close/Open-Formel
+liefert dann eine Kante mitten im Kerzenkörper und erfindet eine VII, wo der Körper den Bereich
+längst gehandelt hat. Belegt an 13 vom Nutzer im TradingView-Chart eingezeichneten MNQ-Boxen vom
+13.08.2026 (Regressionstest: `tools/test_fvg_vii.py`).
+
 ## Fair Value — zwei Perspektiven
 
 - **Retail**: Fair Value = der Preis, zu dem verkauft (Premium) bzw. gekauft (Discount) wird —
