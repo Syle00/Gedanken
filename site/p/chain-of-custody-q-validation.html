@@ -287,12 +287,17 @@ Daily/Weekly Bias von <strong>Wicks oder FVGs</strong> spricht, automatisch die 
 relevante Range dazu erstellen und prüfen, <strong>welche Level Preis bereits respektiert hat</strong>
 (Reaktion/Close/Wick-Reject an dem Level) — mit besonderem Fokus auf das <strong>C.E (0,5-Level, Mean
 Threshold)</strong>, da ein gehaltenes C.E laut obiger Regel die PD Array als stark validiert.</p>
-<p><strong>Erweiterung (2026-08-13) — feste Auslöserphrase</strong>: „Gebe mir die <strong>Daily Premium Wick</strong>" (oder
-jede Nachfrage nach der Premium Wick) bedeutet <em>immer</em> die vollständige Ausgabe <strong>Qs + Os + Hs
-inkl. C.E</strong>, ohne Rückfrage und ohne dass der Nutzer die Kürzel nennen muss. Range dafür ist die
-obere Wick der Daily-Kerze (Body-High → Daily High), Level auf 0,25 gerundet
-(<a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a>), plus Vermerk, welche Level der Preis bereits
+<p><strong>Erweiterung (2026-08-13) — Standard für JEDES Konzept, JEDEN Timeframe</strong>: Die Konzepte sind
+<strong>fraktal</strong>. Immer wenn eine Range im Gespräch auftaucht — Premium Wick <em>und</em> Discount Wick, FVG,
+OB, ORG, NDOG/NWOG, BISI/SIBI, Session-Range — wird <em>ungefragt</em> die vollständige Tabelle
+<strong>Qs + Os + Hs inkl. C.E</strong> dafür ausgegeben, auf jedem Timeframe (1m bis Monthly), <strong>es sei denn,
+der Nutzer sagt ausdrücklich etwas anderes</strong>. Level auf das Tick-Raster runden
+(<a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a>) und vermerken, welche Level der Preis bereits
 respektiert hat.</p>
+<p>Werkzeug: <code>python tools/qoh_levels.py &lt;high&gt; &lt;low&gt; --label "..." [--touch &lt;ohlc.csv&gt;]</code> gibt die
+volle 16tel-Tabelle mit Qs/Os/Hs-Markierung, Tick-Rundung und Berührungs-Check aus.</p>
+<p>Range-Definition Wicks: <strong>Premium Wick</strong> = Body-High → High der Kerze, <strong>Discount Wick</strong> =
+Low → Body-Low. Body-Grenze ist der jeweils äußere von Open/Close.</p>
 </blockquote>
 <h2 id="verwandt">Verwandt</h2>
 <ul>

@@ -2226,10 +2226,14 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Kein Widerspruchsmarker: das ist keine zweite Lehrmeinung, sondern eine Praezisierung derselben
   Regel — die Kurzform "Close gegen Open" bleibt fuer trendkonforme Kerzen richtig.
 
-## [2026-08-13] setup | Auslöserphrase "Daily Premium Wick" = volle Qs/Os/Hs-Tabelle
-- Nutzeranweisung: Fragt der Nutzer nach der **Daily Premium Wick**, immer die vollständige
-  Level-Ausgabe **Qs + Os + Hs inkl. C.E** liefern — ohne Rückfrage, ohne dass er die Kürzel nennt.
-- Range = obere Wick der Daily-Kerze (Body-High → Daily High), Level auf 0,25 gerundet, plus
-  Vermerk, welche Level Preis bereits respektiert hat.
+## [2026-08-13] setup | Qs/Os/Hs-Tabelle als Standard fuer jedes Konzept & jeden Timeframe
+- Nutzeranweisung: **Jedes** Konzept, **jeder** Timeframe — immer die vollständige Level-Ausgabe
+  **Qs + Os + Hs inkl. C.E**, ohne Rückfrage. Die Konzepte sind fraktal; gilt für Premium Wick
+  *und* Discount Wick genauso wie für FVG, OB, ORG, NDOG/NWOG, Session-Ranges — es sei denn, der
+  Nutzer sagt ausdrücklich etwas anderes.
+- Range-Definition Wicks: Premium Wick = Body-High → High, Discount Wick = Low → Body-Low.
+  Level auf 0,25 gerundet, plus Vermerk, welche Level Preis bereits respektiert hat.
+- Neu: `tools/qoh_levels.py` — volle 16tel-Tabelle (Qs/Os/Hs markiert) fuer eine beliebige Range,
+  Tick-Rundung ueber `analyze_ohlc.to_tick`, optionaler Beruehrungs-Check gegen eine OHLC-CSV.
 - Seite aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Erweiterung des
   Standardverfahrens von 2026-08-10 um die feste Auslöserphrase).

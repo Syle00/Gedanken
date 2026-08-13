@@ -90,12 +90,19 @@ NDOG/NWOG, FVG, OB, BISI/SIBI):
 > (Reaktion/Close/Wick-Reject an dem Level) — mit besonderem Fokus auf das **C.E (0,5-Level, Mean
 > Threshold)**, da ein gehaltenes C.E laut obiger Regel die PD Array als stark validiert.
 >
-> **Erweiterung (2026-08-13) — feste Auslöserphrase**: „Gebe mir die **Daily Premium Wick**" (oder
-> jede Nachfrage nach der Premium Wick) bedeutet *immer* die vollständige Ausgabe **Qs + Os + Hs
-> inkl. C.E**, ohne Rückfrage und ohne dass der Nutzer die Kürzel nennen muss. Range dafür ist die
-> obere Wick der Daily-Kerze (Body-High → Daily High), Level auf 0,25 gerundet
-> ([[Kontraktspezifikation MNQ (Tick, Punktwert)]]), plus Vermerk, welche Level der Preis bereits
+> **Erweiterung (2026-08-13) — Standard für JEDES Konzept, JEDEN Timeframe**: Die Konzepte sind
+> **fraktal**. Immer wenn eine Range im Gespräch auftaucht — Premium Wick *und* Discount Wick, FVG,
+> OB, ORG, NDOG/NWOG, BISI/SIBI, Session-Range — wird *ungefragt* die vollständige Tabelle
+> **Qs + Os + Hs inkl. C.E** dafür ausgegeben, auf jedem Timeframe (1m bis Monthly), **es sei denn,
+> der Nutzer sagt ausdrücklich etwas anderes**. Level auf das Tick-Raster runden
+> ([[Kontraktspezifikation MNQ (Tick, Punktwert)]]) und vermerken, welche Level der Preis bereits
 > respektiert hat.
+>
+> Werkzeug: `python tools/qoh_levels.py <high> <low> --label "..." [--touch <ohlc.csv>]` gibt die
+> volle 16tel-Tabelle mit Qs/Os/Hs-Markierung, Tick-Rundung und Berührungs-Check aus.
+>
+> Range-Definition Wicks: **Premium Wick** = Body-High → High der Kerze, **Discount Wick** =
+> Low → Body-Low. Body-Grenze ist der jeweils äußere von Open/Close.
 
 ## Verwandt
 

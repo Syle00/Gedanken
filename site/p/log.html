@@ -174,7 +174,7 @@
 <li><a href="#2026-08-13-ingest-mnq-1m-tradingview-export-13082026-nachlauf-bis-1339-ny">[2026-08-13] ingest | MNQ 1m TradingView-Export 13.08.2026 (Nachlauf bis 13:39 NY)</a></li>
 <li><a href="#2026-08-13-ingest-marktdaten-nachzug-tiefhistorie-1d-reparatur-abgebrochener-yfinance-abrufe">[2026-08-13] ingest | Marktdaten-Nachzug: Tiefhistorie 1d + Reparatur abgebrochener yfinance-Abrufe</a></li>
 <li><a href="#2026-08-13-lint-fvg-grenzen-koerperkante-statt-closeopen-bugfix-nach-nutzer-referenzboxen">[2026-08-13] lint | FVG-Grenzen: Koerperkante statt Close/Open (Bugfix nach Nutzer-Referenzboxen)</a></li>
-<li><a href="#2026-08-13-setup-ausloserphrase-daily-premium-wick-volle-qsoshs-tabelle">[2026-08-13] setup | Auslöserphrase "Daily Premium Wick" = volle Qs/Os/Hs-Tabelle</a></li>
+<li><a href="#2026-08-13-setup-qsoshs-tabelle-als-standard-fuer-jedes-konzept-jeden-timeframe">[2026-08-13] setup | Qs/Os/Hs-Tabelle als Standard fuer jedes Konzept &amp; jeden Timeframe</a></li>
 </ul>
 </div>
 </details>
@@ -2526,12 +2526,16 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Kein Widerspruchsmarker: das ist keine zweite Lehrmeinung, sondern eine Praezisierung derselben
   Regel — die Kurzform "Close gegen Open" bleibt fuer trendkonforme Kerzen richtig.</li>
 </ul>
-<h2 id="2026-08-13-setup-ausloserphrase-daily-premium-wick-volle-qsoshs-tabelle">[2026-08-13] setup | Auslöserphrase "Daily Premium Wick" = volle Qs/Os/Hs-Tabelle</h2>
+<h2 id="2026-08-13-setup-qsoshs-tabelle-als-standard-fuer-jedes-konzept-jeden-timeframe">[2026-08-13] setup | Qs/Os/Hs-Tabelle als Standard fuer jedes Konzept &amp; jeden Timeframe</h2>
 <ul>
-<li>Nutzeranweisung: Fragt der Nutzer nach der <strong>Daily Premium Wick</strong>, immer die vollständige
-  Level-Ausgabe <strong>Qs + Os + Hs inkl. C.E</strong> liefern — ohne Rückfrage, ohne dass er die Kürzel nennt.</li>
-<li>Range = obere Wick der Daily-Kerze (Body-High → Daily High), Level auf 0,25 gerundet, plus
-  Vermerk, welche Level Preis bereits respektiert hat.</li>
+<li>Nutzeranweisung: <strong>Jedes</strong> Konzept, <strong>jeder</strong> Timeframe — immer die vollständige Level-Ausgabe
+  <strong>Qs + Os + Hs inkl. C.E</strong>, ohne Rückfrage. Die Konzepte sind fraktal; gilt für Premium Wick
+  <em>und</em> Discount Wick genauso wie für FVG, OB, ORG, NDOG/NWOG, Session-Ranges — es sei denn, der
+  Nutzer sagt ausdrücklich etwas anderes.</li>
+<li>Range-Definition Wicks: Premium Wick = Body-High → High, Discount Wick = Low → Body-Low.
+  Level auf 0,25 gerundet, plus Vermerk, welche Level Preis bereits respektiert hat.</li>
+<li>Neu: <code>tools/qoh_levels.py</code> — volle 16tel-Tabelle (Qs/Os/Hs markiert) fuer eine beliebige Range,
+  Tick-Rundung ueber <code>analyze_ohlc.to_tick</code>, optionaler Beruehrungs-Check gegen eine OHLC-CSV.</li>
 <li>Seite aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Erweiterung des
   Standardverfahrens von 2026-08-10 um die feste Auslöserphrase).</li>
 </ul></div>
