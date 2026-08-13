@@ -168,6 +168,7 @@
 <li><a href="#2026-08-12-ingest-restliche-9-mit-15s08-quant-finance-transkripte-rawquant-finance2026">[2026-08-12] ingest | Restliche 9 MIT-15.S08-Quant-Finance-Transkripte (raw/quant-finance/2026/)</a></li>
 <li><a href="#2026-08-12-ingest-batch-yale-econ-252-financial-markets-open-yale-courses-robert-shiller-23-youtube-vorlesungen">[2026-08-12] ingest | Batch: Yale Econ 252 "Financial Markets" (Open Yale Courses, Robert Shiller, 23 YouTube-Vorlesungen)</a></li>
 <li><a href="#2026-08-12-setup-quant-riskmanagement-austauschbare-risk-module">[2026-08-12] setup | Quant-Riskmanagement: austauschbare Risk-Module</a></li>
+<li><a href="#2026-08-13-ingest-daily-bias-1308-ndog-gultigkeitsdauer">[2026-08-13] ingest | Daily Bias 13.08 + NDOG-Gültigkeitsdauer</a></li>
 </ul>
 </div>
 </details>
@@ -2418,6 +2419,26 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Drawdown-Kill-Switch mass den Drawdown in den Punkteinheiten der <code>backtesting</code>-Lib statt in
   echten Dollar — derselbe Fehlertyp wie der 2026-08-06-Audit-Fund in <code>pnl.py::risk_size()</code>.
   Kelly-Sizing ist jetzt wie GARCH auf 1,5 x base_pct gedeckelt.</li>
+</ul>
+<h2 id="2026-08-13-ingest-daily-bias-1308-ndog-gultigkeitsdauer">[2026-08-13] ingest | Daily Bias 13.08 + NDOG-Gültigkeitsdauer</h2>
+<ul>
+<li>Quelle: raw/Daily Bias 13.08.md (abweichender Ablageort — liegt direkt in raw/, nicht wie sonst
+  unter raw/journal/Daily Bias YYYY-MM-DD.md; raw/ bleibt unangetastet, nur vermerkt).</li>
+<li>Seiten erstellt: journal/entries/2026-08-13 MNQ Daily Bias.md (id 2026-08-13-01, Zeile in
+  journal/journal.csv), wiki/concepts/New Day Opening Gap (NDOG).md.</li>
+<li>Seiten aktualisiert: wiki/index.md (NDOG-Eintrag).</li>
+<li>Bias: Bullish bis Buyside 29.931,75 (Interimsziel), übergeordnetes Wochenziel bleibt Buyside
+  30.094,00 aus 2026-08-10 MNQ Weekly Bias. Rückblick 12.08. (CPI): trotz News keine große Range,
+  Buyside der letzten 2 Tage genommen, bullish aber ohne Wucht geschlossen.</li>
+<li>Neue Info übernommen: NDOG bleibt mind. 5 Handelstage aktiv, NWOG mind. 5 Handelswochen,
+  darüber hinaus laut Nutzer weiter als DOL nutzbar — als offene, noch unbacktestete
+  Nutzeraussage in der neuen NDOG-Seite festgehalten (Backtest-Kandidat gemäß
+  Algo-Trading-Arbeitsstandards).</li>
+<li>Fehler: P07 (kein Chartbild). Datenlücke: <code>raw/marktdaten/2026/08/12.08.2026/MNQ ... 1m.csv</code>
+  deckt nur 18:00–03:29 NY ab, CPI-Move und RTH fehlen — der beschriebene 12.08.-Move ist gegen
+  echte OHLC-Daten aktuell nicht verifizierbar. Zusätzlich P09 (<code>bias_korrekt</code> offen) und fehlende
+  Exakt-Preise für NWOG/C.E. vom 12.08.</li>
+<li>Kein Push ausgeführt (push.ps1) — macht der Nutzer selbst.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
