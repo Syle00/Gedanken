@@ -383,6 +383,52 @@ Datenluecken, statt sie als ruhigen Markt zu zaehlen; `backtest_open_drive_vs_sb
 dasselbe mit `MIN_BARS_OPEN = 15` / `MIN_BARS_SB = 45` und wirft damit Fragmenttage raus. Bei
 n=21 sind beide Nicht-Befunde dort schwach -- der Test gehoert mit wachsendem Bestand wiederholt.
 
+## `backfill_yfinance.py` -- ergaenzt Luecken in BESTEHENDEN Dateien
+
+**Was:** Laedt denselben yfinance-Bereich wie `fetch_yfinance.py`, schreibt aber nur die
+Zeitstempel in eine bestehende Datei, die dort noch **fehlen**. Legt bewusst keine neuen
+Dateien an -- das bleibt `fetch_yfinance.py`, weil nur das den Tagesrand korrekt abschneidet.
+
+**Warum:** `fetch_yfinance.write_day()` ueberschreibt grundsaetzlich nie (schuetzt
+TradingView-Daten vor yfinance). Bricht ein Abruf mittendrin ab, friert der Stumpf damit
+**fuer immer** ein -- der naechste Lauf meldet nur noch "existiert bereits, uebersprungen".
+Gemessen am 2026-08-13: alle 10 Forex-Paare hatten fuer den 11.08. nur ~765 statt ~1440
+Kerzen (Ende 06:45 NY) seit dem abgebrochenen Lauf vom 11.08.; MNQ 03.08. stand bei 300 statt
+1369. Die Spec `docs/superpowers/specs/2026-08-12-marktdaten-schicht-design.md` benennt den
+Fall ("Abgebrochener Download"), hatte aber kein Werkzeug dagegen.
+
+**Wie:** Konfliktregel **umgekehrt** zu `ingest_tvexport.py` -- hier gewinnt der **Bestand**.
+Vorhandene Kerzen werden nie revidiert, nur abweichende gezaehlt und im Bericht ausgewiesen.
+Damit gilt "yfinance ueberschreibt nie" (Spec 3.2) weiter woertlich. Reuse statt Neubau:
+`download_interval`/`trading_day`/`symbol_prefix` aus `fetch_yfinance.py`, `lies`/`schreib`/
+`luecken` aus `ingest_tvexport.py`.
+
+```
+python algo/backfill_yfinance.py 2026-08-10 2026-08-13 --symbol EURUSD=X [--dry-run]
+python algo/backfill_yfinance.py --demo
+```
+
+**Bekannte Grenzen:** Dieselben yfinance-Fenster wie `fetch_yfinance.py` (1m ~30 Tage; aeltere
+Chunks liefern eine Yahoo-Fehlermeldung statt leerer Daten -- laut und harmlos). Ergaenzt nur
+1m-Aufloesung sinnvoll; die aus dem alten, kuerzeren 1m gerechneten 5m/15m/1h/1d-Dateien
+desselben Tages bleiben stehen und sind danach **veraltet** (Spec-Entscheidung 5: nicht
+loeschen, der Loader soll den aus 1m gerechneten Wert vorziehen -- `load_range()` ist noch
+nicht gebaut, bis dahin ist das eine offene Inkonsistenz, siehe `PLAN.md`).
+
+### ⚠️ AUDUSD und NZDUSD sind bei yfinance faktisch 2m-Daten, abgelegt als "1m"
+
+**Gemessen am 2026-08-13, ueber alle vorliegenden Tage.** `AUDUSD=X` und `NZDUSD=X` liefern
+ueber `interval="1m"` durchgaengig nur **jede zweite Minute**: 719 statt 1440 Kerzen pro Tag,
+Abstandsverteilung 717×120 s und 1×240 s -- kein einziger 60-s-Abstand. Gegenprobe am selben
+Tag: `EURUSD=X` 1439 Kerzen, 1437×60 s. Der Effekt ist also paar-spezifisch, kein
+Pipeline-Fehler, und ein erneuter Abruf aendert nichts (per `backfill_yfinance.py` geprueft:
+382 → 719, nicht → 1440).
+
+**Auswirkung:** Jede Auswertung, die diese beiden Paare als 1m behandelt, laeuft auf halber
+Aufloesung -- Opening Ranges, FVG-Erkennung und Sweep-Detektion sehen die Haelfte der Kerzen
+nicht. Die acht uebrigen Paare sind nicht betroffen. Bis das im Torwaechter (Spec 3.1) haengt:
+AUDUSD/NZDUSD nicht fuer minutengenaue Auswertungen verwenden, oder bewusst als 2m behandeln.
+
 ## `fetch_dukascopy.py` -- Forex-Tickdaten-Downloader (M1-Aggregation)
 
 **Was:** Laedt historische Tickdaten von Dukascopy (`datafeed.dukascopy.com`, bi5-Format:

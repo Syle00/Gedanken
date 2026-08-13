@@ -172,6 +172,7 @@
 <li><a href="#2026-08-13-query-org-qoh-tabelle-11081208-datenqualitats-root-cause">[2026-08-13] query | ORG-Q/O/H-Tabelle 11.08.→12.08. + Datenqualitäts-Root-Cause</a></li>
 <li><a href="#2026-08-13-query-mor-1p-fvg-ermittlung-korrigiert-grotes-displacement-statt-chronologisch-erstes">[2026-08-13] query | MOR-1.p-FVG-Ermittlung korrigiert (größtes Displacement statt chronologisch erstes)</a></li>
 <li><a href="#2026-08-13-ingest-mnq-1m-tradingview-export-13082026-nachlauf-bis-1339-ny">[2026-08-13] ingest | MNQ 1m TradingView-Export 13.08.2026 (Nachlauf bis 13:39 NY)</a></li>
+<li><a href="#2026-08-13-ingest-marktdaten-nachzug-tiefhistorie-1d-reparatur-abgebrochener-yfinance-abrufe">[2026-08-13] ingest | Marktdaten-Nachzug: Tiefhistorie 1d + Reparatur abgebrochener yfinance-Abrufe</a></li>
 </ul>
 </div>
 </details>
@@ -2482,6 +2483,32 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>✅ Erledigt: Die im Daily-Bias-Eintrag 2026-08-13 vermerkte Datenlücke („12.08. nur 18:00–03:29 NY,
   CPI-Move und RTH fehlen") ist geschlossen — 12.08. hat jetzt 1380/1380 Kerzen ohne Lücke, der
   12.08.-Move ist gegen echte OHLC-Daten verifizierbar.</li>
+</ul>
+<h2 id="2026-08-13-ingest-marktdaten-nachzug-tiefhistorie-1d-reparatur-abgebrochener-yfinance-abrufe">[2026-08-13] ingest | Marktdaten-Nachzug: Tiefhistorie 1d + Reparatur abgebrochener yfinance-Abrufe</h2>
+<ul>
+<li><strong>Neu: Tiefhistorie 1d für Index-Futures</strong> (yfinance, unbegrenzt zurück, bislang ungenutzt):
+  ES 6.539 Tage (ab 2000), NQ 6.539 (ab 2000), YM 6.130 (ab 2002), RTY 2.289 (ab 2017),
+  MNQ 154 → 1.833 (ab 2019). Stichprobe ES 10.10.2008 (O 913,5 / H 943,0 / L 837,0 / C 891,0)
+  gegen den bekannten Kapitulationstag plausibel. Das verbreitert die Basis für
+  <code>algo/stress_test.py</code>, das bisher auf einem dünnen 1d-Bestand lief.</li>
+<li><strong>Neu: Forex 12.08. (10 Paare)</strong> — fehlte komplett, jetzt ~1.439/1.440 Kerzen je Paar.</li>
+<li><strong>Neu: ES 06./07.08.</strong> — fehlten komplett, jetzt 1.353 bzw. 1.362 Kerzen.</li>
+<li><strong>Neu: höhere Timeframes für ES 10./11.08.</strong> aus der TradingView-1m-Basis gerechnet
+  (<code>tools/resample_1m.py</code>, 1m-Vorrang nach Spec §3.3) — es gab dort bisher nur die 1m-Datei.</li>
+<li><strong>Repariert: abgebrochene yfinance-Abrufe.</strong> Neues Werkzeug <code>algo/backfill_yfinance.py</code>
+  (Details in <code>algo/README.md</code>). Betroffen und behoben: alle 10 Forex-Paare am 11.08.
+  (~765 → ~1.439 Kerzen, sie brachen seit dem 11.08. bei 06:45 NY ab), MNQ 03.08.
+  (300 → 1.369), MNQ 05.08. (1.006 → 1.365), MNQ 07.08. (617 → 1.361), ES 05.08. (894 → 1.366).</li>
+<li>⚠️ <strong>Neuer Datenqualitätsbefund: AUDUSD und NZDUSD sind bei yfinance faktisch 2m-Daten</strong>,
+  liegen aber als „1m" im Vault. Gemessen: 719 statt 1.440 Kerzen/Tag, Abstandsverteilung
+  717×120 s, kein einziger 60-s-Abstand; Gegenprobe EURUSD am selben Tag 1.437×60 s. Erneuter
+  Abruf ändert nichts (382 → 719, nicht → 1.440). Paar-spezifische Yahoo-Grenze, kein
+  Pipeline-Fehler. Dokumentiert in <code>algo/README.md</code>; jede minutengenaue Auswertung dieser zwei
+  Paare läuft auf halber Auflösung.</li>
+<li>⚠️ <strong>Offen, nur mit neuem TradingView-Export lösbar</strong> (yfinance-Backfill scheidet aus, weil er
+  dort fremde Vendor-Preise in eine TradingView-Datei mischen würde): ES 12.08. 573/1.380,
+  YM 10./11./12.08. 875/1.326/509, DXY 10./11./12.08. 203/1.337/519.</li>
+<li><code>algo/selfcheck.py</code>: 16/16 grün.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

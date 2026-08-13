@@ -2187,3 +2187,28 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - ✅ Erledigt: Die im Daily-Bias-Eintrag 2026-08-13 vermerkte Datenlücke („12.08. nur 18:00–03:29 NY,
   CPI-Move und RTH fehlen") ist geschlossen — 12.08. hat jetzt 1380/1380 Kerzen ohne Lücke, der
   12.08.-Move ist gegen echte OHLC-Daten verifizierbar.
+
+## [2026-08-13] ingest | Marktdaten-Nachzug: Tiefhistorie 1d + Reparatur abgebrochener yfinance-Abrufe
+- **Neu: Tiefhistorie 1d für Index-Futures** (yfinance, unbegrenzt zurück, bislang ungenutzt):
+  ES 6.539 Tage (ab 2000), NQ 6.539 (ab 2000), YM 6.130 (ab 2002), RTY 2.289 (ab 2017),
+  MNQ 154 → 1.833 (ab 2019). Stichprobe ES 10.10.2008 (O 913,5 / H 943,0 / L 837,0 / C 891,0)
+  gegen den bekannten Kapitulationstag plausibel. Das verbreitert die Basis für
+  `algo/stress_test.py`, das bisher auf einem dünnen 1d-Bestand lief.
+- **Neu: Forex 12.08. (10 Paare)** — fehlte komplett, jetzt ~1.439/1.440 Kerzen je Paar.
+- **Neu: ES 06./07.08.** — fehlten komplett, jetzt 1.353 bzw. 1.362 Kerzen.
+- **Neu: höhere Timeframes für ES 10./11.08.** aus der TradingView-1m-Basis gerechnet
+  (`tools/resample_1m.py`, 1m-Vorrang nach Spec §3.3) — es gab dort bisher nur die 1m-Datei.
+- **Repariert: abgebrochene yfinance-Abrufe.** Neues Werkzeug `algo/backfill_yfinance.py`
+  (Details in `algo/README.md`). Betroffen und behoben: alle 10 Forex-Paare am 11.08.
+  (~765 → ~1.439 Kerzen, sie brachen seit dem 11.08. bei 06:45 NY ab), MNQ 03.08.
+  (300 → 1.369), MNQ 05.08. (1.006 → 1.365), MNQ 07.08. (617 → 1.361), ES 05.08. (894 → 1.366).
+- ⚠️ **Neuer Datenqualitätsbefund: AUDUSD und NZDUSD sind bei yfinance faktisch 2m-Daten**,
+  liegen aber als „1m" im Vault. Gemessen: 719 statt 1.440 Kerzen/Tag, Abstandsverteilung
+  717×120 s, kein einziger 60-s-Abstand; Gegenprobe EURUSD am selben Tag 1.437×60 s. Erneuter
+  Abruf ändert nichts (382 → 719, nicht → 1.440). Paar-spezifische Yahoo-Grenze, kein
+  Pipeline-Fehler. Dokumentiert in `algo/README.md`; jede minutengenaue Auswertung dieser zwei
+  Paare läuft auf halber Auflösung.
+- ⚠️ **Offen, nur mit neuem TradingView-Export lösbar** (yfinance-Backfill scheidet aus, weil er
+  dort fremde Vendor-Preise in eine TradingView-Datei mischen würde): ES 12.08. 573/1.380,
+  YM 10./11./12.08. 875/1.326/509, DXY 10./11./12.08. 203/1.337/519.
+- `algo/selfcheck.py`: 16/16 grün.
