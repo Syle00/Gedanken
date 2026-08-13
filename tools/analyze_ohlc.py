@@ -399,17 +399,26 @@ def fvgs(bars: list[Bar], min_size: float = 0.0, tick: float | str | None = None
     """3-Kerzen-FVG. Liegt an einer Seite eine VII (Close/Open-Luecke zur mittleren Kerze),
     wird deren aeusserer Rand statt des Wicks als Grenze genutzt -- siehe
     wiki/concepts/Volume Imbalance (VII).md. Fuellstand wird ueber alle Folgekerzen geprueft."""
+    # Koerpergrenze immer ueber min/max(o, c) bestimmen, nie ueber ein festes Feld: bei einer
+    # Gegenkerze (z.B. bearishe Kerze 1 in einem bullishen FVG) tauschen Open und Close die
+    # Rollen, und o/c-Annahmen liefern dann die falsche Kante bzw. eine VII, die keine ist.
+    def top(b: Bar) -> float:
+        return max(b.o, b.c)
+
+    def bot(b: Bar) -> float:
+        return min(b.o, b.c)
+
     out = []
     for i in range(1, len(bars) - 1):
         a, m, c = bars[i - 1], bars[i], bars[i + 1]
         if c.l > a.h and c.l - a.h > min_size:
             side = "bullish"
-            lo = a.c if m.o > a.c else a.h
-            hi = c.o if c.o > m.c else c.l
+            lo = top(a) if bot(m) > top(a) else a.h
+            hi = bot(c) if bot(c) > top(m) else c.l
         elif c.h < a.l and a.l - c.h > min_size:
             side = "bearish"
-            lo = c.o if c.o < m.c else c.h
-            hi = a.c if m.o < a.c else a.l
+            lo = top(c) if top(c) < bot(m) else c.h
+            hi = bot(a) if top(m) < bot(a) else a.l
         else:
             continue
         # lo/hi stammen aus echten Kursen und liegen damit bereits auf dem Raster; der C.E.
@@ -435,16 +444,22 @@ def fvgs(bars: list[Bar], min_size: float = 0.0, tick: float | str | None = None
 
 
 def viis(bars: list[Bar], min_size: float = 0.0):
-    """Volume Imbalance (VII): Luecke zwischen Close[i] und Open[i+1] -- die Koerper
+    """Volume Imbalance (VII): Luecke zwischen den Koerpern zweier Folgekerzen -- die Koerper
     beruehren sich nicht, obwohl die Wicks meist ueberlappen. Zwei Kerzen statt der drei
-    beim FVG. Siehe wiki/concepts/Volume Imbalance (VII).md."""
+    beim FVG. Siehe wiki/concepts/Volume Imbalance (VII).md.
+
+    Gemessen wird Koerperkante gegen Koerperkante (min/max von o,c), nicht Close[i] gegen
+    Open[i+1]: bei einer Gegenkerze liegt Close innerhalb des Koerpers, und die naive Variante
+    meldet dann eine Luecke, die der Kerzenkoerper selbst schon abgedeckt hat."""
     out = []
     for i in range(len(bars) - 1):
         a, b = bars[i], bars[i + 1]
-        if b.o > a.c and b.o - a.c > min_size:
-            lo, hi, side = a.c, b.o, "bullish"
-        elif b.o < a.c and a.c - b.o > min_size:
-            lo, hi, side = b.o, a.c, "bearish"
+        a_top, a_bot = max(a.o, a.c), min(a.o, a.c)
+        b_top, b_bot = max(b.o, b.c), min(b.o, b.c)
+        if b_bot > a_top and b_bot - a_top > min_size:
+            lo, hi, side = a_top, b_bot, "bullish"
+        elif b_top < a_bot and a_bot - b_top > min_size:
+            lo, hi, side = b_top, a_bot, "bearish"
         else:
             continue
         rest = bars[i + 2:]
