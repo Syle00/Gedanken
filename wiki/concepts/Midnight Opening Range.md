@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, lecture-2025, sessions, london]
 created: 2026-08-02
-updated: 2026-08-10
+updated: 2026-08-13
 sources: ["[[SMC Midnight Opening Range (Source)]]", "[[London Opening Range +1p FVG (Source)]]", "[[Making Money With SMC Concepts (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[ICT Gems - London Opening Range + Macros (Source)]]"]
 ---
 
@@ -32,18 +32,34 @@ einzeichnen.
 Innerhalb der Range wird nach **PD Arrays aus der Matrix** gesucht — FVG, Order Block, Breaker Block,
 Inefficiencies (siehe [[PD Array]]).
 
-## "First Presentation": das erste FVG der 0:00–0:30-Range (2024-Ergänzung)
+## "First Presentation": das größte Displacement der 0:00–0:30-Range (2024-Ergänzung)
 
 Aus [[ICT Gems - London Opening Range + Macros (Source)]] — die Verbindung zwischen dieser Range
 und dem Konzept des 1st Presented FVG:
 
-> Die **erste Ineffizienz innerhalb der 0:00–0:30-Range** ist die **"first presentation"**. Sie
-> wird **nach rechts ausgezogen und über den gesamten Tag mitgeführt**.
+> Die **markanteste Ineffizienz innerhalb der 0:00–0:30-Range** ist die **"first presentation"**.
+> Sie wird **nach rechts ausgezogen und über den gesamten Tag mitgeführt**.
+
+> ⚠️ **Nicht das chronologisch erste FVG.** Dieselbe Quelle stellt ausdrücklich klar: *"Er hat
+> nicht das erste genommen sondern das FVG das am größten und am stärksten ist was also am
+> prägnantesten ist [...] MERKE!! Nicht immer das erste FVG nehmen sondern schauen welches am
+> größten ist!! Es heißt also im Grunde nicht 1 presented FVG sondern 1. presented Displacement des
+> Tages."* Im Quellbeispiel ist es sogar das **letzte** FVG der Range. Details und weitere
+> Ausschlusskriterien: [[ORG (Opening Range Gap) & 1st Presented FVG]] → Abschnitt "1st Presented
+> FVG (1.p FVG)".
 
 Die Begründung ist zeitlich, nicht preislich: *"everything starts from time algorithmically"* — die
 Range definiert das Zeitfenster, aus dem der Referenzpunkt stammt, und dieser bleibt den ganzen Tag
 gültig. Es ist dieselbe Logik wie beim [[ORG (Opening Range Gap) & 1st Presented FVG]], nur auf die
 Midnight-Range statt auf den 9:30-Open angewendet.
+
+**Grenzen des FVG**: Open/Close entscheiden, nicht die Wicks — siehe
+[[Fair Value Gap (FVG)]] → "Einzeichnen: Open und Close, nicht die Wicks" und
+[[Volume Imbalance (VII)]].
+
+**Beispiel 13.08.2026**: Größtes Displacement der MOR ist die bearishe FVG **00:12→00:14**
+(Displacement-Kerze 00:13, Körper 29 887,25→29 877,50 = 10,5 Punkte), Zone **29 879,50–29 887,50** —
+nicht die kleinere, chronologisch erste FVG 00:01–00:03 (29 878,00–29 879,00).
 
 **Fallback ohne FVG**: Ist in den 30 Minuten keine saubere Ineffizienz erkennbar, tritt der
 [[Breaker Block|Bullish/Bearish Breaker]] an ihre Stelle — *"even if you don't see this fair value

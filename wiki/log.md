@@ -2161,3 +2161,11 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (neue Sektion
   "Datenqualität: yfinance-Preisversatz"), CLAUDE.md (Arbeitsstandard ergänzt: yfinance-only-Tage
   vor präzisionskritischen Level-Berechnungen gegenprüfen).
+
+## [2026-08-13] query | MOR-1.p-FVG-Ermittlung korrigiert (größtes Displacement statt chronologisch erstes)
+- Anlass: Nutzer bat um MOR + FVG + STD + Qs/Os/Hs für 13.08.2026, danach zeigte er 7 Screenshots aus `C:\Users\janne\Dropbox\TradingJournal\Screenshots\13-08-2026` als Referenz für korrekte FVG-Deklaration.
+- **Fehler in der vorherigen Antwort**: Als "1st presented FVG" der Midnight Opening Range (00:00-00:30) wurde die chronologisch erste FVG (00:01-00:03, 29.878,00-29.879,00) genannt. Nach Abgleich mit `raw/trading-ict/ICT 2025 Lecture Series/SMC Midnight Opening Range.md` ist das falsch — die Regel ist bereits vollständig in wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md dokumentiert (Abschnitt "1st Presented FVG (1.p FVG)"), fehlte aber auf wiki/concepts/Midnight Opening Range.md.
+- Seiten aktualisiert: wiki/concepts/Midnight Opening Range.md (Abschnitt "First Presentation" korrigiert: größtes/markantestes Displacement statt chronologisch erstes FVG, Verweis auf Open/Close-Regel für FVG-Grenzen ergänzt, konkretes Tagesbeispiel 13.08.2026 eingetragen).
+- Korrekte Antwort für 13.08.2026: größtes Displacement der MOR ist die bearishe FVG 00:12→00:14 (Displacement-Kerze 00:13, Körper 29.887,25→29.877,50 = 10,5 Punkte), Zone 29.879,50-29.887,50 (Range 8,0 Punkte) — nicht die kleine 00:01-00:03-FVG (1,0 Punkt). Deckt sich exakt mit Nutzer-Screenshot 3 (00:12/00:14-Box).
+- Qs/Os/Hs der korrigierten Zone: C.E. (50%) = 29.883,50; Qs 29.879,50/29.881,50/29.883,50/29.885,50/29.887,50.
+- Screenshot-Cross-Check FVG-Grenzen (Open/Close statt Wick, siehe wiki/concepts/Fair Value Gap (FVG).md + Volume Imbalance (VII).md) blieb bei 4 der 7 Beispiele nicht vollständig eindeutig rekonstruierbar (Pixelwerte passten teils zu Open/Close, teils zu Wick, ohne klares durchgängiges Muster) — als offener Punkt vermerkt, nicht weiter verfolgt, da die Kern-Regel bereits textuell in den Wiki-Quellen vorliegt und nicht aus Pixeln neu abgeleitet werden muss.
