@@ -245,7 +245,8 @@ am E-Mini S&amp;P wurde ein 16tel-Level bei 7.761,75 projiziert, das Tagestief k
 <strong>2 Ticks Abweichung</strong>. Details und Ablauf auf <a href="../p/market-on-close-moc-macro-model.html">Market on Close (MOC) Macro Model</a>.</p>
 <h2 id="terminologie-qs-os-hs">Terminologie: Qs / Os / Hs</h2>
 <p>Ein einheitliches Fib-Raster in drei Verfeinerungsstufen, anwendbar auf jede Range (Wick, ORG,
-NDOG/NWOG, FVG, OB, BISI/SIBI):</p>
+NDOG/NWOG, FVG, <strong>Order Block inkl. aller Varianten</strong> — Breaker/Rejection/Mitigation/Propulsion/
+Reclaimed —, CISD, BISI/SIBI):</p>
 <table>
 <thead>
 <tr>
@@ -289,9 +290,11 @@ Array-Typen. Merksatz: <strong>jeder Order-Block-Abkömmling nutzt „Mean Thres
 Wick/Gap nutzt „C.E.".</p>
 <blockquote>
 <p><strong>Standardverfahren ab jetzt</strong>: Fragt der Nutzer nach den Qs, Os oder Hs einer Range (z.B. einer
-Premium Wick oder des ORG), immer eine vollständige tabellarische Übersicht aller Level dieser
-Stufe berechnen und ausgeben (High/Low der Range, dann jedes Q/O/H-Level mit Preis), nicht nur
-das angefragte Einzellevel.</p>
+Premium Wick, des ORG <strong>oder eines Order Blocks bzw. einer OB-Variante — Breaker, Rejection,
+Mitigation, Propulsion, Reclaimed</strong>), immer eine vollständige tabellarische Übersicht aller Level
+dieser Stufe berechnen und ausgeben (High/Low der Range, dann jedes Q/O/H-Level mit Preis), nicht
+nur das angefragte Einzellevel. Das <strong>0,5-Level dabei typgerecht beschriften</strong>: bei Wick/FVG als
+<strong>C.E.</strong>, bei Order Block / OB-Variante / CISD als <strong>Mean Threshold</strong>.</p>
 <p><strong>Erweiterung (2026-08-10)</strong>: Auch <strong>ohne explizite Nachfrage</strong> — sobald der Nutzer in einem
 Daily/Weekly Bias von <strong>Wicks oder FVGs</strong> spricht, automatisch die Qs/Os/Hs-Tabelle für die
 relevante Range dazu erstellen und prüfen, <strong>welche Level Preis bereits respektiert hat</strong>

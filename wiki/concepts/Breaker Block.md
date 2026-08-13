@@ -7,8 +7,9 @@ sources: ["[[Reeinforced Orderblock Theory BreakerBlock (Source)]]", "[[ICT Ment
 
 # Breaker Block
 
-> **0,5-Level = Mean Threshold** (nicht C.E.) — als [[Order Block]]-Variante folgt der Breaker
-> Block der OB-Terminologie, siehe [[Chain of Custody (Q-Validation)]].
+> **Fib-Raster:** Der Breaker Block wird wie jede Range in **Qs/Os/Hs** unterteilt
+> ([[Chain of Custody (Q-Validation)]]); sein **0,5-Level heißt Mean Threshold** (nicht C.E., das
+> ist der Wick/FVG-Begriff). Nach dem Qs/Os/Hs-Standardverfahren also die volle Level-Tabelle rechnen.
 
 [[Order Block]]-Variante, die auf gejagte Stop-Losses fokussiert:
 

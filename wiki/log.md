@@ -2182,3 +2182,11 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   alle OB-Varianten verallgemeinert + Merksatz; eine wick-Kontext-Stelle "0,5-Mean-Threshold" →
   "0,5-C.E." korrigiert), wiki/concepts/Breaker Block.md + wiki/concepts/Rejection Block.md
   (je ein Hinweis "0,5-Level = Mean Threshold").
+
+## [2026-08-13] lint | Qs/Os/Hs-Standardverfahren gilt auch für Order-Block-Varianten
+- Nutzerpräzisierung: Das Qs/Os/Hs-Standardverfahren (volle Level-Tabelle einer Range rechnen) gilt
+  ebenso für Order Blocks und alle Varianten (Breaker, Rejection, Mitigation, Propulsion, Reclaimed)
+  — dort das 0,5-Level als **Mean Threshold** beschriften (bei Wick/FVG bleibt es C.E.).
+- Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Intro +
+  Standardverfahren-Box um OB-Varianten und typgerechte 0,5-Beschriftung erweitert),
+  wiki/concepts/Breaker Block.md + wiki/concepts/Rejection Block.md (Hinweise um Qs/Os/Hs ergänzt).

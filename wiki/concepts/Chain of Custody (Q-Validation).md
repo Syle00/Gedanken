@@ -69,7 +69,8 @@ am E-Mini S&P wurde ein 16tel-Level bei 7.761,75 projiziert, das Tagestief kam b
 ## Terminologie: Qs / Os / Hs
 
 Ein einheitliches Fib-Raster in drei Verfeinerungsstufen, anwendbar auf jede Range (Wick, ORG,
-NDOG/NWOG, FVG, OB, BISI/SIBI):
+NDOG/NWOG, FVG, **Order Block inkl. aller Varianten** — Breaker/Rejection/Mitigation/Propulsion/
+Reclaimed —, CISD, BISI/SIBI):
 
 | Kürzel | Name | Unterteilung | Level-Abstand |
 |---|---|---|---|
@@ -90,9 +91,11 @@ Array-Typen. Merksatz: **jeder Order-Block-Abkömmling nutzt „Mean Threshold"*
 Wick/Gap nutzt „C.E.".
 
 > **Standardverfahren ab jetzt**: Fragt der Nutzer nach den Qs, Os oder Hs einer Range (z.B. einer
-> Premium Wick oder des ORG), immer eine vollständige tabellarische Übersicht aller Level dieser
-> Stufe berechnen und ausgeben (High/Low der Range, dann jedes Q/O/H-Level mit Preis), nicht nur
-> das angefragte Einzellevel.
+> Premium Wick, des ORG **oder eines Order Blocks bzw. einer OB-Variante — Breaker, Rejection,
+> Mitigation, Propulsion, Reclaimed**), immer eine vollständige tabellarische Übersicht aller Level
+> dieser Stufe berechnen und ausgeben (High/Low der Range, dann jedes Q/O/H-Level mit Preis), nicht
+> nur das angefragte Einzellevel. Das **0,5-Level dabei typgerecht beschriften**: bei Wick/FVG als
+> **C.E.**, bei Order Block / OB-Variante / CISD als **Mean Threshold**.
 >
 > **Erweiterung (2026-08-10)**: Auch **ohne explizite Nachfrage** — sobald der Nutzer in einem
 > Daily/Weekly Bias von **Wicks oder FVGs** spricht, automatisch die Qs/Os/Hs-Tabelle für die
