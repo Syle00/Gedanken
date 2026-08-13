@@ -61,3 +61,55 @@ Level sind aktuell keine naheliegenden Ziele, bleiben aber als Sellside-DOL im B
 Preis vor dem Buyside-Ziel noch mal zurückfällt. `--dry-run` liefert diese Felder bewusst leer
 (kein Multi-Day-Fetch dort), `--selftest` deckt `open_gap_history()` mit synthetischen Tageskerzen
 ab. Alle 4 Selftests und alle 16 `algo/selfcheck.py`-Checks laufen grün.
+
+## [2026-08-13 14:02 NY] Live-Status (first_run — Startaufnahme des ganzen Handelstages)
+
+**Stand.** Preis **30.214,75**. ⚠️ Datenstand der Kerze ist **13:45 NY**, der Lauf 14:02 NY —
+**17 Minuten Verzug**, die bekannte yfinance-Grenze bei MNQ=F. Alles unten ist auf 13:45 bezogen.
+Aktives Makro-Fenster **13:50–14:10**, dazu **NY PM Silver Bullet** aktiv. `setup: null` — die
+Regel hat für das Fenster keinen Trigger erzeugt.
+
+- **ORG (Opening Range Gap):** Vortages-Close 29.830,75 (12.08. 16:15), Open 29.910,25,
+  **Gap +79,50 nach oben**, C.E. **29.870,50**. **Innerhalb der ersten 30 Minuten gefüllt** —
+  sogar in der 09:30-Kerze selbst (deren Tief 29.862,75 lief unter das C.E.). Ein Treffer für
+  die ICT-These „C.E. zu 70 % gefüllt"; der eigene Backtest steht weiter bei 35–43 %, die These
+  bleibt auf Wunsch in Beobachtung.
+- **NDOG heute:** Vortages-Close 29.878,50 (23:55), Open 29.885,50, **Gap 7,00** — klein, um
+  **00:10 gefüllt**. Passt zur empirischen Fill-Quote von 86 % (kleine Gaps füllen zuverlässiger).
+- **NWOG:** `null` (Donnerstag).
+- **Noch offene ältere Level (DOL-These):** NDOG 07.08. **29.488,25** (Gap 26,75), NDOG 12.08.
+  **29.626,00** (Gap 37,00), NWOG 03.08. **28.404,25** (Gap 163,25). Alle drei liegen 590 bis
+  1.810 Punkte **unter** dem Preis — heute keine realistischen Ziele, bleiben als Sellside-DOL
+  im Blick.
+
+**Abgleich.** `first_run: true`, die 74 Events sind die Startaufnahme des ganzen Tages, nicht das,
+was gerade eben passierte. Der Tag deckt sich auffallend sauber mit dem Sweep-/Reclaim-Schema:
+
+- **09:30 Sellside-Sweep 29.899,75 mit 37 Punkten Penetration, Reclaim in derselben Kerze**
+  (`bars_back: 0`) — Tagestief 29.862,75. Direkt danach bullish **BOS 09:30** (Level 29.921,00,
+  Close 29.945,75). Vorlauf gab es schon um 09:00 mit einem bullishen **MSS** (Level 29.894,00,
+  Close 29.908,75), also vor dem RTH-Open.
+- Von dort **+404 Punkte** bis zum Hoch **30.267,00** um 10:35. Der Move riss drei große bullishe
+  FVGs auf, die bis heute unberührt sind (siehe Ausblick).
+- **Das Weekly-Bias-Ziel aus dem Journal vom 10.08. — Buyside 30.094,00 — ist heute genommen und
+  klar überschritten.** Ebenso das Interimsziel 29.931,75 aus dem Daily Bias von heute früh.
+- Danach Verteilung: bearish **MSS 11:25** (30.194,00), Rücklauf bis 30.104,00, dann bullish
+  **MSS 12:25** (30.173,25) und **BOS 13:00** (30.199,75) nach einem Buyside-Sweep um 12:50.
+- Gegenüber dem letzten Eintrag (02:35 NY, Preis 29.902,50) sind das **+312 Punkte**.
+
+**Ausblick.**
+
+- **Direkt über dem Preis:** unberührte Buyside **30.250,25** (13:20) und **30.267,00** (10:35,
+  Tageshoch) — nur 35 bzw. 52 Punkte entfernt. Das ist das naheliegende DOL für das laufende
+  Makro-Fenster und die PM-Killzone.
+- **Erste Auffanglinie darunter:** die bullishe FVG **30.193,50–30.216,50** (13:00) — angetastet,
+  C.E. 30.205,00 noch **nicht** erreicht. Darunter 30.165,25–30.184,00 (12:25) und die noch völlig
+  unberührte 30.143,75–30.165,50 (12:20).
+- **Unberührte Sellside:** 30.176,25 / 30.133,25 / 30.104,00.
+- **Die markanteste offene Imbalance des Tages** ist die bullishe FVG **30.053,75–30.119,00**
+  (09:45, 65,25 Punkte, C.E. 30.086,50 nie erreicht). Wird der PM-Rücksetzer größer, ist das der
+  stärkste Magnet — und sie deckt sich mit der unberührten Sellside 30.104,00.
+- Darunter liegen als Reste des Vertikal-Moves noch 29.947,00–29.995,50 (09:35, 48,5 Pkt) und
+  29.920,00–29.940,00 (09:30) — beide **komplett unberührt**, `touched: false`.
+- Einschränkung: `raw/marktdaten` hat für heute nur bis 13:39 NY, der Live-Feed bis 13:45. Alles
+  ab 13:45 ist in dieser Aufnahme nicht enthalten.
