@@ -7,6 +7,9 @@ sources: ["[[Reeinforced Orderblock Theory BreakerBlock (Source)]]", "[[ICT Ment
 
 # Breaker Block
 
+> **0,5-Level = Mean Threshold** (nicht C.E.) — als [[Order Block]]-Variante folgt der Breaker
+> Block der OB-Terminologie, siehe [[Chain of Custody (Q-Validation)]].
+
 [[Order Block]]-Variante, die auf gejagte Stop-Losses fokussiert:
 
 - **Bullish Breaker Block**: Fokus auf das Short-Term-High am durchspikten Punkt — dort liegen die

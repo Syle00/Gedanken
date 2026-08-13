@@ -17,8 +17,9 @@ zum DOL gezogen, um die **gesamte Dealing Range** zu antizipieren.
   validieren eine PD Array: geht ein FVG **durch ein Q** (überlappend), gilt das als Bestätigung,
   dass die PD Array **stark ist und hält** — gilt genauso für andere PD-Typen wie [[Order Block]]s
   (macht einen OB ab diesem Moment "validiert").
-- **Größere Qs sind relevanter** als kleinere. Besonders relevant: das **0,5-Mean-Threshold** der
-  antizipierten Dealing Range — erfolgt dort ein Displacement, soll dieses Gap als **Measuring Gap**
+- **Größere Qs sind relevanter** als kleinere. Besonders relevant: das **0,5-C.E.** der
+  antizipierten Dealing Range (aus Wick/FVG projiziert → C.E., nicht Mean Threshold) — erfolgt dort
+  ein Displacement, soll dieses Gap als **Measuring Gap**
   fungieren und **nicht gefüllt** werden (kein Retracement dorthin erwartet).
 - Auf den Qs können sich weitere Imbalances bilden — Voraussetzung ist eine korrekt eingezeichnete
   antizipierte Dealing Range.
@@ -77,9 +78,16 @@ NDOG/NWOG, FVG, OB, BISI/SIBI):
 | **Hs** | Hexadezimanten | Range / 16 | 6,25 % |
 
 **0,5-Level je nach PD-Array-Typ benannt** (nicht synonym): Es ist immer das 50-%-Level der Range,
-heißt aber unterschiedlich — bei **Wick und FVG** → **C.E. (Consequent Encroachment)**, bei
-**[[Order Block]] und [[CISD (Change in State of Delivery)|CISD]]** → **Mean Threshold**. Also:
-C.E. ≠ Mean Threshold, es sind zwei Namen für dasselbe Fib-Level bei verschiedenen Array-Typen.
+heißt aber unterschiedlich —
+
+- **Wick** und **[[Fair Value Gap (FVG)|FVG]]** → **C.E. (Consequent Encroachment)**.
+- **[[Order Block]] und alle seine Varianten** — [[Breaker Block]], [[Rejection Block]],
+  [[Mitigation Block]], [[Propulsion Block]], [[Reclaimed Order Block]] — sowie
+  **[[CISD (Change in State of Delivery)|CISD]]** → **Mean Threshold**.
+
+Also: C.E. ≠ Mean Threshold, es sind zwei Namen für dasselbe Fib-Level bei verschiedenen
+Array-Typen. Merksatz: **jeder Order-Block-Abkömmling nutzt „Mean Threshold"**, alles vom Typ
+Wick/Gap nutzt „C.E.".
 
 > **Standardverfahren ab jetzt**: Fragt der Nutzer nach den Qs, Os oder Hs einer Range (z.B. einer
 > Premium Wick oder des ORG), immer eine vollständige tabellarische Übersicht aller Level dieser

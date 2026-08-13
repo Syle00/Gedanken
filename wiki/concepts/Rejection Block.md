@@ -7,6 +7,9 @@ sources: ["[[Reeinforced Orderblock Theory Rejection Block (Source)]]", "[[ICT M
 
 # Rejection Block
 
+> **0,5-Level = Mean Threshold** (nicht C.E.) — als [[Order Block]]-Variante folgt der Rejection
+> Block der OB-Terminologie, siehe [[Chain of Custody (Q-Validation)]].
+
 [[Order Block]]-Variante: entsteht, wenn Preis ein High/Low (Swing High/Low) formt und sich dabei
 ein Wick bildet — der Candle Body closed über/unter dem Wick, während der Wick selbst kurz darüber
 hinausgeht, um Liquidity zu nehmen, bevor der eigentliche Move (Fortsetzung oder Reversal) startet.

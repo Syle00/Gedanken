@@ -2173,3 +2173,12 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Absatz +
   Standardverfahren-Box korrigiert), wiki/concepts/Order Block.md (Abschnitt "Mean Threshold bei
   Multi-Candle-OBs": OB-0,5-Level durchgehend als Mean Threshold, Klarstellung ergänzt).
+
+## [2026-08-13] lint | Mean Threshold gilt für alle Order-Block-Varianten
+- Nutzerpräzisierung: Das 0,5-Level heißt **Mean Threshold bei allen Order-Block-Varianten**
+  (Breaker Block, Rejection Block, Mitigation Block, Propulsion Block, Reclaimed Order Block) und
+  CISD — nicht nur beim "reinen" Order Block. C.E. bleibt der Begriff für Wick/FVG.
+- Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Regel auf
+  alle OB-Varianten verallgemeinert + Merksatz; eine wick-Kontext-Stelle "0,5-Mean-Threshold" →
+  "0,5-C.E." korrigiert), wiki/concepts/Breaker Block.md + wiki/concepts/Rejection Block.md
+  (je ein Hinweis "0,5-Level = Mean Threshold").
