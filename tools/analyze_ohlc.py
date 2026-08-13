@@ -406,12 +406,16 @@ def fvgs(bars: list[Bar], min_size: float = 0.0, tick: float | str | None = None
         a, m, c = bars[i - 1], bars[i], bars[i + 1]
         if c.l > a.h and c.l - a.h > min_size:
             side = "bullish"
-            lo = a.c if m.o > a.c else a.h
-            hi = c.o if c.o > m.c else c.l
+            # Grenze aus der VII (aeusserer Rand der Close/Open-Luecke) statt Wick, wenn eine
+            # VII vorliegt (Close != Open zur Nachbarkerze); sonst der Wick. Der aeussere Rand
+            # ist beim Bottom das Minimum aus (a.close, m.open), beim Top das Maximum aus
+            # (m.close, c.open). Siehe wiki/concepts/Volume Imbalance (VII).md (Zahlenbeispiel).
+            lo = min(a.c, m.o) if a.c != m.o else a.h
+            hi = max(m.c, c.o) if m.c != c.o else c.l
         elif c.h < a.l and a.l - c.h > min_size:
             side = "bearish"
-            lo = c.o if c.o < m.c else c.h
-            hi = a.c if m.o < a.c else a.l
+            hi = max(a.c, m.o) if a.c != m.o else a.l
+            lo = min(m.c, c.o) if m.c != c.o else c.h
         else:
             continue
         # lo/hi stammen aus echten Kursen und liegen damit bereits auf dem Raster; der C.E.
@@ -434,6 +438,28 @@ def fvgs(bars: list[Bar], min_size: float = 0.0, tick: float | str | None = None
                     "size": hi - lo, "touched": touched, "ce_hit": ce_hit,
                     "filled": filled, "fill_t": fill_t})
     return out
+
+
+def fvg_selfcheck() -> None:
+    """Regression fuer die VII-inklusive FVG-Messung -- pinnt das Zahlenbeispiel aus
+    wiki/concepts/Volume Imbalance (VII).md. Fruehere Fassung mass bearishe FVGs nur ueber
+    die Wicks (VII verworfen) und damit zu klein. Wird von algo/selfcheck.py aufgerufen."""
+    from datetime import datetime as _dt
+    def mk(hh, o, h, l, c):
+        return Bar(_dt(2026, 8, 1, 0, hh, tzinfo=NY), o, h, l, c)
+    # Bearish (Wiki-Beispiel): C1.close=28450.25, C2 open/close=28450.50/28274.50,
+    # C3.open=28275.00 -> zwei VII, Grenzen muessen aus den VII kommen: lo=28274.50, hi=28450.50.
+    a = mk(0, 28460, 28470, 28449, 28450.25)
+    m = mk(1, 28450.50, 28451, 28274, 28274.50)
+    c = mk(2, 28275.00, 28276, 28270, 28271)
+    f = fvgs([a, m, c])[0]
+    assert f["side"] == "bearish", f
+    assert f["lo"] == 28274.50 and f["hi"] == 28450.50, f  # VII mitgenommen, nicht Wicks
+    # Ohne VII (Close == Open zur Nachbarkerze) muessen die Wicks greifen.
+    a = mk(0, 99, 100.5, 98, 100); m = mk(1, 100, 111, 99.5, 110); c = mk(2, 110, 114, 108, 113)
+    f = fvgs([a, m, c])[0]
+    assert f["side"] == "bullish" and f["lo"] == 100.5 and f["hi"] == 108, f
+    print("fvg_selfcheck: VII-inklusive Messung OK")
 
 
 def viis(bars: list[Bar], min_size: float = 0.0):

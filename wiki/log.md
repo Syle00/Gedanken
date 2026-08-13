@@ -2199,3 +2199,10 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Nebenbefund (Backtest 10.08-MOR neu gerechnet, nun korrekt "größtes"): von 3 FVGs im 0:00–0:30-
   Fenster war das erste (00:08, 6,0 Pkt) zugleich das größte → 1.p = 00:08, C.E. 29.883,50 bestätigt.
 - Seite aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (Abgrenzungs-Box).
+
+## [2026-08-13] lint | FVG-Messung korrigiert (VII-inklusiv) in analyze_ohlc.fvgs()
+- Bugfix: fvgs() mass FVG-Grenzen im bearishen Zweig faelschlich ueber die Wicks statt VII-inklusiv
+  (Open/Close). Korrigiert gemaess wiki/concepts/Volume Imbalance (VII).md (Zahlenbeispiel).
+- Auswirkung: MOR 13.08 1.p kippt von 00:23 bullish (8,75) auf 00:13 bearish (10,00, C.E. 29.882,50).
+- Code: tools/analyze_ohlc.py (fvgs + neuer Regressionstest fvg_selfcheck), algo/selfcheck.py
+  (Check "fvg_vii", 17/17 gruen), algo/README.md + algo/PLAN.md dokumentiert.

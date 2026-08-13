@@ -561,3 +561,12 @@ Backtests -- Entry schwerer zu fuellen (long ab, short auf), Stop und Ziel weite
 **Bekannte Grenze:** `fvgs()`/`org_gap()` runden nur, wenn `tick` uebergeben wird. Ohne den
 Parameter bleibt der rohe Mittelwert stehen -- Absicht, damit das Modul symbolagnostisch
 bleibt (Forex hat 0,00001), aber es heisst: neue Aufrufer muessen `tick` mitgeben.
+
+**FVG-Grenzen sind VII-inklusiv (Fix 2026-08-13).** `fvgs()` misst die FVG-Grenzen ueber
+Open/Close inkl. einer anliegenden Volume Imbalance (VII), nicht ueber die Wicks -- gemaess
+wiki/concepts/Volume Imbalance (VII).md. Bottom = `min(a.close, m.open)`, Top = `max(m.close,
+c.open)` (bullish; bearish spiegelbildlich), Fallback auf den Wick nur wenn keine VII vorliegt
+(Close == Open zur Nachbarkerze). Vorher mass der bearishe Zweig faelschlich ueber die Wicks
+(VII verworfen) und damit systematisch zu klein; das konnte die Groessen-Rangfolge und damit
+das "groesste = 1.p"-Displacement kippen. Regression: `analyze_ohlc.fvg_selfcheck()` (in
+`selfcheck.py` als `fvg_vii`), pinnt das Zahlenbeispiel der VII-Wiki-Seite.
