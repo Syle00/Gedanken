@@ -2169,3 +2169,21 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Korrekte Antwort für 13.08.2026: größtes Displacement der MOR ist die bearishe FVG 00:12→00:14 (Displacement-Kerze 00:13, Körper 29.887,25→29.877,50 = 10,5 Punkte), Zone 29.879,50-29.887,50 (Range 8,0 Punkte) — nicht die kleine 00:01-00:03-FVG (1,0 Punkt). Deckt sich exakt mit Nutzer-Screenshot 3 (00:12/00:14-Box).
 - Qs/Os/Hs der korrigierten Zone: C.E. (50%) = 29.883,50; Qs 29.879,50/29.881,50/29.883,50/29.885,50/29.887,50.
 - Screenshot-Cross-Check FVG-Grenzen (Open/Close statt Wick, siehe wiki/concepts/Fair Value Gap (FVG).md + Volume Imbalance (VII).md) blieb bei 4 der 7 Beispiele nicht vollständig eindeutig rekonstruierbar (Pixelwerte passten teils zu Open/Close, teils zu Wick, ohne klares durchgängiges Muster) — als offener Punkt vermerkt, nicht weiter verfolgt, da die Kern-Regel bereits textuell in den Wiki-Quellen vorliegt und nicht aus Pixeln neu abgeleitet werden muss.
+
+## [2026-08-13] ingest | MNQ 1m TradingView-Export 13.08.2026 (Nachlauf bis 13:39 NY)
+- Quelle: `CME_MINI_MNQU2026, 1_6f7e6.csv` (TradingView, 3478 Kerzen, 11.08. 01:42 – 13.08. 13:39 NY),
+  via `python algo/ingest_tvexport.py <datei> MNQ`.
+- Ergebnis: `raw/marktdaten/2026/08/13.08.2026/MNQ 2026-08-13 1m.csv` 825 → **1180 Kerzen** (+355),
+  **0 Lücken**, 1 Kerze von TradingView revidiert. Handelstag 12.08. 18:00 → 13.08. 13:39 NY.
+  Es fehlen noch 200 Kerzen (13:40–17:00 NY) — Handelstag war beim Export nicht geschlossen,
+  kein Datenfehler.
+- Higher-Timeframes für 13.08. aus der neuen 1m-Basis neu gebaut (`tools/resample_1m.py`):
+  5m 236 / 15m 79 / 1h 20 / 4h 6 / 1d 1 Kerze.
+- Die restlichen losen Exporte (11./12.08. MNQ, ES, YM, DXY in `Desktop\Gedanken\raw\` und
+  `Desktop\Trading Journaling\`) wurden per Dry-Run gegengeprüft: **alle bringen 0 neue Kerzen**,
+  sind also bereits im Bestand. Bewusst *nicht* erneut eingespielt — die Konfliktregel
+  „neuer Export gewinnt" hätte hier ältere Exportstände über den aktuellen Bestand geschrieben
+  (z.B. 22 abweichende Kerzen im 10.08.-Teil von `..._33e80.csv`).
+- ✅ Erledigt: Die im Daily-Bias-Eintrag 2026-08-13 vermerkte Datenlücke („12.08. nur 18:00–03:29 NY,
+  CPI-Move und RTH fehlen") ist geschlossen — 12.08. hat jetzt 1380/1380 Kerzen ohne Lücke, der
+  12.08.-Move ist gegen echte OHLC-Daten verifizierbar.
