@@ -28,16 +28,21 @@ Erzeuge `raw/journal/Daily Bias YYYY-MM-DD.md` fuer den naechsten Handelstag.
 4. **Wochen-/Vortages-Range.** `python algo/bias_levels.py <ZIEL>` ausfuehren. `weekly_range`
    (high/low/days) und `yesterday_range` (high/low/close) aus der JSON-Ausgabe entnehmen.
 
-5. **Levels-Tabelle bauen** (immer als Markdown-Tabelle, nicht als Fliesstext):
+5. **Levels-Tabelle bauen** -- eine einzige, durchgehende Markdown-Tabelle, nicht als Fliesstext
+   und nicht als Bullet-Liste. Weekly Range, gestrige Daily Range und ORG-C.E. sind eigene Zeilen
+   derselben Tabelle, keine separaten Abschnitte danach:
 
-   | Level | Open | Close |
-   |---|---|---|
-   | NWOG | ... | ... |
-   | NDOG | ... | ... |
+   | Level | Wert |
+   |---|---|
+   | NWOG Open/Close | ... |
+   | NDOG Open/Close | ... |
+   | Weekly Range High/Low | ... |
+   | Gestrige Daily Range H/L/C | ... |
+   | ORG-C.E. | ... |
 
-   Darunter: Weekly Range (High/Low aus Schritt 4), gestrige Daily Range H/L/C (aus Schritt 4),
-   ORG-C.E. (aus Schritt 3, falls vorhanden). Fehlt ein Wert (null/None), die Zeile weglassen
-   statt eine erfundene Zahl einzutragen.
+   Werte aus Schritt 3 (NWOG/NDOG/ORG-C.E.) und Schritt 4 (Weekly Range/gestrige Daily Range).
+   Fehlt ein Wert (null/None), die betroffene Zeile komplett weglassen statt eine erfundene Zahl
+   einzutragen.
 
 6. **Weekly-Bias-Rueckverlinkung.** ISO-Kalenderwoche von `<ZIEL>` bestimmen
    (`date -d <ZIEL> +%V`, Jahr `date -d <ZIEL> +%Y`). Nach
@@ -72,7 +77,7 @@ Erzeuge `raw/journal/Daily Bias YYYY-MM-DD.md` fuer den naechsten Handelstag.
    <Tabelle aus Schritt 2, oder Warnzeile>
 
    ## Levels
-   <Tabelle + Zeilen aus Schritt 5>
+   <Tabelle aus Schritt 5>
 
    ## Wiki-Bezug
    <Wikilinks aus Schritt 7>
