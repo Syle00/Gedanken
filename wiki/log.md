@@ -2266,3 +2266,15 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (zwei neue Abschnitte
   "Stark (High Probability) vs. normal" und "Zeitstempel: die mittlere Kerze"), algo/README.md,
   algo/PLAN.md.
+
+## [2026-08-13] lint | MNQ-Tiefhistorie 1d: zwei defekte Sammeldateien aussortiert
+- Befund: `MNQ 2026-07-31 1d.csv` und `MNQ 2026-08-03 1d.csv` (je ~290 Daily-Bars) enthielten
+  71 degenerierte Bars (`open==high`, `low==close`, 2025-06-09 .. 2025-12-18), zusaetzlich einen
+  Datums-Offset von +1 Tag und im 2025er Teil nicht reproduzierbare Preise.
+- **Aktiver Bestand war nicht betroffen**: Vollpruefung aller 1 833 MNQ-1d-Tagesdateien
+  (2019-05 .. 2026-08) gegen frischen yfinance-Abruf — 0 abweichend, 0 degeneriert. Der Defekt
+  lag in einem redundanten Parallel-Strang, nicht in der primaeren Tagesebene.
+- Massnahme: beide Dateien nach `raw/marktdaten/_defekt/tiefhistorie-1d-2026-08/` verschoben
+  (mit README + Beweisfuehrung), 2 fehlende Handelstage per `fetch_yfinance.py` nachgezogen.
+  Lueckenpruefung: 406 Handelstage, 11 fehlende Wochentage = ausschliesslich US-Feiertage.
+- Details und die drei widerlegten Zwischenhypothesen: `algo/PLAN.md`, Eintrag 2026-08-13.

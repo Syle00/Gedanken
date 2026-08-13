@@ -177,6 +177,7 @@
 <li><a href="#2026-08-13-setup-qsoshs-tabelle-als-standard-fuer-jedes-konzept-jeden-timeframe">[2026-08-13] setup | Qs/Os/Hs-Tabelle als Standard fuer jedes Konzept &amp; jeden Timeframe</a></li>
 <li><a href="#2026-08-13-lint-korrektur-daily-premium-wick-die-0508-wick-nicht-die-letzte-kerze">[2026-08-13] lint | Korrektur: "Daily Premium Wick" = die 05.08.-Wick, nicht die letzte Kerze</a></li>
 <li><a href="#2026-08-13-lint-fvg-zeitstempel-displacement-kerze-einstufung-starknormal">[2026-08-13] lint | FVG-Zeitstempel (Displacement-Kerze) + Einstufung stark/normal</a></li>
+<li><a href="#2026-08-13-lint-mnq-tiefhistorie-1d-zwei-defekte-sammeldateien-aussortiert">[2026-08-13] lint | MNQ-Tiefhistorie 1d: zwei defekte Sammeldateien aussortiert</a></li>
 </ul>
 </div>
 </details>
@@ -2571,6 +2572,19 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (zwei neue Abschnitte
   "Stark (High Probability) vs. normal" und "Zeitstempel: die mittlere Kerze"), algo/README.md,
   algo/PLAN.md.</li>
+</ul>
+<h2 id="2026-08-13-lint-mnq-tiefhistorie-1d-zwei-defekte-sammeldateien-aussortiert">[2026-08-13] lint | MNQ-Tiefhistorie 1d: zwei defekte Sammeldateien aussortiert</h2>
+<ul>
+<li>Befund: <code>MNQ 2026-07-31 1d.csv</code> und <code>MNQ 2026-08-03 1d.csv</code> (je ~290 Daily-Bars) enthielten
+  71 degenerierte Bars (<code>open==high</code>, <code>low==close</code>, 2025-06-09 .. 2025-12-18), zusaetzlich einen
+  Datums-Offset von +1 Tag und im 2025er Teil nicht reproduzierbare Preise.</li>
+<li><strong>Aktiver Bestand war nicht betroffen</strong>: Vollpruefung aller 1 833 MNQ-1d-Tagesdateien
+  (2019-05 .. 2026-08) gegen frischen yfinance-Abruf — 0 abweichend, 0 degeneriert. Der Defekt
+  lag in einem redundanten Parallel-Strang, nicht in der primaeren Tagesebene.</li>
+<li>Massnahme: beide Dateien nach <code>raw/marktdaten/_defekt/tiefhistorie-1d-2026-08/</code> verschoben
+  (mit README + Beweisfuehrung), 2 fehlende Handelstage per <code>fetch_yfinance.py</code> nachgezogen.
+  Lueckenpruefung: 406 Handelstage, 11 fehlende Wochentage = ausschliesslich US-Feiertage.</li>
+<li>Details und die drei widerlegten Zwischenhypothesen: <code>algo/PLAN.md</code>, Eintrag 2026-08-13.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
