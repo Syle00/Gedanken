@@ -26,9 +26,8 @@ DATA_DIR = ROOT / "raw" / "marktdaten"
 RESULTS_DIR = Path(__file__).resolve().parent / "results"
 
 
-def find_1d_days(symbol: str = "MNQ") -> list[tuple[date, Path]]:
-    """(Handelstag, Pfad zur 1d-Datei) fuer jeden Tagesordner mit `symbol`-1d-Daten.
-    Verschoben aus backtest_daily_patterns.py (2026-08-07)."""
+def find_days(symbol: str = "MNQ", tf: str = "1d") -> list[tuple[date, Path]]:
+    """(Handelstag, Pfad) fuer jeden Tagesordner mit `symbol`-Daten im Timeframe `tf`."""
     out = []
     for day_dir in sorted(DATA_DIR.glob("*/*/*")):
         if not day_dir.is_dir():
@@ -37,10 +36,16 @@ def find_1d_days(symbol: str = "MNQ") -> list[tuple[date, Path]]:
             day = datetime.strptime(day_dir.name, "%d.%m.%Y").date()
         except ValueError:
             continue
-        files = sorted(day_dir.glob(f"{symbol} * 1d.csv"))
+        files = sorted(day_dir.glob(f"{symbol} * {tf}.csv"))
         if files:
             out.append((day, files[0]))
     return sorted(out)
+
+
+def find_1d_days(symbol: str = "MNQ") -> list[tuple[date, Path]]:
+    """(Handelstag, Pfad zur 1d-Datei). Verschoben aus backtest_daily_patterns.py
+    (2026-08-07), seit 2026-08-13 duenner Wrapper um find_days()."""
+    return find_days(symbol, "1d")
 
 
 def load_rows(symbol: str = "MNQ") -> list[dict]:

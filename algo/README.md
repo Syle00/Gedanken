@@ -646,3 +646,58 @@ Einordnung vergessen kann. Reuse: `swings()` fuer die Level, `structure_breaks()
 **Zeitstempel:** `t` ist die **mittlere** (Displacement-)Kerze, dazu `t_start`/`t_end` fuer die
 Drei-Kerzen-Spanne. Vorher wurde in Auswertungen teils auf die dritte Kerze umgerechnet -- das
 verschiebt jede Box im Chart um eine Kerze und laesst am Fensterrand FVGs verschwinden.
+
+## `backtest_fvg_strength.py` -- was macht ein FVG wirklich stark?
+
+**Was:** Prueft die vier Nutzerthesen vom 13.08.2026 (Groesse haengt an Session/Vola;
+Swing-Break; gross + MSS = High Probability; Confluence mit Higher-TF-Qs bzw. NDOG/NWOG) ueber
+alle MNQ-1m-Tage. Ergebnisseite: `wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence
+(laufend).md`, Rohwerte `algo/results/fvg_strength.json`.
+
+**Wie:** Limit-Entry am C.E., Stop an der fernen Kante, Ziel 2R, P&L in echten Dollar ueber
+`pnl.POINT_VALUE`. `size_rel = FVG-Groesse / Median-Range der 30 Kerzen davor` ist der
+sessionunabhaengige Groessenmassstab -- absolute Punkte sind wertlos, weil eine 1m-Kerze um
+9:35 fast dreimal so gross ist wie um 4:00.
+
+**Bekannte Grenze (wichtig):** `dubious_pct` -- Stop und Ziel in derselben 1m-Kerze -- liegt bei
+kleinen FVG bei 56 %, bei grossen bei 27 %. Die konservative Wertung als Verlust ist korrekt,
+macht aber den Vergleich klein/gross unfair: rechnet man die strittigen Faelle raus, dreht die
+Rangfolge. Nur Gruppen mit **aehnlicher dubious-Quote** duerfen gegeneinander gelesen werden.
+Sauber aufloesen laesst sich das erst mit Ausfuehrungsdaten feiner als 1m (IBKR, Roadmap 4).
+
+## OHLC-Nulltoleranz-Gate (`analyze_ohlc.pruefe_kerzen`, `pruefe_gegen_referenz`)
+
+**Was.** Ein Pflicht-Check vor **jedem** Schreibvorgang nach `raw/marktdaten/`. Alle sechs
+Schreibpfade laufen hindurch: `fetch_yfinance.write_day`, `ingest_tvexport.schreib` (das auch
+`backfill_yfinance.py` mitbenutzt), `resample_1m.schreib`, `ingest_histdata_xlsx.schreibe_tage`,
+`fetch_dukascopy.schreibe_tag`.
+
+**Wie.** Zwei Schaerfegrade:
+
+| Grad | Prueft | Reaktion |
+|---|---|---|
+| hart (`OHLCDefekt`) | High < Low, Body ausserhalb High/Low, NaN, doppelte oder fallende Zeitstempel, leerer Datensatz, **Haeufung degenerierter Bars** (`open==high & low==close` bei >5 % und >=20 Kerzen) | Exception, **Datei entsteht gar nicht erst** |
+| weich (Rueckgabeliste) | Preis nicht auf dem Tick-Raster des Symbols | wird gedruckt, blockiert nicht |
+
+Die Haeufungs-Schwelle ist bewusst kein Einzelkerzen-Verbot: eine einzelne Kerze mit
+`open==high & low==close` ist auf 1m legitim (monotone Bewegung ohne Gegenbewegung). Erst die
+Haeufung ueber einen Datensatz ist ein Feed-Defekt. Gemessener Realfall: 71 von 290 Daily-Bars.
+
+**Warum.** Anlass ist der Tiefhistorie-Lauf vom 31.07./03.08.2026, der 71 degenerierte Daily-Bars
+ins Depot schrieb, die erst am 13.08. auffielen (siehe `PLAN.md`). Auf solchen Bars ist jede
+Wick-/Quadranten-Analyse rechnerisch 0 Punkte breit — der Fehler ist still und faellt in keiner
+Auswertung als Fehler auf, sondern nur als unplausibles Ergebnis.
+
+**Bekannte Grenze — und warum es die zweite Funktion gibt.** `pruefe_kerzen` findet **keinen**
+Datums- oder Zeitzonen-Offset: verschobene Bars sind in sich stimmig, nur falsch einsortiert.
+Genau das lag im Realfall zusaetzlich vor (+1 Tag). Dagegen hilft nur die Gegenpruefung gegen eine
+unabhaengige Quelle — `pruefe_gegen_referenz(eigen, referenz)`, beides `{ts: (o,h,l,c)}`.
+
+⚠️ Diese vergleicht **nur Open/High/Low, nie den Close**. Der Close weicht zwischen Feeds
+systematisch ab (Settlement vs. letzter Trade). Ein Vergleich inklusive Close meldete am
+13.08.2026 faelschlich "0 Treffer" und fuehrte zu der falschen Schlussfolgerung, die Daten seien
+voellig andere Preise — tatsaechlich waren O/H/L identisch und nur um einen Tag verschoben.
+
+**Regressionstest.** `analyze_ohlc.demo_pruefe_kerzen()`, eingehaengt in `selfcheck.py`
+(`ohlc_gate`). Prueft beide Richtungen: dass echte Defekte gefangen werden **und** dass gesunde
+Daten sowie einzelne legitime degenerierte Kerzen keinen Fehlalarm ausloesen.

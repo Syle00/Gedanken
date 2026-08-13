@@ -62,6 +62,27 @@ Implementiert in `tools/analyze_ohlc.py::fvgs()` — jedes FVG trägt die Felder
 (`close`/`wick`/`None`), `swing` und `ms` (`MSS`/`BOS`, falls `structure_breaks()` auf derselben
 Kerze ein Event meldet).
 
+### Größe: nur relativ zur Session-Volatilität
+
+> **Ein großes FVG mit MSS/BOS ist High Probability** — aber „groß" ist keine absolute Punktzahl.
+> Kurz nach dem 9:30-Open ist die Volatilität hoch und die Kerzen sind ein Vielfaches der
+> London-Kerzen; Richtung NY PM fällt sie wieder Richtung London-Niveau.
+
+Gemessen an 27 MNQ-Handelstagen (siehe
+[[FVG-Stärke, Session-Volatilität & Confluence (laufend)]]): der 9:30-Open trägt die **2,8-fache**
+FVG-Größe von London (13,50 vs. 4,75 Punkte). Das Verhältnis **FVG-Größe ÷ lokale Kerzenrange**
+ist dagegen in jeder Session ≈ **0,45** — ein FVG ist immer rund die halbe Kerzenrange groß.
+Deshalb gehört jeder Größen-Schwellwert auf `size / Median-Kerzenrange der letzten 30 Kerzen`,
+nie auf feste Punkte.
+
+### Confluence
+
+Zusätzlich wahrscheinlichkeitserhöhend, wenn das FVG mit einer **Higher-Timeframe-PD-Array**
+überlappt — konkret mit deren Qs/C.E. — oder mit [[New Day Opening Gap (NDOG)|NDOG]] /
+[[New Week Opening Gap (NWOG) Bias|NWOG]]. Backtest-Stand: die HTF-Qs-Überlappung hält als
+kleiner, konsistenter Zusatzeffekt (bester $/Trade-Wert der Auswertung), für die NDOG-Confluence
+gibt es bislang **keinen Beleg**. Details und der wichtige Messvorbehalt auf der Syntheseseite.
+
 ## Zeitstempel: die mittlere Kerze
 
 Ein FVG trägt die Zeit seiner **Displacement-Kerze** (der mittleren), nicht der dritten. Genau

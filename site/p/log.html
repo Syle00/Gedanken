@@ -24,7 +24,7 @@
 <li><a href="../index.html#concepts">Konzepte<span class="count">140</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">317</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">14</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">15</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
@@ -178,6 +178,8 @@
 <li><a href="#2026-08-13-lint-korrektur-daily-premium-wick-die-0508-wick-nicht-die-letzte-kerze">[2026-08-13] lint | Korrektur: "Daily Premium Wick" = die 05.08.-Wick, nicht die letzte Kerze</a></li>
 <li><a href="#2026-08-13-lint-fvg-zeitstempel-displacement-kerze-einstufung-starknormal">[2026-08-13] lint | FVG-Zeitstempel (Displacement-Kerze) + Einstufung stark/normal</a></li>
 <li><a href="#2026-08-13-lint-mnq-tiefhistorie-1d-zwei-defekte-sammeldateien-aussortiert">[2026-08-13] lint | MNQ-Tiefhistorie 1d: zwei defekte Sammeldateien aussortiert</a></li>
+<li><a href="#2026-08-13-synthesis-fvg-starke-session-volatilitat-groe-confluence">[2026-08-13] synthesis | FVG-Stärke: Session-Volatilität, Größe, Confluence</a></li>
+<li><a href="#2026-08-13-setup-ohlc-nulltoleranz-gate-vor-allen-schreibpfaden-nach-rawmarktdaten">[2026-08-13] setup | OHLC-Nulltoleranz-Gate vor allen Schreibpfaden nach raw/marktdaten/</a></li>
 </ul>
 </div>
 </details>
@@ -2585,6 +2587,34 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   (mit README + Beweisfuehrung), 2 fehlende Handelstage per <code>fetch_yfinance.py</code> nachgezogen.
   Lueckenpruefung: 406 Handelstage, 11 fehlende Wochentage = ausschliesslich US-Feiertage.</li>
 <li>Details und die drei widerlegten Zwischenhypothesen: <code>algo/PLAN.md</code>, Eintrag 2026-08-13.</li>
+</ul>
+<h2 id="2026-08-13-synthesis-fvg-starke-session-volatilitat-groe-confluence">[2026-08-13] synthesis | FVG-Stärke: Session-Volatilität, Größe, Confluence</h2>
+<ul>
+<li>Anlass: vier neue Thesen von Jannes (Größe session-/volatilitätsabhängig; groß + MSS/MSB =
+  High Probability; Überlappung mit Higher-TF-Qs bzw. NDOG/NWOG hebt die Wahrscheinlichkeit).</li>
+<li>Neu: <code>algo/backtest_fvg_strength.py</code> über 27 MNQ-1m-Tage (7.279 FVG, 6.851 Trades).</li>
+<li>Seiten erstellt: wiki/synthesis/FVG-Stärke, Session-Volatilität &amp; Confluence (laufend).md</li>
+<li>Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (Abschnitte "Größe: nur relativ zur
+  Session-Volatilität" und "Confluence"), wiki/index.md, algo/README.md, algo/PLAN.md</li>
+<li>Ergebnis ehrlich gemischt: T1 klar bestätigt, T4 nur für die HTF-Qs (NDOG kein Beleg), T2/T3
+  durch die 1m-Auflösung nicht entscheidbar — der Vorbehalt steht auf der Syntheseseite.</li>
+</ul>
+<h2 id="2026-08-13-setup-ohlc-nulltoleranz-gate-vor-allen-schreibpfaden-nach-rawmarktdaten">[2026-08-13] setup | OHLC-Nulltoleranz-Gate vor allen Schreibpfaden nach raw/marktdaten/</h2>
+<ul>
+<li>Nutzeranweisung: "wir muessen immer sicher gehen das die daten korrekt sind das ist IMMER
+  zwangsweise notwendig also zur not doppelt gegen pruefen". Umgesetzt als Code-Gate statt als
+  Vorsatz.</li>
+<li><code>analyze_ohlc.pruefe_kerzen()</code> prueft vor <strong>jedem</strong> Schreibvorgang: High<Low, Body ausserhalb
+  High/Low, NaN, doppelte/fallende Zeitstempel, Haeufung degenerierter Bars (>5 %). Verdrahtet in
+  allen sechs Schreibpfaden (fetch_yfinance, ingest_tvexport inkl. backfill_yfinance, resample_1m,
+  ingest_histdata_xlsx, fetch_dukascopy) — eine Funktion an der geteilten Basis, nicht sechs Guards.</li>
+<li><code>analyze_ohlc.pruefe_gegen_referenz()</code> als zweite Ebene gegen eine unabhaengige Quelle. Vergleicht
+  <strong>nur O/H/L, nie den Close</strong> — Settlement vs. letzter Trade weichen zwischen Feeds systematisch
+  ab; ein Vergleich inkl. Close fuehrte heute zu einer falschen Diagnose.</li>
+<li>Verifiziert: defekte Realdatei abgelehnt, gesunde durchgelassen, einzelne degenerierte 1m-Kerze
+  kein Fehlalarm, E2E ueber write_day legt die kaputte Datei gar nicht erst an. <code>selfcheck.py</code>
+  jetzt 18 Selbstchecks (neu: <code>ohlc_gate</code>).</li>
+<li>Doku: algo/README.md (Abschnitt "OHLC-Nulltoleranz-Gate"), algo/PLAN.md (Eintrag 2026-08-13).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

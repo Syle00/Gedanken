@@ -2278,3 +2278,29 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   (mit README + Beweisfuehrung), 2 fehlende Handelstage per `fetch_yfinance.py` nachgezogen.
   Lueckenpruefung: 406 Handelstage, 11 fehlende Wochentage = ausschliesslich US-Feiertage.
 - Details und die drei widerlegten Zwischenhypothesen: `algo/PLAN.md`, Eintrag 2026-08-13.
+
+## [2026-08-13] synthesis | FVG-Stärke: Session-Volatilität, Größe, Confluence
+- Anlass: vier neue Thesen von Jannes (Größe session-/volatilitätsabhängig; groß + MSS/MSB =
+  High Probability; Überlappung mit Higher-TF-Qs bzw. NDOG/NWOG hebt die Wahrscheinlichkeit).
+- Neu: `algo/backtest_fvg_strength.py` über 27 MNQ-1m-Tage (7.279 FVG, 6.851 Trades).
+- Seiten erstellt: wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md
+- Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (Abschnitte "Größe: nur relativ zur
+  Session-Volatilität" und "Confluence"), wiki/index.md, algo/README.md, algo/PLAN.md
+- Ergebnis ehrlich gemischt: T1 klar bestätigt, T4 nur für die HTF-Qs (NDOG kein Beleg), T2/T3
+  durch die 1m-Auflösung nicht entscheidbar — der Vorbehalt steht auf der Syntheseseite.
+
+## [2026-08-13] setup | OHLC-Nulltoleranz-Gate vor allen Schreibpfaden nach raw/marktdaten/
+- Nutzeranweisung: "wir muessen immer sicher gehen das die daten korrekt sind das ist IMMER
+  zwangsweise notwendig also zur not doppelt gegen pruefen". Umgesetzt als Code-Gate statt als
+  Vorsatz.
+- `analyze_ohlc.pruefe_kerzen()` prueft vor **jedem** Schreibvorgang: High<Low, Body ausserhalb
+  High/Low, NaN, doppelte/fallende Zeitstempel, Haeufung degenerierter Bars (>5 %). Verdrahtet in
+  allen sechs Schreibpfaden (fetch_yfinance, ingest_tvexport inkl. backfill_yfinance, resample_1m,
+  ingest_histdata_xlsx, fetch_dukascopy) — eine Funktion an der geteilten Basis, nicht sechs Guards.
+- `analyze_ohlc.pruefe_gegen_referenz()` als zweite Ebene gegen eine unabhaengige Quelle. Vergleicht
+  **nur O/H/L, nie den Close** — Settlement vs. letzter Trade weichen zwischen Feeds systematisch
+  ab; ein Vergleich inkl. Close fuehrte heute zu einer falschen Diagnose.
+- Verifiziert: defekte Realdatei abgelehnt, gesunde durchgelassen, einzelne degenerierte 1m-Kerze
+  kein Fehlalarm, E2E ueber write_day legt die kaputte Datei gar nicht erst an. `selfcheck.py`
+  jetzt 18 Selbstchecks (neu: `ohlc_gate`).
+- Doku: algo/README.md (Abschnitt "OHLC-Nulltoleranz-Gate"), algo/PLAN.md (Eintrag 2026-08-13).

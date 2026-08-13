@@ -21,6 +21,9 @@ import sys
 import zoneinfo
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
+from analyze_ohlc import pruefe_kerzen  # noqa: E402
+
 NY = zoneinfo.ZoneInfo("America/New_York")
 RAW = Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
 
@@ -58,7 +61,12 @@ def lies(pfad):
         }
 
 
-def schreib(pfad, kerzen):
+def schreib(pfad, kerzen, symbol=None):
+    # Gate wie in fetch_yfinance.write_day -- gilt auch fuer TradingView-Exporte und
+    # fuer backfill_yfinance.py, das diese Funktion mitbenutzt.
+    for hinweis in pruefe_kerzen(((ts, *kerzen[ts]) for ts in sorted(kerzen)),
+                                 symbol, pfad.name):
+        print(f"  ? {hinweis}")
     pfad.parent.mkdir(parents=True, exist_ok=True)
     with open(pfad, "w", newline="") as fh:
         w = csv.writer(fh)
@@ -117,7 +125,7 @@ def ingest(exportdatei, symbol, schreiben=True):
             "pfad": pfad,
         }
         if schreiben:
-            schreib(pfad, gemerged)
+            schreib(pfad, gemerged, symbol)
         bericht.append(zeile)
     return bericht
 

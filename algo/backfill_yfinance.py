@@ -70,7 +70,7 @@ def backfill(start: str, end: str, symbol: str, tf: str = "1m", schreiben: bool 
             "luecken": luecken(sorted(gemerged)),
         })
         if schreiben and fehlend:
-            schreib(pfad, gemerged)
+            schreib(pfad, gemerged, symbol_prefix(symbol))
     return bericht
 
 

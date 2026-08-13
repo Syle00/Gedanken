@@ -19,6 +19,9 @@ from pathlib import Path
 
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from analyze_ohlc import pruefe_kerzen  # noqa: E402
+
 RULES = {"5m": "5min", "15m": "15min", "1h": "1h", "4h": "4h"}
 
 
@@ -46,6 +49,11 @@ def resample(pfad_1m: Path):
 
 
 def schreib(agg: pd.DataFrame, pfad: Path):
+    # Gate wie in fetch_yfinance.write_day -- ein Resample erbt jeden Defekt der 1m-Basis
+    # und verteilt ihn auf alle Higher-TFs.
+    for hinweis in pruefe_kerzen(agg.reset_index()[["time", "open", "high", "low", "close"]]
+                                 .itertuples(index=False, name=None), None, pfad.name):
+        print(f"  ? {hinweis}")
     pfad.parent.mkdir(parents=True, exist_ok=True)
     agg.reset_index().rename(columns={"time": "time"}).to_csv(pfad, index=False)
 

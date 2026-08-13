@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FVG-Stärke, Session-Volatilität &amp; Confluence (laufend) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">140</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">317</span></a></li>
+<li class="active"><a href="../index.html#synthesis">Synthese<span class="count">15</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Synthese</div><ul class="pagelist">
+<li><a href="../p/ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend.html">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</a></li>
+<li class="here"><a href="../p/fvg-staerke-session-volatilitaet-confluence-laufend.html">FVG-Stärke, Session-Volatilität &amp; Confluence (laufend)</a></li>
+<li><a href="../p/journal-auswertung.html">Journal-Auswertung</a></li>
+<li><a href="../p/kw32-2026-weekly-review.html">KW32 2026 — Weekly Review</a></li>
+<li><a href="../p/machine-learning-fuer-den-algo-bewertung-laufend.html">Machine Learning für den Algo — Bewertung (laufend)</a></li>
+<li><a href="../p/macro-datenbank-laufend.html">Macro-Datenbank (laufend)</a></li>
+<li><a href="../p/makro-fred-zusammenhaenge-eigene-daten-laufend.html">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</a></li>
+<li><a href="../p/mentorship-2025.html">MentorShip 2025</a></li>
+<li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
+<li><a href="../p/quant-finance-formeln-fuer-den-mnq-algo-laufend.html">Quant-Finance-Formeln für den MNQ-Algo (laufend)</a></li>
+<li><a href="../p/risk-management-vergleich-laufend.html">Risk-Management-Vergleich (laufend)</a></li>
+<li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a></li>
+<li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#synthesis">Synthese</a></div>
+  <h1>FVG-Stärke, Session-Volatilität &amp; Confluence (laufend)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">ict</span> <span class="tag">fvg</span> <span class="tag">backtest</span> <span class="tag">laufend</span></div><div class="dates">erstellt 2026-08-13 · aktualisiert 2026-08-13</div><div class="srcline"><span>Quellen:</span> <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>, <a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a>, <a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#die-vier-thesen">Die vier Thesen</a></li>
+<li><a href="#t1-session-volatilitat-klar-bestatigt">T1 — Session &amp; Volatilität (klar bestätigt)</a></li>
+<li><a href="#t2t4-trefferquote-mit-hartem-vorbehalt">T2–T4 — Trefferquote (mit hartem Vorbehalt)</a><ul>
+<li><a href="#der-vorbehalt-der-die-halbe-tabelle-relativiert">⚠️ Der Vorbehalt, der die halbe Tabelle relativiert</a></li>
+<li><a href="#was-den-vorbehalt-auflosen-wurde">Was den Vorbehalt auflösen würde</a></li>
+</ul>
+</li>
+<li><a href="#offene-punkte">Offene Punkte</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="fvg-starke-session-volatilitat-confluence-laufend">FVG-Stärke, Session-Volatilität &amp; Confluence (laufend)</h1>
+<p>Laufende Auswertung der Frage: <strong>wann ist die Wahrscheinlichkeit am höchsten?</strong> Grundlage sind
+Jannes' Thesen vom 13.08.2026, geprüft mit <code>algo/backtest_fvg_strength.py</code> über alle
+MNQ-1m-Daten in <code>raw/marktdaten/</code>.</p>
+<p><strong>Stand: 27 Handelstage (08.07.–13.08.2026), 7.279 FVGs, 6.851 simulierte Trades.</strong>
+Diese Seite wird bei wachsendem Datenbestand überschrieben, nicht ergänzt.</p>
+<h2 id="die-vier-thesen">Die vier Thesen</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>These</th>
+<th>Ergebnis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>FVG-Größe hängt an Session/Volatilität; nach 9:30 viel größer als London, Richtung NY PM zurück auf London-Niveau</td>
+<td><strong>bestätigt</strong></td>
+</tr>
+<tr>
+<td>T2</td>
+<td>Ein starkes FVG bricht einen Swing High/Low (MSS/BOS)</td>
+<td><strong>nicht belegbar</strong>, sobald die Größe kontrolliert wird</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>Groß + MSS/BOS = High Probability</td>
+<td><strong>Größe ja, aber messbedingt</strong> — siehe Vorbehalt unten</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>Überlappung mit Higher-TF-PD-Array (Qs) bzw. NDOG/NWOG hebt die Wahrscheinlichkeit</td>
+<td><strong>HTF-Qs: ja, klein. NDOG: kein Beleg</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="t1-session-volatilitat-klar-bestatigt">T1 — Session &amp; Volatilität (klar bestätigt)</h2>
+<table>
+<thead>
+<tr>
+<th>Session</th>
+<th>n FVG</th>
+<th>Median FVG-Größe</th>
+<th>Median 1m-Kerze</th>
+<th>FVG ÷ Kerze</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Asia (18:00–03:00)</td>
+<td>2.772</td>
+<td>5,00</td>
+<td>10,75</td>
+<td>0,48</td>
+</tr>
+<tr>
+<td>London (03:00–08:30)</td>
+<td>1.776</td>
+<td>4,75</td>
+<td>10,12</td>
+<td>0,47</td>
+</tr>
+<tr>
+<td>Premarket (08:30–9:30)</td>
+<td>348</td>
+<td>5,25</td>
+<td>11,75</td>
+<td>0,47</td>
+</tr>
+<tr>
+<td><strong>NY Open (9:30–10:30)</strong></td>
+<td>368</td>
+<td><strong>13,50</strong></td>
+<td><strong>29,38</strong></td>
+<td>0,47</td>
+</tr>
+<tr>
+<td>NY AM (10:30–12:00)</td>
+<td>495</td>
+<td>7,50</td>
+<td>24,88</td>
+<td>0,32</td>
+</tr>
+<tr>
+<td>Lunch (12:00–13:30)</td>
+<td>500</td>
+<td>6,00</td>
+<td>17,00</td>
+<td>0,41</td>
+</tr>
+<tr>
+<td>NY PM (13:30–16:00)</td>
+<td>748</td>
+<td>5,75</td>
+<td>13,00</td>
+<td>0,44</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Der 9:30-Open trägt die <strong>2,8-fache</strong> FVG-Größe und die <strong>2,9-fache</strong> Kerzenrange von London.</li>
+<li>NY PM fällt zurück, aber nicht ganz auf London-Niveau: 5,75 vs. 4,75 Punkte (Kerze 13,00 vs.
+  10,12), also rund 20–28 % darüber. Die Richtung der These stimmt, die Gleichsetzung „wieder
+  ähnlich groß wie London" ist eine leichte Untertreibung.</li>
+<li><strong>Der wichtigste Befund steht in der letzten Spalte:</strong> das Verhältnis FVG-Größe ÷ lokale
+  Kerzenrange liegt in <em>jeder</em> Session bei 0,44–0,48 (Ausreißer NY AM mit 0,32). Ein FVG ist
+  also <strong>immer rund die halbe Kerzenrange groß</strong> — was sich zwischen den Sessions ändert, ist
+  nicht die FVG-Struktur, sondern nur der Maßstab.</li>
+</ul>
+<blockquote>
+<p><strong>Folge für den Algo:</strong> „groß" darf nie eine absolute Punktzahl sein. Ein 8-Punkte-FVG ist in
+London riesig und um 9:35 unterdurchschnittlich. Der Schwellwert gehört auf
+<code>size / Median-Kerzenrange der letzten 30 Kerzen</code> (im Backtest <code>size_rel</code>, Median 0,45).</p>
+</blockquote>
+<h2 id="t2t4-trefferquote-mit-hartem-vorbehalt">T2–T4 — Trefferquote (mit hartem Vorbehalt)</h2>
+<p>Regel: Limit-Entry am <strong>C.E.</strong>, Stop an der fernen Kante, Ziel <strong>2R</strong>, echter Punktwert
+($2/Punkt MNQ). Breakeven bei 2R liegt bei <strong>33,3 %</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Gruppe</th>
+<th>n FVG</th>
+<th>Trades</th>
+<th>Win %</th>
+<th>Win % ohne strittige</th>
+<th>$/Trade</th>
+<th>dubious %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>alle</td>
+<td>7.279</td>
+<td>6.851</td>
+<td>34,0</td>
+<td>69,6</td>
+<td>1,94</td>
+<td>51,1</td>
+</tr>
+<tr>
+<td>normal (kein Swing-Break)</td>
+<td>3.799</td>
+<td>3.604</td>
+<td>31,5</td>
+<td>71,5</td>
+<td>1,26</td>
+<td>55,9</td>
+</tr>
+<tr>
+<td>stark (Swing-Break)</td>
+<td>3.480</td>
+<td>3.247</td>
+<td>36,8</td>
+<td>67,9</td>
+<td>2,69</td>
+<td>45,8</td>
+</tr>
+<tr>
+<td>nur groß (≥ Median <code>size_rel</code>)</td>
+<td>3.640</td>
+<td>3.428</td>
+<td>45,6</td>
+<td>62,8</td>
+<td>4,25</td>
+<td>27,3</td>
+</tr>
+<tr>
+<td>stark + groß</td>
+<td>2.075</td>
+<td>1.941</td>
+<td>45,8</td>
+<td>62,3</td>
+<td>4,63</td>
+<td>26,5</td>
+</tr>
+<tr>
+<td><strong>stark + groß + HTF-Qs</strong></td>
+<td>1.016</td>
+<td>942</td>
+<td><strong>47,9</strong></td>
+<td>62,7</td>
+<td><strong>6,33</strong></td>
+<td>23,7</td>
+</tr>
+<tr>
+<td>stark + groß + NDOG</td>
+<td>152</td>
+<td>144</td>
+<td>44,4</td>
+<td>55,2</td>
+<td>4,89</td>
+<td>19,4</td>
+</tr>
+<tr>
+<td>nur HTF-Qs</td>
+<td>2.583</td>
+<td>2.427</td>
+<td>39,1</td>
+<td>66,9</td>
+<td>3,20</td>
+<td>41,6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="der-vorbehalt-der-die-halbe-tabelle-relativiert">⚠️ Der Vorbehalt, der die halbe Tabelle relativiert</h3>
+<p><code>dubious %</code> = Anteil der Trades, bei denen <strong>Stop und Ziel in derselben 1m-Kerze</strong> liegen. Die
+Reihenfolge ist auf 1m-Daten nicht feststellbar; konservativ zählen sie als Verlust
+(<code>CLAUDE.md</code>, Korrektheitsstandard). Bei kleinen FVGs betrifft das <strong>56 %</strong> aller Trades, bei
+großen nur 27 %.</p>
+<p>Rechnet man die strittigen Fälle heraus (Spalte „Win % ohne strittige"), <strong>dreht sich die
+Rangfolge um</strong>: kleine/normale FVGs stünden dann bei 71,5 % gegen 62,3 % bei den großen. Die
+Wahrheit liegt zwischen beiden Zahlen und ist mit Minutendaten <strong>nicht entscheidbar</strong>.</p>
+<p>Was daraus trotzdem folgt, und zwar unabhängig von der Regel:</p>
+<ol>
+<li><strong>Kleine FVGs sind auf 1m nicht handelbar-messbar.</strong> Wenn Stop und Ziel in einer Kerze
+   liegen, hängt das Ergebnis am Sekundenverlauf. Für den Algo heißt das: eine Mindestgröße ist
+   nicht (nur) eine Wahrscheinlichkeitsfrage, sondern eine <strong>Ausführbarkeitsfrage</strong>.</li>
+<li><strong>Fairer Vergleich nur bei ähnlicher <code>dubious</code>-Quote.</strong> Die einzigen sauber vergleichbaren
+   Paare:
+   - <code>nur groß</code> (27,3 %) vs. <code>stark + groß</code> (26,5 %): 45,6 → 45,8 % bzw. 62,8 → 62,3 %.
+     <strong>Der Swing-Break bringt bei kontrollierter Größe nichts Messbares.</strong> Damit ist T2 in der
+     Form „Swing-Break macht das FVG stark" mit diesen Daten nicht belegt — die Größe erklärt
+     den Effekt.
+   - <code>stark + groß</code> (26,5 %) vs. <code>stark + groß + HTF-Qs</code> (23,7 %): 45,8 → 47,9 % und
+     4,63 → 6,33 $/Trade. <strong>T4 (Higher-TF-Qs) hält als kleiner, konsistenter Zusatzeffekt</strong> —
+     der beste $/Trade-Wert der ganzen Tabelle.
+   - <code>stark + groß + NDOG</code> liegt auf beiden Metriken <em>unter</em> <code>stark + groß</code> (44,4 %/55,2 %).
+     <strong>Für die NDOG-Confluence gibt es in 27 Tagen keinen Beleg</strong>, bei n=144 aber auch keinen
+     belastbaren Gegenbeweis.</li>
+</ol>
+<h3 id="was-den-vorbehalt-auflosen-wurde">Was den Vorbehalt auflösen würde</h3>
+<p>Ausführungsdaten feiner als 1m (Sekunden oder Ticks). Kommt mit der IBKR-Anbindung
+(Roadmap-Punkt 4) ins Haus; bis dahin bleibt die konservative Zahl der Maßstab und die
+optimistische die Obergrenze.</p>
+<h2 id="offene-punkte">Offene Punkte</h2>
+<ul>
+<li>27 Handelstage sind viele FVGs, aber <strong>wenige Marktregime</strong>; FVGs innerhalb eines Tages sind
+  stark korreliert. Die Konfidenz ist niedriger, als n=6.851 suggeriert.</li>
+<li>NY AM fällt mit <code>size_rel</code> 0,32 aus der Reihe (alle anderen 0,41–0,48) — noch unerklärt.</li>
+<li>NWOG-Confluence ist mangels Montagen im Datensatz noch nicht getrennt ausgewertet.</li>
+<li>Die Higher-TF-Confluence prüft bisher nur die <strong>Qs</strong> von 15m-/1h-FVGs. Order Blocks,
+  Session-Ranges und <a href="../p/new-week-opening-gap-nwog-bias.html">NWOG</a> fehlen als Quelle.</li>
+</ul>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a> — Definition, Grenzen, Einstufung stark/normal</li>
+<li><a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a>, <a href="../p/new-day-opening-gap-ndog.html">New Day Opening Gap (NDOG)</a></li>
+<li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">2</span></h2><ul><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/FVG-Stärke, Session-Volatilität &amp; Confluence (laufend).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

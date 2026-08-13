@@ -476,7 +476,27 @@ Der Defekt lag in einem redundanten Parallel-Strang.
 - Aktiver Bestand enthaelt jetzt **0** Sammel-1d-Dateien; das Schema ist wieder durchgaengig
   "eine Datei pro Handelstag".
 
-**Offen:** Ursache des Defekts im Tiefhistorie-Lauf selbst ist nicht geklaert (Yahoo-Antwort zum
-damaligen Abrufzeitpunkt nicht rekonstruierbar). Ein Guard gegen degenerierte Bars
-(`open == high and low == close`) beim Schreiben waere die naheliegende Absicherung — noch nicht
-gebaut, bewusst nicht ungefragt dazugenommen.
+**Nachtrag selben Tags — Guard gebaut (Nutzerfreigabe: "wir muessen IMMER sicher gehen, dass die
+Daten korrekt sind, zur Not doppelt gegenpruefen").** `analyze_ohlc.pruefe_kerzen()` als
+Nulltoleranz-Gate vor **allen sechs** Schreibpfaden nach `raw/marktdaten/` (`fetch_yfinance`,
+`ingest_tvexport` inkl. `backfill_yfinance`, `resample_1m`, `ingest_histdata_xlsx`,
+`fetch_dukascopy`) — eine Funktion an der geteilten Basis statt sechs Einzelguards. Details in
+`README.md`, Abschnitt "OHLC-Nulltoleranz-Gate".
+
+Zweite Ebene fuer das, was ein lokaler Check prinzipiell nicht sehen kann:
+`pruefe_gegen_referenz()` vergleicht gegen eine unabhaengige Quelle — **nur O/H/L, nie den
+Close**. Genau dieser Fehlschluss passierte heute: der Close weicht zwischen Feeds systematisch ab
+(Settlement vs. letzter Trade), ein Vergleich inklusive Close meldete faelschlich "0 Treffer" und
+liess die Daten wie voellig andere Preise aussehen, obwohl O/H/L identisch und nur um einen Tag
+verschoben waren.
+
+Verifiziert gegen den Realfall: die aussortierte Datei wird abgelehnt (21 % degeneriert), eine
+gesunde Datei aus dem Bestand geht durch, eine einzelne degenerierte 1m-Kerze loest keinen
+Fehlalarm aus, und ein E2E-Lauf ueber `write_day` legt die defekte Datei gar nicht erst an.
+Regressionstest `ohlc_gate` in `selfcheck.py`, jetzt 18 Selbstchecks.
+
+**Weiter offen:** Ursache des Defekts im Tiefhistorie-Lauf selbst ist nicht geklaert (Yahoo-Antwort
+zum damaligen Abrufzeitpunkt nicht rekonstruierbar). Der Guard verhindert die Wiederholung, erklaert
+sie aber nicht. Ebenfalls offen: `pruefe_gegen_referenz` ist gebaut, aber noch in keinen
+Abruf-Workflow als Pflichtschritt eingehaengt — bisher manuell aufzurufen.
+| 2026-08-13 | **Vier neue FVG-Staerke-Thesen geloggt und gebacktestet** (neues Skript `algo/backtest_fvg_strength.py`, 27 MNQ-1m-Handelstage, 7.279 FVG, 6.851 simulierte Trades; Regel: Limit am C.E., Stop ferne Kante, Ziel 2R, echter Punktwert $2, Breakeven 33,3 %). Thesen: (T1) FVG-Groesse haengt an Session/Vola, 9:30-Open >> London, NY PM zurueck Richtung London; (T2) starkes FVG bricht Swing/MSS; (T3) gross + MSS = High Probability; (T4) Ueberlappung mit Higher-TF-PD-Array-Qs bzw. NDOG/NWOG hebt die Wahrscheinlichkeit. **T1 klar bestaetigt:** NY Open Median-FVG 13,50 Pkt / Median-1m-Kerze 29,38 gegen London 4,75 / 10,12 — Faktor 2,8 bzw. 2,9; NY PM 5,75 / 13,00, also zurueck Richtung London, aber 20-28 % darueber (Gleichsetzung leicht untertrieben). **Kernbefund:** das Verhaeltnis FVG-Groesse ÷ lokale Kerzenrange liegt in *jeder* Session bei 0,44-0,48 (nur NY AM 0,32) — ein FVG ist immer rund die halbe Kerzenrange gross, es aendert sich nur der Massstab. Folge: Groessen-Schwellwerte gehoeren auf `size_rel = size / Median-Range(30 Kerzen)`, nie auf feste Punkte. **T2/T3 mit hartem Vorbehalt:** roh sehen grosse FVG stark besser aus (Win 45,6 % / 4,25 $ gegen 31,5 % / 1,26 $ bei normalen), aber `dubious_pct` (Stop UND Ziel in derselben 1m-Kerze, konservativ als Verlust gewertet) ist bei kleinen FVG **55,9 %** gegen 27,3 % bei grossen. Rechnet man die strittigen Faelle heraus, **dreht die Rangfolge** (71,5 % gegen 62,8 %) — auf Minutendaten ist der Groesseneffekt **nicht entscheidbar**. Sauber vergleichbar sind nur Gruppen mit aehnlicher dubious-Quote: `nur gross` (27,3 %) gegen `stark + gross` (26,5 %) ergibt 45,6 → 45,8 % bzw. 62,8 → 62,3 % — **der Swing-Break bringt bei kontrollierter Groesse nichts Messbares, T2 ist in dieser Form nicht belegt**, die Groesse erklaert den Effekt. Belastbar bleibt: kleine FVG sind auf 1m nicht sinnvoll *ausfuehrbar* (Stop und Ziel in einer Kerze), das ist eine Ausfuehrbarkeits-, keine Wahrscheinlichkeitsfrage. **T4 gespalten:** `stark + gross + HTF-Qs` 47,9 % / **6,33 $ je Trade** (bester Wert der Tabelle) gegen `stark + gross` 45,8 % / 4,63 $ bei nahezu gleicher dubious-Quote — haelt als kleiner, konsistenter Zusatzeffekt. `stark + gross + NDOG` liegt mit 44,4 % / 55,2 % auf **beiden** Metriken darunter — **kein Beleg fuer die NDOG-Confluence**, n=144 aber auch kein Gegenbeweis. Aufloesen laesst sich der Messvorbehalt erst mit Ausfuehrungsdaten feiner als 1m (Sekunden/Ticks, kommt mit IBKR, Roadmap-Punkt 4). Reuse: `find_days()` in `backtest_common.py` aus `find_1d_days()` generalisiert. Ergebnisseite `wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md`, Rohwerte `algo/results/fvg_strength.json`. `selfcheck.py` jetzt 18/18 (neuer Selbstcheck fuer die Trade-Simulation inkl. Stop-und-Ziel-in-einer-Kerze). |

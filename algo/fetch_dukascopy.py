@@ -40,6 +40,11 @@ import urllib.error
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
+from analyze_ohlc import pruefe_kerzen  # noqa: E402
+
 from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -132,6 +137,10 @@ def schreibe_tag(sym: str, ny_tag: date, kerzen: dict[int, dict]) -> Path:
     ordner = OUT_ROOT / f"{ny_tag.year:04d}" / f"{ny_tag.month:02d}" / ny_tag.strftime("%d.%m.%Y")
     ordner.mkdir(parents=True, exist_ok=True)
     ziel = ordner / f"{sym} {ny_tag.isoformat()} 1m.csv"
+    for hinweis in pruefe_kerzen(
+            ((m, kerzen[m]["open"], kerzen[m]["high"], kerzen[m]["low"], kerzen[m]["close"])
+             for m in sorted(kerzen)), sym, ziel.name):
+        print(f"  ? {hinweis}")
     with ziel.open("w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
         w.writerow(["time", "open", "high", "low", "close", "spread"])

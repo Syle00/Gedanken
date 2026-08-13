@@ -29,6 +29,9 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
+from analyze_ohlc import pruefe_kerzen  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT_ROOT = ROOT / "raw" / "marktdaten-tief"
 NY = ZoneInfo("America/New_York")
@@ -65,6 +68,10 @@ def schreibe_tage(symbol: str, df: pd.DataFrame) -> dict:
         ordner = OUT_ROOT / f"{ny_tag.year:04d}" / f"{ny_tag.month:02d}" / ny_tag.strftime("%d.%m.%Y")
         ordner.mkdir(parents=True, exist_ok=True)
         ziel = ordner / f"{symbol} {ny_tag.isoformat()} 1m (bid).csv"
+        for hinweis in pruefe_kerzen(
+                ((r.epoch, r.open, r.high, r.low, r.close) for r in gruppe.itertuples()),
+                symbol, ziel.name):
+            print(f"  ? {hinweis}")
         with ziel.open("w", newline="", encoding="utf-8") as fh:
             w = csv.writer(fh)
             w.writerow(["time", "open", "high", "low", "close"])

@@ -38,6 +38,9 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 import yfinance as yf
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
+from analyze_ohlc import pruefe_kerzen  # noqa: E402
+
 NY = ZoneInfo("America/New_York")
 DATA_DIR = Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
 SYMBOL = "MNQ=F"
@@ -80,6 +83,12 @@ def write_day(symbol: str, tf: str, day, rows: pd.DataFrame) -> Path | None:
         "low": rows["Low"].to_numpy(),
         "close": rows["Close"].to_numpy(),
     })
+    # Nulltoleranz-Gate: lieber gar keine Datei als eine stillschweigend kaputte.
+    # Anlass: der Tiefhistorie-Lauf vom 31.07./03.08.2026 schrieb 71 degenerierte
+    # Daily-Bars ins Depot, die erst zwei Wochen spaeter auffielen.
+    for hinweis in pruefe_kerzen(out.itertuples(index=False, name=None),
+                                 symbol_prefix(symbol), str(dest.name)):
+        print(f"  ? {hinweis}")
     out.to_csv(dest, index=False)
     return dest
 

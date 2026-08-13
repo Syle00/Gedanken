@@ -505,6 +505,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 
 ## Synthesis
 
+- [[FVG-Stärke, Session-Volatilität & Confluence (laufend)]] — **generiert** aus 27 MNQ-Tagen: der 9:30-Open trägt die 2,8-fache FVG-Größe von London, das Verhältnis FVG÷Kerze ist aber überall ≈0,45; HTF-Qs-Confluence hält, NDOG-Confluence nicht (2026-08-13)
 - [[Journal-Auswertung]] — **generiert** aus `raw/journal/`: Erfüllungsquote je Checklistenpunkt über 21 Einträge, verknüpft mit den zuständigen Wiki-Seiten; Ausreißer ist „Entry" mit 24 % (2026-08-02)
 - [[MNQ 2026-07-31 — Datenbasierter Tagesrückblick]] — Freitag komplett aus OHLC-Daten ausgewertet: Judas Swing 09:31, 646 Pkt Tagesrange in 41 Minuten, Checkliste 6/7 (2026-08-02)
 - [[MNQ 2026-08-03 — Datenbasierter Tagesrückblick]] — Montag (Daten bis 16:18 NY, Tag nicht beendet): Sweep + 166-Pkt-Displacement exakt am RTH-Open 09:30, Macro-Expansion erneut vor dem offiziellen Lunch-Fenster (2026-08-03)

@@ -88,6 +88,124 @@ def tick_of(symbol: str) -> float:
     return TICK_SIZE[symbol]
 
 
+class OHLCDefekt(ValueError):
+    """Kerzendaten, die so am Markt nicht entstanden sein koennen."""
+
+
+# Ab wie vielen Kerzen und welchem Anteil degenerierter Bars (open==high & low==close)
+# der Datensatz als kaputt gilt. Einzelne solche Kerzen sind auf 1m legitim (monotone
+# Bewegung ohne Gegenbewegung); eine Haeufung ueber einen ganzen Datensatz ist es nicht.
+# Gemessener Realfall 2026-08-13: 71 von 290 Daily-Bars = 24 %.
+DEGEN_MIN_BARS, DEGEN_MAX_ANTEIL = 20, 0.05
+
+
+def pruefe_kerzen(kerzen, symbol: str | None = None, quelle: str = "") -> list[str]:
+    """Nulltoleranz-Check vor dem Schreiben nach raw/marktdaten/.
+
+    `kerzen`: Iterable von (ts, open, high, low, close), ts als UNIX-Sekunden.
+
+    Wirft `OHLCDefekt` bei Verstoessen, die am Markt unmoeglich sind (High unter Low,
+    High unter dem Body, doppelte oder unsortierte Zeitstempel, NaN) sowie bei einer
+    Haeufung degenerierter Bars. Gibt weiche Auffaelligkeiten als Liste zurueck, die
+    der Aufrufer melden soll -- die fuehren nicht zum Abbruch, weil sie legitime
+    Ursachen haben koennen (Feed mit anderer Tickgroesse, Feiertagssessions).
+
+    Bewusste Grenze: ein Datums-/Zeitzonen-Offset ist hiermit NICHT feststellbar -- die
+    Werte sind in sich stimmig, nur falsch einsortiert. Dagegen hilft nur die
+    Gegenpruefung gegen eine unabhaengige Quelle (siehe pruefe_gegen_referenz).
+    """
+    kerzen = list(kerzen)
+    if not kerzen:
+        raise OHLCDefekt(f"{quelle}: keine Kerzen")
+
+    hart, weich, degeneriert = [], [], 0
+    letzter_ts = None
+    for ts, o, h, l, c in kerzen:
+        o, h, l, c = float(o), float(h), float(l), float(c)
+        if any(x != x for x in (o, h, l, c)):                 # NaN
+            hart.append(f"ts={ts}: NaN in OHLC")
+            continue
+        if h < l:
+            hart.append(f"ts={ts}: high {h} < low {l}")
+        if h < max(o, c) or l > min(o, c):
+            hart.append(f"ts={ts}: Body liegt ausserhalb High/Low (O{o} H{h} L{l} C{c})")
+        if letzter_ts is not None and ts <= letzter_ts:
+            hart.append(f"ts={ts}: Zeitstempel nicht streng steigend (vorher {letzter_ts})")
+        letzter_ts = ts
+        if o == h and l == c and o != c:
+            degeneriert += 1
+        if symbol and symbol in TICK_SIZE:
+            tick = TICK_SIZE[symbol]
+            for name, x in (("open", o), ("high", h), ("low", l), ("close", c)):
+                if abs(x / tick - round(x / tick)) > 1e-6:
+                    weich.append(f"ts={ts}: {name} {x} liegt nicht auf dem {tick}-Raster")
+
+    anteil = degeneriert / len(kerzen)
+    if len(kerzen) >= DEGEN_MIN_BARS and anteil > DEGEN_MAX_ANTEIL:
+        hart.append(f"{degeneriert} von {len(kerzen)} Kerzen degeneriert "
+                    f"(open==high & low==close, {anteil:.0%}) -- Feed-Defekt")
+    if hart:
+        raise OHLCDefekt(f"{quelle or 'OHLC-Daten'}: " + "; ".join(hart[:5])
+                         + (f" ... (+{len(hart) - 5} weitere)" if len(hart) > 5 else ""))
+    return weich[:20]
+
+
+def pruefe_gegen_referenz(kerzen, referenz, toleranz: float = 0.01) -> list[str]:
+    """Zweite Ebene: Werte gegen eine unabhaengige Quelle gegenpruefen.
+
+    Beide Argumente sind {ts: (o,h,l,c)}. Verglichen werden nur Open/High/Low --
+    der Close weicht zwischen Feeds systematisch ab (Settlement vs. letzter Trade)
+    und ist als Gleichheitskriterium untauglich (Fehlschluss vom 2026-08-13).
+    Gibt die Abweichungen zurueck; leer = deckungsgleich.
+    """
+    return [
+        f"ts={ts}: eigen O{a[0]}/H{a[1]}/L{a[2]} vs. Referenz O{b[0]}/H{b[1]}/L{b[2]}"
+        for ts, a in kerzen.items()
+        if (b := referenz.get(ts)) is not None
+        and any(abs(float(x) - float(y)) > toleranz for x, y in zip(a[:3], b[:3]))
+    ]
+
+
+def demo_pruefe_kerzen() -> None:
+    """Regressionscheck fuer das Nulltoleranz-Gate (Anlass: 2026-08-13, siehe algo/PLAN.md).
+
+    Der Realfall: 71 von 290 Daily-Bars mit open==high & low==close im Depot, zwei Wochen
+    lang unbemerkt. Die Gegenprobe ist genauso wichtig -- eine EINZELNE solche Kerze ist
+    auf 1m legitim (monotone Bewegung) und darf keinen Fehlalarm ausloesen.
+    """
+    ok = [(i * 60, 100 + i, 101 + i, 99 + i, 100.5 + i) for i in range(50)]
+    assert pruefe_kerzen(ok) == [], "gesunde Kerzen muessen durchgehen"
+
+    einzeln = list(ok)
+    einzeln[7] = (7 * 60, 105.0, 105.0, 103.0, 103.0)
+    assert pruefe_kerzen(einzeln) == [], "1 degenerierte Kerze von 50 ist kein Defekt"
+
+    viele = [(i * 60, 100 + i, 100 + i, 98 + i, 98 + i) for i in range(50)]
+    for bad, was in ((viele, "Haeufung degenerierter Bars"),
+                     ([(0, 100, 99, 98, 100)], "High unter dem Body"),
+                     ([(0, 100, 101, 102, 100)], "Low ueber dem High"),
+                     ([(60, 1, 2, 0, 1), (60, 1, 2, 0, 1)], "doppelter Zeitstempel"),
+                     ([(60, 1, 2, 0, 1), (30, 1, 2, 0, 1)], "fallender Zeitstempel"),
+                     ([], "leerer Datensatz")):
+        try:
+            pruefe_kerzen(bad)
+        except OHLCDefekt:
+            pass
+        else:
+            raise AssertionError(f"nicht gefangen: {was}")
+
+    # Tick-Raster ist ein weicher Hinweis, kein Abbruch (andere Feeds, andere Tickgroesse)
+    assert pruefe_kerzen([(0, 100.13, 101.0, 99.0, 100.0)], "MNQ"), "Tick-Verstoss muss gemeldet werden"
+
+    # Close bewusst NICHT im Referenzvergleich: Settlement vs. letzter Trade weichen
+    # systematisch ab -- genau der Fehlschluss vom 2026-08-13.
+    eigen = {0: (1.0, 2.0, 0.0, 1.0)}
+    assert pruefe_gegen_referenz(eigen, {0: (1.0, 2.0, 0.0, 9.9)}) == [], "Close darf nicht zaehlen"
+    assert pruefe_gegen_referenz(eigen, {0: (1.0, 5.0, 0.0, 1.0)}), "High-Abweichung muss auffallen"
+    assert pruefe_gegen_referenz(eigen, {}) == [], "fehlende Referenz ist kein Fehler"
+    print("analyze_ohlc.pruefe_kerzen demo: OK")
+
+
 # --------------------------------------------------------------------------- Daten
 
 @dataclass

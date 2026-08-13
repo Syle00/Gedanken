@@ -32,6 +32,8 @@ from backtest_risk_compare import demo as backtest_risk_compare_demo  # noqa: E4
 from validate import demo as validate_demo  # noqa: E402
 from backtest_common import demo as backtest_common_demo  # noqa: E402
 from macro_db import selfcheck as macro_db_selfcheck  # noqa: E402
+from backtest_fvg_strength import selfcheck as fvg_strength_selfcheck  # noqa: E402
+from analyze_ohlc import demo_pruefe_kerzen  # noqa: E402
 
 
 def _results_demo() -> None:
@@ -100,6 +102,8 @@ CHECKS = [
     ("validate", validate_demo),
     ("backtest_common", backtest_common_demo),
     ("macro_db", macro_db_selfcheck),
+    ("backtest_fvg_strength", fvg_strength_selfcheck),
+    ("ohlc_gate", demo_pruefe_kerzen),
     ("dedup", _results_demo),
 ]
 
