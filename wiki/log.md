@@ -2304,3 +2304,12 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   kein Fehlalarm, E2E ueber write_day legt die kaputte Datei gar nicht erst an. `selfcheck.py`
   jetzt 18 Selbstchecks (neu: `ohlc_gate`).
 - Doku: algo/README.md (Abschnitt "OHLC-Nulltoleranz-Gate"), algo/PLAN.md (Eintrag 2026-08-13).
+
+## [2026-08-13] lint | Code-Review der FVG-Arbeit: Transaktionskosten fehlten
+- Vier Funde in eigener Tagesarbeit behoben: fehlende Round-Turn-Kosten (1,24 $) im
+  FVG-Backtest, 224-fache Neuberechnung der Higher-TF-Level pro Tag, stilles Wegfallen von
+  426 FVG ohne Entry, doppelter `swings()`-Aufruf.
+- Wichtigste Zahlen-Auswirkung: Gruppe "normal" faellt von 1,26 auf 0,02 $/Trade — nach Kosten
+  wertlos statt schwach profitabel. Die gefilterten Gruppen tragen die Kosten weiterhin.
+- Seiten aktualisiert: wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md
+  (Netto-Tabelle + Kostenhinweis), algo/PLAN.md, algo/README.md

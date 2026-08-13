@@ -654,8 +654,11 @@ Swing-Break; gross + MSS = High Probability; Confluence mit Higher-TF-Qs bzw. ND
 alle MNQ-1m-Tage. Ergebnisseite: `wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence
 (laufend).md`, Rohwerte `algo/results/fvg_strength.json`.
 
-**Wie:** Limit-Entry am C.E., Stop an der fernen Kante, Ziel 2R, P&L in echten Dollar ueber
-`pnl.POINT_VALUE`. `size_rel = FVG-Groesse / Median-Range der 30 Kerzen davor` ist der
+**Wie:** Limit-Entry am C.E., Stop an der fernen Kante, Ziel 2R, 1 Kontrakt, P&L in echten
+Dollar ueber `pnl.POINT_VALUE` **abzueglich `COMMISSION_RT` (1,24 $ Round Turn)**. Der Posten
+entscheidet mit: Gruppe "normal" faellt dadurch von 1,26 auf 0,02 $ je Trade. Slippage ist
+bewusst mit 0 modelliert (Limit-Entry) -- Stop-Slippage fehlt und macht die Zahlen weiter
+optimistisch. `size_rel = FVG-Groesse / Median-Range der 30 Kerzen davor` ist der
 sessionunabhaengige Groessenmassstab -- absolute Punkte sind wertlos, weil eine 1m-Kerze um
 9:35 fast dreimal so gross ist wie um 4:00.
 

@@ -574,10 +574,12 @@ def _grade(bars: list[Bar], gaps: list[dict], n: int = 2) -> list[dict]:
     """
     # Ein bereits gebrochener Swing ist keine Liquiditaet mehr -- sonst gilt in einem Trend
     # jedes Folge-FVG als "stark" gegen dasselbe, laengst genommene Level.
+    sw = swings(bars, n)
+
     def live(kind):
         up = kind == "high"
         out = []
-        for idx, k, p in swings(bars, n):
+        for idx, k, p in sw:
             if k != kind:
                 continue
             hit = None

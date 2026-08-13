@@ -44,6 +44,14 @@ from qoh_levels import grid  # noqa: E402
 SYMBOL = "MNQ"
 VOL_LOOKBACK = 30      # Kerzen vor dem FVG fuer die lokale Volatilitaet
 RR = 2.0               # Ziel in Vielfachen des Risikos (C.E. -> ferne Kante)
+CONTRACTS = 1          # feste Groesse: hier geht es um die Kante, nicht um Sizing
+
+# Round Turn je Kontrakt in USD (IBKR-Groessenordnung fuer MNQ inkl. Exchange Fees).
+# Ohne diesen Posten liest sich eine Gruppe mit ~2 $/Trade wie ein profitables System,
+# obwohl sie nach Kosten bei null steht -- bei 6.851 Trades ist das der Unterschied
+# zwischen Kante und Illusion.
+COMMISSION_RT = 1.24
+SLIPPAGE_TICKS = 0.0   # Limit-Entry am C.E.; Stop-Slippage bewusst nicht modelliert
 
 # Sessions nach Jannes' Aufteilung -- der 9:30-Open bewusst als eigenes Fenster, weil
 # genau dort die These "viel groessere Kerzen" haengt.
@@ -74,19 +82,21 @@ def local_vol(bars: list[Bar], i: int) -> float:
     return statistics.median(rng) if rng else 0.0
 
 
-def higher_tf_levels(day_dir: Path, upto) -> list[float]:
-    """Qs + Kanten aller Higher-TF-FVGs, die vor `upto` fertig waren. Das sind die
-    Level, mit denen ein 1m-FVG ueberlappen kann (T4)."""
-    out: list[float] = []
+def higher_tf_levels(day_dir: Path) -> list[tuple]:
+    """(fertig_ab, Qs-Level) aller Higher-TF-FVGs des Tages -- einmal pro Tag berechnet,
+    nicht pro 1m-FVG. Das sind die Level, mit denen ein 1m-FVG ueberlappen kann (T4).
+
+    Bekannte Grenze: nur Higher-TF-Arrays *desselben* Tagesordners; aeltere 15m-/1h-FVGs
+    aus Vortagen bleiben unberuecksichtigt.
+    """
+    out = []
     for tf in ("15m", "1h"):
         files = sorted(day_dir.glob(f"{SYMBOL} * {tf}.csv"))
         if not files:
             continue
         for g in fvgs(load(files[0]), tick=SYMBOL):
-            if g["t_end"] >= upto:          # noch nicht bestaetigt -> waere Lookahead
-                continue
-            out += [p for _, stufe, _, p in grid(g["hi"], g["lo"], SYMBOL)
-                    if stufe == "Qs"]
+            out.append((g["t_end"], [p for _, stufe, _, p in grid(g["hi"], g["lo"], SYMBOL)
+                                     if stufe == "Qs"]))
     return out
 
 
@@ -125,16 +135,17 @@ def collect() -> list[dict]:
         bars = load(path)
         if len(bars) < VOL_LOOKBACK + 3:
             continue
-        day_dir = path.parent
         gap = ndog_gap(bars, day)
         ndog_levels = [gap["prev_close"], gap["today_open"]] if gap else []
+        htf = higher_tf_levels(path.parent)
 
         for g in fvgs(bars, tick=SYMBOL):
             i = g["i"]
             vol = local_vol(bars, i)
             if vol <= 0:
                 continue
-            hi_levels = higher_tf_levels(day_dir, g["t_end"])
+            # nur Arrays, die vor diesem FVG fertig waren -- sonst Lookahead
+            hi_levels = [p for fertig, lv in htf if fertig < g["t_end"] for p in lv]
             rows.append({
                 "day": str(day),
                 "t": g["t"].strftime("%Y-%m-%d %H:%M"),
@@ -157,7 +168,8 @@ def _stats(rows: list[dict]) -> dict:
     if not done:
         return {"n_fvg": len(rows), "n_trades": 0}
     wins = [r for r in done if r["trade"]["won"]]
-    pts = sum(r["trade"]["pts"] for r in done)
+    brutto = sum(r["trade"]["pts"] for r in done) * POINT_VALUE[SYMBOL] * CONTRACTS
+    netto = brutto - len(done) * COMMISSION_RT * CONTRACTS
     dub = [r for r in done if r["trade"]["dubious"]]
     # Sensitivitaet: kleine FVGs loesen Stop UND Ziel viel haeufiger in derselben 1m-Kerze
     # auf als grosse. Da die konservative Regel die alle als Verlust wertet, koennte der
@@ -166,11 +178,16 @@ def _stats(rows: list[dict]) -> dict:
     return {
         "n_fvg": len(rows),
         "n_trades": len(done),
+        # Kein stilles Wegfallen: FVGs ohne Entry und am Datenende offene Trades ausweisen.
+        "n_ohne_entry": sum(1 for r in rows if r["trade"] is None),
+        "n_offen_am_datenende": sum(1 for r in rows if r["trade"]
+                                    and r["trade"]["won"] is None),
         "win_rate": round(100 * len(wins) / len(done), 1),
         "win_rate_ohne_dubious": (round(100 * sum(r["trade"]["won"] for r in clean)
                                         / len(clean), 1) if clean else None),
-        "pnl_usd": round(pts * POINT_VALUE[SYMBOL], 2),
-        "pnl_per_trade_usd": round(pts * POINT_VALUE[SYMBOL] / len(done), 2),
+        "pnl_brutto_usd": round(brutto, 2),
+        "pnl_usd": round(netto, 2),
+        "pnl_per_trade_usd": round(netto / len(done), 2),
         "dubious_pct": round(100 * len(dub) / len(done), 1),
     }
 
@@ -256,15 +273,19 @@ def main() -> None:
     for name, s in res["sessions"].items():
         print(f"{name:<11}{s['n']:>7}{s['median_size_pts']:>16.2f}"
               f"{s['median_vol_pts']:>14.2f}{s['median_size_rel']:>9.2f}")
+    a = res["groups"]["alle"]
+    print(f"\nOhne Entry (C.E. nie erreicht): {a['n_ohne_entry']} | am Datenende offen: "
+          f"{a['n_offen_am_datenende']} | Kosten: {COMMISSION_RT:.2f} $ je Round Turn")
     print(f"\n{'Gruppe':<26}{'n FVG':>7}{'Trades':>8}{'Win%':>7}{'Win% o.dub':>11}"
-          f"{'$/Trade':>10}{'$ ges.':>11}{'dubious%':>10}")
+          f"{'$/Trade netto':>14}{'$ brutto':>11}{'$ netto':>11}{'dubious%':>10}")
     for name, s in res["groups"].items():
         if not s.get("n_trades"):
-            print(f"{name:<26}{s['n_fvg']:>7}{0:>8}{'-':>7}{'-':>11}{'-':>10}{'-':>11}{'-':>10}")
+            print(f"{name:<26}{s['n_fvg']:>7}{0:>8}{'-':>7}{'-':>11}{'-':>14}"
+                  f"{'-':>11}{'-':>11}{'-':>10}")
             continue
         print(f"{name:<26}{s['n_fvg']:>7}{s['n_trades']:>8}{s['win_rate']:>7.1f}"
-              f"{s['win_rate_ohne_dubious']:>11.1f}{s['pnl_per_trade_usd']:>10.2f}"
-              f"{s['pnl_usd']:>11.2f}{s['dubious_pct']:>10.1f}")
+              f"{s['win_rate_ohne_dubious']:>11.1f}{s['pnl_per_trade_usd']:>14.2f}"
+              f"{s['pnl_brutto_usd']:>11.2f}{s['pnl_usd']:>11.2f}{s['dubious_pct']:>10.1f}")
 
 
 if __name__ == "__main__":

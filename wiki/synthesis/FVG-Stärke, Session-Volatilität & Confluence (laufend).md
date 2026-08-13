@@ -50,19 +50,26 @@ Diese Seite wird bei wachsendem Datenbestand überschrieben, nicht ergänzt.
 
 ## T2–T4 — Trefferquote (mit hartem Vorbehalt)
 
-Regel: Limit-Entry am **C.E.**, Stop an der fernen Kante, Ziel **2R**, echter Punktwert
-($2/Punkt MNQ). Breakeven bei 2R liegt bei **33,3 %**.
+Regel: Limit-Entry am **C.E.**, Stop an der fernen Kante, Ziel **2R**, 1 Kontrakt, echter
+Punktwert ($2/Punkt MNQ), **abzüglich 1,24 $ Round-Turn-Kosten**. Breakeven bei 2R liegt bei
+**33,3 %**. Von 7.279 FVGs erreichten 426 nie den C.E. (kein Entry), 2 waren am Datenende noch
+offen — beide fallen aus der Trefferquote heraus.
 
-| Gruppe | n FVG | Trades | Win % | Win % ohne strittige | $/Trade | dubious % |
-|---|---|---|---|---|---|---|
-| alle | 7.279 | 6.851 | 34,0 | 69,6 | 1,94 | 51,1 |
-| normal (kein Swing-Break) | 3.799 | 3.604 | 31,5 | 71,5 | 1,26 | 55,9 |
-| stark (Swing-Break) | 3.480 | 3.247 | 36,8 | 67,9 | 2,69 | 45,8 |
-| nur groß (≥ Median `size_rel`) | 3.640 | 3.428 | 45,6 | 62,8 | 4,25 | 27,3 |
-| stark + groß | 2.075 | 1.941 | 45,8 | 62,3 | 4,63 | 26,5 |
-| **stark + groß + HTF-Qs** | 1.016 | 942 | **47,9** | 62,7 | **6,33** | 23,7 |
-| stark + groß + NDOG | 152 | 144 | 44,4 | 55,2 | 4,89 | 19,4 |
-| nur HTF-Qs | 2.583 | 2.427 | 39,1 | 66,9 | 3,20 | 41,6 |
+| Gruppe | n FVG | Trades | Win % | Win % ohne strittige | $/Trade netto | $ netto ges. | dubious % |
+|---|---|---|---|---|---|---|---|
+| alle | 7.279 | 6.851 | 34,0 | 69,6 | 0,70 | 4.790 | 51,1 |
+| normal (kein Swing-Break) | 3.799 | 3.604 | 31,5 | 71,5 | **0,02** | 87 | 55,9 |
+| stark (Swing-Break) | 3.480 | 3.247 | 36,8 | 67,9 | 1,45 | 4.703 | 45,8 |
+| nur groß (≥ Median `size_rel`) | 3.640 | 3.428 | 45,6 | 62,8 | 3,01 | 10.327 | 27,3 |
+| stark + groß | 2.075 | 1.941 | 45,8 | 62,3 | 3,39 | 6.590 | 26,5 |
+| **stark + groß + HTF-Qs** | 1.016 | 942 | **47,9** | 62,7 | **5,09** | 4.794 | 23,7 |
+| stark + groß + NDOG | 152 | 144 | 44,4 | 55,2 | 3,65 | 525 | 19,4 |
+| nur HTF-Qs | 2.583 | 2.427 | 39,1 | 66,9 | 1,96 | 4.752 | 41,6 |
+
+> **Kosten entscheiden hier mit.** Brutto sähen die normalen FVGs mit 1,26 $/Trade nach einer
+> kleinen Kante aus; nach 1,24 $ Round Turn bleiben **0,02 $** — über 3.604 Trades zusammen 87 $.
+> Die Gruppe „normal" ist nach Kosten **wertlos**, nicht schwach. Nur die gefilterten Gruppen
+> tragen die Kosten mit Abstand.
 
 ### ⚠️ Der Vorbehalt, der die halbe Tabelle relativiert
 
@@ -82,12 +89,13 @@ Was daraus trotzdem folgt, und zwar unabhängig von der Regel:
    nicht (nur) eine Wahrscheinlichkeitsfrage, sondern eine **Ausführbarkeitsfrage**.
 2. **Fairer Vergleich nur bei ähnlicher `dubious`-Quote.** Die einzigen sauber vergleichbaren
    Paare:
-   - `nur groß` (27,3 %) vs. `stark + groß` (26,5 %): 45,6 → 45,8 % bzw. 62,8 → 62,3 %.
+   - `nur groß` (27,3 %) vs. `stark + groß` (26,5 %): 45,6 → 45,8 % bzw. 62,8 → 62,3 %
+     (3,01 → 3,39 $/Trade netto).
      **Der Swing-Break bringt bei kontrollierter Größe nichts Messbares.** Damit ist T2 in der
      Form „Swing-Break macht das FVG stark" mit diesen Daten nicht belegt — die Größe erklärt
      den Effekt.
    - `stark + groß` (26,5 %) vs. `stark + groß + HTF-Qs` (23,7 %): 45,8 → 47,9 % und
-     4,63 → 6,33 $/Trade. **T4 (Higher-TF-Qs) hält als kleiner, konsistenter Zusatzeffekt** —
+     3,39 → 5,09 $/Trade netto. **T4 (Higher-TF-Qs) hält als kleiner, konsistenter Zusatzeffekt** —
      der beste $/Trade-Wert der ganzen Tabelle.
    - `stark + groß + NDOG` liegt auf beiden Metriken *unter* `stark + groß` (44,4 %/55,2 %).
      **Für die NDOG-Confluence gibt es in 27 Tagen keinen Beleg**, bei n=144 aber auch keinen

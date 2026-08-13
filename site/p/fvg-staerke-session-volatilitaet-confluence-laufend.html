@@ -182,8 +182,10 @@ London riesig und um 9:35 unterdurchschnittlich. Der Schwellwert gehört auf
 <code>size / Median-Kerzenrange der letzten 30 Kerzen</code> (im Backtest <code>size_rel</code>, Median 0,45).</p>
 </blockquote>
 <h2 id="t2t4-trefferquote-mit-hartem-vorbehalt">T2–T4 — Trefferquote (mit hartem Vorbehalt)</h2>
-<p>Regel: Limit-Entry am <strong>C.E.</strong>, Stop an der fernen Kante, Ziel <strong>2R</strong>, echter Punktwert
-($2/Punkt MNQ). Breakeven bei 2R liegt bei <strong>33,3 %</strong>.</p>
+<p>Regel: Limit-Entry am <strong>C.E.</strong>, Stop an der fernen Kante, Ziel <strong>2R</strong>, 1 Kontrakt, echter
+Punktwert ($2/Punkt MNQ), <strong>abzüglich 1,24 $ Round-Turn-Kosten</strong>. Breakeven bei 2R liegt bei
+<strong>33,3 %</strong>. Von 7.279 FVGs erreichten 426 nie den C.E. (kein Entry), 2 waren am Datenende noch
+offen — beide fallen aus der Trefferquote heraus.</p>
 <table>
 <thead>
 <tr>
@@ -192,7 +194,8 @@ London riesig und um 9:35 unterdurchschnittlich. Der Schwellwert gehört auf
 <th>Trades</th>
 <th>Win %</th>
 <th>Win % ohne strittige</th>
-<th>$/Trade</th>
+<th>$/Trade netto</th>
+<th>$ netto ges.</th>
 <th>dubious %</th>
 </tr>
 </thead>
@@ -203,7 +206,8 @@ London riesig und um 9:35 unterdurchschnittlich. Der Schwellwert gehört auf
 <td>6.851</td>
 <td>34,0</td>
 <td>69,6</td>
-<td>1,94</td>
+<td>0,70</td>
+<td>4.790</td>
 <td>51,1</td>
 </tr>
 <tr>
@@ -212,7 +216,8 @@ London riesig und um 9:35 unterdurchschnittlich. Der Schwellwert gehört auf
 <td>3.604</td>
 <td>31,5</td>
 <td>71,5</td>
-<td>1,26</td>
+<td><strong>0,02</strong></td>
+<td>87</td>
 <td>55,9</td>
 </tr>
 <tr>
@@ -221,7 +226,8 @@ London riesig und um 9:35 unterdurchschnittlich. Der Schwellwert gehört auf
 <td>3.247</td>
 <td>36,8</td>
 <td>67,9</td>
-<td>2,69</td>
+<td>1,45</td>
+<td>4.703</td>
 <td>45,8</td>
 </tr>
 <tr>
@@ -230,7 +236,8 @@ London riesig und um 9:35 unterdurchschnittlich. Der Schwellwert gehört auf
 <td>3.428</td>
 <td>45,6</td>
 <td>62,8</td>
-<td>4,25</td>
+<td>3,01</td>
+<td>10.327</td>
 <td>27,3</td>
 </tr>
 <tr>
@@ -239,7 +246,8 @@ London riesig und um 9:35 unterdurchschnittlich. Der Schwellwert gehört auf
 <td>1.941</td>
 <td>45,8</td>
 <td>62,3</td>
-<td>4,63</td>
+<td>3,39</td>
+<td>6.590</td>
 <td>26,5</td>
 </tr>
 <tr>
@@ -248,7 +256,8 @@ London riesig und um 9:35 unterdurchschnittlich. Der Schwellwert gehört auf
 <td>942</td>
 <td><strong>47,9</strong></td>
 <td>62,7</td>
-<td><strong>6,33</strong></td>
+<td><strong>5,09</strong></td>
+<td>4.794</td>
 <td>23,7</td>
 </tr>
 <tr>
@@ -257,7 +266,8 @@ London riesig und um 9:35 unterdurchschnittlich. Der Schwellwert gehört auf
 <td>144</td>
 <td>44,4</td>
 <td>55,2</td>
-<td>4,89</td>
+<td>3,65</td>
+<td>525</td>
 <td>19,4</td>
 </tr>
 <tr>
@@ -266,11 +276,18 @@ London riesig und um 9:35 unterdurchschnittlich. Der Schwellwert gehört auf
 <td>2.427</td>
 <td>39,1</td>
 <td>66,9</td>
-<td>3,20</td>
+<td>1,96</td>
+<td>4.752</td>
 <td>41,6</td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>Kosten entscheiden hier mit.</strong> Brutto sähen die normalen FVGs mit 1,26 $/Trade nach einer
+kleinen Kante aus; nach 1,24 $ Round Turn bleiben <strong>0,02 $</strong> — über 3.604 Trades zusammen 87 $.
+Die Gruppe „normal" ist nach Kosten <strong>wertlos</strong>, nicht schwach. Nur die gefilterten Gruppen
+tragen die Kosten mit Abstand.</p>
+</blockquote>
 <h3 id="der-vorbehalt-der-die-halbe-tabelle-relativiert">⚠️ Der Vorbehalt, der die halbe Tabelle relativiert</h3>
 <p><code>dubious %</code> = Anteil der Trades, bei denen <strong>Stop und Ziel in derselben 1m-Kerze</strong> liegen. Die
 Reihenfolge ist auf 1m-Daten nicht feststellbar; konservativ zählen sie als Verlust
@@ -286,12 +303,13 @@ Wahrheit liegt zwischen beiden Zahlen und ist mit Minutendaten <strong>nicht ent
    nicht (nur) eine Wahrscheinlichkeitsfrage, sondern eine <strong>Ausführbarkeitsfrage</strong>.</li>
 <li><strong>Fairer Vergleich nur bei ähnlicher <code>dubious</code>-Quote.</strong> Die einzigen sauber vergleichbaren
    Paare:
-   - <code>nur groß</code> (27,3 %) vs. <code>stark + groß</code> (26,5 %): 45,6 → 45,8 % bzw. 62,8 → 62,3 %.
+   - <code>nur groß</code> (27,3 %) vs. <code>stark + groß</code> (26,5 %): 45,6 → 45,8 % bzw. 62,8 → 62,3 %
+     (3,01 → 3,39 $/Trade netto).
      <strong>Der Swing-Break bringt bei kontrollierter Größe nichts Messbares.</strong> Damit ist T2 in der
      Form „Swing-Break macht das FVG stark" mit diesen Daten nicht belegt — die Größe erklärt
      den Effekt.
    - <code>stark + groß</code> (26,5 %) vs. <code>stark + groß + HTF-Qs</code> (23,7 %): 45,8 → 47,9 % und
-     4,63 → 6,33 $/Trade. <strong>T4 (Higher-TF-Qs) hält als kleiner, konsistenter Zusatzeffekt</strong> —
+     3,39 → 5,09 $/Trade netto. <strong>T4 (Higher-TF-Qs) hält als kleiner, konsistenter Zusatzeffekt</strong> —
      der beste $/Trade-Wert der ganzen Tabelle.
    - <code>stark + groß + NDOG</code> liegt auf beiden Metriken <em>unter</em> <code>stark + groß</code> (44,4 %/55,2 %).
      <strong>Für die NDOG-Confluence gibt es in 27 Tagen keinen Beleg</strong>, bei n=144 aber auch keinen

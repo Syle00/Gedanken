@@ -180,6 +180,7 @@
 <li><a href="#2026-08-13-lint-mnq-tiefhistorie-1d-zwei-defekte-sammeldateien-aussortiert">[2026-08-13] lint | MNQ-Tiefhistorie 1d: zwei defekte Sammeldateien aussortiert</a></li>
 <li><a href="#2026-08-13-synthesis-fvg-starke-session-volatilitat-groe-confluence">[2026-08-13] synthesis | FVG-Stärke: Session-Volatilität, Größe, Confluence</a></li>
 <li><a href="#2026-08-13-setup-ohlc-nulltoleranz-gate-vor-allen-schreibpfaden-nach-rawmarktdaten">[2026-08-13] setup | OHLC-Nulltoleranz-Gate vor allen Schreibpfaden nach raw/marktdaten/</a></li>
+<li><a href="#2026-08-13-lint-code-review-der-fvg-arbeit-transaktionskosten-fehlten">[2026-08-13] lint | Code-Review der FVG-Arbeit: Transaktionskosten fehlten</a></li>
 </ul>
 </div>
 </details>
@@ -2615,6 +2616,16 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   kein Fehlalarm, E2E ueber write_day legt die kaputte Datei gar nicht erst an. <code>selfcheck.py</code>
   jetzt 18 Selbstchecks (neu: <code>ohlc_gate</code>).</li>
 <li>Doku: algo/README.md (Abschnitt "OHLC-Nulltoleranz-Gate"), algo/PLAN.md (Eintrag 2026-08-13).</li>
+</ul>
+<h2 id="2026-08-13-lint-code-review-der-fvg-arbeit-transaktionskosten-fehlten">[2026-08-13] lint | Code-Review der FVG-Arbeit: Transaktionskosten fehlten</h2>
+<ul>
+<li>Vier Funde in eigener Tagesarbeit behoben: fehlende Round-Turn-Kosten (1,24 $) im
+  FVG-Backtest, 224-fache Neuberechnung der Higher-TF-Level pro Tag, stilles Wegfallen von
+  426 FVG ohne Entry, doppelter <code>swings()</code>-Aufruf.</li>
+<li>Wichtigste Zahlen-Auswirkung: Gruppe "normal" faellt von 1,26 auf 0,02 $/Trade — nach Kosten
+  wertlos statt schwach profitabel. Die gefilterten Gruppen tragen die Kosten weiterhin.</li>
+<li>Seiten aktualisiert: wiki/synthesis/FVG-Stärke, Session-Volatilität &amp; Confluence (laufend).md
+  (Netto-Tabelle + Kostenhinweis), algo/PLAN.md, algo/README.md</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
