@@ -182,6 +182,7 @@
 <li><a href="#2026-08-13-setup-ohlc-nulltoleranz-gate-vor-allen-schreibpfaden-nach-rawmarktdaten">[2026-08-13] setup | OHLC-Nulltoleranz-Gate vor allen Schreibpfaden nach raw/marktdaten/</a></li>
 <li><a href="#2026-08-13-lint-code-review-der-fvg-arbeit-transaktionskosten-fehlten">[2026-08-13] lint | Code-Review der FVG-Arbeit: Transaktionskosten fehlten</a></li>
 <li><a href="#2026-08-13-lint-gegenpruefung-des-ohlc-gates-es-war-zu-scharf-korrigiert">[2026-08-13] lint | Gegenpruefung des OHLC-Gates: es war zu scharf, korrigiert</a></li>
+<li><a href="#2026-08-13-setup-fvg-wissen-in-die-bestehenden-algo-module-integriert">[2026-08-13] setup | FVG-Wissen in die bestehenden Algo-Module integriert</a></li>
 </ul>
 </div>
 </details>
@@ -2644,6 +2645,18 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   yfinance geprueft, obwohl die Dateien daher stammen. Gegen die unabhaengige TradingView-Quelle
   nachgeprueft — Ergebnis haelt, aber der Beweis stammt jetzt aus einer zweiten Quelle.</li>
 <li>Details: algo/PLAN.md, Eintrag "Gegenpruefung des eigenen Gates".</li>
+</ul>
+<h2 id="2026-08-13-setup-fvg-wissen-in-die-bestehenden-algo-module-integriert">[2026-08-13] setup | FVG-Wissen in die bestehenden Algo-Module integriert</h2>
+<ul>
+<li><code>analyze_ohlc.fvgs()</code> liefert <code>size_rel</code> zusaetzlich zu <code>strong</code>/<code>broke</code>/<code>swing</code>/<code>ms</code> — eine
+  Quelle, alle Aufrufer bekommen es ohne eigene Rechnung.</li>
+<li><code>rules.py::plan_trade</code> bekommt <code>require_strong</code>/<code>min_size_rel</code>, <strong>per Default aus</strong>: gemessen
+  verschlechtern sie das Silver-Bullet-Setup (16 Trades/+2.194 $ gegen 10-13/-6.281 bis -9.790 $).</li>
+<li><code>backtest_macro.py</code>: absolute 2-Punkte-Schwelle durch relative 0,45 ersetzt; Macro-Befund
+  haelt (p=0,0087).</li>
+<li><code>analyze_ohlc.day_report</code>: FVG-Tabelle High Probability zuerst, Spalten "x Kerze" und "Stark".</li>
+<li>Seiten aktualisiert: wiki/synthesis/FVG-Stärke, Session-Volatilität &amp; Confluence (laufend).md
+  (neuer Abschnitt "Gegenprobe am echten Setup"), algo/README.md, algo/PLAN.md</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

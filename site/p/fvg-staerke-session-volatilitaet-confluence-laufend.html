@@ -60,6 +60,7 @@
 <li><a href="#was-den-vorbehalt-auflosen-wurde">Was den Vorbehalt auflösen würde</a></li>
 </ul>
 </li>
+<li><a href="#gegenprobe-am-echten-setup-der-filter-schadet-dem-silver-bullet">Gegenprobe am echten Setup: der Filter schadet dem Silver Bullet</a></li>
 <li><a href="#offene-punkte">Offene Punkte</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -319,6 +320,52 @@ Wahrheit liegt zwischen beiden Zahlen und ist mit Minutendaten <strong>nicht ent
 <p>Ausführungsdaten feiner als 1m (Sekunden oder Ticks). Kommt mit der IBKR-Anbindung
 (Roadmap-Punkt 4) ins Haus; bis dahin bleibt die konservative Zahl der Maßstab und die
 optimistische die Obergrenze.</p>
+<h2 id="gegenprobe-am-echten-setup-der-filter-schadet-dem-silver-bullet">Gegenprobe am echten Setup: der Filter schadet dem Silver Bullet</h2>
+<p>Die Filter wurden in <a href="../p/silver-bullet-model.html">Silver Bullet Model</a> (<code>algo/rules.py::plan_trade</code>) eingebaut und über
+<code>algo/backtest_bt.py</code> gemessen. Ergebnis <strong>gegen</strong> die Erwartung:</p>
+<table>
+<thead>
+<tr>
+<th>Konfiguration</th>
+<th>Trades</th>
+<th>echte $-P&amp;L netto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ohne Filter (Baseline)</td>
+<td>16</td>
+<td><strong>+2.194</strong></td>
+</tr>
+<tr>
+<td>nur Swing-Break</td>
+<td>10</td>
+<td>−9.790</td>
+</tr>
+<tr>
+<td>Swing-Break + Größe ≥ 0,45</td>
+<td>11</td>
+<td>−9.031</td>
+</tr>
+<tr>
+<td>nur Größe ≥ 0,45</td>
+<td>13</td>
+<td>−6.281</td>
+</tr>
+</tbody>
+</table>
+<p>Vermutete Ursache: das <strong>1st Presented FVG</strong> entsteht per Konstruktion <em>früh</em> im
+Silver-Bullet-Fenster — oft bevor überhaupt Struktur genommen wurde. Der Swing-Break-Filter
+wählt damit systematisch spätere, schon ausgedehnte Setups; die mittlere Haltedauer steigt von
+64 auf rund 200 Bars. Was auf FVG-Ebene eine Kante ist, ist im 1st-Presented-Kontext also eine
+<strong>Selektion in die falsche Phase der Bewegung</strong>.</p>
+<blockquote>
+<p>Bei n=10–16 Trades ist keine der Varianten von Rauschen unterscheidbar (schon die Baseline
+hat p=0,26). Die Filter bleiben deshalb implementiert, getestet und dokumentiert, aber
+<strong>per Default aus</strong> — eine Regel gegen die eigene Messung scharfzuschalten wäre genau das,
+was <code>CLAUDE.md</code> unter „Korrektheit vor Features" verbietet. Neu zu bewerten, sobald die
+Trade-Zahl zweistellig-stabil ist.</p>
+</blockquote>
 <h2 id="offene-punkte">Offene Punkte</h2>
 <ul>
 <li>27 Handelstage sind viele FVGs, aber <strong>wenige Marktregime</strong>; FVGs innerhalb eines Tages sind

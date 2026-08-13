@@ -2329,3 +2329,14 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   yfinance geprueft, obwohl die Dateien daher stammen. Gegen die unabhaengige TradingView-Quelle
   nachgeprueft — Ergebnis haelt, aber der Beweis stammt jetzt aus einer zweiten Quelle.
 - Details: algo/PLAN.md, Eintrag "Gegenpruefung des eigenen Gates".
+
+## [2026-08-13] setup | FVG-Wissen in die bestehenden Algo-Module integriert
+- `analyze_ohlc.fvgs()` liefert `size_rel` zusaetzlich zu `strong`/`broke`/`swing`/`ms` — eine
+  Quelle, alle Aufrufer bekommen es ohne eigene Rechnung.
+- `rules.py::plan_trade` bekommt `require_strong`/`min_size_rel`, **per Default aus**: gemessen
+  verschlechtern sie das Silver-Bullet-Setup (16 Trades/+2.194 $ gegen 10-13/-6.281 bis -9.790 $).
+- `backtest_macro.py`: absolute 2-Punkte-Schwelle durch relative 0,45 ersetzt; Macro-Befund
+  haelt (p=0,0087).
+- `analyze_ohlc.day_report`: FVG-Tabelle High Probability zuerst, Spalten "x Kerze" und "Stark".
+- Seiten aktualisiert: wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md
+  (neuer Abschnitt "Gegenprobe am echten Setup"), algo/README.md, algo/PLAN.md

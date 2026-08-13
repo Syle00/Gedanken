@@ -717,3 +717,28 @@ voellig andere Preise — tatsaechlich waren O/H/L identisch und nur um einen Ta
 **Regressionstest.** `analyze_ohlc.demo_pruefe_kerzen()`, eingehaengt in `selfcheck.py`
 (`ohlc_gate`). Prueft beide Richtungen: dass echte Defekte gefangen werden **und** dass gesunde
 Daten sowie einzelne legitime degenerierte Kerzen keinen Fehlalarm ausloesen.
+
+## FVG-Wissen in den bestehenden Modulen (Stand 2026-08-13)
+
+Das neue FVG-Wissen sitzt an **einer** Stelle -- `analyze_ohlc.fvgs()` liefert `strong`,
+`broke`, `swing`, `ms`, `size_rel`, `t_start`/`t_end` automatisch mit. Alle Aufrufer bekommen
+das ohne eigene Rechnung; niemand kann die Einordnung vergessen.
+
+- **`rules.py::plan_trade`** -- neue Parameter `require_strong` / `min_size_rel`.
+  **Default AUS**, weil sie das Silver-Bullet-Setup messbar verschlechtern (16 Trades/+2.194 $
+  gegen 10-13 Trades/-6.281 bis -9.790 $). Begruendung und Zahlen im Docstring. Nebenbei
+  sauberer geworden: der Fensterschnitt laeuft jetzt ueber `t_start >= win_start` statt ueber
+  einen harten Slice, dazu `CONTEXT_BARS = 60` Vorlaufkerzen -- ohne die liefert `size_rel`
+  fuer das erste FVG im Fenster `None`. Der Umbau ist ergebniserhaltend (Baseline exakt
+  reproduziert).
+- **`backtest_macro.py`** -- `MIN_FVG_PTS = 2.0` (absolut) ersetzt durch `MIN_FVG_REL = 0.45`
+  (Vielfaches der lokalen Kerzenrange). Die absolute Schwelle war hier ein *Messfehler*: sie
+  liess in den NY-Bloecken fast alles durch und sortierte in Asia/London aus -- also genau
+  entlang der Achse, die der Test vergleicht. FVGs werden jetzt einmal pro Tag berechnet statt
+  69x je Block. Befund bleibt: FVGs haeufen sich in den Macro-Fenstern (p=0,0087).
+- **`analyze_ohlc.day_report`** -- FVG-Tabelle sortiert **High Probability zuerst** (stark vor
+  gross), neue Spalten "x Kerze" (`size_rel`) und "Stark" (inkl. MSS/BOS). "Gross" misst sich
+  an der lokalen Kerzenrange statt am Tagesmedian.
+- **`live_status.py`** -- gibt die neuen Felder ohne Codeaenderung im JSON weiter.
+- **`backtest_fvg_strength.py`** -- nutzt `size_rel` aus dem Detektor statt einer eigenen
+  Kopie der Volatilitaetsrechnung.

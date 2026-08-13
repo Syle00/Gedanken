@@ -107,6 +107,30 @@ Ausführungsdaten feiner als 1m (Sekunden oder Ticks). Kommt mit der IBKR-Anbind
 (Roadmap-Punkt 4) ins Haus; bis dahin bleibt die konservative Zahl der Maßstab und die
 optimistische die Obergrenze.
 
+## Gegenprobe am echten Setup: der Filter schadet dem Silver Bullet
+
+Die Filter wurden in [[Silver Bullet Model]] (`algo/rules.py::plan_trade`) eingebaut und über
+`algo/backtest_bt.py` gemessen. Ergebnis **gegen** die Erwartung:
+
+| Konfiguration | Trades | echte $-P&L netto |
+|---|---|---|
+| ohne Filter (Baseline) | 16 | **+2.194** |
+| nur Swing-Break | 10 | −9.790 |
+| Swing-Break + Größe ≥ 0,45 | 11 | −9.031 |
+| nur Größe ≥ 0,45 | 13 | −6.281 |
+
+Vermutete Ursache: das **1st Presented FVG** entsteht per Konstruktion *früh* im
+Silver-Bullet-Fenster — oft bevor überhaupt Struktur genommen wurde. Der Swing-Break-Filter
+wählt damit systematisch spätere, schon ausgedehnte Setups; die mittlere Haltedauer steigt von
+64 auf rund 200 Bars. Was auf FVG-Ebene eine Kante ist, ist im 1st-Presented-Kontext also eine
+**Selektion in die falsche Phase der Bewegung**.
+
+> Bei n=10–16 Trades ist keine der Varianten von Rauschen unterscheidbar (schon die Baseline
+> hat p=0,26). Die Filter bleiben deshalb implementiert, getestet und dokumentiert, aber
+> **per Default aus** — eine Regel gegen die eigene Messung scharfzuschalten wäre genau das,
+> was `CLAUDE.md` unter „Korrektheit vor Features" verbietet. Neu zu bewerten, sobald die
+> Trade-Zahl zweistellig-stabil ist.
+
 ## Offene Punkte
 
 - 27 Handelstage sind viele FVGs, aber **wenige Marktregime**; FVGs innerhalb eines Tages sind
