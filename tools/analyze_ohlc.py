@@ -404,22 +404,21 @@ def fvgs(bars: list[Bar], min_size: float = 0.0, tick: float | str | None = None
     out = []
     for i in range(1, len(bars) - 1):
         a, m, c = bars[i - 1], bars[i], bars[i + 1]
+        # VII liegt vor, wenn sich die KOERPER (Open/Close) zweier benachbarter Kerzen NICHT
+        # ueberlappen (die Luecke zwischen Close der einen und Open der naechsten ist dann nicht
+        # durch einen Koerper aufgefuellt). Dann bildet der aeussere Close/Open-Rand die FVG-Grenze;
+        # ueberlappen die Koerper, gilt der Wick. Verifiziert an realen MNQ-Kerzen 2026-08-13
+        # (00:09/00:12/00:13/00:14). Siehe wiki/concepts/Volume Imbalance (VII).md.
+        def _vii(x, y):  # Koerper disjunkt?
+            return max(x.o, x.c) < min(y.o, y.c) or max(y.o, y.c) < min(x.o, x.c)
         if c.l > a.h and c.l - a.h > min_size:
             side = "bullish"
-            # Grenze aus der VII (aeusserer Rand der Close/Open-Luecke) statt Wick -- aber nur,
-            # wenn die VII NICHT durch den Wick der Nachbarkerze durchgehandelt (gefuellt) wurde.
-            # Bottom-VII (a->m) intakt, solange a's Docht unter m.open bleibt (a.high < m.open);
-            # Top-VII (m->c) intakt, solange c's Docht unter m.close bleibt (c.high < m.close).
-            # Sonst der Wick. Siehe wiki/concepts/Volume Imbalance (VII).md (Zahlenbeispiel).
-            lo = min(a.c, m.o) if (a.c != m.o and a.h < m.o) else a.h
-            hi = max(m.c, c.o) if (m.c != c.o and c.h < m.c) else c.l
+            lo = min(a.c, m.o) if _vii(a, m) else a.h
+            hi = max(m.c, c.o) if _vii(m, c) else c.l
         elif c.h < a.l and a.l - c.h > min_size:
             side = "bearish"
-            # spiegelbildlich: Top-VII (a->m) intakt, solange a's Docht ueber m.open bleibt
-            # (a.low > m.open); Bottom-VII (m->c) intakt, solange c's Docht ueber m.close bleibt
-            # (c.low > m.close). Sonst der Wick (die VII ist durchgehandelt).
-            hi = max(a.c, m.o) if (a.c != m.o and a.l > m.o) else a.l
-            lo = min(m.c, c.o) if (m.c != c.o and c.l > m.c) else c.h
+            hi = max(a.c, m.o) if _vii(a, m) else a.l
+            lo = min(m.c, c.o) if _vii(m, c) else c.h
         else:
             continue
         # lo/hi stammen aus echten Kursen und liegen damit bereits auf dem Raster; der C.E.
@@ -445,38 +444,39 @@ def fvgs(bars: list[Bar], min_size: float = 0.0, tick: float | str | None = None
 
 
 def fvg_selfcheck() -> None:
-    """Regression fuer die VII-inklusive FVG-Messung -- pinnt zwei belegte Faelle aus
-    wiki/concepts/Volume Imbalance (VII).md bzw. echten MNQ-Kerzen. Kernregel: die VII wird
-    nur mitgenommen, wenn sie NICHT vom Docht der Nachbarkerze durchgehandelt (gefuellt) wurde;
-    sonst gilt der Wick. Wird von algo/selfcheck.py aufgerufen."""
+    """Regression fuer die VII-inklusive FVG-Messung. Kernregel: eine VII (Close/Open-Rand statt
+    Wick) liegt vor, wenn sich die KOERPER (Open/Close) der beiden Nachbarkerzen NICHT ueberlappen;
+    sonst gilt der Wick. Verankert an vier realen, von Hand geprueften MNQ-Kerzen-Tripeln
+    (2026-08-13), zusaetzlich ein Wick-Fallback ohne VII. Wird von algo/selfcheck.py aufgerufen."""
     from datetime import datetime as _dt
     def mk(hh, o, h, l, c):
-        return Bar(_dt(2026, 8, 1, 0, hh, tzinfo=NY), o, h, l, c)
-
-    # (A) Wiki-Zahlenbeispiel, beide VII intakt (Dochte fuellen die Luecken nicht):
-    #     C1.close=28450.25, C2 open/close=28450.50/28274.50, C3.open=28275.00
-    #     -> lo=28274.50 (m.close), hi=28450.50 (m.open), size 176.
-    a = mk(0, 28460, 28470, 28451, 28450.25)   # a.low 28451 > m.open 28450.50 -> Top-VII intakt
-    m = mk(1, 28450.50, 28450.50, 28274, 28274.50)
-    c = mk(2, 28275.00, 28276, 28274.75, 28275.5)  # c.low 28274.75 > m.close 28274.50 -> Bottom-VII intakt
-    f = fvgs([a, m, c])[0]
-    assert f["side"] == "bearish" and f["lo"] == 28274.50 and f["hi"] == 28450.50, f
-
-    # (B) Reale MNQ-Kerzen 2026-08-13 00:12/13/14: Top-VII intakt (hi=a.close 29887.50),
-    #     aber Bottom-VII vom Docht der 00:14 (Low 29869 < m.close 29877.50) DURCHGEHANDELT
-    #     -> unten gilt der Wick c.high 29879.50. FVG = 8.00 Punkte, nicht 10.
-    a = mk(12, 29888.00, 29890.00, 29887.50, 29887.50)
-    m = mk(13, 29887.25, 29887.25, 29876.75, 29877.50)
-    c = mk(14, 29878.00, 29879.50, 29869.00, 29870.00)
-    f = fvgs([a, m, c])[0]
-    assert f["side"] == "bearish" and f["hi"] == 29887.50 and f["lo"] == 29879.50, f
-    assert f["size"] == 8.00, f
-
-    # (C) Ohne VII (Close == Open zur Nachbarkerze) muessen die Wicks greifen.
+        return Bar(_dt(2026, 8, 13, 0, hh, tzinfo=NY), o, h, l, c)
+    # (Zeit, O, H, L, C) der 1m-Kerzen 00:08-00:15 vom 2026-08-13.
+    bars = {
+        8:  mk(8,  29887.25, 29887.25, 29884.25, 29885.25),
+        9:  mk(9,  29885.50, 29889.25, 29885.25, 29889.00),
+        10: mk(10, 29889.50, 29892.25, 29887.75, 29889.50),
+        11: mk(11, 29890.50, 29890.75, 29887.50, 29888.25),
+        12: mk(12, 29888.00, 29890.00, 29887.50, 29887.50),
+        13: mk(13, 29887.25, 29887.25, 29876.75, 29877.50),
+        14: mk(14, 29878.00, 29879.50, 29869.00, 29870.00),
+        15: mk(15, 29870.00, 29872.50, 29868.75, 29872.25),
+    }
+    # (Displacement-Minute) -> erwartete (side, lo, hi), von Jannes' Chart-Screenshots abgelesen.
+    expect = {
+        9:  ("bullish", 29887.25, 29889.50),  # Bottom Wick a.high, Top VII c.open
+        12: ("bearish", 29887.25, 29888.25),  # beide Koerper disjunkt -> beide VII
+        13: ("bearish", 29879.50, 29887.50),  # Top VII a.close, Bottom Wick c.high (Koerper ueberlappen)
+        14: ("bearish", 29872.50, 29876.75),  # beide Koerper ueberlappen -> beide Wicks
+    }
+    for mid, (side, lo, hi) in expect.items():
+        f = fvgs([bars[mid - 1], bars[mid], bars[mid + 1]])[0]
+        assert f["side"] == side and f["lo"] == lo and f["hi"] == hi, (mid, f)
+    # Ohne VII (Close == Open zur Nachbarkerze) muessen die Wicks greifen.
     a = mk(0, 99, 100.5, 98, 100); m = mk(1, 100, 111, 99.5, 110); c = mk(2, 110, 114, 108, 113)
     f = fvgs([a, m, c])[0]
     assert f["side"] == "bullish" and f["lo"] == 100.5 and f["hi"] == 108, f
-    print("fvg_selfcheck: VII-Messung inkl. Docht-Fuell-Pruefung OK")
+    print("fvg_selfcheck: VII-Messung (Koerper-Disjunkt-Regel) OK")
 
 
 def viis(bars: list[Bar], min_size: float = 0.0):

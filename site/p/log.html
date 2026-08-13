@@ -176,6 +176,7 @@
 <li><a href="#2026-08-13-query-abgrenzung-grotes-statt-erstes-opening-range-vs-org-gap">[2026-08-13] query | Abgrenzung "größtes statt erstes" — Opening Range vs. ORG-Gap</a></li>
 <li><a href="#2026-08-13-lint-fvg-messung-korrigiert-vii-inklusiv-in-analyze_ohlcfvgs">[2026-08-13] lint | FVG-Messung korrigiert (VII-inklusiv) in analyze_ohlc.fvgs()</a></li>
 <li><a href="#2026-08-13-lint-fvg-messung-docht-fuell-pruefung-ergaenzt-folgekorrektur">[2026-08-13] lint | FVG-Messung: Docht-Fuell-Pruefung ergaenzt (Folgekorrektur)</a></li>
+<li><a href="#2026-08-13-lint-fvg-messung-final-koerper-disjunkt-regel-3-iteration">[2026-08-13] lint | FVG-Messung final: Koerper-Disjunkt-Regel (3. Iteration)</a></li>
 </ul>
 </div>
 </details>
@@ -2516,6 +2517,14 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>fvgs() nimmt die VII jetzt nur mit, wenn sie nicht vom Nachbardocht gefuellt wurde; sonst Wick.</li>
 <li>Auswirkung: MOR 13.08 1.p 00:13 bearish jetzt 8,00 (C.E. 29.883,50), vorher faelschlich 10,00.</li>
 <li>Code: tools/analyze_ohlc.py (+ Test um reales Beispiel erweitert), algo/README.md, algo/PLAN.md.</li>
+</ul>
+<h2 id="2026-08-13-lint-fvg-messung-final-koerper-disjunkt-regel-3-iteration">[2026-08-13] lint | FVG-Messung final: Koerper-Disjunkt-Regel (3. Iteration)</h2>
+<ul>
+<li>Jannes' 4 Chart-Screenshots (MOR-FVGs 00:09/12/13/14) als Referenz: VII liegt vor, wenn sich die
+  Koerper (Open/Close) zweier Nachbarkerzen nicht ueberlappen -- exakt die Wiki-Definition der VII.
+  Dann Close/Open-Rand, sonst Wick. Trifft alle vier Beispiele.</li>
+<li>Code: tools/analyze_ohlc.py (fvgs + fvg_selfcheck auf 4 reale Tripel), algo/README.md, PLAN.md.</li>
+<li>1.p MOR 13.08 unveraendert (00:13 bearish, 8,00, C.E. 29.883,50); uebrige FVG-Groessen korrigiert.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

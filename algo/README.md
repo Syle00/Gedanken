@@ -562,15 +562,16 @@ Backtests -- Entry schwerer zu fuellen (long ab, short auf), Stop und Ziel weite
 Parameter bleibt der rohe Mittelwert stehen -- Absicht, damit das Modul symbolagnostisch
 bleibt (Forex hat 0,00001), aber es heisst: neue Aufrufer muessen `tick` mitgeben.
 
-**FVG-Grenzen sind VII-inklusiv mit Docht-Fuell-Pruefung (Fix 2026-08-13).** `fvgs()` misst die
-FVG-Grenzen ueber Open/Close inkl. einer anliegenden Volume Imbalance (VII), nicht ueber die
-Wicks -- gemaess wiki/concepts/Volume Imbalance (VII).md. **Aber:** die VII wird nur mitgenommen,
-wenn sie NICHT vom Docht der Nachbarkerze durchgehandelt wurde. Konkret (bullish): Bottom =
-`min(a.close, m.open)` nur solange `a.high < m.open`, sonst `a.high`; Top = `max(m.close, c.open)`
-nur solange `c.high < m.close`, sonst `c.low` (bearish spiegelbildlich mit `a.low > m.open` bzw.
-`c.low > m.close`). Beispiel MNQ 2026-08-13 00:13: die 00:14 wickt mit Low 29869 unter den
-m.close 29877,50, fuellt die untere VII -> unten gilt der Wick 29879,50, FVG = 8,00 (nicht 10,00).
-Vorher mass der bearishe Zweig faelschlich ueber die reinen Wicks (VII ganz verworfen); eine
-Zwischenfassung nahm die VII dann pauschal mit (ohne Fuell-Pruefung) und mass zu gross. Beides
-konnte die Groessen-Rangfolge und damit das "groesste = 1.p"-Displacement kippen. Regression:
-`analyze_ohlc.fvg_selfcheck()` (in `selfcheck.py` als `fvg_vii`) pinnt Wiki-Beispiel + reale Kerzen.
+**FVG-Grenzen: VII per Koerper-Disjunkt-Regel (Fix 2026-08-13).** `fvgs()` misst die FVG-Grenzen
+ueber Open/Close inkl. einer anliegenden Volume Imbalance (VII), nicht ueber die Wicks. Die VII
+liegt genau dann vor, wenn sich die **Koerper (Open/Close) der beiden Nachbarkerzen NICHT
+ueberlappen** -- exakt die Definition auf wiki/concepts/Volume Imbalance (VII).md ("die Koerper
+beruehren sich nicht"). Dann bildet der aeussere Close/Open-Rand die Grenze (`min`/`max` aus
+`a.close/m.open` bzw. `m.close/c.open`), sonst der Wick. Verifiziert an vier von Hand geprueften
+MNQ-Kerzen-Tripeln 2026-08-13 (00:09/00:12/00:13/00:14): z.B. 00:13 = 8,00 Punkte (oben VII
+a.close 29887,50, unten Wick c.high 29879,50, weil sich Koerper 00:13/00:14 ueberlappen); 00:12 =
+1,00 (beide Koerper disjunkt -> beide VII). Zwei Vorfassungen waren falsch: die erste verwarf im
+bearishen Zweig die VII ganz (reine Wicks, zu klein), die zweite nahm die VII ueber eine
+Docht-Fuell-Heuristik nur teils mit -- beide konnten die Groessen-Rangfolge und damit das
+"groesste = 1.p"-Displacement kippen. Regression: `analyze_ohlc.fvg_selfcheck()` (in `selfcheck.py`
+als `fvg_vii`) pinnt alle vier realen Tripel.

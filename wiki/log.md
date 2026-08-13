@@ -2213,3 +2213,10 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - fvgs() nimmt die VII jetzt nur mit, wenn sie nicht vom Nachbardocht gefuellt wurde; sonst Wick.
 - Auswirkung: MOR 13.08 1.p 00:13 bearish jetzt 8,00 (C.E. 29.883,50), vorher faelschlich 10,00.
 - Code: tools/analyze_ohlc.py (+ Test um reales Beispiel erweitert), algo/README.md, algo/PLAN.md.
+
+## [2026-08-13] lint | FVG-Messung final: Koerper-Disjunkt-Regel (3. Iteration)
+- Jannes' 4 Chart-Screenshots (MOR-FVGs 00:09/12/13/14) als Referenz: VII liegt vor, wenn sich die
+  Koerper (Open/Close) zweier Nachbarkerzen nicht ueberlappen -- exakt die Wiki-Definition der VII.
+  Dann Close/Open-Rand, sonst Wick. Trifft alle vier Beispiele.
+- Code: tools/analyze_ohlc.py (fvgs + fvg_selfcheck auf 4 reale Tripel), algo/README.md, PLAN.md.
+- 1.p MOR 13.08 unveraendert (00:13 bearish, 8,00, C.E. 29.883,50); uebrige FVG-Groessen korrigiert.
