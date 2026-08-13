@@ -2161,3 +2161,15 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (neue Sektion
   "Datenqualität: yfinance-Preisversatz"), CLAUDE.md (Arbeitsstandard ergänzt: yfinance-only-Tage
   vor präzisionskritischen Level-Berechnungen gegenprüfen).
+
+## [2026-08-13] lint | Terminologie-Korrektur C.E. ≠ Mean Threshold
+- Anlass: Beim Sync (dieser Rechner) traf die parallele Branch-Arbeit auf main. Auf beiden Seiten
+  war die 16tel-/Hexadezimant-Terminologie ergänzt worden; main-Konvention **Hs** wird beibehalten,
+  die redundanten Branch-Commits wurden verworfen (Reset auf origin/main).
+- Fehler behoben: Die Aussage „Mean Threshold = C.E des OB/CISD" (Chain of Custody (Q-Validation))
+  konfundierte beide Begriffe. Korrekt: das 0,5-Level heißt bei **Wick/FVG → C.E.**, bei
+  **OB/CISD → Mean Threshold** — dasselbe Fib-Level, aber je nach Array-Typ anders benannt, **nicht
+  synonym**.
+- Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Terminologie-Absatz +
+  Standardverfahren-Box korrigiert), wiki/concepts/Order Block.md (Abschnitt "Mean Threshold bei
+  Multi-Candle-OBs": OB-0,5-Level durchgehend als Mean Threshold, Klarstellung ergänzt).

@@ -57,11 +57,14 @@ soll.
 *1H-OB im 15M ausgemalt; im Lower Timeframe das Displacement mit eindeutigem Target auf der
 High-Probability-Buyside.*
 
-## C.E / Mean Threshold bei Multi-Candle-OBs (Kurz Notizen)
+## Mean Threshold bei Multi-Candle-OBs (Kurz Notizen)
 
-- Besteht ein OB aus mehreren Candles, das **C.E bzw. den Mean Threshold** des OB prüfen: liegt das
-  **Open der (letzten) Candle** genau auf oder sogar unter dem C.E, gilt der OB als **High
-  Probability** — unwahrscheinlich, dass Preis überhaupt bis zum C.E oder tiefer zurücktradet.
+> Beim OB heißt das 0,5-Level **Mean Threshold** — nicht C.E. (C.E. ist der Begriff für Wick/FVG,
+> siehe [[Chain of Custody (Q-Validation)]]).
+
+- Besteht ein OB aus mehreren Candles, den **Mean Threshold** (0,5-Level) des OB prüfen: liegt das
+  **Open der (letzten) Candle** genau auf oder sogar unter dem Mean Threshold, gilt der OB als **High
+  Probability** — unwahrscheinlich, dass Preis überhaupt bis zum Mean Threshold oder tiefer zurücktradet.
 
 ![[Kurz Notizen - OB Mean Threshold Example.png]]
 *Multi-Candle-OB: liegt das Open der Candle auf oder unter dem C.E, ist der OB High Probability.*

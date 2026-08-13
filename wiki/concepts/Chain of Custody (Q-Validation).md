@@ -76,8 +76,10 @@ NDOG/NWOG, FVG, OB, BISI/SIBI):
 | **Os** | Oktanten | Range / 8 | 12,5 % |
 | **Hs** | Hexadezimanten | Range / 16 | 6,25 % |
 
-**Mean Threshold = C.E des OB/CISD** — das 0,5-Level (50 %) einer Range ist identisch mit dem C.E
-(Consequent Encroachment) des zugrundeliegenden Order Blocks bzw. CISD.
+**0,5-Level je nach PD-Array-Typ benannt** (nicht synonym): Es ist immer das 50-%-Level der Range,
+heißt aber unterschiedlich — bei **Wick und FVG** → **C.E. (Consequent Encroachment)**, bei
+**[[Order Block]] und [[CISD (Change in State of Delivery)|CISD]]** → **Mean Threshold**. Also:
+C.E. ≠ Mean Threshold, es sind zwei Namen für dasselbe Fib-Level bei verschiedenen Array-Typen.
 
 > **Standardverfahren ab jetzt**: Fragt der Nutzer nach den Qs, Os oder Hs einer Range (z.B. einer
 > Premium Wick oder des ORG), immer eine vollständige tabellarische Übersicht aller Level dieser
@@ -87,8 +89,9 @@ NDOG/NWOG, FVG, OB, BISI/SIBI):
 > **Erweiterung (2026-08-10)**: Auch **ohne explizite Nachfrage** — sobald der Nutzer in einem
 > Daily/Weekly Bias von **Wicks oder FVGs** spricht, automatisch die Qs/Os/Hs-Tabelle für die
 > relevante Range dazu erstellen und prüfen, **welche Level Preis bereits respektiert hat**
-> (Reaktion/Close/Wick-Reject an dem Level) — mit besonderem Fokus auf das **C.E (0,5-Level, Mean
-> Threshold)**, da ein gehaltenes C.E laut obiger Regel die PD Array als stark validiert.
+> (Reaktion/Close/Wick-Reject an dem Level) — mit besonderem Fokus auf das **C.E.** (das 0,5-Level;
+> bei Wick/FVG so genannt, bei OB/CISD hieße es Mean Threshold), da ein gehaltenes C.E. laut obiger
+> Regel die PD Array als stark validiert.
 
 ## Verwandt
 
