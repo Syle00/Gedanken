@@ -2150,3 +2150,14 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   echte OHLC-Daten aktuell nicht verifizierbar. Zusätzlich P09 (`bias_korrekt` offen) und fehlende
   Exakt-Preise für NWOG/C.E. vom 12.08.
 - Kein Push ausgeführt (push.ps1) — macht der Nutzer selbst.
+
+## [2026-08-13] query | ORG-Q/O/H-Tabelle 11.08.→12.08. + Datenqualitäts-Root-Cause
+- Frage: ORG-Gap vom 12.08. mit Qs/Os/Hs, 1.p FVG und STD-Projektion.
+- Nutzerkorrektur: Open 29.991,25 (nicht 29.991,75 laut CSV), 1.p FVG 29.929,25–29.964,75.
+- Root-Cause per `superpowers:systematic-debugging`: kein Pipeline-Bug, sondern Yahoo-`MNQ=F`-
+  Feed weicht auf Tick-Ebene von Jannes' Chart ab (Zeitstempel verifiziert korrekt, Live-Re-Query
+  reproduziert exakt die abweichenden CSV-Werte). Details + Log-Eintrag: `algo/PLAN.md`
+  (2026-08-13).
+- Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (neue Sektion
+  "Datenqualität: yfinance-Preisversatz"), CLAUDE.md (Arbeitsstandard ergänzt: yfinance-only-Tage
+  vor präzisionskritischen Level-Berechnungen gegenprüfen).

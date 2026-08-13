@@ -169,6 +169,7 @@
 <li><a href="#2026-08-12-ingest-batch-yale-econ-252-financial-markets-open-yale-courses-robert-shiller-23-youtube-vorlesungen">[2026-08-12] ingest | Batch: Yale Econ 252 "Financial Markets" (Open Yale Courses, Robert Shiller, 23 YouTube-Vorlesungen)</a></li>
 <li><a href="#2026-08-12-setup-quant-riskmanagement-austauschbare-risk-module">[2026-08-12] setup | Quant-Riskmanagement: austauschbare Risk-Module</a></li>
 <li><a href="#2026-08-13-ingest-daily-bias-1308-ndog-gultigkeitsdauer">[2026-08-13] ingest | Daily Bias 13.08 + NDOG-Gültigkeitsdauer</a></li>
+<li><a href="#2026-08-13-query-org-qoh-tabelle-11081208-datenqualitats-root-cause">[2026-08-13] query | ORG-Q/O/H-Tabelle 11.08.→12.08. + Datenqualitäts-Root-Cause</a></li>
 </ul>
 </div>
 </details>
@@ -2439,6 +2440,18 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   echte OHLC-Daten aktuell nicht verifizierbar. Zusätzlich P09 (<code>bias_korrekt</code> offen) und fehlende
   Exakt-Preise für NWOG/C.E. vom 12.08.</li>
 <li>Kein Push ausgeführt (push.ps1) — macht der Nutzer selbst.</li>
+</ul>
+<h2 id="2026-08-13-query-org-qoh-tabelle-11081208-datenqualitats-root-cause">[2026-08-13] query | ORG-Q/O/H-Tabelle 11.08.→12.08. + Datenqualitäts-Root-Cause</h2>
+<ul>
+<li>Frage: ORG-Gap vom 12.08. mit Qs/Os/Hs, 1.p FVG und STD-Projektion.</li>
+<li>Nutzerkorrektur: Open 29.991,25 (nicht 29.991,75 laut CSV), 1.p FVG 29.929,25–29.964,75.</li>
+<li>Root-Cause per <code>superpowers:systematic-debugging</code>: kein Pipeline-Bug, sondern Yahoo-<code>MNQ=F</code>-
+  Feed weicht auf Tick-Ebene von Jannes' Chart ab (Zeitstempel verifiziert korrekt, Live-Re-Query
+  reproduziert exakt die abweichenden CSV-Werte). Details + Log-Eintrag: <code>algo/PLAN.md</code>
+  (2026-08-13).</li>
+<li>Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md (neue Sektion
+  "Datenqualität: yfinance-Preisversatz"), CLAUDE.md (Arbeitsstandard ergänzt: yfinance-only-Tage
+  vor präzisionskritischen Level-Berechnungen gegenprüfen).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

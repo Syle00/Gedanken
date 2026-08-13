@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-10
+updated: 2026-08-13
 sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
 ---
 
@@ -314,6 +314,24 @@ statt nur einem statischen Preislevel. Aus
 [[2023-06-29 - ICT Executions June 29, 2023 NQ Long (Source)]]: Ziel *"Opening Range Gap Portion
 Remaining Undelivered"* wird typischerweise durch einen abrupten Kerzenspike geliefert
 ("Smooth Highs Will Be Made 'Jagged'..."), nicht durch eine graduelle Bewegung.
+
+## ⚠️ Datenqualität: yfinance-Preisversatz bei Qs/Os/Hs/C.E (2026-08-13)
+
+Beim ORG 11.08.→12.08.2026 (MNQ) wich der per `raw/marktdaten/` berechnete 9:30-Open (29.991,75,
+Quelle `fetch_yfinance.py`) und die 1.p-FVG-Grenzen um 0,25–0,5 Punkte von Jannes' Chart ab
+(korrekt: Open 29.991,25, FVG 29.929,25–29.964,75). Root-Cause-Analyse (systematisches Debugging,
+siehe `algo/PLAN.md`, Eintrag 2026-08-13): **kein Pipeline-Bug** — Timestamp korrekt, Live-Re-Query
+von `yfinance.download("MNQ=F", interval="1m")` reproduziert exakt dieselben (falschen) Werte wie
+die CSV. Der Fehler liegt im **Yahoo-Feed selbst**: `MNQ=F` als kontinuierlicher Kontrakt weicht auf
+Tick-Ebene von Jannes' Chart-/Broker-Quelle (TradingView/CME direkt) ab.
+
+**Praxisregel**: Bei Tagen, die **nur** per `fetch_yfinance.py` ins Depot kamen (kein manueller
+TradingView-Export, erkennbar am Fehlen von `(2)`/`(3)`-Dateisuffixen im selben Ordner), vor jeder
+präzisionskritischen Level-Berechnung (C.E., Qs/Os/Hs, FVG-Grenzen) aktiv gegen Jannes' Chart
+gegenprüfen, statt die CSV blind als exakt zu behandeln — Zeitstempel bei yfinance ist meist
+zuverlässig, der **Preis** auf Tick-Ebene nicht zwingend. Ergänzt die bereits bekannte
+yfinance-Zeitverzögerung (siehe `CLAUDE.md` → Algo-Trading: Arbeitsstandards → "Frische
+Live-Daten").
 
 ## Verwandt
 

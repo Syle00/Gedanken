@@ -175,7 +175,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>ORG (Opening Range Gap) &amp; 1st Presented FVG</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2026</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-10</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-chain-of-custody-of-price-source.html">ICT Chain Of Custody Of Price (Source)</a>, <a href="../p/ict-gems-algorithmic-timings-with-opening-ranges-source.html">ICT Gems - Algorithmic Timings With Opening Ranges (Source)</a>, <a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a>, <a href="../p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a>, <a href="../p/trading-premarket-and-regular-session-liquidity-source.html">Trading Premarket and Regular Session Liquidity (Source)</a>, <a href="../p/smc-opening-range-gaps-source.html">SMC Opening Range Gaps (Source)</a>, <a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a>, <a href="../p/smc-midnight-opening-range-source.html">SMC Midnight Opening Range (Source)</a>, <a href="../p/smc-trading-opening-range-gaps-source.html">SMC Trading Opening Range Gaps (Source)</a>, <a href="../p/2026-07-31-market-review-nq-july-31-2026-source.html">Market Review NQ July 31, 2026 (Source)</a>, <a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">Part 2 High Precision Secrets To Intraday Price Action (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2026</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-13</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-chain-of-custody-of-price-source.html">ICT Chain Of Custody Of Price (Source)</a>, <a href="../p/ict-gems-algorithmic-timings-with-opening-ranges-source.html">ICT Gems - Algorithmic Timings With Opening Ranges (Source)</a>, <a href="../p/kurz-notizen-source.html">Kurz Notizen (Source)</a>, <a href="../p/opening-range-theory-1st-presented-fvg-logic-source.html">Opening Range Theory - 1st Presented FVG Logic (Source)</a>, <a href="../p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a>, <a href="../p/trading-premarket-and-regular-session-liquidity-source.html">Trading Premarket and Regular Session Liquidity (Source)</a>, <a href="../p/smc-opening-range-gaps-source.html">SMC Opening Range Gaps (Source)</a>, <a href="../p/how-to-disqualify-1st-presented-fvgs-source.html">How To Disqualify 1st Presented FVGs (Source)</a>, <a href="../p/smc-midnight-opening-range-source.html">SMC Midnight Opening Range (Source)</a>, <a href="../p/smc-trading-opening-range-gaps-source.html">SMC Trading Opening Range Gaps (Source)</a>, <a href="../p/2026-07-31-market-review-nq-july-31-2026-source.html">Market Review NQ July 31, 2026 (Source)</a>, <a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">Part 2 High Precision Secrets To Intraday Price Action (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#bias-uber-wicks-ce">Bias über Wicks &amp; C.E</a></li>
@@ -207,6 +207,7 @@
 <li><a href="#sequenz-sweep-displacement-shift-1-presented-fvg">Sequenz: Sweep → Displacement → Shift → 1. Presented FVG</a></li>
 <li><a href="#qsoshs-gelten-fur-jedes-org-dieser-seite-2026-erganzung">Qs/Os/Hs gelten für jedes ORG dieser Seite (2026-Ergänzung)</a></li>
 <li><a href="#cross-symbol-bestatigung-repricing-macro-ict-executions-2023-06-26">Cross-Symbol-Bestätigung &amp; "Repricing Macro" (ICT Executions, 2023-06-26)</a></li>
+<li><a href="#datenqualitat-yfinance-preisversatz-bei-qsoshsce-2026-08-13">⚠️ Datenqualität: yfinance-Preisversatz bei Qs/Os/Hs/C.E (2026-08-13)</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
@@ -501,6 +502,21 @@ statt nur einem statischen Preislevel. Aus
 <a href="../p/2023-06-29-ict-executions-june-29-2023-nq-long-source.html">2023-06-29 - ICT Executions June 29, 2023 NQ Long (Source)</a>: Ziel <em>"Opening Range Gap Portion
 Remaining Undelivered"</em> wird typischerweise durch einen abrupten Kerzenspike geliefert
 ("Smooth Highs Will Be Made 'Jagged'..."), nicht durch eine graduelle Bewegung.</p>
+<h2 id="datenqualitat-yfinance-preisversatz-bei-qsoshsce-2026-08-13">⚠️ Datenqualität: yfinance-Preisversatz bei Qs/Os/Hs/C.E (2026-08-13)</h2>
+<p>Beim ORG 11.08.→12.08.2026 (MNQ) wich der per <code>raw/marktdaten/</code> berechnete 9:30-Open (29.991,75,
+Quelle <code>fetch_yfinance.py</code>) und die 1.p-FVG-Grenzen um 0,25–0,5 Punkte von Jannes' Chart ab
+(korrekt: Open 29.991,25, FVG 29.929,25–29.964,75). Root-Cause-Analyse (systematisches Debugging,
+siehe <code>algo/PLAN.md</code>, Eintrag 2026-08-13): <strong>kein Pipeline-Bug</strong> — Timestamp korrekt, Live-Re-Query
+von <code>yfinance.download("MNQ=F", interval="1m")</code> reproduziert exakt dieselben (falschen) Werte wie
+die CSV. Der Fehler liegt im <strong>Yahoo-Feed selbst</strong>: <code>MNQ=F</code> als kontinuierlicher Kontrakt weicht auf
+Tick-Ebene von Jannes' Chart-/Broker-Quelle (TradingView/CME direkt) ab.</p>
+<p><strong>Praxisregel</strong>: Bei Tagen, die <strong>nur</strong> per <code>fetch_yfinance.py</code> ins Depot kamen (kein manueller
+TradingView-Export, erkennbar am Fehlen von <code>(2)</code>/<code>(3)</code>-Dateisuffixen im selben Ordner), vor jeder
+präzisionskritischen Level-Berechnung (C.E., Qs/Os/Hs, FVG-Grenzen) aktiv gegen Jannes' Chart
+gegenprüfen, statt die CSV blind als exakt zu behandeln — Zeitstempel bei yfinance ist meist
+zuverlässig, der <strong>Preis</strong> auf Tick-Ebene nicht zwingend. Ergänzt die bereits bekannte
+yfinance-Zeitverzögerung (siehe <code>CLAUDE.md</code> → Algo-Trading: Arbeitsstandards → "Frische
+Live-Daten").</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a> (C.E-Grundkonzept)</li>

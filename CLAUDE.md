@@ -304,6 +304,15 @@ nicht bei Wiederholung der Frage. Bekannte Grenze: yfinance kann bei MNQ=F/ES=F 
 hinter der echten NY-Zeit zurückliegen — liegt `price.t` >15-20 Min hinter der aktuellen NY-Zeit
 (bei 5m-TF), melde das aktiv, statt die Daten stillschweigend als aktuell auszugeben.
 
+**Bekannte Grenze: yfinance kann auch auf Tick-Ebene vom Preis abweichen (nicht nur zeitlich).**
+Am 12.08.2026 wich der `MNQ=F`-Feed am 9:30-Open um 0,5 Punkte von der Chart-/Broker-Quelle des
+Nutzers ab (Root-Cause-Analyse: kein Pipeline-Bug, Zeitstempel korrekt — der Yahoo-Feed selbst
+liefert diesen Preis, siehe `algo/PLAN.md`, Eintrag 2026-08-13). Prüfe bei präzisionskritischen
+Berechnungen (ORG-C.E., Qs/Os/Hs, FVG-Grenzen, alles, was auf den exakten Tick ankommt) an Tagen,
+die **nur** per `fetch_yfinance.py` ins Depot kamen (kein manueller TradingView-Export im selben
+Ordner, erkennbar am Fehlen von `(2)`/`(3)`-Dateisuffixen), aktiv gegen die Chart-Quelle des
+Nutzers gegen, statt die CSV blind als exakt zu behandeln.
+
 **Ziel ist die volle Daily Range, nicht nur Bias.** Gehe über reine Richtungsvorhersage
 (bullish/bearish) hinaus: Benenne konkrete OHLC-Zielzonen für die Tagesrange, gestützt auf PD
 Arrays (Order Blocks, FVGs, NDOG/NWOG, Liquidity Pools), Session-Ranges (Asia/London/NY
