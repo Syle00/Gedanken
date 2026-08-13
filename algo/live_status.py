@@ -60,7 +60,10 @@ def fetch_today(target_day: date) -> dict[str, pd.DataFrame]:
     Filterung landen Vorabend-Kerzen sonst unter dem falschen Kalendertag.
 
     `5m_unfiltered` ist bewusst die ungefilterte 5m-Rohspanne (mehrere Tage) -- org_gap()
-    braucht die ~16:14-Schlusskerze des *Vortags*, die die Tages-Filterung sonst wegwirft."""
+    braucht die ~16:14-Schlusskerze des *Vortags*, die die Tages-Filterung sonst wegwirft.
+
+    `1d_unfiltered` deckt ~70 Kalendertage zurueck -- genug fuer die letzten 5 Handelstage
+    (NDOG) und 5 Handelswochen (NWOG), siehe wiki/concepts/New Day Opening Gap (NDOG).md."""
     start = (target_day - timedelta(days=3)).isoformat()
     end = (target_day + timedelta(days=1)).isoformat()
     dfs: dict[str, pd.DataFrame] = {}
@@ -72,6 +75,7 @@ def fetch_today(target_day: date) -> dict[str, pd.DataFrame]:
             daily = tf == "1d"
             raw = raw[raw.index.map(lambda ts: trading_day(ts, daily)) == target_day]
         dfs[tf] = raw
+    dfs["1d_unfiltered"] = _download("1d", (target_day - timedelta(days=70)).isoformat(), end)
 
     hourly = dfs["1h"]
     if not hourly.empty:
@@ -103,6 +107,28 @@ def _bars_from_df(df: pd.DataFrame) -> list[Bar]:
             for t, o, h, l, c in zip(idx, df["Open"], df["High"], df["Low"], df["Close"])]
 
 
+def open_gap_history(daily_bars: list[Bar], upto_day: date, n: int, weekly: bool) -> list[dict]:
+    """Noch nicht gefuellte NDOG- (weekly=False) bzw. NWOG-Level (weekly=True) der letzten `n`
+    Handelstage/-wochen vor `upto_day` -- die DOL-These aus dem Daily-Bias-Journal vom 2026-08-13:
+    NDOG bleibt mind. 5 Handelstage, NWOG mind. 5 Handelswochen aktiv, siehe
+    wiki/concepts/New Day Opening Gap (NDOG).md. `ndog_gap()`/`nwog_gap()` selbst pruefen nur
+    den Fill am Gap-Tag; hier wird stattdessen ueber alle Tage bis `upto_day` geprueft."""
+    all_days = sorted({b.t.date() for b in daily_bars})
+    prior_days = [d for d in all_days if d < upto_day]
+    if weekly:
+        prior_days = [d for d in prior_days if d.weekday() == 0]
+    out = []
+    for d in prior_days[-n:]:
+        gap = (nwog_gap if weekly else ndog_gap)(daily_bars, d)
+        if gap is None:
+            continue
+        level = gap["prev_close"]
+        later = [b for b in daily_bars if d < b.t.date() <= upto_day]
+        if not any(b.l <= level <= b.h for b in later):
+            out.append({"day": d.isoformat(), "level": level, "gap": gap["gap"]})
+    return out
+
+
 def event_key(d: dict, field: str) -> list:
     """Identitaet eines Ereignisses ueber Laeufe hinweg: Kerzenzeit + Seite/Richtung."""
     t = d["t"]
@@ -116,18 +142,25 @@ def load_state(path: Path) -> dict:
 
 
 def run_detectors(bars: list[Bar], day: date, now: datetime,
-                   org_bars: list[Bar] | None = None) -> dict:
+                   org_bars: list[Bar] | None = None,
+                   daily_bars: list[Bar] | None = None) -> dict:
     """Reine Funktion: bestehende Detektoren auf `bars` (Basis-TF 5m, siehe BASE_TF) +
     plan_trade(). Feldnamen matchen die Kategorien aus diff_events() (Task 1).
 
     `org_bars` (optional, faellt sonst auf `bars` zurueck): breitere, ungescopte Kerzenreihe
     fuer org_gap() -- die braucht die ~16:14-Kerze des Vortags, die im Live-Betrieb VOR dem
-    Tages-Filter von fetch_today() liegt und in `bars` (bereits auf `day` gescoped) fehlt."""
+    Tages-Filter von fetch_today() liegt und in `bars` (bereits auf `day` gescoped) fehlt.
+
+    `daily_bars` (optional): 1d-Kerzen ueber ~70 Tage fuer open_gap_history() (noch offene
+    NDOG/NWOG-Level der letzten 5 Handelstage/-wochen). None -> beide Historien leer."""
+    ndog_hist = open_gap_history(daily_bars, day, 5, weekly=False) if daily_bars else []
+    nwog_hist = open_gap_history(daily_bars, day, 5, weekly=True) if daily_bars else []
     if not bars:
         return {"price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None,
                 "fvgs": [], "sweeps": [], "structure_breaks": [], "untouched_levels": [],
-                "org_ce": None, "ndog": None, "nwog": None}
+                "org_ce": None, "ndog": None, "nwog": None,
+                "ndog_history": ndog_hist, "nwog_history": nwog_hist}
 
     # Detektor-Scope: die Globex-Session *dieses* Handelstages (18:00 NY am Vorabend bis
     # `now`) -- sonst tauchen Ereignisse vom Vortag in einem Bericht auf, der mit `day`
@@ -173,6 +206,7 @@ def run_detectors(bars: list[Bar], day: date, now: datetime,
         "setup": asdict(setup) if setup else None,
         "fvgs": fg, "sweeps": sw, "structure_breaks": sb, "untouched_levels": lv,
         "org_ce": org, "ndog": ndog, "nwog": nwog,
+        "ndog_history": ndog_hist, "nwog_history": nwog_hist,
     }
 
 
@@ -295,6 +329,24 @@ def selftest() -> None:
     assert evening["active_macro_window"]["name"] == "19:50-20:10", evening["active_macro_window"]
     print("selftest (Task 2: run_detectors) ok")
 
+    # open_gap_history(): synthetische Tageskerzen. Aug3 (Montag) hat keinen Vortag ->
+    # sein eigenes Gap ist None und wird uebersprungen; die Gaps von Aug4-Aug6 bleiben alle
+    # unerreicht (kein spaeteres Low/High beruehrt das jeweilige Vortages-Close-Level).
+    def db(d, o, h, l, c):
+        return Bar(datetime(d.year, d.month, d.day, tzinfo=NY), o, h, l, c)
+    daily = [
+        db(date(2026, 8, 3), 99, 101, 98, 100),    # Montag, Close 100
+        db(date(2026, 8, 4), 103, 104, 102, 103),  # Gap-Level 100 (Aug3-Close), nie wieder beruehrt
+        db(date(2026, 8, 5), 104, 106, 103, 105),  # Gap-Level 103 (Aug4-Close), nie wieder beruehrt
+        db(date(2026, 8, 6), 110, 112, 108, 111),  # Gap-Level 105 (Aug5-Close), nie wieder beruehrt
+    ]
+    ndh = open_gap_history(daily, date(2026, 8, 7), 5, weekly=False)
+    assert {g["day"] for g in ndh} == {"2026-08-04", "2026-08-05", "2026-08-06"}, ndh
+    assert {g["level"] for g in ndh} == {100.0, 103.0, 105.0}, ndh
+    nwh = open_gap_history(daily, date(2026, 8, 7), 5, weekly=True)
+    assert nwh == [], nwh  # einzig vorhandener Montag (Aug3) hat selbst keinen Vortag -> kein Gap
+    print("selftest (open_gap_history) ok")
+
 
 def _dry_run(day_str: str) -> dict:
     day = date.fromisoformat(day_str)
@@ -307,7 +359,7 @@ def _dry_run(day_str: str) -> dict:
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
                 "first_run": False, "untouched_levels": [], "org_ce": None, "ndog": None,
-                "nwog": None}
+                "nwog": None, "ndog_history": [], "nwog_history": []}
     bars = load(path)
     now = bars[-1].t
     det = run_detectors(bars, day, now)
@@ -319,7 +371,8 @@ def _dry_run(day_str: str) -> dict:
             "active_silver_bullet_window": det["active_silver_bullet_window"],
             "setup": det["setup"], "new_events": new_events,
             "first_run": True, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"],
-            "ndog": det["ndog"], "nwog": det["nwog"]}
+            "ndog": det["ndog"], "nwog": det["nwog"],
+            "ndog_history": det["ndog_history"], "nwog_history": det["nwog_history"]}
 
 
 def _live_run() -> dict:
@@ -332,15 +385,16 @@ def _live_run() -> dict:
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
                 "first_run": False, "untouched_levels": [], "org_ce": None, "ndog": None,
-                "nwog": None}
+                "nwog": None, "ndog_history": [], "nwog_history": []}
 
     for tf, df in dfs.items():
-        if tf != "5m_unfiltered" and not df.empty:
+        if tf not in ("5m_unfiltered", "1d_unfiltered") and not df.empty:
             write_live_day(tf, day, df)
 
     bars = load(LIVE_DIR / day.isoformat() / f"{DISPLAY_SYMBOL} {day.isoformat()} 5m.csv")
     org_bars = _bars_from_df(dfs["5m_unfiltered"]) if not dfs["5m_unfiltered"].empty else bars
-    det = run_detectors(bars, day, now, org_bars=org_bars)
+    daily_bars = _bars_from_df(dfs["1d_unfiltered"]) if not dfs["1d_unfiltered"].empty else None
+    det = run_detectors(bars, day, now, org_bars=org_bars, daily_bars=daily_bars)
 
     state_path = LIVE_DIR / day.isoformat() / "state.json"
     first_run = not state_path.exists()  # vor dem Schreiben des neuen States pruefen
@@ -354,7 +408,8 @@ def _live_run() -> dict:
             "active_silver_bullet_window": det["active_silver_bullet_window"],
             "setup": det["setup"], "new_events": new_events,
             "first_run": first_run, "untouched_levels": det["untouched_levels"], "org_ce": det["org_ce"],
-            "ndog": det["ndog"], "nwog": det["nwog"]}
+            "ndog": det["ndog"], "nwog": det["nwog"],
+            "ndog_history": det["ndog_history"], "nwog_history": det["nwog_history"]}
 
 
 def main(argv=None) -> int:
