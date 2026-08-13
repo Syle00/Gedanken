@@ -175,6 +175,8 @@
 <li><a href="#2026-08-13-ingest-marktdaten-nachzug-tiefhistorie-1d-reparatur-abgebrochener-yfinance-abrufe">[2026-08-13] ingest | Marktdaten-Nachzug: Tiefhistorie 1d + Reparatur abgebrochener yfinance-Abrufe</a></li>
 <li><a href="#2026-08-13-lint-fvg-grenzen-koerperkante-statt-closeopen-bugfix-nach-nutzer-referenzboxen">[2026-08-13] lint | FVG-Grenzen: Koerperkante statt Close/Open (Bugfix nach Nutzer-Referenzboxen)</a></li>
 <li><a href="#2026-08-13-setup-qsoshs-tabelle-als-standard-fuer-jedes-konzept-jeden-timeframe">[2026-08-13] setup | Qs/Os/Hs-Tabelle als Standard fuer jedes Konzept &amp; jeden Timeframe</a></li>
+<li><a href="#2026-08-13-lint-korrektur-daily-premium-wick-die-0508-wick-nicht-die-letzte-kerze">[2026-08-13] lint | Korrektur: "Daily Premium Wick" = die 05.08.-Wick, nicht die letzte Kerze</a></li>
+<li><a href="#2026-08-13-lint-fvg-zeitstempel-displacement-kerze-einstufung-starknormal">[2026-08-13] lint | FVG-Zeitstempel (Displacement-Kerze) + Einstufung stark/normal</a></li>
 </ul>
 </div>
 </details>
@@ -2538,6 +2540,37 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Tick-Rundung ueber <code>analyze_ohlc.to_tick</code>, optionaler Beruehrungs-Check gegen eine OHLC-CSV.</li>
 <li>Seite aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Erweiterung des
   Standardverfahrens von 2026-08-10 um die feste Auslöserphrase).</li>
+</ul>
+<h2 id="2026-08-13-lint-korrektur-daily-premium-wick-die-0508-wick-nicht-die-letzte-kerze">[2026-08-13] lint | Korrektur: "Daily Premium Wick" = die 05.08.-Wick, nicht die letzte Kerze</h2>
+<ul>
+<li><strong>Nutzerkorrektur.</strong> Auf die Frage nach "der Daily Premium Wick" hatte ich die Wick der zuletzt
+  abgeschlossenen Kerze (12.08.) geliefert. Gemeint ist das <strong>stehende, benannte PD Array</strong>: die
+  Premium Wick der Daily-Kerze vom <strong>05.08.2026</strong> (O 29 781,25 / H 30 073,25 / L 29 530,75 /
+  C 29 615,00). Nutzerzahlen (Start 29 781,25, C.E 29 927,25, High 30 073,25) gegen
+  raw/marktdaten/2026/08/05.08.2026/ geprueft: <strong>exakt deckungsgleich</strong>, kein Datenfehler.</li>
+<li><strong>Fehlerursache und Absicherung</strong>: Die Kerze ist <strong>bearish</strong>, damit ist das Body-High das
+  <strong>Open</strong>, nicht der Close. Regel in wiki/concepts/Chain of Custody (Q-Validation).md ergaenzt und
+  als Regressionstest in <code>tools/qoh_levels.py::_selfcheck</code> (<code>--selfcheck</code>) festgeschrieben.</li>
+<li><strong>Inhaltlicher Befund</strong>: Die Wick ist seit dem 13.08. <strong>vollstaendig mitigiert</strong> — Wick-Low
+  07.08. 08:38 NY, C.E 10.08. 01:55, Q 0,75 am 12.08. 09:30 (exakt RTH-Open), Wick-High 13.08.
+  09:46, danach Expansion bis 30 267,00. Graduelle Abarbeitung ueber sechs Sessions.</li>
+<li>Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md (Abschnitt "Aufloesung
+  2026-08-13", ersetzt die veraltete Aussage "noch offen"),
+  wiki/concepts/Chain of Custody (Q-Validation).md (Body-Grenze bei bearisher Kerze,
+  Fraktalitaet ausdruecklich bis 1s-Chart, --wick-Aufruf).</li>
+</ul>
+<h2 id="2026-08-13-lint-fvg-zeitstempel-displacement-kerze-einstufung-starknormal">[2026-08-13] lint | FVG-Zeitstempel (Displacement-Kerze) + Einstufung stark/normal</h2>
+<ul>
+<li>Anlass: Jannes' Meldung "die FVG wurden nicht richtig eingezeichnet" plus neue Regel
+  "ein valides starkes FVG muss einen Swing High/Low brechen (MSS/BOS)".</li>
+<li>Befund: Grenzen-Logik war korrekt (13/13 Referenzboxen), der Fehler lag im Reporting — FVG
+  wurden nach der <em>dritten</em> statt der <em>mittleren</em> Kerze benannt und gefiltert. Dadurch sass jede
+  Box im Chart eine Kerze zu weit rechts und am Fensterrand fiel ein FVG heraus.</li>
+<li>Neu: <code>fvgs()</code> liefert <code>t_start</code>/<code>t_end</code> sowie <code>strong</code>/<code>broke</code>/<code>swing</code>/<code>ms</code>; nur bestaetigte
+  UND noch intakte Swings zaehlen als Break.</li>
+<li>Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (zwei neue Abschnitte
+  "Stark (High Probability) vs. normal" und "Zeitstempel: die mittlere Kerze"), algo/README.md,
+  algo/PLAN.md.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

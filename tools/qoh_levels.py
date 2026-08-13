@@ -41,6 +41,14 @@ def touched(levels, bars):
     return {p for _, _, _, p in levels if any(l <= p <= h for h, l in bars)}
 
 
+def wick(o: float, h: float, l: float, c: float, seite: str):
+    """Wick-Range einer Kerze. Body-Grenze ist der aeussere von Open/Close -- bei einer
+    bearishen Kerze ist das Body-High das OPEN, nicht der Close (haeufigster Denkfehler)."""
+    if seite == "premium":
+        return h, max(o, c)          # Body-High -> High
+    return min(o, c), l              # Low -> Body-Low
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("high", type=float)
@@ -48,7 +56,15 @@ def main():
     ap.add_argument("--label", default="Range")
     ap.add_argument("--symbol", default="MNQ")
     ap.add_argument("--touch", help="OHLC-CSV: markiert bereits beruehrte Level")
+    ap.add_argument("--wick", choices=("premium", "discount"),
+                    help="high/low als Kerzen-High/-Low deuten; --ocl liefert Open/Close")
+    ap.add_argument("--oc", nargs=2, type=float, metavar=("OPEN", "CLOSE"))
     a = ap.parse_args()
+
+    if a.wick:
+        if not a.oc:
+            ap.error("--wick braucht --oc OPEN CLOSE")
+        a.high, a.low = wick(a.oc[0], a.high, a.low, a.oc[1], a.wick)
 
     lv = grid(a.high, a.low, a.symbol)
     hit = set()
@@ -64,5 +80,24 @@ def main():
         print(f"{stufe:<6}{f:<8.4f}{name:<28}{p:>10.2f}  {mark}")
 
 
+def _selfcheck():
+    """Regressionscheck gegen die Daily-Kerze 05.08.2026 (bearish!) -- Nutzerkorrektur
+    2026-08-13: bei einer bearishen Kerze ist das Body-High das OPEN, nicht der Close."""
+    o, h, l, c = 29781.25, 30073.25, 29530.75, 29615.00
+    assert wick(o, h, l, c, "premium") == (30073.25, 29781.25)
+    assert wick(o, h, l, c, "discount") == (29615.00, 29530.75)   # (high, low) = Body-Low -> Low
+    # bullish zur Gegenprobe: Body-High ist der Close
+    assert wick(29663.0, 30001.5, 29625.0, 29807.25, "premium") == (30001.5, 29807.25)
+    lv = grid(30073.25, 29781.25)
+    assert lv[8][3] == 29927.25, lv[8]                 # C.E
+    assert [p for _, s, _, p in lv if s == "Qs"] == [29781.25, 29854.25, 29927.25,
+                                                     30000.25, 30073.25]
+    assert all(p * 4 == int(p * 4) for _, _, _, p in lv)   # alles auf dem 0,25-Raster
+    print("selfcheck ok")
+
+
 if __name__ == "__main__":
-    main()
+    if "--selfcheck" in sys.argv:
+        _selfcheck()
+    else:
+        main()

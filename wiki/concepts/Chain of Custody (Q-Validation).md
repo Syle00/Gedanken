@@ -100,9 +100,16 @@ NDOG/NWOG, FVG, OB, BISI/SIBI):
 >
 > Werkzeug: `python tools/qoh_levels.py <high> <low> --label "..." [--touch <ohlc.csv>]` gibt die
 > volle 16tel-Tabelle mit Qs/Os/Hs-Markierung, Tick-Rundung und Berührungs-Check aus.
+> Für Wicks direkt aus einer Kerze: `--oc <open> <close> --wick premium|discount`.
 >
 > Range-Definition Wicks: **Premium Wick** = Body-High → High der Kerze, **Discount Wick** =
-> Low → Body-Low. Body-Grenze ist der jeweils äußere von Open/Close.
+> Low → Body-Low. ⚠️ Die Body-Grenze ist der jeweils **äußere von Open/Close** — bei einer
+> **bearishen** Kerze ist das Body-High das **Open**, nicht der Close. Genau dieser Denkfehler
+> hätte am 2026-08-13 die 05.08.-Wick um 166 Punkte falsch verortet; `qoh_levels._selfcheck()`
+> sichert die Regel als Regressionstest ab.
+>
+> **Fraktalität bis in den 1-Sekunden-Chart** (Nutzerpräzisierung 2026-08-13): Das Raster gilt
+> ohne untere Grenze — Monthly bis 1s. Kein Timeframe ist „zu klein" für Qs/Os/Hs.
 
 ## Verwandt
 

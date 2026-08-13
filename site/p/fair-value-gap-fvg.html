@@ -182,6 +182,8 @@
 <li><a href="#prazisierung-korperkante-nicht-close-bzw-open-2026-08-13">Präzisierung: Körperkante, nicht Close bzw. Open (2026-08-13)</a></li>
 </ul>
 </li>
+<li><a href="#stark-high-probability-vs-normal-2026-08-13">Stark (High Probability) vs. normal (2026-08-13)</a></li>
+<li><a href="#zeitstempel-die-mittlere-kerze">Zeitstempel: die mittlere Kerze</a></li>
 <li><a href="#fair-value-zwei-perspektiven">Fair Value — zwei Perspektiven</a></li>
 <li><a href="#checkliste-sind-wir-im-fairen-preisbereich">Checkliste: sind wir im fairen Preisbereich?</a></li>
 <li><a href="#die-vier-level-eines-fvg-wie-tief-darf-der-rucklauf-gehen">Die vier Level eines FVG — wie tief darf der Rücklauf gehen?</a></li>
@@ -237,6 +239,53 @@ in einem bullishen FVG o.ä.), tauschen Open und Close die Rollen — die naive 
 liefert dann eine Kante mitten im Kerzenkörper und erfindet eine VII, wo der Körper den Bereich
 längst gehandelt hat. Belegt an 13 vom Nutzer im TradingView-Chart eingezeichneten MNQ-Boxen vom
 13.08.2026 (Regressionstest: <code>tools/test_fvg_vii.py</code>).</p>
+<h2 id="stark-high-probability-vs-normal-2026-08-13">Stark (High Probability) vs. normal (2026-08-13)</h2>
+<blockquote>
+<p><strong>Ein valides <em>starkes</em> FVG muss einen Swing High/Low brechen</strong> — erst dadurch entsteht ein
+<a href="../p/market-structure-shift-mss.html">MSS</a> bzw. BOS. Ein Displacement, das nur in freien Raum läuft,
+hinterlässt zwar eine Lücke, aber keine strukturelle Aussage.</p>
+</blockquote>
+<p>Damit zerfällt jede FVG-Liste in zwei Klassen:</p>
+<table>
+<thead>
+<tr>
+<th>Klasse</th>
+<th>Kriterium</th>
+<th>Bedeutung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>stark</strong></td>
+<td>Displacement- oder Bestätigungskerze <strong>schließt</strong> durch einen bestätigten, noch intakten Swing</td>
+<td>High-Probability-Bedingung, Handelskandidat</td>
+</tr>
+<tr>
+<td><em>wick</em></td>
+<td>Swing nur mit dem Docht genommen, kein Close darüber/darunter</td>
+<td>eher Sweep/Judas als Break — Vorsicht</td>
+</tr>
+<tr>
+<td><em>normal</em></td>
+<td>kein Swing im Weg</td>
+<td>Lücke ohne strukturelle Aussage, nur als Draw relevant</td>
+</tr>
+</tbody>
+</table>
+<p>Zwei Bedingungen, damit der Break zählt:</p>
+<ol>
+<li><strong>Der Swing muss zum Zeitpunkt von Kerze 1 bereits bestätigt sein</strong> (Fraktal braucht Nachlauf) —
+   sonst ist die Einordnung Lookahead.</li>
+<li><strong>Der Swing muss noch intakt sein.</strong> Ein bereits genommenes Level ist keine Liquidität mehr;
+   sonst gilt in einem Trend jedes Folge-FVG als „stark" gegen dasselbe, längst gebrochene Level.</li>
+</ol>
+<p>Implementiert in <code>tools/analyze_ohlc.py::fvgs()</code> — jedes FVG trägt die Felder <code>strong</code>, <code>broke</code>
+(<code>close</code>/<code>wick</code>/<code>None</code>), <code>swing</code> und <code>ms</code> (<code>MSS</code>/<code>BOS</code>, falls <code>structure_breaks()</code> auf derselben
+Kerze ein Event meldet).</p>
+<h2 id="zeitstempel-die-mittlere-kerze">Zeitstempel: die mittlere Kerze</h2>
+<p>Ein FVG trägt die Zeit seiner <strong>Displacement-Kerze</strong> (der mittleren), nicht der dritten. Genau
+dort sitzt die Box im Chart; die dritte Kerze bestätigt sie nur. <code>fvgs()</code> liefert zusätzlich
+<code>t_start</code>/<code>t_end</code> für die volle Drei-Kerzen-Spanne.</p>
 <h2 id="fair-value-zwei-perspektiven">Fair Value — zwei Perspektiven</h2>
 <ul>
 <li><strong>Retail</strong>: Fair Value = der Preis, zu dem verkauft (Premium) bzw. gekauft (Discount) wird —

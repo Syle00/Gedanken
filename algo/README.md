@@ -628,3 +628,21 @@ Auswirkung am 13.08.2026: 1m-FVG 12:26 um 4,5 Punkte zu hoch (30.184,50 statt 30
 **Regressionstest:** `python tools/test_fvg_vii.py` -- enthaelt zwei Faelle aus Jannes' eigenen
 TradingView-Boxen (13.08.2026 00:01-00:03 und 12:24-12:26), die genau die Gegenkerzen-Faelle
 abdecken.
+
+## FVG-Einstufung stark/normal (`analyze_ohlc._grade`)
+
+**Was:** Jedes FVG traegt zusaetzlich `strong` (bool), `broke` (`close`/`wick`/`None`), `swing`
+(gebrochenes Level) und `ms` (`MSS`/`BOS`). Nutzerregel vom 13.08.2026: nur ein FVG, dessen
+Displacement einen Swing High/Low **schliesst**, ist eine High-Probability-Bedingung.
+
+**Wo:** Laeuft automatisch am Ende von `fvgs()` -- kein separater Aufruf, damit kein Aufrufer die
+Einordnung vergessen kann. Reuse: `swings()` fuer die Level, `structure_breaks()` fuer MSS/BOS.
+
+**Zwei Fallstricke, die drin sind:**
+1. **Kein Lookahead** -- nur Swings, die `n` Kerzen vor Kerze 1 des FVG bestaetigt waren.
+2. **Nur intakte Swings** -- ein bereits per Close genommenes Level faellt raus, sonst gilt in
+   einem Trend jedes Folge-FVG als "stark" gegen dasselbe, laengst gebrochene Level.
+
+**Zeitstempel:** `t` ist die **mittlere** (Displacement-)Kerze, dazu `t_start`/`t_end` fuer die
+Drei-Kerzen-Spanne. Vorher wurde in Auswertungen teils auf die dritte Kerze umgerechnet -- das
+verschiebt jede Box im Chart um eine Kerze und laesst am Fensterrand FVGs verschwinden.

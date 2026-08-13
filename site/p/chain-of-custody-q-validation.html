@@ -295,9 +295,15 @@ der Nutzer sagt ausdrücklich etwas anderes</strong>. Level auf das Tick-Raster 
 (<a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a>) und vermerken, welche Level der Preis bereits
 respektiert hat.</p>
 <p>Werkzeug: <code>python tools/qoh_levels.py &lt;high&gt; &lt;low&gt; --label "..." [--touch &lt;ohlc.csv&gt;]</code> gibt die
-volle 16tel-Tabelle mit Qs/Os/Hs-Markierung, Tick-Rundung und Berührungs-Check aus.</p>
+volle 16tel-Tabelle mit Qs/Os/Hs-Markierung, Tick-Rundung und Berührungs-Check aus.
+Für Wicks direkt aus einer Kerze: <code>--oc &lt;open&gt; &lt;close&gt; --wick premium|discount</code>.</p>
 <p>Range-Definition Wicks: <strong>Premium Wick</strong> = Body-High → High der Kerze, <strong>Discount Wick</strong> =
-Low → Body-Low. Body-Grenze ist der jeweils äußere von Open/Close.</p>
+Low → Body-Low. ⚠️ Die Body-Grenze ist der jeweils <strong>äußere von Open/Close</strong> — bei einer
+<strong>bearishen</strong> Kerze ist das Body-High das <strong>Open</strong>, nicht der Close. Genau dieser Denkfehler
+hätte am 2026-08-13 die 05.08.-Wick um 166 Punkte falsch verortet; <code>qoh_levels._selfcheck()</code>
+sichert die Regel als Regressionstest ab.</p>
+<p><strong>Fraktalität bis in den 1-Sekunden-Chart</strong> (Nutzerpräzisierung 2026-08-13): Das Raster gilt
+ohne untere Grenze — Monthly bis 1s. Kein Timeframe ist „zu klein" für Qs/Os/Hs.</p>
 </blockquote>
 <h2 id="verwandt">Verwandt</h2>
 <ul>

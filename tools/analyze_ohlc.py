@@ -437,10 +437,63 @@ def fvgs(bars: list[Bar], min_size: float = 0.0, tick: float | str | None = None
                     filled = True
                     fill_t = b.t
                     break
-        out.append({"t": bars[i].t, "side": side, "lo": lo, "hi": hi, "ce": ce,
+        out.append({"t": bars[i].t, "t_start": a.t, "t_end": c.t, "i": i,
+                    "side": side, "lo": lo, "hi": hi, "ce": ce,
                     "size": hi - lo, "touched": touched, "ce_hit": ce_hit,
                     "filled": filled, "fill_t": fill_t})
-    return out
+    return _grade(bars, out, n=2)
+
+
+def _grade(bars: list[Bar], gaps: list[dict], n: int = 2) -> list[dict]:
+    """Ordnet jedes FVG als 'stark' (High Probability) oder 'normal' ein.
+
+    Kriterium (Nutzerregel 2026-08-13): ein valides starkes FVG muss einen Swing High/Low
+    brechen und damit einen MSS/BOS ermoeglichen. Ein Displacement, das nur in freien Raum
+    laeuft, hinterlaesst zwar eine Luecke, aber keine strukturelle Aussage.
+
+    Nur Swings, die zum Zeitpunkt von Kerze 1 bereits *bestaetigt* waren (Fraktal braucht n
+    Kerzen Nachlauf), zaehlen -- sonst waere die Einordnung Lookahead.
+    """
+    # Ein bereits gebrochener Swing ist keine Liquiditaet mehr -- sonst gilt in einem Trend
+    # jedes Folge-FVG als "stark" gegen dasselbe, laengst genommene Level.
+    def live(kind):
+        up = kind == "high"
+        out = []
+        for idx, k, p in swings(bars, n):
+            if k != kind:
+                continue
+            hit = None
+            for j in range(idx + n, len(bars)):
+                if (bars[j].c > p) if up else (bars[j].c < p):
+                    hit = j
+                    break
+            out.append((idx, p, hit))
+        return out
+
+    highs, lows = live("high"), live("low")
+    breaks = {}
+    for e in structure_breaks(bars, n):
+        breaks.setdefault(e["t"], []).append(e)
+
+    for g in gaps:
+        i = g["i"]
+        bull = g["side"] == "bullish"
+        cand = [p for idx, p, hit in (highs if bull else lows)
+                if idx + n <= i - 1 and (hit is None or hit >= i)]
+        lvl = cand[-1] if cand else None
+        leg = bars[i:i + 2]                       # Displacement + Bestaetigungskerze
+        if lvl is None:
+            broke = None
+        elif any((b.c > lvl) if bull else (b.c < lvl) for b in leg):
+            broke = "close"
+        elif any((b.h > lvl) if bull else (b.l < lvl) for b in leg):
+            broke = "wick"
+        else:
+            broke = None
+        typ = next((e["type"] for b in leg for e in breaks.get(b.t, [])
+                    if (e["dir"] == "bullish") == bull), None)
+        g.update(swing=lvl, broke=broke, strong=broke == "close", ms=typ)
+    return gaps
 
 
 def viis(bars: list[Bar], min_size: float = 0.0):

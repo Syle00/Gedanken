@@ -2237,3 +2237,32 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Tick-Rundung ueber `analyze_ohlc.to_tick`, optionaler Beruehrungs-Check gegen eine OHLC-CSV.
 - Seite aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Erweiterung des
   Standardverfahrens von 2026-08-10 um die feste Auslöserphrase).
+
+## [2026-08-13] lint | Korrektur: "Daily Premium Wick" = die 05.08.-Wick, nicht die letzte Kerze
+- **Nutzerkorrektur.** Auf die Frage nach "der Daily Premium Wick" hatte ich die Wick der zuletzt
+  abgeschlossenen Kerze (12.08.) geliefert. Gemeint ist das **stehende, benannte PD Array**: die
+  Premium Wick der Daily-Kerze vom **05.08.2026** (O 29 781,25 / H 30 073,25 / L 29 530,75 /
+  C 29 615,00). Nutzerzahlen (Start 29 781,25, C.E 29 927,25, High 30 073,25) gegen
+  raw/marktdaten/2026/08/05.08.2026/ geprueft: **exakt deckungsgleich**, kein Datenfehler.
+- **Fehlerursache und Absicherung**: Die Kerze ist **bearish**, damit ist das Body-High das
+  **Open**, nicht der Close. Regel in wiki/concepts/Chain of Custody (Q-Validation).md ergaenzt und
+  als Regressionstest in `tools/qoh_levels.py::_selfcheck` (`--selfcheck`) festgeschrieben.
+- **Inhaltlicher Befund**: Die Wick ist seit dem 13.08. **vollstaendig mitigiert** — Wick-Low
+  07.08. 08:38 NY, C.E 10.08. 01:55, Q 0,75 am 12.08. 09:30 (exakt RTH-Open), Wick-High 13.08.
+  09:46, danach Expansion bis 30 267,00. Graduelle Abarbeitung ueber sechs Sessions.
+- Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md (Abschnitt "Aufloesung
+  2026-08-13", ersetzt die veraltete Aussage "noch offen"),
+  wiki/concepts/Chain of Custody (Q-Validation).md (Body-Grenze bei bearisher Kerze,
+  Fraktalitaet ausdruecklich bis 1s-Chart, --wick-Aufruf).
+
+## [2026-08-13] lint | FVG-Zeitstempel (Displacement-Kerze) + Einstufung stark/normal
+- Anlass: Jannes' Meldung "die FVG wurden nicht richtig eingezeichnet" plus neue Regel
+  "ein valides starkes FVG muss einen Swing High/Low brechen (MSS/BOS)".
+- Befund: Grenzen-Logik war korrekt (13/13 Referenzboxen), der Fehler lag im Reporting — FVG
+  wurden nach der *dritten* statt der *mittleren* Kerze benannt und gefiltert. Dadurch sass jede
+  Box im Chart eine Kerze zu weit rechts und am Fensterrand fiel ein FVG heraus.
+- Neu: `fvgs()` liefert `t_start`/`t_end` sowie `strong`/`broke`/`swing`/`ms`; nur bestaetigte
+  UND noch intakte Swings zaehlen als Break.
+- Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (zwei neue Abschnitte
+  "Stark (High Probability) vs. normal" und "Zeitstempel: die mittlere Kerze"), algo/README.md,
+  algo/PLAN.md.

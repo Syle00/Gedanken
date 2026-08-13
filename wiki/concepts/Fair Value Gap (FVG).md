@@ -37,6 +37,37 @@ liefert dann eine Kante mitten im Kerzenkörper und erfindet eine VII, wo der K�
 längst gehandelt hat. Belegt an 13 vom Nutzer im TradingView-Chart eingezeichneten MNQ-Boxen vom
 13.08.2026 (Regressionstest: `tools/test_fvg_vii.py`).
 
+## Stark (High Probability) vs. normal (2026-08-13)
+
+> **Ein valides *starkes* FVG muss einen Swing High/Low brechen** — erst dadurch entsteht ein
+> [[Market Structure Shift (MSS)|MSS]] bzw. BOS. Ein Displacement, das nur in freien Raum läuft,
+> hinterlässt zwar eine Lücke, aber keine strukturelle Aussage.
+
+Damit zerfällt jede FVG-Liste in zwei Klassen:
+
+| Klasse | Kriterium | Bedeutung |
+|---|---|---|
+| **stark** | Displacement- oder Bestätigungskerze **schließt** durch einen bestätigten, noch intakten Swing | High-Probability-Bedingung, Handelskandidat |
+| *wick* | Swing nur mit dem Docht genommen, kein Close darüber/darunter | eher Sweep/Judas als Break — Vorsicht |
+| *normal* | kein Swing im Weg | Lücke ohne strukturelle Aussage, nur als Draw relevant |
+
+Zwei Bedingungen, damit der Break zählt:
+
+1. **Der Swing muss zum Zeitpunkt von Kerze 1 bereits bestätigt sein** (Fraktal braucht Nachlauf) —
+   sonst ist die Einordnung Lookahead.
+2. **Der Swing muss noch intakt sein.** Ein bereits genommenes Level ist keine Liquidität mehr;
+   sonst gilt in einem Trend jedes Folge-FVG als „stark" gegen dasselbe, längst gebrochene Level.
+
+Implementiert in `tools/analyze_ohlc.py::fvgs()` — jedes FVG trägt die Felder `strong`, `broke`
+(`close`/`wick`/`None`), `swing` und `ms` (`MSS`/`BOS`, falls `structure_breaks()` auf derselben
+Kerze ein Event meldet).
+
+## Zeitstempel: die mittlere Kerze
+
+Ein FVG trägt die Zeit seiner **Displacement-Kerze** (der mittleren), nicht der dritten. Genau
+dort sitzt die Box im Chart; die dritte Kerze bestätigt sie nur. `fvgs()` liefert zusätzlich
+`t_start`/`t_end` für die volle Drei-Kerzen-Spanne.
+
 ## Fair Value — zwei Perspektiven
 
 - **Retail**: Fair Value = der Preis, zu dem verkauft (Premium) bzw. gekauft (Discount) wird —

@@ -625,7 +625,54 @@ Jannes' Beobachtung: 29 800,00 um 05:00 NY (11:00 CEST) — der eigentliche ORG-
 erst mit dem 9:30-NY-Open fest (<code>org_ce</code> in <code>live_status.py</code> liefert vor RTH-Open <code>null</code>).</p>
 <p>Jannes' Erwartung: bei einem <strong>sehr grossen</strong> ORG-Gap greift die 70%-Regel <em>nicht</em> (C.E. wird
 <strong>nicht</strong> innerhalb 30 Min. gefuellt) — das waere eine Praezisierung der bestehenden
-Hypothese, keine neue: falls grosse Gaps seltener fuellen, erklaert das teilweise, warum die
+Hypothese, keine neue: falls grosse Gaps seltener fuellen, erklaert das teilweise, warum die</p>
+<h4 id="aufloesung-2026-08-13-die-0508-premium-wick-ist-vollstaendig-mitigiert">Aufloesung 2026-08-13: die 05.08.-Premium-Wick ist vollstaendig mitigiert</h4>
+<p>Die oben als „noch offen" gefuehrte <strong>Premium Wick vom 05.08.2026</strong> ist seit dem 13.08. erledigt.
+Kerze: O 29 781,25 / H 30 073,25 / L 29 530,75 / C 29 615,00 — <strong>bearish</strong>, das Body-High ist
+damit das <strong>Open</strong> 29 781,25 (nicht der Close). Wick-Range 29 781,25 -&gt; 30 073,25 = 292,00 Punkte,
+<strong>C.E 29 927,25</strong>, Qs bei 29 854,25 / 29 927,25 / 30 000,25.</p>
+<p>Abarbeitung Level fuer Level (erste Beruehrung je Level, 1m-Daten ab Daily Close 05.08. 17:00 NY):</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Preis</th>
+<th>erste Beruehrung NY</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wick Low (Body-High/Open)</td>
+<td>29 781,25</td>
+<td>07.08. 08:38</td>
+</tr>
+<tr>
+<td>Q 0,25</td>
+<td>29 854,25</td>
+<td>07.08. 08:49</td>
+</tr>
+<tr>
+<td><strong>C.E (0,5)</strong></td>
+<td><strong>29 927,25</strong></td>
+<td><strong>10.08. 01:55</strong></td>
+</tr>
+<tr>
+<td>Q 0,75</td>
+<td>30 000,25</td>
+<td>12.08. <strong>09:30</strong> (exakt RTH-Open)</td>
+</tr>
+<tr>
+<td>Wick High</td>
+<td>30 073,25</td>
+<td>13.08. <strong>09:46</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Danach Expansion bis 30 267,00 (High 13.08. 10:35 NY). Beobachtung: die Wick wurde <strong>graduell ueber
+sechs Sessions</strong> abgearbeitet, nicht in einem Zug — passt zum Muster in <a href="../p/graded-price-swings.html">Graded Price Swings</a>;
+die beiden oberen Quadranten fielen erst nach RTH-Open (12.08. und 13.08. jeweils in den ersten
+16 Minuten). Level und Berechnung: <code>python tools/qoh_levels.py 30073.25 29530.75 --oc 29781.25
+29615.00 --wick premium</code>.
 Gesamtquote (35–43 %) unter dem behaupteten 70 % liegt. <strong>Backlog-Idee:</strong> <code>org_gap()</code>-Ergebnisse
 nach Gap-Groesse (z. B. Quartile) segmentieren, um "grosser Gap → seltener C.E.-Fill"
 statistisch zu pruefen, statt die Quote nur pauschal auszuweisen — in <code>algo/PLAN.md</code> vermerkt.</p>

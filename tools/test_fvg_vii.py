@@ -88,6 +88,48 @@ def test_gegenkerze_3_hat_keine_vii():
     assert g["hi"] == 30180.00, g
 
 
+def test_zeitstempel_ist_die_displacement_kerze():
+    """Das FVG traegt die Zeit der MITTLEREN Kerze (Displacement), nicht der dritten --
+    so heisst es auch im Chart. `t_start`/`t_end` spannen die drei Kerzen auf."""
+    from datetime import timedelta
+    b = [Bar(t=T + timedelta(minutes=k), o=o, h=h, l=lo, c=c) for k, (o, h, lo, c) in
+         enumerate([(29877.25, 29878.00, 29876.50, 29877.00),
+                    (29877.75, 29879.50, 29876.75, 29879.25),
+                    (29879.25, 29886.25, 29879.00, 29881.50)])]
+    g = fvgs(b)[0]
+    assert g["t"] == b[1].t, g
+    assert (g["t_start"], g["t_end"]) == (b[0].t, b[2].t), g
+
+
+def test_starkes_fvg_braucht_swing_break():
+    """Nutzerregel: stark = Displacement schliesst durch einen bestaetigten Swing High/Low.
+    Dieselben drei Kerzen, einmal mit einem alten Swing High darunter (Break -> stark),
+    einmal mit einem Swing High darueber (kein Break -> normal)."""
+    from datetime import timedelta
+
+    flat = (29870, 29871, 29869, 29870)
+
+    def seq(swing_high):
+        # Swing an Index 2, damit das Fraktal (n=2) links und rechts Nachbarn hat und bis
+        # Kerze 1 des FVG (Index 5) bestaetigt ist.
+        rows = [flat, flat, (29870, swing_high, 29869, 29870.5), flat, flat]
+        rows += [(29877.25, 29878.00, 29876.50, 29877.00),
+                 (29877.75, 29879.50, 29876.75, 29879.25),
+                 (29879.25, 29886.25, 29879.00, 29881.50)]
+        return [Bar(t=T + timedelta(minutes=k), o=o, h=h, l=lo, c=c)
+                for k, (o, h, lo, c) in enumerate(rows)]
+
+    def gap(swing_high):   # das FVG aus den letzten drei Kerzen, Displacement = Index 6
+        return next(g for g in fvgs(seq(swing_high)) if g["i"] == 6)
+
+    # Swing 29878.50 liegt ueber Kerze 1 (Close 29877.00), erst das Displacement
+    # (Close 29879.25) schliesst durch -> stark.
+    assert gap(29878.50)["broke"] == "close"
+    assert gap(29878.50)["strong"] is True
+    assert gap(29999.00)["strong"] is False             # Swing unerreicht
+    assert gap(29999.00)["swing"] == 29999.00
+
+
 def test_vii_misst_koerper_gegen_koerper():
     """viis(): dieselbe Gegenkerze wie oben -- die Luecke geht von der Koerper-Oberkante
     (29877.25), nicht vom Close (29877.00)."""
@@ -103,5 +145,7 @@ if __name__ == "__main__":
     test_no_vii_falls_back_to_wick()
     test_gegenkerze_1_nutzt_koerper_oberkante()
     test_gegenkerze_3_hat_keine_vii()
+    test_zeitstempel_ist_die_displacement_kerze()
+    test_starkes_fvg_braucht_swing_break()
     test_vii_misst_koerper_gegen_koerper()
     print("OK")
