@@ -2340,3 +2340,11 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - `analyze_ohlc.day_report`: FVG-Tabelle High Probability zuerst, Spalten "x Kerze" und "Stark".
 - Seiten aktualisiert: wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md
   (neuer Abschnitt "Gegenprobe am echten Setup"), algo/README.md, algo/PLAN.md
+
+## [2026-08-14] ingest | YouTube: PPI Market Review August 13, 2026
+- Quelle: https://www.youtube.com/watch?v=RVHX56v-gUo (Kanal The Inner Circle Trader, veroeffentlicht 2026-08-13, 11:47 Min). Transkript vollstaendig (Auto-Captions decken das ganze kurze Video ab), gespeichert unter raw/trading-ict/2026/yt-RVHX56v-gUo-transcript.md.
+- Kein Konzept-Lecture-Video, sondern ICTs eigener Trade-Recap des PPI-Tages (13.08.2026) auf NQ/MNQ — direkt vergleichbar mit dem eigenen journal/entries/2026-08-13 MNQ Daily Bias.md (neues Bias-Vorlage-System).
+- Seite erstellt: wiki/sources/youtube/2026-08-13 - PPI Market Review August 13, 2026 (Source).md, inkl. Abgleichstabelle gegen den eigenen Daily-Bias-Eintrag.
+- Keine neuen Konzeptseiten noetig (Order Block, PD Array, FVG, Chain of Custody/C.E. bereits vorhanden) — nur verlinkt.
+- Abgleichsergebnis: Richtung (bullish) stimmte mit dem eigenen Bias ueberein; die eigenen Ziele (29.931,75 Interim, 30.094,00 Weekly) waren beide zu konservativ — ICT haelt am Videoende bereits 30.600/30.975 fuer die naechsten Tage fuer moeglich, und war zu keinem Zeitpunkt am 13.08. an Shorts interessiert (die im eigenen Eintrag offen gehaltene Bearish-Turn-Hypothese hat sich fuer diesen Tag nicht bestaetigt). Eigener Eintrag traegt P07 (kein Chartbild), daher selbst nicht exakt nachverifizierbar; das Video liefert eine zweite, unabhaengige Einschaetzung des Tages, ersetzt aber keinen eigenen Screenshot.
+- Seiten aktualisiert: wiki/index.md

@@ -246,6 +246,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
   (Curriculum-Sprungseite, listet alle 8 Lectures samt Ziel-Konzeptseite) (2026-08-06)
 - [[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]] — YouTube 2026-08-07: Live-Nacherzählung der NFP-Fallstudie vom selben Tag, Pre-Market-STD-Projektion, generalisierte "Mohawk"-Regel (2026-08-07)
 - [[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]] — YouTube 2026-08-10: Live-Long in NQ durch High-Resistance-Bedingungen, IFVG-Doppelqualifizierung, "no bodies buried" am Wick-C.E., Stop-Order als Retracement-Partial (2026-08-10)
+- [[2026-08-13 - PPI Market Review August 13, 2026 (Source)|PPI Market Review August 13, 2026 (Source)]] — YouTube 2026-08-13: ICTs eigener Trade-Recap des PPI-Tages, Freitags-Daily-High der Vorwoche als Order Block, Ziele 30.600/30.975; Abgleich mit eigenem [[2026-08-13 MNQ Daily Bias]] — Richtung stimmte, eigene Ziele zu konservativ (2026-08-13)
 
 ### ICT Gems (Drittkanal, Ausschnitte aus ICT-Originalvideos — Macro-Reihe)
 
