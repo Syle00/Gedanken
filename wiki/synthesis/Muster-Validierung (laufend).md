@@ -204,3 +204,30 @@ Weekly DOL (Jannes' Ziel fuer die Woche, nicht zwingend heute): Buyside **30 094
 offen, wird nach RTH-Open per `algo/live_status.py`/`algo/backtest_org_ce.py` nachgeprueft.
 
 Vorbehalt: Tag lief beim Erfassen noch (Daten bis 14:39 NY).
+
+## 1st Presented Displacement — Respekt über die Daily Range (laufend)
+
+**These** (2026-08-13, siehe [[Midnight Opening Range]]: „wird nach rechts ausgezogen und über den
+gesamten Tag mitgeführt"): Das 1st presented Displacement (größtes FVG im 0:00–0:30-MOR-Fenster)
+wird über den restlichen Tag als Referenz respektiert — Preis läuft an dessen C.E. zurück und
+reagiert dort. Backtest: `algo/backtest_1p_daily_respect.py`, n=25 Tage (Juli–Aug 2026, MNQ 1m,
+kein Lookahead: 1.p nur aus 0:00–0:30, Tracking erst danach bis 16:00 NY).
+
+| Kennzahl | Ergebnis |
+|---|---|
+| Zone später berührt | **25/25 (100 %)** |
+| C.E. später berührt | **25/25 (100 %)** |
+| FVG hält (kein Bruch der fernen Grenze in 15 Min) | **1/25 (4 %)** |
+| Median-Reaktion am C.E. vor dem Bruch | **10,0 Pkt** |
+| Reaktion ≥ 10 Pkt vor dem Bruch | **13/25 (52 %)** |
+
+**Befund (ehrlich):** Als **Draw/Referenz bestätigt** — der 1.p wird ausnahmslos wieder angelaufen
+(100 % Zone + C.E.), das stützt „Magnet / über den Tag mitgeführt". Als **haltendes Level
+widerlegt** — das kleine FVG (Median ~7–9 Pkt) wird an 96 % der Tage durchgehandelt. Reaktion nur
+mäßig (Median 10 Pkt, ≥10 Pkt auf 52 % — Münzwurf).
+
+> ⚠️ **Kein Kontroll-Baseline.** 100 % Berührung ist wenig aussagekräftig, weil das FVG nahe am
+> Eröffnungspreis liegt und Preis diese Zone ohnehin wieder besucht — ein **beliebiges** Level nahe
+> dem Open würde vermutlich ähnlich oft berührt. Um zu zeigen, dass der 1.p *spezifisch* respektiert
+> wird, fehlt der Vergleich gegen (a) zufällige Level nahe Open und (b) Nicht-1.p-FVGs. Offen, plus
+> n=25 klein. Bis dahin: **Referenz ja, handelbares Hold nein.**
