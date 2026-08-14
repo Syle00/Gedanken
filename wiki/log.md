@@ -2417,3 +2417,23 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - ⚠️ Widerspruch markiert (primärquellenübergreifend): Episode 12 lehnt die Einzelkerzen-Definition von [[Order Block]] explizit ab ("that is not my order block") und definiert den OB als die gesamte zusammenhängende Serie gleichfarbiger Candles vor dem Displacement — die Wiki-Seite deckt beide Lesarten bereits über spätere Abschnitte ab, Kopfzeile bewusst als vereinfachte Grunddefinition belassen (mehrere andere Primärquellen nutzen genau diese).
 - Neue, bislang unbelegte Terminologie/Konzepte identifiziert, aber (noch) nicht als eigene Konzeptseite angelegt (YAGNI — erst bei weiterem Beleg): "Purge and Revert" (Episode 19), "Mean Threshold" als expliziter Zielwert (Episode 19), "Rebalancing" (Episode 25, Preisrückkehr zum Low des Vor-Vortages), "Close Proximity Entry" (Episode 29), genestete Larry-Williams-Swing-Klassifikation (Episode 11, teils bereits in Episode 12 abgedeckt), 3-2-1-Entry-Pyramiding (Episode 13).
 - Keine weiteren primärquellenübergreifenden Widersprüche gefunden. `.\push.ps1` bewusst NICHT ausgeführt (folgt separat mit einem weiteren, noch laufenden Task).
+
+## [2026-08-15] setup | Automatische raw/-Einsortierung (Regel + Erstlauf)
+- Nutzerauftrag (Brainstorming, bounded): CLAUDE.md Layer 1 erweitert — raw/-Ordnerstruktur darf
+  jetzt gepflegt werden (Inhalt bleibt unveraendert), lose auf Root-Ebene abgelegte Dateien werden
+  zu Session-Beginn automatisch in die passende Domaene einsortiert. Domaenenspezifisch verfeinert:
+  OHLC-CSVs -> marktdaten/ (Symbol/TF/Datum aus Dateiname + Inhalt), Chart-Screenshots ->
+  journal/assets/, Algo-Pruefergebnisse -> neue Domaene raw/algo-pruefung/.
+- Erstlauf gegen 8 lose Dateien in raw/: 3 TradingView-1m-Exports (ES, MNQ, NQ) per
+  `algo/ingest_tvexport.py` in den Bestand gemergt (siehe Kerzenzahlen/Luecken/Revisionen in der
+  Skript-Ausgabe); 1 HistData-EURUSD-2000-Zip per `algo/ingest_histdata_xlsx.py` nach
+  marktdaten-tief/ importiert (182 Tage, 143042 1m-Kerzen); 2 Daily-Bias-Notizen (12./13.08.) nach
+  journal/ verschoben und ans bestehende Namensschema angeglichen; 1 fehlplatzierte Wiki-Synthese-
+  Seite (`MNQ 2026-08-13 — MOR & FVG.md`, hatte bereits vollstaendiges Frontmatter) von raw/ nach
+  wiki/synthesis/ verschoben, wo sie inhaltlich hingehoert (bislang nirgends verlinkt).
+- ⚠️ Datenintegritaets-Fund (nicht automatisch repariert): Bestandsdatei
+  `raw/marktdaten/2026/08/31.07.2026/MNQ 2026-07-31 15m.csv` enthaelt 1301 Kerzen (Soll 92) mit
+  Zeitstempeln vom 13.07.2026 statt 31.07. — falsches Datum im Dateinamen oder falscher Inhalt.
+  `ingest_tvexport.py` hat den Import des vierten losen Exports (`CME_MINI_MNQU2026, 15_ec54e.csv`,
+  15m) deshalb korrekt mit Fehler abgebrochen, nichts geschrieben. Datei liegt bewusst weiter lose
+  in raw/, bis der Bestandsfehler separat untersucht ist — siehe algo/PLAN.md.

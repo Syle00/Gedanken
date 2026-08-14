@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MNQ 2026-08-13 — MOR &amp; FVG — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">140</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">348</span></a></li>
+<li class="active"><a href="../index.html#synthesis">Synthese<span class="count">17</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Synthese</div><ul class="pagelist">
+<li><a href="../p/ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend.html">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</a></li>
+<li><a href="../p/fvg-staerke-session-volatilitaet-confluence-laufend.html">FVG-Stärke, Session-Volatilität &amp; Confluence (laufend)</a></li>
+<li><a href="../p/high-probability-fvg-icts-kriterien-gegen-eigene-daten-laufend.html">High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend)</a></li>
+<li><a href="../p/journal-auswertung.html">Journal-Auswertung</a></li>
+<li><a href="../p/kw32-2026-weekly-review.html">KW32 2026 — Weekly Review</a></li>
+<li><a href="../p/machine-learning-fuer-den-algo-bewertung-laufend.html">Machine Learning für den Algo — Bewertung (laufend)</a></li>
+<li><a href="../p/macro-datenbank-laufend.html">Macro-Datenbank (laufend)</a></li>
+<li><a href="../p/makro-fred-zusammenhaenge-eigene-daten-laufend.html">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</a></li>
+<li><a href="../p/mentorship-2025.html">MentorShip 2025</a></li>
+<li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a></li>
+<li class="here"><a href="../p/mnq-2026-08-13-mor-fvg.html">MNQ 2026-08-13 — MOR &amp; FVG</a></li>
+<li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
+<li><a href="../p/quant-finance-formeln-fuer-den-mnq-algo-laufend.html">Quant-Finance-Formeln für den MNQ-Algo (laufend)</a></li>
+<li><a href="../p/risk-management-vergleich-laufend.html">Risk-Management-Vergleich (laufend)</a></li>
+<li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a></li>
+<li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#synthesis">Synthese</a></div>
+  <h1>MNQ 2026-08-13 — MOR &amp; FVG</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">trading-ict</span> <span class="tag">marktdaten</span> <span class="tag">mnq</span> <span class="tag">mor</span> <span class="tag">fvg</span></div><div class="dates">erstellt 2026-08-13 · aktualisiert 2026-08-13</div><div class="srcline"><span>Quellen:</span> <a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a>, <a href="../p/midnight-opening-range.html">Midnight Opening Range</a>, <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#datenbefund-fehlersuche-2026-08-13">Datenbefund (Fehlersuche 2026-08-13)</a></li>
+<li><a href="#midnight-opening-range-000030-ny">Midnight Opening Range (0:00–0:30 NY)</a></li>
+<li><a href="#first-presentation-fvg-erstes-fvg-in-der-mor">First Presentation FVG (erstes FVG in der MOR)</a></li>
+<li><a href="#fvg-statistik-des-tages-0000744-ny">FVG-Statistik des Tages (0:00–07:44 NY)</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="mnq-2026-08-13-mor-fvg">MNQ 2026-08-13 — MOR &amp; FVG</h1>
+<p>Donnerstag, ausgewertet aus <code>raw/marktdaten/2026/08/13.08.2026/MNQ 2026-08-13 1m.csv</code> mit
+<code>tools/analyze_ohlc.py</code> (<code>algo/mor_levels.py</code> für die MOR-Level, <code>fvgs()</code> für die FVGs). Alle
+Zeiten New York. Anlass war eine Fehlersuche: die Opening-Range-Preise „stimmten nicht" — das
+Ergebnis steht unten unter <em>Datenbefund</em>.</p>
+<blockquote>
+<p>⚠️ <strong>Teiltag:</strong> Der 1m-Export reicht nur bis <strong>07:44 NY</strong> (Session noch offen). MOR (0:00–0:30)
+und die London-Session (1:00–5:00) sind vollständig; NY AM/PM fehlen noch.</p>
+</blockquote>
+<h2 id="datenbefund-fehlersuche-2026-08-13">Datenbefund (Fehlersuche 2026-08-13)</h2>
+<p>Die Rohdaten sind <strong>korrekt</strong>: die Kerze aus dem Chart (00:01 NY, O 29.877,25 / H 29.878,00 /
+L 29.876,50 / C 29.877,00) liegt ziffernidentisch in der Datei, die Zeitzone stimmt
+(Epoch → UTC → New York, EDT −04:00) und die Minuten 00:00–00:29 sind vollständig (30/30). Kein
+Zeitzonen- und kein Export-Lückenfehler.</p>
+<p>Ursache der „falschen Preise" war eine <strong>Fenster-Verwechslung im Code</strong>: <code>session_windows()</code> in
+<code>tools/analyze_ohlc.py</code> kannte <strong>kein MOR-Fenster</strong> und nannte 1:00–5:00 „London Range". Wer im
+allgemeinen Tagesreport nach der „London/Opening Range" schaute, bekam die <strong>1–5-Uhr-Range</strong>
+(High 29.924,25 / Low 29.827,50) statt der 0:00–0:30-MOR. <strong>Fix:</strong> MOR (0:00–0:30) als eigenes
+Fenster ergänzt, 1:00–5:00 klar als „London Session" benannt.</p>
+<h2 id="midnight-opening-range-000030-ny">Midnight Opening Range (0:00–0:30 NY)</h2>
+<p>Siehe <a href="../p/midnight-opening-range.html">Midnight Opening Range</a>. Werte aus <code>algo/mor_levels.py 2026-08-13</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Größe</th>
+<th>Wert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Midnight Open</td>
+<td><strong>29.878,25</strong></td>
+</tr>
+<tr>
+<td>Range High</td>
+<td><strong>29.892,25</strong></td>
+</tr>
+<tr>
+<td>Range Low</td>
+<td><strong>29.854,00</strong></td>
+</tr>
+<tr>
+<td>Range</td>
+<td><strong>38,25 Pkt</strong></td>
+</tr>
+<tr>
+<td>C.E. (Q 0,50)</td>
+<td>29.873,12</td>
+</tr>
+<tr>
+<td>Q 0,25 / Q 0,75</td>
+<td>29.863,56 / 29.882,69</td>
+</tr>
+<tr>
+<td>+1 STD / −1 STD</td>
+<td>29.930,50 / 29.815,75</td>
+</tr>
+<tr>
+<td>+2 STD / −2 STD</td>
+<td>29.968,75 / 29.777,50</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Setzten die STD-Level das Tagesextrem?</strong> (offene Jannes-These, 2026-08-11)</p>
+<ul>
+<li><strong>Tages-High 29.924,25 um 01:31</strong> → k = <strong>0,84 STD</strong>, nur <strong>6,25 Pkt (0,16× Range)</strong> unter dem +1-STD-Level.</li>
+<li><strong>Tages-Low 29.821,25 um 05:15</strong> → k = <strong>0,86 STD</strong>, nur <strong>5,50 Pkt (0,14× Range)</strong> über dem −1-STD-Level.</li>
+</ul>
+<p>Beide Extreme landeten also <strong>knapp innerhalb ±1 STD</strong> — an diesem Tag stützt das die STD-Projektions-These
+(Extrem nahe ±1 STD). Ein Einzeltag, kein Beleg; die Statistik über viele Tage macht
+<code>algo/backtest_midnight_range_std.py</code>.</p>
+<h2 id="first-presentation-fvg-erstes-fvg-in-der-mor">First Presentation FVG (erstes FVG in der MOR)</h2>
+<p>Siehe <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>. Das erste FVG <em>innerhalb</em> 0:00–0:30 wird
+laut Wiki den Tag mitgeführt:</p>
+<ul>
+<li><strong>bullish</strong>, 29.877,00 – 29.879,00, <strong>C.E. 29.878,00</strong>, Größe <strong>2,00 Pkt</strong>, entstanden <strong>00:02</strong>, gefüllt <strong>00:13</strong>.</li>
+</ul>
+<p>Einordnung: Mit 2,00 Pkt liegt es <strong>unter der 10-Punkte-Schwelle</strong>, ab der sich FVGs laut
+<a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>-Auswertung überhaupt als „besonders" abheben — es gehört zur häufigen,
+nicht zur selektiven Sorte und wurde nach 11 Minuten gefüllt.</p>
+<h2 id="fvg-statistik-des-tages-0000744-ny">FVG-Statistik des Tages (0:00–07:44 NY)</h2>
+<p><code>fvgs()</code> über die Session bis Datenende: <strong>91 FVGs</strong>, davon nur <strong>6 ≥ 10 Pkt</strong> — die große
+Mehrheit ist klein (bestätigt „ein FVG allein selektiert nichts"; erst die Größe filtert). Die
+großen FVGs clustern in der <strong>London-Expansion 04:02–04:08</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Zeit</th>
+<th>Seite</th>
+<th>Bereich</th>
+<th>C.E.</th>
+<th>Größe</th>
+<th>Fill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>03:02</td>
+<td>bearish</td>
+<td>29.875,50–29.887,00</td>
+<td>29.881,25</td>
+<td>11,50</td>
+<td>gefüllt 07:00 (hielt ~4 h)</td>
+</tr>
+<tr>
+<td>04:02</td>
+<td>bearish</td>
+<td>29.851,75–29.866,75</td>
+<td>29.859,25</td>
+<td>15,00</td>
+<td>gefüllt 04:51</td>
+</tr>
+<tr>
+<td>04:03</td>
+<td>bearish</td>
+<td>29.836,75–29.852,00</td>
+<td>29.844,38</td>
+<td>15,25</td>
+<td>gefüllt 04:06</td>
+</tr>
+<tr>
+<td>04:06</td>
+<td>bullish</td>
+<td>29.838,00–29.859,50</td>
+<td>29.848,75</td>
+<td>21,50</td>
+<td>gefüllt 04:08</td>
+</tr>
+<tr>
+<td>04:08</td>
+<td>bearish</td>
+<td>29.835,00–29.853,25</td>
+<td>29.844,12</td>
+<td>18,25</td>
+<td>gefüllt 04:24</td>
+</tr>
+<tr>
+<td>05:14</td>
+<td>bearish</td>
+<td>29.832,25–29.844,00</td>
+<td>29.838,12</td>
+<td>11,75</td>
+<td>gefüllt 05:23</td>
+</tr>
+</tbody>
+</table>
+<p>Noch <strong>offen</strong> bei Datenende: das bearische FVG von <strong>01:32</strong> (29.910,00–29.918,50, C.E. 29.914,25,
+8,50 Pkt) — es markiert die Zone knapp über dem Tages-High.</p>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a>, <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>, <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
+<li><span class="broken" title="Seite existiert noch nicht">Algo-Trading-Projekt</span> — Fix <code>session_windows</code> (MOR-Fenster), siehe Log</li>
+<li>Tool: <code>algo/mor_levels.py</code> (Tages-Readout), <code>algo/backtest_midnight_range_std.py</code> (STD-Statistik)</li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/MNQ 2026-08-13 — MOR &amp; FVG.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

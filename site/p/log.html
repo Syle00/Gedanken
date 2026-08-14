@@ -24,7 +24,7 @@
 <li><a href="../index.html#concepts">Konzepte<span class="count">140</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">348</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">16</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">17</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
@@ -195,6 +195,7 @@
 <li><a href="#2026-08-14-synthesis-rehrel-welches-der-zwei-extreme-ist-noch-unberuehrt">[2026-08-14] synthesis | REH/REL: welches der zwei Extreme ist noch unberuehrt</a></li>
 <li><a href="#2026-08-14-setup-liquiditaets-wissen-kodiert-rulespy-algoliquidity_reportpy">[2026-08-14] setup | Liquiditaets-Wissen kodiert: rules.py + algo/liquidity_report.py</a></li>
 <li><a href="#2026-08-14-ingest-2022-ict-mentorship-youtube-27-episoden">[2026-08-14] ingest | 2022 ICT Mentorship (YouTube, 27 Episoden)</a></li>
+<li><a href="#2026-08-15-setup-automatische-raw-einsortierung-regel-erstlauf">[2026-08-15] setup | Automatische raw/-Einsortierung (Regel + Erstlauf)</a></li>
 </ul>
 </div>
 </details>
@@ -2758,6 +2759,27 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>⚠️ Widerspruch markiert (primärquellenübergreifend): Episode 12 lehnt die Einzelkerzen-Definition von <a href="../p/order-block.html">Order Block</a> explizit ab ("that is not my order block") und definiert den OB als die gesamte zusammenhängende Serie gleichfarbiger Candles vor dem Displacement — die Wiki-Seite deckt beide Lesarten bereits über spätere Abschnitte ab, Kopfzeile bewusst als vereinfachte Grunddefinition belassen (mehrere andere Primärquellen nutzen genau diese).</li>
 <li>Neue, bislang unbelegte Terminologie/Konzepte identifiziert, aber (noch) nicht als eigene Konzeptseite angelegt (YAGNI — erst bei weiterem Beleg): "Purge and Revert" (Episode 19), "Mean Threshold" als expliziter Zielwert (Episode 19), "Rebalancing" (Episode 25, Preisrückkehr zum Low des Vor-Vortages), "Close Proximity Entry" (Episode 29), genestete Larry-Williams-Swing-Klassifikation (Episode 11, teils bereits in Episode 12 abgedeckt), 3-2-1-Entry-Pyramiding (Episode 13).</li>
 <li>Keine weiteren primärquellenübergreifenden Widersprüche gefunden. <code>.\push.ps1</code> bewusst NICHT ausgeführt (folgt separat mit einem weiteren, noch laufenden Task).</li>
+</ul>
+<h2 id="2026-08-15-setup-automatische-raw-einsortierung-regel-erstlauf">[2026-08-15] setup | Automatische raw/-Einsortierung (Regel + Erstlauf)</h2>
+<ul>
+<li>Nutzerauftrag (Brainstorming, bounded): CLAUDE.md Layer 1 erweitert — raw/-Ordnerstruktur darf
+  jetzt gepflegt werden (Inhalt bleibt unveraendert), lose auf Root-Ebene abgelegte Dateien werden
+  zu Session-Beginn automatisch in die passende Domaene einsortiert. Domaenenspezifisch verfeinert:
+  OHLC-CSVs -&gt; marktdaten/ (Symbol/TF/Datum aus Dateiname + Inhalt), Chart-Screenshots -&gt;
+  journal/assets/, Algo-Pruefergebnisse -&gt; neue Domaene raw/algo-pruefung/.</li>
+<li>Erstlauf gegen 8 lose Dateien in raw/: 3 TradingView-1m-Exports (ES, MNQ, NQ) per
+  <code>algo/ingest_tvexport.py</code> in den Bestand gemergt (siehe Kerzenzahlen/Luecken/Revisionen in der
+  Skript-Ausgabe); 1 HistData-EURUSD-2000-Zip per <code>algo/ingest_histdata_xlsx.py</code> nach
+  marktdaten-tief/ importiert (182 Tage, 143042 1m-Kerzen); 2 Daily-Bias-Notizen (12./13.08.) nach
+  journal/ verschoben und ans bestehende Namensschema angeglichen; 1 fehlplatzierte Wiki-Synthese-
+  Seite (<code>MNQ 2026-08-13 — MOR &amp; FVG.md</code>, hatte bereits vollstaendiges Frontmatter) von raw/ nach
+  wiki/synthesis/ verschoben, wo sie inhaltlich hingehoert (bislang nirgends verlinkt).</li>
+<li>⚠️ Datenintegritaets-Fund (nicht automatisch repariert): Bestandsdatei
+  <code>raw/marktdaten/2026/08/31.07.2026/MNQ 2026-07-31 15m.csv</code> enthaelt 1301 Kerzen (Soll 92) mit
+  Zeitstempeln vom 13.07.2026 statt 31.07. — falsches Datum im Dateinamen oder falscher Inhalt.
+  <code>ingest_tvexport.py</code> hat den Import des vierten losen Exports (<code>CME_MINI_MNQU2026, 15_ec54e.csv</code>,
+  15m) deshalb korrekt mit Fehler abgebrochen, nichts geschrieben. Datei liegt bewusst weiter lose
+  in raw/, bis der Bestandsfehler separat untersucht ist — siehe algo/PLAN.md.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
