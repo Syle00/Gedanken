@@ -2431,9 +2431,15 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   journal/ verschoben und ans bestehende Namensschema angeglichen; 1 fehlplatzierte Wiki-Synthese-
   Seite (`MNQ 2026-08-13 — MOR & FVG.md`, hatte bereits vollstaendiges Frontmatter) von raw/ nach
   wiki/synthesis/ verschoben, wo sie inhaltlich hingehoert (bislang nirgends verlinkt).
-- ⚠️ Datenintegritaets-Fund (nicht automatisch repariert): Bestandsdatei
-  `raw/marktdaten/2026/08/31.07.2026/MNQ 2026-07-31 15m.csv` enthaelt 1301 Kerzen (Soll 92) mit
-  Zeitstempeln vom 13.07.2026 statt 31.07. — falsches Datum im Dateinamen oder falscher Inhalt.
-  `ingest_tvexport.py` hat den Import des vierten losen Exports (`CME_MINI_MNQU2026, 15_ec54e.csv`,
-  15m) deshalb korrekt mit Fehler abgebrochen, nichts geschrieben. Datei liegt bewusst weiter lose
-  in raw/, bis der Bestandsfehler separat untersucht ist — siehe algo/PLAN.md.
+- ⚠️ Datenintegritaets-Fund, auf Nutzerauftrag noch in derselben Session aufgeklaert und repariert
+  (Details: algo/PLAN.md, 2026-08-15): Bestandsdatei `MNQ 2026-07-31 15m.csv` enthielt 1301 statt
+  92 Kerzen. Root Cause war kein falsches Datum, sondern derselbe Bulk-Dump-Bug, der am 2026-08-13
+  bereits bei den 1d-Dateien fuer dieselben zwei Tage gefunden und nach
+  `raw/marktdaten/_defekt/tiefhistorie-1d-2026-08/` quarantaeniert wurde (Commit 31d6c31c8,
+  2026-08-02, unverwandter Ingest-Task hat ungesplittete Mehrtages-Exporte abgelegt) — betraf
+  zusaetzlich unbemerkt 5m/1h/4h/15m RTH an denselben zwei Tagen (07-31, 08-03). Alle 8 Dateien
+  aus den sauberen 1m-Bestandsdaten neu erzeugt (`tools/resample_1m.py` + RTH-Filter), danach die
+  zwei losen 15m-Exports sauber nachgezogen. Neuer, kleinerer Fund dabei zurueckgestellt (Nutzer-
+  entscheidung): `MNQ 2026-07-09 15m.csv` hat 93 statt 92 Kerzen (Grenzkerze 17:00 NY), noch
+  ungeklaert, ob Session-Artefakt oder Soll-Anpassung noetig — ein weiterer loser Export wartet
+  deshalb unverarbeitet in raw/.
