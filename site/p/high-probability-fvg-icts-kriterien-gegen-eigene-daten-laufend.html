@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">140</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">321</span></a></li>
+<li class="active"><a href="../index.html#synthesis">Synthese<span class="count">16</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Synthese</div><ul class="pagelist">
+<li><a href="../p/ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend.html">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</a></li>
+<li><a href="../p/fvg-staerke-session-volatilitaet-confluence-laufend.html">FVG-Stärke, Session-Volatilität &amp; Confluence (laufend)</a></li>
+<li class="here"><a href="../p/high-probability-fvg-icts-kriterien-gegen-eigene-daten-laufend.html">High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend)</a></li>
+<li><a href="../p/journal-auswertung.html">Journal-Auswertung</a></li>
+<li><a href="../p/kw32-2026-weekly-review.html">KW32 2026 — Weekly Review</a></li>
+<li><a href="../p/machine-learning-fuer-den-algo-bewertung-laufend.html">Machine Learning für den Algo — Bewertung (laufend)</a></li>
+<li><a href="../p/macro-datenbank-laufend.html">Macro-Datenbank (laufend)</a></li>
+<li><a href="../p/makro-fred-zusammenhaenge-eigene-daten-laufend.html">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</a></li>
+<li><a href="../p/mentorship-2025.html">MentorShip 2025</a></li>
+<li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
+<li><a href="../p/quant-finance-formeln-fuer-den-mnq-algo-laufend.html">Quant-Finance-Formeln für den MNQ-Algo (laufend)</a></li>
+<li><a href="../p/risk-management-vergleich-laufend.html">Risk-Management-Vergleich (laufend)</a></li>
+<li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a></li>
+<li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#synthesis">Synthese</a></div>
+  <h1>High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">ict</span> <span class="tag">fvg</span> <span class="tag">backtest</span> <span class="tag">laufend</span> <span class="tag">high-probability</span></div><div class="dates">erstellt 2026-08-14 · aktualisiert 2026-08-14</div><div class="srcline"><span>Quellen:</span> <a href="../p/2025-01-19-ict-private-mentorship-high-probability-fvgs-masterclass-source.html">High Probability FVG&#x27;s (Masterclass)</a>, <a href="../p/2024-09-16-ict-2024-mentorship-how-to-trade-ict-fvgs-correctly-source.html">How To Trade ICT FVGs Correctly</a>, <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#testaufbau">Testaufbau</a></li>
+<li><a href="#ergebnis-bei-2r-die-vergleichbare-variante">Ergebnis bei 2R (die vergleichbare Variante)</a><ul>
+<li><a href="#was-halt">Was hält</a></li>
+<li><a href="#was-nicht-halt">Was nicht hält</a></li>
+<li><a href="#das-signal-das-keines-ist">Das Signal, das keines ist</a></li>
+</ul>
+</li>
+<li><a href="#confound-das-feste-punktziel-verzerrt-den-killzone-vergleich">Confound: das feste Punktziel verzerrt den Killzone-Vergleich</a></li>
+<li><a href="#vorbehalte">Vorbehalte</a></li>
+<li><a href="#umsetzung-im-code">Umsetzung im Code</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="high-probability-fvg-icts-kriterien-gegen-eigene-daten-laufend">High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend)</h1>
+<p>ICT nennt in zwei Lectures konkrete, prüfbare Kriterien für ein „High Probability FVG". Diese
+Seite hält fest, was davon in <strong>MNQ-1m-Daten</strong> messbar übrig bleibt. Sie wird bei wachsendem
+Datenbestand überschrieben, nicht ergänzt.</p>
+<p><strong>Stand: 7.375 FVGs / 7.107 simulierte Trades aus <code>raw/marktdaten/</code>, Skript
+<code>algo/backtest_hp_fvg.py</code>.</strong></p>
+<h2 id="testaufbau">Testaufbau</h2>
+<p>ICTs eigene Ausführungsregeln, nicht selbst erfundene: Limit-Entry <strong>einen Tick vor der nahen
+Gap-Kante</strong> (Kerze 3), Stop <strong>hinter Kerze 2</strong>, 1 Kontrakt, echter Punktwert (2 $/Punkt MNQ),
+−1,24 $ Round Turn. Zwei Zielvarianten:</p>
+<ul>
+<li><strong>20 Punkte fest</strong> — ICTs eigene Untergrenze für den Bewegungsraum.</li>
+<li><strong>2R</strong> — nötig für den fairen Vergleich zwischen Killzones (siehe Confound unten).</li>
+</ul>
+<p>Stop und Ziel in derselben 1m-Kerze zählen konservativ als Verlust (<code>dubious</code>).</p>
+<blockquote>
+<p>⚠️ <strong>Der Bias ist ein Proxy.</strong> ICT setzt den Draw on Liquidity von Hand. Automatisiert wird
+hier die Premium/Discount-Lage des <strong>Midnight Open</strong> zur Vortages-Equilibrium genommen (unter
+EQ → bearish, darüber → bullish). Lookahead-frei, aber <em>nicht</em> ICTs Bias. Die Zeile „nur
+Bias-Proxy" steht deshalb einzeln in der Tabelle.</p>
+</blockquote>
+<h2 id="ergebnis-bei-2r-die-vergleichbare-variante">Ergebnis bei 2R (die vergleichbare Variante)</h2>
+<table>
+<thead>
+<tr>
+<th>Gruppe</th>
+<th>n</th>
+<th>Trades</th>
+<th>Win %</th>
+<th>$/Trade netto</th>
+<th>dubious %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>alle FVG</td>
+<td>7.375</td>
+<td>7.107</td>
+<td>36,3</td>
+<td>+0,49</td>
+<td>4,2</td>
+</tr>
+<tr>
+<td>nur Killzone</td>
+<td>4.128</td>
+<td>4.050</td>
+<td>36,2</td>
+<td>+0,58</td>
+<td>4,4</td>
+</tr>
+<tr>
+<td>nur Vortageshälfte</td>
+<td>3.855</td>
+<td>3.717</td>
+<td>37,2</td>
+<td>+1,13</td>
+<td>4,3</td>
+</tr>
+<tr>
+<td><strong>nur Bias-Proxy</strong></td>
+<td>3.822</td>
+<td>3.667</td>
+<td><strong>37,7</strong></td>
+<td><strong>+1,79</strong></td>
+<td>4,2</td>
+</tr>
+<tr>
+<td>Zone + Killzone</td>
+<td>2.121</td>
+<td>2.073</td>
+<td>36,3</td>
+<td>+0,85</td>
+<td>4,6</td>
+</tr>
+<tr>
+<td><strong>HP (alle drei)</strong></td>
+<td>1.921</td>
+<td>1.875</td>
+<td>36,6</td>
+<td><strong>+1,51</strong></td>
+<td>4,6</td>
+</tr>
+<tr>
+<td>HP + sofortiges Rebalance</td>
+<td>927</td>
+<td>927</td>
+<td>34,0</td>
+<td><strong>−0,66</strong></td>
+<td>2,5</td>
+</tr>
+</tbody>
+</table>
+<p>Breakeven bei 2R liegt bei 33,3 %.</p>
+<h3 id="was-halt">Was hält</h3>
+<p><strong>Die Kombination hilft, aber wenig.</strong> ICTs drei Kriterien verdreifachen den Erwartungswert je
+Trade (0,49 → 1,51 $), heben die Trefferquote aber kaum (36,3 → 36,6 %). Der Effekt kommt aus
+besseren Gewinnern, nicht aus mehr Gewinnern.</p>
+<p><strong>Die Vortageshälfte ist das stärkste der drei ICT-Kriterien</strong> (37,2 %, +1,13 $) — das ist die
+Regel „bearishes FVG gehört unter das Equilibrium der Vortagesrange". Sie hält als eigenständiger
+Filter.</p>
+<h3 id="was-nicht-halt">Was nicht hält</h3>
+<p><strong>Die Killzone allein bringt nichts</strong> (36,2 % gegen 36,3 % ohne Filter, +0,58 gegen +0,49 $).
+Als Zeitfilter über alle FVGs hinweg ist sie in MNQ nicht messbar.</p>
+<p><strong>Das sofortige Rebalance ist negativ.</strong> ICT: <em>„if the next candle number four drops in and it
+starts running, chances are stronger that this lower half will stay open."</em> Gemessen dreht es
++1,51 $ in <strong>−0,66 $</strong> je Trade. Ein FVG, das sofort wieder angelaufen wird, ist in diesen Daten
+<strong>schlechter</strong> als eines, das erst später berührt wird.</p>
+<p><strong>Die 98-%-Behauptung ist nicht reproduzierbar.</strong> ICT nennt in der Masterclass <em>„a 98 % strike
+rate"</em>. Gemessen: 36–38 % bei 2R, 42 % bei 20-Punkte-Ziel. Auch bei wohlwollendster Auslegung
+(nur HP-FVGs, nur Killzone, strittige Fälle als Gewinner) bleibt der Abstand zu 98 % um ein
+Vielfaches zu groß.</p>
+<h3 id="das-signal-das-keines-ist">Das Signal, das keines ist</h3>
+<table>
+<thead>
+<tr>
+<th>Ausgangssignal</th>
+<th>n</th>
+<th>Win %</th>
+<th>$/Trade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ferne Hälfte blieb offen</td>
+<td>111</td>
+<td><strong>99,1</strong></td>
+<td>+72,15</td>
+</tr>
+<tr>
+<td>ferne Hälfte verletzt</td>
+<td>6.996</td>
+<td>35,3</td>
+<td>−0,65</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong>Nahezu tautologisch, nicht prognostisch.</strong> „Die ferne Hälfte blieb offen" heißt, dass Preis
+nie über den C.E. hinaus ins Gap lief. Der Stop liegt hinter Kerze 2, also <strong>jenseits der fernen
+Kante</strong> — wer die ferne Hälfte nie erreicht, kann den Stop gar nicht treffen. Die 99,1 % sind
+deshalb eine <em>Beschreibung</em> eines gewonnenen Trades, keine Vorhersage. Der Wert der Regel liegt
+im <strong>Trade-Management</strong> (Prämisse hält / Prämisse bröckelt), nicht in der Selektion.</p>
+<p>Ehrlich bleibt: der Fall ist mit <strong>111 von 7.107 Trades (1,6 %)</strong> selten. ICTs „perfect world"
+ist der Ausnahme-, nicht der Normalfall.</p>
+</blockquote>
+<h2 id="confound-das-feste-punktziel-verzerrt-den-killzone-vergleich">Confound: das feste Punktziel verzerrt den Killzone-Vergleich</h2>
+<p>Mit ICTs 20-Punkte-Ziel sah London Close (10:00–12:00 NY) nach einer riesigen Kante aus —
+<strong>63,9 % Win, +11,83 $/Trade</strong> gegen London 36,8 % / +0,47 $. Die Ursache steht in der
+Risikospalte: <strong>Median-Stopabstand 20,25 Punkte</strong> in London Close gegen 10,0–11,5 Punkte in allen
+anderen Fenstern. Bei festem 20-Punkte-Ziel handelt London Close faktisch <strong>1R</strong>, alle anderen
+<strong>2R</strong> — höhere Trefferquote bei kleinerem Vielfachen ist dann kein Befund, sondern Arithmetik.</p>
+<p>Auf 2R normiert schrumpft der Vorsprung auf 38,2 % / +4,26 $:</p>
+<table>
+<thead>
+<tr>
+<th>Killzone</th>
+<th>Win % (2R)</th>
+<th>$/Trade</th>
+<th>Median-Risiko</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Asia (19:00–00:30)</td>
+<td>36,0</td>
+<td>+0,09</td>
+<td>10,75</td>
+</tr>
+<tr>
+<td>London (02:00–05:00)</td>
+<td>34,4</td>
+<td><strong>−1,07</strong></td>
+<td>10,00</td>
+</tr>
+<tr>
+<td>NY (07:00–09:00)</td>
+<td>37,9</td>
+<td>+0,92</td>
+<td>11,25</td>
+</tr>
+<tr>
+<td><strong>London Close (10:00–12:00)</strong></td>
+<td><strong>38,2</strong></td>
+<td><strong>+4,26</strong></td>
+<td>20,25</td>
+</tr>
+</tbody>
+</table>
+<p>London Close bleibt das beste Fenster, London das einzige mit negativem Erwartungswert. Beides
+mit dem Vorbehalt unten.</p>
+<p><strong>Methodische Lehre für künftige Backtests</strong>: ein festes Punktziel über verschieden volatile
+Zeitfenster hinweg ist kein neutraler Maßstab — es verschiebt das effektive RR entlang genau der
+Achse, die verglichen werden soll.</p>
+<h2 id="vorbehalte">Vorbehalte</h2>
+<ul>
+<li>FVGs innerhalb eines Tages sind stark korreliert; die Konfidenz ist deutlich niedriger, als
+  n = 7.107 suggeriert. Wenige Marktregime im Datensatz.</li>
+<li>Der Bias-Proxy ist die schwächste Stelle. Dass ausgerechnet er der beste Einzelfilter ist,
+  spricht eher für die Kraft von Premium/Discount als für die Güte des Proxys — mit ICTs echtem,
+  handgesetztem Draw on Liquidity könnten alle Zahlen anders aussehen.</li>
+<li>ICTs Regeln stammen aus <strong>Forex-</strong> (Masterclass, AUD/USD 2019) und <strong>NQ-Kontext</strong>; hier laufen
+  sie gegen MNQ. Die Killzone-Fenster sind auf Forex-Sessions zugeschnitten.</li>
+<li>Slippage ist nicht modelliert (Limit-Entry am Gap-Rand), Teilpositionen/Pyramiding auch nicht —
+  ICTs Skalierungsschema (6/4/2 Kontrakte über Entry/Quadrant/C.E.) würde die Zahlen verändern.</li>
+</ul>
+<h2 id="umsetzung-im-code">Umsetzung im Code</h2>
+<ul>
+<li><code>tools/analyze_ohlc.py::fvgs()</code> liefert pro FVG zusätzlich <code>entry</code>, <code>stop_c2</code>, <code>stop_c1</code>,
+  <code>q25</code>/<code>q75</code>, <code>near_touches</code>, <code>far_touches</code>, <code>far_half_open</code>, <code>fast</code>.</li>
+<li><code>tools/analyze_ohlc.py::hp_context()</code> prüft Vortageshälfte, Killzone und Bias.</li>
+<li><code>algo/backtest_hp_fvg.py</code> misst; Regressionstests in <code>tools/test_fvg_vii.py</code>, eingebunden in
+  <code>algo/selfcheck.py</code>.</li>
+</ul>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a> — Definition, Grenzen, Entry/Stop/Quadranten</li>
+<li><a href="../p/fvg-staerke-session-volatilitaet-confluence-laufend.html">FVG-Stärke, Session-Volatilität &amp; Confluence (laufend)</a> — die ältere Auswertung zu Größe und Swing-Break</li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>, <a href="../p/ict-killzones.html">ICT Killzones</a></li>
+<li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/2024-09-16-ict-2024-mentorship-how-to-trade-ict-fvgs-correctly-source.html">2024-09-16 - ICT 2024 Mentorship - How To Trade ICT FVGs Correctly (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-01-19-ict-private-mentorship-high-probability-fvgs-masterclass-source.html">2025-01-19 - ICT Private Mentorship - High Probability FVGs Masterclass (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

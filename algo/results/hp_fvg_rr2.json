@@ -1,0 +1,155 @@
+{
+  "generated_at": "2026-08-14T06:38:00.078635+00:00",
+  "stop": "stop_c2",
+  "ziel_pkt": 20.0,
+  "rr": 2.0,
+  "gruppen": {
+    "alle FVG": {
+      "n": 7375,
+      "trades": 7107,
+      "median_size": 5.25,
+      "median_risk": 11.25,
+      "win_pct": 36.3,
+      "win_pct_ohne_dubious": 37.9,
+      "dubious_pct": 4.2,
+      "usd_pro_trade": 0.49,
+      "usd_gesamt": 3466.82
+    },
+    "nur Killzone": {
+      "n": 4128,
+      "trades": 4050,
+      "median_size": 5.5,
+      "median_risk": 11.5,
+      "win_pct": 36.2,
+      "win_pct_ohne_dubious": 37.9,
+      "dubious_pct": 4.4,
+      "usd_pro_trade": 0.58,
+      "usd_gesamt": 2361.0
+    },
+    "nur Vortageshaelfte": {
+      "n": 3855,
+      "trades": 3717,
+      "median_size": 5.25,
+      "median_risk": 11.0,
+      "win_pct": 37.2,
+      "win_pct_ohne_dubious": 38.8,
+      "dubious_pct": 4.3,
+      "usd_pro_trade": 1.13,
+      "usd_gesamt": 4209.42
+    },
+    "nur Bias-Proxy": {
+      "n": 3822,
+      "trades": 3667,
+      "median_size": 5.25,
+      "median_risk": 11.25,
+      "win_pct": 37.7,
+      "win_pct_ohne_dubious": 39.3,
+      "dubious_pct": 4.2,
+      "usd_pro_trade": 1.79,
+      "usd_gesamt": 6551.92
+    },
+    "Zone + Killzone": {
+      "n": 2121,
+      "trades": 2073,
+      "median_size": 5.5,
+      "median_risk": 11.5,
+      "win_pct": 36.3,
+      "win_pct_ohne_dubious": 38.1,
+      "dubious_pct": 4.6,
+      "usd_pro_trade": 0.85,
+      "usd_gesamt": 1759.98
+    },
+    "HP (alle drei)": {
+      "n": 1921,
+      "trades": 1875,
+      "median_size": 5.5,
+      "median_risk": 11.25,
+      "win_pct": 36.6,
+      "win_pct_ohne_dubious": 38.4,
+      "dubious_pct": 4.6,
+      "usd_pro_trade": 1.51,
+      "usd_gesamt": 2839.0
+    },
+    "HP + sofort (fast)": {
+      "n": 927,
+      "trades": 927,
+      "median_size": 5.5,
+      "median_risk": 10.75,
+      "win_pct": 34.0,
+      "win_pct_ohne_dubious": 34.8,
+      "dubious_pct": 2.5,
+      "usd_pro_trade": -0.66,
+      "usd_gesamt": -608.48
+    }
+  },
+  "killzonen": {
+    "Asia": {
+      "n": 1738,
+      "trades": 1710,
+      "median_size": 5.0,
+      "median_risk": 10.75,
+      "win_pct": 36.0,
+      "win_pct_ohne_dubious": 37.3,
+      "dubious_pct": 3.7,
+      "usd_pro_trade": 0.09,
+      "usd_gesamt": 162.1
+    },
+    "London": {
+      "n": 1041,
+      "trades": 1031,
+      "median_size": 5.0,
+      "median_risk": 10.0,
+      "win_pct": 34.4,
+      "win_pct_ohne_dubious": 36.1,
+      "dubious_pct": 4.7,
+      "usd_pro_trade": -1.07,
+      "usd_gesamt": -1106.94
+    },
+    "London Close": {
+      "n": 652,
+      "trades": 628,
+      "median_size": 8.25,
+      "median_risk": 20.25,
+      "win_pct": 38.2,
+      "win_pct_ohne_dubious": 39.2,
+      "dubious_pct": 2.5,
+      "usd_pro_trade": 4.26,
+      "usd_gesamt": 2676.78
+    },
+    "NY": {
+      "n": 697,
+      "trades": 681,
+      "median_size": 5.25,
+      "median_risk": 11.25,
+      "win_pct": 37.9,
+      "win_pct_ohne_dubious": 41.0,
+      "dubious_pct": 7.5,
+      "usd_pro_trade": 0.92,
+      "usd_gesamt": 629.06
+    }
+  },
+  "ausgangssignal": {
+    "ferne Haelfte offen": {
+      "n": 111,
+      "trades": 111,
+      "median_size": 9.5,
+      "median_risk": 14.0,
+      "win_pct": 99.1,
+      "win_pct_ohne_dubious": 99.1,
+      "dubious_pct": 0.0,
+      "usd_pro_trade": 72.15,
+      "usd_gesamt": 8008.36
+    },
+    "ferne Haelfte verletzt": {
+      "n": 6996,
+      "trades": 6996,
+      "median_size": 5.25,
+      "median_risk": 11.0,
+      "win_pct": 35.3,
+      "win_pct_ohne_dubious": 36.9,
+      "dubious_pct": 4.3,
+      "usd_pro_trade": -0.65,
+      "usd_gesamt": -4541.54
+    }
+  }
+}

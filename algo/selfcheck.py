@@ -33,6 +33,8 @@ from validate import demo as validate_demo  # noqa: E402
 from backtest_common import demo as backtest_common_demo  # noqa: E402
 from macro_db import selfcheck as macro_db_selfcheck  # noqa: E402
 from backtest_fvg_strength import selfcheck as fvg_strength_selfcheck  # noqa: E402
+from backtest_hp_fvg import selfcheck as hp_fvg_selfcheck  # noqa: E402
+from backtest_1p_mindestgroesse import selfcheck as mindestgroesse_selfcheck  # noqa: E402
 from analyze_ohlc import demo_pruefe_kerzen  # noqa: E402
 
 
@@ -103,6 +105,8 @@ CHECKS = [
     ("backtest_common", backtest_common_demo),
     ("macro_db", macro_db_selfcheck),
     ("backtest_fvg_strength", fvg_strength_selfcheck),
+    ("backtest_hp_fvg", hp_fvg_selfcheck),
+    ("backtest_1p_mindestgroesse", mindestgroesse_selfcheck),
     ("ohlc_gate", demo_pruefe_kerzen),
     ("dedup", _results_demo),
 ]

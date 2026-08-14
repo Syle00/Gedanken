@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-10
-sources: ["[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[Fair Valuation (Source)]]", "[[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]]", "[[ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)]]", "[[2026-08-06 - ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)|ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)]]"]
+updated: 2026-08-14
+sources: ["[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[Fair Valuation (Source)]]", "[[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Fair Valuation (Source)]]", "[[ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)]]", "[[2026-08-06 - ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)|ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)]]", "[[2025-01-19 - ICT Private Mentorship - High Probability FVGs Masterclass (Source)|High Probability FVG's (Masterclass)]]", "[[2024-09-16 - ICT 2024 Mentorship - How To Trade ICT FVGs Correctly (Source)|How To Trade ICT FVGs Correctly]]"]
 ---
 
 # Fair Value Gap (FVG)
@@ -102,6 +102,75 @@ dort sitzt die Box im Chart; die dritte Kerze bestätigt sie nur. `fvgs()` liefe
 3. Kleinste Dealing Range: gleiche Prüfung.
 
 Erst wenn alle drei Ebenen übereinstimmen, gilt der Preis als "im fairen Bereich" für einen Entry.
+
+## Wo High-Probability-FVGs entstehen (Masterclass, 2026-08-14)
+
+Aus [[2025-01-19 - ICT Private Mentorship - High Probability FVGs Masterclass (Source)|High Probability FVG's (Masterclass)]] —
+drei Bedingungen, die zusammen erfüllt sein müssen:
+
+1. **Der Draw on Liquidity steht vorher fest.** *„You have to know what it's reaching for."* ICTs
+   eigene Negativdefinition: *„if it's not one-sided… it's not high probability"* — die Bedingung
+   eines [[Low Resistance Liquidity Run]]. Fehlt sie, ist Nichtstun die Antwort.
+2. **Lage in der richtigen Hälfte der Vortagesrange.** Vortages-High/-Low mit Fib messen,
+   Equilibrium markieren: **bearish** muss das FVG zwischen Equilibrium und Vortages-Low liegen,
+   **bullish** zwischen Equilibrium und Vortages-High. Begründung: *„IPDA will not want to go back
+   above the previous day's midpoint."* Ob das FVG im Vortag oder im neuen Tag entstand, ist egal —
+   entscheidend ist die **Preiszone**.
+3. **Entstehung in einer [[ICT Killzones|Killzone]].**
+
+Ergänzend: **Daily Highs/Lows der letzten 3 Tage** vorher markieren; der **Stop** gehört an den
+Swing High/Low **vor** der Entstehung des FVG, nicht an die Gap-Kante; er bleibt dort **bis zum
+ersten Partial** und wird danach nur reduziert, nicht auf Breakeven gerissen.
+
+> ⚠️ Eigene Messung: von den drei Kriterien hält vor allem die **Vortageshälfte**; die Killzone
+> allein ist in MNQ nicht messbar. ICTs *„98 % strike rate"* ist nicht reproduzierbar (gemessen
+> 36–38 % bei 2R). Zahlen und Vorbehalte:
+> [[High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend)]].
+
+## Entry, Stop und Quadranten (2024er Mentorship, 2026-08-14)
+
+Aus [[2024-09-16 - ICT 2024 Mentorship - How To Trade ICT FVGs Correctly (Source)|How To Trade ICT FVGs Correctly]].
+Die drei Kerzen haben feste Rollen: **1** = linke Kante, **2** = Displacement-/Trigger-Kerze (sie
+*ist* das FVG), **3** = rechte Kante.
+
+| | bullish (BISI) | bearish (SIBI) |
+|---|---|---|
+| **Entry** | Low Kerze 3 **+ 1 Tick** | High Kerze 3 **− 1 Tick** |
+| **Stop aggressiv** | unter Low Kerze 2 | über High Kerze 2 |
+| **Stop konservativ** | unter Low Kerze 1 | über High Kerze 1 |
+| **Nachlegen** | oberer Quadrant → C.E. → unterer Quadrant | unterer Quadrant → C.E. → oberer Quadrant |
+
+> *„We are not supply and demand… **we don't deal with zones**. There are specific price levels."*
+> Deshalb: **jede Ineffizienz rastern** („you have to always grade your inefficiencies") — Kante,
+> Quadranten, C.E. Der Entry sitzt bewusst *einen Tick vor* der Kante, damit der Fill zustande
+> kommt, bevor Preis ins Gap läuft.
+
+**Stop-Verfeinerung**: hat Kerze 1 selbst einen Wick, der ein eigenes Gap bildet („two layers of
+gaps"), genügt ein Tick jenseits des **C.E. dieses Wicks**. Nach dem Bruch des Hochs weiter zum
+**unteren Quadranten** des FVG trailen.
+
+### Die ferne Hälfte soll offen bleiben
+
+> **Bullish**: *„the best perfect scenario is the market only drops into the upper half of the gap,
+> it leaves that **lower half untouched** — that's indicating it's extremely bullish."* Bearish
+> gespiegelt. Dosierung: die nahe Hälfte höchstens **ein- bis zweimal** besuchen.
+
+Das ist dieselbe Aussage wie die Viertel-Regel unten, nur gröber — und sie gilt laut derselben
+Quelle **genauso für Wicks und Order Blocks** (bullish: kein Candle-Close unter dem Mean Threshold;
+ein Stich durch ist tolerierbar).
+
+> ⚠️ Als **Auswahl**kriterium taugt es nicht: liegt der Stop hinter Kerze 2, heißt „ferne Hälfte
+> offen" fast zwangsläufig „Stop nie erreicht" — die gemessenen 99 % Trefferquote beschreiben den
+> Gewinner, statt ihn vorherzusagen. Der Wert liegt im **Trade-Management**. Auch das Tempo-Signal
+> („Kerze 4 läuft sofort ins Gap") schneidet gemessen *schlechter* ab als der Durchschnitt. Siehe
+> [[High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend)]].
+
+**Mindest-Bewegungsraum**: *„it's got to have at least this much movement potential… **20 handles**"*
+zwischen Entry und erstem Ziel, damit 15 Handles Gewinn realistisch sind. Ausdrücklich **gegen**
+10-Handle-Ziele: *„10 handles is static price action, you can get stopped out and be right."*
+
+Implementiert in `tools/analyze_ohlc.py::fvgs()` als Felder `entry`, `stop_c2`, `stop_c1`, `q25`,
+`q75`, `near_touches`, `far_touches`, `far_half_open`, `fast`.
 
 ## Die vier Level eines FVG — wie tief darf der Rücklauf gehen?
 
@@ -234,4 +303,5 @@ Wick-C.E.
 - [[PD Array]]
 - [[Turtle Soup]] — nutzt FVG als Retracement-Ziel nach einem Sweep
 - [[Balanced Price Range (BPR)]], [[Breakaway Gap]], [[Chain of Custody (Q-Validation)]]
+- [[High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend)]] — die Kriterien gegen MNQ-Daten gemessen
 - [[Kurz Notizen (Source)]]

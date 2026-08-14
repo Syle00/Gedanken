@@ -70,8 +70,13 @@ def bias_proxy(bars: list[Bar], tag: date, prev_hi: float, prev_lo: float) -> st
     return "bullish" if mo > (prev_hi + prev_lo) / 2 else "bearish"
 
 
-def simulate(bars: list[Bar], i: int, g: dict, stop_feld: str, ziel_pkt: float) -> dict | None:
-    """Limit am `entry`, Stop laut `stop_feld`, festes Ziel in Punkten.
+def simulate(bars: list[Bar], i: int, g: dict, stop_feld: str, ziel_pkt: float,
+             rr: float | None = None) -> dict | None:
+    """Limit am `entry`, Stop laut `stop_feld`, Ziel fest in Punkten oder als RR-Vielfaches.
+
+    `rr` setzt das Ziel auf ein Vielfaches des Stopabstands. Noetig fuer den Vergleich
+    zwischen Killzones: bei festem Punktziel handelt ein volatiles Fenster mit weitem Stop
+    faktisch 1R und ein ruhiges 2R -- die Trefferquoten sind dann nicht vergleichbar.
 
     None, wenn der Entry nie erreicht wurde -- das ist kein Gewinner, sondern kein Trade.
     Stop und Ziel in derselben Kerze zaehlen konservativ als Verlust und werden als
@@ -82,7 +87,8 @@ def simulate(bars: list[Bar], i: int, g: dict, stop_feld: str, ziel_pkt: float) 
     risk = abs(entry - stop)
     if risk <= 0:
         return None
-    ziel = entry + ziel_pkt if bull else entry - ziel_pkt
+    spanne = rr * risk if rr else ziel_pkt
+    ziel = entry + spanne if bull else entry - spanne
 
     gefuellt = False
     for b in bars[i + 2:]:
@@ -98,11 +104,11 @@ def simulate(bars: list[Bar], i: int, g: dict, stop_feld: str, ziel_pkt: float) 
         if hit_stop:
             return {"won": False, "dubious": False, "pts": -risk}
         if hit_ziel:
-            return {"won": True, "dubious": False, "pts": ziel_pkt}
+            return {"won": True, "dubious": False, "pts": spanne}
     return None if not gefuellt else {"won": None, "dubious": False, "pts": 0.0}
 
 
-def collect(stop_feld: str, ziel_pkt: float) -> list[dict]:
+def collect(stop_feld: str, ziel_pkt: float, rr: float | None = None) -> list[dict]:
     m1 = find_days(SYMBOL, "1m")
     d1 = find_days(SYMBOL, "1d")
     rows = []
@@ -122,7 +128,8 @@ def collect(stop_feld: str, ziel_pkt: float) -> list[dict]:
                          "bias_ok": ctx["bias_ok"], "hp": ctx["hp"],
                          "killzone": ctx["killzone"], "fast": g["fast"],
                          "far_half_open": g["far_half_open"],
-                         "trade": simulate(bars, g["i"], g, stop_feld, ziel_pkt)})
+                         "risk": abs(g["entry"] - g[stop_feld]),
+                         "trade": simulate(bars, g["i"], g, stop_feld, ziel_pkt, rr)})
     return rows
 
 
@@ -134,6 +141,9 @@ def stats(rows: list[dict]) -> dict:
     return {
         "n": len(rows), "trades": len(done),
         "median_size": round(statistics.median([r["size"] for r in rows]), 2) if rows else None,
+        # Bei festem Punktziel entscheidet der Stopabstand ueber das effektive RR -- ohne
+        # diese Spalte liest man Volatilitaetsunterschiede als Kante.
+        "median_risk": round(statistics.median([r["risk"] for r in rows]), 2) if rows else None,
         "win_pct": round(100 * sum(r["trade"]["won"] for r in done) / len(done), 1) if done else None,
         "win_pct_ohne_dubious": (round(100 * sum(r["trade"]["won"] for r in clean) / len(clean), 1)
                                  if clean else None),
@@ -154,9 +164,9 @@ GRUPPEN = [
 ]
 
 
-def run(stop_feld: str, ziel_pkt: float) -> dict:
-    rows = collect(stop_feld, ziel_pkt)
-    out = {"stop": stop_feld, "ziel_pkt": ziel_pkt, "gruppen": {},
+def run(stop_feld: str, ziel_pkt: float, rr: float | None = None) -> dict:
+    rows = collect(stop_feld, ziel_pkt, rr)
+    out = {"stop": stop_feld, "ziel_pkt": ziel_pkt, "rr": rr, "gruppen": {},
            "killzonen": {}, "ausgangssignal": {}}
     for name, f in GRUPPEN:
         out["gruppen"][name] = stats([r for r in rows if f(r)])
@@ -172,16 +182,17 @@ def run(stop_feld: str, ziel_pkt: float) -> dict:
 
 def report(res: dict) -> list[str]:
     kopf = (f"  {'Gruppe':<24}{'n':>6}{'Trades':>8}{'Win%':>8}{'ohne dub':>10}"
-            f"{'$/Trade':>10}{'$ ges':>11}{'dub%':>8}")
+            f"{'$/Trade':>10}{'$ ges':>11}{'dub%':>7}{'Med Risk':>10}")
 
     def zeile(name, s):
         if not s["trades"]:
             return f"  {name:<24}{s['n']:>6}{'0':>8}"
         return (f"  {name:<24}{s['n']:>6}{s['trades']:>8}{s['win_pct']:>8}"
                 f"{s['win_pct_ohne_dubious']:>10}{s['usd_pro_trade']:>10}"
-                f"{s['usd_gesamt']:>11}{s['dubious_pct']:>8}")
+                f"{s['usd_gesamt']:>11}{s['dubious_pct']:>7}{s['median_risk']:>10}")
 
-    L = [f"=== High-Probability-FVG {SYMBOL} (Stop {res['stop']}, Ziel {res['ziel_pkt']:g} Pkt) ===",
+    ziel = f"Ziel {res['rr']:g}R" if res.get("rr") else f"Ziel {res['ziel_pkt']:g} Pkt"
+    L = [f"=== High-Probability-FVG {SYMBOL} (Stop {res['stop']}, {ziel}) ===",
          "", "Kontextfilter (alle zum Entry bekannt):", kopf]
     L += [zeile(n, s) for n, s in res["gruppen"].items()]
     L += ["", "Nach Killzone:", kopf]
@@ -219,7 +230,7 @@ def selfcheck() -> None:
     assert not ctx["zone_ok"] and not ctx["hp"], ctx
 
     # stats() darf ohne Trades nicht durch 0 teilen
-    s = stats([{"size": 5.0, "trade": None, "far_half_open": False}])
+    s = stats([{"size": 5.0, "risk": 3.0, "trade": None, "far_half_open": False}])
     assert s["trades"] == 0 and s["win_pct"] is None, s
     print("selfcheck ok")
 
@@ -229,14 +240,16 @@ def main(argv=None) -> int:
     ap.add_argument("--stop", choices=["c2", "c1"], default="c2",
                     help="c2 = aggressiv hinter Kerze 2, c1 = konservativ hinter Kerze 1")
     ap.add_argument("--ziel", type=float, default=ZIEL_PKT)
+    ap.add_argument("--rr", type=float, default=None,
+                    help="Ziel als RR-Vielfaches statt fester Punkte (fairer Killzone-Vergleich)")
     ap.add_argument("--selfcheck", action="store_true")
     a = ap.parse_args(argv)
     if a.selfcheck:
         selfcheck()
         return 0
-    res = run(f"stop_{a.stop}", a.ziel)
+    res = run(f"stop_{a.stop}", a.ziel, a.rr)
     print("\n".join(report(res)))
-    write_result("hp_fvg", res)
+    write_result(f"hp_fvg_{'rr' + format(a.rr, 'g') if a.rr else 'pkt'}", res)
     return 0
 
 

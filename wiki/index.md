@@ -247,6 +247,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]] — YouTube 2026-08-07: Live-Nacherzählung der NFP-Fallstudie vom selben Tag, Pre-Market-STD-Projektion, generalisierte "Mohawk"-Regel (2026-08-07)
 - [[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]] — YouTube 2026-08-10: Live-Long in NQ durch High-Resistance-Bedingungen, IFVG-Doppelqualifizierung, "no bodies buried" am Wick-C.E., Stop-Order als Retracement-Partial (2026-08-10)
 - [[2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source)|How To Disqualify 1st Presented FVGs (Video, Source)]] — YouTube 2025-04-08: gesprochene Fassung der Disqualify-Lecture (NQ 07.04.2025), „The Bodies Tell The Narrative", 1.p FVG gehört zur 9:30–10:00-Range, Entry am C.E. — kein Größen-Kriterium genannt (2026-08-14)
+- [[2024-09-16 - ICT 2024 Mentorship - How To Trade ICT FVGs Correctly (Source)|How To Trade ICT FVGs Correctly (Source)]] — YouTube 2024-09-16: die Ausführungs-Lecture zum FVG — Entry ein Tick vor der Kante von Kerze 3, Stop hinter Kerze 2 bzw. 1, Quadrantenraster, "ferne Hälfte bleibt offen", 20-Handle-Mindestraum (2026-08-14)
+- [[2025-01-19 - ICT Private Mentorship - High Probability FVGs Masterclass (Source)|High Probability FVG's Masterclass (Source)]] — YouTube 2025-01-19: wo High-Probability-FVGs entstehen — Draw on Liquidity zuerst, richtige Hälfte der Vortagesrange, Killzone; inkl. ICTs unbelegter 98-%-Behauptung (2026-08-14)
 - [[2026-08-13 - PPI Market Review August 13, 2026 (Source)|PPI Market Review August 13, 2026 (Source)]] — YouTube 2026-08-13: ICTs eigener Trade-Recap des PPI-Tages, Freitags-Daily-High der Vorwoche als Order Block, Ziele 30.600/30.975; Abgleich mit eigenem [[2026-08-13 MNQ Daily Bias]] — Richtung stimmte, eigene Ziele zu konservativ (2026-08-13)
 
 ### ICT Gems (Drittkanal, Ausschnitte aus ICT-Originalvideos — Macro-Reihe)
@@ -508,6 +510,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 ## Synthesis
 
 - [[FVG-Stärke, Session-Volatilität & Confluence (laufend)]] — **generiert** aus 27 MNQ-Tagen: der 9:30-Open trägt die 2,8-fache FVG-Größe von London, das Verhältnis FVG÷Kerze ist aber überall ≈0,45; HTF-Qs-Confluence hält, NDOG-Confluence nicht (2026-08-13)
+- [[High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend)]] — ICTs HP-Kriterien gegen 7.375 MNQ-FVGs: Vortageshälfte hält, Killzone bringt nichts, sofortiges Rebalance ist negativ, 98 % nicht reproduzierbar (2026-08-14)
 - [[Journal-Auswertung]] — **generiert** aus `raw/journal/`: Erfüllungsquote je Checklistenpunkt über 21 Einträge, verknüpft mit den zuständigen Wiki-Seiten; Ausreißer ist „Entry" mit 24 % (2026-08-02)
 - [[MNQ 2026-07-31 — Datenbasierter Tagesrückblick]] — Freitag komplett aus OHLC-Daten ausgewertet: Judas Swing 09:31, 646 Pkt Tagesrange in 41 Minuten, Checkliste 6/7 (2026-08-02)
 - [[MNQ 2026-08-03 — Datenbasierter Tagesrückblick]] — Montag (Daten bis 16:18 NY, Tag nicht beendet): Sweep + 166-Pkt-Displacement exakt am RTH-Open 09:30, Macro-Expansion erneut vor dem offiziellen Lunch-Fenster (2026-08-03)

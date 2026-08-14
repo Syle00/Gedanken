@@ -23,8 +23,8 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">140</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">319</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">15</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">321</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">16</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
@@ -187,6 +187,7 @@
 <li><a href="#2026-08-14-ingest-youtube-2025-lecture-series-how-to-disqualify-1st-presented-fvgs-y63zsrlcccw">[2026-08-14] ingest | YouTube: 2025 Lecture Series - How To Disqualify 1st Presented FVGs (y63zsrLCcCw)</a></li>
 <li><a href="#2026-08-14-synthesis-mindestgroesse-des-1p-fvg-ny-am-gemessen">[2026-08-14] synthesis | Mindestgroesse des 1.p FVG (NY AM) gemessen</a></li>
 <li><a href="#2026-08-14-lint-fvg-detektion-body-test-war-falsch">[2026-08-14] lint | FVG-Detektion: Body-Test war falsch</a></li>
+<li><a href="#2026-08-14-ingest-youtube-how-to-trade-ict-fvgs-correctly-2024-high-probability-fvgs-masterclass">[2026-08-14] ingest | YouTube: How To Trade ICT FVGs Correctly (2024) + High Probability FVG's (Masterclass)</a></li>
 </ul>
 </div>
 </details>
@@ -2693,6 +2694,16 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Ad-hoc-Auswertung der MOR 14.08. meldete 18 FVGs statt 2, weil die <em>Existenz</em> ueber die Koerper statt ueber die Wicks geprueft wurde. Jannes hat den Fehler am Chart bemerkt ("0:01 ist kein FVG, das erste ist 0:13").</li>
 <li>Root Cause: die Wiki-Regel "Grenzen: Open/Close, nicht die Wicks" betrifft nur das <em>Einzeichnen</em> (und auch das nur bei einer VII), nicht die Existenz. Zusaetzlich wurde tools/analyze_ohlc.py::fvgs() umgangen, statt es wiederzuverwenden.</li>
 <li>Kein Repo-Code betroffen -- fvgs() implementiert den Wick-Test korrekt (c.l &gt; a.h / c.h &lt; a.l). Korrigiertes Ergebnis fuer die MOR 14.08.: BISI 00:13 (30153,75-30155,00) und BISI 00:25 (30157,50-30158,25), beide gefuellt.</li>
+</ul>
+<h2 id="2026-08-14-ingest-youtube-how-to-trade-ict-fvgs-correctly-2024-high-probability-fvgs-masterclass">[2026-08-14] ingest | YouTube: How To Trade ICT FVGs Correctly (2024) + High Probability FVG's (Masterclass)</h2>
+<ul>
+<li>Scan-Fenster: zwei vom Nutzer verlinkte Videos, kein Kanal-Scan. HhgWGduQZQY (2024-09-16, 2:12:08, ~105k Zeichen) und 4JZrzC7fSQw (2025-01-19, 41:29, ~34,7k Zeichen), beide Transkripte vollstaendig, seriell mit Pause geholt (kein IpBlocked).</li>
+<li>Seiten erstellt: wiki/sources/youtube/2024-09-16 - ICT 2024 Mentorship - How To Trade ICT FVGs Correctly (Source).md, wiki/sources/youtube/2025-01-19 - ICT Private Mentorship - High Probability FVGs Masterclass (Source).md, wiki/synthesis/High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend).md</li>
+<li>Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (zwei neue Abschnitte: "Wo High-Probability-FVGs entstehen" und "Entry, Stop und Quadranten"), wiki/index.md</li>
+<li>Rohdateien: raw/trading-ict/2026/yt-HhgWGduQZQY-transcript.md, raw/trading-ict/2026/yt-4JZrzC7fSQw-transcript.md</li>
+<li>Code (Nutzerauftrag "implementiere die Erkenntnisse"): tools/analyze_ohlc.py::fvgs() liefert jetzt entry/stop_c2/stop_c1/q25/q75/near_touches/far_touches/far_half_open/fast; neu killzone_of() und hp_context(); neu algo/backtest_hp_fvg.py; Regressionstests in tools/test_fvg_vii.py (3 neue), selfcheck.py 20/20.</li>
+<li>⚠️ Zwei ICT-Behauptungen halten der eigenen Messung nicht stand und stehen so auf den Seiten: die "98% strike rate" (gemessen 36-38% bei 2R) und das sofortige Rebalance als Staerkesignal (gemessen negativ). Die Regel "ferne Haelfte bleibt offen" ist bei einem Stop hinter Kerze 2 fast tautologisch und taugt nur zum Trade-Management, nicht zur Auswahl.</li>
+<li>Entscheidung ohne Rueckfrage: die Masterclass laeuft unter dem Kanal "StratX" (Repost), Inhalt aber unstrittig ICT-Mentorship von Juni 2019 -- als ICT-Quelle gefuehrt und der Repost-Status in der Kopfzeile vermerkt.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
