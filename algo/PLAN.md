@@ -386,6 +386,28 @@ folgende Stunde" erwartet. Fix: `simulate()` um ein Zeit-Limit ergaenzen (z.B. S
 laufen lassen, bevor eine der beiden Thesen (Bellwether-Timeframe, Session-Liquiditaet) als
 entschieden gilt.
 
+### Backlog: 1d-Dateien gegen Intraday-Aggregat gegenpruefen (2026-08-14, aus Liquiditaets-Check gefunden)
+
+**Aktiver Datenbefund, Nulltoleranz-Regel greift.** Beim manuellen Liquiditaets-Check (15m-Chart)
+korrigierte Jannes das gemeldete PDH (13.08.) von 30267,0 auf 30273,25 -- Gegenprobe bestaetigt
+seine Zahl: die 5m/15m-Intraday-Datei fuer 13.08. hat tatsaechlich H 30273,25, waehrend die
+`MNQ 2026-08-13 1d.csv`-Datei noch H 30267,0 / C 30223,5 fuehrte (O/L stimmten). Root Cause:
+die TradingView-Korrektur vom 14.08. ("16 Kerzen revidiert", siehe Log-Eintrag oben) hat die
+5m/15m/1m-Dateien aktualisiert, aber **die 1d-Datei nicht neu aus den korrigierten Intraday-Bars
+aggregiert** -- sie blieb auf dem Stand des vorherigen (fehlerhaften) yfinance-Nachzugs stehen.
+**13.08. direkt repariert** (H 30267,0→30273,25, C 30223,5→30216,25, gegen die 275 5m-Kerzen der
+korrekten Session 12.08. 18:00–13.08. 16:55 verifiziert). ⚠️ **Systemcheck ueber den gesamten
+Bestand (1883 1d-Dateien) findet 6 weitere Tage mit derselben Art Abweichung** (>0,3 Pkt gegen
+das 5m-Aggregat derselben Session): 08.06., 15.06., 16.06., 17.06., 18.06., 01.07., 03.08. --
+teils uber 300 Punkte Differenz. **Nicht blind automatisch ueberschrieben** (anders als beim
+13.08.-Fix, wo eine externe Bestaetigung vorlag) -- diese sechs brauchen erst denselben
+Gegencheck (5m-Aggregat plausibel? gegen TradingView/Chart verifizieren, nicht nur gegen sich
+selbst), bevor sie geschrieben werden. **Impact:** `backtest_sb_session_liq.py` (PDH/PDL/PWH/PWL-
+These, 2026-08-14 gemessen) liest PDH/PDL aus genau diesen 1d-Dateien -- die 03.08.-Abweichung
+liegt in der 47-Tage-Stichprobe dieses Backtests, das Ergebnis (2,7% Win/-14,57 USD PDH/PDL) ist
+davon mitbetroffen, wenn auch nur an einem von 47 Tagen. **Naechster Schritt:** die sechs Tage
+einzeln gegenpruefen und reparieren, danach `backtest_sb_session_liq.py` erneut laufen lassen.
+
 ## Naechster Schritt
 
 **Korrektur (2026-08-03):** Der urspruengliche Plan war, mit dem Backtest zu warten, bis
