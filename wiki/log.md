@@ -2404,3 +2404,8 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Jannes' Regel: bei einem REH-Paar muss das LINKE (fruehere) High hoeher sein als das rechte, sonst hat das rechte es schon genommen; bei REL muss das linke Low tiefer sein als das rechte. Praxisbeispiel Daily MNQ: REH-Paar 16.06. (30975,50) und 22.06. (30967,75) -- 16.06. ist links und hoeher -> gueltiger Pool ist 30975,50, nicht 22.06.
 - Seiten aktualisiert: wiki/concepts/Open Float & Liquidity Pools.md (neuer Abschnitt in REH/REL).
 - Zusaetzliche Korrektur: Sellside-Rang-1 vom letzten Report (27200,0, 29.07.) laut Jannes korrekt 27204,75 -- eigene 5m/1m-Daten bestaetigen exakt 27200,0 (kein Pipeline-Fehler), Differenz passt zum bekannten yfinance-Tick-Praezisionslimit (siehe CLAUDE.md). Neuer REL-Punkt uebernommen: 07.08. 29455,0 (00:15 NY), gegen 5m-Daten verifiziert.
+
+## [2026-08-14] setup | Liquiditaets-Wissen kodiert: rules.py + algo/liquidity_report.py
+- Nutzerauftrag (Brainstorming-Session, bounded): das in dieser Session erarbeitete Liquiditaets-Wissen (Session-Extrema, IPDA-Fenster, REH/REL-Regel, PDH/PDL/PWH/PWL) als wiederverwendbare Funktionen in algo/rules.py kodiert, plus neue Datei algo/liquidity_report.py, die aktuelle Liquiditaet ueber 1m/5m/15m/Daily erkennt und qualitativ rankt (Hoch/Mittel/Niedrig, kein numerischer Score -- Nutzerentscheidung).
+- Dabei algo/backtest_sb_session_liq.py auf die neue, korrekte PDH/PDL/PWH/PWL-Quelle (5m-Aggregation statt 1d-Dateien) umgestellt und neu gelaufen: PWH/PWL-Ergebnis kippte von +34,35 $/Trade (Artefakt der stale 1d-Datei + fehlendem Haltedauer-Cap) auf -1,27 $/Trade.
+- Details, Code-Struktur und bekannte Grenzen (v1, Cross-Timeframe-Dedup fehlt noch): algo/README.md, algo/PLAN.md.

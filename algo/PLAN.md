@@ -418,6 +418,20 @@ den 5m-Tagesdateien aggregiert wurden statt aus den 1d-Dateien -- robuster, aber
 Handelstage 5m-Abdeckung (ab 08.06.), das volle 60-Tage-IPDA-Fenster bleibt damit unvollstaendig
 belegt. Zaehlt als achter Fund fuer die anstehende 1d-Bereinigung.
 
+### Erledigt: Liquiditaets-Wissen in rules.py + neues liquidity_report.py (2026-08-14)
+
+Brainstorming-Session (bounded) umgesetzt: `rules.py` bekam vier neue reine Funktionen
+(`session_extrema`, `ipda_windows`, `rel_pair`, `daily_hilo_from_bars`/`prev_day_level`/
+`prev_week_level`, `level_untouched`) mit `demo()`-Asserts, siehe `algo/README.md` fuer die
+Doku. Dabei `backtest_sb_session_liq.py::daily_hilo()` von den 1d-Dateien auf 5m-Aggregation
+umgestellt (importiert jetzt aus `rules.py`) -- behebt strukturell den am selben Tag gefundenen
+1d-Datenfehler fuer diesen Backtest. Neu erlaufen: PWH/PWL-Ergebnis kippte von +34,35 $/Trade
+(Artefakt) auf -1,27 $/Trade, PDH/PDL bleibt klar negativ (-14,23 $/Trade). Neue Datei
+`algo/liquidity_report.py` (CLI wie `live_status.py`) erkennt und rankt aktuelle Liquiditaet
+ueber 1m/5m/15m/Daily qualitativ (Hoch/Mittel/Niedrig) -- Details, Limits (Cross-TF-Dedup fehlt
+noch) und Konstanten (`NEAR_PCT`, `MAX_DISTANCE_PCT`) in `algo/README.md`. `selfcheck.py`
+weiterhin 20/20 (Erweiterung ist additiv, kein bestehender Test veraendert).
+
 ## Naechster Schritt
 
 **Korrektur (2026-08-03):** Der urspruengliche Plan war, mit dem Backtest zu warten, bis

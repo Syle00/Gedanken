@@ -791,3 +791,46 @@ das ohne eigene Rechnung; niemand kann die Einordnung vergessen.
 - **`live_status.py`** -- gibt die neuen Felder ohne Codeaenderung im JSON weiter.
 - **`backtest_fvg_strength.py`** -- nutzt `size_rel` aus dem Detektor statt einer eigenen
   Kopie der Volatilitaetsrechnung.
+
+## Liquiditaets-Wissen in `rules.py` + `liquidity_report.py` (2026-08-14)
+
+Aus einer Chat-Session ("Liquiditaeten definieren/erkennen") kodiert, `rules.py` bekam vier
+reine Funktionen (jeweils mit `demo()`-Asserts):
+
+- **`session_extrema(bars, day)`** -- echtes Session-High/Low (Asia/London/NY, ueber
+  `analyze_ohlc.session_windows`) + Midnight Open. **Nicht** dasselbe wie `swings()`/
+  `untouched_levels()`: ein Session-Extrem ist nicht zwingend ein fraktaler Swing-Punkt
+  (braucht `n` Nachbarn auf beiden Seiten) und kann dort durchrutschen -- genau das ist am
+  2026-08-14 passiert (Asia-Low fehlerhaft als 30128 statt 30124,25 gemeldet).
+- **`ipda_windows(daily_bars, last_price)`** -- High/Low je 20/40/60-Tage-Fenster (siehe
+  wiki/concepts/IPDA Data Ranges.md) + `active` (vereinfachte Erweiterungsregel: 20 Tage
+  bleibt aktiv, bis `last_price` das 20-Tage-Low/-High reisst, dann 40, dann 60 -- deckt nicht
+  die volle ICT-Nuance "nur erweitern, wenn kein neues Lower Low im 40-Tage-Abschnitt" ab,
+  bewusst vereinfacht).
+- **`rel_pair(left, right, side)`** -- Nutzerregel: bei zwei nahen REH/REL-Extremen zaehlt nur
+  das LINKE (zeitlich frueher) als noch unberuehrt, und nur wenn es weiter aussen liegt als
+  das rechte (REH: links hoeher, REL: links tiefer) -- sonst hat das rechte es bereits
+  genommen.
+- **`daily_hilo_from_bars`/`prev_day_level`/`prev_week_level`** -- PDH/PDL/PWH/PWL aus
+  INTRADAY-Bars (z.B. 5m) statt aus den 1d-Dateien aggregiert. ⚠️ Bewusste Entscheidung, kein
+  Stilbruch: mehrere 1d-Dateien liefen ihrer eigenen Intraday-Historie davon (13.08. nach
+  einer TradingView-Korrektur, die nur die Intraday-Dateien traf; 19.06. mit Werten des
+  naechsten Handelstags dupliziert -- siehe PLAN.md-Log 2026-08-14). Aus `backtest_
+  sb_session_liq.py` hierher verschoben (dort vorher lokal definiert, jetzt importiert) --
+  mit der korrigierten Quelle sank das gemessene PWH/PWL-Ergebnis von +34,35 $/Trade
+  (Artefakt, siehe unten) auf -1,27 $/Trade.
+
+**`liquidity_report.py`** (neu) -- CLI wie `live_status.py`, `python algo/liquidity_report.py
+MNQ`: zieht frische 1m/5m/15m-Daten (`live_status.fetch_today`, kein doppelter Fetch-Code),
+kombiniert sie mit lokaler Historie aus `raw/marktdaten/`, erkennt unberuehrte Level je
+Timeframe (`untouched_levels` + `rel_pair`-Aufloesung) und ordnet sie qualitativ (Hoch/
+Mittel/Niedrig + Begruendung -- bewusst kein numerischer Score, Nutzerentscheidung). Deckelt
+auf ±5 % Preisdistanz und die Top 20 Zeilen, sonst fluten alte, seit einem Trend nie wieder
+besuchte Level die Liste. ⚠️ **Bekannte Grenze (v1, wird erweitert)**: derselbe Pool taucht oft
+auf 1m/5m/15m als separate Zeile auf statt zusammengefasst -- noch keine Cross-Timeframe-
+Deduplizierung.
+
+**PDH/PDL/PWH/PWL-Backtest neu gelaufen** (`backtest_sb_session_liq.py`, korrigierte Quelle):
+Baseline 110 Trades/17,3 % Win/+4,62 $/Trade; PDH/PDL 71/2,8 %/-14,23 $ (weiter klar negativ);
+PWH/PWL 69/1,4 %/-1,27 $ (vorher +34,35 $ -- der alte Wert war ein Artefakt aus der stale
+1d-Datei plus dem bekannten Fehlen eines Haltedauer-Caps, siehe PLAN.md-Backlog).

@@ -25,13 +25,13 @@ from __future__ import annotations
 
 import sys
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from analyze_ohlc import (Bar, at, fvgs, hp_context, untouched_levels,  # noqa: E402
-                          CFG, SIZE_REL_MEDIAN)
+                          session_windows, slice_between, CFG, SIZE_REL_MEDIAN)
 from backtest_hp_fvg import bias_proxy  # noqa: E402
 from pnl import round_to_tick  # noqa: E402
 
@@ -264,6 +264,110 @@ def plan_trade_hp_fvg(bars: list[Bar], when: datetime, prev_day_hi: float, prev_
                        entry=entry, stop=stop, target=target)
 
 
+# --------------------------------------------------------------------------- Liquiditaets-Wissen
+#
+# Vier Bausteine fuer algo/liquidity_report.py (2026-08-14, Nutzer-Session "Liquiditaeten
+# definieren/erkennen"): reine Funktionen, kein Fensterzwang, kein Symbol-Bezug -- der
+# Aufrufer laedt/kombiniert die Bars, hier steckt nur das Regelwissen. Absichtlich fraktal
+# ueber Timeframes (1m/5m/15m/Daily nutzen dieselben Funktionen), siehe PLAN.md-Backlog
+# "Regeln fraktal ueber Timeframe/Markt generalisieren".
+
+def session_extrema(bars: list[Bar], day: date) -> dict:
+    """Echte Session-High/Low (Asia/London/NY, siehe analyze_ohlc.session_windows) plus
+    Midnight Open -- NICHT die fraktalen Swings aus swings()/untouched_levels(). Fund
+    2026-08-14: ein Session-Extrem ist nicht zwingend ein gueltiger Swing-Punkt (braucht
+    n Nachbarn auf beiden Seiten), das echte Tief/Hoch der Session kann dabei durchrutschen
+    -- siehe wiki/log.md, "Ranking-Antwort hatte Swing-Punkt statt Session-Extrem gemeldet"."""
+    out: dict[str, dict] = {}
+    for name, start, end in session_windows(day):
+        seg = slice_between(bars, start, end)
+        if not seg:
+            continue
+        hi_bar = max(seg, key=lambda b: b.h)
+        lo_bar = min(seg, key=lambda b: b.l)
+        out[name] = {"hi": hi_bar.h, "hi_t": hi_bar.t, "lo": lo_bar.l, "lo_t": lo_bar.t}
+    mo = next((b.o for b in bars if b.t >= at(day, 0, 0)), None)
+    out["Midnight Open"] = mo
+    return out
+
+
+def ipda_windows(daily_bars: list[Bar], last_price: float | None = None) -> dict:
+    """High/Low je IPDA-Lookback-Fenster (20/40/60 Tage, siehe wiki/concepts/IPDA Data
+    Ranges.md) aus `daily_bars` (ein Bar je Handelstag, aufsteigend, letzter = aktuellster
+    VOLLSTAENDIGER Handelstag). `complete` markiert, ob genug Historie fuer das Fenster
+    vorliegt (bei begrenzter 5m-Verfuegbarkeit z.B. keine vollen 60 Tage).
+
+    `active`: vereinfachte IPDA-Erweiterungsregel -- 20 Tage bleibt aktiv, solange
+    `last_price` das 20-Tage-Low/-High noch nicht gerissen hat, sonst 40, sonst 60. Deckt
+    nicht die volle ICT-Nuance ("nur erweitern, wenn im 40-Tage-Abschnitt KEIN neues Lower
+    Low entstand") ab -- bewusst vereinfacht (YAGNI), bis eine feinere Version gebraucht wird."""
+    out: dict = {}
+    active = None
+    for n in (20, 40, 60):
+        win = daily_bars[-n:]
+        complete = len(daily_bars) >= n
+        hi = max(b.h for b in win) if win else None
+        lo = min(b.l for b in win) if win else None
+        out[n] = {"hi": hi, "lo": lo, "complete": complete}
+        if active is None and win and (last_price is None or lo is None
+                                        or last_price > lo):
+            active = n
+    out["active"] = active or 60
+    return out
+
+
+def rel_pair(left: dict, right: dict, side: str) -> dict | None:
+    """Nutzerregel 2026-08-14 (siehe wiki/concepts/Open Float & Liquidity Pools.md, REH/REL):
+    bei zwei nahen, aber nicht exakt gleichen Extremen (`left` zeitlich vor `right`, beide
+    `{"level": float, ...}`) zaehlt nur das LINKE als noch unberuehrt -- und nur, wenn es
+    weiter aussen liegt als das rechte (REH: links hoeher: REL: links tiefer). Liegt es
+    naeher am Preis als rechts, hat rechts es bereits genommen -> kein gueltiges Paar mehr,
+    `None`. Gibt bei Gueltigkeit `left` unveraendert zurueck (nicht kopiert/gemerged)."""
+    if side == "buyside":
+        return left if left["level"] > right["level"] else None
+    return left if left["level"] < right["level"] else None
+
+
+def level_untouched(hist: list[Bar], level: float, side: str) -> bool:
+    """Ist `level` bis zum Ende von `hist` noch nicht gerissen? buyside: kein Hoch >= level,
+    sellside: kein Tief <= level. Fuer PDH/PDL/PWH/PWL & Session-Level, die selbst keine
+    Swing-Punkte sind (also nicht ueber untouched_levels() pruefbar)."""
+    if side == "buyside":
+        return all(b.h < level for b in hist)
+    return all(b.l > level for b in hist)
+
+
+def daily_hilo_from_bars(days_bars: dict[date, list[Bar]]) -> dict[date, tuple[float, float]]:
+    """{Handelstag: (High, Low)} aus INTRADAY-Bars je Tag (z.B. 5m) statt aus den 1d-Dateien.
+
+    ⚠️ Bewusst NICHT aus den 1d-Dateien: Fund 2026-08-14 (siehe algo/PLAN.md) -- mehrere
+    1d-Dateien stehen nicht mehr im Einklang mit ihren eigenen Intraday-Dateien (u.a. 13.08.
+    nach einer TradingView-Korrektur, die nur die Intraday-Dateien aktualisierte; 19.06. mit
+    Werten des naechsten Handelstags dupliziert). Intraday-Aggregation umgeht das Problem
+    strukturell, statt jede 1d-Datei einzeln gegenzupruefen."""
+    return {d: (max(b.h for b in bars), min(b.l for b in bars))
+            for d, bars in days_bars.items() if bars}
+
+
+def prev_day_level(hilo: dict[date, tuple[float, float]], day: date) -> tuple[float, float] | None:
+    """(PDH, PDL) -- High/Low des letzten Handelstags VOR `day` in `hilo`."""
+    frueher = [d for d in hilo if d < day]
+    return hilo[max(frueher)] if frueher else None
+
+
+def prev_week_level(hilo: dict[date, tuple[float, float]], day: date) -> tuple[float, float] | None:
+    """(PWH, PWL) -- High/Low ueber die zuletzt VOLLSTAENDIG abgeschlossene Kalenderwoche
+    (Montag-Sonntag vor der Woche von `day`), unabhaengig davon, welche Handelstage darin
+    tatsaechlich in `hilo` vorliegen (Feiertage etc.)."""
+    this_monday = day - timedelta(days=day.weekday())
+    prev_monday = this_monday - timedelta(days=7)
+    prev_sunday = this_monday - timedelta(days=1)
+    week_days = [d for d in hilo if prev_monday <= d <= prev_sunday]
+    if not week_days:
+        return None
+    return (max(hilo[d][0] for d in week_days), min(hilo[d][1] for d in week_days))
+
+
 def demo() -> None:
     """Selbstcheck mit synthetischen Bars: FVG + Ziel-Liquiditaet -> long-Setup; ausserhalb
     des Fensters bzw. ohne FVG im Fenster -> kein Setup."""
@@ -420,6 +524,59 @@ def demo() -> None:
 
     print("plan_trade demo ok:", setup)
     print("plan_trade_hp_fvg demo ok:", hp_setup)
+
+    # --- session_extrema: echtes Session-Tief statt fraktalem Swing ---
+    # London (02:00-05:00): das Tief 96.0 bei 02:30 hat KEINEN gueltigen Swing-Nachbarn
+    # (nur eine Kerze tief), waere also fuer swings()/untouched_levels() unsichtbar.
+    se_bars = [
+        bar(2, 0, 100, 101, 99, 100),
+        bar(2, 15, 100, 100.5, 98, 99),
+        bar(2, 30, 99, 99.5, 96.0, 97),   # Session-Tief
+        bar(2, 45, 97, 98, 96.5, 97.5),
+    ]
+    se = session_extrema(se_bars, day)
+    assert se["London Range"]["lo"] == 96.0, se["London Range"]
+    assert se["London Range"]["hi"] == 101.0
+
+    # --- ipda_windows: 20/40/60-Tage-Fenster + aktives Fenster ---
+    daily = [bar(0, 0, 100 + i, 105 + i, 95 + i, 100 + i) for i in range(50)]
+    ipda = ipda_windows(daily)
+    assert ipda[20]["lo"] == 95 + 30 and ipda[20]["complete"] is True
+    assert ipda[60]["complete"] is False, "nur 50 Tage vorhanden -> 60-Tage-Fenster unvollstaendig"
+    # last_price noch UEBER dem 20-Tage-Low -> 20 bleibt aktiv
+    assert ipda_windows(daily, last_price=200.0)["active"] == 20
+    # last_price UNTER dem 20-Tage-Low -> erweitert auf 40
+    assert ipda_windows(daily, last_price=daily[-20].l - 1)["active"] == 40
+
+    # --- rel_pair: links hoeher/tiefer als rechts = noch gueltig ---
+    links_hoch, rechts_hoch = {"level": 110.0}, {"level": 105.0}
+    assert rel_pair(links_hoch, rechts_hoch, "buyside") == links_hoch, \
+        "links hoeher als rechts -> links noch unberuehrt"
+    assert rel_pair(rechts_hoch, links_hoch, "buyside") is None, \
+        "links (105) niedriger als rechts (110) -> bereits genommen, kein Paar"
+    links_tief, rechts_tief = {"level": 90.0}, {"level": 95.0}
+    assert rel_pair(links_tief, rechts_tief, "sellside") == links_tief
+
+    # --- level_untouched ---
+    hist_lvl = [bar(9, 30, 100, 102, 99, 101)]
+    assert level_untouched(hist_lvl, 110.0, "buyside") is True
+    assert level_untouched(hist_lvl, 101.5, "buyside") is False, "Hoch 102 > 101.5 -> gerissen"
+    assert level_untouched(hist_lvl, 90.0, "sellside") is True
+    assert level_untouched(hist_lvl, 99.5, "sellside") is False, "Tief 99 < 99.5 -> gerissen"
+
+    # --- daily_hilo_from_bars + prev_day_level/prev_week_level ---
+    d1, d2, d3 = date(2026, 1, 5), date(2026, 1, 6), date(2026, 1, 12)  # Mo, Di, naechster Mo
+    hilo = daily_hilo_from_bars({
+        d1: [bar(0, 0, 100, 105, 95, 100)],
+        d2: [bar(0, 0, 100, 108, 96, 100)],
+    })
+    assert hilo[d1] == (105.0, 95.0) and hilo[d2] == (108.0, 96.0)
+    assert prev_day_level(hilo, d2) == (105.0, 95.0)
+    assert prev_day_level(hilo, d1) is None, "kein Vortag vorhanden -> None"
+    assert prev_week_level(hilo, d3) == (108.0, 95.0), "PWH aus d2, PWL aus d1"
+    assert prev_week_level(hilo, d1) is None, "keine Vorwoche vorhanden -> None"
+
+    print("liquidity-helpers demo ok")
 
 
 if __name__ == "__main__":

@@ -24,7 +24,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import date, timedelta
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -35,50 +35,29 @@ from analyze_ohlc import Bar, at, load  # noqa: E402
 from backtest_1p_fvg_woche import find_days  # noqa: E402
 from backtest_common import write_result  # noqa: E402
 from pnl import POINT_VALUE  # noqa: E402
-from rules import sb_entry_signal, plan_trade, WINDOWS  # noqa: E402
+from rules import (sb_entry_signal, plan_trade, WINDOWS, daily_hilo_from_bars,  # noqa: E402
+                    prev_day_level, prev_week_level, level_untouched)
 
 SYMBOL = "MNQ"
 COMMISSION_RT = 1.24
 
 
-def daily_hilo(days_1d: dict[date, Path]) -> dict[date, tuple[float, float]]:
-    """{Handelstag: (High, Low)} aus den 1d-Dateien (je Datei genau die eine Tageskerze)."""
-    out = {}
-    for d, p in days_1d.items():
-        bars = load(p)
-        if bars:
-            out[d] = (max(b.h for b in bars), min(b.l for b in bars))
-    return out
-
-
-def prev_day_level(hilo: dict[date, tuple[float, float]], day: date) -> tuple[float, float] | None:
-    frueher = [d for d in hilo if d < day]
-    return hilo[max(frueher)] if frueher else None
-
-
-def prev_week_level(hilo: dict[date, tuple[float, float]], day: date) -> tuple[float, float] | None:
-    """High/Low ueber die zuletzt VOLLSTAENDIG abgeschlossene Kalenderwoche (Mo-So vor der
-    Woche von `day`) -- unabhaengig von Handelstagen in `hilo` innerhalb dieses Fensters."""
-    this_monday = day - timedelta(days=day.weekday())
-    prev_monday = this_monday - timedelta(days=7)
-    prev_sunday = this_monday - timedelta(days=1)
-    week_days = [d for d in hilo if prev_monday <= d <= prev_sunday]
-    if not week_days:
-        return None
-    return (max(hilo[d][0] for d in week_days), min(hilo[d][1] for d in week_days))
+def daily_hilo(days_5m: dict[date, Path]) -> dict[date, tuple[float, float]]:
+    """{Handelstag: (High, Low)} aus den 5m-Dateien -- NICHT aus den 1d-Dateien, siehe
+    rules.daily_hilo_from_bars() (2026-08-14 umgestellt, Fund: mehrere 1d-Dateien stehen
+    nicht mehr im Einklang mit ihren eigenen Intraday-Dateien, siehe algo/PLAN.md)."""
+    return daily_hilo_from_bars({d: load(p) for d, p in days_5m.items()})
 
 
 def untouched_candidates(hist: list[Bar], pdh, pdl, pwh, pwl) -> list[dict]:
     """PDH/PWH als buyside-, PDL/PWL als sellside-Kandidat -- nur wenn `hist` (5m des
     laufenden Tages bis `when`) das Level noch nicht gerissen hat."""
-    hi = max((b.h for b in hist), default=float("-inf"))
-    lo = min((b.l for b in hist), default=float("inf"))
     out = []
     for level, side in ((pdh, "buyside"), (pwh, "buyside")):
-        if level is not None and hi < level:
+        if level is not None and level_untouched(hist, level, side):
             out.append({"side": side, "level": level})
     for level, side in ((pdl, "sellside"), (pwl, "sellside")):
-        if level is not None and lo > level:
+        if level is not None and level_untouched(hist, level, side):
             out.append({"side": side, "level": level})
     return out
 
@@ -107,9 +86,8 @@ def simulate(bars_5m: list[Bar], after_t, side: str, entry: float, stop: float,
 
 def collect() -> list[dict]:
     d5 = find_days(SYMBOL, "5m")
-    d1d = find_days(SYMBOL, "1d")
     days = sorted(d5)
-    hilo = daily_hilo(d1d)
+    hilo = daily_hilo(d5)
 
     bars_5m: list[Bar] = []
     for d in days:
@@ -202,18 +180,9 @@ def report(res: dict) -> list[str]:
 
 
 def selfcheck() -> None:
-    # prev_week_level: Handelstage Mo/Di/Mi der Vorwoche (2026-01-05 ist ein Montag)
-    hilo = {date(2026, 1, 5): (105.0, 95.0), date(2026, 1, 6): (108.0, 96.0),
-            date(2026, 1, 7): (103.0, 90.0),
-            date(2026, 1, 12): (100.0, 99.0)}  # naechste Woche, darf NICHT mitzaehlen
-    pw = prev_week_level(hilo, date(2026, 1, 12))  # Montag der Folgewoche
-    assert pw == (108.0, 90.0), pw
-    assert prev_week_level(hilo, date(2026, 1, 5)) is None, "keine Vorwoche vorhanden -> None"
-
-    pd = prev_day_level({date(2026, 1, 5): (105.0, 95.0), date(2026, 1, 6): (108.0, 96.0)},
-                         date(2026, 1, 7))
-    assert pd == (108.0, 96.0), pd
-
+    # prev_day_level/prev_week_level selbst sind bereits in rules.demo() getestet (dort her
+    # verschoben, 2026-08-14) -- hier nur der Smoke-Test fuer daily_hilo() aus 5m-Bars statt
+    # aus den 1d-Dateien.
     day = date(2026, 1, 5)
     bar = lambda hh, mm, o, h, l, c: Bar(at(day, hh, mm), o, h, l, c)  # noqa: E731
     hist = [bar(9, 30, 100, 102, 99, 101), bar(9, 35, 101, 103, 100, 102)]
@@ -223,6 +192,8 @@ def selfcheck() -> None:
     assert {"side": "sellside", "level": 95.0} in cands
     cands2 = untouched_candidates(hist, pdh=101.5, pdl=None, pwh=None, pwl=None)
     assert cands2 == [], "PDH bereits gerissen (hist-Hoch 103 > 101.5) darf kein Kandidat sein"
+
+    assert daily_hilo_from_bars({day: hist}) == {day: (103.0, 99.0)}
 
     print("selfcheck ok")
 

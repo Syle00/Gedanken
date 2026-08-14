@@ -193,6 +193,7 @@
 <li><a href="#2026-08-14-synthesis-pdhpdlpwhpwl-als-sb-ziel-liquiditaet-artefakt-in-der-pwhpwl-zahl">[2026-08-14] synthesis | PDH/PDL/PWH/PWL als SB-Ziel-Liquiditaet -- Artefakt in der PWH/PWL-Zahl</a></li>
 <li><a href="#2026-08-14-lint-1d-datei-1308-stale-nach-tradingview-korrektur-gefixt-6-weitere-tage-gefunden">[2026-08-14] lint | 1d-Datei 13.08. stale nach TradingView-Korrektur -- gefixt, 6 weitere Tage gefunden</a></li>
 <li><a href="#2026-08-14-synthesis-rehrel-welches-der-zwei-extreme-ist-noch-unberuehrt">[2026-08-14] synthesis | REH/REL: welches der zwei Extreme ist noch unberuehrt</a></li>
+<li><a href="#2026-08-14-setup-liquiditaets-wissen-kodiert-rulespy-algoliquidity_reportpy">[2026-08-14] setup | Liquiditaets-Wissen kodiert: rules.py + algo/liquidity_report.py</a></li>
 </ul>
 </div>
 </details>
@@ -2741,6 +2742,12 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Jannes' Regel: bei einem REH-Paar muss das LINKE (fruehere) High hoeher sein als das rechte, sonst hat das rechte es schon genommen; bei REL muss das linke Low tiefer sein als das rechte. Praxisbeispiel Daily MNQ: REH-Paar 16.06. (30975,50) und 22.06. (30967,75) -- 16.06. ist links und hoeher -&gt; gueltiger Pool ist 30975,50, nicht 22.06.</li>
 <li>Seiten aktualisiert: wiki/concepts/Open Float &amp; Liquidity Pools.md (neuer Abschnitt in REH/REL).</li>
 <li>Zusaetzliche Korrektur: Sellside-Rang-1 vom letzten Report (27200,0, 29.07.) laut Jannes korrekt 27204,75 -- eigene 5m/1m-Daten bestaetigen exakt 27200,0 (kein Pipeline-Fehler), Differenz passt zum bekannten yfinance-Tick-Praezisionslimit (siehe CLAUDE.md). Neuer REL-Punkt uebernommen: 07.08. 29455,0 (00:15 NY), gegen 5m-Daten verifiziert.</li>
+</ul>
+<h2 id="2026-08-14-setup-liquiditaets-wissen-kodiert-rulespy-algoliquidity_reportpy">[2026-08-14] setup | Liquiditaets-Wissen kodiert: rules.py + algo/liquidity_report.py</h2>
+<ul>
+<li>Nutzerauftrag (Brainstorming-Session, bounded): das in dieser Session erarbeitete Liquiditaets-Wissen (Session-Extrema, IPDA-Fenster, REH/REL-Regel, PDH/PDL/PWH/PWL) als wiederverwendbare Funktionen in algo/rules.py kodiert, plus neue Datei algo/liquidity_report.py, die aktuelle Liquiditaet ueber 1m/5m/15m/Daily erkennt und qualitativ rankt (Hoch/Mittel/Niedrig, kein numerischer Score -- Nutzerentscheidung).</li>
+<li>Dabei algo/backtest_sb_session_liq.py auf die neue, korrekte PDH/PDL/PWH/PWL-Quelle (5m-Aggregation statt 1d-Dateien) umgestellt und neu gelaufen: PWH/PWL-Ergebnis kippte von +34,35 $/Trade (Artefakt der stale 1d-Datei + fehlendem Haltedauer-Cap) auf -1,27 $/Trade.</li>
+<li>Details, Code-Struktur und bekannte Grenzen (v1, Cross-Timeframe-Dedup fehlt noch): algo/README.md, algo/PLAN.md.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

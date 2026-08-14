@@ -1,43 +1,43 @@
 {
-  "generated_at": "2026-08-14T10:54:18.829650+00:00",
+  "generated_at": "2026-08-14T12:02:19.397185+00:00",
   "symbol": "MNQ",
-  "tage": 47,
+  "tage": 46,
   "varianten": {
     "Swing-Level (Baseline)": {
-      "fenster": 118,
-      "ohne_zielliquiditaet": 4,
-      "trades": 112,
-      "win_pct": 17.0,
+      "fenster": 115,
+      "ohne_zielliquiditaet": 3,
+      "trades": 110,
+      "win_pct": 17.3,
       "dubious_pct": 4.5,
-      "usd_pro_trade": 3.97,
-      "usd_gesamt": 445.12
+      "usd_pro_trade": 4.62,
+      "usd_gesamt": 508.6
     },
     "PDH/PDL": {
-      "fenster": 118,
-      "ohne_zielliquiditaet": 42,
-      "trades": 75,
-      "win_pct": 2.7,
+      "fenster": 115,
+      "ohne_zielliquiditaet": 43,
+      "trades": 71,
+      "win_pct": 2.8,
       "dubious_pct": 0.0,
-      "usd_pro_trade": -14.57,
-      "usd_gesamt": -1093.0
+      "usd_pro_trade": -14.23,
+      "usd_gesamt": -1010.04
     },
     "PWH/PWL": {
-      "fenster": 118,
-      "ohne_zielliquiditaet": 34,
-      "trades": 82,
-      "win_pct": 2.4,
+      "fenster": 115,
+      "ohne_zielliquiditaet": 44,
+      "trades": 69,
+      "win_pct": 1.4,
       "dubious_pct": 0.0,
-      "usd_pro_trade": 34.35,
-      "usd_gesamt": 2816.82
+      "usd_pro_trade": -1.27,
+      "usd_gesamt": -87.56
     },
     "PDH/PDL + PWH/PWL": {
-      "fenster": 118,
-      "ohne_zielliquiditaet": 20,
-      "trades": 96,
-      "win_pct": 3.1,
+      "fenster": 115,
+      "ohne_zielliquiditaet": 24,
+      "trades": 89,
+      "win_pct": 2.2,
       "dubious_pct": 0.0,
-      "usd_pro_trade": 17.5,
-      "usd_gesamt": 1679.96
+      "usd_pro_trade": -16.44,
+      "usd_gesamt": -1463.36
     }
   }
 }
