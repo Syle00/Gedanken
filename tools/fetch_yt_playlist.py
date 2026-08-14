@@ -24,8 +24,8 @@ from yt_playlist_checkpoint import (
     existing_transcript_ids, pending_video_ids,
 )
 
-PAUSE_SECONDS = 300
-LONG_PAUSE_SECONDS = 300
+PAUSE_SECONDS = 45
+LONG_PAUSE_SECONDS = 90
 LONG_PAUSE_THRESHOLD = 10
 
 GENERIC_WORDS = {"playlist", "series", "videos", "video"}
