@@ -383,6 +383,29 @@ Datenluecken, statt sie als ruhigen Markt zu zaehlen; `backtest_open_drive_vs_sb
 dasselbe mit `MIN_BARS_OPEN = 15` / `MIN_BARS_SB = 45` und wirft damit Fragmenttage raus. Bei
 n=21 sind beide Nicht-Befunde dort schwach -- der Test gehoert mit wachsendem Bestand wiederholt.
 
+## `ingest_tvexport.py` -- Timeframes und die Stempel-Sperre
+
+**Was:** Nimmt einen TradingView-Export, splittet ihn nach Handelstagen und merged ihn in
+`raw/marktdaten/`. Konfliktregel: bei gleichem Zeitstempel gewinnt der **neue Export**
+(TradingView revidiert open/close nach). `--tf` (Default `1m`) steuert Dateinamen, Soll und
+Lueckenschritt; das Soll skaliert aus dem 1m-Profil (1380 -> 5m 276, 1h 23, 1d 1).
+
+**⚠️ `--tf 1d` ist gebaut, aber inhaltlich gesperrt.** Zwei Gruende, beide am 2026-08-14
+gemessen (Details in `algo/PLAN.md`):
+
+1. **Verschiedene Stempelkonventionen.** yfinance stempelt den Tagesbalken auf 00:00 UTC
+   (= 20:00 NY), TradingView auf den Sessionstart 18:00 NY. Der Merge laeuft ueber den rohen
+   Zeitstempel, also kollidieren die beiden nicht -- sie stehen **nebeneinander**. Ein erster
+   Lauf schrieb so in 5172 Tagesdateien einen zweiten Balken (MNQ 13.08.: Close 30201,5 neben
+   30223,5), komplett zurueckgerollt. `ingest()` bricht jetzt mit `ValueError` ab, sobald ein
+   Handelstag nach dem Merge ueber dem Profil-Soll laege, und schreibt dann **gar nichts**
+   (Schreibschleife liegt hinter der Pruefung aller Tage).
+2. **Continuous gegen echten Kontrakt.** Die vorliegenden 1D-Exporte sind `MNQ1!`/`MES1!`/`YM1!`,
+   der 1m-Bestand kommt von `MNQU2026`. Das sind verschiedene Preisreihen, nicht dieselbe in
+   grober: MNQ 13.08. schliesst im Kontrakt auf 30216,25, der `MNQ1!`-Tagesbalken auf 30201,5 --
+   ein Wert, auf den **keine** Kontraktminute schliesst. Welche Reihe `raw/marktdaten/` je
+   Symbol fuehrt, ist eine offene Entscheidung ueber den gesamten Bestand.
+
 ## `backfill_yfinance.py` -- ergaenzt Luecken in BESTEHENDEN Dateien
 
 **Was:** Laedt denselben yfinance-Bereich wie `fetch_yfinance.py`, schreibt aber nur die
