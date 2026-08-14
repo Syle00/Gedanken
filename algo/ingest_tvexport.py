@@ -79,11 +79,14 @@ def zielpfad(symbol, tag):
     return RAW / f"{tag:%Y}" / f"{tag:%m}" / f"{tag:%d.%m.%Y}" / f"{symbol} {tag:%Y-%m-%d} 1m.csv"
 
 
-def luecken(ts_sortiert):
+def luecken(ts_sortiert, schritt=60):
+    """Fehlende Kerzen als (Zeitstempel davor, Anzahl). `schritt` = Sekunden pro Kerze --
+    ohne ihn meldet jeder Nicht-1m-Timeframe jede Kerze als Luecke, und eine echte Luecke
+    geht in diesem Rauschen unter."""
     return [
-        (ts_sortiert[i], (ts_sortiert[i + 1] - ts_sortiert[i]) // 60 - 1)
+        (ts_sortiert[i], (ts_sortiert[i + 1] - ts_sortiert[i]) // schritt - 1)
         for i in range(len(ts_sortiert) - 1)
-        if ts_sortiert[i + 1] - ts_sortiert[i] != 60
+        if ts_sortiert[i + 1] - ts_sortiert[i] != schritt
     ]
 
 
@@ -180,6 +183,12 @@ def demo():
 
         # Lueckenloser Lauf meldet nichts
         assert luecken(sorted({basis + i * 60: () for i in range(10)})) == [], "Fehlalarm"
+
+        # Groebere Timeframes: nur mit passendem Schritt lueckenlos, sonst Dauerfehlalarm
+        fuenfmin = sorted({basis + i * 300: () for i in range(10)})
+        assert luecken(fuenfmin, 300) == [], "5m-Reihe darf mit schritt=300 nichts melden"
+        assert len(luecken(fuenfmin)) == 9, "mit schritt=60 meldet jede 5m-Kerze -- genau der Fehlalarm"
+        assert luecken([basis, basis + 900], 300) == [(basis, 2)], "2 fehlende 5m-Kerzen erwartet"
 
     print("ingest_tvexport: alle Selbstchecks bestanden")
 

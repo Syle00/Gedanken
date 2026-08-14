@@ -29,6 +29,9 @@ from fetch_yfinance import DATA_DIR, download_interval, symbol_prefix, trading_d
 from ingest_tvexport import lies, luecken, schreib
 
 
+TF_SEKUNDEN = {"1m": 60, "5m": 300, "15m": 900, "1h": 3600, "4h": 14400, "1d": 86400}
+
+
 def zielpfad(symbol: str, tf: str, tag) -> Path:
     return (DATA_DIR / f"{tag:%Y}" / f"{tag:%m}" / f"{tag:%d.%m.%Y}"
             / f"{symbol_prefix(symbol)} {tag.isoformat()} {tf}.csv")
@@ -67,7 +70,7 @@ def backfill(start: str, end: str, symbol: str, tf: str = "1m", schreiben: bool 
         bericht.append({
             "tag": tag, "pfad": pfad, "vorher": len(alt), "hinzu": len(fehlend),
             "gesamt": len(gemerged), "abweichend_ignoriert": abweichend,
-            "luecken": luecken(sorted(gemerged)),
+            "luecken": luecken(sorted(gemerged), TF_SEKUNDEN[tf]),
         })
         if schreiben and fehlend:
             schreib(pfad, gemerged, symbol_prefix(symbol))
