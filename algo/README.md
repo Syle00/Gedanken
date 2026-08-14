@@ -547,9 +547,40 @@ OHLC-Konsistenz und Monotonie sauber, keine Duplikate.
 
 **Bekannte Grenzen:** Bid-Bestand ist bis auf Weiteres von Backtests ausgeschlossen (Preisbasis
 weicht von der Mid-Konvention ab, siehe oben) -- bewusste Entscheidung noch offen, ob/wie beide
-Bestaende kombiniert werden. Weitere Jahre/Paare kommen vermutlich manuell dazu (Nutzer laedt
-selbst von histdata.com herunter, kein automatisierter Downloader -- deren Anti-Scraping-Token
-macht das unattraktiv gegenueber Dukascopy).
+Bestaende kombiniert werden. Automatisierter Bulk-Download inzwischen vorhanden, siehe
+`fetch_histdata.py` unten (2026-08-14, nachdem `fetch_dukascopy.py` per IP gesperrt wurde).
+
+## `fetch_histdata.py` -- automatisierter histdata.com-Downloader (Live-ASCII-Endpoint)
+
+**Was:** Laedt M1-Forex-Bars automatisiert vom `get.php`-Live-Endpoint von histdata.com (Token aus
+der Referer-Seite gescraped, per `re`+`urllib`, keine `requests`/`bs4`-Abhaengigkeit). Ersatz fuer
+`fetch_dukascopy.py`, seit dieses per IP gesperrt wurde (2026-08-14, siehe PLAN.md). Aufruf:
+`python algo/fetch_histdata.py EURUSD --von 2020-01-01 --bis 2020-12-31`. Chunking: ein
+Jahres-Request fuer vergangene Jahre, monatsweise fuers laufende Jahr (Serverseitige Vorgabe).
+Gleiches Bid-Suffix-Konzept wie `ingest_histdata_xlsx.py` (` 1m (bid).csv`).
+
+**⚠️ Zeitkonvertierung weicht von `ingest_histdata_xlsx.py` ab, per Messung entschieden, nicht
+geraten:** Die histdata.com-FAQ ("feste EST ohne DST") stimmt fuer die Legacy-XLSX-Exporte oben,
+aber **nicht** fuer diesen Live-Endpoint -- an zwei Sommertagen (2025-07-01, 2026-07-01, je einmal
+Jahres- und Monats-Chunk) war eine feste +5h-Verschiebung gegen den TradingView-1h-Export
+durchgaengig 1h daneben (teils `mid < bid`, physikalisch unmoeglich), waehrend Winter (2026-01-05)
+exakt passte -- klassisches DST-Muster. `fetch_histdata.py` konvertiert deshalb per `zoneinfo`
+(`America/New_York`, mit DST) statt per fixer Verschiebung. Nach dem Fix: alle drei Testtage bei
+94-100% `mid >= bid`-Konsistenz, Restabweichung ~0,3-0,4 Pip (plausibler halber Spread).
+
+**Bulk-Import 2026-08-14 abgeschlossen:** alle 10 Paare (EURUSD + GBPUSD/USDJPY/USDCHF/AUDUSD/
+USDCAD/NZDUSD/EURJPY/EURGBP/GBPJPY), 2003-2026, 73.100 Tagesdateien, 0 echte Fehler. Kein 429
+oder IP-Sperr-Hinweis unter diesem Lastprofil (1s Pause zwischen Chunks) -- histdata.com verhaelt
+sich anders als Dukascopy. `parse_zip()` deduped exakte Zeitstempel-Duplikate automatisch
+(histdata.com liefert vereinzelt einen Block doppelt) und zaehlt separat Faelle mit
+ABWEICHENDEN Werten am selben Zeitstempel.
+
+**⚠️ Bekannte Grenze -- juengster Datenrand ist nicht stabil:** die letzten 1-2 Monate jedes
+Paares (aktuell Juli/August 2026) zeigen wiederholt Zeitstempel mit widerspruechlichen Werten
+zwischen zwei Downloads derselben Datei im Abstand von Minuten -- der Live-Feed konsolidiert sich
+dort offenbar noch nach. Betrifft alle 10 Paare in unterschiedlicher Staerke (2 bis 119 Faelle je
+Chunk beobachtet). Vor praezisionskritischer Nutzung den juengsten Rand erneut ziehen und gegen
+den aktuellen Stand diffen; aeltere Jahre (2003 bis ca. 2 Monate vor "heute") sind stabil.
 
 ## `macro_db.py`
 
