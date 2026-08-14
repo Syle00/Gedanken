@@ -35,7 +35,7 @@ def build(symbol: str, tief_dir: Path = TIEF_DIR, cache_dir: Path = CACHE) -> Pa
     frames = [pd.read_csv(p, usecols=["time", "open", "high", "low", "close"])
               for p in dateien]
     df = pd.concat(frames, ignore_index=True)
-    df = df.sort_values("time").drop_duplicates(subset="time", keep="first")
+    df = df.sort_values("time", kind="mergesort").drop_duplicates(subset="time", keep="first")
     df["time"] = df["time"].astype("int64")
     for spalte in ("open", "high", "low", "close"):
         df[spalte] = df[spalte].astype("float64")
