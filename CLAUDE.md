@@ -37,9 +37,10 @@ dann als fertig verarbeitet, wenn du sie — sobald genug Daten vorliegen — al
 sammeln" und "Algo bauen" im Alltag als zwei verschränkte Tätigkeiten, nicht als getrennte
 Projekte.
 
-## Layer 1 — `raw/` (unveränderlich)
+## Layer 1 — `raw/` (Inhalt unveränderlich, Ordnerstruktur von dir gepflegt)
 
-In `raw/` liegen Rohquellen nach Themenbereich sortiert. Lies daraus, ändere hier **nie** etwas.
+In `raw/` liegen Rohquellen nach Themenbereich sortiert. Lies daraus, ändere Dateiinhalte hier
+**nie**. Die Ordnerstruktur darfst du dagegen pflegen: siehe „Automatische Einsortierung" unten.
 
 ```
 raw/
@@ -68,6 +69,29 @@ raw/
 Der Nutzer legt neue Rohquellen (Artikel, PDFs, Notizen, Screenshots) hier ab, thematisch in
 einem eigenen Unterordner pro Domäne. Beginnt eine neue Domäne, lege den Ordner an, ohne extra
 nachzufragen — folge dem gleichen Muster wie `trading-ict/`.
+
+### Automatische Einsortierung
+
+Der Nutzer legt neue Dateien gelegentlich direkt auf Root-Ebene von `raw/` ab (nicht in einem
+Domänen-Unterordner), statt sie selbst einzusortieren. Erledige das für ihn:
+
+- **Trigger**: Prüfe zu Beginn jeder neuen Session bzw. Aufgabe kurz, ob lose Dateien direkt in
+  `raw/` liegen (nicht in einem `raw/<domäne>/`-Unterordner). Sortiere sie **zuerst ein**, bevor
+  du mit der eigentlichen Aufgabe weitermachst — ohne nachzufragen.
+- **Zuordnung**: Lies die Datei kurz an (Titel/Metadaten/erste Zeilen, bei Bildern Dateiname und
+  ggf. visuelle Prüfung) und verschiebe sie in die inhaltlich passende bestehende Domäne, in
+  deren dort übliche Unterstruktur (z.B. Bilder → `assets/`, OHLC-Daten → Jahr/Monat/Tag wie bei
+  `marktdaten/`). Passt keine bestehende Domäne, lege `raw/<neue-domäne>/` nach dem etablierten
+  Muster an.
+- **Namenskollisionen**: Behandle sie wie beim Ingest (siehe Bildnamen-Hinweis oben) — Domänen-
+  Präfix statt Überschreiben.
+- **Unklare Fälle**: Bist du dir bei der Zuordnung nicht sicher, lass die Datei liegen und melde
+  das **aktiv** im Bericht, statt zu raten.
+- **Bericht**: Liste nach dem Einsortieren kurz auf, was wohin verschoben wurde und was liegen
+  geblieben ist.
+- **Kein automatischer Ingest**: Einsortieren verschiebt die Datei nur an den richtigen Ort in
+  `raw/`. Ob sie zusätzlich ins Wiki eingearbeitet wird, bleibt ein separater Schritt nach den
+  bestehenden Ingest-Regeln unten.
 
 ## Layer 2 — `wiki/` (von dir gepflegt)
 
