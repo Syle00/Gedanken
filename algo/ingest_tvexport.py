@@ -58,6 +58,18 @@ def handelstag(ts, startstunde):
     return (d + datetime.timedelta(hours=24 - startstunde)).date()
 
 
+def tagesstempel(tag):
+    """Kanonischer Stempel eines Tagesbalkens: 00:00 UTC des Handelstags.
+
+    Das ist die Konvention, die der Bestand ohnehin schon durchgaengig hat (2026-08-14 ueber
+    alle 7965 vorhandenen 1d-Dateien geprueft, null Abweichungen) -- sie kommt von yfinance.
+    UTC-verankert, also ohne Sommerzeit-Sprung; in NY liegt derselbe Moment je nach Jahreszeit
+    auf 19:00 oder 20:00 des Vortags. TradingView stempelt stattdessen auf den Sessionstart
+    18:00 NY, deshalb muss beim 1d-Ingest genau hier normalisiert werden.
+    """
+    return int(datetime.datetime.combine(tag, datetime.time(0, 0), datetime.timezone.utc).timestamp())
+
+
 def lies(pfad):
     """CSV -> {ts: (o,h,l,c)}. Akzeptiert UNIX-Timestamps (TradingView-Format)."""
     with open(pfad, newline="") as fh:
@@ -99,7 +111,7 @@ def luecken(ts_sortiert, schritt=60):
     ]
 
 
-def ingest(exportdatei, symbol, schreiben=True, tf="1m"):
+def ingest(exportdatei, symbol, schreiben=True, tf="1m", nur_neu=False):
     """Splittet den Export nach Handelstagen und merged in den Bestand.
 
     Gibt eine Liste von Berichtszeilen zurueck (ein dict je Handelstag).
@@ -107,6 +119,13 @@ def ingest(exportdatei, symbol, schreiben=True, tf="1m"):
     `tf` steuert nur Dateiname und Soll-/Lueckenrechnung -- die Handelstag-Zuordnung
     bleibt dieselbe, weil TradingView auch Tagesbalken auf den Sessionstart stempelt
     (Balken "12.08. 18:00" ist der Handelstag 13.08.).
+
+    `nur_neu=True` ueberspringt jeden Handelstag, fuer den schon eine Datei existiert --
+    ergaenzt also nur fehlende Tage, statt bestehende Balken zu revidieren. Gedacht fuer
+    Quellen, die dieselbe Serie in anderer Qualitaet liefern: beim 1D-Import am 2026-08-14
+    wichen TradingView und der yfinance-Bestand im Median nur +1,25 Punkte ab, an einzelnen
+    Tagen aber um bis zu 600 (MNQ) bzw. 1370 (YM) -- solche Tage gehoeren angesehen, nicht
+    pauschal ueberschrieben.
     """
     startstunde, soll = profil(symbol)
     if soll is not None:
@@ -115,12 +134,19 @@ def ingest(exportdatei, symbol, schreiben=True, tf="1m"):
 
     nach_tag = {}
     for ts, ohlc in neu.items():
-        nach_tag.setdefault(handelstag(ts, startstunde), {})[ts] = ohlc
+        tag = handelstag(ts, startstunde)
+        # Auf 1d entscheidet der Handelstag, nicht die Uhrzeit: ein Tagesbalken ist pro Tag
+        # eindeutig, und die Quellen stempeln ihn verschieden (siehe tagesstempel()). Ohne
+        # diese Normalisierung mergen die beiden Konventionen nicht, sondern stehen
+        # nebeneinander -- genau der Schaden vom 2026-08-14.
+        nach_tag.setdefault(tag, {})[tagesstempel(tag) if tf == "1d" else ts] = ohlc
 
     bericht = []
     zu_schreiben = []
     for tag in sorted(nach_tag):
         pfad = zielpfad(symbol, tag, tf)
+        if nur_neu and pfad.exists():
+            continue
         alt = lies(pfad) if pfad.exists() else {}
         # Konflikt: neuer Export gewinnt, Abweichung zaehlen.
         # Numerisch vergleichen, nicht als String: "29839.0" und "29839" sind derselbe Kurs,
@@ -269,6 +295,16 @@ def demo():
             z = ingest(export, "MNQ", tf="1d")
             assert len(lies(bestand)) == 1 and lies(bestand)[yf_ts][3] == "9", "Revision muss greifen"
             assert z[0]["revidiert"] == 1, "die Revision gehoert in den Bericht"
+
+            # 1d normalisiert auf 00:00 UTC des Handelstags -- der Sessionstart-Stempel
+            # des Exports darf keine zweite Zeile erzeugen
+            assert tagesstempel(datetime.date(2026, 8, 13)) == yf_ts, "Bestandskonvention"
+
+            # --nur-neue-tage laesst bestehende Tage komplett in Ruhe
+            schreib(export, {tv_ts: ("7", "7", "7", "7")})
+            z = ingest(export, "MNQ", tf="1d", nur_neu=True)
+            assert z == [], "bestehender Tag darf gar nicht erst im Bericht auftauchen"
+            assert lies(bestand)[yf_ts][3] == "9", "nur_neu darf den Bestand nicht anfassen"
         finally:
             globals()["RAW"] = alt_raw
 
@@ -286,8 +322,10 @@ if __name__ == "__main__":
         ap.add_argument("exportdatei")
         ap.add_argument("symbol")
         ap.add_argument("--tf", default="1m", choices=sorted(TF_SEKUNDEN))
+        ap.add_argument("--nur-neue-tage", action="store_true", dest="nur_neu",
+                        help="nur fehlende Handelstage anlegen, bestehende nicht revidieren")
         a = ap.parse_args()
-        for z in ingest(a.exportdatei, a.symbol, tf=a.tf):
+        for z in ingest(a.exportdatei, a.symbol, tf=a.tf, nur_neu=a.nur_neu):
             st = "VOLLSTAENDIG" if z["vollstaendig"] else (
                 f"fehlen {z['soll'] - z['gesamt']}" if z["soll"] else "Soll unbekannt"
             )

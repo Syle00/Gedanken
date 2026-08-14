@@ -90,7 +90,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Open Float & Liquidity Pools]] — Wo liegen die Stops der großen Funds, OI-Bestätigung (2026-08-01)
 - [[Optimal Trade Entry (OTE)]] — Retracement-Entry 62/70,5/79 % mit Targets und protectetem SL (2026-08-02)
 - [[Order Block]] — Basiskonzept + Validierungsregeln für alle OB-Varianten (2026-08-01)
-- [[ORG (Opening Range Gap) & 1st Presented FVG]] — C.E-Bias-Bestätigung über Wicks und ORG (2026-08-01)
+- [[ORG (Opening Range Gap) & 1st Presented FVG]] — C.E-Bias-Bestätigung über Wicks und ORG; Auswahl-/Ausschlusskriterien des 1.p FVG, MOR-vs-ORG-Abgrenzung, Mindestgrößen-Hypothese mit Messung (2026-08-14)
 - [[Partial Profit-Taking & R-Multiple-Skalierung]] — erstes Partial bei 3:1 sichern, Rest bis 9–15R laufen lassen (2026-08-06)
 - [[Performance-Kennzahlen-Katalog]] — Sharpe/Sortino/Calmar/SQN/Drawdown-Dauer mit Formeln; was ein Backtest-Report ausweisen sollte; algo-methodology (2026-08-08)
 - [[PD Array]] — Premium/Discount-Array, Grundbaustein jedes ICT-Setups (2026-08-01)
@@ -246,6 +246,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
   (Curriculum-Sprungseite, listet alle 8 Lectures samt Ziel-Konzeptseite) (2026-08-06)
 - [[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]] — YouTube 2026-08-07: Live-Nacherzählung der NFP-Fallstudie vom selben Tag, Pre-Market-STD-Projektion, generalisierte "Mohawk"-Regel (2026-08-07)
 - [[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]] — YouTube 2026-08-10: Live-Long in NQ durch High-Resistance-Bedingungen, IFVG-Doppelqualifizierung, "no bodies buried" am Wick-C.E., Stop-Order als Retracement-Partial (2026-08-10)
+- [[2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source)|How To Disqualify 1st Presented FVGs (Video, Source)]] — YouTube 2025-04-08: gesprochene Fassung der Disqualify-Lecture (NQ 07.04.2025), „The Bodies Tell The Narrative", 1.p FVG gehört zur 9:30–10:00-Range, Entry am C.E. — kein Größen-Kriterium genannt (2026-08-14)
 - [[2026-08-13 - PPI Market Review August 13, 2026 (Source)|PPI Market Review August 13, 2026 (Source)]] — YouTube 2026-08-13: ICTs eigener Trade-Recap des PPI-Tages, Freitags-Daily-High der Vorwoche als Order Block, Ziele 30.600/30.975; Abgleich mit eigenem [[2026-08-13 MNQ Daily Bias]] — Richtung stimmte, eigene Ziele zu konservativ (2026-08-13)
 
 ### ICT Gems (Drittkanal, Ausschnitte aus ICT-Originalvideos — Macro-Reihe)

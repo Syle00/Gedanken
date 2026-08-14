@@ -2348,3 +2348,23 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Keine neuen Konzeptseiten noetig (Order Block, PD Array, FVG, Chain of Custody/C.E. bereits vorhanden) — nur verlinkt.
 - Abgleichsergebnis: Richtung (bullish) stimmte mit dem eigenen Bias ueberein; die eigenen Ziele (29.931,75 Interim, 30.094,00 Weekly) waren beide zu konservativ — ICT haelt am Videoende bereits 30.600/30.975 fuer die naechsten Tage fuer moeglich, und war zu keinem Zeitpunkt am 13.08. an Shorts interessiert (die im eigenen Eintrag offen gehaltene Bearish-Turn-Hypothese hat sich fuer diesen Tag nicht bestaetigt). Eigener Eintrag traegt P07 (kein Chartbild), daher selbst nicht exakt nachverifizierbar; das Video liefert eine zweite, unabhaengige Einschaetzung des Tages, ersetzt aber keinen eigenen Screenshot.
 - Seiten aktualisiert: wiki/index.md
+
+## [2026-08-14] ingest | YouTube: 2025 Lecture Series - How To Disqualify 1st Presented FVGs (y63zsrLCcCw)
+- Scan-Fenster: gezielter Einzel-Ingest auf Nutzer-Link, kein Kanal-Scan. Video 2025-04-08, 11:27, Transkript vollstaendig (Auto-Captions, ~8.150 Zeichen bis zum Schlusssatz).
+- Seiten erstellt: wiki/sources/youtube/2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source).md
+- Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (Begruendungskette aus dem Video, Abschnitt "Mindestgroesse", Abschnitt "MOR und ORG haben verschiedene Auswahlregeln"), wiki/sources/How To Disqualify 1st Presented FVGs (Source).md (Querverweis auf die Videofassung), wiki/index.md
+- Rohdatei: raw/trading-ict/2026/yt-y63zsrLCcCw-transcript.md
+- Entscheidung ohne Rueckfrage: Das Video ist dieselbe Lecture wie die bereits vorhandene Notion-Folienseite. Statt einer zweiten Volldarstellung haelt die neue Seite nur das Zusaetzliche fest (Marktkontext 07.04.2025, gesprochene Begruendung, konkrete Preise) und verlinkt beide Richtungen -- entspricht der Skill-Regel "gleicher Handelstag aus verschiedenen Blickwinkeln: querverlinken, nicht doppelt dokumentieren".
+- ⚠️ Befund gegen die Nutzer-These: Jannes' Regel "das 1.p FVG des ORG muss mindestens 10 Punkte gross sein" steht **in keiner Quelle des Vaults**. Das Video begruendet die Disqualifikation rein strukturell ("There's no gap there. There's no imbalance here." -- Koerper zu Koerper null Luecke, Kandidat liegt in einer Balanced Price Range). Die These bleibt als offene Hypothese auf der ORG-Seite stehen, mit der eigenen Messung daneben (siehe algo/PLAN.md).
+- Aus den Chartbildern ergaenzt: gueltiges 1.p FVG 16.734,75-16.750,75 (16,00 Pkt), C.E. 16.742,75, Entry-Marker "Buy 2 @ 16.745,25". Die Kanten des *disqualifizierten* Kandidaten sind in Bild 02/03 nicht auf den Tick ablesbar -- explizit als nicht lesbar vermerkt statt geschaetzt.
+
+## [2026-08-14] synthesis | Mindestgroesse des 1.p FVG (NY AM) gemessen
+- Neu: algo/backtest_1p_mindestgroesse.py (Reuse: analyze_ohlc.fvgs, backtest_1p_fvg_woche.find_days, backtest_fvg_strength.simulate) -- 27 MNQ-Handelstage, Fenster 9:30-10:00.
+- Chronologische Lesart: Median 17,50 Pkt, 29,6 % der Tage unter 10 Pkt. Displacement-Lesart: Median 40,00 Pkt, Minimum 16,50 -- Schwelle dort redundant.
+- Kante: <10 Pkt 14,3 % Win / -4,31 $/Trade bei 85,7 % dubious; >=10 Pkt 46,7 % Win / +10,23 $/Trade bei 20,0 % dubious. Die Schwelle wirkt, aber primaer als Ausfuehrbarkeits-, nicht als Wahrscheinlichkeitskriterium.
+- Ergebnis auf wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md dokumentiert.
+
+## [2026-08-14] lint | FVG-Detektion: Body-Test war falsch
+- Ad-hoc-Auswertung der MOR 14.08. meldete 18 FVGs statt 2, weil die *Existenz* ueber die Koerper statt ueber die Wicks geprueft wurde. Jannes hat den Fehler am Chart bemerkt ("0:01 ist kein FVG, das erste ist 0:13").
+- Root Cause: die Wiki-Regel "Grenzen: Open/Close, nicht die Wicks" betrifft nur das *Einzeichnen* (und auch das nur bei einer VII), nicht die Existenz. Zusaetzlich wurde tools/analyze_ohlc.py::fvgs() umgangen, statt es wiederzuverwenden.
+- Kein Repo-Code betroffen -- fvgs() implementiert den Wick-Test korrekt (c.l > a.h / c.h < a.l). Korrigiertes Ergebnis fuer die MOR 14.08.: BISI 00:13 (30153,75-30155,00) und BISI 00:25 (30157,50-30158,25), beide gefuellt.

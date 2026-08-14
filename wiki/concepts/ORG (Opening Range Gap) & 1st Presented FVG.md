@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-13
-sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
+updated: 2026-08-14
+sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source)|How To Disqualify 1st Presented FVGs (Video, Source)]]"]
 ---
 
 # ORG (Opening Range Gap) & 1st Presented FVG
@@ -123,6 +123,80 @@ Lage **relativ zur laufenden Range**, nicht das FVG für sich:
 ![[ICT 2025 - Disqualify FVG 04.png]]
 *„Look At The Real Inefficiency Here…" — hier wird die Range verlassen; ICT beschriftet es mit
 „1st P. FVG Changes Characteristic to IFVG".*
+
+#### Die Begründungskette im Video (2026-08-14)
+
+Aus [[2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source)|How To Disqualify 1st Presented FVGs (Video)]],
+der gesprochenen Fassung derselben Lecture (NQ, Montag 07.04.2025). Sie liefert den Grund, den die
+Folien nur als Ergebnis zeigen — und die Chart-Annotation dazu lautet **„The Bodies Tell The
+Narrative"**:
+
+1. **Bezugsrahmen zuerst**: „look at where it is in proximity to the candles that formed just
+   before it."
+2. Der Kandidat hat nur *„traded down and wicked through the discount wick of this candlestick, the
+   consequent encroachment"* — er verlässt die [[Balanced Price Range (BPR)]] nicht.
+3. **Der Kernsatz**: *„The only portion that would be considered a gap would be … the bodies.
+   **There's no gap there. There's no imbalance here.**"*
+4. Mechanik: Kerze schließt auf ihrem Low, die nächste öffnet **exakt dort** und läuft hoch, die
+   dritte läuft auf dasselbe Low zurück. *„We've had range delivered here"* → keine Ineffizienz,
+   sondern Teil einer bereits durchgehandelten Range.
+
+Der Ausschluss ist damit **strukturell, nicht größenbasiert**: der disqualifizierte Kandidat ist
+kein kleines FVG, sondern **gar keins** — Körper zu Körper liegt null Lücke. Entry im gültigen Fall
+am **C.E.**: Zone 16.734,75–16.750,75 (16,00 Pkt), C.E. 16.742,75, praktisch auf der
+Sellside-Liquidity-Linie 16.742,25.
+
+**Zeitfenster wörtlich bestätigt**: *„the very first presented fair value gap of **9:30 to 10
+opening range**"* — und es entstand an dem Tag erst zwischen 9:45 und 9:47. Das Fenster ist die
+Bedingung, der Zeitpunkt darin ist frei.
+
+### Mindestgröße: keine Quelle, aber ein Ausführbarkeits-Argument
+
+> ⚠️ **Offene Hypothese (Jannes, 2026-08-14)**: „Im ORG wird das erste FVG mit **mindestens 10
+> Punkten** genommen, das sichtlich in eine Richtung geht." Er grenzt das ausdrücklich gegen die
+> [[Midnight Opening Range|MOR]] ab, wo nach dem *größten* Displacement der Range gesucht wird.
+
+**Quellenlage: keine.** Weder das Video noch die Folien noch eine andere Quelle im Vault nennen für
+das 1.p FVG eine Punktzahl. Die einzigen „10 Handle" im Bestand meinen etwas anderes — ICTs
+**Mindestziel** für NASDAQ-Scalps ([[ICT Gems - ICT Teaches how to Scalp Every 1 Hour Candle (Source)]])
+und Jannes' eigene Setup-Regel „mindestens 10 Punkte Potenzial" ([[Silver Bullet Model]]). Beides
+eine Aussage über den **Move**, nicht über die FVG-Größe. [[Fair Value Gap (FVG)]] argumentiert
+zudem ausdrücklich gegen absolute Schwellen (Größe skaliert mit der Session-Volatilität,
+`FVG ÷ Kerzenrange ≈ 0,45` in jeder Session).
+
+**Eigene Messung** (`algo/backtest_1p_mindestgroesse.py`, 27 MNQ-Handelstage, Fenster 9:30–10:00,
+Limit am C.E. / Stop ferne Kante / Ziel 2R, echter Punktwert, −1,24 $ Round Turn):
+
+| Lesart „1.p" | Median Größe | Q25 / Q75 | Anteil < 10 Pkt |
+|---|---|---|---|
+| chronologisch erstes FVG | 17,50 Pkt | 9,50 / 32,50 | **29,6 %** |
+| größtes FVG des Fensters | 40,00 Pkt | 30,25 / 44,75 | **0 %** (min 16,50) |
+
+| Gruppe (chronologisch) | Tage | Trades | Win % | $/Trade netto | dubious % |
+|---|---|---|---|---|---|
+| < 10 Pkt | 8 | 7 | 14,3 | −4,31 | **85,7** |
+| ≥ 10 Pkt | 19 | 15 | 46,7 | +10,23 | 20,0 |
+
+**Lesart der Zahlen**: Die Schwelle trägt, aber die 85,7 % `dubious` verraten den eigentlichen
+Grund — bei diesen Kandidaten liegen Stop und Ziel in **derselben** 1m-Kerze, das Ergebnis ist auf
+Minutendaten gar nicht entscheidbar. Eine Mindestgröße ist hier also primär ein
+**Ausführbarkeits-**, kein Wahrscheinlichkeitskriterium (dieselbe Schlussfolgerung wie auf
+[[FVG-Stärke, Session-Volatilität & Confluence (laufend)]]). Unter der Displacement-Lesart ist die
+Schwelle ohnehin **redundant** — dort unterschreitet kein einziger Tag 10 Punkte. Vorbehalt: 8
+gegen 19 Tage ist ein Hinweis, kein Beweis; bleibt als offene Hypothese in Beobachtung.
+
+### MOR und ORG haben verschiedene Auswahlregeln (2026-08-14, Jannes)
+
+| | [[Midnight Opening Range|MOR]] 0:00–0:30 | ORG / NY AM 9:30–10:00 |
+|---|---|---|
+| Auswahl | **größtes** Displacement der Range („1. presented *Displacement*") | **erstes** FVG, das die laufende Range sichtbar in eine Richtung verlässt |
+| Quelle | [[SMC Midnight Opening Range (Source)]], [[ICT Gems - London Opening Range + Macros (Source)]] | [[2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source)|Disqualify-Lecture]] |
+| Größenfilter | keiner nötig (Median 40 Pkt gemessen) | Jannes: ≥ 10 Pkt — ohne Quelle, siehe oben |
+
+Die beiden Regeln widersprechen sich nicht: „erstes, das die Range verlässt" und „größtes" fallen
+in der Praxis oft zusammen, weil ein Move, der die Range verlässt, per Konstruktion der größte des
+Fensters ist. Wo sie auseinanderfallen, ist die MOR-Regel die spätere und explizitere Formulierung —
+[[Midnight Opening Range]] nennt ein Beispiel, in dem das 1.p das **letzte** FVG der Range ist.
 
 ## Konvergenz mehrerer RTH-C.E
 

@@ -50,6 +50,7 @@ Characteristic to IFVG".*
 
 ## Verwandt
 
+- [[2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source)|How To Disqualify 1st Presented FVGs (Video)]] — dieselbe Lecture als YouTube-Video, mit der gesprochenen Begründung und den konkreten Preisen
 - [[ORG (Opening Range Gap) & 1st Presented FVG]], [[Fair Value Gap (FVG)]]
 - [[IFVG (Inverse Fair Value Gap)]], [[Balanced Price Range (BPR)]]
 - [[SMC Midnight Opening Range (Source)]] — die Auswahlregel als Gegenstück
