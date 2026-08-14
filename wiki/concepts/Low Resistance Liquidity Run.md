@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-10
-sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]"]
+updated: 2026-08-14
+sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)]]"]
 ---
 
 # Low Resistance Liquidity Run
@@ -99,6 +99,20 @@ hineinläuft — ICT handelt dort bewusst weiter, aber mit verändertem Manageme
   darüber zum HRLR-Abschnitt.
 - Gegen sich laufende Bewegung: Teil-Stops statt Alles-oder-Nichts, siehe
   [[Partial Profit-Taking & R-Multiple-Skalierung]].
+
+## "Running" vs. "Sweeping" (Terminologie, 2022 Mentorship Ep. 23)
+
+[[2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)]] führt eine explizite Begriffstrennung ein,
+die bislang im Vault nicht kodifiziert war:
+
+- **Sweeping**: Preis durchbricht ein Level nur **flach** (wenige Ticks) und dreht danach um — der
+  klassische Liquidity Sweep vor einem [[Market Structure Shift (MSS)]].
+- **Running**: Preis durchbricht ein Level und **läuft weiter** (Continuation) — kein Reversal-Signal,
+  sondern Bestätigung des laufenden Low-Resistance-Runs.
+
+Praktische Konsequenz: derselbe Level-Durchbruch wird je nach Nachfolgeverhalten unterschiedlich
+gedeutet — ein "Run" widerlegt keine Bias, ein "Sweep" ist dagegen die Pflichtbedingung für einen MSS
+(siehe [[Market Structure Shift (MSS)]]).
 
 ## Verwandt
 

@@ -340,7 +340,10 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 
 ### ICT MentorShip 2022
 
-**Navigationsknoten: [[ICT MentorShip 2022 (Source)]]** — 13 Episoden, überwiegend kommentierte Handelstage. Episoden 1, 2, 9, 10, 12 fehlen im Export.
+**Navigationsknoten: [[ICT MentorShip 2022 (Source)]]** — 13 Episoden aus dem Notion/Slide-Export
+(3–8, 11, 13–18), seit 2026-08-14 ergänzt um die vollständige gesprochene YouTube-Fassung der
+Reihe (27 Episoden, Introduction + 2–21, 23–27, 29 — Episode 22/28 fehlen weiterhin, 30–41
+ausstehend).
 
 - [[ICT 2022 - Episode 03 Market ST + Modell 22 (Source)]] — **MSS vs. MSB definiert**, Liq-Sweep als Pflichtbedingung, zwei Grundsetups (2026-08-02)
 - [[ICT 2022 - Episode 04 Internal Range Liq & MSS (Source)]] — Abstieg ab 5M bis zum FVG, bei mehreren das höchste nehmen (2026-08-02)
@@ -355,6 +358,36 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT 2022 - Episode 16 Midnight open + Displacement (Source)]] — Opening Prices als Manipulations-Indikator, Fib nur auf Candle Bodies (2026-08-02)
 - [[ICT 2022 - Episode 17 FX Anwendung (Source)]] — FX-Rundzahlen, OB bestätigt durch Displacement, Forex-Killzone 7–10 (2026-08-02)
 - [[ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)]] — Bias halten, RR schlägt Trefferquote, valider CISD braucht eine Imbalance (2026-08-02)
+
+**YouTube-Nachlad (2026-08-14, 27 Episoden, `wiki/sources/youtube/`):**
+
+- [[2022-01-19 - 2022 ICT Mentorship Introduction (Source)]] — Rahmen/Mindset, Plattformwahl (TradingView/TD Ameritrade), Grundsatz Buyside/Sellside-Liquidity-Matrix
+- [[2022-01-22 - 2022 ICT Mentorship Episode 2 (Source)]] — fehlende Grundlagen-Lecture: Weekly Bias → DOL → MSS → Imbalance-Entry
+- [[2022-01-26 - 2022 ICT Mentorship Episode 3 (Source)]] — Ergänzung zu Episode 3: ICTs eigene Live-Risikoprozente, Killzone-Uhrzeiten, Doppel-FVG-Regel
+- [[2022-01-28 - 2022 ICT Mentorship Episode 4 (Source)]] — Ergänzung zu Episode 4 (weitgehend redundant, zwei Beispielpreise)
+- [[2022-02-02 - 2022 ICT Mentorship Episode 5 (Source)]] — Ergänzung: MOC-Fenster-Feinstruktur T-20/T-10/T-0
+- [[2022-02-04 - 2022 ICT Mentorship Episode 6 (Source)]] — Market-Efficiency-Paradigma, vollständiger FVG/MSS/Internal-vs-External-Trade
+- [[2022-02-09 - 2022 ICT Mentorship Episode 7 (Source)]] — bias-abhängige Risikostaffelung, Cross-Market-Bestätigung über Dow-Lag
+- [[2022-02-11 - 2022 ICT Mentorship Episode 8 (Source)]] — FX-Anwendung EUR/JPY, bestätigt bestehende Killzone-Zeiten
+- [[2022-02-16 - 2022 ICT Mentorship Episode 9 (Source)]] — fehlende Episode: Power Three (AMD) live, "nach großem Overnight-Move NY-AM meiden"
+- [[2022-02-18 - 2022 ICT Mentorship Episode 10 (Source)]] — fehlende Episode: 3-Candle-Swing-Definition, Opening-Range-Projektion, 15M-Vorzugs-TF
+- [[2022-02-22 - 2022 ICT Mentorship Episode 11 (Source)]] — Ergänzung: genestete Swing-Klassifikation (Larry Williams), Feiertags-Handelszeiten
+- [[2022-02-25 - 2022 ICT Mentorship Episode 12 (Source)]] — fehlende Episode: vierstufige Struktur-Hierarchie, ⚠️ Widerspruch zu [[Order Block]]
+- [[2022-02-26 - 2022 ICT Mentorship Episode 13 (Source)]] — Ergänzung: 3-2-1-Entry-Pyramiding
+- [[2022-02-28 - 2022 ICT Mentorship Episode 14 (Source)]] — Ergänzung: konkrete Kontraktzahlen/Levels zur Live-Execution
+- [[2022-03-17 - 2022 ICT Mentorship Episode 15 (Source)]] — Ergänzung: Account-Growth-Framing (~20%/Monat), Diszipline "Stop nach Monatsziel"
+- [[2022-04-02 - 2022 ICT Mentorship Episode 16 (Source)]] — max. 4 Trades/Tag, ES-Daily-Low-Beispiel, TGIF-Short-Covering-Mechanik
+- [[2022-04-06 - 2022 ICT Mentorship Episode 17 (Source)]] — institutionelle Preis-Sublevel 00/20/50/80, Stop/Target-Fluffing-Regel
+- [[2022-04-08 - 2022 ICT Mentorship Episode 18 (Source)]] — OB-Candle-Auswahlregel verfeinert, Killzone-Order-Management (kein GTC)
+- [[2022-04-21 - 2022 ICT Mentorship Episode 19 (Source)]] — fehlende Episode: "Purge and Revert", explizite Mean-Threshold-Definition
+- [[2022-04-22 - 2022 ICT Mentorship Episode 20 (Source)]] — DXY→EUR/USD-Intermarket-Turtle-Soup, FVG-Displacement-Filter
+- [[2022-04-27 - 2022 ICT Mentorship Episode 21 (Source)]] — Risk-on/off DXY↔ES, Po3-Framework, No-Overnight-Regel
+- [[2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)]] — Live FOMC-Markup, "Running vs. Sweeping"-Terminologie
+- [[2022-05-06 - 2022 ICT Mentorship Episode 24 (Source)]] — FVG-nach-MSS-Schema, Stop-Eskalationsregel, No-Setup-Tag als Modell-Beweis
+- [[2022-05-11 - 2022 ICT Mentorship Episode 25 (Source)]] — "Rebalancing"-Konzept, Premium/Discount-Hard-Filter (Ablehnung <50%)
+- [[2022-05-11 - 2022 ICT Mentorship Episode 26 (Source)]] — Live-Tape-Reading, Order-Block-Annotation in Echtzeit
+- [[2022-05-14 - 2022 ICT Mentorship Episode 27 (Source)]] — "Pseudo Experience"-Backtesting-/Journaling-Technik
+- [[2022-05-17 - 2022 ICT Mentorship Episode 29 (Source)]] — SMT-Divergenz-Beispiel, Pre-FOMC-Regel, "Close Proximity Entry"
 
 ### Market Maker Primer (ICT YouTube Forex Library, 2017)
 

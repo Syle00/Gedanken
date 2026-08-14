@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-06
-sources: ["[[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]", "[[Kurz Notizen (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Orderblocks (Source)]]", "[[ICT Mentorship Core Content - Month 03 - The Next Setup - Anticipatory Skill Development (Source)]]"]
+updated: 2026-08-14
+sources: ["[[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]", "[[Kurz Notizen (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Orderblocks (Source)]]", "[[ICT Mentorship Core Content - Month 03 - The Next Setup - Anticipatory Skill Development (Source)]]", "[[2022-02-25 - 2022 ICT Mentorship Episode 12 (Source)]]"]
 ---
 
 # Order Block
@@ -10,6 +10,15 @@ sources: ["[[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]", "[[
 Basiskonzept: die letzte gegensätzliche Candle vor einem starken Displacement — Grundtyp der
 [[PD Array]]. Spezialisierte Varianten: [[Breaker Block]], [[Rejection Block]],
 [[Reclaimed Order Block]], [[Mitigation Block]].
+
+> ⚠️ **Widerspruch zu [[2022-02-25 - 2022 ICT Mentorship Episode 12 (Source)]]**: ICT weist die
+> Einzelkerzen-Definition dort explizit zurück ("the last up closed candle right before this
+> displacement... that is not my order block") und definiert den Order Block stattdessen als die
+> **gesamte zusammenhängende Serie gleichfarbiger Candles** vor dem Displacement. Diese Wiki-Seite
+> deckt beide Lesarten bereits ab (siehe Abschnitt "Wann ein OB überhaupt entstanden ist" und
+> "Multi-Candle-OB-Bestätigung" unten, aus anderen 2022er-Episoden) — die Kopfzeile hier bleibt
+> bewusst als vereinfachte Grunddefinition stehen, weil sie in mehreren anderen Primärquellen
+> (u.a. [[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]) so verwendet wird.
 
 ## Validierung (Selecting & Avoiding)
 

@@ -1,8 +1,8 @@
 ---
 tags: [concept, risikomanagement, position-sizing, eigene-regel]
 created: 2026-08-05
-updated: 2026-08-06
-sources: ["[[ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)]]", "[[ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)]]"]
+updated: 2026-08-14
+sources: ["[[ICT Mentorship Core Content - Month 02 - No Fear Of Losing (Source)]]", "[[ICT Mentorship Core Content - Month 02 - Growing Small Accounts (Source)]]", "[[2022-01-26 - 2022 ICT Mentorship Episode 3 (Source)]]", "[[2022-02-09 - 2022 ICT Mentorship Episode 7 (Source)]]"]
 ---
 
 # Risikomanagement (1% pro Trade)
@@ -63,6 +63,23 @@ Vollständige Herleitung inkl. Erwartungswert-Tabellen: [[Erwartungswert & Rewar
 Ergänzend dazu die Rest der Passung: [[Missed Entry Trade Management Playbook]] (Skalierung/
 Reentry/Exit-Schema) und `raw/2026/Chain Of Custody Of Price With Daily Inefficiencies.md`
 (Partial-Taking-Hinweis) waren die zuvor bereits gefundenen, nur teilweise passenden Belege.
+
+## ICTs eigene, höhere Live-Risikoangaben (2022 Mentorship, YouTube)
+
+Zwei unabhängige Episoden der [[ICT MentorShip 2022 (Source)]]-Reihe (YouTube-Fassung) zeigen, dass
+ICT sein **eigenes** Risiko in Live-Beispielen deutlich über der hier dokumentierten 1-%-Regel
+fährt — beide betonen jedoch ausdrücklich, dass das keine Empfehlung an Schüler ist:
+
+- [[2022-01-26 - 2022 ICT Mentorship Episode 3 (Source)]]: Stop mit "essentially three and a
+  quarter percent risk"; generelle Angabe **3–3,5 % typisch, 4,5 % Maximum** bei kompetitivem
+  Trading ("I'm not suggesting that's a size of risk for you").
+- [[2022-02-09 - 2022 ICT Mentorship Episode 7 (Source)]]: bias-abhängige Staffelung — **0,25–0,5 %**
+  bei Trades gegen den eigenen Bias, bis zu **3,5–4,5 %** mit dem Bias; Schülern rät er explizit zu
+  **unter 1 %**.
+
+Kein Widerspruch zur hier festgelegten eigenen 1-%-Regel (die bewusst als eigene, konservative Regel
+gilt), aber ein breiterer Kontext zu den bereits zitierten ICT-Quellen (Month 02: 1–2 %) — ICTs
+eigene Praxis liegt sichtbar über dem, was er Schülern rät.
 
 ## Verwandt
 

@@ -1,7 +1,7 @@
 ---
 tags: [source, ict, trading-ict, mentorship-2022, curriculum]
 created: 2026-08-02
-updated: 2026-08-02
+updated: 2026-08-14
 raw: "[[ICT MentorShip 2022]]"
 raw_path: "raw/trading-ict/ICT MentorShip 2022/ICT MentorShip 2022.md"
 ---
@@ -28,8 +28,31 @@ mehreren reinen Live-Trade-Episoden.
 | [[ICT 2022 - Episode 17 FX Anwendung (Source)]] | FX-Spezifika, wann ein OB entstanden ist, 0:00 vs. 8:30 |
 | [[ICT 2022 - Episode 18 Higher Timeframe 15m 1H is Key (Source)]] | Bias halten, RR schlägt Trefferquote, valider CISD braucht eine Imbalance |
 
-> ⚠️ **Die Episoden 1, 2, 9, 10 und 12 fehlen im Export.** Episode 1 und 2 dürften die Grundlagen
-> enthalten, auf die Episode 3 bereits aufsetzt.
+> ✅ **Aktualisiert (2026-08-14)**: Die Episoden 1, 2, 9, 10 und 12 fehlten nur im Notion/Slide-Export.
+> Alle 27 Episoden der Reihe (Introduction + Episode 2–21, 23–27, 29) sind inzwischen über die
+> gesprochene YouTube-Fassung nachgeliefert, siehe `wiki/sources/youtube/*2022 ICT Mentorship*`.
+> Episode 22 und 28 fehlen weiterhin (22 fehlgeschlagen beim Fetch, 28 ohne Captions), Episoden
+> 30–41 sind noch nicht ingested (IP-Block-Retry ausstehend). Für Episoden, die es bereits als
+> Notion/Slide-Seite gibt (3–8, 11, 13–18), enthält die YouTube-Fassung nur die *Differenz*
+> (verbale Zusatzdetails); für die zuvor komplett fehlenden Episoden ist die YouTube-Seite die
+> vollständige Quelle.
+
+| YouTube-Episode | Neu/Ergänzung |
+| --- | --- |
+| [[2022-01-19 - 2022 ICT Mentorship Introduction (Source)]] | Rahmen/Mindset, Plattformwahl, Liquidity-Matrix-Grundsatz |
+| [[2022-01-22 - 2022 ICT Mentorship Episode 2 (Source)]] | Grundlagen-Lecture: Weekly Bias → DOL → MSS → Imbalance-Entry |
+| [[2022-02-16 - 2022 ICT Mentorship Episode 9 (Source)]] | Power Three (AMD) live, "nach großem Overnight-Move NY-AM meiden" |
+| [[2022-02-18 - 2022 ICT Mentorship Episode 10 (Source)]] | 3-Candle-Swing-Definition, Opening-Range-Projektion, 15M als Vorzugs-TF |
+| [[2022-02-25 - 2022 ICT Mentorship Episode 12 (Source)]] | Vierstufige Struktur-Hierarchie, ⚠️ Widerspruch zu [[Order Block]] |
+| [[2022-04-21 - 2022 ICT Mentorship Episode 19 (Source)]] | Purge and Revert, Mean Threshold |
+| [[2022-04-22 - 2022 ICT Mentorship Episode 20 (Source)]] | DXY→EUR/USD-Intermarket-Turtle-Soup |
+| [[2022-04-27 - 2022 ICT Mentorship Episode 21 (Source)]] | Risk-on/off DXY↔ES, Po3-Framework |
+| [[2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)]] | Live FOMC, "Running vs. Sweeping"-Terminologie |
+| [[2022-05-06 - 2022 ICT Mentorship Episode 24 (Source)]] | FVG-nach-MSS-Schema, Stop-Eskalationsregel |
+| [[2022-05-11 - 2022 ICT Mentorship Episode 25 (Source)]] | Rebalancing-Konzept, Premium/Discount-Hard-Filter |
+| [[2022-05-11 - 2022 ICT Mentorship Episode 26 (Source)]] | Live-Tape-Reading, Order-Block-Annotation |
+| [[2022-05-14 - 2022 ICT Mentorship Episode 27 (Source)]] | "Pseudo Experience"-Backtesting-/Journaling-Technik |
+| [[2022-05-17 - 2022 ICT Mentorship Episode 29 (Source)]] | SMT-Divergenz-Beispiel, "Close Proximity Entry" |
 
 ## Was die Reihe ins Wiki bringt
 

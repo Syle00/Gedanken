@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, sessions]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[Essentials To ICT Daytrading (Source)]]", "[[Defining The Daily Range (Source)]]", "[[Kurz Notizen (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[ICT 2022 - Episode 11 Important Dealing Range (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]", "[[ICT 2022 - Episode 05 Intraday Orderflow & Swing H-L 8.30-13.30 (Source)]]"]
+updated: 2026-08-14
+sources: ["[[Essentials To ICT Daytrading (Source)]]", "[[Defining The Daily Range (Source)]]", "[[Kurz Notizen (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[ICT 2022 - Episode 11 Important Dealing Range (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]", "[[ICT 2022 - Episode 05 Intraday Orderflow & Swing H-L 8.30-13.30 (Source)]]", "[[2022-02-22 - 2022 ICT Mentorship Episode 11 (Source)]]", "[[2022-02-26 - 2022 ICT Mentorship Episode 13 (Source)]]", "[[2022-04-02 - 2022 ICT Mentorship Episode 16 (Source)]]"]
 ---
 
 # ICT Daily Range Session Timing
@@ -140,6 +140,19 @@ mit der höchsten Wahrscheinlichkeit für das High/Low der Woche (siehe
 [[Weekly Range Trading Model]]) — der Premarket-Ablauf ist ein
 [[AMD Cycle (Accumulation – Manipulation – Distribution)|Po3]] aus Accumulation von Shorts,
 Manipulation auf Minor Buyside und Distribution zur Sellside.
+
+## Feiertags-Handelszeiten (2022 Mentorship Ep. 11/13)
+
+Aus [[2022-02-22 - 2022 ICT Mentorship Episode 11 (Source)]] (bestätigt in
+[[2022-02-26 - 2022 ICT Mentorship Episode 13 (Source)]]): an US-Feiertagen mit verkürztem Handel
+stoppt ICT den eigenen Handel um **13:00 Uhr NY** und nimmt ihn erst wieder um **18:00 Uhr NY** auf
+— die dazwischenliegende Zeit gilt als zu dünn gehandelt für verlässliche Setups.
+
+## Max. 4 Trades/Tag (2022 Mentorship Ep. 16)
+
+[[2022-04-02 - 2022 ICT Mentorship Episode 16 (Source)]] nennt eine explizite Tagesobergrenze: **2
+Trades im Morgenfenster + 2 Trades im Nachmittagsfenster**, danach wird der Tag als abgeschlossen
+behandelt, unabhängig vom Ergebnis.
 
 ## Verwandt
 
