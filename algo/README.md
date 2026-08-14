@@ -403,6 +403,11 @@ Damit gilt "yfinance ueberschreibt nie" (Spec 3.2) weiter woertlich. Reuse statt
 `download_interval`/`trading_day`/`symbol_prefix` aus `fetch_yfinance.py`, `lies`/`schreib`/
 `luecken` aus `ingest_tvexport.py`.
 
+Die Lueckenmeldung braucht den Kerzenabstand des Timeframes (`luecken(ts, schritt)`,
+gespeist aus `TF_SEKUNDEN`). Bis 2026-08-14 stand dort fest 60 s: auf `--tf 5m` meldete
+darum *jede* Kerze eine Luecke ("Luecken danach: 275" bei 276 Kerzen) und eine echte Luecke
+waere im Rauschen untergegangen.
+
 ```
 python algo/backfill_yfinance.py 2026-08-10 2026-08-13 --symbol EURUSD=X [--dry-run]
 python algo/backfill_yfinance.py --demo
