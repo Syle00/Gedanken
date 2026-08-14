@@ -188,6 +188,7 @@
 <li><a href="#2026-08-14-synthesis-mindestgroesse-des-1p-fvg-ny-am-gemessen">[2026-08-14] synthesis | Mindestgroesse des 1.p FVG (NY AM) gemessen</a></li>
 <li><a href="#2026-08-14-lint-fvg-detektion-body-test-war-falsch">[2026-08-14] lint | FVG-Detektion: Body-Test war falsch</a></li>
 <li><a href="#2026-08-14-ingest-youtube-how-to-trade-ict-fvgs-correctly-2024-high-probability-fvgs-masterclass">[2026-08-14] ingest | YouTube: How To Trade ICT FVGs Correctly (2024) + High Probability FVG's (Masterclass)</a></li>
+<li><a href="#2026-08-14-synthesis-timeframe-wahl-zur-liquidity-pool-erkennung-nutzer-regel">[2026-08-14] synthesis | Timeframe-Wahl zur Liquidity-Pool-Erkennung (Nutzer-Regel)</a></li>
 </ul>
 </div>
 </details>
@@ -2704,6 +2705,11 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Code (Nutzerauftrag "implementiere die Erkenntnisse"): tools/analyze_ohlc.py::fvgs() liefert jetzt entry/stop_c2/stop_c1/q25/q75/near_touches/far_touches/far_half_open/fast; neu killzone_of() und hp_context(); neu algo/backtest_hp_fvg.py; Regressionstests in tools/test_fvg_vii.py (3 neue), selfcheck.py 20/20.</li>
 <li>⚠️ Zwei ICT-Behauptungen halten der eigenen Messung nicht stand und stehen so auf den Seiten: die "98% strike rate" (gemessen 36-38% bei 2R) und das sofortige Rebalance als Staerkesignal (gemessen negativ). Die Regel "ferne Haelfte bleibt offen" ist bei einem Stop hinter Kerze 2 fast tautologisch und taugt nur zum Trade-Management, nicht zur Auswahl.</li>
 <li>Entscheidung ohne Rueckfrage: die Masterclass laeuft unter dem Kanal "StratX" (Repost), Inhalt aber unstrittig ICT-Mentorship von Juni 2019 -- als ICT-Quelle gefuehrt und der Repost-Status in der Kopfzeile vermerkt.</li>
+</ul>
+<h2 id="2026-08-14-synthesis-timeframe-wahl-zur-liquidity-pool-erkennung-nutzer-regel">[2026-08-14] synthesis | Timeframe-Wahl zur Liquidity-Pool-Erkennung (Nutzer-Regel)</h2>
+<ul>
+<li>Jannes' eigene Arbeitsweise (keine ICT-Quelle): 15-Min-Chart als "Bellwether Chart" fuer die Pool-Einordnung bei Intraday-Modellen (Silver Bullet + kuenftige), 1-Min-Chart eignet sich besonders gut, um grosse/gute Liquidity Pools zu erkennen; kein Timeframe ist exklusiv.</li>
+<li>Seiten aktualisiert: wiki/concepts/Open Float &amp; Liquidity Pools.md (neuer Abschnitt "Timeframe-Wahl zur Pool-Erkennung"), wiki/models/Silver Bullet Model.md (Backlink in Verwandt).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

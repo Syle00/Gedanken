@@ -1,7 +1,7 @@
 ---
 tags: [model, ict, trading-ict, daytrade, sessions]
 created: 2026-08-02
-updated: 2026-08-05
+updated: 2026-08-14
 sources: ["[[Kurz Notizen]]", "[[ICT Silver Bullet (Source)]]", "[[2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)]]", "[[2023-06-08 - ICT Executions June 8, 2023 ES Long Silver Bullet (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]"]
 ---
 
@@ -126,3 +126,4 @@ in [[Partial Profit-Taking & R-Multiple-Skalierung]].
 - [[NY PM Trend]], [[ICT Daily Range Session Timing]], [[ICT Killzones]]
 - [[Kurz Notizen (Source)]], [[ICT Silver Bullet (Source)]]
 - [[Meine Strategien (Übersicht)]], [[Risikomanagement (1% pro Trade)]]
+- [[Open Float & Liquidity Pools]] — Timeframe-Hierarchie zur Pool-Erkennung (15M Bellwether, 1M für große Pools)

@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-06
+updated: 2026-08-14
 sources: ["[[Defining Open Float Liquidity Pools (Source)]]", "[[Defining Open Float Liquidity Pools 2 (Source)]]", "[[Open Float (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Liquidity Pools (Source)]]"]
 ---
 
@@ -116,9 +116,27 @@ jede Rally scheitert daran, ein neues Hoch zu etablieren, jeder Sell-off unterbi
 Tief. Vertiefung erwartet in [[Institutional Swing Point]] (Begleitvideo „Defining Institutional
 Swing Points" zu Month 05 — YouTube-Fetch aktuell blockiert, siehe `wiki/log.md`).
 
+## Timeframe-Wahl zur Pool-Erkennung (Nutzer-Arbeitsweise, 2026-08-14)
+
+Eigene Praxisregel des Nutzers, nicht aus einer ICT-Quelle zitiert:
+
+- **15-Min-Chart als "Bellwether Chart"** für Intraday-Modelle (z.B. [[Silver Bullet Model]] und
+  künftige Intraday-Modelle) — der bevorzugte Referenz-Timeframe, um relevante Liquidity Pools
+  einzuordnen, bevor auf eine niedrigere Auflösung für den Entry gewechselt wird.
+- **Kein Timeframe ist exklusiv** — Liquidität wird grundsätzlich auf jedem Timeframe gesucht.
+- **1-Min-Chart eignet sich besonders gut, um große/gute Liquidity Pools zu erkennen** — auf dieser
+  Auflösung treten die größeren, klarer abgegrenzten Pools deutlicher hervor als auf höheren
+  Timeframes.
+
+Passt zusammen mit der bestehenden SB-Regel oben ("ICT nutzt bevorzugt den 5-Min-Chart für den
+Entry, kombiniert mit PD Arrays aus dem 15-Min- und 1H-Chart") — der Nutzer ergänzt hier speziell
+die **Pool-Erkennung** (nicht den Entry-Trigger) um 15M als Referenzebene und 1M als
+Detailebene für große Pools.
+
 ## Verwandt
 
 - [[IPDA Data Ranges]], [[PD Array]]
 - [[SMT (Smart Money Divergence)]]
 - [[Quarterly Shift]] — alle 3 Monate findet ein größerer Liquidity Run statt
 - [[Institutional Swing Point]] — vertieft die Intermediate-Term-High/Low-Definition (noch offen)
+- [[Silver Bullet Model]] — nutzt diese Timeframe-Hierarchie zur Pool-Erkennung

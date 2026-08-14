@@ -2377,3 +2377,7 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Code (Nutzerauftrag "implementiere die Erkenntnisse"): tools/analyze_ohlc.py::fvgs() liefert jetzt entry/stop_c2/stop_c1/q25/q75/near_touches/far_touches/far_half_open/fast; neu killzone_of() und hp_context(); neu algo/backtest_hp_fvg.py; Regressionstests in tools/test_fvg_vii.py (3 neue), selfcheck.py 20/20.
 - ⚠️ Zwei ICT-Behauptungen halten der eigenen Messung nicht stand und stehen so auf den Seiten: die "98% strike rate" (gemessen 36-38% bei 2R) und das sofortige Rebalance als Staerkesignal (gemessen negativ). Die Regel "ferne Haelfte bleibt offen" ist bei einem Stop hinter Kerze 2 fast tautologisch und taugt nur zum Trade-Management, nicht zur Auswahl.
 - Entscheidung ohne Rueckfrage: die Masterclass laeuft unter dem Kanal "StratX" (Repost), Inhalt aber unstrittig ICT-Mentorship von Juni 2019 -- als ICT-Quelle gefuehrt und der Repost-Status in der Kopfzeile vermerkt.
+
+## [2026-08-14] synthesis | Timeframe-Wahl zur Liquidity-Pool-Erkennung (Nutzer-Regel)
+- Jannes' eigene Arbeitsweise (keine ICT-Quelle): 15-Min-Chart als "Bellwether Chart" fuer die Pool-Einordnung bei Intraday-Modellen (Silver Bullet + kuenftige), 1-Min-Chart eignet sich besonders gut, um grosse/gute Liquidity Pools zu erkennen; kein Timeframe ist exklusiv.
+- Seiten aktualisiert: wiki/concepts/Open Float & Liquidity Pools.md (neuer Abschnitt "Timeframe-Wahl zur Pool-Erkennung"), wiki/models/Silver Bullet Model.md (Backlink in Verwandt).
