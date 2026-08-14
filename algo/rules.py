@@ -69,7 +69,8 @@ def _active_window(day: date, when: datetime) -> tuple[str, datetime] | None:
 def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
                 min_target_points: float = 10.0, symbol: str = "MNQ",
                 require_strong: bool = False,
-                min_size_rel: float | None = None) -> TradeSetup | None:
+                min_size_rel: float | None = None,
+                levels_bars: list[Bar] | None = None) -> TradeSetup | None:
     """Silver-Bullet-Setup zum Zeitpunkt `when`, oder None. Nur bars[t<=when] werden benutzt.
 
     `stop_buffer_pct` (Anteil der FVG-Groesse als SL-Puffer) ist optimierbar/testbar --
@@ -77,6 +78,11 @@ def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
     vergroessern/testen"). `min_target_points`: Setup wird nur genommen, wenn Entry->Target
     mindestens so viele Punkte Potenzial hat (Nutzerregel, siehe wiki/models/Silver Bullet
     Model.md).
+
+    `levels_bars`: optionale ANDERE Bar-Reihe (z.B. 15m/1m statt der 5m-Entry-Bars) fuer die
+    Ziel-Liquiditaet (untouched_levels) -- Nutzer-These 2026-08-14 ("15m als Bellwether-Chart,
+    1m fuer grosse Pools"), siehe algo/backtest_sb_bellwether.py. None (Default) = wie bisher
+    dieselben Bars wie fuer den Entry (bit-identisches Verhalten zur alten Signatur).
 
     `require_strong` / `min_size_rel` setzen die High-Probability-Bedingung um (Nutzerregel
     2026-08-13): nur ein FVG, dessen Displacement einen bestaetigten, noch intakten Swing
@@ -157,7 +163,8 @@ def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
     entry = round_to_tick(entry, symbol, "down" if side == "long" else "up")
     stop = round_to_tick(stop, symbol, "down" if side == "long" else "up")
 
-    levels = untouched_levels(hist, CFG["swing"])
+    lvl_hist = hist if levels_bars is None else [b for b in levels_bars if b.t <= when]
+    levels = untouched_levels(lvl_hist, CFG["swing"])
     if side == "long":
         candidates = [lv["level"] for lv in levels if lv["side"] == "buyside" and lv["level"] > entry]
         target = min(candidates) if candidates else None
@@ -266,6 +273,17 @@ def demo() -> None:
 
     assert plan_trade(bars, at(day, 9, 0), **roh) is None  # ausserhalb jedes Fensters
     assert plan_trade(bars, at(day, 14, 30), **roh) is None  # PM-Fenster, kein FVG darin
+
+    # levels_bars=None (Default) muss bit-identisch zum alten Verhalten sein (dieselben Bars).
+    s_same = plan_trade(bars, at(day, 10, 10), levels_bars=bars, **roh)
+    assert s_same is not None and (s_same.entry, s_same.stop, s_same.target) == \
+        (setup.entry, setup.stop, setup.target)
+    # levels_bars auf eine Reihe OHNE den Spike bei 9:30 -> keine Ziel-Liquiditaet -> kein Setup,
+    # obwohl der Entry (aus `bars`) unveraendert ein gueltiges FVG haette.
+    flach = [bar(9, 20, 95, 96, 94, 95.5), bar(9, 25, 95.5, 96, 95, 95.5)] + bars[2:]
+    flach[2] = bar(9, 30, 95.5, 96, 95, 96)  # Spike entfernt -> keine unberuehrte Buyside
+    assert plan_trade(bars, at(day, 10, 10), levels_bars=flach, **roh) is None, \
+        "levels_bars muss die Ziel-Liquiditaet ersetzen, nicht nur ergaenzen"
 
     # High-Probability-Filter (2026-08-13, per Default AUS -- Begruendung im Docstring):
     # dasselbe FVG bricht keinen Swing, mit require_strong darf daraus kein Setup werden.

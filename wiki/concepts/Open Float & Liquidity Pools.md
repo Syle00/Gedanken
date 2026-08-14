@@ -133,6 +133,16 @@ Entry, kombiniert mit PD Arrays aus dem 15-Min- und 1H-Chart") — der Nutzer er
 die **Pool-Erkennung** (nicht den Entry-Trigger) um 15M als Referenzebene und 1M als
 Detailebene für große Pools.
 
+> ⚠️ **Offene Hypothese, erster Backtest schwach/negativ (2026-08-14).** `algo/backtest_sb_bellwether.py`
+> hat für den Silver Bullet getestet, ob die Ziel-Liquidität statt aus 5m aus 15m bzw. 1m gezogen
+> eine bessere Trefferquote liefert (Entry/Stop bleiben unverändert auf 5m). Ergebnis über 27 Tage
+> mit gleichzeitig 1m+5m+15m-Daten (63 Fenster): **5m-Baseline** 62 Trades/22,6 % Win/+9,71 $/Trade;
+> **15m** 42 Trades/9,5 % Win/**-1,95 $/Trade** — schlechter, nicht besser; **1m** 62 Trades/
+> 30,6 % Win/+9,83 $/Trade, aber bei höherem dubious-Anteil (12,9 % gegen 4,8 %). Bei n=42-62 ist
+> keine Variante von Rauschen unterscheidbar. Die 1m-These bekommt damit eine schwache erste
+> Stütze, die 15m-Bellwether-These für die *Ziel*-Auswahl (nicht die generelle Pool-Erkennung)
+> eher nicht — bleibt laufend beobachtet, siehe `algo/PLAN.md` [2026-08-14].
+
 ## Verwandt
 
 - [[IPDA Data Ranges]], [[PD Array]]

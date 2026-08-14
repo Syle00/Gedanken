@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-08-14T10:43:28.644064+00:00",
+  "symbol": "MNQ",
+  "tage_mit_1m+5m+15m": 27,
+  "varianten": {
+    "5m (Baseline)": {
+      "tage_x_fenster": 63,
+      "ohne_zielliquiditaet": 0,
+      "trades": 62,
+      "win_pct": 22.6,
+      "dubious_pct": 4.8,
+      "usd_pro_trade": 9.71,
+      "usd_gesamt": 602.12
+    },
+    "15m (Bellwether)": {
+      "tage_x_fenster": 63,
+      "ohne_zielliquiditaet": 20,
+      "trades": 42,
+      "win_pct": 9.5,
+      "dubious_pct": 0.0,
+      "usd_pro_trade": -1.95,
+      "usd_gesamt": -82.08
+    },
+    "1m (grosse Pools)": {
+      "tage_x_fenster": 63,
+      "ohne_zielliquiditaet": 0,
+      "trades": 62,
+      "win_pct": 30.6,
+      "dubious_pct": 12.9,
+      "usd_pro_trade": 9.83,
+      "usd_gesamt": 609.62
+    }
+  }
+}

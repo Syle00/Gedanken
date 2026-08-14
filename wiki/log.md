@@ -2381,3 +2381,9 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 ## [2026-08-14] synthesis | Timeframe-Wahl zur Liquidity-Pool-Erkennung (Nutzer-Regel)
 - Jannes' eigene Arbeitsweise (keine ICT-Quelle): 15-Min-Chart als "Bellwether Chart" fuer die Pool-Einordnung bei Intraday-Modellen (Silver Bullet + kuenftige), 1-Min-Chart eignet sich besonders gut, um grosse/gute Liquidity Pools zu erkennen; kein Timeframe ist exklusiv.
 - Seiten aktualisiert: wiki/concepts/Open Float & Liquidity Pools.md (neuer Abschnitt "Timeframe-Wahl zur Pool-Erkennung"), wiki/models/Silver Bullet Model.md (Backlink in Verwandt).
+
+## [2026-08-14] synthesis | Backtest der Bellwether-These -- 1m schwach positiv, 15m negativ
+- algo/rules.py::plan_trade um `levels_bars`-Parameter erweitert (Default None = altes Verhalten, per Assert bit-identisch verifiziert), damit die Ziel-Liquiditaet aus einer anderen Bar-Reihe als dem 5m-Entry stammen kann.
+- Neu algo/backtest_sb_bellwether.py (Reuse: rules.plan_trade fuer Entry+Ziel, Simulation nach backtest_hp_fvg.simulate). 27 Tage mit gleichzeitig 1m+5m+15m-Daten, 63 SB-Fenster.
+- Ergebnis: 5m-Baseline 62 Trades/22,6% Win/+9,71 $/Trade; 15m-Bellwether 42 Trades/9,5% Win/-1,95 $/Trade (schlechter); 1m-grosse-Pools 62 Trades/30,6% Win/+9,83 $/Trade bei hoeherem dubious-Anteil (12,9% vs 4,8%). n=42-62 zu klein fuer eine Entscheidung.
+- Seiten aktualisiert: wiki/concepts/Open Float & Liquidity Pools.md (Ergebnis-Warnbox), algo/PLAN.md.
