@@ -560,7 +560,24 @@ def displacements(bars: list[Bar], lookback: int = 20, factor: float = 2.0,
 def fvgs(bars: list[Bar], min_size: float = 0.0, tick: float | str | None = None):
     """3-Kerzen-FVG. Liegt an einer Seite eine VII (Close/Open-Luecke zur mittleren Kerze),
     wird deren aeusserer Rand statt des Wicks als Grenze genutzt -- siehe
-    wiki/concepts/Volume Imbalance (VII).md. Fuellstand wird ueber alle Folgekerzen geprueft."""
+    wiki/concepts/Volume Imbalance (VII).md. Fuellstand wird ueber alle Folgekerzen geprueft.
+
+    Handelsrelevante Felder (Quelle: ICT 2024 Mentorship "How To Trade ICT FVGs Correctly",
+    siehe wiki/concepts/Fair Value Gap (FVG).md -> "Entry, Stop und Quadranten"):
+
+      entry            eine Tickgroesse VOR der nahen Kante (Kerze 3) -- Fill sitzt, bevor
+                       Preis ins Gap laeuft. Ohne `tick` identisch mit der Kante.
+      stop_c2/stop_c1  aggressiver Stop hinter Kerze 2, konservativer hinter Kerze 1.
+      q25/q75/ce       Quadrantenraster der Ineffizienz.
+      near_touches     Kerzen, die die Gap-Haelfte auf der Einstiegsseite gehandelt haben.
+      far_touches      Kerzen jenseits des C.E. -- ICT will hier 0 sehen.
+      far_half_open    True, wenn das Gap beruehrt wurde und die ferne Haelfte offen blieb.
+      fast             Kerze 4 laeuft sofort ins Gap zurueck (Immediate Rebalance).
+
+    ⚠️ `touched`, `ce_hit`, `near_touches`, `far_touches`, `far_half_open`, `fast`, `filled`
+    beschreiben, was NACH der Entstehung passiert ist. Sie sind Auswertungsfelder -- wer sie
+    in einer Einstiegsregel verwendet, baut Lookahead ein. `entry`, `stop_*`, `q*`, `ce`,
+    `size`, `size_rel`, `strong` stehen dagegen mit dem Close von Kerze 3 fest."""
     # Koerpergrenze immer ueber min/max(o, c) bestimmen, nie ueber ein festes Feld: bei einer
     # Gegenkerze (z.B. bearishe Kerze 1 in einem bullishen FVG) tauschen Open und Close die
     # Rollen, und o/c-Annahmen liefern dann die falsche Kante bzw. eine VII, die keine ist.
@@ -587,21 +604,49 @@ def fvgs(bars: list[Bar], min_size: float = 0.0, tick: float | str | None = None
         # als Mittelwert nicht -- er landet zur Haelfte genau zwischen zwei Ticks. Da er als
         # Entry-Preis dient (algo/rules.py), muss er ein echter Preis sein.
         ce = to_tick((lo + hi) / 2, tick) if tick else (lo + hi) / 2
+        # ICT graded jede Ineffizienz in Quadranten, nicht nur auf den C.E. ("you have to
+        # always grade your inefficiencies") -- siehe wiki/concepts/Fair Value Gap (FVG).md.
+        q25 = to_tick(lo + 0.25 * (hi - lo), tick) if tick else lo + 0.25 * (hi - lo)
+        q75 = to_tick(lo + 0.75 * (hi - lo), tick) if tick else lo + 0.75 * (hi - lo)
+        # Entry und Stop nach der 2024-Mentorship-Regel: Einstieg **einen Tick vor** der
+        # nahen Gap-Kante (Kerze 3), damit der Fill sitzt, bevor Preis ins Gap laeuft.
+        # Zwei Stops: aggressiv hinter Kerze 2 (der Displacement-/Trigger-Kerze),
+        # konservativ hinter Kerze 1.
+        step = (TICK_SIZE[tick] if isinstance(tick, str) else float(tick)) if tick else 0.0
+        bull = side == "bullish"
+        entry = (hi + step) if bull else (lo - step)
+        stop_c2 = (m.l - step) if bull else (m.h + step)
+        stop_c1 = (a.l - step) if bull else (a.h + step)
+
         rest = bars[i + 2:]
         touched = ce_hit = filled = False
         fill_t = None
-        for b in rest:
+        near_touches = far_touches = 0
+        for k, b in enumerate(rest):
             if b.l <= hi and b.h >= lo:
                 touched = True
                 if b.l <= ce <= b.h:
                     ce_hit = True
-                if (side == "bullish" and b.l <= lo) or (side == "bearish" and b.h >= hi):
+                # Nahe Haelfte = die Seite, von der Preis ins Gap zurueckkommt; ferne
+                # Haelfte = die dahinter. ICT: die ferne Haelfte soll offen bleiben, die
+                # nahe hoechstens ein- bis zweimal besucht werden.
+                if (b.l < ce) if bull else (b.h > ce):
+                    far_touches += 1
+                else:
+                    near_touches += 1
+                if (b.l <= lo) if bull else (b.h >= hi):
                     filled = True
                     fill_t = b.t
                     break
+        # "if the next candle number four drops in and it starts running, chances are
+        # stronger that this lower half will stay open" -- sofortiger Rebalance als Staerke.
+        fast = bool(rest) and rest[0].l <= hi and rest[0].h >= lo
         out.append({"t": bars[i].t, "t_start": a.t, "t_end": c.t, "i": i,
-                    "side": side, "lo": lo, "hi": hi, "ce": ce,
+                    "side": side, "lo": lo, "hi": hi, "ce": ce, "q25": q25, "q75": q75,
+                    "entry": entry, "stop_c2": stop_c2, "stop_c1": stop_c1,
                     "size": hi - lo, "touched": touched, "ce_hit": ce_hit,
+                    "near_touches": near_touches, "far_touches": far_touches,
+                    "far_half_open": touched and far_touches == 0, "fast": fast,
                     "filled": filled, "fill_t": fill_t})
     return _grade(bars, out, n=2)
 
@@ -675,6 +720,59 @@ def _grade(bars: list[Bar], gaps: list[dict], n: int = 2) -> list[dict]:
         g.update(swing=lvl, broke=broke, strong=broke == "close", ms=typ,
                  size_rel=size_rel(i, g["size"]))
     return gaps
+
+
+# Killzones nach wiki/concepts/ICT Killzones.md (NY-Zeit). Asia laeuft ueber Mitternacht
+# hinaus und wird deshalb als zwei Fenster gefuehrt.
+KILLZONES = {
+    "Asia": [((19, 0), (24, 0)), ((0, 0), (0, 30))],
+    "London": [((2, 0), (5, 0))],
+    "NY": [((7, 0), (9, 0))],
+    "London Close": [((10, 0), (12, 0))],
+}
+
+
+def killzone_of(t) -> str | None:
+    """Name der Killzone, in die `t` faellt -- None ausserhalb. Erster Treffer gewinnt."""
+    mins = t.hour * 60 + t.minute
+    for name, fenster in KILLZONES.items():
+        for (h1, m1), (h2, m2) in fenster:
+            if h1 * 60 + m1 <= mins < h2 * 60 + m2:
+                return name
+    return None
+
+
+def hp_context(g: dict, prev_hi: float, prev_lo: float, bias: str | None = None) -> dict:
+    """High-Probability-Kriterien, die ausserhalb der drei Kerzen liegen.
+
+    Quelle: ICT Private Mentorship "High Probability FVG's" (Masterclass) --
+    siehe wiki/concepts/Fair Value Gap (FVG).md -> "Wo High-Probability-FVGs entstehen".
+    Drei Bedingungen, die ICT dort nennt:
+
+      bias_ok   Richtung ist vorher bekannt und das Gap zeigt dorthin. ICT nennt das den
+                wichtigsten Punkt ueberhaupt: *"you have to know what it's reaching for."*
+                Ohne `bias` bleibt das Feld None -- "unbekannt", nicht "erfuellt".
+      zone_ok   Lage in der richtigen Haelfte der **Vortagesrange**: bearish in der unteren
+                (Equilibrium -> Vortages-Low), bullish in der oberen. Gemessen wird der C.E.
+                des Gaps, weil ein Gap ueber dem Equilibrium sonst je nach Kante beides waere.
+      kz_ok     Entstehung in einer Killzone.
+
+    `hp` ist True, wenn alle drei erfuellt sind. Das Gap darf im Vortag ODER im neuen Tag
+    entstanden sein -- entscheidend ist die Preiszone, nicht der Kalendertag
+    (*"don't think that the fair value gap has to form in the previous day"*).
+
+    Kein Lookahead: alle drei Groessen stehen mit dem Close von Kerze 3 fest, sofern
+    prev_hi/prev_lo aus einem bereits abgeschlossenen Tag stammen.
+    """
+    if prev_hi <= prev_lo:
+        raise ValueError(f"Vortagesrange ungueltig: high {prev_hi} <= low {prev_lo}")
+    eq = (prev_hi + prev_lo) / 2
+    bull = g["side"] == "bullish"
+    zone_ok = (g["ce"] >= eq) if bull else (g["ce"] <= eq)
+    kz = killzone_of(g["t"])
+    bias_ok = None if bias is None else (bias == g["side"])
+    return {"prev_eq": eq, "zone_ok": zone_ok, "killzone": kz, "kz_ok": kz is not None,
+            "bias_ok": bias_ok, "hp": bool(bias_ok) and zone_ok and kz is not None}
 
 
 def viis(bars: list[Bar], min_size: float = 0.0):

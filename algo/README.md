@@ -390,21 +390,33 @@ n=21 sind beide Nicht-Befunde dort schwach -- der Test gehoert mit wachsendem Be
 (TradingView revidiert open/close nach). `--tf` (Default `1m`) steuert Dateinamen, Soll und
 Lueckenschritt; das Soll skaliert aus dem 1m-Profil (1380 -> 5m 276, 1h 23, 1d 1).
 
-**⚠️ `--tf 1d` ist gebaut, aber inhaltlich gesperrt.** Zwei Gruende, beide am 2026-08-14
-gemessen (Details in `algo/PLAN.md`):
+**Tagesbalken (`--tf 1d`) werden auf die Bestandskonvention normalisiert.** Der Bestand
+stempelt jeden Tagesbalken auf **00:00 UTC des Handelstags** (2026-08-14 ueber alle 86024
+1d-Dateien geprueft, null Abweichungen; UTC-verankert, also ohne DST-Sprung). TradingView
+stempelt stattdessen auf den Sessionstart 18:00 NY. `tagesstempel()` rechnet das um, sonst
+kollidieren die beiden Konventionen nicht, sondern stehen **nebeneinander**: ein erster Lauf
+ohne Normalisierung schrieb in 5172 Tagesdateien einen zweiten Balken (MNQ 13.08.: Close
+30201,5 neben 30223,5) und wurde komplett zurueckgerollt. Als Backstop bricht `ingest()`
+zusaetzlich mit `ValueError` ab, sobald ein Handelstag nach dem Merge ueber dem Profil-Soll
+laege -- und schreibt dann **gar nichts** (die Schreibschleife liegt hinter der Pruefung
+aller Tage).
 
-1. **Verschiedene Stempelkonventionen.** yfinance stempelt den Tagesbalken auf 00:00 UTC
-   (= 20:00 NY), TradingView auf den Sessionstart 18:00 NY. Der Merge laeuft ueber den rohen
-   Zeitstempel, also kollidieren die beiden nicht -- sie stehen **nebeneinander**. Ein erster
-   Lauf schrieb so in 5172 Tagesdateien einen zweiten Balken (MNQ 13.08.: Close 30201,5 neben
-   30223,5), komplett zurueckgerollt. `ingest()` bricht jetzt mit `ValueError` ab, sobald ein
-   Handelstag nach dem Merge ueber dem Profil-Soll laege, und schreibt dann **gar nichts**
-   (Schreibschleife liegt hinter der Pruefung aller Tage).
-2. **Continuous gegen echten Kontrakt.** Die vorliegenden 1D-Exporte sind `MNQ1!`/`MES1!`/`YM1!`,
-   der 1m-Bestand kommt von `MNQU2026`. Das sind verschiedene Preisreihen, nicht dieselbe in
-   grober: MNQ 13.08. schliesst im Kontrakt auf 30216,25, der `MNQ1!`-Tagesbalken auf 30201,5 --
-   ein Wert, auf den **keine** Kontraktminute schliesst. Welche Reihe `raw/marktdaten/` je
-   Symbol fuehrt, ist eine offene Entscheidung ueber den gesamten Bestand.
+**`--nur-neue-tage` legt nur fehlende Handelstage an.** Gedacht fuer Quellen, die dieselbe
+Serie in anderer Qualitaet liefern. Konkret gemessen am 2026-08-14: TradingView und der
+yfinance-Bestand weichen im Median nur +1,25 (MNQ) bzw. +2,00 (YM) Punkte voneinander ab --
+normale Settlement-gegen-Close-Differenz -- an einzelnen Tagen aber um bis zu 621 bzw. 1373
+Punkte. Kein konstanter Offset, also kein Back-Adjustment, sondern einzelne echte Divergenzen
+(Roll-Tage-Verdacht). Ein voller Merge haette 1763 von 1783 MNQ- und 3270 von 3389 YM-Tagen
+revidiert; solche Tage gehoeren angesehen, nicht pauschal ueberschrieben.
+
+**⚠️ Continuous gegen echten Kontrakt.** Die 1D-Exporte sind Continuous-Symbole
+(`MNQ1!`/`MES1!`/`YM1!`), der 1m-Bestand kommt vom echten Kontrakt (`MNQU2026`). Das sind
+verschiedene Preisreihen, nicht dieselbe in grober: MNQ 13.08. schliesst im Kontrakt auf
+30216,25, der `MNQ1!`-Tagesbalken auf 30201,5 -- ein Wert, auf den **keine** Kontraktminute
+schliesst. Nutzerentscheidung 2026-08-14: `raw/marktdaten/` fuehrt je Symbol die
+**Continuous-Reihe** (der yfinance-Bestand ist ohnehin continuous). Wer 1d und 1m desselben
+Symbols gegeneinander rechnet, vergleicht damit weiterhin zwei Serien -- beim Bau von
+`data_gate.py`/`backtest_common.load_range()` beachten.
 
 ## `backfill_yfinance.py` -- ergaenzt Luecken in BESTEHENDEN Dateien
 

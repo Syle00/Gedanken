@@ -168,6 +168,79 @@ def test_vii_misst_koerper_gegen_koerper():
     assert (v[0]["lo"], v[0]["hi"]) == (29877.25, 29877.75), v
 
 
+def test_entry_und_stops_nach_ict_regel():
+    """ICT 2024 Mentorship: Entry einen Tick VOR der nahen Kante (Kerze 3), Stop hinter
+    Kerze 2 (aggressiv) bzw. Kerze 1 (konservativ). Quadranten muessen auf dem Raster
+    liegen."""
+    # bullish: Luecke 100.00 (High Kerze 1) -> 104.00 (Low Kerze 3)
+    c1 = bar(99.00, 100.00, 98.00, 99.75)
+    c2 = bar(99.75, 105.00, 99.50, 104.75)
+    c3 = bar(104.75, 106.00, 104.00, 105.50)
+    g = fvgs([c1, c2, c3], tick=0.25)[0]
+    assert (g["lo"], g["hi"]) == (100.00, 104.00), g
+    assert g["entry"] == 104.25, g                       # hi + 1 Tick, Fill vor dem Gap
+    assert g["stop_c2"] == 99.25, g                      # unter Low Kerze 2 (99.50)
+    assert g["stop_c1"] == 97.75, g                      # unter Low Kerze 1 (98.00)
+    assert (g["q25"], g["ce"], g["q75"]) == (101.00, 102.00, 103.00), g
+
+    # bearish spiegelbildlich: Luecke 96.00 (High Kerze 3) -> 100.00 (Low Kerze 1)
+    d1 = bar(101.00, 102.00, 100.00, 100.25)
+    d2 = bar(100.25, 100.50, 95.00, 95.25)
+    d3 = bar(95.25, 96.00, 94.00, 94.50)
+    h = fvgs([d1, d2, d3], tick=0.25)[0]
+    assert h["side"] == "bearish" and (h["lo"], h["hi"]) == (96.00, 100.00), h
+    assert h["entry"] == 95.75, h                        # lo - 1 Tick
+    assert h["stop_c2"] == 100.75, h                     # ueber High Kerze 2 (100.50)
+    assert h["stop_c1"] == 102.25, h                     # ueber High Kerze 1 (102.00)
+
+
+def test_ferne_haelfte_offen_ist_das_staerkesignal():
+    """Bullishes FVG: nur die obere Haelfte wird gehandelt -> far_half_open. Sobald eine
+    Kerze unter den C.E. laeuft, faellt das Signal weg."""
+    c1 = bar(99.00, 100.00, 98.00, 99.75)
+    c2 = bar(99.75, 105.00, 99.50, 104.75)
+    c3 = bar(104.75, 106.00, 104.00, 105.50)
+    nur_oben = bar(105.00, 106.00, 103.00, 105.75)       # Low 103.00 > C.E. 102.00
+    g = fvgs([c1, c2, c3, nur_oben], tick=0.25)[0]
+    assert g["touched"] and g["far_half_open"], g
+    assert (g["near_touches"], g["far_touches"]) == (1, 0), g
+    assert g["fast"], g                                  # Kerze 4 laeuft sofort hinein
+
+    bis_unter_ce = bar(105.00, 106.00, 101.50, 105.75)   # Low 101.50 < C.E. 102.00
+    h = fvgs([c1, c2, c3, bis_unter_ce], tick=0.25)[0]
+    assert not h["far_half_open"] and h["far_touches"] == 1, h
+
+    # Ohne jede Beruehrung ist far_half_open False ("unbekannt"), nicht True
+    weit_weg = bar(110.00, 111.00, 109.00, 110.50)
+    k = fvgs([c1, c2, c3, weit_weg], tick=0.25)[0]
+    assert not k["touched"] and not k["far_half_open"] and not k["fast"], k
+
+
+def test_hp_context_vortageshaelfte_und_killzone():
+    """Masterclass: bearishes HP-FVG liegt in der UNTEREN Haelfte der Vortagesrange und
+    entsteht in einer Killzone."""
+    from datetime import datetime
+
+    from analyze_ohlc import hp_context, killzone_of
+
+    assert killzone_of(datetime(2026, 1, 1, 3, 0)) == "London"
+    assert killzone_of(datetime(2026, 1, 1, 13, 0)) is None
+
+    g = {"side": "bearish", "ce": 90.0, "t": datetime(2026, 1, 1, 3, 30)}
+    r = hp_context(g, prev_hi=120.0, prev_lo=80.0, bias="bearish")   # Equilibrium 100
+    assert r["zone_ok"] and r["kz_ok"] and r["bias_ok"] and r["hp"], r
+
+    r2 = hp_context({**g, "ce": 110.0}, 120.0, 80.0, "bearish")      # obere Haelfte
+    assert not r2["zone_ok"] and not r2["hp"], r2
+
+    r3 = hp_context({**g, "t": datetime(2026, 1, 1, 13, 0)}, 120.0, 80.0, "bearish")
+    assert r3["zone_ok"] and not r3["kz_ok"] and not r3["hp"], r3
+
+    # Ohne Bias bleibt bias_ok None ("unbekannt") und hp faellt auf False
+    r4 = hp_context(g, 120.0, 80.0)
+    assert r4["bias_ok"] is None and not r4["hp"], r4
+
+
 if __name__ == "__main__":
     test_bisi_uses_vii_edges_not_wicks()
     test_sibi_uses_vii_edges_not_wicks()
@@ -178,4 +251,7 @@ if __name__ == "__main__":
     test_starkes_fvg_braucht_swing_break()
     test_size_rel_misst_gegen_die_lokale_kerzenrange()
     test_vii_misst_koerper_gegen_koerper()
+    test_entry_und_stops_nach_ict_regel()
+    test_ferne_haelfte_offen_ist_das_staerkesignal()
+    test_hp_context_vortageshaelfte_und_killzone()
     print("OK")
