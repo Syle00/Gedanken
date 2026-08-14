@@ -55,6 +55,9 @@ raw/
   marktdaten/          OHLC-Rohdaten für den Algo (siehe Layer 0), TradingView-Exporte +
                         yfinance-Nachlad, Jahr/Monat/Tag verschachtelt — **wie Gold behandeln**,
                         siehe [[Algo-Trading: Arbeitsstandards]]
+  algo-pruefung/       Ergebnisse/Reports aus Algo-Prüfläufen, die lose in raw/ abgelegt wurden
+                        (siehe „Automatische Einsortierung" unten) — reine Backtest-Artefakte
+                        gehören sonst nach `algo/`, nicht hierher
   <neue-domäne>/       Weitere Themenbereiche entstehen hier bei Bedarf, z.B.
                         raw/gesundheit/, raw/buch-xyz/, raw/firma-abc/
 ```
@@ -80,9 +83,17 @@ Domänen-Unterordner), statt sie selbst einzusortieren. Erledige das für ihn:
   du mit der eigentlichen Aufgabe weitermachst — ohne nachzufragen.
 - **Zuordnung**: Lies die Datei kurz an (Titel/Metadaten/erste Zeilen, bei Bildern Dateiname und
   ggf. visuelle Prüfung) und verschiebe sie in die inhaltlich passende bestehende Domäne, in
-  deren dort übliche Unterstruktur (z.B. Bilder → `assets/`, OHLC-Daten → Jahr/Monat/Tag wie bei
-  `marktdaten/`). Passt keine bestehende Domäne, lege `raw/<neue-domäne>/` nach dem etablierten
-  Muster an.
+  deren dort übliche Unterstruktur. Passt keine bestehende Domäne, lege `raw/<neue-domäne>/` nach
+  dem etablierten Muster an. Konkrete Fälle aus deinem Trading-/Algo-Workflow:
+  - **OHLC-CSVs** (neue Marktdaten-Exporte) → `marktdaten/`, Jahr/Monat/Tag-Ordner. Symbol/
+    Timeframe/Datum aus Dateinamen ableiten, wie beim bestehenden TradingView-Export-Muster;
+    ist der Dateiname uneindeutig, zusätzlich erste/letzte Zeile der CSV auf das Datum prüfen.
+  - **TradingView-Chart-Screenshots** (Setup-/Bias-Aufnahmen) → `journal/assets/`, analog zu
+    bestehenden Journal-Screenshots; Datumsbezug im Dateinamen übernehmen, falls erkennbar.
+  - **Algo-Prüfergebnisse/Backtest-Reports**, die als Datei in `raw/` abgelegt werden →
+    `algo-pruefung/`. Gehört ein Artefakt eigentlich zur laufenden Backtest-Pipeline (kein
+    Rohquellen-Charakter), weise stattdessen aktiv darauf hin, dass es besser nach `algo/` gehört,
+    statt es unter `raw/` einzusortieren.
 - **Namenskollisionen**: Behandle sie wie beim Ingest (siehe Bildnamen-Hinweis oben) — Domänen-
   Präfix statt Überschreiben.
 - **Unklare Fälle**: Bist du dir bei der Zuordnung nicht sicher, lass die Datei liegen und melde
