@@ -47,6 +47,15 @@ diskretionaer nachvollziehbar.
 **Bekannte Grenzen:** Nur die Basisregel (Fenster+FVG+Ziel), zusaetzliche Wiki-Confluenz
 (NWOG/NDOG, Midnight-Fibs) noch nicht eingebaut (siehe `algo/PLAN.md`).
 
+**`plan_trade_hp_fvg(bars, when, prev_day_hi, prev_day_lo)`** -- zweite, eigenstaendige Regel
+(High-Probability-FVG, siehe `wiki/concepts/Fair Value Gap (FVG).md` -> "Wo High-Probability-
+FVGs entstehen"). Anders als `plan_trade()` **kein Fensterzwang** (der zugehoerige Backtest
+`backtest_hp_fvg.py` lief ganztaegig). Entry/Stop/Ziel 1:1 aus `backtest_hp_fvg.py::simulate`.
+Vortagesrange kommt als Parameter rein statt selbst geladen zu werden. Drei Masterclass-Kriterien
+(`require_kz`/`require_zone`/`require_bias`) einzeln togglebar, alle per Default AUS -- gemessene
+Kante bleibt duenn (36-38% Win bei 2R), Killzone allein nachweislich wirkungslos. IFVG und
+Reclaimed FVG bewusst noch nicht eingebaut (siehe `algo/PLAN.md`-Backlog).
+
 ## `signals.py` -- Tages-Bias-Signale
 
 **Was:** Acht Einzel-Signalfunktionen (Wochentag, Turn-of-Month, Range-/Richtungs-Autokorrelation,

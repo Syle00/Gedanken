@@ -30,8 +30,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from analyze_ohlc import (Bar, at, fvgs, untouched_levels,  # noqa: E402
+from analyze_ohlc import (Bar, at, fvgs, hp_context, untouched_levels,  # noqa: E402
                           CFG, SIZE_REL_MEDIAN)
+from backtest_hp_fvg import bias_proxy  # noqa: E402
 from pnl import round_to_tick  # noqa: E402
 
 # Kerzen VOR dem Silver-Bullet-Fenster, die fvgs() als Kontext bekommt (Volatilitaet
@@ -171,6 +172,61 @@ def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
     return TradeSetup(t=when, window=window_name, side=side, entry=entry, stop=stop, target=target)
 
 
+def plan_trade_hp_fvg(bars: list[Bar], when: datetime, prev_day_hi: float, prev_day_lo: float,
+                       symbol: str = "MNQ", stop_feld: str = "stop_c2",
+                       ziel_pkt: float = 20.0, rr: float | None = None,
+                       require_kz: bool = False, require_zone: bool = False,
+                       require_bias: bool = False) -> TradeSetup | None:
+    """High-Probability-FVG-Setup (ICT Private Mentorship "High Probability FVG's" +
+    2024 Mentorship "How To Trade ICT FVGs Correctly", siehe wiki/concepts/Fair Value Gap
+    (FVG).md). Anders als plan_trade() KEIN Fensterzwang -- der Backtest
+    (algo/backtest_hp_fvg.py) lief ganztaegig, also handelt auch diese Regel ganztaegig.
+    Nur bars[t<=when] werden benutzt.
+
+    `prev_day_hi`/`prev_day_lo` (High/Low des VORHERGEHENDEN Handelstags) kommen als Parameter
+    rein, statt hier selbst Tagesdateien zu laden -- der Aufrufer (Backtest/Live-Loop) kennt
+    den Vortag ohnehin. Bewusst tagesskaliert, nicht auf beliebige Timeframes verallgemeinert:
+    ICTs Quelle meint woertlich den vorherigen Handelstag, eine Verallgemeinerung waere eine
+    neue, ungetestete These (siehe algo/PLAN.md Backlog "Regeln fraktal ueber TF/Markt").
+
+    `require_kz`/`require_zone`/`require_bias` schalten die drei Masterclass-Kriterien
+    (Killzone/Vortageshaelfte/Bias-Proxy) einzeln zu, alle per Default AUS: gemessen an
+    7.375 FVGs bleibt die Kante duenn (36-38% Win bei 2R), Killzone allein ist nachweislich
+    wirkungslos, und `fast` ("Kerze 4 laeuft sofort zurueck") ist bewusst NICHT als Filter
+    aufgenommen, weil er die Kante in der Messung verschlechtert statt verbessert. Siehe
+    wiki/concepts/Fair Value Gap (FVG).md -> "Wo High-Probability-FVGs entstehen" fuer die
+    Zahlen. Der Bias-Proxy ist zudem nur eine Naeherung (Midnight Open vs. Vortages-
+    Equilibrium), nicht ICTs handgesetzter Draw on Liquidity."""
+    hist = [b for b in bars if b.t <= when]
+    if len(hist) < 3:
+        return None
+
+    window_fvgs = fvgs(hist, tick=symbol)
+    if not window_fvgs:
+        return None
+    fvg = window_fvgs[-1]
+
+    bias = bias_proxy(hist, when.date(), prev_day_hi, prev_day_lo)
+    ctx = hp_context(fvg, prev_day_hi, prev_day_lo, bias)
+    if require_kz and not ctx["kz_ok"]:
+        return None
+    if require_zone and not ctx["zone_ok"]:
+        return None
+    if require_bias and not bool(ctx["bias_ok"]):
+        return None
+
+    side = "long" if fvg["side"] == "bullish" else "short"
+    entry, stop = fvg["entry"], fvg[stop_feld]
+    risk = abs(entry - stop)
+    if risk <= 0:
+        return None
+    spanne = rr * risk if rr else ziel_pkt
+    target = entry + spanne if side == "long" else entry - spanne
+
+    return TradeSetup(t=when, window=ctx["killzone"] or "HP-FVG", side=side,
+                       entry=entry, stop=stop, target=target)
+
+
 def demo() -> None:
     """Selbstcheck mit synthetischen Bars: FVG + Ziel-Liquiditaet -> long-Setup; ausserhalb
     des Fensters bzw. ohne FVG im Fenster -> kein Setup."""
@@ -265,7 +321,48 @@ def demo() -> None:
                 f"{feld} {wert} liegt nicht auf dem 0,25-Tick-Raster"
     assert setup.stop == 97.75, f"Stop muss konservativ abgerundet sein (97.75), war {setup.stop}"
 
+    # --- plan_trade_hp_fvg: kein Fensterzwang, drei HP-Kriterien einzeln togglebar ---
+    hp_bars = [
+        bar(0, 0, 105, 106, 104, 105.5),    # Midnight Open 105, Vortag-EQ 100 -> Bias bullish
+        bar(6, 55, 100, 101, 99, 100.5),    # a: h=101
+        bar(7, 0, 100.5, 108, 100, 107),    # m: Displacement, Zeit 7:00 -> NY-Killzone
+        bar(7, 5, 107, 109, 102, 108),      # c: l=102 > a.h=101 -> bullish FVG
+    ]
+    hp_setup = plan_trade_hp_fvg(hp_bars, at(day, 7, 10), 110.0, 90.0)
+    assert hp_setup is not None and hp_setup.side == "long"
+
+    # dieselbe Geometrie, nur zeitlich ausserhalb jeder Killzone verschoben (11:45-12:05)
+    hp_bars_no_kz = [
+        bar(11, 45, 105, 106, 104, 105.5),
+        bar(11, 55, 100, 101, 99, 100.5),
+        bar(12, 0, 100.5, 108, 100, 107),
+        bar(12, 5, 107, 109, 102, 108),
+    ]
+    assert plan_trade_hp_fvg(hp_bars_no_kz, at(day, 12, 10), 110.0, 90.0,
+                              require_kz=True) is None, \
+        "FVG ausserhalb jeder Killzone darf require_kz nicht passieren"
+    assert plan_trade_hp_fvg(hp_bars_no_kz, at(day, 12, 10), 110.0, 90.0) is not None, \
+        "ohne Filter muss das Setup trotzdem zustande kommen -- kein Fensterzwang wie bei plan_trade"
+
+    # Vortagesrange so verschoben, dass der C.E. in der FALSCHEN Haelfte liegt (EQ 250 statt 100)
+    assert plan_trade_hp_fvg(hp_bars, at(day, 7, 10), 300.0, 200.0,
+                              require_zone=True) is None, \
+        "FVG in der falschen Vortageshaelfte darf require_zone nicht passieren"
+
+    # Midnight Open unter der Equilibrium -> Bias-Proxy bearish, FVG aber bullish
+    hp_bars_wrong_bias = list(hp_bars)
+    hp_bars_wrong_bias[0] = bar(0, 0, 95, 96, 94, 95.5)
+    assert plan_trade_hp_fvg(hp_bars_wrong_bias, at(day, 7, 10), 110.0, 90.0,
+                              require_bias=True) is None, \
+        "Bias-Proxy gegen die FVG-Seite darf require_bias nicht passieren"
+
+    # rr-Modus: Ziel als Vielfaches des Stopabstands statt fester Punkte
+    hp_rr = plan_trade_hp_fvg(hp_bars, at(day, 7, 10), 110.0, 90.0, rr=2.0)
+    risk = abs(hp_rr.entry - hp_rr.stop)
+    assert abs(abs(hp_rr.target - hp_rr.entry) - 2 * risk) < 1e-9
+
     print("plan_trade demo ok:", setup)
+    print("plan_trade_hp_fvg demo ok:", hp_setup)
 
 
 if __name__ == "__main__":
