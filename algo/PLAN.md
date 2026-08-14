@@ -408,6 +408,16 @@ liegt in der 47-Tage-Stichprobe dieses Backtests, das Ergebnis (2,7% Win/-14,57 
 davon mitbetroffen, wenn auch nur an einem von 47 Tagen. **Naechster Schritt:** die sechs Tage
 einzeln gegenpruefen und reparieren, danach `backtest_sb_session_liq.py` erneut laufen lassen.
 
+⚠️ **Nachtrag, Daily-IPDA-Check (2026-08-14):** weiterer betroffener Tag gefunden, der beim
+ersten Scan durch den `len(bars5) < 200`-Filter rutschte (unvollstaendiger Handelstag): die
+1d-Datei fuer **19.06.2026** (Freitag) enthaelt H 30967,75 / L 30336,75 -- exakt die Werte von
+**22.06.2026** (Montag danach), nicht die eigenen (5m-Aggregat 19.06.: H 30771,0 / L 30505,5).
+Sieht nach einer Duplizierung beim Wochenend-Rollover aus (Freitag-Datei blieb auf dem naechsten
+Handelstag stehen). Fuer den Daily-IPDA-Report umgangen, indem 20/40-Tage-High/Low direkt aus
+den 5m-Tagesdateien aggregiert wurden statt aus den 1d-Dateien -- robuster, aber nur 49
+Handelstage 5m-Abdeckung (ab 08.06.), das volle 60-Tage-IPDA-Fenster bleibt damit unvollstaendig
+belegt. Zaehlt als achter Fund fuer die anstehende 1d-Bereinigung.
+
 ## Naechster Schritt
 
 **Korrektur (2026-08-03):** Der urspruengliche Plan war, mit dem Backtest zu warten, bis
