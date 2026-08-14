@@ -24,8 +24,11 @@ Konventionen, bewusst gesetzt (siehe docs/superpowers/specs/2026-08-08-algo-ziel
 * **Luecken werden protokolliert, nicht verschwiegen** (CLAUDE.md: Marktdaten wie Gold behandeln).
 
 Ablage: raw/marktdaten-tief/<jjjj>/<mm>/<tt.mm.jjjj>/<SYMBOL> <jjjj-mm-tt> 1m.csv
-Getrennt von raw/marktdaten/, weil das die zweite Datenstufe ist (Fremdquelle zur Erkundung) und
-weil der Umfang nicht ins Git-Repo gehoert -- siehe .gitignore.
+Getrennt von raw/marktdaten/, weil das die zweite Datenstufe ist (Fremdquelle zur Erkundung).
+⚠️ NICHT gitignored, trotz des Umfangs -- .gitignore versioniert raw/ bewusst vollstaendig
+("Vault soll vollstaendig gesichert sein"). Der Kommentar hier stand lange falsch im Code, bis
+der 10-Paare-Bulk-Import (2026-08-14, siehe PLAN.md) mit 73.100 Dateien / ~82 Mio. Zeilen in
+einem Commit demonstrierte, dass es eben doch versioniert wird.
 """
 from __future__ import annotations
 

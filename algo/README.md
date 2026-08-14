@@ -498,9 +498,13 @@ informieren statt automatisch neu zu starten.
 
 **Warum:** Nutzerentscheidung 2026-08-11, das Projekt bewusst auf Forex-Paare zu erweitern
 (bisher nur MNQ). Ablage getrennt von `raw/marktdaten/` unter `raw/marktdaten-tief/<jjjj>/<mm>/
-<tt.mm.jjjj>/<SYMBOL> <jjjj-mm-tt> 1m.csv` (gitignored) -- zweite Datenstufe, Umfang gehoert
-nicht ins Git-Repo. Nur M1 wird geladen, keine rohen Tick-Dateien (Groessenersparnis); alle
-groeberen Timeframes (5m/15m/1h/4h/1d) werden bei Bedarf lokal aus M1 resampled.
+<tt.mm.jjjj>/<SYMBOL> <jjjj-mm-tt> 1m.csv` -- zweite Datenstufe. ⚠️ **Nicht gitignored**, trotz
+mehrfach anderslautender Kommentare in diesem Repo: `.gitignore` versioniert `raw/` bewusst
+vollstaendig ("Vault soll vollstaendig gesichert sein"), siehe root-`.gitignore`-Kommentar.
+Der 10-Paare-Bulk-Import per histdata.com (2026-08-14) hat das mit 73.100 Dateien / ~82 Mio.
+Zeilen in einem Commit demonstriert -- entsprechend gross ist jetzt die Repo-Historie. Nur M1
+wird geladen, keine rohen Tick-Dateien (Groessenersparnis); alle groeberen Timeframes
+(5m/15m/1h/4h/1d) werden bei Bedarf lokal aus M1 resampled.
 
 **Bulk-Lauf 2026-08-11 -- zweimal gescheitert, aktuell pausiert:** `algo/dukascopy_bulk.sh` soll
 sequenziell EURUSD, USDJPY, GBPUSD, USDCHF, AUDUSD, USDCAD, NZDUSD, EURJPY, EURGBP, GBPJPY je
