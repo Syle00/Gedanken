@@ -11,8 +11,14 @@ revidiert open/close nach (gemessen: 7,7 % der Kerzen zwischen zwei Exporten des
 Tages, fast nur open/close, meist 1 Tick). Abweichungen werden gezaehlt und berichtet,
 nicht verschluckt.
 
+Timeframe: `--tf` steuert Dateiname und Soll-/Lueckenrechnung (Default 1m). **Auf 1d aktuell
+nicht nutzbar** -- der Merge laeuft ueber den rohen Zeitstempel, und dort stempeln die Quellen
+verschieden (yfinance 00:00 UTC, TradingView Sessionstart 18:00 NY). `ingest()` bricht in dem
+Fall ab, statt zwei Balken fuer denselben Handelstag abzulegen; welcher Stempel im Bestand
+gilt, ist offen (siehe algo/PLAN.md, 2026-08-14).
+
 Aufruf:
-    python algo/ingest_tvexport.py <exportdatei> <SYMBOL>
+    python algo/ingest_tvexport.py <exportdatei> <SYMBOL> [--tf 1m]
     python algo/ingest_tvexport.py --demo
 """
 import csv
@@ -33,7 +39,7 @@ PROFILE = {
     "forex": (17, 1440),  # 17:00 NY -> 17:00 NY, durchgehend
     "index": (17, None),  # DXY/EXY/BXY/JXY: duenn, mit Lucken - Soll erst messen
 }
-FUTURES = {"MNQ", "NQ", "ES", "YM", "RTY", "6E", "6B", "6J", "6S", "6C"}
+FUTURES = {"MNQ", "NQ", "ES", "MES", "YM", "RTY", "6E", "6B", "6J", "6S", "6C"}
 INDIZES = {"DXY", "EXY", "BXY", "JXY"}
 
 
@@ -75,8 +81,11 @@ def schreib(pfad, kerzen, symbol=None):
             w.writerow([ts, *kerzen[ts]])
 
 
-def zielpfad(symbol, tag):
-    return RAW / f"{tag:%Y}" / f"{tag:%m}" / f"{tag:%d.%m.%Y}" / f"{symbol} {tag:%Y-%m-%d} 1m.csv"
+TF_SEKUNDEN = {"1m": 60, "5m": 300, "15m": 900, "1h": 3600, "4h": 14400, "1d": 86400}
+
+
+def zielpfad(symbol, tag, tf="1m"):
+    return RAW / f"{tag:%Y}" / f"{tag:%m}" / f"{tag:%d.%m.%Y}" / f"{symbol} {tag:%Y-%m-%d} {tf}.csv"
 
 
 def luecken(ts_sortiert, schritt=60):
@@ -90,12 +99,18 @@ def luecken(ts_sortiert, schritt=60):
     ]
 
 
-def ingest(exportdatei, symbol, schreiben=True):
+def ingest(exportdatei, symbol, schreiben=True, tf="1m"):
     """Splittet den Export nach Handelstagen und merged in den Bestand.
 
     Gibt eine Liste von Berichtszeilen zurueck (ein dict je Handelstag).
+
+    `tf` steuert nur Dateiname und Soll-/Lueckenrechnung -- die Handelstag-Zuordnung
+    bleibt dieselbe, weil TradingView auch Tagesbalken auf den Sessionstart stempelt
+    (Balken "12.08. 18:00" ist der Handelstag 13.08.).
     """
     startstunde, soll = profil(symbol)
+    if soll is not None:
+        soll = max(1, soll * 60 // TF_SEKUNDEN[tf])  # 1m 1380 -> 5m 276, 1h 23, 1d 1
     neu = lies(exportdatei)
 
     nach_tag = {}
@@ -103,8 +118,9 @@ def ingest(exportdatei, symbol, schreiben=True):
         nach_tag.setdefault(handelstag(ts, startstunde), {})[ts] = ohlc
 
     bericht = []
+    zu_schreiben = []
     for tag in sorted(nach_tag):
-        pfad = zielpfad(symbol, tag)
+        pfad = zielpfad(symbol, tag, tf)
         alt = lies(pfad) if pfad.exists() else {}
         # Konflikt: neuer Export gewinnt, Abweichung zaehlen.
         # Numerisch vergleichen, nicht als String: "29839.0" und "29839" sind derselbe Kurs,
@@ -116,6 +132,20 @@ def ingest(exportdatei, symbol, schreiben=True):
         )
         gemerged = {**alt, **nach_tag[tag]}
         ts_sortiert = sorted(gemerged)
+        # Der Merge laeuft ueber den rohen Zeitstempel -- das setzt voraus, dass Bestand und
+        # Export dieselbe Stempelkonvention haben. Auf 1m stimmt das; auf 1d nicht: yfinance
+        # stempelt den Tagesbalken auf 00:00 UTC, TradingView auf den Sessionstart 18:00 NY.
+        # Ohne diese Sperre standen am 2026-08-14 in 5172 Tagesdateien zwei Balken fuer
+        # denselben Handelstag (gemessen MNQ 13.08.: 18:00 und 20:00 NY, Close 22 Punkte
+        # auseinander). Nicht automatisch aufloesen -- welcher Stempel gilt, ist eine
+        # Entscheidung ueber den ganzen Bestand, kein Detail dieses einen Imports.
+        if soll is not None and len(gemerged) > soll:
+            zusatz = sorted(set(gemerged) - set(nach_tag[tag]))
+            raise ValueError(
+                f"{pfad.name}: {len(gemerged)} Kerzen bei Soll {soll} fuer {tf}. Bestand und "
+                f"Export stempeln verschieden (Bestand u.a. {zusatz[:3]}, Export u.a. "
+                f"{sorted(nach_tag[tag])[:3]}). Import abgebrochen, nichts geschrieben."
+            )
         zeile = {
             "tag": tag,
             "vorher": len(alt),
@@ -123,13 +153,18 @@ def ingest(exportdatei, symbol, schreiben=True):
             "gesamt": len(gemerged),
             "soll": soll,
             "vollstaendig": soll is not None and len(gemerged) >= soll,
-            "luecken": luecken(ts_sortiert),
+            "luecken": luecken(ts_sortiert, TF_SEKUNDEN[tf]),
             "revidiert": abweichungen,
             "pfad": pfad,
         }
-        if schreiben:
-            schreib(pfad, gemerged, symbol)
         bericht.append(zeile)
+        zu_schreiben.append((pfad, gemerged))
+
+    # Erst schreiben, wenn JEDER Tag die Pruefung bestanden hat -- sonst haette der Abbruch
+    # oben die bereits verarbeiteten Tage schon veraendert zurueckgelassen.
+    if schreiben:
+        for pfad, gemerged in zu_schreiben:
+            schreib(pfad, gemerged, symbol)
     return bericht
 
 
@@ -190,6 +225,53 @@ def demo():
         assert len(luecken(fuenfmin)) == 9, "mit schritt=60 meldet jede 5m-Kerze -- genau der Fehlalarm"
         assert luecken([basis, basis + 900], 300) == [(basis, 2)], "2 fehlende 5m-Kerzen erwartet"
 
+        # Timeframe landet im Dateinamen, sonst ueberschreibt ein 1d-Import die 1m-Datei
+        tag = datetime.date(2026, 8, 13)
+        assert zielpfad("MNQ", tag).name == "MNQ 2026-08-13 1m.csv", "Default bleibt 1m"
+        assert zielpfad("MNQ", tag, "1d").name == "MNQ 2026-08-13 1d.csv", "tf muss in den Namen"
+
+        # Soll skaliert mit dem Timeframe -- 1380 1m-Kerzen sind 276 5m-, 23 1h-, 1 Tagesbalken
+        soll = profil("MNQ")[1]
+        skaliert = {tf: max(1, soll * 60 // s) for tf, s in TF_SEKUNDEN.items()}
+        assert (skaliert["1m"], skaliert["5m"], skaliert["1h"], skaliert["1d"]) == (1380, 276, 23, 1), skaliert
+
+        # TradingView stempelt auch Tagesbalken auf den Sessionstart 18:00 NY des VORTAGS
+        d = datetime.datetime(2026, 8, 12, 18, 0, tzinfo=NY)
+        assert handelstag(int(d.timestamp()), 18) == datetime.date(2026, 8, 13), \
+            "Tagesbalken '12.08. 18:00' gehoert zum Handelstag 13.08."
+
+        # MES ist ein Futures-Kontrakt -- ohne Eintrag bekaeme er still das Forex-Profil (17:00)
+        assert profil("MES1!") == PROFILE["futures"], "MES muss das Futures-Profil bekommen"
+
+        # Der Schaden vom 2026-08-14: Bestand stempelt den Tagesbalken auf 00:00 UTC
+        # (= 20:00 NY), TradingView auf 18:00 NY -- ohne Sperre stehen beide nebeneinander.
+        import os
+        alt_raw = globals()["RAW"]
+        try:
+            globals()["RAW"] = Path(tmp) / "vault"
+            bestand = zielpfad("MNQ", datetime.date(2026, 8, 13), "1d")
+            bestand.parent.mkdir(parents=True, exist_ok=True)
+            yf_ts = int(datetime.datetime(2026, 8, 12, 20, 0, tzinfo=NY).timestamp())
+            tv_ts = int(datetime.datetime(2026, 8, 12, 18, 0, tzinfo=NY).timestamp())
+            schreib(bestand, {yf_ts: ("1", "9", "0", "1")})
+
+            export = Path(tmp) / "tv1d.csv"
+            schreib(export, {tv_ts: ("1", "9", "0", "9")})
+            try:
+                ingest(export, "MNQ", tf="1d")
+                raise AssertionError("zwei Tagesbalken fuer denselben Handelstag muessen abbrechen")
+            except ValueError as e:
+                assert "stempeln verschieden" in str(e), f"falsche Fehlermeldung: {e}"
+            assert len(lies(bestand)) == 1, "der Abbruch darf die Bestandsdatei nicht anfassen"
+
+            # Gleiche Stempelkonvention -> ganz normaler Merge, neuer Export gewinnt
+            schreib(export, {yf_ts: ("1", "9", "0", "9")})
+            z = ingest(export, "MNQ", tf="1d")
+            assert len(lies(bestand)) == 1 and lies(bestand)[yf_ts][3] == "9", "Revision muss greifen"
+            assert z[0]["revidiert"] == 1, "die Revision gehoert in den Bericht"
+        finally:
+            globals()["RAW"] = alt_raw
+
     print("ingest_tvexport: alle Selbstchecks bestanden")
 
 
@@ -197,7 +279,15 @@ if __name__ == "__main__":
     if "--demo" in sys.argv:
         demo()
     elif len(sys.argv) >= 3:
-        for z in ingest(sys.argv[1], sys.argv[2]):
+        import argparse
+
+        ap = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+        ap.add_argument("exportdatei")
+        ap.add_argument("symbol")
+        ap.add_argument("--tf", default="1m", choices=sorted(TF_SEKUNDEN))
+        a = ap.parse_args()
+        for z in ingest(a.exportdatei, a.symbol, tf=a.tf):
             st = "VOLLSTAENDIG" if z["vollstaendig"] else (
                 f"fehlen {z['soll'] - z['gesamt']}" if z["soll"] else "Soll unbekannt"
             )

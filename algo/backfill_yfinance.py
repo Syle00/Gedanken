@@ -26,10 +26,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from fetch_yfinance import DATA_DIR, download_interval, symbol_prefix, trading_day
-from ingest_tvexport import lies, luecken, schreib
-
-
-TF_SEKUNDEN = {"1m": 60, "5m": 300, "15m": 900, "1h": 3600, "4h": 14400, "1d": 86400}
+from ingest_tvexport import TF_SEKUNDEN, lies, luecken, schreib
 
 
 def zielpfad(symbol: str, tf: str, tag) -> Path:
