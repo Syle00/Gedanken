@@ -106,6 +106,26 @@ Praxishinweis: ein 12-Monats-Hoch/Tief kann auch **schnell** erreicht werden, we
 nah dran notiert — die Zeitangabe ist nur der Lookback-Horizont der Marke, kein Wartezeitraum bis
 zum nächsten Run.
 
+## Session Liquidity: Previous Day/Week High/Low (Nutzer-These, 2026-08-14)
+
+Jannes' Ergänzung zur obigen Hierarchie: **wann** sich ein Pool gebildet hat, ist selbst ein
+Qualitätsmerkmal. Previous Day High/Low und Previous Week High/Low gelten als besonders starke,
+high-probability [[PD Array|Draw on Liquidity]] — feste, jedem Marktteilnehmer bekannte
+Referenzpunkte, im Gegensatz zu beliebigen Swing-Points, die erst durch die eigene
+Fraktal-Erkennung entstehen.
+
+> ⚠️ **Erster Backtest negativ/unbrauchbar (2026-08-14).** `algo/backtest_sb_session_liq.py` hat
+> PDH/PDL/PWH/PWL als feste Ziel-Liquidität für den Silver Bullet getestet (Entry/Stop
+> unverändert). 47 Tage, 118 Fenster: Baseline (Swing-Level) 112 Trades/17,0 % Win/+3,97 $/Trade;
+> **PDH/PDL** 75 Trades/**2,7 % Win**/-14,57 $/Trade — klar negativ; **PWH/PWL** 82 Trades/2,4 %
+> Win/+34,35 $/Trade — nur **2 von 82 Trades gewinnen**, und der größere Gewinner erreicht sein
+> Ziel erst 4 Handelstage später (kein Silver-Bullet-Zeitrahmen mehr, sondern eine unbegrenzt
+> offen gehaltene Position) — dieses Ergebnis ist ein Methodenartefakt (fehlender Zeit-Cap in der
+> Simulation, siehe `algo/PLAN.md` Backlog), keine Bestätigung. **Widerlegt die allgemeine These
+> nicht**, zeigt nur: als Ziel *speziell für den Silver Bullet* (der einen kurzen Zeitrahmen
+> erwartet) taugen diese fixen Session-Level hier nicht — bleibt offene Hypothese, siehe
+> `algo/PLAN.md` [2026-08-14].
+
 ## Intermediate-Term High/Low
 
 Ein **Intermediate-Term High** ist ein Hoch, dem sowohl links **als auch rechts** ein niedrigeres

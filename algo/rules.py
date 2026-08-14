@@ -66,45 +66,15 @@ def _active_window(day: date, when: datetime) -> tuple[str, datetime] | None:
     return None
 
 
-def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
-                min_target_points: float = 10.0, symbol: str = "MNQ",
-                require_strong: bool = False,
-                min_size_rel: float | None = None,
-                levels_bars: list[Bar] | None = None) -> TradeSetup | None:
-    """Silver-Bullet-Setup zum Zeitpunkt `when`, oder None. Nur bars[t<=when] werden benutzt.
-
-    `stop_buffer_pct` (Anteil der FVG-Groesse als SL-Puffer) ist optimierbar/testbar --
-    siehe algo/backtest_walkforward.py (Parameter-Sensitivitaet, PLAN.md "Stop-Puffer
-    vergroessern/testen"). `min_target_points`: Setup wird nur genommen, wenn Entry->Target
-    mindestens so viele Punkte Potenzial hat (Nutzerregel, siehe wiki/models/Silver Bullet
-    Model.md).
-
-    `levels_bars`: optionale ANDERE Bar-Reihe (z.B. 15m/1m statt der 5m-Entry-Bars) fuer die
-    Ziel-Liquiditaet (untouched_levels) -- Nutzer-These 2026-08-14 ("15m als Bellwether-Chart,
-    1m fuer grosse Pools"), siehe algo/backtest_sb_bellwether.py. None (Default) = wie bisher
-    dieselben Bars wie fuer den Entry (bit-identisches Verhalten zur alten Signatur).
-
-    `require_strong` / `min_size_rel` setzen die High-Probability-Bedingung um (Nutzerregel
-    2026-08-13): nur ein FVG, dessen Displacement einen bestaetigten, noch intakten Swing
-    per Close bricht (-> MSS/BOS) UND das relativ zur lokalen Kerzenrange nicht unter dem
-    Median liegt. `min_size_rel` ist bewusst *relativ*: eine 1m-Kerze ist um 9:35 fast
-    dreimal so gross wie um 4:00, eine absolute Punktschwelle waere sessionabhaengig
-    falsch.
-
-    ⚠️ **Beide stehen bewusst per Default AUS.** Gemessen am 13.08.2026 ueber
-    `backtest_bt.py` verschlechtern sie dieses Setup deutlich, statt es zu verbessern:
-
-        require_strong=False, min_size_rel=None   16 Trades   +2.194 USD   (Baseline)
-        require_strong=True,  min_size_rel=None   10 Trades   -9.790 USD
-        require_strong=True,  min_size_rel=0,45   11 Trades   -9.031 USD
-        require_strong=False, min_size_rel=0,45   13 Trades   -6.281 USD
-
-    Vermutete Ursache: das *1st Presented* FVG entsteht per Konstruktion frueh im Fenster,
-    oft noch BEVOR Struktur genommen wird. Der Swing-Break-Filter waehlt damit systematisch
-    spaetere, schon ausgedehnte Setups (Haltedauer steigt von 64 auf ~200 Bars). Bei n=10-16
-    ist keine der Varianten von Rauschen unterscheidbar -- die Filter bleiben deshalb
-    verfuegbar und getestet, aber nicht aktiv, bis mehr Daten vorliegen. Siehe
-    wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md."""
+def sb_entry_signal(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
+                     symbol: str = "MNQ", require_strong: bool = False,
+                     min_size_rel: float | None = None
+                     ) -> tuple[str, str, float, float] | None:
+    """Silver-Bullet-Entry (Fenster + 1st Presented FVG -> Seite/Entry/Stop), OHNE die
+    Ziel-Liquiditaet zu pruefen -- extrahiert aus `plan_trade()`, damit Backtests, die eine
+    ANDERE Ziel-Logik testen wollen (z.B. algo/backtest_sb_session_liq.py, PDH/PDL/PWH/PWL
+    statt Swing-Level), nicht die Entry-Erkennung duplizieren muessen. Rueckgabe
+    (window_name, side, entry, stop) oder None. Kein Lookahead: nur bars[t<=when]."""
     win = _active_window(when.date(), when)
     if win is None:
         return None
@@ -162,9 +132,69 @@ def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
     # weg (groesserer Verlust), Ziel weiter weg (schwerer erreichbar).
     entry = round_to_tick(entry, symbol, "down" if side == "long" else "up")
     stop = round_to_tick(stop, symbol, "down" if side == "long" else "up")
+    return window_name, side, entry, stop
 
-    lvl_hist = hist if levels_bars is None else [b for b in levels_bars if b.t <= when]
-    levels = untouched_levels(lvl_hist, CFG["swing"])
+
+def plan_trade(bars: list[Bar], when: datetime, stop_buffer_pct: float = 0.1,
+                min_target_points: float = 10.0, symbol: str = "MNQ",
+                require_strong: bool = False,
+                min_size_rel: float | None = None,
+                levels_bars: list[Bar] | None = None,
+                target_candidates: list[dict] | None = None) -> TradeSetup | None:
+    """Silver-Bullet-Setup zum Zeitpunkt `when`, oder None. Nur bars[t<=when] werden benutzt.
+
+    `stop_buffer_pct` (Anteil der FVG-Groesse als SL-Puffer) ist optimierbar/testbar --
+    siehe algo/backtest_walkforward.py (Parameter-Sensitivitaet, PLAN.md "Stop-Puffer
+    vergroessern/testen"). `min_target_points`: Setup wird nur genommen, wenn Entry->Target
+    mindestens so viele Punkte Potenzial hat (Nutzerregel, siehe wiki/models/Silver Bullet
+    Model.md).
+
+    `levels_bars`: optionale ANDERE Bar-Reihe (z.B. 15m/1m statt der 5m-Entry-Bars) fuer die
+    Ziel-Liquiditaet (untouched_levels) -- Nutzer-These 2026-08-14 ("15m als Bellwether-Chart,
+    1m fuer grosse Pools"), siehe algo/backtest_sb_bellwether.py. None (Default) = wie bisher
+    dieselben Bars wie fuer den Entry (bit-identisches Verhalten zur alten Signatur).
+
+    `target_candidates`: optionale FESTE Ziel-Level statt der swing-basierten
+    untouched_levels() -- Format wie deren Rueckgabe (`[{"side": "buyside"|"sellside",
+    "level": float}, ...]`). Fuer Session-Liquiditaet (PDH/PDL/PWH/PWL, Nutzer-These
+    2026-08-14 "previous day/week High/Low sind starke DOL"), siehe
+    algo/backtest_sb_session_liq.py. Ist ignoriert, wenn `levels_bars` gesetzt ist (beide
+    ersetzen dieselbe Stelle; `target_candidates` gewinnt, wenn beide kommen). Der Aufrufer
+    ist dafuer verantwortlich, nur noch UNBERUEHRTE Level hineinzugeben (kein impliziter
+    Touch-Check hier, weil feste Session-Level anders geprueft werden als Swing-Level).
+
+    `require_strong` / `min_size_rel` setzen die High-Probability-Bedingung um (Nutzerregel
+    2026-08-13): nur ein FVG, dessen Displacement einen bestaetigten, noch intakten Swing
+    per Close bricht (-> MSS/BOS) UND das relativ zur lokalen Kerzenrange nicht unter dem
+    Median liegt. `min_size_rel` ist bewusst *relativ*: eine 1m-Kerze ist um 9:35 fast
+    dreimal so gross wie um 4:00, eine absolute Punktschwelle waere sessionabhaengig
+    falsch.
+
+    ⚠️ **Beide stehen bewusst per Default AUS.** Gemessen am 13.08.2026 ueber
+    `backtest_bt.py` verschlechtern sie dieses Setup deutlich, statt es zu verbessern:
+
+        require_strong=False, min_size_rel=None   16 Trades   +2.194 USD   (Baseline)
+        require_strong=True,  min_size_rel=None   10 Trades   -9.790 USD
+        require_strong=True,  min_size_rel=0,45   11 Trades   -9.031 USD
+        require_strong=False, min_size_rel=0,45   13 Trades   -6.281 USD
+
+    Vermutete Ursache: das *1st Presented* FVG entsteht per Konstruktion frueh im Fenster,
+    oft noch BEVOR Struktur genommen wird. Der Swing-Break-Filter waehlt damit systematisch
+    spaetere, schon ausgedehnte Setups (Haltedauer steigt von 64 auf ~200 Bars). Bei n=10-16
+    ist keine der Varianten von Rauschen unterscheidbar -- die Filter bleiben deshalb
+    verfuegbar und getestet, aber nicht aktiv, bis mehr Daten vorliegen. Siehe
+    wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md."""
+    signal = sb_entry_signal(bars, when, stop_buffer_pct, symbol, require_strong, min_size_rel)
+    if signal is None:
+        return None
+    window_name, side, entry, stop = signal
+    hist = [b for b in bars if b.t <= when]
+
+    if target_candidates is not None:
+        levels = target_candidates
+    else:
+        lvl_hist = hist if levels_bars is None else [b for b in levels_bars if b.t <= when]
+        levels = untouched_levels(lvl_hist, CFG["swing"])
     if side == "long":
         candidates = [lv["level"] for lv in levels if lv["side"] == "buyside" and lv["level"] > entry]
         target = min(candidates) if candidates else None
@@ -284,6 +314,15 @@ def demo() -> None:
     flach[2] = bar(9, 30, 95.5, 96, 95, 96)  # Spike entfernt -> keine unberuehrte Buyside
     assert plan_trade(bars, at(day, 10, 10), levels_bars=flach, **roh) is None, \
         "levels_bars muss die Ziel-Liquiditaet ersetzen, nicht nur ergaenzen"
+
+    # target_candidates ersetzt untouched_levels() komplett -- ein festes Session-Level
+    # (z.B. PDH) statt Swing-Erkennung.
+    s_cand = plan_trade(bars, at(day, 10, 10), target_candidates=[
+        {"side": "buyside", "level": 130.0}, {"side": "sellside", "level": 50.0}], **roh)
+    assert s_cand is not None and s_cand.target == 130.0
+    assert plan_trade(bars, at(day, 10, 10), target_candidates=[
+        {"side": "sellside", "level": 50.0}], **roh) is None, \
+        "kein passendes buyside-Kandidat -> kein Setup, auch wenn die Swing-Levels welche haetten"
 
     # High-Probability-Filter (2026-08-13, per Default AUS -- Begruendung im Docstring):
     # dasselbe FVG bricht keinen Swing, mit require_strong darf daraus kein Setup werden.

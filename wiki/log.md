@@ -2387,3 +2387,9 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Neu algo/backtest_sb_bellwether.py (Reuse: rules.plan_trade fuer Entry+Ziel, Simulation nach backtest_hp_fvg.simulate). 27 Tage mit gleichzeitig 1m+5m+15m-Daten, 63 SB-Fenster.
 - Ergebnis: 5m-Baseline 62 Trades/22,6% Win/+9,71 $/Trade; 15m-Bellwether 42 Trades/9,5% Win/-1,95 $/Trade (schlechter); 1m-grosse-Pools 62 Trades/30,6% Win/+9,83 $/Trade bei hoeherem dubious-Anteil (12,9% vs 4,8%). n=42-62 zu klein fuer eine Entscheidung.
 - Seiten aktualisiert: wiki/concepts/Open Float & Liquidity Pools.md (Ergebnis-Warnbox), algo/PLAN.md.
+
+## [2026-08-14] synthesis | PDH/PDL/PWH/PWL als SB-Ziel-Liquiditaet -- Artefakt in der PWH/PWL-Zahl
+- Jannes' These: previous day/week High/Low sind starke, high-probability DOL (wann sich ein Pool bildet, ist selbst ein Qualitaetsmerkmal).
+- algo/rules.py: `target_candidates`-Parameter fuer plan_trade() (feste Level statt Swing-Erkennung), Entry-Logik in neue `sb_entry_signal()` ausgelagert (reines Refactoring, verifiziert ergebniserhaltend). Neu algo/backtest_sb_session_liq.py.
+- 47 Tage, 118 Fenster: Baseline 112 Trades/17,0% Win; PDH/PDL 75 Trades/2,7% Win/-14,57 $/Trade (klar negativ); PWH/PWL 82 Trades/2,4% Win/+34,35 $/Trade -- aber nur 2 Gewinner, einer davon erreicht sein Ziel erst 4 Handelstage spaeter (kein SB-Zeitrahmen mehr). Methodenartefakt: kein Zeit-Cap in der Simulation, als Backlog-Punkt in algo/PLAN.md vermerkt.
+- Seiten aktualisiert: wiki/concepts/Open Float & Liquidity Pools.md (neuer Abschnitt "Session Liquidity: Previous Day/Week High/Low"), algo/PLAN.md (Fund + Backlog "Haltedauer-Cap fuer SB-Backtests").

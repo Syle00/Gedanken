@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-08-14T10:54:18.829650+00:00",
+  "symbol": "MNQ",
+  "tage": 47,
+  "varianten": {
+    "Swing-Level (Baseline)": {
+      "fenster": 118,
+      "ohne_zielliquiditaet": 4,
+      "trades": 112,
+      "win_pct": 17.0,
+      "dubious_pct": 4.5,
+      "usd_pro_trade": 3.97,
+      "usd_gesamt": 445.12
+    },
+    "PDH/PDL": {
+      "fenster": 118,
+      "ohne_zielliquiditaet": 42,
+      "trades": 75,
+      "win_pct": 2.7,
+      "dubious_pct": 0.0,
+      "usd_pro_trade": -14.57,
+      "usd_gesamt": -1093.0
+    },
+    "PWH/PWL": {
+      "fenster": 118,
+      "ohne_zielliquiditaet": 34,
+      "trades": 82,
+      "win_pct": 2.4,
+      "dubious_pct": 0.0,
+      "usd_pro_trade": 34.35,
+      "usd_gesamt": 2816.82
+    },
+    "PDH/PDL + PWH/PWL": {
+      "fenster": 118,
+      "ohne_zielliquiditaet": 20,
+      "trades": 96,
+      "win_pct": 3.1,
+      "dubious_pct": 0.0,
+      "usd_pro_trade": 17.5,
+      "usd_gesamt": 1679.96
+    }
+  }
+}

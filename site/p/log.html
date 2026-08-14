@@ -190,6 +190,7 @@
 <li><a href="#2026-08-14-ingest-youtube-how-to-trade-ict-fvgs-correctly-2024-high-probability-fvgs-masterclass">[2026-08-14] ingest | YouTube: How To Trade ICT FVGs Correctly (2024) + High Probability FVG's (Masterclass)</a></li>
 <li><a href="#2026-08-14-synthesis-timeframe-wahl-zur-liquidity-pool-erkennung-nutzer-regel">[2026-08-14] synthesis | Timeframe-Wahl zur Liquidity-Pool-Erkennung (Nutzer-Regel)</a></li>
 <li><a href="#2026-08-14-synthesis-backtest-der-bellwether-these-1m-schwach-positiv-15m-negativ">[2026-08-14] synthesis | Backtest der Bellwether-These -- 1m schwach positiv, 15m negativ</a></li>
+<li><a href="#2026-08-14-synthesis-pdhpdlpwhpwl-als-sb-ziel-liquiditaet-artefakt-in-der-pwhpwl-zahl">[2026-08-14] synthesis | PDH/PDL/PWH/PWL als SB-Ziel-Liquiditaet -- Artefakt in der PWH/PWL-Zahl</a></li>
 </ul>
 </div>
 </details>
@@ -2718,6 +2719,13 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Neu algo/backtest_sb_bellwether.py (Reuse: rules.plan_trade fuer Entry+Ziel, Simulation nach backtest_hp_fvg.simulate). 27 Tage mit gleichzeitig 1m+5m+15m-Daten, 63 SB-Fenster.</li>
 <li>Ergebnis: 5m-Baseline 62 Trades/22,6% Win/+9,71 $/Trade; 15m-Bellwether 42 Trades/9,5% Win/-1,95 $/Trade (schlechter); 1m-grosse-Pools 62 Trades/30,6% Win/+9,83 $/Trade bei hoeherem dubious-Anteil (12,9% vs 4,8%). n=42-62 zu klein fuer eine Entscheidung.</li>
 <li>Seiten aktualisiert: wiki/concepts/Open Float &amp; Liquidity Pools.md (Ergebnis-Warnbox), algo/PLAN.md.</li>
+</ul>
+<h2 id="2026-08-14-synthesis-pdhpdlpwhpwl-als-sb-ziel-liquiditaet-artefakt-in-der-pwhpwl-zahl">[2026-08-14] synthesis | PDH/PDL/PWH/PWL als SB-Ziel-Liquiditaet -- Artefakt in der PWH/PWL-Zahl</h2>
+<ul>
+<li>Jannes' These: previous day/week High/Low sind starke, high-probability DOL (wann sich ein Pool bildet, ist selbst ein Qualitaetsmerkmal).</li>
+<li>algo/rules.py: <code>target_candidates</code>-Parameter fuer plan_trade() (feste Level statt Swing-Erkennung), Entry-Logik in neue <code>sb_entry_signal()</code> ausgelagert (reines Refactoring, verifiziert ergebniserhaltend). Neu algo/backtest_sb_session_liq.py.</li>
+<li>47 Tage, 118 Fenster: Baseline 112 Trades/17,0% Win; PDH/PDL 75 Trades/2,7% Win/-14,57 $/Trade (klar negativ); PWH/PWL 82 Trades/2,4% Win/+34,35 $/Trade -- aber nur 2 Gewinner, einer davon erreicht sein Ziel erst 4 Handelstage spaeter (kein SB-Zeitrahmen mehr). Methodenartefakt: kein Zeit-Cap in der Simulation, als Backlog-Punkt in algo/PLAN.md vermerkt.</li>
+<li>Seiten aktualisiert: wiki/concepts/Open Float &amp; Liquidity Pools.md (neuer Abschnitt "Session Liquidity: Previous Day/Week High/Low"), algo/PLAN.md (Fund + Backlog "Haltedauer-Cap fuer SB-Backtests").</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

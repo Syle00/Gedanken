@@ -184,6 +184,7 @@
 <li><a href="#reh-rel-relative-equal-highs-lows">REH / REL (Relative Equal Highs / Lows)</a></li>
 <li><a href="#prazisere-definition-open-float">Präzisere Definition (Open Float)</a></li>
 <li><a href="#hierarchie-der-referenz-levels-begleitvideo-erganzung">Hierarchie der Referenz-Levels (Begleitvideo-Ergänzung)</a></li>
+<li><a href="#session-liquidity-previous-dayweek-highlow-nutzer-these-2026-08-14">Session Liquidity: Previous Day/Week High/Low (Nutzer-These, 2026-08-14)</a></li>
 <li><a href="#intermediate-term-highlow">Intermediate-Term High/Low</a></li>
 <li><a href="#timeframe-wahl-zur-pool-erkennung-nutzer-arbeitsweise-2026-08-14">Timeframe-Wahl zur Pool-Erkennung (Nutzer-Arbeitsweise, 2026-08-14)</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
@@ -283,6 +284,25 @@ Zeitrahmen, desto größer i.d.R. der resultierende Move nach dem Run:</p>
 <p>Praxishinweis: ein 12-Monats-Hoch/Tief kann auch <strong>schnell</strong> erreicht werden, wenn der Preis schon
 nah dran notiert — die Zeitangabe ist nur der Lookback-Horizont der Marke, kein Wartezeitraum bis
 zum nächsten Run.</p>
+<h2 id="session-liquidity-previous-dayweek-highlow-nutzer-these-2026-08-14">Session Liquidity: Previous Day/Week High/Low (Nutzer-These, 2026-08-14)</h2>
+<p>Jannes' Ergänzung zur obigen Hierarchie: <strong>wann</strong> sich ein Pool gebildet hat, ist selbst ein
+Qualitätsmerkmal. Previous Day High/Low und Previous Week High/Low gelten als besonders starke,
+high-probability <a href="../p/pd-array.html">Draw on Liquidity</a> — feste, jedem Marktteilnehmer bekannte
+Referenzpunkte, im Gegensatz zu beliebigen Swing-Points, die erst durch die eigene
+Fraktal-Erkennung entstehen.</p>
+<blockquote>
+<p>⚠️ <strong>Erster Backtest negativ/unbrauchbar (2026-08-14).</strong> <code>algo/backtest_sb_session_liq.py</code> hat
+PDH/PDL/PWH/PWL als feste Ziel-Liquidität für den Silver Bullet getestet (Entry/Stop
+unverändert). 47 Tage, 118 Fenster: Baseline (Swing-Level) 112 Trades/17,0 % Win/+3,97 $/Trade;
+<strong>PDH/PDL</strong> 75 Trades/<strong>2,7 % Win</strong>/-14,57 $/Trade — klar negativ; <strong>PWH/PWL</strong> 82 Trades/2,4 %
+Win/+34,35 $/Trade — nur <strong>2 von 82 Trades gewinnen</strong>, und der größere Gewinner erreicht sein
+Ziel erst 4 Handelstage später (kein Silver-Bullet-Zeitrahmen mehr, sondern eine unbegrenzt
+offen gehaltene Position) — dieses Ergebnis ist ein Methodenartefakt (fehlender Zeit-Cap in der
+Simulation, siehe <code>algo/PLAN.md</code> Backlog), keine Bestätigung. <strong>Widerlegt die allgemeine These
+nicht</strong>, zeigt nur: als Ziel <em>speziell für den Silver Bullet</em> (der einen kurzen Zeitrahmen
+erwartet) taugen diese fixen Session-Level hier nicht — bleibt offene Hypothese, siehe
+<code>algo/PLAN.md</code> [2026-08-14].</p>
+</blockquote>
 <h2 id="intermediate-term-highlow">Intermediate-Term High/Low</h2>
 <p>Ein <strong>Intermediate-Term High</strong> ist ein Hoch, dem sowohl links <strong>als auch rechts</strong> ein niedrigeres
 Short-Term-High vorausgeht bzw. folgt (Analogie: Kopf einer Schulter-Kopf-Schulter-Formation).
