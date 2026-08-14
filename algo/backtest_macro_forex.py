@@ -54,6 +54,7 @@ ROOT = Path(__file__).resolve().parent.parent
 TIEF_DIR = ROOT / "raw" / "marktdaten-tief"
 RESULT = Path(__file__).resolve().parent / "results" / "macro_forex.json"
 AGG_CSV = Path(__file__).resolve().parent / "results" / "macro_forex_offsets.csv"
+CACHE = Path(__file__).resolve().parent / "results" / "macro_forex_cache"
 
 # Die sechs 20-Minuten-Fenster je Stunde. 50 ist das ICT-Macro, die anderen fuenf sind
 # die Kontrollgruppe. Sie ueberlappen sich -- das ist gewollt: verglichen wird die
@@ -287,24 +288,104 @@ def report(rows: list[dict], titel: str) -> dict:
             "getrennt": getrennt, "je_offset": je_offset, "je_stunde": je_stunde}
 
 
-def schreibe_agg(rows: list[dict]) -> None:
-    """Kompakte Aggregat-CSV je (Symbol, Stunde, Offset). Die Rohzeilen werden bewusst
-    NICHT geschrieben: bei 10 Paaren x 24 Jahren waeren das ~10 Mio Zeilen (~1 GB)."""
-    AGG_CSV.parent.mkdir(exist_ok=True)
+def falte(rows: list[dict]) -> dict:
+    """Rohzeilen -> kompakte Zaehler je (Symbol, Stunde, Offset).
+
+    Der Grund ist hart: 10 Paare x 24 Jahre x 22 Stunden x 6 Offsets sind ~10 Mio
+    Zeilen. Die alle im Speicher zu halten hat den ersten Hauptlauf zerlegt (OOM-Kill,
+    keine Ausgabe). Je Symbol wird daher sofort gefaltet und die Rohliste freigegeben.
+    Medianwerte werden hier endguelltig festgehalten -- sie lassen sich aus Zaehlern
+    spaeter nicht mehr rekonstruieren.
+    """
     agg = defaultdict(list)
+    ges = defaultdict(int)
     for r in rows:
+        ges[(r["hour"], r["offset"])] += 1
         if r["ok"]:
-            agg[(r["symbol"], r["hour"], r["offset"])].append(r)
+            agg[(r["hour"], r["offset"])].append(r)
+    out = {}
+    for (h, off), sel in agg.items():
+        out[f"{h}|{off}"] = {
+            "hour": h, "offset": off, "n": len(sel), "n_gesamt": ges[(h, off)],
+            "k": sum(1 for r in sel if r["expansion"]),
+            **{f"med_{f}": _stat(sel, f)
+               for f in ("dir", "range", "netto", "mfe_20", "mfe_60")}}
+    return out
+
+
+def schreibe_agg(je_symbol: dict) -> None:
+    """Kompakte Aggregat-CSV je (Symbol, Stunde, Offset). Rohzeilen werden bewusst
+    nicht geschrieben -- siehe `falte`."""
+    AGG_CSV.parent.mkdir(exist_ok=True)
     with AGG_CSV.open("w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
         w.writerow(["symbol", "hour", "offset", "n", "expansion_rate",
                     "med_dir", "med_range", "med_netto", "med_mfe_20", "med_mfe_60"])
-        for (sym, h, off), sel in sorted(agg.items()):
-            w.writerow([sym, h, off, len(sel),
-                        f"{sum(1 for r in sel if r['expansion']) / len(sel):.4f}",
-                        *(f"{_stat(sel, f):.4f}" if _stat(sel, f) is not None else ""
-                          for f in ("dir", "range", "netto", "mfe_20", "mfe_60"))])
+        for sym in sorted(je_symbol):
+            for key in sorted(je_symbol[sym], key=lambda s: (int(s.split("|")[0]),
+                                                             int(s.split("|")[1]))):
+                z = je_symbol[sym][key]
+                w.writerow([sym, z["hour"], z["offset"], z["n"],
+                            f"{z['k'] / z['n']:.4f}" if z["n"] else "",
+                            *(f"{z[f]:.4f}" if z.get(f) is not None else ""
+                              for f in ("med_dir", "med_range", "med_netto",
+                                        "med_mfe_20", "med_mfe_60"))])
     print(f"\nAggregat -> {AGG_CSV}")
+
+
+def report_gepoolt(je_symbol: dict, titel: str) -> dict:
+    """Gepoolter Bericht allein aus den Zaehlern -- ohne Rohzeilen.
+
+    Deckt Expansionsquote und den stratifizierten Vergleich ab. Mediane werden hier
+    NICHT gepoolt (aus Zaehlern nicht rekonstruierbar); sie stehen je Symbol im
+    Einzelbericht und in der Aggregat-CSV.
+    """
+    n_m = k_m = n_c = k_c = 0
+    je_h = defaultdict(lambda: [0, 0, 0, 0])       # hour -> [n_m, k_m, n_c, k_c]
+    for sym in je_symbol:
+        for z in je_symbol[sym].values():
+            if z["offset"] == MACRO_OFFSET:
+                n_m += z["n"]; k_m += z["k"]
+                je_h[z["hour"]][0] += z["n"]; je_h[z["hour"]][1] += z["k"]
+            elif z["offset"] in CLEAN_CTRL:
+                n_c += z["n"]; k_c += z["k"]
+                je_h[z["hour"]][2] += z["n"]; je_h[z["hour"]][3] += z["k"]
+
+    from macro_db import wilson
+    lo_m, hi_m = wilson(k_m, n_m)
+    lo_c, hi_c = wilson(k_c, n_c)
+    p_m, p_c = (k_m / n_m if n_m else 0), (k_c / n_c if n_c else 0)
+
+    print(f"\n=== {titel} ===")
+    print(f"  Macro  :50               {100*p_m:.2f}% [{100*lo_m:.2f}-{100*hi_m:.2f}] (n={n_m})")
+    print(f"  Kontrolle ohne Ueberlapp {100*p_c:.2f}% [{100*lo_c:.2f}-{100*hi_c:.2f}] (n={n_c})")
+    getrennt = lo_m > hi_c or hi_m < lo_c
+    print(f"  Delta {100*(p_m-p_c):+.2f} pp -> "
+          f"{'UNTERSCHIED (Wilson-Intervalle getrennt)' if getrennt else 'kein Unterschied nachweisbar'}")
+
+    deltas, gew, pos = [], [], 0
+    print(f"\n  Je Stunde (Macro vs. Kontrolle ohne Ueberlapp):")
+    for h in sorted(je_h):
+        nm, km, nc, kc = je_h[h]
+        if nm < 20 or nc < 20:
+            continue
+        pm, pc = km / nm, kc / nc
+        lm, hm_ = wilson(km, nm)
+        lc, hc = wilson(kc, nc)
+        sig = lm > hc or hm_ < lc
+        deltas.append(pm - pc); gew.append(nm); pos += (pm > pc)
+        print(f"    {h:02d}:50  {SESSION_BY_HOUR[h]:10} Macro {100*pm:5.2f}%  "
+              f"Kontrolle {100*pc:5.2f}%  Delta {100*(pm-pc):+5.2f} pp  n={nm:6d}"
+              f"{'  ** getrennt' if sig else ''}")
+    strat = sum(d * g for d, g in zip(deltas, gew)) / sum(gew) if gew else None
+    if strat is not None:
+        print(f"\n  stratifiziert ueber {len(deltas)} Stunden: Delta {100*strat:+.2f} pp "
+              f"({pos}/{len(deltas)} Stunden positiv)")
+    return {"titel": titel, "macro": {"n": n_m, "k": k_m, "p": p_m, "lo": lo_m, "hi": hi_m},
+            "kontrolle_clean": {"n": n_c, "k": k_c, "p": p_c, "lo": lo_c, "hi": hi_c},
+            "getrennt": getrennt,
+            "stratifiziert_pp": (100 * strat if strat is not None else None),
+            "stunden_positiv": pos, "stunden_gesamt": len(deltas)}
 
 
 # --------------------------------------------------------------------------- Selfcheck
@@ -361,6 +442,7 @@ def main() -> None:
     ap.add_argument("--all", action="store_true", help="alle 10 FX-Paare")
     ap.add_argument("--mnq", action="store_true", help="nur MNQ")
     ap.add_argument("--limit", type=int, default=None, help="nur die letzten N Tage je Symbol")
+    ap.add_argument("--force", action="store_true", help="Zwischenstand ignorieren, neu rechnen")
     ap.add_argument("--selfcheck", action="store_true")
     a = ap.parse_args()
 
@@ -380,25 +462,44 @@ def main() -> None:
           f"{statistics.median(m for m, _ in meds):.2f} Pkt -> "
           f"macro_db-Schwelle 30 Pkt entspricht K = {k:.2f} x medbar")
 
-    alle_rows, zus = [], []
+    # Je Symbol: rechnen, berichten, sofort auf Zaehler falten, Rohzeilen freigeben.
+    # Der Zwischenstand liegt nach jedem Symbol auf Platte -- ein Abbruch (der erste
+    # Hauptlauf starb am Speicher) kostet dann hoechstens das laufende Symbol.
+    CACHE.mkdir(parents=True, exist_ok=True)
+    zus, je_symbol = [], {}
+
+    aufgaben = []
     if a.mnq or not (a.all or a.symbols):
-        rows = run("MNQ", mnq_path, DATA_DIR, "1m.csv", k, a.limit)
-        zus.append(report(rows, "MNQ (Futures)"))
-        alle_rows.extend(rows)
+        aufgaben.append(("MNQ", mnq_path, DATA_DIR, "1m.csv"))
+    for s in (FX_SYMBOLS if a.all else (a.symbols or [])):
+        aufgaben.append((s, fx_path, TIEF_DIR, "1m (bid).csv"))
 
-    syms = FX_SYMBOLS if a.all else (a.symbols or [])
-    for s in syms:
-        rows = run(s, fx_path, TIEF_DIR, "1m (bid).csv", k, a.limit)
-        if rows:
-            zus.append(report(rows, f"{s} (FX Spot)"))
-            alle_rows.extend(rows)
+    for sym, pathfn, root, suffix in aufgaben:
+        cache = CACHE / f"{sym}.json"
+        if cache.exists() and not a.force:
+            d = json.loads(cache.read_text(encoding="utf-8"))
+            je_symbol[sym] = d["zaehler"]
+            zus.append(d["bericht"])
+            print(f"\n{sym}: aus Zwischenstand uebernommen ({cache.name})")
+            continue
+        rows = run(sym, pathfn, root, suffix, k, a.limit)
+        if not rows:
+            print(f"\n{sym}: keine Daten gefunden")
+            continue
+        titel = f"{sym} (Futures)" if sym == "MNQ" else f"{sym} (FX Spot)"
+        b = report(rows, titel)
+        z = falte(rows)
+        rows = None                      # Speicher sofort freigeben
+        je_symbol[sym], _ = z, zus.append(b)
+        cache.write_text(json.dumps({"bericht": b, "zaehler": z}, indent=2, default=str),
+                         encoding="utf-8")
 
-    if len([z for z in zus if z["titel"].endswith("(FX Spot)")]) > 1:
-        fx = [r for r in alle_rows if r["symbol"] in FX_SYMBOLS]
-        zus.append(report(fx, "ALLE FX-PAARE GEPOOLT"))
+    fx_teil = {s: z for s, z in je_symbol.items() if s in FX_SYMBOLS}
+    if len(fx_teil) > 1:
+        zus.append(report_gepoolt(fx_teil, "ALLE FX-PAARE GEPOOLT"))
 
-    if alle_rows:
-        schreibe_agg(alle_rows)
+    if je_symbol:
+        schreibe_agg(je_symbol)
         RESULT.parent.mkdir(exist_ok=True)
         RESULT.write_text(json.dumps({"k": k, "berichte": zus}, indent=2, default=str),
                           encoding="utf-8")
