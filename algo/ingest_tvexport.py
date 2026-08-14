@@ -270,41 +270,53 @@ def demo():
         assert profil("MES1!") == PROFILE["futures"], "MES muss das Futures-Profil bekommen"
 
         # Der Schaden vom 2026-08-14: Bestand stempelt den Tagesbalken auf 00:00 UTC
-        # (= 20:00 NY), TradingView auf 18:00 NY -- ohne Sperre stehen beide nebeneinander.
-        import os
+        # (= 19:00/20:00 NY je nach Sommerzeit), TradingView auf den Sessionstart 18:00 NY.
         alt_raw = globals()["RAW"]
         try:
             globals()["RAW"] = Path(tmp) / "vault"
-            bestand = zielpfad("MNQ", datetime.date(2026, 8, 13), "1d")
+            tag13 = datetime.date(2026, 8, 13)
+            bestand = zielpfad("MNQ", tag13, "1d")
             bestand.parent.mkdir(parents=True, exist_ok=True)
-            yf_ts = int(datetime.datetime(2026, 8, 12, 20, 0, tzinfo=NY).timestamp())
+            yf_ts = tagesstempel(tag13)
             tv_ts = int(datetime.datetime(2026, 8, 12, 18, 0, tzinfo=NY).timestamp())
+            assert yf_ts != tv_ts, "die beiden Konventionen muessen sich unterscheiden"
+            assert yf_ts == int(datetime.datetime(2026, 8, 12, 20, 0, tzinfo=NY).timestamp()),                 "00:00 UTC ist im August 20:00 NY des Vortags"
             schreib(bestand, {yf_ts: ("1", "9", "0", "1")})
 
+            # Sessionstart-Stempel im Export -> auf die Bestandskonvention normalisiert,
+            # ergibt EINE Zeile mit Revision statt zweier Balken nebeneinander
             export = Path(tmp) / "tv1d.csv"
             schreib(export, {tv_ts: ("1", "9", "0", "9")})
-            try:
-                ingest(export, "MNQ", tf="1d")
-                raise AssertionError("zwei Tagesbalken fuer denselben Handelstag muessen abbrechen")
-            except ValueError as e:
-                assert "stempeln verschieden" in str(e), f"falsche Fehlermeldung: {e}"
-            assert len(lies(bestand)) == 1, "der Abbruch darf die Bestandsdatei nicht anfassen"
-
-            # Gleiche Stempelkonvention -> ganz normaler Merge, neuer Export gewinnt
-            schreib(export, {yf_ts: ("1", "9", "0", "9")})
             z = ingest(export, "MNQ", tf="1d")
-            assert len(lies(bestand)) == 1 and lies(bestand)[yf_ts][3] == "9", "Revision muss greifen"
+            nachher = lies(bestand)
+            assert list(nachher) == [yf_ts], f"genau ein Balken erwartet, waren {list(nachher)}"
+            assert nachher[yf_ts][3] == "9", "neuer Export gewinnt"
             assert z[0]["revidiert"] == 1, "die Revision gehoert in den Bericht"
-
-            # 1d normalisiert auf 00:00 UTC des Handelstags -- der Sessionstart-Stempel
-            # des Exports darf keine zweite Zeile erzeugen
-            assert tagesstempel(datetime.date(2026, 8, 13)) == yf_ts, "Bestandskonvention"
 
             # --nur-neue-tage laesst bestehende Tage komplett in Ruhe
             schreib(export, {tv_ts: ("7", "7", "7", "7")})
             z = ingest(export, "MNQ", tf="1d", nur_neu=True)
             assert z == [], "bestehender Tag darf gar nicht erst im Bericht auftauchen"
             assert lies(bestand)[yf_ts][3] == "9", "nur_neu darf den Bestand nicht anfassen"
+
+            # ... legt aber fehlende Tage an, ebenfalls auf der Bestandskonvention
+            tag14 = datetime.date(2026, 8, 14)
+            schreib(export, {int(datetime.datetime(2026, 8, 13, 18, 0, tzinfo=NY).timestamp()):
+                             ("1", "9", "0", "5")})
+            z = ingest(export, "MNQ", tf="1d", nur_neu=True)
+            neu_pfad = zielpfad("MNQ", tag14, "1d")
+            assert z and z[0]["tag"] == tag14 and neu_pfad.exists(), "fehlender Tag muss entstehen"
+            assert list(lies(neu_pfad)) == [tagesstempel(tag14)], "auch neu auf Bestandskonvention"
+
+            # Die Sperre bleibt als Backstop scharf: mehr Kerzen als das Profil-Soll
+            zuviel = Path(tmp) / "zuviel.csv"
+            basis1m = int(datetime.datetime(2026, 8, 12, 18, 0, tzinfo=NY).timestamp())
+            schreib(zuviel, {basis1m + i * 60: ("1", "9", "0", "1") for i in range(1381)})
+            try:
+                ingest(zuviel, "MNQ", tf="1m")
+                raise AssertionError("mehr als 1380 1m-Kerzen an einem Tag muessen abbrechen")
+            except ValueError as e:
+                assert "stempeln verschieden" in str(e), f"falsche Fehlermeldung: {e}"
         finally:
             globals()["RAW"] = alt_raw
 
