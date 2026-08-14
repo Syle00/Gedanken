@@ -192,6 +192,7 @@
 <li><a href="#2026-08-14-synthesis-backtest-der-bellwether-these-1m-schwach-positiv-15m-negativ">[2026-08-14] synthesis | Backtest der Bellwether-These -- 1m schwach positiv, 15m negativ</a></li>
 <li><a href="#2026-08-14-synthesis-pdhpdlpwhpwl-als-sb-ziel-liquiditaet-artefakt-in-der-pwhpwl-zahl">[2026-08-14] synthesis | PDH/PDL/PWH/PWL als SB-Ziel-Liquiditaet -- Artefakt in der PWH/PWL-Zahl</a></li>
 <li><a href="#2026-08-14-lint-1d-datei-1308-stale-nach-tradingview-korrektur-gefixt-6-weitere-tage-gefunden">[2026-08-14] lint | 1d-Datei 13.08. stale nach TradingView-Korrektur -- gefixt, 6 weitere Tage gefunden</a></li>
+<li><a href="#2026-08-14-synthesis-rehrel-welches-der-zwei-extreme-ist-noch-unberuehrt">[2026-08-14] synthesis | REH/REL: welches der zwei Extreme ist noch unberuehrt</a></li>
 </ul>
 </div>
 </details>
@@ -2734,6 +2735,12 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Root Cause: TradingView-Korrektur vom 14.08. (16 revidierte Kerzen) aktualisierte die Intraday-Dateien, nicht aber die 1d-Datei -- die blieb auf dem alten yfinance-Stand. raw/marktdaten/2026/08/13.08.2026/MNQ 2026-08-13 1d.csv direkt repariert (H/C korrigiert, O/L stimmten bereits).</li>
 <li>Systemcheck ueber 1883 1d-Dateien findet 6 weitere betroffene Tage (08.06./15.06./16.06./17.06./18.06./01.07./03.08.), NICHT automatisch repariert (fehlt externe Bestaetigung wie beim 13.08.) -- als Backlog in algo/PLAN.md vermerkt, betrifft moeglicherweise das PDH/PDL-Ergebnis aus dem letzten Session-Liquiditaet-Backtest.</li>
 <li>Zweiter Fund derselben Session: die Ranking-Antwort hatte an einer Stelle den fraktalen Swing-Punkt (30128,0) statt des tatsaechlichen Session-Extrems (30124,25 Asia-Low, 21:00 NY) gemeldet -- untouched_levels() findet nur fraktale Pivots (n=2 beidseitig), nicht zwingend das echte Session-High/Low. Methodische Lehre: fuer Session Liquidity (Asia/London/NY-Range) direkt Session-Extrema berechnen, nicht nur auf Swing-Erkennung verlassen.</li>
+</ul>
+<h2 id="2026-08-14-synthesis-rehrel-welches-der-zwei-extreme-ist-noch-unberuehrt">[2026-08-14] synthesis | REH/REL: welches der zwei Extreme ist noch unberuehrt</h2>
+<ul>
+<li>Jannes' Regel: bei einem REH-Paar muss das LINKE (fruehere) High hoeher sein als das rechte, sonst hat das rechte es schon genommen; bei REL muss das linke Low tiefer sein als das rechte. Praxisbeispiel Daily MNQ: REH-Paar 16.06. (30975,50) und 22.06. (30967,75) -- 16.06. ist links und hoeher -&gt; gueltiger Pool ist 30975,50, nicht 22.06.</li>
+<li>Seiten aktualisiert: wiki/concepts/Open Float &amp; Liquidity Pools.md (neuer Abschnitt in REH/REL).</li>
+<li>Zusaetzliche Korrektur: Sellside-Rang-1 vom letzten Report (27200,0, 29.07.) laut Jannes korrekt 27204,75 -- eigene 5m/1m-Daten bestaetigen exakt 27200,0 (kein Pipeline-Fehler), Differenz passt zum bekannten yfinance-Tick-Praezisionslimit (siehe CLAUDE.md). Neuer REL-Punkt uebernommen: 07.08. 29455,0 (00:15 NY), gegen 5m-Daten verifiziert.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

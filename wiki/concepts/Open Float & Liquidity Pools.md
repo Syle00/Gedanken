@@ -85,6 +85,24 @@ Vault-Konvention (nur der verifizierte Original-Kanal zählt als Quelle) entspri
   Liquidity) — z.B. "ein DOL mit REL ist vorhanden" bei mehrfach per Wick genommenen, aber nicht
   exakt identischen Tiefs.
 
+### Welches der beiden Extreme zählt als noch unberührt (Nutzerregel, 2026-08-14)
+
+Bei einem REH/REL-Paar (zwei nahe, aber nicht exakt gleiche Extreme) zählt für die **linke**
+(zeitlich frühere) Marke nur dann noch Liquidität, wenn sie **weiter außen** liegt als die
+rechte — sonst hat die rechte sie bereits genommen:
+
+- **REH**: das **linke** High muss **höher** sein als das rechte → die rechte Bewegung ist am
+  linken (höheren) High noch nicht angekommen, dessen Stops liegen also noch offen. Ist das
+  linke High dagegen niedriger, hat das rechte es bereits gerissen — kein gültiger Pool mehr.
+- **REL**: spiegelbildlich, das **linke** Low muss **tiefer** sein als das rechte, sonst ist es
+  vom rechten bereits genommen.
+
+Praxisbeispiel (14.08., Daily-Chart, MNQ): REH-Paar 16.06. (30 975,50) und 22.06. (30 967,75) —
+16.06. ist links **und** höher → gültiger, noch unberührter Pool ist **30 975,50** (16.06.), nicht
+das rechte, niedrigere 22.06.-High.
+
+
+
 ## Präzisere Definition (Open Float)
 
 Open Float = das aktuelle Interesse (Open Interest) **über und unter** dem Marktpreis in Form von

@@ -181,7 +181,10 @@
 <li><a href="#kernregeln">Kernregeln</a></li>
 <li><a href="#open-interest-oi-als-bestatigung">Open Interest (OI) als Bestätigung</a></li>
 <li><a href="#stop-run-mechanik-reinforcement-erganzung">Stop-Run-Mechanik (Reinforcement-Ergänzung)</a></li>
-<li><a href="#reh-rel-relative-equal-highs-lows">REH / REL (Relative Equal Highs / Lows)</a></li>
+<li><a href="#reh-rel-relative-equal-highs-lows">REH / REL (Relative Equal Highs / Lows)</a><ul>
+<li><a href="#welches-der-beiden-extreme-zahlt-als-noch-unberuhrt-nutzerregel-2026-08-14">Welches der beiden Extreme zählt als noch unberührt (Nutzerregel, 2026-08-14)</a></li>
+</ul>
+</li>
 <li><a href="#prazisere-definition-open-float">Präzisere Definition (Open Float)</a></li>
 <li><a href="#hierarchie-der-referenz-levels-begleitvideo-erganzung">Hierarchie der Referenz-Levels (Begleitvideo-Ergänzung)</a></li>
 <li><a href="#session-liquidity-previous-dayweek-highlow-nutzer-these-2026-08-14">Session Liquidity: Previous Day/Week High/Low (Nutzer-These, 2026-08-14)</a></li>
@@ -267,6 +270,20 @@ Vault-Konvention (nur der verifizierte Original-Kanal zählt als Quelle) entspri
   Liquidity) — z.B. "ein DOL mit REL ist vorhanden" bei mehrfach per Wick genommenen, aber nicht
   exakt identischen Tiefs.</li>
 </ul>
+<h3 id="welches-der-beiden-extreme-zahlt-als-noch-unberuhrt-nutzerregel-2026-08-14">Welches der beiden Extreme zählt als noch unberührt (Nutzerregel, 2026-08-14)</h3>
+<p>Bei einem REH/REL-Paar (zwei nahe, aber nicht exakt gleiche Extreme) zählt für die <strong>linke</strong>
+(zeitlich frühere) Marke nur dann noch Liquidität, wenn sie <strong>weiter außen</strong> liegt als die
+rechte — sonst hat die rechte sie bereits genommen:</p>
+<ul>
+<li><strong>REH</strong>: das <strong>linke</strong> High muss <strong>höher</strong> sein als das rechte → die rechte Bewegung ist am
+  linken (höheren) High noch nicht angekommen, dessen Stops liegen also noch offen. Ist das
+  linke High dagegen niedriger, hat das rechte es bereits gerissen — kein gültiger Pool mehr.</li>
+<li><strong>REL</strong>: spiegelbildlich, das <strong>linke</strong> Low muss <strong>tiefer</strong> sein als das rechte, sonst ist es
+  vom rechten bereits genommen.</li>
+</ul>
+<p>Praxisbeispiel (14.08., Daily-Chart, MNQ): REH-Paar 16.06. (30 975,50) und 22.06. (30 967,75) —
+16.06. ist links <strong>und</strong> höher → gültiger, noch unberührter Pool ist <strong>30 975,50</strong> (16.06.), nicht
+das rechte, niedrigere 22.06.-High.</p>
 <h2 id="prazisere-definition-open-float">Präzisere Definition (Open Float)</h2>
 <p>Open Float = das aktuelle Interesse (Open Interest) <strong>über und unter</strong> dem Marktpreis in Form von
 Pending Orders (Buy Stops/Sell Stops) — das gesamte Long/Short-Interesse im Markt an einem
