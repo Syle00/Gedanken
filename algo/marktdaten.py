@@ -69,7 +69,9 @@ def _forex_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> lis
     if bis:
         df = df[df.index.date <= bis]
 
-    return [Bar(t.to_pydatetime(), r.open, r.high, r.low, r.close) for t, r in df.iterrows()]
+    idx_py = df.index.to_pydatetime()
+    opens, highs, lows, closes = (df[c].to_numpy() for c in ("open", "high", "low", "close"))
+    return [Bar(t, o, h, l, c) for t, o, h, l, c in zip(idx_py, opens, highs, lows, closes)]
 
 
 def _demo() -> None:
