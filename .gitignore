@@ -66,3 +66,14 @@ algo/live/*/state.json
 # raw/ neu baubar (algo/build_parquet.py) -- anders als raw/ selbst gehoert das nicht in
 # die Historie (gleiche Begruendung wie graphify-out/ oben).
 algo/cache/
+
+# --- Macro-Blockrohzeilen (Forex) ---
+# algo/forex/backtest_macro.py schreibt eine Zeile je 20-Minuten-Block: ueber 10 Paare und
+# 24 Jahre sind das 3,98 Mio. Zeilen bzw. ~460 MB. Reines Zwischenergebnis, jederzeit aus
+# raw/ neu baubar -- gehoert aus demselben Grund nicht in die Historie wie algo/cache/.
+#
+# Steht hier, weil push.ps1 mit `git add -A` arbeitet und die Datei am 2026-08-15 genau so
+# in Commit c73c3122f gelandet ist. Ein einmal gepushter 460-MB-Blob bleibt in der Historie,
+# bis sie umgeschrieben wird -- deshalb muss jedes neue Grossartefakt hier eingetragen sein,
+# BEVOR der naechste Cron-Lauf es einsammelt.
+algo/results/forex_macro_blocks.csv
