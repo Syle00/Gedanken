@@ -23,7 +23,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
-from analyze_ohlc import load, at  # noqa: E402
+from analyze_ohlc import load, at, SESSION_TYP  # noqa: E402
 from backtest_org_ce import find_days  # noqa: E402
 from backtest_common import write_result  # noqa: E402
 
@@ -127,12 +127,21 @@ def report(name: str, ks: list[float]) -> None:
         print(f"  {label:<12}{c:>4}  ({100 * c / len(ks):.1f}%)")
 
 
-def run() -> dict:
+def run(symbol: str = "MNQ") -> dict:
+    if SESSION_TYP.get(symbol) == "24x5":
+        import marktdaten
+        alle_bars = marktdaten.bars(symbol, "1m")
+        nach_tag: dict = {}
+        for b in alle_bars:
+            nach_tag.setdefault(b.t.date(), []).append(b)
+        tage = sorted(nach_tag.items())
+    else:
+        tage = [(day, load(path)) for day, path in find_days(symbol)]
+
     london_high, london_low, day_high, day_low = [], [], [], []
     days_used = 0
     days_incomplete = []
-    for day, path in find_days():
-        bars = load(path)
+    for day, bars in tage:
         if window_gaps(bars, day, (0, 0), (0, 30)):
             days_incomplete.append(str(day))
         mr = midnight_range(bars, day)

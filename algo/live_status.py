@@ -200,8 +200,8 @@ def run_detectors(bars: list[Bar], day: date, now: datetime,
     # org_gap()/ndog_gap() brauchen Kerzen des Vortags -- die liegen VOR session_start (18:00
     # Vorabend), deshalb hier bewusst auf `org_bars` (Default: `bars`) gerechnet, nicht stable_bars.
     wide_bars = org_bars if org_bars is not None else bars
-    org = org_gap(wide_bars, day, tick=SYMBOL_TICK)
-    ndog = ndog_gap(wide_bars, day)
+    org = org_gap(wide_bars, day, tick=SYMBOL_TICK, symbol=DISPLAY_SYMBOL)
+    ndog = ndog_gap(wide_bars, day, symbol=DISPLAY_SYMBOL)
     nwog = nwog_gap(wide_bars, day)  # None ausser montags, siehe nwog_gap()
     return {
         "price": {"last": last.c, "t": last.t.isoformat()},

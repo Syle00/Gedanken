@@ -1,61 +1,623 @@
 {
-  "generated_at": "2026-08-07T20:56:52.060572+00:00",
-  "n_days": 150,
+  "generated_at": "2026-08-15T06:41:31.816356+00:00",
+  "symbol": "MNQ",
+  "n_days": 1882,
   "date_range": [
-    "2026-01-02",
-    "2026-08-07"
+    "2019-05-06",
+    "2026-08-14"
   ],
+  "range_einheit": "punkt",
   "weekday": {
     "Mo": {
-      "n": 28,
-      "bullish_pct": 78.6,
-      "avg_return_pct": 0.711,
-      "median_range": 551.0,
-      "avg_range": 574.77
+      "n": 376,
+      "bullish_pct": 61.4,
+      "avg_return_pct": 0.194,
+      "median_range": 263.88,
+      "avg_range": 311.22
     },
     "Di": {
-      "n": 31,
-      "bullish_pct": 48.4,
-      "avg_return_pct": 0.066,
-      "median_range": 510.0,
-      "avg_range": 595.06
+      "n": 380,
+      "bullish_pct": 50.5,
+      "avg_return_pct": 0.056,
+      "median_range": 262.88,
+      "avg_range": 304.59
     },
     "Mi": {
-      "n": 31,
-      "bullish_pct": 51.6,
-      "avg_return_pct": 0.112,
-      "median_range": 509.0,
-      "avg_range": 546.29
+      "n": 376,
+      "bullish_pct": 55.3,
+      "avg_return_pct": 0.11,
+      "median_range": 278.38,
+      "avg_range": 318.43
     },
     "Do": {
-      "n": 31,
-      "bullish_pct": 48.4,
-      "avg_return_pct": -0.068,
-      "median_range": 476.0,
-      "avg_range": 576.48
+      "n": 378,
+      "bullish_pct": 52.1,
+      "avg_return_pct": -0.012,
+      "median_range": 281.38,
+      "avg_range": 328.42
     },
     "Fr": {
-      "n": 29,
-      "bullish_pct": 48.3,
-      "avg_return_pct": -0.09,
-      "median_range": 462.75,
-      "avg_range": 535.92
+      "n": 372,
+      "bullish_pct": 51.6,
+      "avg_return_pct": 0.013,
+      "median_range": 245.12,
+      "avg_range": 299.67
     }
   },
   "month": {
-    "2026-01": {
+    "2019-05": {
+      "n": 20,
+      "bullish_pct": 30.0,
+      "avg_return_pct": -0.438,
+      "median_range": 144.75,
+      "avg_range": 146.55
+    },
+    "2019-06": {
+      "n": 20,
+      "bullish_pct": 75.0,
+      "avg_return_pct": 0.375,
+      "median_range": 105.75,
+      "avg_range": 115.16
+    },
+    "2019-07": {
+      "n": 23,
+      "bullish_pct": 52.2,
+      "avg_return_pct": 0.08,
+      "median_range": 98.25,
+      "avg_range": 101.18
+    },
+    "2019-08": {
+      "n": 22,
+      "bullish_pct": 50.0,
+      "avg_return_pct": 0.02,
+      "median_range": 178.38,
+      "avg_range": 194.22
+    },
+    "2019-09": {
+      "n": 21,
+      "bullish_pct": 47.6,
+      "avg_return_pct": 0.079,
+      "median_range": 113.25,
+      "avg_range": 112.2
+    },
+    "2019-10": {
+      "n": 23,
+      "bullish_pct": 60.9,
+      "avg_return_pct": 0.136,
+      "median_range": 121.25,
+      "avg_range": 122.36
+    },
+    "2019-11": {
+      "n": 21,
+      "bullish_pct": 61.9,
+      "avg_return_pct": 0.17,
+      "median_range": 68.25,
+      "avg_range": 71.0
+    },
+    "2019-12": {
+      "n": 21,
+      "bullish_pct": 71.4,
+      "avg_return_pct": 0.168,
+      "median_range": 81.0,
+      "avg_range": 88.21
+    },
+    "2020-01": {
+      "n": 22,
+      "bullish_pct": 59.1,
+      "avg_return_pct": 0.132,
+      "median_range": 95.88,
+      "avg_range": 131.74
+    },
+    "2020-02": {
       "n": 20,
       "bullish_pct": 60.0,
-      "avg_return_pct": 0.049,
-      "median_range": 361.5,
-      "avg_range": 396.41
+      "avg_return_pct": -0.216,
+      "median_range": 167.0,
+      "avg_range": 218.43
+    },
+    "2020-03": {
+      "n": 22,
+      "bullish_pct": 50.0,
+      "avg_return_pct": 0.377,
+      "median_range": 565.12,
+      "avg_range": 568.27
+    },
+    "2020-04": {
+      "n": 21,
+      "bullish_pct": 52.4,
+      "avg_return_pct": 0.53,
+      "median_range": 289.0,
+      "avg_range": 302.4
+    },
+    "2020-05": {
+      "n": 21,
+      "bullish_pct": 76.2,
+      "avg_return_pct": 0.404,
+      "median_range": 223.5,
+      "avg_range": 226.31
+    },
+    "2020-06": {
+      "n": 22,
+      "bullish_pct": 77.3,
+      "avg_return_pct": 0.464,
+      "median_range": 220.12,
+      "avg_range": 240.48
+    },
+    "2020-07": {
+      "n": 23,
+      "bullish_pct": 56.5,
+      "avg_return_pct": 0.306,
+      "median_range": 244.75,
+      "avg_range": 265.2
+    },
+    "2020-08": {
+      "n": 21,
+      "bullish_pct": 71.4,
+      "avg_return_pct": 0.452,
+      "median_range": 176.75,
+      "avg_range": 192.45
+    },
+    "2020-09": {
+      "n": 22,
+      "bullish_pct": 54.5,
+      "avg_return_pct": -0.294,
+      "median_range": 354.62,
+      "avg_range": 385.39
+    },
+    "2020-10": {
+      "n": 22,
+      "bullish_pct": 40.9,
+      "avg_return_pct": -0.112,
+      "median_range": 238.88,
+      "avg_range": 270.82
+    },
+    "2020-11": {
+      "n": 21,
+      "bullish_pct": 57.1,
+      "avg_return_pct": 0.421,
+      "median_range": 212.0,
+      "avg_range": 259.1
+    },
+    "2020-12": {
+      "n": 22,
+      "bullish_pct": 63.6,
+      "avg_return_pct": 0.191,
+      "median_range": 143.5,
+      "avg_range": 159.4
+    },
+    "2021-01": {
+      "n": 20,
+      "bullish_pct": 55.0,
+      "avg_return_pct": 0.095,
+      "median_range": 269.12,
+      "avg_range": 287.21
+    },
+    "2021-02": {
+      "n": 20,
+      "bullish_pct": 45.0,
+      "avg_return_pct": -0.042,
+      "median_range": 234.38,
+      "avg_range": 278.54
+    },
+    "2021-03": {
+      "n": 23,
+      "bullish_pct": 43.5,
+      "avg_return_pct": -0.063,
+      "median_range": 327.25,
+      "avg_range": 342.32
+    },
+    "2021-04": {
+      "n": 21,
+      "bullish_pct": 52.4,
+      "avg_return_pct": 0.237,
+      "median_range": 214.75,
+      "avg_range": 194.0
+    },
+    "2021-05": {
+      "n": 21,
+      "bullish_pct": 47.6,
+      "avg_return_pct": -0.045,
+      "median_range": 255.0,
+      "avg_range": 254.13
+    },
+    "2021-06": {
+      "n": 22,
+      "bullish_pct": 59.1,
+      "avg_return_pct": 0.269,
+      "median_range": 163.75,
+      "avg_range": 172.11
+    },
+    "2021-07": {
+      "n": 22,
+      "bullish_pct": 68.2,
+      "avg_return_pct": 0.173,
+      "median_range": 181.5,
+      "avg_range": 193.95
+    },
+    "2021-08": {
+      "n": 22,
+      "bullish_pct": 63.6,
+      "avg_return_pct": 0.174,
+      "median_range": 159.25,
+      "avg_range": 164.82
+    },
+    "2021-09": {
+      "n": 22,
+      "bullish_pct": 45.5,
+      "avg_return_pct": -0.202,
+      "median_range": 175.88,
+      "avg_range": 204.89
+    },
+    "2021-10": {
+      "n": 21,
+      "bullish_pct": 71.4,
+      "avg_return_pct": 0.396,
+      "median_range": 210.0,
+      "avg_range": 236.95
+    },
+    "2021-11": {
+      "n": 22,
+      "bullish_pct": 63.6,
+      "avg_return_pct": -0.021,
+      "median_range": 211.38,
+      "avg_range": 247.81
+    },
+    "2021-12": {
+      "n": 22,
+      "bullish_pct": 45.5,
+      "avg_return_pct": -0.053,
+      "median_range": 302.12,
+      "avg_range": 340.01
+    },
+    "2022-01": {
+      "n": 21,
+      "bullish_pct": 42.9,
+      "avg_return_pct": -0.543,
+      "median_range": 483.0,
+      "avg_range": 483.15
+    },
+    "2022-02": {
+      "n": 20,
+      "bullish_pct": 45.0,
+      "avg_return_pct": -0.198,
+      "median_range": 437.5,
+      "avg_range": 466.23
+    },
+    "2022-03": {
+      "n": 23,
+      "bullish_pct": 43.5,
+      "avg_return_pct": 0.132,
+      "median_range": 381.25,
+      "avg_range": 399.14
+    },
+    "2022-04": {
+      "n": 20,
+      "bullish_pct": 40.0,
+      "avg_return_pct": -0.644,
+      "median_range": 399.62,
+      "avg_range": 424.18
+    },
+    "2022-05": {
+      "n": 22,
+      "bullish_pct": 45.5,
+      "avg_return_pct": -0.005,
+      "median_range": 426.75,
+      "avg_range": 465.97
+    },
+    "2022-06": {
+      "n": 22,
+      "bullish_pct": 40.9,
+      "avg_return_pct": -0.396,
+      "median_range": 404.5,
+      "avg_range": 388.35
+    },
+    "2022-07": {
+      "n": 21,
+      "bullish_pct": 66.7,
+      "avg_return_pct": 0.588,
+      "median_range": 313.5,
+      "avg_range": 339.39
+    },
+    "2022-08": {
+      "n": 23,
+      "bullish_pct": 39.1,
+      "avg_return_pct": -0.202,
+      "median_range": 270.25,
+      "avg_range": 289.99
+    },
+    "2022-09": {
+      "n": 22,
+      "bullish_pct": 40.9,
+      "avg_return_pct": -0.571,
+      "median_range": 314.75,
+      "avg_range": 344.16
+    },
+    "2022-10": {
+      "n": 21,
+      "bullish_pct": 42.9,
+      "avg_return_pct": 0.284,
+      "median_range": 343.0,
+      "avg_range": 384.44
+    },
+    "2022-11": {
+      "n": 22,
+      "bullish_pct": 40.9,
+      "avg_return_pct": 0.234,
+      "median_range": 275.25,
+      "avg_range": 314.24
+    },
+    "2022-12": {
+      "n": 21,
+      "bullish_pct": 28.6,
+      "avg_return_pct": -0.428,
+      "median_range": 251.25,
+      "avg_range": 285.23
+    },
+    "2023-01": {
+      "n": 21,
+      "bullish_pct": 66.7,
+      "avg_return_pct": 0.413,
+      "median_range": 265.25,
+      "avg_range": 264.49
+    },
+    "2023-02": {
+      "n": 20,
+      "bullish_pct": 40.0,
+      "avg_return_pct": -0.134,
+      "median_range": 295.88,
+      "avg_range": 283.81
+    },
+    "2023-03": {
+      "n": 23,
+      "bullish_pct": 65.2,
+      "avg_return_pct": 0.35,
+      "median_range": 251.0,
+      "avg_range": 267.95
+    },
+    "2023-04": {
+      "n": 20,
+      "bullish_pct": 50.0,
+      "avg_return_pct": -0.034,
+      "median_range": 172.88,
+      "avg_range": 198.45
+    },
+    "2023-05": {
+      "n": 23,
+      "bullish_pct": 47.8,
+      "avg_return_pct": 0.246,
+      "median_range": 195.25,
+      "avg_range": 203.95
+    },
+    "2023-06": {
+      "n": 22,
+      "bullish_pct": 68.2,
+      "avg_return_pct": 0.268,
+      "median_range": 259.12,
+      "avg_range": 241.5
+    },
+    "2023-07": {
+      "n": 21,
+      "bullish_pct": 57.1,
+      "avg_return_pct": 0.154,
+      "median_range": 197.25,
+      "avg_range": 219.33
+    },
+    "2023-08": {
+      "n": 23,
+      "bullish_pct": 39.1,
+      "avg_return_pct": -0.131,
+      "median_range": 262.25,
+      "avg_range": 267.45
+    },
+    "2023-09": {
+      "n": 21,
+      "bullish_pct": 47.6,
+      "avg_return_pct": -0.21,
+      "median_range": 200.25,
+      "avg_range": 211.92
+    },
+    "2023-10": {
+      "n": 22,
+      "bullish_pct": 54.5,
+      "avg_return_pct": -0.171,
+      "median_range": 257.12,
+      "avg_range": 277.85
+    },
+    "2023-11": {
+      "n": 22,
+      "bullish_pct": 63.6,
+      "avg_return_pct": 0.509,
+      "median_range": 213.5,
+      "avg_range": 207.32
+    },
+    "2023-12": {
+      "n": 20,
+      "bullish_pct": 70.0,
+      "avg_return_pct": 0.252,
+      "median_range": 196.62,
+      "avg_range": 192.95
+    },
+    "2024-01": {
+      "n": 22,
+      "bullish_pct": 63.6,
+      "avg_return_pct": 0.11,
+      "median_range": 232.25,
+      "avg_range": 247.03
+    },
+    "2024-02": {
+      "n": 21,
+      "bullish_pct": 57.1,
+      "avg_return_pct": 0.149,
+      "median_range": 219.25,
+      "avg_range": 256.99
+    },
+    "2024-03": {
+      "n": 20,
+      "bullish_pct": 45.0,
+      "avg_return_pct": 0.011,
+      "median_range": 227.5,
+      "avg_range": 251.86
+    },
+    "2024-04": {
+      "n": 22,
+      "bullish_pct": 40.9,
+      "avg_return_pct": -0.305,
+      "median_range": 334.0,
+      "avg_range": 334.08
+    },
+    "2024-05": {
+      "n": 23,
+      "bullish_pct": 60.9,
+      "avg_return_pct": 0.264,
+      "median_range": 208.0,
+      "avg_range": 226.1
+    },
+    "2024-06": {
+      "n": 20,
+      "bullish_pct": 60.0,
+      "avg_return_pct": 0.204,
+      "median_range": 249.38,
+      "avg_range": 262.91
+    },
+    "2024-07": {
+      "n": 23,
+      "bullish_pct": 56.5,
+      "avg_return_pct": -0.083,
+      "median_range": 304.25,
+      "avg_range": 369.65
+    },
+    "2024-08": {
+      "n": 22,
+      "bullish_pct": 63.6,
+      "avg_return_pct": 0.113,
+      "median_range": 405.38,
+      "avg_range": 457.8
+    },
+    "2024-09": {
+      "n": 21,
+      "bullish_pct": 57.1,
+      "avg_return_pct": 0.003,
+      "median_range": 294.25,
+      "avg_range": 364.67
+    },
+    "2024-10": {
+      "n": 23,
+      "bullish_pct": 60.9,
+      "avg_return_pct": -0.072,
+      "median_range": 297.5,
+      "avg_range": 302.43
+    },
+    "2024-11": {
+      "n": 21,
+      "bullish_pct": 57.1,
+      "avg_return_pct": 0.23,
+      "median_range": 269.5,
+      "avg_range": 305.33
+    },
+    "2024-12": {
+      "n": 21,
+      "bullish_pct": 42.9,
+      "avg_return_pct": -0.081,
+      "median_range": 301.0,
+      "avg_range": 338.06
+    },
+    "2025-01": {
+      "n": 22,
+      "bullish_pct": 45.5,
+      "avg_return_pct": 0.052,
+      "median_range": 414.75,
+      "avg_range": 411.67
+    },
+    "2025-02": {
+      "n": 20,
+      "bullish_pct": 50.0,
+      "avg_return_pct": -0.118,
+      "median_range": 368.75,
+      "avg_range": 381.48
+    },
+    "2025-03": {
+      "n": 21,
+      "bullish_pct": 42.9,
+      "avg_return_pct": -0.499,
+      "median_range": 495.5,
+      "avg_range": 500.95
+    },
+    "2025-04": {
+      "n": 21,
+      "bullish_pct": 61.9,
+      "avg_return_pct": 0.326,
+      "median_range": 684.75,
+      "avg_range": 855.94
+    },
+    "2025-05": {
+      "n": 22,
+      "bullish_pct": 63.6,
+      "avg_return_pct": 0.476,
+      "median_range": 398.25,
+      "avg_range": 392.48
+    },
+    "2025-06": {
+      "n": 21,
+      "bullish_pct": 71.4,
+      "avg_return_pct": 0.391,
+      "median_range": 303.75,
+      "avg_range": 328.87
+    },
+    "2025-07": {
+      "n": 23,
+      "bullish_pct": 52.2,
+      "avg_return_pct": 0.04,
+      "median_range": 247.0,
+      "avg_range": 243.86
+    },
+    "2025-08": {
+      "n": 21,
+      "bullish_pct": 52.4,
+      "avg_return_pct": 0.043,
+      "median_range": 317.0,
+      "avg_range": 324.74
+    },
+    "2025-09": {
+      "n": 22,
+      "bullish_pct": 59.1,
+      "avg_return_pct": 0.161,
+      "median_range": 249.12,
+      "avg_range": 279.3
+    },
+    "2025-10": {
+      "n": 23,
+      "bullish_pct": 56.5,
+      "avg_return_pct": 0.108,
+      "median_range": 361.75,
+      "avg_range": 416.72
+    },
+    "2025-11": {
+      "n": 20,
+      "bullish_pct": 50.0,
+      "avg_return_pct": -0.19,
+      "median_range": 584.12,
+      "avg_range": 540.64
+    },
+    "2025-12": {
+      "n": 22,
+      "bullish_pct": 45.5,
+      "avg_return_pct": -0.108,
+      "median_range": 290.25,
+      "avg_range": 305.16
+    },
+    "2026-01": {
+      "n": 21,
+      "bullish_pct": 57.1,
+      "avg_return_pct": -0.03,
+      "median_range": 370.25,
+      "avg_range": 399.62
     },
     "2026-02": {
-      "n": 19,
-      "bullish_pct": 42.1,
-      "avg_return_pct": -0.059,
+      "n": 20,
+      "bullish_pct": 40.0,
+      "avg_return_pct": -0.06,
       "median_range": 473.0,
-      "avg_range": 532.78
+      "avg_range": 529.79
     },
     "2026-03": {
       "n": 22,
@@ -65,92 +627,92 @@
       "avg_range": 572.1
     },
     "2026-04": {
-      "n": 21,
-      "bullish_pct": 85.7,
-      "avg_return_pct": 0.795,
-      "median_range": 445.75,
-      "avg_range": 442.57
+      "n": 22,
+      "bullish_pct": 81.8,
+      "avg_return_pct": 0.744,
+      "median_range": 444.25,
+      "avg_range": 429.26
     },
     "2026-05": {
-      "n": 20,
-      "bullish_pct": 70.0,
-      "avg_return_pct": 0.495,
-      "median_range": 506.5,
-      "avg_range": 491.88
+      "n": 21,
+      "bullish_pct": 71.4,
+      "avg_return_pct": 0.53,
+      "median_range": 504.0,
+      "avg_range": 489.74
     },
     "2026-06": {
-      "n": 21,
-      "bullish_pct": 52.4,
-      "avg_return_pct": -0.062,
-      "median_range": 733.75,
-      "avg_range": 806.27
+      "n": 22,
+      "bullish_pct": 54.5,
+      "avg_return_pct": -0.047,
+      "median_range": 721.12,
+      "avg_range": 798.31
     },
     "2026-07": {
-      "n": 22,
-      "bullish_pct": 36.4,
-      "avg_return_pct": -0.395,
-      "median_range": 651.88,
-      "avg_range": 682.3
+      "n": 23,
+      "bullish_pct": 43.5,
+      "avg_return_pct": -0.304,
+      "median_range": 647.75,
+      "avg_range": 677.48
     },
     "2026-08": {
-      "n": 5,
-      "bullish_pct": 60.0,
-      "avg_return_pct": 0.876,
-      "median_range": 542.5,
-      "avg_range": 635.4
+      "n": 10,
+      "bullish_pct": 50.0,
+      "avg_return_pct": 0.507,
+      "median_range": 428.75,
+      "avg_range": 477.4
     }
   },
   "turn_of_month": {
     "window": {
-      "n": 29,
-      "bullish_pct": 62.1,
-      "avg_return_pct": 0.419,
-      "median_range": 542.5,
-      "avg_range": 580.64
+      "n": 349,
+      "bullish_pct": 53.6,
+      "avg_return_pct": 0.078,
+      "median_range": 281.0,
+      "avg_range": 326.02
     },
     "rest": {
-      "n": 121,
-      "bullish_pct": 52.9,
+      "n": 1533,
+      "bullish_pct": 54.3,
       "avg_return_pct": 0.071,
-      "median_range": 504.75,
-      "avg_range": 562.39
+      "median_range": 263.0,
+      "avg_range": 309.41
     }
   },
   "week_of_month": {
     "1": {
-      "n": 37,
-      "bullish_pct": 59.5,
-      "avg_return_pct": 0.074,
-      "median_range": 536.5,
-      "avg_range": 591.79
+      "n": 430,
+      "bullish_pct": 56.5,
+      "avg_return_pct": 0.089,
+      "median_range": 282.88,
+      "avg_range": 332.63
     },
     "2": {
-      "n": 35,
-      "bullish_pct": 62.9,
-      "avg_return_pct": 0.384,
-      "median_range": 473.5,
-      "avg_range": 571.17
+      "n": 439,
+      "bullish_pct": 55.8,
+      "avg_return_pct": 0.119,
+      "median_range": 262.5,
+      "avg_range": 318.15
     },
     "3": {
-      "n": 32,
-      "bullish_pct": 50.0,
-      "avg_return_pct": 0.129,
-      "median_range": 479.38,
-      "avg_range": 511.98
+      "n": 433,
+      "bullish_pct": 50.3,
+      "avg_return_pct": -0.01,
+      "median_range": 259.25,
+      "avg_range": 297.09
     },
     "4": {
-      "n": 34,
-      "bullish_pct": 44.1,
-      "avg_return_pct": -0.251,
-      "median_range": 503.38,
-      "avg_range": 542.59
+      "n": 428,
+      "bullish_pct": 57.0,
+      "avg_return_pct": 0.079,
+      "median_range": 267.5,
+      "avg_range": 305.28
     },
     "5": {
-      "n": 12,
-      "bullish_pct": 58.3,
-      "avg_return_pct": 0.746,
-      "median_range": 655.38,
-      "avg_range": 680.77
+      "n": 152,
+      "bullish_pct": 46.1,
+      "avg_return_pct": 0.099,
+      "median_range": 251.12,
+      "avg_range": 303.39
     }
   }
 }

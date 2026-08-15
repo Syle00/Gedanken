@@ -23,7 +23,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from backtest_common import load_rows  # noqa: E402
+from analyze_ohlc import PIP_SIZE  # noqa: E402
 
 MONTH_NAMES = ["", "Jan", "Feb", "Mrz", "Apr", "Mai", "Jun", "Jul", "Aug",
                "Sep", "Okt", "Nov", "Dez"]
@@ -91,26 +93,48 @@ def week_of_month_table(rows: list[dict]) -> dict:
     return {str(wk): group_stats(rs) for wk, rs in sorted(by_week.items())}
 
 
-def run() -> dict:
-    rows = load_rows()
+def run(symbol: str = "MNQ") -> dict:
+    rows = load_rows(symbol)
+    # Forex-Ranges in Pips statt Rohpreis: EURUSD-Tagesrangen liegen bei ~0,005, was mit
+    # round(x, 2) durchgaengig zu 0.0/0.01 kollabiert (Review-Fund 2026-08-15). Futures
+    # (nicht in PIP_SIZE) bleiben unveraendert in Punkten.
+    pip = PIP_SIZE.get(symbol)
+    if pip:
+        for r in rows:
+            r["range"] = r["range"] / pip
     return {
-        "n_days": len(rows), "date_range": [rows[0]["day"], rows[-1]["day"]],
+        "symbol": symbol, "n_days": len(rows), "date_range": [rows[0]["day"], rows[-1]["day"]],
+        "range_einheit": "pip" if pip else "punkt",
         "weekday": weekday_table(rows), "month": month_table(rows),
         "turn_of_month": turn_of_month(rows), "week_of_month": week_of_month_table(rows),
     }
 
 
-def main() -> None:
-    result = run()
+def out_path(symbol: str) -> Path:
+    """MNQ behaelt den bestehenden Namen (Protokollartefakt, siehe CLAUDE.md) -- jedes
+    andere Symbol bekommt einen eigenen, damit ein Forex-Lauf die MNQ-Datenbank nicht
+    ueberschreibt."""
+    if symbol == "MNQ":
+        return OUT_PATH
+    return OUT_PATH.parent / f"seasonal_tendency_{symbol}.json"
+
+
+def main(symbol: str = "MNQ") -> None:
+    result = run(symbol)
     rng = result["date_range"]
-    print(f"{result['n_days']} Handelstage ({rng[0]} bis {rng[1]}).\n")
+    einheit = result["range_einheit"].capitalize()
+    print(f"{result['n_days']} Handelstage ({rng[0]} bis {rng[1]}), Range in {einheit}.\n")
 
     print("-- Wochentag --")
     for name, s in result["weekday"].items():
         print(f"  {name}: n={s['n']:>3}  Bullish%={s['bullish_pct']:>5.1f}  "
-              f"Median-Range={s['median_range']:>7.2f}")
+              f"Median-Range={s['median_range']:>7.2f} {einheit}")
 
-    print("\n-- Monat (Rohbefund, n=1 Jahr -- kein Mehrjahres-Seasonality-Test) --")
+    jahre = rng[1].year - rng[0].year + 1
+    if jahre <= 1:
+        print("\n-- Monat (Rohbefund, n=1 Jahr -- kein Mehrjahres-Seasonality-Test) --")
+    else:
+        print(f"\n-- Monat (echter Mehrjahres-Befund, n={jahre} Jahre) --")
     for key, s in result["month"].items():
         y, m = key.split("-")
         print(f"  {MONTH_NAMES[int(m)]} {y}: n={s['n']:>2}  Bullish%={s['bullish_pct']:>5.1f}  "
@@ -128,12 +152,13 @@ def main() -> None:
     print("\n-- Woche-im-Monat (1=Tage 1-7, 2=8-14, 3=15-21, 4=22-28, 5=29-31) --")
     for wk, s in result["week_of_month"].items():
         print(f"  Woche {wk}: n={s['n']:>3}  Bullish%={s['bullish_pct']:>5.1f}  "
-              f"Median-Range={s['median_range']:>7.2f}")
+              f"Median-Range={s['median_range']:>7.2f} {einheit}")
 
     db = {"generated_at": datetime.now(timezone.utc).isoformat(), **result}
-    OUT_PATH.write_text(json.dumps(db, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
-    print(f"\nDatenbank geschrieben: {OUT_PATH.relative_to(OUT_PATH.parent.parent)}")
+    ziel = out_path(symbol)
+    ziel.write_text(json.dumps(db, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
+    print(f"\nDatenbank geschrieben: {ziel.relative_to(ziel.parent.parent)}")
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1] if len(sys.argv) > 1 else "MNQ")

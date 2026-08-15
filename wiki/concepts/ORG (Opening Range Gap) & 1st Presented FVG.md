@@ -7,6 +7,8 @@ sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[ICT Gems - Algorithmi
 
 # ORG (Opening Range Gap) & 1st Presented FVG
 
+> Siehe auch [[Eröffnungsauktion vs. 24x5-Markt]] für die Forex-Abgrenzung.
+
 Zwei verwandte 2026er-Konzepte zur Premium/Discount-Bias-Bestätigung über den
 [[Central Bank Dealers Range (CBDR)|C.E (Consequent Encroachment)]].
 

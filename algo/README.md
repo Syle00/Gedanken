@@ -869,3 +869,131 @@ Deduplizierung.
 Baseline 110 Trades/17,3 % Win/+4,62 $/Trade; PDH/PDL 71/2,8 %/-14,23 $ (weiter klar negativ);
 PWH/PWL 69/1,4 %/-1,27 $ (vorher +34,35 $ -- der alte Wert war ein Artefakt aus der stale
 1d-Datei plus dem bekannten Fehlen eines Haltedauer-Caps, siehe PLAN.md-Backlog).
+
+## `build_parquet.py` -- Parquet-Cache fuer Forex
+
+**Was:** Baut aus `raw/marktdaten-tief/` (histdata.com-M1-Bid-Bars, siehe `fetch_histdata.py`/
+`ingest_histdata_xlsx.py`) einen Parquet-Cache je Forex-Paar -- die Grundlage, auf der
+`marktdaten.py::bars()` fuer Forex aufsetzt (siehe unten). Ausgangslage waren 73.100
+Einzel-Tagesdateien (CSV) ueber 10 Paare; das direkte Einlesen davon fuer jeden Backtest-Lauf
+waere sowohl langsam als auch der falsche Layer fuer Resampling auf groebere Timeframes.
+**Wie:** Ein Lauf pro Symbol, liest alle Tagesdateien des Paares, dedupliziert exakte wie
+widerspruechliche Zeitstempel-Duplikate (siehe `fetch_histdata.py`-Befund zum juengsten
+Datenrand) und schreibt einen zusammenhaengenden Parquet-Frame. **Fix waehrend des Baus:**
+Dedup sortierte urspruenglich mit dem pandas-Default (Quicksort) -- bei mehreren Zeilen mit
+identischem Zeitstempel (die im Bestand real vorkommen, siehe oben) ist die Reihenfolge dabei
+nicht deterministisch, welche Zeile am Ende gewinnt. Umgestellt auf einen stabilen Mergesort
+(`kind="mergesort"`), damit derselbe Lauf immer denselben Cache erzeugt.
+**Warum:** Ein einziger Parquet-Frame pro Symbol ist um Groessenordnungen schneller zu laden als
+tausende CSV-Dateien und ist die Voraussetzung fuer die numpy-vektorisierte Bar-Konstruktion in
+`marktdaten.py` (siehe dort).
+**Ergebnis:** Gesamt-Cache-Groesse ueber alle 10 Paare ~894 MB.
+**Bekannte Grenzen:** Cache ist ein abgeleitetes Artefakt, keine Quelle der Wahrheit -- bei
+Aenderungen an `raw/marktdaten-tief/` (z.B. Nachzug des juengsten, noch instabilen Datenrands,
+siehe `fetch_histdata.py`) muss er neu gebaut werden, es gibt noch keinen automatischen
+Staleness-Check gegen den CSV-Bestand.
+
+## `verify_forex_data.py` -- Drei-Ebenen-Gegenpruefung des Parquet-Caches
+
+**Was:** Verbindliche Nulltoleranz-Pruefung (siehe CLAUDE.md, "Marktdaten wie Gold behandeln")
+fuer den in `build_parquet.py` gebauten Forex-Cache, in drei getrennten Checks.
+**Wie:**
+- **Zeit-Kreuzprobe:** vergleicht den Cache gegen unabhaengige TradingView-1h-Exporte je Symbol.
+  Die Stichprobe wird mit fester Schrittweite ueber den gesamten verfuegbaren Export-Zeitraum
+  gezogen (Korrektur 2026-08-15: vorher die chronologisch ersten N Dateien, das deckte nur die
+  Sommerzeit ab und liess einen DST-Ankerfehler in `marktdaten.py` unentdeckt -- jetzt sind
+  EDT- *und* EST-Tage in jeder Stichprobe).
+  **Ergebnis:** OK fuer alle 10 Symbole (~420-470 geprueften Stunden je Symbol, Tage von
+  2024-08 bis 2026-07). Die Abweichungen liegen im erwarteten Bid-vs-Mid-Bereich, nicht bei
+  null: EURUSD avg 0,00039 (≈3,9 Pips) / max 0,0023 (≈23 Pips), GBPUSD avg ≈1,7 / max ≈30 Pips,
+  GBPJPY avg 0,0165 (≈1,6 Pips) / max 0,476 (≈48 Pips). Alle deutlich unter der
+  Zeitversatz-Schwelle (0,005 bzw. 0,5 fuer JPY-Paare) -- ein echter 1h-Versatz wuerde eine
+  ganze Kursbewegung ergeben, nicht ein paar Pips. Das bestaetigt die DST-bewusste
+  Zeitkonvertierung aus `fetch_histdata.py` auch im vollen Bestand, nicht nur an den
+  urspruenglich stichprobenartig geprueften Einzeltagen.
+  (Eine frueher hier dokumentierte "maximale Abweichung <0,1 Pip" war um rund Faktor 100
+  falsch -- die tatsaechlichen Werte standen schon damals in `algo/results/forex_verify_report.json`.)
+- **Vollstaendigkeit:** prueft je Handelstag gegen die erwartete Kerzenzahl. **Bug im ersten
+  Entwurf gefunden und gefixt:** der Check kannte keine Sonderregel fuer Freitags-17:00-NY-Schluss
+  (Forex handelt bis 17:00 NY, nicht 24h) -- dadurch zaehlte *jeder* Freitag in 23 Jahren
+  faelschlich als anomaler/luekenhafter Tag. Nach dem Fix fiel EURUSDs Flag-Zahl von 4016 auf
+  3243; die verbleibenden Flags sind eine Mischung aus echten feiertagsverkuerzten Tagen und der
+  duennen 2000-2011-Periode (siehe Attrappen-Quote unten).
+  **Bekannte Luecke EURUSD (2000-2002):** EURUSD hat **540 fehlende Wochentage**, alle anderen
+  neun Paare nur 11-22. Die Luecke liegt fast vollstaendig im Legacy-XLSX-Zeitraum 2000-2002
+  (z.B. Jan-Mrz 2001 komplett ohne Daten); der Bestand springt von Dez 2000 direkt auf Jan 2003.
+  Das fliesst **ungefiltert** in `algo/seasonal_tendency_EURUSD.json` ein, dessen `date_range`
+  deshalb mit `2000-05-31` beginnt, obwohl der zusammenhaengende, saubere Bestand erst 2003
+  anfaengt. Wer EURUSD-Statistiken ueber die volle Historie zieht, mischt damit eine echt
+  lueckenhafte Fruehphase in den 2003+-Bulk -- fuer Vergleiche zwischen Jahren/Monaten
+  entweder auf >=2003 einschraenken oder die kleineren `n` der Fruehjahre explizit mitlesen.
+- **Attrappen-Quote** (`open==high==low==close`): aggregiert ueber alle Jahre 1,4-6,7 % je Symbol
+  (Spec-Erwartung war <1 %), aber **nicht gleichverteilt ueber die Zeit** -- Beispiel EURUSD je
+  Jahr: 2000: 30,0 %, 2003: 11,8 %, 2005: 11,3 %, 2007: 14,7 %, 2008: 6,4 %, 2010: 5,7 %, 2012:
+  0,45 %, 2015: 1,18 %, 2019: 0,88 %, 2022: 1,22 %, 2025: 0,97 %. Fruehe Jahre sind duenn
+  gehandelt, ab ca. 2012 liegt die Quote durchgehend unter 1,5 %.
+
+  Nachvollziehbar per direkter Abfrage gegen den Cache (nicht Teil von `verify_forex_data.py`,
+  das nur Aggregate persistiert):
+
+  ```python
+  import pandas as pd
+  df = pd.read_parquet('algo/cache/EURUSD_1m.parquet')
+  idx = pd.to_datetime(df['time'], unit='s', utc=True).dt.tz_convert('America/New_York')
+  df = df.set_index(idx)
+  df['jahr'] = df.index.year
+  flach = (df['open']==df['high']) & (df['low']==df['close']) & (df['open']==df['low'])
+  by_year = flach.groupby(df['jahr']).mean()
+  ```
+**Warum:** Eine einzelne Aggregatzahl ("6,7 % Attrappen") haette die Entscheidung "ganze
+2000-2011-Periode verwerfen" nahegelegt -- die Jahresaufschluesselung zeigt, dass das ein
+Frueh-Historie-Phaenomen ist, kein durchgehender Datenfehler.
+**Nutzerentscheidung (explizit):** alle Jahre 2000-2026 bleiben im Datensatz, **keine**
+Filterung/Ausschluss der duennen 2000-2011-Periode. Stattdessen als bekannte Grenze dokumentiert:
+praezisionskritische Arbeit auf 2000-2011-Daten muss die duennere Liquiditaet/hoehere
+Attrappen-Dichte dieser Periode beruecksichtigen.
+**Bekannte Grenzen:** Die Zeit-Kreuzprobe deckt nur Stunden ab, in denen TradingView-1h-Exporte
+vorliegen -- keine Minute-fuer-Minute-Verifikation des gesamten 23-Jahre-Bestands. Die
+Attrappen-Quote misst nur `open==high==low==close`, keine sonstigen Feed-Artefakte.
+
+## `marktdaten.py` -- Symbol-agnostischer Bar-Loader (Forex + Futures)
+
+**Was:** `bars(symbol, tf, von, bis)` ist der neue, einheitliche Einstiegspunkt fuer
+Kursdaten-Ladung -- ersetzt den direkten CSV-Zugriff in Backtest-Skripten fuer Forex-Symbole,
+bleibt fuer Futures unveraendert.
+**Wie:** Dispatcht nach Symbol: Forex-Paare laufen ueber den Parquet-Cache aus `build_parquet.py`
+(aus 1m resampled auf den angeforderten Timeframe, Session-Tage NY-Mitternacht-verankert statt
+Kalendertag-verankert); Futures-Symbole laufen unveraendert ueber den bestehenden
+`raw/marktdaten/`-CSV-Pfad.
+**Performance-Fix:** die erste Fassung baute die `Bar`-Liste per `df.iterrows()` -- fuer einen
+vollen 23-Jahre/8,5-Mio-Zeilen-Symbol-Load dauerte das 600+ Sekunden (Timeout, kein nutzbares
+Ergebnis). Umgebaut auf numpy-Array-Vektorisierung (Spalten einmal als numpy-Arrays extrahieren,
+`Bar`-Objekte per Listcomprehension ueber Indizes statt per Pandas-Zeilen-Iteration bauen) --
+jetzt ~12,5 s fuer dieselbe volle 1m-Historie.
+**Warum:** `backtest_common.py::load_rows()` und die Gruppe-A/B-Module brauchen einen Loader, der
+Forex und Futures gleich behandelt, ohne dass jedes Skript selbst zwischen CSV- und
+Parquet-Pfad unterscheiden muss.
+**Bekannte Grenzen:** Nur Gruppe-A/B-Module (`backtest_seasonal.py`,
+`backtest_midnight_range_std.py`) sind bislang tatsaechlich umgestellt (siehe `algo/PLAN.md`-
+Backlog fuer die restlichen acht). Gruppe-C-Module (ORG/NDOG-abhaengig) bleiben MNQ-only, siehe
+`SESSION_TYP`-Guard in `tools/analyze_ohlc.py`.
+
+## `measure_forex_attrappen.py` -- Attrappen-Loeschvorschlag fuer `raw/marktdaten/`
+
+**Was:** Misst die **alten** yfinance-Forex-Dateien in `raw/marktdaten/` (nicht den neuen
+histdata-Cache in `raw/marktdaten-tief/`) auf ihre Attrappen-Quote (`open==high==low==close`),
+je Datei -- reiner Messschritt, keine Loeschung.
+**Wie:** Prueft laut Spec §8.3 bewusst nur 1m/5m/15m-Dateien (1h/4h/1d werden bewusst
+ausgenommen/erhalten -- gröbere Timeframes sind seltener degenerierte Kerzen und werden
+weiterhin fuer andere Zwecke gebraucht). 340 Dateien geprueft, **72 ueberschreiten die
+90-%-Attrappen-Schwelle** und stehen auf der Loeschkandidaten-Liste.
+**Warum:** Der alte yfinance-Forex-Bestand wird durch den neuen, deutlich laengeren und
+gruendlicher verifizierten histdata-Cache (`build_parquet.py`) ersetzt -- Dateien mit einer derart
+hohen Attrappen-Quote liefern praktisch kein echtes OHLC-Signal mehr und sind Kandidaten zum
+Aufraeumen.
+**Nichts geloescht:** die 72 Dateien bleiben vorerst liegen (Spec §8.4) -- Loeschung braucht eine
+separate, ausdrueckliche Freigabe des Nutzers, ist explizit nicht Teil der automatisierten
+Ausfuehrung dieses Plans.
+**Bekannte Grenzen:** Die 90-%-Schwelle ist ein fester Cutoff, keine statistische Herleitung --
+Dateien knapp darunter koennen ebenfalls stark degeneriert sein, wurden hier aber nicht als
+Loeschkandidat gefuehrt.

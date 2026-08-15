@@ -7,6 +7,8 @@ sources: ["[[2026-08-13 MNQ Daily Bias]]"]
 
 # New Day Opening Gap (NDOG)
 
+> Siehe auch [[Eröffnungsauktion vs. 24x5-Markt]] für die Forex-Abgrenzung.
+
 Das tägliche Pendant zum [[New Week Opening Gap (NWOG) Bias|NWOG]]: das Kursgap zwischen dem
 gestrigen Session-Close und der heutigen Session-Open. Wie das NWOG ein PD Array, nur auf
 Daily- statt Weekly-Ebene.
