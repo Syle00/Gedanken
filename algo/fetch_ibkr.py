@@ -308,12 +308,16 @@ def main(argv=None) -> int:
                       f"(Kontrakt {contract}, Tag {day}), nichts geschrieben")
         elif a.backfill:
             von, bis = date.fromisoformat(a.backfill[0]), date.fromisoformat(a.backfill[1])
-            tag = von
-            while tag <= bis:
-                if _ist_handelstag(tag):
-                    for symbol in symbols:
-                        fetch_symbol_day(ib, symbol, tag, pacing)
-                tag += timedelta(days=1)
+            handelstage = [von + timedelta(days=i) for i in range((bis - von).days + 1)
+                           if _ist_handelstag(von + timedelta(days=i))]
+            gesamt = len(handelstage) * len(symbols)
+            erledigt = 0
+            for tag in handelstage:
+                for symbol in symbols:
+                    erledigt += 1
+                    dest = fetch_symbol_day(ib, symbol, tag, pacing)
+                    status = f"geschrieben ({dest.name})" if dest else "uebersprungen (schon vorhanden/keine Daten)"
+                    print(f"[{erledigt}/{gesamt}] {symbol} {tag}: {status}", flush=True)
         else:
             # Nachlad: pro Symbol vom Tag nach dem juengsten Registereintrag bis gestern
             # auffuellen (resumable, stateless). Ohne jeden Registereintrag (kalter Start)
@@ -326,7 +330,9 @@ def main(argv=None) -> int:
                 tag = letzter + timedelta(days=1) if letzter else gestern
                 while tag <= gestern:
                     if _ist_handelstag(tag):
-                        fetch_symbol_day(ib, symbol, tag, pacing)
+                        dest = fetch_symbol_day(ib, symbol, tag, pacing)
+                        status = f"geschrieben ({dest.name})" if dest else "uebersprungen (schon vorhanden/keine Daten)"
+                        print(f"{symbol} {tag}: {status}", flush=True)
                     tag += timedelta(days=1)
     finally:
         ib.disconnect()
