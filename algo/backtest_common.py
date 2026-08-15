@@ -49,8 +49,24 @@ def find_1d_days(symbol: str = "MNQ") -> list[tuple[date, Path]]:
 
 
 def load_rows(symbol: str = "MNQ") -> list[dict]:
-    """Verschoben aus backtest_seasonal.py (2026-08-07), unveraendert. Ein dict pro
-    Handelstag mit open/close/high/low/range/ret_pct/bullish."""
+    """Verschoben aus backtest_seasonal.py (2026-08-07). Fuer 24x5-Symbole (Forex) ueber
+    algo.marktdaten.bars() (histdata-Cache), fuer alles andere unveraendert ueber
+    find_1d_days() (raw/marktdaten/) -- siehe docs/superpowers/specs/
+    2026-08-14-forex-backtesting-design.md §5.1."""
+    from analyze_ohlc import SESSION_TYP  # lokal, um den Futures-Pfad ohne neue
+                                          # Modulabhaengigkeit unveraendert zu lassen
+    if SESSION_TYP.get(symbol) == "24x5":
+        import marktdaten
+        rows = []
+        for b in marktdaten.bars(symbol, "1d"):
+            if b.h <= b.l:
+                continue
+            rows.append({"day": b.t.date(), "open": b.o, "close": b.c, "high": b.h, "low": b.l,
+                        "range": b.h - b.l, "ret_pct": 100 * (b.c - b.o) / b.o,
+                        "bullish": b.c > b.o})
+        rows.sort(key=lambda r: r["day"])
+        return rows
+
     rows = []
     for day, path in find_1d_days(symbol):
         bars = load(path)
@@ -91,6 +107,24 @@ def demo() -> None:
     r = pearson([1, 2, 3], [1, 2, 3])
     assert r is not None and abs(r - 1.0) < 1e-9, "perfekte Korrelation muss 1.0 sein"
     assert pearson([1, 1, 1], [1, 2, 3]) is None, "Nullvarianz muss None liefern (nicht NaN)"
+
+    # Forex-Zweig: load_rows() muss fuer ein 24x5-Symbol ueber marktdaten.bars() gehen,
+    # nicht ueber find_1d_days() (das kennt raw/marktdaten-tief/ nicht).
+    import marktdaten as md
+    orig_bars = md.bars
+    def fake_bars(symbol, tf, von=None, bis=None):
+        assert tf == "1d", f"load_rows muss 1d anfragen, nicht {tf}"
+        from analyze_ohlc import Bar
+        from datetime import datetime
+        from zoneinfo import ZoneInfo
+        ny = ZoneInfo("America/New_York")
+        return [Bar(datetime(2026, 1, 5, tzinfo=ny), 1.1, 1.12, 1.09, 1.11)]
+    md.bars = fake_bars
+    try:
+        rows = load_rows("EURUSD")
+        assert len(rows) == 1 and rows[0]["bullish"] is True, rows
+    finally:
+        md.bars = orig_bars
 
     import tempfile
     global RESULTS_DIR
