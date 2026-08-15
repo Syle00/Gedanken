@@ -1,5 +1,5 @@
 ---
-description: Erzeugt die vorbefuellte Weekly-Bias-Datei fuer die kommende Handelswoche (News, Levels, Wiki-Bezug, eigene Einschaetzung) -- fuer den Cron Sonntag 12:00 oder manuellen Aufruf
+description: Erzeugt die vorbefuellte Weekly-Bias-Datei fuer die kommende Handelswoche (News, Levels, Wiki-Bezug, eigene Einschaetzung) -- fuer den Cron freitags 20:00 oder manuellen Aufruf
 ---
 
 Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoche.
@@ -7,16 +7,22 @@ Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoch
 1. **Zielwoche + Levels + News holen.** `python algo/bias_levels.py --weekly` ausfuehren.
    Die JSON-Ausgabe liefert `target_week` (`monday`, `kw`, `year` -- daraus `<NN>`/`<JAHR>`
    fuer den Dateinamen), `letzte_woche` (High/Low/Tage der auslaufenden Woche als Referenz)
-   und `news` (alle Red-/Orange-Folder-Events der Feed-Woche, NY- und DE-Zeit fertig).
+   und `news` (alle Red-/Orange-Folder-Events Mo-Fr der Zielwoche, NY- und DE-Zeit fertig).
    Kein WebFetch auf forexfactory.com -- HTTP 403 fuer Bots.
 
-2. **News-Abschnitt.** ForexFactory veroeffentlicht nur die *laufende* Woche. Laeuft dieser
-   Command zu frueh (z.B. Freitag statt Sonntag), setzt das Skript `news.error` und liefert
-   bewusst **keine** Events, statt die falsche Woche auszugeben. Dann
-   `⚠️ News-Abruf fehlgeschlagen (<news.error>), manuell auf forexfactory.com pruefen`
-   eintragen und weitermachen. Sonst Tabelle
+2. **News-Abschnitt.** Tabelle
    `| Tag | NY | DE | Waehrung | Event | Impact | Forecast | Previous |`, Red-Folder-Termine
    (NFP, CPI, FOMC) hervorheben.
+
+   `news.source` **immer mit ausgeben** (eine Zeile unter der Tabelle). Freitags abends kennt
+   ForexFactory die kommende Woche noch nicht, dann steht dort `tradingview` plus ein
+   `news.hinweis` -- das ist der Normalfall fuer diesen Command, kein Fehler. Wichtig fuer
+   dich beim Lesen: TradingView stuft mehr Events als Red ein als ForexFactory (z.B. Retail
+   Sales, Michigan Sentiment); die *Uhrzeiten* beider Quellen sind deckungsgleich geprueft.
+
+   Ist `news.error` gesetzt (beide Quellen tot) oder `news.events` leer:
+   `⚠️ News-Abruf fehlgeschlagen (<news.error>), manuell auf forexfactory.com pruefen`
+   eintragen und weitermachen -- nie abbrechen, nie Events erfinden.
 
 3. **NWOG-Levels.** `python algo/live_status.py` ausfuehren (frischer Lauf). `nwog_today`
    (Open/Close) und `nwog_open_history` (noch offene NWOG-Level der letzten 5 Wochen als

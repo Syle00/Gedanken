@@ -2,18 +2,27 @@
 """Levels + News fuer die Bias-Vorlage (raw/journal/Daily Bias */Weekly Bias *).
 
 Reuse: load_rows() aus backtest_common.py (Open/High/Low/Close pro Handelstag) -- kein
-eigenes CSV-Parsing. News kommen aus dem offiziellen ForexFactory-JSON-Feed
-(nfs.faireconomy.media), NICHT per Scraping von forexfactory.com/calendar -- die HTML-Seite
-liefert hinter Cloudflare HTTP 403 fuer jeden Bot-Abruf (verifiziert 2026-08-15).
+eigenes CSV-Parsing.
 
-Zeitzonen: Der Feed liefert ISO-Timestamps mit NY-Offset (-04:00 EDT / -05:00 EST). Die
-NY-Zeit wird daher unveraendert uebernommen, DE-Zeit per zoneinfo daraus abgeleitet --
+News, zwei Quellen mit klarer Rangfolge:
+  1. **ForexFactory-JSON-Feed** (nfs.faireconomy.media) -- die Referenzquelle des Nutzers.
+     NICHT per Scraping von forexfactory.com/calendar: die HTML-Seite liefert hinter
+     Cloudflare HTTP 403 fuer jeden Bot-Abruf (verifiziert 2026-08-15). Der Feed kennt aber
+     nur die *laufende* Woche; ff_calendar_nextweek.json gibt es nicht mehr (HTTP 404).
+  2. **TradingView-Wirtschaftskalender** als Fallback, sobald der Zeitraum ausserhalb der
+     FF-Woche liegt -- beliebiger Datumsbereich, deshalb die einzige Quelle, die freitags
+     abends die *kommende* Woche kennt (der Weekly-Lauf braucht genau das).
+`news["source"]` sagt immer, welche der beiden geantwortet hat.
+
+Gegenprobe 2026-08-15 auf KW33: beide Quellen nennen CPI am 12.08. 08:30 NY und PPI am
+13.08. 08:30 NY -- **Zeitstempel deckungsgleich**. Unterschied nur in der Einstufung:
+TradingView fuehrt zusaetzlich Retail Sales, Existing Home Sales und Michigan Sentiment als
+Red, ForexFactory stuft die als Orange ein. Wer beide Seiten nebeneinander legt, sieht also
+dieselben Zeiten, aber bei TradingView mehr rote Zeilen.
+
+Zeitzonen: FF liefert ISO-Timestamps mit NY-Offset (-04:00 EDT / -05:00 EST), TradingView
+UTC ("...Z"). Beide werden auf NY normalisiert, die DE-Zeit per zoneinfo daraus abgeleitet --
 keine manuelle Stundenrechnung (siehe CLAUDE.md, "Zeit vor Preis").
-
-Bekannte Grenze: Es gibt nur den Feed der *laufenden* Woche (ff_calendar_thisweek.json);
-`ff_calendar_nextweek.json` existiert nicht mehr (HTTP 404, geprueft 2026-08-15). Liegt der
-Zieltag ausserhalb der Feed-Woche, steht das explizit in news["error"] -- deshalb laeuft der
-Weekly-Cron sonntags, nicht freitags.
 
 Aufruf:
     python algo/bias_levels.py                      # Levels+News fuer heute
@@ -29,6 +38,7 @@ import sys
 import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -38,10 +48,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from backtest_common import load_rows  # noqa: E402
 
 FF_FEED = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
+TV_FEED = "https://economic-calendar.tradingview.com/events"
 CACHE = Path(tempfile.gettempdir()) / "ff_calendar_thisweek.json"
 CACHE_TTL = 900  # s
 BERLIN = ZoneInfo("Europe/Berlin")
+NEWYORK = ZoneInfo("America/New_York")
 IMPACT_FARBE = {"High": "Red", "Medium": "Orange"}  # Low/Holiday bewusst raus
+TV_IMPACT = {1: "Red", 0: "Orange"}                 # -1 (Low) bewusst raus
 
 
 # --------------------------------------------------------------------------- Levels
@@ -97,41 +110,85 @@ def _fetch_feed(url: str = FF_FEED, timeout: int = 20) -> list[dict]:
     return json.loads(body)
 
 
-def _event(t: datetime, e: dict) -> dict:
+def _event(t: datetime, titel: str, land: str, impact: str, e: dict) -> dict:
+    """Ein Event in Vault-Form. `t` muss zeitzonenbewusst und auf NY-Zeit sein."""
     return {"ny": t.strftime("%Y-%m-%d %H:%M"),
             "de": t.astimezone(BERLIN).strftime("%H:%M"),
             "weekday": t.strftime("%a"),
-            "country": e["country"],
-            "title": e["title"],
-            "impact": IMPACT_FARBE[e["impact"]],
-            "forecast": e.get("forecast", ""),
-            "previous": e.get("previous", "")}
+            "country": land,
+            "title": titel,
+            "impact": impact,
+            "forecast": e.get("forecast") or "",
+            "previous": e.get("previous") or ""}
 
 
-def news(target_day: date, weekly: bool = False) -> dict:
-    """Red-/Orange-Folder-Events. weekly=True -> ganze Feed-Woche statt nur target_day.
-
-    Bricht nie hart ab: jeder Fehlschlag landet als Text in "error", "events" bleibt eine
-    Liste. Der aufrufende Command setzt dann seinen Warn-Platzhalter."""
+def _ff_news(von: date, bis: date) -> dict:
+    """ForexFactory-Feed -- die Referenzquelle des Nutzers, aber nur laufende Woche."""
     try:
         raw = _fetch_feed()
     except Exception as exc:  # Netz, Timeout, kaputtes JSON -- alles gleich behandelt
-        return {"events": [], "error": f"{type(exc).__name__}: {exc}"}
+        return {"source": "forexfactory", "events": [], "error": f"{type(exc).__name__}: {exc}"}
 
     parsed = [(datetime.fromisoformat(e["date"]), e) for e in raw]
     days = {t.date() for t, _ in parsed}
-    out = {"events": sorted((_event(t, e) for t, e in parsed
-                             if e["impact"] in IMPACT_FARBE
-                             and (weekly or t.date() == target_day)),
-                            key=lambda x: x["ny"]),
-           "feed_span": [min(days).isoformat(), max(days).isoformat()] if days else None}
-    if days and not (min(days) <= target_day <= max(days)):
-        # Events der falschen Woche liefern waere schlimmer als keine -- sie landen sonst
-        # ungeprueft in der Bias-Datei. Deshalb hier leeren, nicht nur warnen.
+    out = {"source": "forexfactory",
+           "feed_span": [min(days).isoformat(), max(days).isoformat()] if days else None,
+           "events": sorted((_event(t, e["title"], e["country"], IMPACT_FARBE[e["impact"]], e)
+                             for t, e in parsed
+                             if e["impact"] in IMPACT_FARBE and von <= t.date() <= bis),
+                            key=lambda x: x["ny"])}
+    if not days:
+        out["error"] = "Feed leer"
+    elif not (min(days) <= von and bis <= max(days)):
+        # Events der falschen Woche waeren schlimmer als keine -- sie landen sonst ungeprueft
+        # in der Bias-Datei. Deshalb leeren und den Aufrufer auf TradingView umleiten.
         out["events"] = []
-        out["error"] = (f"Feed deckt nur {min(days)}..{max(days)} ab, {target_day} liegt "
-                        f"ausserhalb -- ForexFactory veroeffentlicht nur die laufende Woche")
+        out["error"] = (f"Feed deckt nur {min(days)}..{max(days)} ab, {von}..{bis} liegt "
+                        f"(teilweise) ausserhalb -- ForexFactory hat nur die laufende Woche")
     return out
+
+
+def _tv_news(von: date, bis: date) -> dict:
+    """TradingView-Wirtschaftskalender -- beliebiger Zeitraum, also auch die *kommende*
+    Woche. Deshalb ueberhaupt noetig: der Weekly-Lauf ist freitags abends, da kennt
+    ForexFactory die Zielwoche noch nicht."""
+    q = urllib.parse.urlencode({"from": f"{von}T00:00:00.000Z",
+                                "to": f"{bis + timedelta(days=1)}T00:00:00.000Z",
+                                "countries": "US"})
+    req = urllib.request.Request(f"{TV_FEED}?{q}",
+                                 headers={"Origin": "https://www.tradingview.com",
+                                          "User-Agent": "Mozilla/5.0 (gedanken-vault)"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            raw = json.loads(r.read().decode("utf-8"))["result"]
+    except Exception as exc:
+        return {"source": "tradingview", "events": [], "error": f"{type(exc).__name__}: {exc}"}
+
+    evs = []
+    for e in raw:
+        farbe = TV_IMPACT.get(e.get("importance"))
+        if not farbe:
+            continue
+        t = datetime.fromisoformat(e["date"].replace("Z", "+00:00")).astimezone(NEWYORK)
+        if von <= t.date() <= bis:
+            evs.append(_event(t, e["title"], e.get("currency") or e["country"], farbe, e))
+    return {"source": "tradingview", "events": sorted(evs, key=lambda x: x["ny"])}
+
+
+def news(target_day: date, weekly: bool = False) -> dict:
+    """Red-/Orange-Folder-Events fuer target_day (bzw. Mo-Fr ab target_day bei weekly=True).
+
+    ForexFactory zuerst (Referenzquelle des Nutzers), TradingView als Fallback sobald der
+    Zeitraum ausserhalb der FF-Woche liegt. Bricht nie hart ab: jeder Fehlschlag landet als
+    Text in "error", "events" bleibt eine Liste -- der Command setzt dann seinen Platzhalter.
+    "source" sagt immer, woher die Zahlen stammen."""
+    bis = target_day + timedelta(days=4) if weekly else target_day
+    ff = _ff_news(target_day, bis)
+    if not ff.get("error"):
+        return ff
+    tv = _tv_news(target_day, bis)
+    tv["hinweis"] = f"ForexFactory nicht nutzbar ({ff['error']}) -- TradingView-Kalender verwendet"
+    return tv
 
 
 # --------------------------------------------------------------------------- Zusammenbau
@@ -168,32 +225,39 @@ def demo() -> None:
     assert next_monday(date(2026, 8, 14)) == date(2026, 8, 17)
     assert next_monday(date(2026, 8, 16)) == date(2026, 8, 17), "So -> Montag darauf"
 
-    # Zeit vor Preis: NY-Zeit aus dem Feed unveraendert, DE-Zeit korrekt +6h im Sommer
-    ev = _event(datetime.fromisoformat("2026-08-12T08:30:00-04:00"),
-                {"country": "USD", "title": "CPI m/m", "impact": "High"})
-    assert (ev["ny"], ev["de"], ev["impact"]) == ("2026-08-12 08:30", "14:30", "Red"), ev
-    ev_w = _event(datetime.fromisoformat("2026-01-14T08:30:00-05:00"),
-                  {"country": "USD", "title": "CPI m/m", "impact": "Medium"})
-    assert (ev_w["ny"], ev_w["de"], ev_w["impact"]) == ("2026-01-14 08:30", "14:30", "Orange"), ev_w
+    # Zeit vor Preis: NY-Zeit unveraendert, DE-Zeit korrekt +6h im Sommer / +6h im Winter
+    ev = _event(datetime.fromisoformat("2026-08-12T08:30:00-04:00"), "CPI m/m", "USD", "Red", {})
+    assert (ev["ny"], ev["de"]) == ("2026-08-12 08:30", "14:30"), ev
+    ev_w = _event(datetime.fromisoformat("2026-01-14T08:30:00-05:00"), "CPI", "USD", "Orange", {})
+    assert (ev_w["ny"], ev_w["de"]) == ("2026-01-14 08:30", "14:30"), ev_w
+    # TradingViews UTC-Timestamps muessen auf dieselbe NY-Zeit fallen wie ForexFactorys
+    utc = datetime.fromisoformat("2026-08-12T12:30:00+00:00").astimezone(NEWYORK)
+    assert _event(utc, "CPI", "USD", "Red", {})["ny"] == ev["ny"], "UTC->NY == FF-NY"
 
-    # Fehlschlagender Abruf darf nie durchschlagen (CLAUDE.md-Constraint)
-    orig, globals()["_fetch_feed"] = _fetch_feed, _boom
+    # Fehlschlagender Abruf darf nie durchschlagen (CLAUDE.md-Constraint). Beide Quellen tot
+    # -> leere Liste + Fehler, kein Absturz.
+    orig_ff, orig_tv = _fetch_feed, _tv_news
+    globals()["_fetch_feed"] = _boom
+    globals()["_tv_news"] = lambda *a, **k: {"source": "tradingview", "events": [],
+                                             "error": "URLError: kein Netz"}
     try:
         r = news(date(2026, 8, 12))
-    finally:
-        globals()["_fetch_feed"] = orig
-    assert r["events"] == [] and "URLError" in r["error"], r
+        assert r["events"] == [] and "URLError" in r["error"], r
+        assert "ForexFactory nicht nutzbar" in r["hinweis"], r
 
-    # Zieltag ausserhalb der Feed-Woche -> leere Liste + Fehler, NICHT die falsche Woche
-    feed = [{"date": "2026-08-12T08:30:00-04:00", "country": "USD", "title": "CPI m/m",
-             "impact": "High", "forecast": "", "previous": ""}]
-    orig, globals()["_fetch_feed"] = _fetch_feed, lambda *a, **k: feed
-    try:
-        assert news(date(2026, 8, 12))["events"], "Tag in der Feed-Woche -> Events"
-        weit = news(date(2026, 8, 19), weekly=True)
+        # Zeitraum ausserhalb der FF-Woche -> NICHT die falsche Woche, sondern TradingView
+        feed = [{"date": "2026-08-12T08:30:00-04:00", "country": "USD", "title": "CPI m/m",
+                 "impact": "High", "forecast": "", "previous": ""}]
+        globals()["_fetch_feed"] = lambda *a, **k: feed
+        assert news(date(2026, 8, 12))["source"] == "forexfactory", "Tag in der FF-Woche"
+        globals()["_tv_news"] = lambda von, bis: {"source": "tradingview", "events": [
+            _event(datetime.fromisoformat("2026-08-19T14:00:00-04:00"), "FOMC Minutes",
+                   "USD", "Red", {})]}
+        weit = news(date(2026, 8, 17), weekly=True)
+        assert weit["source"] == "tradingview" and len(weit["events"]) == 1, weit
+        assert "ausserhalb" in weit["hinweis"], weit
     finally:
-        globals()["_fetch_feed"] = orig
-    assert weit["events"] == [] and "ausserhalb" in weit["error"], weit
+        globals()["_fetch_feed"], globals()["_tv_news"] = orig_ff, orig_tv
     print("demo ok")
 
 

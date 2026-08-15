@@ -2447,3 +2447,19 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   entscheidung): `MNQ 2026-07-09 15m.csv` hat 93 statt 92 Kerzen (Grenzkerze 17:00 NY), noch
   ungeklaert, ob Session-Artefakt oder Soll-Anpassung noetig — ein weiterer loser Export wartet
   deshalb unverarbeitet in raw/.
+
+## [2026-08-15] setup | Forex-Algo Phase 2 — Design-Spec + Konzept-Inventur
+- Spec erstellt: docs/superpowers/specs/2026-08-15-forex-algo-phase2-design.md (Commit 4dc16d6a4)
+- Kern der Nutzervorgabe: "genau die gleichen Konzepte, außer bekannte Sachen die nur für Future sind".
+  Ausschlusskriterium unverändert aus der Vorgänger-Spec (14.08.) übernommen: *setzt das Konzept die
+  9:30-Eröffnung als Ereignis voraus?* — ein 24/5-Markt hat weder Schluss noch Eröffnung.
+- Ausgeschlossen: ORG, ORG C.E., ORG-Std-Extrema, 1p FVG (Tag + Woche), 1p-Mindestgröße,
+  erstes FVG nach 9:30, Open Drive, NDOG, alle RTH-Varianten.
+- Übernommen: Silver Bullet, FVG inkl. Stärke, Swings/MSS, HP-FVG, Liquiditäts-Level, IPDA-Fenster,
+  Killzones, Midnight Opening Range, Macros, NWOG, 1%-Risiko, Kill-Switch, Ensemble-Idee.
+- ⚠️ Widerspruch markiert statt aufgelöst: tools/analyze_ohlc.py::KILLZONES führt die NY-Killzone als
+  07:00–09:00, [[ICT Daily Range Session Timing]] nennt für Forex ausdrücklich 07:00–10:00.
+  Beide Varianten werden künftig als getrennte Fenster gemessen, die Zahlen entscheiden.
+- Seiten aktualisiert: keine (Wiki-Seiten folgen, sobald die ersten Forex-Zahlen vorliegen —
+  eine Konzeptseite zur Eröffnungsauktions-Unterscheidung ist in der Spec als Schritt 10 vorgemerkt)
+- Protokoll: algo/PLAN.md (3 Einträge: Spec-Entscheidungen, Killzone-Diskrepanz, Vorarbeit)

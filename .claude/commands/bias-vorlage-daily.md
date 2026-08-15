@@ -16,6 +16,11 @@ Erzeuge `raw/journal/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.
    `| NY | DE | Waehrung | Event | Impact | Forecast | Previous |`, Red-Folder-Events (USD
    zuerst) hervorheben.
 
+   `news.source` mit ausgeben: normalerweise `forexfactory`, bei einem Zieltag ausserhalb der
+   laufenden FF-Woche (Sonntagslauf fuer Montag) `tradingview` plus `news.hinweis` -- kein
+   Fehler, nur eine andere Quelle. TradingView stuft mehr Events als Red ein als
+   ForexFactory; die Uhrzeiten beider Quellen sind deckungsgleich geprueft.
+
 3. **NDOG/NWOG/ORG-Levels.** `python algo/live_status.py` ausfuehren (frischer Lauf --
    niemals einen aelteren Lauf aus diesem oder einem frueheren Gespraech wiederverwenden,
    siehe CLAUDE.md "Frische Live-Daten"). `ndog_today`, `nwog_today` (nur montags gesetzt)

@@ -197,6 +197,7 @@
 <li><a href="#2026-08-14-ingest-2022-ict-mentorship-youtube-27-episoden">[2026-08-14] ingest | 2022 ICT Mentorship (YouTube, 27 Episoden)</a></li>
 <li><a href="#2026-08-15-setup-forex-backtesting-infrastruktur-umgesetzt">[2026-08-15] setup | Forex-Backtesting-Infrastruktur umgesetzt</a></li>
 <li><a href="#2026-08-15-setup-automatische-raw-einsortierung-regel-erstlauf">[2026-08-15] setup | Automatische raw/-Einsortierung (Regel + Erstlauf)</a></li>
+<li><a href="#2026-08-15-setup-forex-algo-phase-2-design-spec-konzept-inventur">[2026-08-15] setup | Forex-Algo Phase 2 — Design-Spec + Konzept-Inventur</a></li>
 </ul>
 </div>
 </details>
@@ -2792,6 +2793,23 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   entscheidung): <code>MNQ 2026-07-09 15m.csv</code> hat 93 statt 92 Kerzen (Grenzkerze 17:00 NY), noch
   ungeklaert, ob Session-Artefakt oder Soll-Anpassung noetig — ein weiterer loser Export wartet
   deshalb unverarbeitet in raw/.</li>
+</ul>
+<h2 id="2026-08-15-setup-forex-algo-phase-2-design-spec-konzept-inventur">[2026-08-15] setup | Forex-Algo Phase 2 — Design-Spec + Konzept-Inventur</h2>
+<ul>
+<li>Spec erstellt: docs/superpowers/specs/2026-08-15-forex-algo-phase2-design.md (Commit 4dc16d6a4)</li>
+<li>Kern der Nutzervorgabe: "genau die gleichen Konzepte, außer bekannte Sachen die nur für Future sind".
+  Ausschlusskriterium unverändert aus der Vorgänger-Spec (14.08.) übernommen: <em>setzt das Konzept die
+  9:30-Eröffnung als Ereignis voraus?</em> — ein 24/5-Markt hat weder Schluss noch Eröffnung.</li>
+<li>Ausgeschlossen: ORG, ORG C.E., ORG-Std-Extrema, 1p FVG (Tag + Woche), 1p-Mindestgröße,
+  erstes FVG nach 9:30, Open Drive, NDOG, alle RTH-Varianten.</li>
+<li>Übernommen: Silver Bullet, FVG inkl. Stärke, Swings/MSS, HP-FVG, Liquiditäts-Level, IPDA-Fenster,
+  Killzones, Midnight Opening Range, Macros, NWOG, 1%-Risiko, Kill-Switch, Ensemble-Idee.</li>
+<li>⚠️ Widerspruch markiert statt aufgelöst: tools/analyze_ohlc.py::KILLZONES führt die NY-Killzone als
+  07:00–09:00, <a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a> nennt für Forex ausdrücklich 07:00–10:00.
+  Beide Varianten werden künftig als getrennte Fenster gemessen, die Zahlen entscheiden.</li>
+<li>Seiten aktualisiert: keine (Wiki-Seiten folgen, sobald die ersten Forex-Zahlen vorliegen —
+  eine Konzeptseite zur Eröffnungsauktions-Unterscheidung ist in der Spec als Schritt 10 vorgemerkt)</li>
+<li>Protokoll: algo/PLAN.md (3 Einträge: Spec-Entscheidungen, Killzone-Diskrepanz, Vorarbeit)</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
