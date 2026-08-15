@@ -66,3 +66,5 @@ algo/live/*/state.json
 # raw/ neu baubar (algo/build_parquet.py) -- anders als raw/ selbst gehoert das nicht in
 # die Historie (gleiche Begruendung wie graphify-out/ oben).
 algo/cache/
+# Added by code-review-graph
+.code-review-graph/

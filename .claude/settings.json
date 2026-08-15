@@ -43,6 +43,28 @@
             "statusMessage": "Vault mit GitHub abgleichen..."
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat >/dev/null || true; crg=\"$USERPROFILE/.venvs/crg/Scripts/code-review-graph.exe\"; [ -x \"$crg\" ] || exit 0; git rev-parse --git-dir >/dev/null 2>&1 && \"$crg\" status --repo \"$(git rev-parse --show-toplevel 2>/dev/null)\" || echo 'Not a git repo, skipping'",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat >/dev/null || true; crg=\"$USERPROFILE/.venvs/crg/Scripts/code-review-graph.exe\"; [ -x \"$crg\" ] || exit 0; git rev-parse --git-dir >/dev/null 2>&1 && \"$crg\" update --skip-flows --repo \"$(git rev-parse --show-toplevel 2>/dev/null)\" || true",
+            "timeout": 30
+          }
+        ]
       }
     ]
   },
