@@ -21,6 +21,23 @@ liefert also echte America/New_York-Ortszeit inkl. Sommerzeit, nicht die fixe ES
 Daten. Deshalb hier zoneinfo-basierte Konvertierung, nicht die feste Verschiebung aus
 `ingest_histdata_xlsx.py`.
 
+**Nachtrag 2026-08-15 -- die obige Regel stimmt nur bis 2018.** Die damalige Verifikation testete
+zwei Sommertage und einen Wintertag; an solchen Tagen sind US- und EU-Sommerzeit gleichzeitig
+aktiv bzw. gleichzeitig aus, die Regeln lassen sich dort also gar nicht unterscheiden. Der
+Unterschied zeigt sich nur in den ~4 Wochen pro Jahr, in denen USA und EU zu verschiedenen
+Terminen umstellen. Messung dort (alle 10 Paare, ganzer Bestand, ueber die Wochengrenzen des
+24x5-Marktes als quellenunabhaengiger Marker -- Freitagsschluss 17:00 NY / Sonntagsoeffnung
+17:00 NY):
+
+    Luecken-Woche, 2007-2018:  letzte Freitagskerze 16:59 NY  -> korrekt, US-Regel
+    Luecken-Woche, 2019-2026:  letzte Freitagskerze 15:59 NY  -> 1h zu frueh, EU-Regel
+    Gewoehnliche Woche, alle Jahrgaenge: 16:59 NY             -> korrekt
+
+Zehn von zehn Paaren, beide Wochengrenzen, ausnahmslos. Der Endpoint hat also **2019 die
+Umstellungstermine gewechselt** (der Offset -5/-4 blieb; typisch fuer eine europaeische
+Broker-Serveruhr, EET/EEST minus 7h). Behandelt in `label_zu_epoch()` als zwei Regime.
+Betroffen waren 140 Handelstage je Paar, 1 962 205 von 81 676 600 Kerzen (2,40 %).
+
 histdata.com liefert **Bid**-Preise, nicht Mid (siehe eigene FAQ: "the bar prices ... are based
 on the tick Bid price.") -- anders als fetch_dukascopy.py, das bewusst Mid nutzt (IBKR liefert FX
 als Midpoint-Bars). Deshalb wie im bereits bestehenden `ingest_histdata_xlsx.py` (manueller
@@ -42,7 +59,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
@@ -53,6 +70,17 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parent.parent
 OUT_ROOT = ROOT / "raw" / "marktdaten-tief"
 NY = ZoneInfo("America/New_York")
+# Referenz fuer die EU-Umstellungstermine (siehe EU_REGEL_AB und label_zu_epoch). Bewusst eine
+# Zone mit EU-Regel und nicht "fest UTC+1/+2" -- die Umstellungs*termine* sind das Entscheidende,
+# nicht der Absolutwert des Offsets.
+EU = ZoneInfo("Europe/Berlin")
+
+# Ab diesem NY-Tag folgen die Rohlabel des get.php-Endpoints der EU-, nicht der US-Umstellung
+# (Herleitung siehe Modul-Docstring). Der Termin ist nur auf das Intervall 2018-11-05..2019-03-09
+# eingrenzbar, weil sich beide Regeln ausserhalb der Luecken-Wochen nicht unterscheiden -- in
+# genau diesem Intervall liegt keine Luecken-Woche, die Wahl innerhalb des Intervalls ist also
+# ohne Auswirkung auf ein einziges Datum.
+EU_REGEL_AB = date(2019, 1, 1)
 
 REFERER_PREFIX = "https://www.histdata.com/download-free-forex-historical-data/?/ascii/1-minute-bar-quotes/"
 POST_URL = "https://www.histdata.com/get.php"
@@ -104,6 +132,30 @@ def hole_monat(pair: str, jahr: int, monat: int | None) -> bytes:
     return inhalt
 
 
+def label_zu_epoch(lokal_naiv: datetime) -> float:
+    """Rohlabel (naiv, wie im histdata-CSV) -> Epoch-Sekunden UTC.
+
+    Zwei Regime, per Wochengrenzen-Messung am Gesamtbestand belegt (siehe Modul-Docstring):
+
+    * vor `EU_REGEL_AB`: das Label ist echte America/New_York-Ortszeit.
+    * ab `EU_REGEL_AB`:  das Label traegt zwar NY-Offsets (-5/-4), schaltet aber an den
+      **EU**-Terminen um. Formal ist das "Europe/Berlin minus 6h" (Berlin UTC+1 - 6 = -5,
+      Berlin UTC+2 - 6 = -4). Deshalb wird das Label um 6h nach vorn auf die Berliner Wanduhr
+      gehoben und dort lokalisiert -- so kommen die Umstellungstermine automatisch aus der
+      EU-Regel, statt als Datumsliste gepflegt werden zu muessen.
+
+    Ausserhalb der Wochen zwischen US- und EU-Umstellung liefern beide Zweige dasselbe Ergebnis;
+    sie unterscheiden sich nur in den rund vier Wochen pro Jahr, in denen die Regeln auseinander-
+    laufen (2,40 % des Bestands, gemessen)."""
+    if lokal_naiv.date() < EU_REGEL_AB:
+        return lokal_naiv.replace(tzinfo=NY).timestamp()
+    berlin_wanduhr = lokal_naiv + timedelta(hours=6)
+    # fold=0: an der Berliner Rueckstellstunde ist die Wanduhr doppeldeutig. Diese Stunde faellt
+    # auf Sonntag 01:00-02:00 Berliner Zeit = Samstag 19:00-20:00 im Rohlabel -- da ist der
+    # Forex-Markt geschlossen, der Zweig ist also praktisch unerreichbar. fold=0 statt Absturz.
+    return berlin_wanduhr.replace(tzinfo=EU, fold=0).timestamp()
+
+
 def parse_zip(zip_bytes: bytes) -> list[tuple[float, float, float, float, float]]:
     """Zip -> [(epoch_utc, open, high, low, close), ...], histdata liefert schon fertige 1m-Bars.
 
@@ -121,8 +173,7 @@ def parse_zip(zip_bytes: bytes) -> list[tuple[float, float, float, float, float]
             if not zeile:
                 continue
             ts_str, o, h, l, c, *_rest = zeile.split(";")
-            lokal = datetime.strptime(ts_str, "%Y%m%d %H%M%S").replace(tzinfo=NY)
-            epoch = lokal.timestamp()
+            epoch = label_zu_epoch(datetime.strptime(ts_str, "%Y%m%d %H%M%S"))
             werte = (float(o), float(h), float(l), float(c))
             vorherige = gesehen.get(epoch)
             if vorherige is not None:
@@ -210,6 +261,31 @@ def _demo() -> None:
     lokal_sommer = datetime.strptime("20250701 093000", "%Y%m%d %H%M%S").replace(tzinfo=NY)
     utc_sommer = datetime.fromtimestamp(lokal_sommer.timestamp(), timezone.utc)
     assert utc_sommer.hour == 13 and utc_sommer.minute == 30, utc_sommer
+
+    # --- Umstellungsluecke US vs. EU (Befund 2026-08-15, siehe Modul-Docstring) ---------------
+    def _utc_h(ts_str: str) -> tuple[int, int]:
+        e = label_zu_epoch(datetime.strptime(ts_str, "%Y%m%d %H%M%S"))
+        u = datetime.fromtimestamp(e, timezone.utc)
+        return u.hour, u.minute
+
+    # Gewoehnliche Tage: beide Regeln stimmen ueberein, label_zu_epoch darf nichts veraendern.
+    assert _utc_h("20250701 093000") == (13, 30)   # Sommer, beide in DST -> UTC-4
+    assert _utc_h("20250102 093000") == (14, 30)   # Winter, beide Standard -> UTC-5
+
+    # Luecke ab 2019: US bereits EDT, EU noch Winterzeit -> Label ist UTC-5, NICHT UTC-4.
+    # Ohne den Fix liefert diese Zeile (14, 30) -> (13, 30) und der Test faellt.
+    assert _utc_h("20250320 093000") == (14, 30), _utc_h("20250320 093000")
+    # Herbstluecke: EU schon zurueckgestellt, US noch EDT -> ebenfalls UTC-5.
+    assert _utc_h("20251029 093000") == (14, 30), _utc_h("20251029 093000")
+
+    # Dieselbe Luecke VOR 2019: dort folgte der Feed noch der US-Regel -> UTC-4.
+    assert _utc_h("20180320 093000") == (13, 30), _utc_h("20180320 093000")
+
+    # Negativkontrolle: die alte Umrechnung (immer NY) waere in der Luecke nachweislich anders --
+    # ohne diesen Unterschied wuerde der Test oben auch bei kaputtem Fix gruen sein.
+    alt = datetime.strptime("20250320 093000", "%Y%m%d %H%M%S").replace(tzinfo=NY).timestamp()
+    neu = label_zu_epoch(datetime.strptime("20250320 093000", "%Y%m%d %H%M%S"))
+    assert neu - alt == 3600.0, (neu - alt)
 
     zeile = "20200102 093000;1.11000;1.11050;1.10990;1.11020;0"
     ts_str, o, h, l, c, vol = zeile.split(";")

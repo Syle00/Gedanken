@@ -1,0 +1,78 @@
+{
+  "generated_at": "2026-08-15T10:44:58.232773+00:00",
+  "spool_dir": 0.5,
+  "spool_netto": 1.0,
+  "min_fvg_rel": 0.45,
+  "berichte": [
+    {
+      "titel": "EURUSD (FX Spot)",
+      "n_tage": 155,
+      "von": "2019-01-01",
+      "bis": "2019-06-30",
+      "n_macro": 3038,
+      "n_ctrl": 6132,
+      "med_range_macro": 5.399999999999849,
+      "med_range_ctrl": 4.699999999999704,
+      "med_netto_macro": 2.1999999999988695,
+      "med_netto_ctrl": 1.9000000000002348,
+      "med_dir_macro": 0.44676113360312647,
+      "med_dir_ctrl": 0.4583333333333719,
+      "spooling_macro_pct": 43.449637919684,
+      "spooling_ctrl_pct": 44.74885844748859,
+      "spooling_delta_pp": -1.2992205278045859,
+      "p": {
+        "range_pips": 1.0906138210266642e-23,
+        "netto_pips": 4.497036093823855e-08,
+        "dir": 0.8407721505328647,
+        "netto_rel": 4.143999355806601e-08,
+        "fvgs": 1.206499174658722e-10
+      }
+    },
+    {
+      "titel": "GBPJPY (FX Spot)",
+      "n_tage": 154,
+      "von": "2019-01-01",
+      "bis": "2019-06-30",
+      "n_macro": 3027,
+      "n_ctrl": 6129,
+      "med_range_macro": 11.899999999999977,
+      "med_range_ctrl": 10.699999999999932,
+      "med_netto_macro": 4.500000000001592,
+      "med_netto_ctrl": 4.200000000000159,
+      "med_dir_macro": 0.4255319148935591,
+      "med_dir_ctrl": 0.44198895027635327,
+      "spooling_macro_pct": 41.39411959035348,
+      "spooling_ctrl_pct": 42.437591776798826,
+      "spooling_delta_pp": -1.0434721864453422,
+      "p": {
+        "range_pips": 7.538285659440195e-18,
+        "netto_pips": 0.0001787186240699199,
+        "dir": 0.9470223944497442,
+        "netto_rel": 0.000147470252970425,
+        "fvgs": 5.251074791962268e-08
+      }
+    },
+    {
+      "titel": "ALLE FX-PAARE GEPOOLT",
+      "n_tage": 155,
+      "n_macro": 6065,
+      "n_ctrl": 12261,
+      "med_range_macro": 8.100000000001728,
+      "med_range_ctrl": 7.099999999999884,
+      "med_netto_macro": 3.1000000000003247,
+      "med_netto_ctrl": 2.7999999999991587,
+      "med_dir_macro": 0.43678160919534786,
+      "med_dir_ctrl": 0.4500000000000111,
+      "spooling_macro_pct": 42.4237427864798,
+      "spooling_ctrl_pct": 43.59350787048365,
+      "spooling_delta_pp": -1.1697650840038492,
+      "p": {
+        "range_pips": 3.405262178423592e-27,
+        "netto_pips": 3.7634077817146445e-09,
+        "dir": 0.9673728637344068,
+        "netto_rel": 9.485496243012568e-11,
+        "fvgs": 8.714241667645911e-17
+      }
+    }
+  ]
+}
