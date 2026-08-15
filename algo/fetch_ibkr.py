@@ -85,16 +85,18 @@ class PacingLimiter:
 
 def day_windows(day: date) -> list[tuple[datetime, datetime]]:
     """46 Fenster a 30 Minuten: 18:00 NY des Vortages bis 17:00 NY `day`, als UTC-Paare.
-    Arithmetik laeuft auf tz-awaren NY-Zeitstempeln -- ein Fenster ueber einen DST-Wechsel
-    bleibt dadurch korrekt (kein manueller Offset noetig, siehe marktdaten.py-Kommentar
-    zum WANDUHR_TF-Fehlertyp, den wir hier bewusst vermeiden)."""
-    start = datetime.combine(day - timedelta(days=1), datetime.min.time(), tzinfo=NY).replace(hour=18)
-    end = datetime.combine(day, datetime.min.time(), tzinfo=NY).replace(hour=17)
+    Anker werden EINMAL nach UTC konvertiert, danach laeuft die gesamte Fenster-Arithmetik
+    in UTC (timedelta-Addition auf einer NY-tz-awaren Datetime wuerde am DST-Fold sonst ein
+    90-Minuten-Fenster statt zweier 30-Minuten-Fenster erzeugen, weil fold=0 den mehrdeutigen
+    Stunden-Block auch nach dem Wechsel noch auf EDT aufloest)."""
+    start_ny = datetime.combine(day - timedelta(days=1), datetime.min.time(), tzinfo=NY).replace(hour=18)
+    end_ny = datetime.combine(day, datetime.min.time(), tzinfo=NY).replace(hour=17)
+    start_utc, end_utc = start_ny.astimezone(UTC), end_ny.astimezone(UTC)
     out = []
-    cur = start
-    while cur < end:
+    cur = start_utc
+    while cur < end_utc:
         nxt = cur + timedelta(seconds=WINDOW_SECONDS)
-        out.append((cur.astimezone(UTC), nxt.astimezone(UTC)))
+        out.append((cur, nxt))
         cur = nxt
     return out
 
@@ -159,11 +161,18 @@ def _demo() -> None:
     assert len(windows) == 46, len(windows)
     assert windows[0][0] == datetime(2026, 6, 14, 18, 0, tzinfo=NY).astimezone(UTC)
     assert windows[-1][1] == datetime(2026, 6, 15, 17, 0, tzinfo=NY).astimezone(UTC)
+    assert all((b - a).total_seconds() == WINDOW_SECONDS for a, b in windows), \
+        "alle Fenster muessen exakt 1800 Sekunden lang sein"
 
-    dst_tag = date(2026, 11, 2)  # "fall back" 2026 faellt auf den 1. November
+    dst_tag = date(2026, 11, 1)  # "fall back" 2026 faellt auf den 1. November
     dst_windows = day_windows(dst_tag)
-    assert len(dst_windows) == 46, \
-        f"DST-Tag muss trotzdem 46 Fenster liefern, waren {len(dst_windows)}"
+    # Am DST-Fold (Nov 1) spannt 18:00 NY Vortag bis 17:00 NY Heute 24h UTC (nicht 23h),
+    # weil die rueckwaertsgesprungene Stunde doppelt zaehlt -- also 48 Fenster, nicht 46.
+    # Wichtig: ALLE sind exakt 1800 Sekunden (keine 90-Minuten-Fenster durch fold=0-Fehler).
+    assert len(dst_windows) == 48, \
+        f"DST-Tag mit 24h UTC muss 48 Fenster liefern, waren {len(dst_windows)}"
+    assert all((b - a).total_seconds() == WINDOW_SECONDS for a, b in dst_windows), \
+        "jedes Fenster muss exakt 1800 Sekunden lang sein, auch am DST-Fold"
 
     # Register-Resume: nach simuliertem Abbruch werden nur die fehlenden Fenster erkannt.
     import tempfile
