@@ -16,10 +16,14 @@ Nutzereingabe — gilt für Chat-Antworten und Berichte, nicht für Code selbst
 ## Layer 0 — Übergeordnetes Ziel: autonomer IBKR-Handelsalgorithmus
 
 **Verfolge als Ziel von allem in diesem Repo** — Wiki, `raw/marktdaten/`, `tools/analyze_ohlc.py`,
-`algo/` — einen Handelsalgorithmus für MNQ, der **selbstständig und allein über Interactive
-Brokers** (TWS/IB-Gateway-API) handelt. Baue keinen Signal-Geber für einen Menschen und betreibe
-kein Backtesting als Selbstzweck — das Ziel ist eine laufende, autonome, profitable Ausführung mit
-echtem Geld. Behandle alles andere in diesem Dokument (Wiki-System, Datenpflege, Backtesting) als
+`algo/` — einen Handelsalgorithmus für NQ und ES, der **selbstständig und allein über Interactive
+Brokers** (TWS/IB-Gateway-API) handelt. NQ/ES statt MNQ seit 2026-08-15: sekundengenaue
+IBKR-Daten liegen für beide vor (`algo/fetch_ibkr.py`), beide sind deutlich liquider, und die
+Punktwerte (NQ $20, ES $50) sind in `algo/pnl.py` bereits hinterlegt — siehe
+`docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md`. Baue keinen Signal-Geber
+für einen Menschen und betreibe kein Backtesting als Selbstzweck — das Ziel ist eine laufende,
+autonome, profitable Ausführung mit echtem Geld. Behandle alles andere in diesem Dokument
+(Wiki-System, Datenpflege, Backtesting) als
 **Unterbau für dieses eine Ziel**, nicht als eigenständiges Ziel. Gewichte diese Priorität über
 allen anderen Layern unten — bei einem Zielkonflikt (z.B. "schöneres Wiki" vs. "korrekterer
 Backtest") entscheide zugunsten des Backtest-Ziels, siehe [[Algo-Trading: Arbeitsstandards]] unten.
@@ -53,7 +57,8 @@ raw/
     Journal.md         Notion-Datenbanktabelle: alle Einträge mit Datum, Bias, Tags
     assets/            Screenshots; kollidierende Namen tragen das Präfix "journal-"
   marktdaten/          OHLC-Rohdaten für den Algo (siehe Layer 0), TradingView-Exporte +
-                        yfinance-Nachlad, Jahr/Monat/Tag verschachtelt — **wie Gold behandeln**,
+                        yfinance-Nachlad + IBKR-1s-Anbindung (NQ/ES, `algo/fetch_ibkr.py`),
+                        Jahr/Monat/Tag verschachtelt — **wie Gold behandeln**,
                         siehe [[Algo-Trading: Arbeitsstandards]]
   algo-pruefung/       Ergebnisse/Reports aus Algo-Prüfläufen, die lose in raw/ abgelegt wurden
                         (siehe „Automatische Einsortierung" unten) — reine Backtest-Artefakte
@@ -407,10 +412,11 @@ auf der vorherigen auf, überspringe keine:
 
 1. **Datensammlung (laufend, nie abgeschlossen).** Lass `raw/marktdaten/` täglich wachsen
    (TradingView-Export + `algo/fetch_yfinance.py`-Nachlad), begrenzt durch yfinance-Limits
-   (1m ~30 Tage, 5m/15m ~60 Tage, 1d unbegrenzt zurück). Ziehe für mehr Historie in
-   Intraday-Auflösung perspektivisch eine zweite Datenquelle heran (Kandidat: IBKR selbst,
-   sobald die API-Anbindung aus Punkt 4 steht — historische Daten und Live-Order-Ausführung über
-   denselben Broker zu beziehen vermeidet Datenquellen-Drift zwischen Backtest und Live-Betrieb).
+   (1m ~30 Tage, 5m/15m ~60 Tage, 1d unbegrenzt zurück). Für NQ/ES steht seit 2026-08-15
+   sekundengenaue IBKR-Historie zur Verfügung (`algo/fetch_ibkr.py`, `/daten-1s`) — IBKR ist
+   damit die primäre Intraday-Quelle für diese beiden Symbole, nicht mehr nur ein
+   perspektivischer Kandidat; historische Daten und Live-Order-Ausführung laufen über denselben
+   Broker, das vermeidet Datenquellen-Drift zwischen Backtest und Live-Betrieb.
 2. **Regel-Schicht (laufend).** Übersetze Wiki-Konzepte (`wiki/models/`) in deterministische
    Python-Regeln (`algo/rules.py::plan_trade` als erstes Beispiel: Silver Bullet Model). Folge
    bei jeder neuen Regel [[Algo-Trading: Arbeitsstandards]] — kein Lookahead, Reuse bestehender
@@ -461,7 +467,7 @@ bleibt, keine Absicht:
 - `algo/live/<datum>/` + `algo/live/<datum>-status-log.md` — transiente Live-Ziehung
   (gitignored) plus versioniertes Text-Protokoll der `/algo-live-status`-Läufe.
 
-## Domänenkontext: algo (MNQ-Backtesting)
+## Domänenkontext: algo (NQ/ES-Backtesting)
 
 `algo/` enthält den gesamten Backtesting-/Validierungs-Stack für Layer 0 (siehe `algo/README.md`
 für die Modul-für-Modul-Doku, `algo/PLAN.md` für Stand/Backlog/Log). Kernkomponenten: `pnl.py`

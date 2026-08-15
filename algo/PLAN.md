@@ -460,6 +460,22 @@ Forex-Backtesting-Plans, um ihn reviewbar zu halten -- je ein eigener, kleiner F
 Gruppe C (`backtest_org_ce.py`, `backtest_1p_...`, `backtest_ndog.py`, ...) bleibt MNQ-only, der
 Guard aus Task 3 sorgt dafuer, falls sie versehentlich mit einem Forex-Symbol aufgerufen wuerden.
 
+### Erledigt: IBKR 1s-Datenanbindung fuer NQ/ES implementiert (2026-08-15)
+
+Design `docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md` umgesetzt:
+`algo/fetch_ibkr.py` (Front-Monat-Aufloesung, Pacing-Limiter, Fenster-Zerlegung,
+Abdeckungs-Register, Parquet-Schreiben), Nulltoleranz-Gate ueberspringt den
+Degeneriert-Check bei <=5s Median-Abstand (`tools/analyze_ohlc.py`), 1s-Parquet-Zweig in
+`algo/marktdaten.py::_futures_bars()`, Slash-Command `/daten-1s`, alle Selbstchecks in
+`algo/selfcheck.py` eingebunden.
+
+**Noch offen (nicht agentisch ausfuehrbar, siehe Design SS12.2):** TradingView-1m-Referenz-
+Export fuer NQ/ES, Client-Portal-Haken fuer Paper-Datenspiegelung, IB-Gateway+IBC-Einrichtung,
+`--verify` auf dem Windows-Rechner des Nutzers, danach Backfill (~34h). Ergebnis der
+Verifikation (insbesondere R1: liefert IBKR 1s fuer verfallene Kontrakte?) hier nachtragen,
+sobald durchgefuehrt. `raw/algo-pruefung/IBKR 1s-Datenanbindung -- Uebergabestand
+2026-08-15.md` erst nach erfolgreicher Verifikation loeschen (Design SS1).
+
 ## Naechster Schritt
 
 **Korrektur (2026-08-03):** Der urspruengliche Plan war, mit dem Backtest zu warten, bis

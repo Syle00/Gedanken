@@ -1222,3 +1222,34 @@ numerisch per Bisektion, rechnet den Backtest ~12x) und die Flat-Quote des Fenst
 verhindert die Drift nicht -- er macht sie sichtbar, was bei bewusst duplizierter Logik der
 einzige ehrliche Umgang ist. Nach einer bewussten Uebernahme:
 `python algo/forex/selfcheck.py --hashes` und die Wache aktualisieren.
+
+## `fetch_ibkr.py` -- Sekundengenaue NQ/ES-Daten ueber IBKR
+
+**Was:** Laedt 1s-OHLC-Bars fuer NQ und ES ueber die IBKR-TWS/Gateway-API und legt sie als
+Tages-Parquet in `raw/marktdaten/<jjjj>/<mm>/<tt.mm.jjjj>/<SYM> <jjjj-mm-tt> 1s.parquet` ab
+-- gleiche Ordnerstruktur wie die TradingView-/yfinance-CSVs, nur Parquet statt CSV wegen
+Volumen (~5x kleiner, siehe Design SS4). Drei Betriebsarten: `--verify` (ein Fenster, schreibt
+nichts), `--backfill VON BIS`, ohne Argumente = Nachlad seit dem letzten Registereintrag.
+Siehe `docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md` fuer die volle
+Entscheidungshistorie (E1-E11).
+
+**Wie:** `front_month()` bestimmt den aktiven Quartalskontrakt deterministisch und netzfrei
+(Roll = Verfall - 8 Tage). `day_windows()` zerlegt einen Handelstag in 46 Fenster a 30 Minuten
+(18:00 NY Vortag - 17:00 NY), DST-sicher ueber tz-awares NY-Datetime-Arithmetik.
+`PacingLimiter` haelt die IBKR-Grenze (60 Requests/10 Min, min. 0,5s Abstand) ein, mit
+injizierbarer Uhr fuer Tests. `raw/marktdaten/1s-abdeckung.csv` (append-only) loest drei
+Probleme: "kein Trade" vs. "nicht geholt" unterscheidbar machen, Backfill wiederaufnehmbar
+machen, Nachlad zustandslos machen.
+
+**Warum:** IBKR ist dieselbe Quelle wie die spaetere Order-Ausfuehrung -- keine Quellen-Drift
+zwischen Backtest und Live-Betrieb (E1). NQ/ES statt MNQ, weil beide vom gebuchten
+CME-L1-Paket abgedeckt sind und deutlich liquider (E2); MNQ-Backtests bleiben unveraendert
+gueltig, MNQ ist derselbe Index mit derselben Tickgroesse.
+
+**Bekannte Grenzen:** `main()`/die echte `ib_async.IB()`-Verbindung ist NICHT durch
+`selfcheck.py` abgedeckt -- das braucht ein laufendes IB Gateway und wird ausschliesslich
+manuell auf dem Windows-Rechner des Nutzers verifiziert (`--verify` vor jedem Backfill).
+Verbindet sich ausschliesslich readonly gegen Port 4002 (Paper) -- siehe Design SS9 fuer die
+beiden Absicherungen gegen einen Live-Order-Pfad. Ob IBKR 1s-Bars fuer bereits verfallene
+Kontrakte liefert (`includeExpired=True`), war zum Zeitpunkt der Implementierung ungeprueft
+(Design R1) -- Ergebnis der Verifikation in `algo/PLAN.md` nachtragen.

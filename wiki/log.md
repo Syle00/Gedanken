@@ -2502,3 +2502,10 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   `algo/repair_dst_2019.py` (Trockenlauf sauber, `--apply` steht aus — `raw/` wird nicht
   eigenmächtig geändert). Protokoll: `algo/PLAN.md`.
 - Seiten aktualisiert: wiki/synthesis/Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend).md
+
+## [2026-08-15] setup | IBKR 1s-Datenanbindung NQ/ES
+- Seiten aktualisiert: keine (reine Code-/Infrastruktur-Aenderung, siehe algo/PLAN.md)
+- `algo/fetch_ibkr.py` neu; `tools/analyze_ohlc.py`, `algo/marktdaten.py`,
+  `algo/selfcheck.py`, `CLAUDE.md` geaendert; `.claude/commands/daten-1s.md` neu
+- Details: docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md,
+  algo/PLAN.md (Eintrag 2026-08-15)
