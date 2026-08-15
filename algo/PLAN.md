@@ -560,6 +560,16 @@ Update; bei einem IBC-Upgrade muss dieser Fix erneut angewendet werden. Verifizi
 brauchte keine Code-Aenderung -- der Bug lag komplett in der vom Nutzer verwalteten
 IBC-Installation.
 
+**Zweiter, unabhaengiger Bug beim ersten echten Nachlad-Lauf gefunden und gefixt:**
+`python algo/fetch_ibkr.py` (ohne Argumente) lief in `_demo()` (interner Selbsttest) statt in
+den laut Docstring dokumentierten Nachlad-Modus -- `__main__`-Block hatte `if len(sys.argv) ==
+1: _demo() else: sys.exit(main())`, obwohl `algo/selfcheck.py` `_demo()` bereits direkt
+importiert (`from fetch_ibkr import _demo as fetch_ibkr_demo`); der `sys.argv`-Zweig war
+ueberfluessig und brach den dokumentierten No-Args-Aufruf. Fix: `__main__` ruft jetzt
+immer `sys.exit(main())`. Nach dem Fix erster echter Nachlad-Lauf durchgefuehrt: Register
+(`raw/marktdaten/1s-abdeckung.csv`) war bereits luecklos bis 2026-08-14 (letzter Handelstag)
+aus vorherigen Testlaeufen, Lauf endete sauber mit Exit 0 ohne neue Fenster.
+
 **Beobachtung fuer den echten Backfill:** Trotz `PacingLimiter` (60 Requests/10 Min,
 min. 0,5s Abstand) traten bei mehreren Testlaeufen wiederholt Pacing-Violations auf, meist
 in der zweiten Haelfte eines 46-Fenster-Laufs fuer ein Symbol -- IBKRs tatsaechliche
