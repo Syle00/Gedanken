@@ -154,7 +154,8 @@ def _flat_zeit(tag: date) -> datetime:
 
 
 def simuliere_setup(setup, bars_ab: list[Bar], symbol: str, spread_pips: float,
-                    kurse: dict[str, float], equity: float) -> Trade | None:
+                    kurse: dict[str, float], equity: float,
+                    dubious_aufloesung: str = "stop") -> Trade | None:
     """Ein Setup ab seiner Entstehung vorwaerts abwickeln. `bars_ab` sind die Kerzen NACH dem
     Setup-Zeitpunkt (streng spaeter -- kein Fill in der Kerze, die das Signal erzeugt hat).
 
@@ -197,8 +198,16 @@ def simuliere_setup(setup, bars_ab: list[Bar], symbol: str, spread_pips: float,
         # Zwei Ambiguitaeten, beide zuungunsten des Backtests aufgeloest (siehe Modul-Doku):
         # (a) Stop und Ziel in derselben Kerze, (b) Stop in der Entry-Kerze -- dort ist nicht
         # entscheidbar, ob der Ruecklauf den Entry vor oder nach dem Stop passiert hat.
-        if stop_hit and (ziel_hit or entry_kerze):
+        unbestimmt = stop_hit and (ziel_hit or entry_kerze)
+        if unbestimmt:
             tr.dubious = True
+            # `dubious_aufloesung="target"` ist NICHT die Handelsannahme, sondern das
+            # Gegenstueck fuer die Einklammerung: bei 28,6 % unbestimmten Trades ist ein
+            # einzelnes Ergebnis keine Zahl, sondern eine Grenze. Die Wahrheit liegt zwischen
+            # beiden Laeufen. Fuer jede Handelsentscheidung gilt weiter "stop".
+            if dubious_aufloesung == "target" and ziel_hit:
+                tr.t_exit, tr.exit, tr.grund = b.t, setup.target, "target"
+                break
         if stop_hit:
             tr.t_exit, tr.exit, tr.grund = b.t, setup.stop, "stop"
             break
@@ -233,7 +242,8 @@ def simuliere_setup(setup, bars_ab: list[Bar], symbol: str, spread_pips: float,
 def lauf(symbol: str, bars: list[Bar], kurse_je_tag: dict[date, dict[str, float]],
          spread_pips: float | None = None, fenster: list[str] | None = None,
          min_target_pips: float = 10.0, min_stop_pips: float = 3.0,
-         killswitch_pct: float | None = killswitch.DEFAULT_MAX_DRAWDOWN_PCT) -> Ergebnis:
+         killswitch_pct: float | None = killswitch.DEFAULT_MAX_DRAWDOWN_PCT,
+         dubious_aufloesung: str = "stop") -> Ergebnis:
     """Backtest ueber die uebergebenen Bars. Ein Setup je Fenster und Tag (das *1st Presented*
     FVG ist per Definition eindeutig), danach vorwaerts abgewickelt.
 
