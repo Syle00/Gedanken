@@ -28,6 +28,7 @@ NY = ZoneInfo("America/New_York")
 # Kerzen/Tag: Vollhandelstag 1427-1437, Sonntag ab Marktoeffnung 418 (Spec §1.1, gemessen).
 ERWARTUNG_VOLLTAG = (1420, 1440)
 ERWARTUNG_SONNTAG = (400, 430)
+ERWARTUNG_FREITAG = (1005, 1030)  # Fr schliesst 17:00 NY = 17h*60min = 1020 Kerzen, gemessener Median 1017
 
 
 def lade_parquet(symbol: str) -> pd.DataFrame:
@@ -79,8 +80,12 @@ def vollstaendigkeit(symbol: str) -> dict:
     pro_tag = df.groupby(df.index.date).size()
     auffaellig = []
     for tag, n in pro_tag.items():
-        ist_sonntag = tag.weekday() == 6
-        lo, hi = ERWARTUNG_SONNTAG if ist_sonntag else ERWARTUNG_VOLLTAG
+        if tag.weekday() == 6:
+            lo, hi = ERWARTUNG_SONNTAG
+        elif tag.weekday() == 4:
+            lo, hi = ERWARTUNG_FREITAG
+        else:
+            lo, hi = ERWARTUNG_VOLLTAG
         if not (lo <= n <= hi) and n > 50:  # <50 sind erwartete Kurztage (Feiertage), kein Fund
             auffaellig.append({"tag": str(tag), "kerzen": int(n)})
 
