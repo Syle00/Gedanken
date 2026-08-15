@@ -15,6 +15,9 @@ from __future__ import annotations
 
 import argparse
 import csv
+import os
+import socket
+import subprocess
 import sys
 import time
 from collections import deque
@@ -34,6 +37,40 @@ REGISTER = DATA_DIR / "1s-abdeckung.csv"
 REGISTER_HEADER = ["symbol", "von", "bis", "kontrakt", "kerzen", "geholt_am"]
 SYMBOLS = ["NQ", "ES"]
 WINDOW_SECONDS = 1800
+GATEWAY_HOST, GATEWAY_PORT = "127.0.0.1", 4002
+# Ueberschreibbar per Umgebungsvariable, falls IBC mal an einem anderen Ort installiert wird.
+GATEWAY_BAT = Path(os.environ.get("IBC_GATEWAY_BAT", r"C:\Users\janne\IBC\StartGateway.bat"))
+
+
+def _gateway_erreichbar(timeout: float = 1.0) -> bool:
+    try:
+        with socket.create_connection((GATEWAY_HOST, GATEWAY_PORT), timeout=timeout):
+            return True
+    except OSError:
+        return False
+
+
+def _gateway_sicherstellen(wartezeit: int = 180) -> None:
+    """Startet IB Gateway automatisch ueber StartGateway.bat, falls Port 4002 noch nicht
+    erreichbar ist -- damit `python fetch_ibkr.py` nicht voraussetzt, dass Gateway schon
+    manuell laeuft. Wartet bis zu `wartezeit` Sekunden auf den IBC-Login (Cold-Start dauert
+    ein paar Sekunden bis Minuten). Laeuft Gateway schon, passiert nichts."""
+    if _gateway_erreichbar():
+        return
+    if not GATEWAY_BAT.exists():
+        print(f"! Gateway nicht erreichbar und {GATEWAY_BAT} existiert nicht -- "
+              f"bitte manuell starten oder IBC_GATEWAY_BAT setzen", flush=True)
+        return
+    print(f"Gateway auf Port {GATEWAY_PORT} nicht erreichbar, starte {GATEWAY_BAT} ...", flush=True)
+    subprocess.Popen([str(GATEWAY_BAT)], creationflags=subprocess.CREATE_NEW_CONSOLE)
+    start = time.monotonic()
+    while time.monotonic() - start < wartezeit:
+        if _gateway_erreichbar():
+            print(f"Gateway erreichbar nach {time.monotonic() - start:.0f}s.", flush=True)
+            return
+        time.sleep(5)
+    print(f"! Gateway nach {wartezeit}s immer noch nicht erreichbar -- "
+          f"Verbindungsversuch trotzdem, wird vermutlich fehlschlagen", flush=True)
 
 # Verfallsmonate NQ/ES: H (Maerz), M (Juni), U (September), Z (Dezember).
 QUARTER_MONTHS = [(3, "H"), (6, "M"), (9, "U"), (12, "Z")]
@@ -297,9 +334,11 @@ def main(argv=None) -> int:
     if unbekannt:
         ap.error(f"unbekannte Symbole: {', '.join(unbekannt)} -- bekannt: {', '.join(SYMBOLS)}")
 
+    _gateway_sicherstellen()
+
     from ib_async import IB  # lokal importiert: Selbstcheck/Tests brauchen kein ib_async-Netz
     ib = IB()
-    ib.connect("127.0.0.1", 4002, clientId=7, readonly=True)
+    ib.connect(GATEWAY_HOST, GATEWAY_PORT, clientId=7, readonly=True)
     pacing = PacingLimiter()
     try:
         if a.verify:
