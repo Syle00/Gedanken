@@ -469,12 +469,37 @@ Degeneriert-Check bei <=5s Median-Abstand (`tools/analyze_ohlc.py`), 1s-Parquet-
 `algo/marktdaten.py::_futures_bars()`, Slash-Command `/daten-1s`, alle Selbstchecks in
 `algo/selfcheck.py` eingebunden.
 
-**Noch offen (nicht agentisch ausfuehrbar, siehe Design SS12.2):** TradingView-1m-Referenz-
-Export fuer NQ/ES, Client-Portal-Haken fuer Paper-Datenspiegelung, IB-Gateway+IBC-Einrichtung,
-`--verify` auf dem Windows-Rechner des Nutzers, danach Backfill (~34h). Ergebnis der
-Verifikation (insbesondere R1: liefert IBKR 1s fuer verfallene Kontrakte?) hier nachtragen,
-sobald durchgefuehrt. `raw/algo-pruefung/IBKR 1s-Datenanbindung -- Uebergabestand
-2026-08-15.md` erst nach erfolgreicher Verifikation loeschen (Design SS1).
+**Update 2026-08-15, abends -- Inbetriebnahme + Verifikation (Nutzer-Rechner):**
+IB Gateway + IBC eingerichtet (Stolpersteine: `StartGateway.bat`-Pfade zeigten auf
+Default-Installationsorte statt der echten `%USERPROFILE%\IBC`-Struktur; `JAVA_PATH` musste
+explizit auf die versionsgebundene JRE unter `C:\Jts\ibgateway\1050\jre\bin` zeigen, sonst
+"Can't find suitable Java installation"; `TWS_SETTINGS_PATH` musste auf einen existierenden,
+festen Ordner zeigen, sonst kam bei jedem Neustart ein "Settings corrupted"-Dialog).
+Ausserdem ein echter Code-Bug gefunden und gefixt: der `if __name__ == "__main__":`-Block in
+`algo/fetch_ibkr.py` rief bei vorhandenen CLI-Argumenten nur `print(__doc__)` auf, nie
+`main()` -- aus Task 1 uebrig geblieben, bei der `main()`-Erweiterung in Task 3 nicht
+nachgezogen, durch keinen Selbstcheck abgedeckt (kein Test ruft das Skript mit `sys.argv`
+auf). Fix: `sys.exit(main())` statt `print(__doc__)`.
+
+**`--verify` erfolgreich:** NQ und ES liefern je 1800 Kerzen (volle 30 Min, 1s-Aufloesung,
+keine Luecke) fuer den aktuellen Front-Monat-Kontrakt (NQU2026/ESU2026). Grundvoraussetzung
+war ein fehlendes IBKR-Marktdaten-Abo (`CME Real-Time (NP,L1)`, 1,55 USD/Monat, im Client
+Portal unter Market Data Subscriptions nachtraeglich aktiviert) -- ohne das kamen selbst
+AAPL-Testabrufe (Aktie, komplett losgeloest von CME-Futures) mit Timeout und 0 Kerzen zurueck,
+was den Fehler eindeutig als Abo-Luecke statt Verbindungs-/Zeitzonen-/1s-spezifisches Problem
+identifizierte.
+
+**R1 (verfallene Kontrakte) geklaert -- positiv:** `includeExpired=True` liefert 1s-Bars auch
+fuer einen laengst verfallenen Kontrakt (NQU2025, Verfall September 2025): 1800/1800 Kerzen
+fuer ein Testfenster aus Juli 2025, keine Luecke. Der 6-Monats-Backfill ueber mehrere
+Kontrakt-Rolls hinweg (NQU2025->NQZ2025->NQH2026->NQM2026->NQU2026 fuer den geplanten
+Zeitraum) ist damit nicht durch R1 blockiert.
+
+**Noch offen:** Prüfpunkte 3/4 aus Design SS6 (Zeitstempel/Preise der 1s-Daten gegen den
+eingespielten TradingView-1m-Export gegenpruefen, `pruefe_gegen_referenz`) -- als naechstes
+geplant. Handelslose-Sekunden-Quote (SS6.5, Pflichtkennzahl) noch nicht berechnet. Danach
+Backfill (~34h). `raw/algo-pruefung/IBKR 1s-Datenanbindung -- Uebergabestand 2026-08-15.md`
+erst nach abgeschlossener Verifikation loeschen (Design SS1).
 
 ## Naechster Schritt
 
