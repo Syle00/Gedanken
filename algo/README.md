@@ -1250,6 +1250,21 @@ gueltig, MNQ ist derselbe Index mit derselben Tickgroesse.
 `selfcheck.py` abgedeckt -- das braucht ein laufendes IB Gateway und wird ausschliesslich
 manuell auf dem Windows-Rechner des Nutzers verifiziert (`--verify` vor jedem Backfill).
 Verbindet sich ausschliesslich readonly gegen Port 4002 (Paper) -- siehe Design SS9 fuer die
-beiden Absicherungen gegen einen Live-Order-Pfad. Ob IBKR 1s-Bars fuer bereits verfallene
-Kontrakte liefert (`includeExpired=True`), war zum Zeitpunkt der Implementierung ungeprueft
-(Design R1) -- Ergebnis der Verifikation in `algo/PLAN.md` nachtragen.
+beiden Absicherungen gegen einen Live-Order-Pfad. R1 (verfallene Kontrakte) verifiziert
+2026-08-15: `includeExpired=True` liefert 1s-Bars auch fuer laengst verfallene Kontrakte,
+siehe `algo/PLAN.md`.
+
+**⚠️ Volumen-0-Phantomkerzen (verifiziert 2026-08-15, widerspricht Design E4):** Anders als
+in E4 angenommen ("handelslose Sekunden bleiben schlicht leer") liefert IBKR fuer TRADES-Bars
+auf 1s-Aufloesung tatsaechlich fuer *jede* Sekunde des angefragten Fensters eine Kerze --
+Sekunden ohne echten Trade werden mit `volume=0` und `open==high==low==close` (Preis vom
+letzten echten Trade fortgeschrieben) aufgefuellt, nicht als Luecke ausgelassen. Gemessen am
+14.08.2026: 45,8 % aller NQ- und 58,6 % aller ES-1s-Kerzen sind solche Phantomkerzen. Jede
+Aggregation, die `open="first"` ueber ein 1s-Fenster bildet (z.B. Resampling auf 1m), kann
+dadurch eine Phantomkerze statt des ersten echten Trades als Open erwischen -- das erklaerte
+beim Gegencheck gegen die TradingView-1m-Referenz praktisch alle Open-Abweichungen (High/Low
+blieben fast immer exakt gleich, weil `max`/`min` von Phantomkerzen unberuehrt bleiben).
+**Bewusste Entscheidung:** `raw/marktdaten/` wird NICHT bereinigt -- die Rohdaten bleiben
+1:1 wie von IBKR geliefert (Nulltoleranz-Prinzip, nichts wegwerfen). Jeder Verbraucher von
+1s-Daten (Backtests, Resampling), der "echte Trades" statt Preisfortschreibung braucht, muss
+selbst nach `volume > 0` filtern -- die Spalte steht dafuer im Parquet-Schema bereit.

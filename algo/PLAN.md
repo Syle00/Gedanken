@@ -495,11 +495,56 @@ fuer ein Testfenster aus Juli 2025, keine Luecke. Der 6-Monats-Backfill ueber me
 Kontrakt-Rolls hinweg (NQU2025->NQZ2025->NQH2026->NQM2026->NQU2026 fuer den geplanten
 Zeitraum) ist damit nicht durch R1 blockiert.
 
-**Noch offen:** Prüfpunkte 3/4 aus Design SS6 (Zeitstempel/Preise der 1s-Daten gegen den
-eingespielten TradingView-1m-Export gegenpruefen, `pruefe_gegen_referenz`) -- als naechstes
-geplant. Handelslose-Sekunden-Quote (SS6.5, Pflichtkennzahl) noch nicht berechnet. Danach
-Backfill (~34h). `raw/algo-pruefung/IBKR 1s-Datenanbindung -- Uebergabestand 2026-08-15.md`
-erst nach abgeschlossener Verifikation loeschen (Design SS1).
+**Prüfpunkte 3/4 durchgeführt (14.08.2026 als Testtag, gegen eingespielte TradingView-
+1m-Referenz):** Zeitstempel stimmen **zu 100 %** überein (1380/1380 NQ-, 1320/1320
+ES-Minuten deckungsgleich mit der Referenz) -- kein Zeitzonen-/Offset-Fehler. Preise
+weichen in ~19-30 % der Minuten leicht ab (meist 1 Tick bei Open, High/Low fast immer
+exakt gleich).
+
+**Ursache gefunden, kein Bug in `fetch_ibkr.py` -- widerspricht aber Design-Annahme E4:**
+IBKR liefert fuer 1s-TRADES-Bars tatsaechlich fuer *jede* Sekunde des Fensters eine Kerze,
+nicht nur fuer Sekunden mit echtem Trade. Handelslose Sekunden kommen als `volume=0`-Kerze
+mit fortgeschriebenem letzten Preis (`open==high==low==close`), nicht als Luecke -- E4 nahm
+das Gegenteil an ("bleiben schlicht leer"). Gemessen: 45,8 % aller NQ- und 58,6 % aller
+ES-1s-Kerzen am 14.08.2026 sind solche Phantomkerzen. Ein `open="first"`-Aggregat (z.B.
+Resampling 1s->1m) kann dadurch eine Phantomkerze statt des ersten echten Trades als Open
+erwischen -- erklaert praktisch alle beobachteten Open-Abweichungen zur TradingView-Referenz;
+High/Low bleiben unberuehrt, weil `max`/`min` von Phantomkerzen nicht verfaelscht werden.
+**Nutzerentscheidung:** `raw/marktdaten/` wird NICHT bereinigt, Rohdaten bleiben 1:1 wie
+geliefert (Nulltoleranz). Dokumentiert in `algo/README.md` (`fetch_ibkr.py`-Abschnitt) --
+jeder kuenftige 1s-Verbraucher muss selbst nach `volume > 0` filtern, wenn er echte Trades
+statt Preisfortschreibung braucht.
+
+**Zusaetzlicher Bugfix waehrend der Verifikation:** `fetch_window()` erkannte eine echte
+IBKR-Pacing-Violation (Error 162) nicht -- `reqHistoricalData` liefert dabei ganz normal eine
+leere Liste zurueck statt einer Exception, ununterscheidbar von einem Fenster ohne Trades.
+3 ES-Fenster wurden dadurch beim ersten Testlauf faelschlich als "0 Kerzen, geprueft" ins
+Register geschrieben (90-Minuten-Luecke, waere nie automatisch nachgeholt worden). Fix:
+`fetch_window()` haengt sich waehrend des Requests an `ib.errorEvent`, behandelt eine leere
+Antwort MIT Fehlermeldung als gescheiterten Versuch, gibt nach 3 Versuchen `None` (nicht
+einen leeren DataFrame) zurueck -- `fetch_symbol_day()` schreibt fuer `None` keine
+Registerzeile, das Fenster bleibt offen fuer den naechsten Lauf. Commit `1344954a9`.
+Ausserdem ein zweiter, unabhaengiger Bug gefunden und gefixt: der `if __name__ ==
+"__main__":`-Block rief bei CLI-Argumenten nur `print(__doc__)` auf, nie `main()` -- aus
+Task 1 uebrig, bei der `main()`-Erweiterung in Task 3 nicht nachgezogen, durch keinen
+Selbstcheck abgedeckt.
+
+**Beobachtung fuer den echten Backfill:** Trotz `PacingLimiter` (60 Requests/10 Min,
+min. 0,5s Abstand) traten bei mehreren Testlaeufen wiederholt Pacing-Violations auf, meist
+in der zweiten Haelfte eines 46-Fenster-Laufs fuer ein Symbol -- IBKRs tatsaechliche
+Grenze scheint enger als die dokumentierten 60/10Min zu greifen (moeglicherweise die
+"6 Requests je 2s fuer denselben Kontrakt"-Regel aus Design SS3.3, die `PacingLimiter`
+nicht separat abbildet). Der eingebaute Retry faengt das ab (Fenster bleibt offen statt
+falsch registriert, siehe Fix oben), aber fuer den echten 34h-Backfill lohnt sich ein
+grosszuegigerer `min_gap` (z.B. 2-3s statt 0,5s) VOR dem Start, statt sich auf Retries zu
+verlassen -- noch nicht umgesetzt.
+
+**Noch offen:** Handelslose-Sekunden-Quote (SS6.5, Pflichtkennzahl) noch nicht separat
+berechnet -- ergibt sich jetzt direkt aus dem Volumen-0-Anteil oben (45,8 %/58,6 % am
+14.08.2026), sollte aber noch als expliziter Report-Wert in `--verify`/`/daten-1s`
+auftauchen. Danach `min_gap` in `PacingLimiter` erhoehen, dann Backfill (~34h).
+`raw/algo-pruefung/IBKR 1s-Datenanbindung -- Uebergabestand 2026-08-15.md` erst nach
+abgeschlossener Verifikation loeschen (Design SS1).
 
 ## Naechster Schritt
 
