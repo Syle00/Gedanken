@@ -72,11 +72,19 @@ def front_month(d: date, symbol: str) -> str:
 
 class PacingLimiter:
     """IBKR-Pacing: max. `max_requests` je `window` Sekunden, mindestens `min_gap`
-    Sekunden zwischen zwei Requests (deckt die 6-je-2s-Regel mit Reserve ab).
-    `clock`/`sleep` sind injizierbar, damit Tests ohne echtes Warten laufen."""
+    Sekunden zwischen zwei Requests. `clock`/`sleep` sind injizierbar, damit Tests ohne
+    echtes Warten laufen.
+
+    `min_gap`-Default 1.5s statt der urspruenglich angenommenen 0.5s (Review-Fund
+    2026-08-15): 0.5s haette rechnerisch die "6 Requests je 2s fuer denselben
+    Kontrakt"-Regel (Design SS3.3) mit Reserve einhalten sollen, in der Praxis kamen beim
+    echten Backfill-Testlauf trotzdem wiederholt Pacing-Violations (Error 162), meist in
+    der zweiten Haelfte eines 46-Fenster-Laufs. 1.5s gibt deutlich mehr Puffer, auf Kosten
+    von mehr Laufzeit (46 Fenster ~= 69s statt ~23s pro Symbol -- fuer einen 34h-Backfill
+    vernachlaessigbar gegen die Kosten eines abgebrochenen Laufs)."""
 
     def __init__(self, clock=time.monotonic, sleep=time.sleep,
-                 max_requests: int = 60, window: float = 600.0, min_gap: float = 0.5):
+                 max_requests: int = 60, window: float = 600.0, min_gap: float = 1.5):
         self._clock = clock
         self._sleep = sleep
         self._max = max_requests
