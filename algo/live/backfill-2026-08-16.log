@@ -59,3 +59,65 @@
     Fenster 12/46 ES 2026-02-16 05:00 UTC: 1800 Kerzen geholt
     Fenster 13/46 ES 2026-02-16 05:30 UTC: 1800 Kerzen geholt
     Fenster 14/46 ES 2026-02-16 06:00 UTC: 1800 Kerzen geholt
+Error 162, reqId 63: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='ES', lastTradeDateOrContractMonth='202603', exchange='CME', includeExpired=True)
+  ! ES Fenster bis 2026-02-16 06:30:00+00:00: Versuch 1/3 fehlgeschlagen ([(162, 'Historical Market Data Service error message:Historical data request pacing violation')])
+    Fenster 15/46 ES 2026-02-16 06:30 UTC: 1800 Kerzen geholt
+    Fenster 16/46 ES 2026-02-16 07:00 UTC: 1800 Kerzen geholt
+    Fenster 17/46 ES 2026-02-16 07:30 UTC: 1800 Kerzen geholt
+    Fenster 18/46 ES 2026-02-16 08:00 UTC: 1800 Kerzen geholt
+    Fenster 19/46 ES 2026-02-16 08:30 UTC: 1800 Kerzen geholt
+    Fenster 20/46 ES 2026-02-16 09:00 UTC: 1800 Kerzen geholt
+    Fenster 21/46 ES 2026-02-16 09:30 UTC: 1800 Kerzen geholt
+    Fenster 22/46 ES 2026-02-16 10:00 UTC: 1800 Kerzen geholt
+    Fenster 23/46 ES 2026-02-16 10:30 UTC: 1800 Kerzen geholt
+    Fenster 24/46 ES 2026-02-16 11:00 UTC: 1800 Kerzen geholt
+    Fenster 25/46 ES 2026-02-16 11:30 UTC: 1800 Kerzen geholt
+    Fenster 26/46 ES 2026-02-16 12:00 UTC: 1800 Kerzen geholt
+    Fenster 27/46 ES 2026-02-16 12:30 UTC: 1800 Kerzen geholt
+    Fenster 28/46 ES 2026-02-16 13:00 UTC: 1800 Kerzen geholt
+    Fenster 29/46 ES 2026-02-16 13:30 UTC: 1800 Kerzen geholt
+    Fenster 30/46 ES 2026-02-16 14:00 UTC: 1800 Kerzen geholt
+    Fenster 31/46 ES 2026-02-16 14:30 UTC: 1800 Kerzen geholt
+    Fenster 32/46 ES 2026-02-16 15:00 UTC: 1800 Kerzen geholt
+    Fenster 33/46 ES 2026-02-16 15:30 UTC: 1800 Kerzen geholt
+    Fenster 34/46 ES 2026-02-16 16:00 UTC: 1800 Kerzen geholt
+    Fenster 35/46 ES 2026-02-16 16:30 UTC: 1800 Kerzen geholt
+    Fenster 36/46 ES 2026-02-16 17:00 UTC: 1800 Kerzen geholt
+    Fenster 37/46 ES 2026-02-16 17:30 UTC: 1800 Kerzen geholt
+    Fenster 38/46 ES 2026-02-16 18:00 UTC: 1800 Kerzen geholt
+    Fenster 39/46 ES 2026-02-16 18:30 UTC: 1800 Kerzen geholt
+    Fenster 40/46 ES 2026-02-16 19:00 UTC: 1800 Kerzen geholt
+    Fenster 41/46 ES 2026-02-16 19:30 UTC: 1800 Kerzen geholt
+    Fenster 42/46 ES 2026-02-16 20:00 UTC: 1800 Kerzen geholt
+    Fenster 43/46 ES 2026-02-16 20:30 UTC: 1800 Kerzen geholt
+    Fenster 44/46 ES 2026-02-16 21:00 UTC: 1800 Kerzen geholt
+    Fenster 45/46 ES 2026-02-16 21:30 UTC: 1800 Kerzen geholt
+    Fenster 46/46 ES 2026-02-16 22:00 UTC: 1800 Kerzen geholt
+[2/260] ES 2026-02-16: geschrieben (ES 2026-02-16 1s.parquet)
+    Fenster 1/46 NQ 2026-02-17 23:30 UTC: 1800 Kerzen geholt
+    Fenster 2/46 NQ 2026-02-17 00:00 UTC: 1800 Kerzen geholt
+    Fenster 3/46 NQ 2026-02-17 00:30 UTC: 1800 Kerzen geholt
+    Fenster 4/46 NQ 2026-02-17 01:00 UTC: 1800 Kerzen geholt
+    Fenster 5/46 NQ 2026-02-17 01:30 UTC: 1800 Kerzen geholt
+    Fenster 6/46 NQ 2026-02-17 02:00 UTC: 1800 Kerzen geholt
+    Fenster 7/46 NQ 2026-02-17 02:30 UTC: 1800 Kerzen geholt
+    Fenster 8/46 NQ 2026-02-17 03:00 UTC: 1800 Kerzen geholt
+    Fenster 9/46 NQ 2026-02-17 03:30 UTC: 1800 Kerzen geholt
+    Fenster 10/46 NQ 2026-02-17 04:00 UTC: 1800 Kerzen geholt
+    Fenster 11/46 NQ 2026-02-17 04:30 UTC: 1800 Kerzen geholt
+    Fenster 12/46 NQ 2026-02-17 05:00 UTC: 1800 Kerzen geholt
+    Fenster 13/46 NQ 2026-02-17 05:30 UTC: 1800 Kerzen geholt
+    Fenster 14/46 NQ 2026-02-17 06:00 UTC: 1800 Kerzen geholt
+    Fenster 15/46 NQ 2026-02-17 06:30 UTC: 1800 Kerzen geholt
+    Fenster 16/46 NQ 2026-02-17 07:00 UTC: 1800 Kerzen geholt
+    Fenster 17/46 NQ 2026-02-17 07:30 UTC: 1800 Kerzen geholt
+    Fenster 18/46 NQ 2026-02-17 08:00 UTC: 1800 Kerzen geholt
+    Fenster 19/46 NQ 2026-02-17 08:30 UTC: 1800 Kerzen geholt
+    Fenster 20/46 NQ 2026-02-17 09:00 UTC: 1800 Kerzen geholt
+    Fenster 21/46 NQ 2026-02-17 09:30 UTC: 1800 Kerzen geholt
+    Fenster 22/46 NQ 2026-02-17 10:00 UTC: 1800 Kerzen geholt
+    Fenster 23/46 NQ 2026-02-17 10:30 UTC: 1800 Kerzen geholt
+    Fenster 24/46 NQ 2026-02-17 11:00 UTC: 1800 Kerzen geholt
+    Fenster 25/46 NQ 2026-02-17 11:30 UTC: 1800 Kerzen geholt
+    Fenster 26/46 NQ 2026-02-17 12:00 UTC: 1800 Kerzen geholt
+    Fenster 27/46 NQ 2026-02-17 12:30 UTC: 1800 Kerzen geholt
