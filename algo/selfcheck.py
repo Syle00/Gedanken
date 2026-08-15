@@ -43,6 +43,7 @@ from marktdaten import _demo as marktdaten_demo  # noqa: E402
 from verify_forex_data import _demo as verify_forex_demo  # noqa: E402
 from measure_forex_attrappen import _demo as measure_attrappen_demo  # noqa: E402
 from bias_levels import demo as bias_levels_demo  # noqa: E402
+from fetch_ibkr import _demo as fetch_ibkr_demo  # noqa: E402
 
 
 def _results_demo() -> None:
@@ -121,6 +122,7 @@ CHECKS = [
     ("verify_forex_data", verify_forex_demo),
     ("measure_forex_attrappen", measure_attrappen_demo),
     ("bias_levels", bias_levels_demo),
+    ("fetch_ibkr", fetch_ibkr_demo),
     ("dedup", _results_demo),
 ]
 
