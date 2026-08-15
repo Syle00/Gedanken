@@ -1,7 +1,7 @@
 # Bias-Vorlage Implementation Plan
 
-> **Status 2026-08-15: Task 1-3 umgesetzt, Task 4 (Crons) offen. Zwei Abweichungen vom Plan
-> unten -- der Plantext ist ab hier historisch, massgeblich ist `algo/README.md`.**
+> **Status 2026-08-15: Task 1-4 umgesetzt. Zwei Abweichungen vom Plantext unten -- der ist ab
+> hier historisch, massgeblich sind `algo/README.md` und die beiden Command-Dateien.**
 >
 > 1. **News kommen nicht per WebFetch.** Der geplante WebFetch auf
 >    `forexfactory.com/calendar?day=...` liefert **HTTP 403** (Cloudflare-Botschutz,
@@ -10,10 +10,18 @@
 >    `algo/bias_levels.py` selbst. Die Commands rufen daher **ein** Skript statt Skript +
 >    WebFetch auf, und `bias_levels.py` bestimmt auch das Zieldatum (`--next` / `--weekly`)
 >    statt `date -d tomorrow` im Command-Prompt.
-> 2. **Cron-Zeiten verschoben.** ForexFactory veroeffentlicht nur die *laufende* Woche
->    (`ff_calendar_nextweek.json` -> HTTP 404). Freitags abends waere der Zieltag Montag nicht
->    abgedeckt. Daher Daily-Cron **So-Do 20:00** (statt Mo-Fr) und Weekly-Cron **sonntags**
->    (statt freitags).
+> 2. **Zweite News-Quelle statt verschobener Cron-Zeit.** ForexFactory veroeffentlicht nur die
+>    *laufende* Woche (`ff_calendar_nextweek.json` -> HTTP 404), kennt freitags abends also die
+>    Zielwoche nicht. Der Nutzer will den Weekly-Lauf aber ausdruecklich **freitags 20:00**
+>    (Entscheid 2026-08-15). Geloest ueber einen Fallback auf den
+>    **TradingView-Wirtschaftskalender** (beliebiger Datumsbereich); Zeitstempel beider Quellen
+>    auf KW33 gegengeprueft und deckungsgleich. Cron-Zeiten daher wie urspruenglich geplant:
+>    Daily **So-Do 20:07**, Weekly **Fr 20:07**.
+>
+> **Task 4 konkret:** zwei Cloud-Routinen, `trig_01RqWifxLRoF1cMSXntn8SDN` (Daily) und
+> `trig_01HuaCqVbDB6MXfqb7tR9hff` (Weekly). Sie laufen in einem eigenen Cloud-Checkout und
+> **committen + pushen** ihre Datei nach `main` -- ohne das waere sie nach dem Lauf verloren.
+> Das weicht bewusst von der Spec-Regel "kein Push" ab (Nutzerentscheid 2026-08-15).
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
