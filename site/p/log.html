@@ -199,6 +199,7 @@
 <li><a href="#2026-08-15-setup-automatische-raw-einsortierung-regel-erstlauf">[2026-08-15] setup | Automatische raw/-Einsortierung (Regel + Erstlauf)</a></li>
 <li><a href="#2026-08-15-setup-forex-algo-phase-2-design-spec-konzept-inventur">[2026-08-15] setup | Forex-Algo Phase 2 — Design-Spec + Konzept-Inventur</a></li>
 <li><a href="#2026-08-15-synthesis-forex-algo-gebaut-erstes-ergebnis-auf-eurusd">[2026-08-15] synthesis | Forex-Algo gebaut, erstes Ergebnis auf EURUSD</a></li>
+<li><a href="#2026-08-15-query-dst-zeitversatz-im-forex-bestand-root-cause-eingrenzung-fix">[2026-08-15] query | DST-Zeitversatz im Forex-Bestand — Root Cause, Eingrenzung, Fix</a></li>
 </ul>
 </div>
 </details>
@@ -2830,6 +2831,28 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Für die ORG-C.E.-70-%-These festgehalten: über Forex nicht absicherbar (fällt unter den
   Ausschluss), bleibt auf der MNQ-Stichprobe und weiterhin unter Beobachtung.</li>
 <li>Protokoll: algo/PLAN.md (3 Einträge), algo/README.md (Modulabschnitt algo/forex/)</li>
+</ul>
+<h2 id="2026-08-15-query-dst-zeitversatz-im-forex-bestand-root-cause-eingrenzung-fix">[2026-08-15] query | DST-Zeitversatz im Forex-Bestand — Root Cause, Eingrenzung, Fix</h2>
+<ul>
+<li>Der Befund vom selben Tag („~1h-Versatz in den US/EU-Umstellungswochen, über alle 23 Jahre")
+  ist in zwei Punkten korrigiert: der Fehler beginnt <strong>2019</strong>, davor ist der Bestand korrekt.</li>
+<li>Messweg ohne Fremdquelle: der 24x5-Markt schließt Freitag 17:00 NY und öffnet Sonntag
+  17:00 NY. Die letzte Freitagskerze muss auf 16:59 NY liegen — damit ist jede Woche der
+  23 Jahre prüfbar statt einiger Stichprobentage.</li>
+<li>Ergebnis über alle 10 Paare und beide Wochengrenzen: Lücken-Woche 2007–2018 = 16:59 NY
+  (korrekt), Lücken-Woche 2019–2026 = 15:59 NY (1h zu früh), gewöhnliche Woche in beiden
+  Ären = 16:59 NY. Der histdata-Endpoint hat 2019 die Umstellungs<em>termine</em> von der US- auf
+  die EU-Regel gewechselt; der Offset −5/−4 blieb.</li>
+<li>Umfang: 15 Fenster, 140 Handelstage je Paar, 1.962.205 von 81.676.600 Kerzen (2,40 %).</li>
+<li>Methodische Lehre (zweiter Fall binnen zwei Tagen): die ursprüngliche Zeitprüfung testete
+  zwei Sommertage und einen Wintertag — an solchen Tagen sind US- und EU-Sommerzeit
+  gleichzeitig aktiv, die beiden Regeln sind dort <strong>nicht unterscheidbar</strong>. Der Test konnte
+  den Fehler methodisch nicht finden. Eine Zeitprüfung muss künftig die Umstellungswochen
+  ausdrücklich enthalten, sonst prüft sie den einzigen Fall nicht, in dem sie greifen könnte.</li>
+<li>Fix in <code>algo/fetch_histdata.py::label_zu_epoch()</code> (zwei Regime) plus Reparaturskript
+  <code>algo/repair_dst_2019.py</code> (Trockenlauf sauber, <code>--apply</code> steht aus — <code>raw/</code> wird nicht
+  eigenmächtig geändert). Protokoll: <code>algo/PLAN.md</code>.</li>
+<li>Seiten aktualisiert: wiki/synthesis/Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend).md</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

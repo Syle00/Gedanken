@@ -62,8 +62,14 @@
 <li><a href="#drei-zahlen-ohne-die-die-tabelle-irrefuhrend-ware">Drei Zahlen, ohne die die Tabelle irreführend wäre</a></li>
 </ul>
 </li>
+<li><a href="#macro-fenster-5010-groer-ja-gerichteter-nein-stand-2026-08-15">Macro-Fenster (:50–:10): größer ja, gerichteter nein (Stand 2026-08-15)</a><ul>
+<li><a href="#der-groenvorteil-gehort-der-vollen-stunde-nicht-der-50">Der Größenvorteil gehört der vollen Stunde, nicht der :50</a></li>
+<li><a href="#was-daraus-folgt-und-was-nicht">Was daraus folgt — und was nicht</a></li>
+</ul>
+</li>
 <li><a href="#offene-hypothesen-werden-mit-jedem-lauf-aktualisiert">Offene Hypothesen (werden mit jedem Lauf aktualisiert)</a></li>
 <li><a href="#strukturbefunde-unabhangig-vom-ergebnis">Strukturbefunde (unabhängig vom Ergebnis)</a></li>
+<li><a href="#datenvorbehalt-dst-zeitversatz-20192026-stand-2026-08-15-reparatur-steht-aus">⚠️ Datenvorbehalt: DST-Zeitversatz 2019–2026 (Stand 2026-08-15, Reparatur steht aus)</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
@@ -218,6 +224,124 @@ das ist eine Hypothese für den nächsten Lauf, kein Ergebnis. Erst Walk-Forward
 <li><strong>Der Spread ist gesetzt, nicht gemessen.</strong> Der Bestand ist reines Bid. Deshalb ist die
   belastbare Kennzahl der Break-even-Spread, nicht der $-Betrag.</li>
 </ul>
+<h2 id="macro-fenster-5010-groer-ja-gerichteter-nein-stand-2026-08-15">Macro-Fenster (:50–:10): größer ja, gerichteter nein (Stand 2026-08-15)</h2>
+<p>Zwei unabhängige Messungen über den vollen Bestand, beide mit Kontrollgruppe — was
+<code>algo/macro_db.py</code> auf der MNQ-Seite fehlt, weil es Macro-Fenster nur untereinander vergleicht.</p>
+<p><strong>1. Blockstudie</strong> (<code>algo/forex/backtest_macro.py</code>, 10 Paare, 2000–2026, <strong>3.983.412</strong> 20-Minuten-Blöcke,
+7.532 Handelstage). Jede Stunde zerfällt in drei Blöcke; die Kontrollen liegen direkt daneben:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">Macro :50–:10</th>
+<th style="text-align: right;">Kontrolle</th>
+<th>Mann-Whitney</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>median Range</td>
+<td style="text-align: right;">9,10 Pips</td>
+<td style="text-align: right;">8,60 Pips</td>
+<td>p = 0,0000</td>
+</tr>
+<tr>
+<td>median Netto</td>
+<td style="text-align: right;">3,70 Pips</td>
+<td style="text-align: right;">3,40 Pips</td>
+<td>p = 0,0000</td>
+</tr>
+<tr>
+<td><strong>dir (Geradlinigkeit)</strong></td>
+<td style="text-align: right;"><strong>0,448</strong></td>
+<td style="text-align: right;"><strong>0,455</strong></td>
+<td><strong>p = 1,0000</strong></td>
+</tr>
+<tr>
+<td><strong>Spooling-Quote</strong></td>
+<td style="text-align: right;"><strong>44,34 %</strong></td>
+<td style="text-align: right;"><strong>44,87 %</strong></td>
+<td><strong>−0,52 pp</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>2. Offset-Kontrollgruppe</strong> (<code>algo/backtest_macro_forex.py</code>, sechs 20-Minuten-Fenster je Stunde,
+~1,02 Mio. Macro-Fenster je Offset). Median-Delta der Expansionsquote über zehn Paare: <strong>−0,03 pp</strong>,
+positiv bei 4 von 10, <strong>trennbar bei 0 von 10</strong> (95-%-Wilson-Intervalle überlappen durchweg).</p>
+<h3 id="der-groenvorteil-gehort-der-vollen-stunde-nicht-der-50">Der Größenvorteil gehört der vollen Stunde, nicht der :50</h3>
+<p>Die zwei Studien schienen sich zu widersprechen. Die Auflösung steht in der Offset-Tabelle:</p>
+<table>
+<thead>
+<tr>
+<th>Offset</th>
+<th>Fenster</th>
+<th style="text-align: right;">med_range</th>
+<th style="text-align: right;">Expansionsquote</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>:50</strong></td>
+<td>:50–:10</td>
+<td style="text-align: right;"><strong>6,33</strong></td>
+<td style="text-align: right;">29,90 %</td>
+</tr>
+<tr>
+<td><strong>:00</strong></td>
+<td>:00–:20</td>
+<td style="text-align: right;"><strong>6,30</strong></td>
+<td style="text-align: right;"><strong>30,72 %</strong></td>
+</tr>
+<tr>
+<td>:10</td>
+<td>:10–:30</td>
+<td style="text-align: right;">5,87</td>
+<td style="text-align: right;">29,47 %</td>
+</tr>
+<tr>
+<td>:20</td>
+<td>:20–:40</td>
+<td style="text-align: right;">5,98</td>
+<td style="text-align: right;">29,57 %</td>
+</tr>
+<tr>
+<td>:30</td>
+<td>:30–:50</td>
+<td style="text-align: right;">6,00</td>
+<td style="text-align: right;">29,74 %</td>
+</tr>
+<tr>
+<td>:40</td>
+<td>:40–:00</td>
+<td style="text-align: right;">5,98</td>
+<td style="text-align: right;">29,98 %</td>
+</tr>
+</tbody>
+</table>
+<p>Erhöht sind <strong>genau die beiden Fenster, die den Stundenwechsel berühren</strong> — :50–:10 enthält ihn,
+:00–:20 beginnt an ihm. Die vier mittstündigen Offsets liegen geschlossen bei 5,87–6,00. Die
+Blockstudie misst den Vorteil nur deshalb, weil ihre beiden Kontrollen (:10–:30, :30–:50) beide
+mittstündig liegen; mit :00–:20 als drittem Vergleich verschwindet er. Nach Expansionsquote
+schlägt :00 das Macro sogar.</p>
+<h3 id="was-daraus-folgt-und-was-nicht">Was daraus folgt — und was nicht</h3>
+<p><strong>Widerlegt für Forex:</strong> Die :50 ist als Uhrzeit nichts Besonderes. Was sich messen lässt, ist ein
+Stundenwechsel-Effekt, den das Macro-Fenster zufällig mitnimmt, weil es über die volle Stunde
+läuft.</p>
+<p><strong>Und für Spooling:</strong> Nach der Definition dieses Vaults ist Spooling der gerichtete Lauf, gemessen
+über <code>dir</code> (siehe <a href="../p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a>). Genau dort zeigt sich <strong>kein</strong> Vorteil — die
+Geradlinigkeit im Macro liegt mit p = 1,0000 nicht über der Kontrolle, die Spooling-Quote sogar
+0,52 pp darunter. Auf 3,98 Millionen Blöcken ist das keine Frage der Stichprobengröße mehr.</p>
+<p><strong>Nicht widerlegt ist die MNQ-Aussage.</strong> Der Index-Futures-Bestand kann ein Eigenverhalten haben —
+dort schließen Kontrakte, dort liegt eine Eröffnungsauktion, dort sind die Teilnehmer andere. Der
+Forex-Befund heißt: <em>falls</em> ein interbank-weiter Algorithmus zur :50 den Preis ausdehnt, hinterlässt
+er im FX-Spot über 24 Jahre keine Spur. ICTs eigene Begründung für Macros unterstellt aber genau
+einen solchen marktübergreifenden Mechanismus — das ist der Punkt, an dem der Befund weh tut.</p>
+<blockquote>
+<p>⚠️ <strong>Vorbehalt zur Blockstudie:</strong> Sie enthält die DST-verdächtigen Tage (siehe unten).
+Gegengerechnet ohne diese 97.448 Blöcke ändern sich alle Kennzahlen erst in der vierten
+Nachkommastelle (Spooling-Delta −0,525 → −0,506 pp). Die gepoolte Aussage hängt also nicht daran.
+Für die <strong>stundenweise</strong> Aufschlüsselung bleibt die Reparatur Vorbedingung.</p>
+</blockquote>
 <h2 id="offene-hypothesen-werden-mit-jedem-lauf-aktualisiert">Offene Hypothesen (werden mit jedem Lauf aktualisiert)</h2>
 <ul>
 <li><strong>London Silver Bullet trägt, die NY-Fenster nicht.</strong> Einziges positives Fenster im ersten
@@ -243,6 +367,31 @@ das ist eine Hypothese für den nächsten Lauf, kein Ergebnis. Erst Walk-Forward
   bewegt sich die Equity nicht, also entsteht kein neues Hoch, also hebt er sich nie auf). Für
   die Frage „trägt die Regel?" gehört er aus, für „wäre das handelbar?" hinein.</li>
 </ul>
+<h2 id="datenvorbehalt-dst-zeitversatz-20192026-stand-2026-08-15-reparatur-steht-aus">⚠️ Datenvorbehalt: DST-Zeitversatz 2019–2026 (Stand 2026-08-15, Reparatur steht aus)</h2>
+<p>Der histdata-Bestand ist in den Wochen, in denen USA und EU zu <strong>verschiedenen Terminen</strong> auf
+Sommerzeit umstellen, um eine Stunde zu früh gestempelt — <strong>ab 2019</strong>, davor korrekt. Der
+Endpoint hat 2019 seine Umstellungstermine von der US- auf die EU-Regel gewechselt, ohne den
+Offset zu ändern; in gewöhnlichen Wochen ist das unsichtbar, weil beide Regeln dort dasselbe
+Ergebnis liefern.</p>
+<p>Beleg ohne Fremdquelle: der 24x5-Markt schließt Freitag 17:00 NY, die letzte Freitagskerze muss
+also auf 16:59 NY liegen. Über alle zehn Paare gemessen — Lücken-Woche 2007–2018: 16:59 ✓,
+Lücken-Woche 2019–2026: <strong>15:59</strong>, gewöhnliche Woche: 16:59 ✓. Die Sonntagsöffnung zeigt
+dasselbe Bild.</p>
+<p><strong>Umfang:</strong> 15 Fenster, 140 Handelstage je Paar, 1.962.205 von 81.676.600 Kerzen (2,40 %).</p>
+<p><strong>Warum das hier steht und nicht nur im Protokoll:</strong> die gesamte Regel-Schicht dieser Seite ist
+<strong>fensterbasiert</strong> — Killzones, Silver-Bullet-Fenster, Midnight OR. Ein Stundenversatz schiebt
+einen Trade nicht ein bisschen, sondern in die falsche Session. Solange die Reparatur
+(<code>algo/repair_dst_2019.py --apply</code>, danach Cache-Neubau) nicht gelaufen ist, gelten alle Zahlen
+dieser Seite für diese 2,40 % des Bestands als unbelastbar. Für den bisherigen EURUSD-Lauf
+(2015–2019) sind es <strong>20 der rund 1.250 Handelstage</strong> — nur die beiden 2019er Fenster, weil die
+Jahrgänge 2015–2018 noch der US-Regel folgen und damit korrekt sind. Der Lauf ist dadurch nicht
+hinfällig; sobald die Auswertung aber ab 2019 reicht oder nach Fenstern aufgeschlüsselt wird,
+ist die Reparatur Vorbedingung.</p>
+<p><strong>Methodische Lehre, die über diesen Fall hinausgeht:</strong> die ursprüngliche Zeitprüfung testete
+zwei Sommertage und einen Wintertag. An solchen Tagen sind US- und EU-Sommerzeit gleichzeitig
+aktiv — die beiden Regeln sind dort gar nicht unterscheidbar. Eine Zeitprüfung, die die
+Umstellungswochen nicht ausdrücklich enthält, prüft den einzigen Fall nicht, in dem sie greifen
+könnte. Vgl. <span class="broken" title="Seite existiert noch nicht">Algo-Trading: Arbeitsstandards</span> → „Zeit vor Preis".</p>
 <h2 id="verwandt">Verwandt</h2>
 <p><a href="../p/silver-bullet-model.html">Silver Bullet Model</a> · <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a> · <a href="../p/ict-killzones.html">ICT Killzones</a> ·
 <a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a> · <a href="../p/fvg-staerke-session-volatilitaet-confluence-laufend.html">FVG-Stärke, Session-Volatilität &amp; Confluence (laufend)</a> ·
