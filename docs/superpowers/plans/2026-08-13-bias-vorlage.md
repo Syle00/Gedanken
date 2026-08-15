@@ -1,5 +1,20 @@
 # Bias-Vorlage Implementation Plan
 
+> **Status 2026-08-15: Task 1-3 umgesetzt, Task 4 (Crons) offen. Zwei Abweichungen vom Plan
+> unten -- der Plantext ist ab hier historisch, massgeblich ist `algo/README.md`.**
+>
+> 1. **News kommen nicht per WebFetch.** Der geplante WebFetch auf
+>    `forexfactory.com/calendar?day=...` liefert **HTTP 403** (Cloudflare-Botschutz,
+>    reproduziert 2026-08-15) -- dieser Weg haette nie funktioniert. Ersetzt durch den
+>    offiziellen JSON-Feed `nfs.faireconomy.media/ff_calendar_thisweek.json`, abgerufen von
+>    `algo/bias_levels.py` selbst. Die Commands rufen daher **ein** Skript statt Skript +
+>    WebFetch auf, und `bias_levels.py` bestimmt auch das Zieldatum (`--next` / `--weekly`)
+>    statt `date -d tomorrow` im Command-Prompt.
+> 2. **Cron-Zeiten verschoben.** ForexFactory veroeffentlicht nur die *laufende* Woche
+>    (`ff_calendar_nextweek.json` -> HTTP 404). Freitags abends waere der Zieltag Montag nicht
+>    abgedeckt. Daher Daily-Cron **So-Do 20:00** (statt Mo-Fr) und Weekly-Cron **sonntags**
+>    (statt freitags).
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Automatisch vorbefüllte Daily-/Weekly-Bias-Dateien (News, Marktdaten-Levels, Wiki-Bezug, Claude-Einschätzung) per Scheduled Cron erzeugen, damit der Nutzer nur noch seinen eigenen Bias-Text ergänzt.

@@ -997,3 +997,40 @@ Ausfuehrung dieses Plans.
 **Bekannte Grenzen:** Die 90-%-Schwelle ist ein fester Cutoff, keine statistische Herleitung --
 Dateien knapp darunter koennen ebenfalls stark degeneriert sein, wurden hier aber nicht als
 Loeschkandidat gefuehrt.
+
+## `bias_levels.py` -- Levels + News fuer die Bias-Vorlage
+
+**Was.** Liefert als ein JSON alles, was `/bias-vorlage-daily` und `/bias-vorlage-weekly` zum
+Vorbefuellen von `raw/journal/Daily Bias *.md` / `Weekly Bias KW*.md` brauchen: Wochen-Range,
+Vortages-Range (H/L/C), das Zieldatum (naechster Handelstag bzw. kommender Montag) und die
+Red-/Orange-Folder-News.
+
+**Wie.** Ranges ueber `backtest_common.load_rows("MNQ")` -- kein eigenes CSV-Parsing. News aus
+dem offiziellen ForexFactory-JSON-Feed `nfs.faireconomy.media/ff_calendar_thisweek.json`
+(stdlib `urllib`, kein neues Paket). Der Feed liefert ISO-Timestamps mit NY-Offset
+(-04:00 EDT / -05:00 EST); die NY-Zeit wird daraus unveraendert uebernommen und die DE-Zeit per
+`zoneinfo` abgeleitet -- keine manuelle Stundenrechnung (CLAUDE.md, "Zeit vor Preis").
+Gegengeprueft am 2026-08-15: Feed sagt PPI 2026-08-13 08:30 NY / 14:30 DE, die unabhaengige
+Notiz des Nutzers in `raw/journal/Daily Bias 2026-08-13.md` sagt dasselbe.
+
+**Warum kein Scraping.** `forexfactory.com/calendar` antwortet Bots mit **HTTP 403**
+(Cloudflare, verifiziert 2026-08-15) -- der urspruengliche Plan
+`docs/superpowers/plans/2026-08-13-bias-vorlage.md` sah dort WebFetch vor und haette nie
+funktioniert. Der JSON-Feed ist der von ForexFactory selbst bereitgestellte Weg.
+
+**Bekannte Grenzen.**
+- Nur die *laufende* Woche ist abrufbar; `ff_calendar_nextweek.json` gibt es nicht mehr
+  (HTTP 404, geprueft 2026-08-15). Liegt der Zieltag ausserhalb der Feed-Woche, liefert
+  `news` bewusst **keine** Events (statt der falschen Woche) und setzt `news.error`.
+  Deshalb laufen die Crons **So-Do** bzw. **sonntags** -- freitags waere der Zieltag Montag
+  und damit ausserhalb.
+- Mehrere Abrufe kurz nacheinander -> **HTTP 429**. Dagegen ein 15-Minuten-Dateicache im
+  Systemtemp (`tempfile.gettempdir()/ff_calendar_thisweek.json`), bewusst nicht im Repo.
+- `next_trading_day()` kennt nur Sa/So, **keine Feiertage** -- an einem US-Feiertag zeigt die
+  erzeugte Datei auf einen Tag ohne Handel.
+- Jeder Abrufsfehler wird abgefangen und landet als Text in `news["error"]`; `news["events"]`
+  bleibt immer eine Liste. Ein Fehlschlag darf den Bias-Lauf nie abbrechen.
+
+**Selbstcheck.** `python algo/bias_levels.py --demo` (Ranges, Wochentagslogik, NY/DE-Umrechnung
+in Sommer- und Winterzeit, Netzfehler-Pfad, Ausserhalb-der-Feed-Woche-Pfad). Kein Netz-/
+Dateizugriff.
