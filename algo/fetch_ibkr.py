@@ -219,17 +219,24 @@ def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
     (None, wenn die Datei schon existierte oder gar kein Fenster geholt werden konnte)."""
     contract = front_month(day, symbol)
     vorhanden = {(v, b) for s, v, b in register_load(register_path) if s == symbol}
+    alle_fenster = day_windows(day)
     frames, neue_register_zeilen = [], []
-    for start_utc, end_utc in day_windows(day):
+    for i, (start_utc, end_utc) in enumerate(alle_fenster, start=1):
         key = (int(start_utc.timestamp()), int(end_utc.timestamp()))
         if key in vorhanden:
+            print(f"    Fenster {i}/{len(alle_fenster)} {symbol} {day} "
+                  f"{end_utc:%H:%M} UTC: schon vorhanden, uebersprungen", flush=True)
             continue
         df = fetch_window(ib, contract, symbol, end_utc, pacing)
         if df is None:
             # Fehlgeschlagen (z.B. Pacing-Violation nach 3 Versuchen) -- KEINE Registerzeile,
             # sonst gilt das Fenster faelschlich als "geprueft, kein Trade" statt "offen"
             # (Realfall 2026-08-15, siehe fetch_window()-Docstring).
+            print(f"    Fenster {i}/{len(alle_fenster)} {symbol} {day} "
+                  f"{end_utc:%H:%M} UTC: fehlgeschlagen, wird spaeter erneut versucht", flush=True)
             continue
+        print(f"    Fenster {i}/{len(alle_fenster)} {symbol} {day} "
+              f"{end_utc:%H:%M} UTC: {len(df)} Kerzen geholt", flush=True)
         if not df.empty:
             frames.append(df)
         neue_register_zeilen.append({
