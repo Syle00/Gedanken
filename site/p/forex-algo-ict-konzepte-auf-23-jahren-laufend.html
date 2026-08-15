@@ -58,6 +58,7 @@
 <ul>
 <li><a href="#was-ubertragen-wurde-und-was-nicht">Was übertragen wurde und was nicht</a></li>
 <li><a href="#erstes-ergebnis-silver-bullet-auf-eurusd-stand-2026-08-15">Erstes Ergebnis: Silver Bullet auf EURUSD (Stand 2026-08-15)</a><ul>
+<li><a href="#einklammerung-liegt-es-an-den-unbestimmten-fills">Einklammerung: liegt es an den unbestimmten Fills?</a></li>
 <li><a href="#drei-zahlen-ohne-die-die-tabelle-irrefuhrend-ware">Drei Zahlen, ohne die die Tabelle irreführend wäre</a></li>
 </ul>
 </li>
@@ -163,6 +164,42 @@ misst ein Mehrjahres-Lauf überwiegend ihn selbst, siehe unten).</p>
 <p><strong>Lesart, ehrlich:</strong> Der Silver Bullet in der von MNQ übernommenen Parametrierung <strong>funktioniert
 auf EURUSD 5m nicht</strong>. Bei einem Chance-Risiko-Verhältnis um 3:1 läge die Break-even-Trefferquote
 bei rund 25 %; erreicht werden 18,3 %. Das Konto wäre von 100.000 auf 4.938 USD gefallen.</p>
+<h3 id="einklammerung-liegt-es-an-den-unbestimmten-fills">Einklammerung: liegt es an den unbestimmten Fills?</h3>
+<p>Nein. Bei 28,6 % <code>dubious</code> liegt der Verdacht nahe, dass die konservative Auflösung das
+Ergebnis macht. Gegengerechnet (unbestimmte Fills zugunsten des <em>Ziels</em> statt des Stops — nicht
+die Handelsannahme, sondern die Gegengrenze):</p>
+<table>
+<thead>
+<tr>
+<th>Auflösung unbestimmter Fills</th>
+<th style="text-align: right;">Trades</th>
+<th style="text-align: right;">Treffer %</th>
+<th style="text-align: right;">Netto USD</th>
+<th style="text-align: right;">London SB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>konservativ (Stop gewinnt)</td>
+<td style="text-align: right;">871</td>
+<td style="text-align: right;">18,3</td>
+<td style="text-align: right;">−95.062</td>
+<td style="text-align: right;">+3.651</td>
+</tr>
+<tr>
+<td>optimistisch (Ziel gewinnt)</td>
+<td style="text-align: right;">871</td>
+<td style="text-align: right;">20,0</td>
+<td style="text-align: right;">−89.953</td>
+<td style="text-align: right;">+19.537</td>
+</tr>
+</tbody>
+</table>
+<p>Die Spanne ist mit <strong>−90k bis −95k</strong> schmal. Die Fill-Ambiguität erklärt den Verlust nicht — sie
+verschiebt ihn um 5 %. Das Ergebnis steht also unabhängig von dieser Annahme.</p>
+<p>Beim London-Fenster ist der Hebel dagegen groß (+3.651 gegen +19.537): Genau dort, wo die
+Stichprobe ohnehin zu klein für eine Aussage ist, hängt das Vorzeichen der <em>Größe</em> an einer
+nicht messbaren Annahme. Ein weiterer Grund, es als Hypothese zu führen und nicht als Befund.</p>
 <p><strong>Das eine positive Fenster ist noch kein Befund.</strong> London Silver Bullet (+3.651 USD bei 160
 Trades) ist der einzige Lichtblick, und er passt zur Erwartung, dass Forex-Volumen in London
 liegt. Aber bei 21,2 % Trefferquote und dieser Stichprobe ist der Abstand zum Rauschen klein —

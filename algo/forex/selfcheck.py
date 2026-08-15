@@ -28,7 +28,7 @@ for _p in (str(_HIER), ""):
 sys.path.insert(0, str(_ALGO))
 sys.path.insert(0, str(_ALGO.parent / "tools"))
 
-MODULE = ["forex.pnl", "forex.rules", "forex.backtest"]
+MODULE = ["forex.pnl", "forex.rules", "forex.backtest", "forex.macro_report"]
 
 # Funktionen, die aus algo/rules.py uebernommen wurden, mit dem Stand ihres MNQ-Originals zum
 # Zeitpunkt der Uebernahme. Weicht das Original spaeter ab, meldet der Waechter das -- dann ist
