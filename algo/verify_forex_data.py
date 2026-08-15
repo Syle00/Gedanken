@@ -40,17 +40,21 @@ def lade_parquet(symbol: str) -> pd.DataFrame:
 
 def zeit_kreuzprobe(symbol: str, max_tage: int = 20) -> dict:
     """1h-Aggregat aus dem Cache gegen vorhandene TradingView-1h-Exporte, fuer bis zu
-    `max_tage` zufaellig verteilte ueberlappende Tage. Bid-vs-Mid ergibt einen kleinen,
-    KONSTANTEN Offset -- ein Zeitversatz faellt als grosse, unregelmaessige Abweichung auf."""
+    `max_tage` ueberlappende Tage, per Schrittweite ueber den GESAMTEN verfuegbaren
+    Datumsbereich verteilt (nicht die ersten N -- die deckten nur eine DST-Saison ab und
+    liessen den 4h-Ankerfehler in marktdaten.py unentdeckt, Review-Fund 2026-08-15).
+    Bid-vs-Mid ergibt einen kleinen, KONSTANTEN Offset -- ein Zeitversatz faellt als
+    grosse, unregelmaessige Abweichung auf."""
     df = lade_parquet(symbol)
     stunden = df.resample("1h", label="left", closed="left", origin="start_day").agg(
         {"open": "first", "high": "max", "low": "min", "close": "last"}).dropna()
 
     treffer, abweichungen = 0, []
-    geprueft_tage = 0
-    for tv_pfad in sorted(TV_DIR.glob(f"*/*/*/{symbol} *-*-* 1h.csv")):
-        if geprueft_tage >= max_tage:
-            break
+    alle = sorted(TV_DIR.glob(f"*/*/*/{symbol} *-*-* 1h.csv"))
+    schritt = max(1, len(alle) // max_tage)
+    kandidaten = alle[::schritt][:max_tage]
+    tage = []
+    for tv_pfad in kandidaten:
         tv = pd.read_csv(tv_pfad)
         for _, row in tv.iterrows():
             ts = pd.Timestamp(int(row["time"]), unit="s", tz="UTC").tz_convert(NY)
@@ -59,10 +63,11 @@ def zeit_kreuzprobe(symbol: str, max_tage: int = 20) -> dict:
             diff_close = abs(stunden.loc[ts, "close"] - row["close"])
             abweichungen.append(diff_close)
             treffer += 1
-        geprueft_tage += 1
+            tage.append(str(ts.date()))
 
     if not abweichungen:
         return {"symbol": symbol, "gepruefte_stunden": 0, "status": "keine_ueberlappung"}
+    tage_sortiert = sorted(set(tage))
     avg = sum(abweichungen) / len(abweichungen)
     mx = max(abweichungen)
     # Ein Zeitversatz von 1h verschiebt Werte um eine ganze Bewegung, nicht um ein paar Pips --
@@ -70,7 +75,7 @@ def zeit_kreuzprobe(symbol: str, max_tage: int = 20) -> dict:
     # 2026-08-14: ~0,0003-0,0004 fuer EURUSD).
     schwelle = 0.005 if "JPY" not in symbol else 0.5
     return {"symbol": symbol, "gepruefte_stunden": treffer,
-            "avg_diff": avg, "max_diff": mx,
+            "gepruefte_tage": tage_sortiert, "avg_diff": avg, "max_diff": mx,
             "status": "ok" if mx < schwelle else "ZEITVERSATZ_VERDACHT"}
 
 
@@ -131,19 +136,23 @@ def _demo() -> None:
 
         global CACHE
         orig_cache = CACHE
+        orig_bp_cache = build_parquet.CACHE
         cache = Path(tmp) / "cache"
         build_parquet.build("TEST", tief_dir=Path(tmp) / "marktdaten-tief", cache_dir=cache)
-        import build_parquet as bp
-        bp.CACHE = cache
+        build_parquet.CACHE = cache
         globals()["CACHE"] = cache
+        try:
+            q = attrappen_quote("TEST")
+            assert q["quote"] == 1.0 and q["status"] == "AUFFAELLIG", q
 
-        q = attrappen_quote("TEST")
-        assert q["quote"] == 1.0 and q["status"] == "AUFFAELLIG", q
-
-        v = vollstaendigkeit("TEST")
-        assert v["tage_gesamt"] == 1, v
-
-        globals()["CACHE"] = orig_cache
+            v = vollstaendigkeit("TEST")
+            assert v["tage_gesamt"] == 1, v
+        finally:
+            # Beide zuruecksetzen: build_parquet.CACHE blieb vorher auf dem geloeschten
+            # Tempdir stehen und haette jeden spaeteren Import im selben Prozess vergiftet
+            # (Review-Fund 2026-08-15, faellt beim Einhaengen in selfcheck.py auf).
+            globals()["CACHE"] = orig_cache
+            build_parquet.CACHE = orig_bp_cache
     print("verify_forex_data: Selbstcheck ok")
 
 

@@ -21,6 +21,15 @@ from analyze_ohlc import Bar, DATA_DIR, NY, SESSION_TYP, load  # noqa: E402
 from build_parquet import CACHE  # noqa: E402
 
 PANDAS_FREQ = {"1m": "1min", "5m": "5min", "15m": "15min", "1h": "1h", "4h": "4h", "1d": "1D"}
+OHLC = {"open": "first", "high": "max", "low": "min", "close": "last"}
+# Timeframes, deren Buckets an der NY-Wanduhr haengen muessen statt am tz-awaren Index:
+# pandas verankert `origin="start_day"` genau EINMAL (im DST-Zustand der ersten Kerze) und
+# re-verankert nicht je DST-Wechsel. Fuer Mehrstunden-Buckets, die keinen DST-verschobenen
+# Tag glatt teilen, landeten die Grenzen dadurch im halben Bestand 3h daneben
+# (Review-Fund 2026-08-15: Jan 2025 lieferte 03/07/11/15/19/23 statt 00/04/08/12/16/20).
+# 1m/5m/15m/1h/1d sind nachweislich nicht betroffen und behalten den tz-awaren Pfad --
+# der liefert am Fall-Back-Tag korrekt 25 Stunden statt zweier zusammengefalteter.
+WANDUHR_TF = {"4h"}
 
 
 def bars(symbol: str, tf: str, von: date | None = None, bis: date | None = None) -> list[Bar]:
@@ -54,15 +63,20 @@ def _futures_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> l
 def _forex_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> list[Bar]:
     """Liest den 1m-Parquet-Cache, resampled bei Bedarf. Anker an NY-Mitternacht: der Index
     ist bereits NY-lokalisiert, `origin="start_day"` verankert Resample-Buckets deshalb an
-    NY-00:00, nicht UTC-Mitternacht (Spec §5.3)."""
+    NY-00:00, nicht UTC-Mitternacht (Spec §5.3). Fuer `WANDUHR_TF` wird stattdessen auf der
+    tz-naiven NY-Wanduhr resampled und danach re-lokalisiert -- siehe Kommentar dort."""
     df = pd.read_parquet(CACHE / f"{symbol}_1m.parquet")
     idx = pd.to_datetime(df["time"], unit="s", utc=True).dt.tz_convert(NY)
     df = df.set_index(idx).drop(columns="time").sort_index()
 
-    if tf != "1m":
+    if tf in WANDUHR_TF:
+        res = df.tz_localize(None).resample(
+            PANDAS_FREQ[tf], label="left", closed="left").agg(OHLC).dropna()
+        res.index = res.index.tz_localize(NY, ambiguous=True, nonexistent="shift_forward")
+        df = res
+    elif tf != "1m":
         df = df.resample(PANDAS_FREQ[tf], label="left", closed="left",
-                         origin="start_day").agg(
-            {"open": "first", "high": "max", "low": "min", "close": "last"}).dropna()
+                         origin="start_day").agg(OHLC).dropna()
 
     if von:
         df = df[df.index.date >= von]
@@ -113,7 +127,55 @@ def _demo() -> None:
         finally:
             CACHE = orig
             del SESSION_TYP["TEST"]
+
+    _demo_dst()
     print("marktdaten: Selbstcheck ok")
+
+
+def _demo_dst() -> None:
+    """Regressionswaechter fuer den DST-Ankerfehler (Review-Fund 2026-08-15): 4h-Buckets
+    muessen VOR und NACH einem DST-Wechsel auf denselben Wanduhr-Stunden landen. Der alte
+    tz-aware `origin="start_day"`-Pfad verankerte einmalig im DST-Zustand der ersten Kerze
+    und lieferte hier ab dem 2. November 03/07/11/... statt 00/04/08/...
+
+    Fenster: 31.10.2025 (EDT) bis 03.11.2025 (EST), Umstellung "fall back" am 02.11.2025."""
+    import tempfile
+    import build_parquet as bp
+
+    start = int(datetime(2025, 10, 31, 0, 0, tzinfo=NY).timestamp())
+    ende = int(datetime(2025, 11, 4, 0, 0, tzinfo=NY).timestamp())  # 4 Tage, davon einer 25h
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tief = Path(tmp) / "marktdaten-tief" / "2025" / "10" / "31.10.2025"
+        tief.mkdir(parents=True)
+        zeilen = ["time,open,high,low,close"]
+        for ts in range(start, ende, 60):
+            zeilen.append(f"{ts},1.1,1.1001,1.0999,1.1")
+        (tief / "TESTDST 2025-10-31 1m (bid).csv").write_text("\n".join(zeilen), encoding="utf-8")
+
+        cache = Path(tmp) / "cache"
+        bp.build("TESTDST", tief_dir=Path(tmp) / "marktdaten-tief", cache_dir=cache)
+
+        global CACHE
+        orig = CACHE
+        CACHE = cache
+        SESSION_TYP["TESTDST"] = "24x5"
+        try:
+            b4h = bars("TESTDST", "4h")
+            nach_tag: dict[date, list[int]] = {}
+            for b in b4h:
+                nach_tag.setdefault(b.t.date(), []).append(b.t.hour)
+            erwartet = [0, 4, 8, 12, 16, 20]
+            for tag in (date(2025, 10, 31), date(2025, 11, 1),
+                        date(2025, 11, 2), date(2025, 11, 3)):
+                assert nach_tag.get(tag) == erwartet, (
+                    f"4h-Buckets am {tag} liegen auf {nach_tag.get(tag)} statt {erwartet} "
+                    "-- DST-Anker verrutscht")
+            # Kein Datenverlust ueber den Wechsel: 4 Tage a 6 Buckets, keiner leer.
+            assert len(b4h) == 24, len(b4h)
+        finally:
+            CACHE = orig
+            del SESSION_TYP["TESTDST"]
 
 
 def main() -> int:

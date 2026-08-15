@@ -36,6 +36,12 @@ from backtest_fvg_strength import selfcheck as fvg_strength_selfcheck  # noqa: E
 from backtest_hp_fvg import selfcheck as hp_fvg_selfcheck  # noqa: E402
 from backtest_1p_mindestgroesse import selfcheck as mindestgroesse_selfcheck  # noqa: E402
 from analyze_ohlc import demo_pruefe_kerzen, demo_session_guard  # noqa: E402
+# Forex-Infrastruktur (2026-08-15). Alle vier bauen synthetische Fixtures im Tempdir und
+# brauchen weder Netz noch den echten Parquet-Cache.
+from build_parquet import _demo as build_parquet_demo  # noqa: E402
+from marktdaten import _demo as marktdaten_demo  # noqa: E402
+from verify_forex_data import _demo as verify_forex_demo  # noqa: E402
+from measure_forex_attrappen import _demo as measure_attrappen_demo  # noqa: E402
 
 
 def _results_demo() -> None:
@@ -109,6 +115,10 @@ CHECKS = [
     ("backtest_1p_mindestgroesse", mindestgroesse_selfcheck),
     ("ohlc_gate", demo_pruefe_kerzen),
     ("session_guard", demo_session_guard),
+    ("build_parquet", build_parquet_demo),
+    ("marktdaten", marktdaten_demo),
+    ("verify_forex_data", verify_forex_demo),
+    ("measure_forex_attrappen", measure_attrappen_demo),
     ("dedup", _results_demo),
 ]
 

@@ -899,15 +899,34 @@ Staleness-Check gegen den CSV-Bestand.
 fuer den in `build_parquet.py` gebauten Forex-Cache, in drei getrennten Checks.
 **Wie:**
 - **Zeit-Kreuzprobe:** vergleicht den Cache gegen unabhaengige TradingView-1h-Exporte je Symbol.
-  **Ergebnis:** OK fuer alle 10 Symbole, maximale Abweichung <0,1 Pip -- bestaetigt die
-  DST-bewusste Zeitkonvertierung aus `fetch_histdata.py` auch im vollen Bestand, nicht nur an
-  den urspruenglich stichprobenartig geprueften Einzeltagen.
+  Die Stichprobe wird mit fester Schrittweite ueber den gesamten verfuegbaren Export-Zeitraum
+  gezogen (Korrektur 2026-08-15: vorher die chronologisch ersten N Dateien, das deckte nur die
+  Sommerzeit ab und liess einen DST-Ankerfehler in `marktdaten.py` unentdeckt -- jetzt sind
+  EDT- *und* EST-Tage in jeder Stichprobe).
+  **Ergebnis:** OK fuer alle 10 Symbole (~420-470 geprueften Stunden je Symbol, Tage von
+  2024-08 bis 2026-07). Die Abweichungen liegen im erwarteten Bid-vs-Mid-Bereich, nicht bei
+  null: EURUSD avg 0,00039 (≈3,9 Pips) / max 0,0023 (≈23 Pips), GBPUSD avg ≈1,7 / max ≈30 Pips,
+  GBPJPY avg 0,0165 (≈1,6 Pips) / max 0,476 (≈48 Pips). Alle deutlich unter der
+  Zeitversatz-Schwelle (0,005 bzw. 0,5 fuer JPY-Paare) -- ein echter 1h-Versatz wuerde eine
+  ganze Kursbewegung ergeben, nicht ein paar Pips. Das bestaetigt die DST-bewusste
+  Zeitkonvertierung aus `fetch_histdata.py` auch im vollen Bestand, nicht nur an den
+  urspruenglich stichprobenartig geprueften Einzeltagen.
+  (Eine frueher hier dokumentierte "maximale Abweichung <0,1 Pip" war um rund Faktor 100
+  falsch -- die tatsaechlichen Werte standen schon damals in `algo/results/forex_verify_report.json`.)
 - **Vollstaendigkeit:** prueft je Handelstag gegen die erwartete Kerzenzahl. **Bug im ersten
   Entwurf gefunden und gefixt:** der Check kannte keine Sonderregel fuer Freitags-17:00-NY-Schluss
   (Forex handelt bis 17:00 NY, nicht 24h) -- dadurch zaehlte *jeder* Freitag in 23 Jahren
   faelschlich als anomaler/luekenhafter Tag. Nach dem Fix fiel EURUSDs Flag-Zahl von 4016 auf
   3243; die verbleibenden Flags sind eine Mischung aus echten feiertagsverkuerzten Tagen und der
   duennen 2000-2011-Periode (siehe Attrappen-Quote unten).
+  **Bekannte Luecke EURUSD (2000-2002):** EURUSD hat **540 fehlende Wochentage**, alle anderen
+  neun Paare nur 11-22. Die Luecke liegt fast vollstaendig im Legacy-XLSX-Zeitraum 2000-2002
+  (z.B. Jan-Mrz 2001 komplett ohne Daten); der Bestand springt von Dez 2000 direkt auf Jan 2003.
+  Das fliesst **ungefiltert** in `algo/seasonal_tendency_EURUSD.json` ein, dessen `date_range`
+  deshalb mit `2000-05-31` beginnt, obwohl der zusammenhaengende, saubere Bestand erst 2003
+  anfaengt. Wer EURUSD-Statistiken ueber die volle Historie zieht, mischt damit eine echt
+  lueckenhafte Fruehphase in den 2003+-Bulk -- fuer Vergleiche zwischen Jahren/Monaten
+  entweder auf >=2003 einschraenken oder die kleineren `n` der Fruehjahre explizit mitlesen.
 - **Attrappen-Quote** (`open==high==low==close`): aggregiert ueber alle Jahre 1,4-6,7 % je Symbol
   (Spec-Erwartung war <1 %), aber **nicht gleichverteilt ueber die Zeit** -- Beispiel EURUSD je
   Jahr: 2000: 30,0 %, 2003: 11,8 %, 2005: 11,3 %, 2007: 14,7 %, 2008: 6,4 %, 2010: 5,7 %, 2012:
