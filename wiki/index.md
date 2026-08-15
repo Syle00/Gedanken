@@ -19,6 +19,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Drei-Ebenen-Marktperspektive]] — Big Picture/Intermediate/Short-Term-Framework, 7 Kriterien für ein High-Reward-Setup (2026-08-06)
 - [[Elemente eines Trade-Setups (4 Preis-Zustände)]] — Expansion/Retracement/Reversal/Consolidation ↔ je ein ICT-Tool, strikte Übergangsregel (2026-08-06)
 - [[Erwartungswert & Reward-to-Risk-Modell]] — Mindest-RR nach Trefferquote, bestätigt die 1-%-Risiko-Regel im ICT-Quellenmaterial (2026-08-06)
+- [[Eröffnungsauktion vs. 24x5-Markt]] — warum ORG/NDOG Futures-Konzepte sind (tägliche Eröffnungsauktion), Forex 24x5 stattdessen nur NWOG (2026-08-15)
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]] — 4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition (2026-08-01)
 - [[Asian Range]] — 19–24 Uhr NY, Highest High/Lowest Low; Konsolidierung = Trendtag, nur mit Bias nutzbar (2026-08-02)
 - [[Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)]] — Vier-Bias-Katalog aus Halls-Moore, systematisiert bestehende Projektregeln; algo-methodology, kein ICT-Konzept (2026-08-08)
