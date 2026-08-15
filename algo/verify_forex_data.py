@@ -11,6 +11,7 @@ Aufruf:
 from __future__ import annotations
 
 import sys
+from collections import Counter
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -79,11 +80,37 @@ def zeit_kreuzprobe(symbol: str, max_tage: int = 20) -> dict:
             "status": "ok" if mx < schwelle else "ZEITVERSATZ_VERDACHT"}
 
 
+def soll_stunden(tag: date) -> set[int]:
+    """Welche NY-Stunden ein Handelstag haben muss.
+
+    Der 24x5-Markt oeffnet Sonntag 17:00 NY und schliesst Freitag 17:00 NY -- ein Freitag hat
+    also nur die Stunden 0..16, ein Sonntag nur 17..23, Mo-Do alle 24. Liegt hier, weil die
+    Pruefung die Definition besitzt und `fill_luecken_dukascopy.py` sie von hier bezieht."""
+    if tag.weekday() == 4:
+        return set(range(17))
+    if tag.weekday() == 6:
+        return set(range(17, 24))
+    return set(range(24))
+
+
 def vollstaendigkeit(symbol: str) -> dict:
-    """Kerzen je Tag gegen Erwartungswert, fehlende Tage explizit gelistet statt gezaehlt."""
+    """Kerzen je Tag gegen Erwartungswert, fehlende Tage explizit gelistet statt gezaehlt.
+
+    Zusaetzlich **leere Vollstunden** je Tag (Befund 2026-08-15): im Block Feb-Jul 2023 fehlen
+    bei allen 10 Paaren ganze Stunden im Wechsel. Die reine Kerzenzahl macht daraus einen
+    unauffaellig wirkenden "zu kurzen Tag" -- fuer fensterbasierte Auswertungen ist aber genau
+    das Gegenteil wahr: fehlt die NY-Stunde 10 komplett, ist jede Aussage ueber die
+    NY-Killzone dieses Tages leer, ohne dass eine Kennzahl anschlaegt. Deshalb wird die
+    Stunden-Luecke eigenstaendig gezaehlt und nicht in der Kerzenzahl versteckt."""
     df = lade_parquet(symbol)
     pro_tag = df.groupby(df.index.date).size()
+    belegte_stunden = df.groupby([df.index.date, df.index.hour]).size()
+    stunden_je_tag = {tag: set() for tag in pro_tag.index}
+    for (tag, stunde) in belegte_stunden.index:
+        stunden_je_tag[tag].add(stunde)
+
     auffaellig = []
+    stunden_luecken = []
     for tag, n in pro_tag.items():
         if tag.weekday() == 6:
             lo, hi = ERWARTUNG_SONNTAG
@@ -91,6 +118,12 @@ def vollstaendigkeit(symbol: str) -> dict:
             lo, hi = ERWARTUNG_FREITAG
         else:
             lo, hi = ERWARTUNG_VOLLTAG
+        leer = sorted(soll_stunden(tag) - stunden_je_tag[tag])
+        # >3 statt >0: einzelne Randstunden an Feiertagen/Jahreswechseln sind normal duenn,
+        # ein Loch-Muster wie 2023 reisst durchgaengig sechs bis zwoelf Stunden auf.
+        if leer and len(leer) > 3 and n > 50:
+            stunden_luecken.append({"tag": str(tag), "kerzen": int(n),
+                                    "leere_ny_stunden": leer})
         if not (lo <= n <= hi) and n > 50:  # <50 sind erwartete Kurztage (Feiertage), kein Fund
             auffaellig.append({"tag": str(tag), "kerzen": int(n)})
 
@@ -106,7 +139,13 @@ def vollstaendigkeit(symbol: str) -> dict:
 
     return {"symbol": symbol, "tage_gesamt": len(alle_tage),
             "auffaellige_kerzenzahl": auffaellig[:20], "auffaellig_gesamt": len(auffaellig),
-            "fehlende_wochentage": luecken[:20], "fehlende_wochentage_gesamt": len(luecken)}
+            "fehlende_wochentage": luecken[:20], "fehlende_wochentage_gesamt": len(luecken),
+            "stunden_luecken": stunden_luecken[:20],
+            "stunden_luecken_gesamt": len(stunden_luecken),
+            # Monatsweise Verdichtung: eine 20er-Liste verbirgt einen 5-Monats-Block, die
+            # Monatszaehlung nicht. Genau daran ist der 2023er Befund lange vorbeigelaufen.
+            "stunden_luecken_je_monat": dict(sorted(Counter(
+                e["tag"][:7] for e in stunden_luecken).items()))}
 
 
 def attrappen_quote(symbol: str) -> dict:
@@ -134,11 +173,27 @@ def _demo() -> None:
             zeilen.append(f"{basis + i * 60},1.1,1.1,1.1,1.1")  # 5 flache Kerzen
         (tief / "TEST 2026-01-05 1m (bid).csv").write_text("\n".join(zeilen), encoding="utf-8")
 
+        # Eigenes Symbol als Regressionsfall fuer den 2023er Befund: ein Mittwoch, an dem nur
+        # jede zweite NY-Stunde belegt ist. Genau dieses Muster hat die reine Kerzenzahl-
+        # Pruefung durchgelassen -- der Tag sieht wie ein "kurzer Tag" aus, ist aber ein Tag
+        # mit zwoelf Loechern mitten in London- und NY-Session. Bewusst ein eigenes Symbol:
+        # als zweiter TEST-Tag wuerde er die Attrappen-Quote oben verduennen und deren
+        # Aussagekraft zerstoeren.
+        loch = Path(tmp) / "marktdaten-tief" / "2026" / "01" / "07.01.2026"
+        loch.mkdir(parents=True)
+        z2 = ["time,open,high,low,close"]
+        b2 = int(datetime(2026, 1, 7, tzinfo=NY).timestamp())
+        for stunde in range(0, 24, 2):          # nur die geraden Stunden
+            for minute in range(60):
+                z2.append(f"{b2 + stunde * 3600 + minute * 60},1.1,1.2,1.0,1.15")
+        (loch / "LOCH 2026-01-07 1m (bid).csv").write_text("\n".join(z2), encoding="utf-8")
+
         global CACHE
         orig_cache = CACHE
         orig_bp_cache = build_parquet.CACHE
         cache = Path(tmp) / "cache"
         build_parquet.build("TEST", tief_dir=Path(tmp) / "marktdaten-tief", cache_dir=cache)
+        build_parquet.build("LOCH", tief_dir=Path(tmp) / "marktdaten-tief", cache_dir=cache)
         build_parquet.CACHE = cache
         globals()["CACHE"] = cache
         try:
@@ -147,6 +202,21 @@ def _demo() -> None:
 
             v = vollstaendigkeit("TEST")
             assert v["tage_gesamt"] == 1, v
+
+            # Negativkontrolle: unter 50 Kerzen ist ein Feiertag, kein Loch. Ohne diesen Fall
+            # wuerde ein zu scharfer Schwellwert nicht auffallen.
+            assert v["stunden_luecken_gesamt"] == 0, v["stunden_luecken"]
+
+            # Der Loch-Tag muss anschlagen, mit den konkreten leeren Stunden.
+            vl = vollstaendigkeit("LOCH")
+            assert vl["stunden_luecken_gesamt"] == 1, vl
+            assert vl["stunden_luecken"][0]["leere_ny_stunden"] == list(range(1, 24, 2)), vl
+            assert vl["stunden_luecken_je_monat"] == {"2026-01": 1}, vl
+
+            # Soll-Stunden an den Wochengrenzen des 24x5-Marktes
+            assert soll_stunden(date(2026, 1, 7)) == set(range(24))       # Mittwoch
+            assert soll_stunden(date(2026, 1, 9)) == set(range(17))       # Freitag
+            assert soll_stunden(date(2026, 1, 11)) == set(range(17, 24))  # Sonntag
         finally:
             # Beide zuruecksetzen: build_parquet.CACHE blieb vorher auf dem geloeschten
             # Tempdir stehen und haette jeden spaeteren Import im selben Prozess vergiftet
@@ -175,6 +245,10 @@ def main() -> int:
         if v["auffaellig_gesamt"] or v["fehlende_wochentage_gesamt"]:
             warnungen.append(f"VOLLSTAENDIGKEIT: {v['auffaellig_gesamt']} auffaellige Tage, "
                              f"{v['fehlende_wochentage_gesamt']} fehlende Wochentage")
+        if v["stunden_luecken_gesamt"]:
+            monate = ", ".join(f"{m} ({n})" for m, n in v["stunden_luecken_je_monat"].items())
+            warnungen.append(f"STUNDEN-LUECKEN: {v['stunden_luecken_gesamt']} Handelstage mit "
+                             f">3 komplett leeren NY-Stunden -- {monate}")
         if a["status"] != "ok":
             warnungen.append(f"ATTRAPPEN: {a}")
         status = "OK" if not warnungen else "PRUEFEN"

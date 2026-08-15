@@ -635,6 +635,40 @@ dort offenbar noch nach. Betrifft alle 10 Paare in unterschiedlicher Staerke (2 
 Chunk beobachtet). Vor praezisionskritischer Nutzung den juengsten Rand erneut ziehen und gegen
 den aktuellen Stand diffen; aeltere Jahre (2003 bis ca. 2 Monate vor "heute") sind stabil.
 
+## `fill_luecken_dukascopy.py` -- Nachfuellen fehlender Vollstunden aus Dukascopy
+
+**Was:** Sucht Handelstage, an denen mehr als drei erwartete NY-Vollstunden **komplett leer**
+sind, holt genau diese Stunden von Dukascopy und mischt sie in die vorhandene Tagesdatei.
+Trockenlauf ist Standard, `--apply` schreibt. Protokoll je Lauf nach
+`algo/results/fill_dukascopy.json` (welcher Tag, welche Stunden, wie viele Kerzen).
+
+**Warum:** histdata.com hat im Block **Februar bis Juli 2023** einen echten Datenverlust -- an
+fast allen Handelstagen fehlen ganze Stunden im Wechsel, bei allen 10 Paaren an denselben Tagen
+(EURUSD 2023-04-13: die NY-Stunden 6, 8, 10, 12, 14, 16, 18 sind leer). Maerz bis Juni sind zu
+100 % betroffen, Juli zu 95 %, Februar zu 35 %; jedes andere Jahr liegt bei ≤4 %. Das ist kein
+Importfehler: der **Tick**-Monatschunk derselben Quelle traegt exakt dieselben leeren Stunden,
+und M1-Monatschunks gibt es fuer vergangene Jahre nicht -- aus histdata ist der Block nicht
+heilbar. Fuer fensterbasierte Auswertungen ist das gravierender als ein Zeitversatz: fehlt die
+NY-Stunde 10 ganz, ist jede Aussage ueber die NY-Killzone dieses Tages leer.
+
+**Wie -- geprueft, nicht angenommen:** Auf Stunden, die in beiden Quellen vorliegen, stimmen
+Dukascopy-**Bid**-Kerzen mit dem histdata-Bestand **bitgenau** ueberein (EURUSD 2023-04-13 09h NY
+und USDJPY 2023-06-15 13h NY: 60 von 60 Minuten, max |Delta| = 0.000000 auf OHLC, identische
+Zeitstempel). Deshalb bleibt der Bestand durch das Fuellen homogen. Bewusst **Bid**, nicht die
+Mid-Aggregation aus `fetch_dukascopy.py` (die dient dem IBKR-Abgleich) -- Mid waere hier ein
+halber Spread Bruch mitten in der Zeitreihe. Bestehende Kerzen werden nie ueberschrieben, nur
+tatsaechlich leere Minuten gefuellt; Kollisionen werden gezaehlt und gemeldet.
+
+**Bekannte Grenzen:**
+- **Reihenfolge ist zwingend:** `repair_dst_2019.py --apply` muss vorher gelaufen sein, sonst
+  verschiebt die DST-Reparatur die frisch gefuellten (bereits korrekten) Kerzen hinterher um
+  +1h mit. Das Skript prueft das selbst am Freitagsschluss-Marker und bricht ab.
+- Dukascopy rate-limitet (429). `--pause` steuert den Abstand; der Bulk ueber Feb-Jul 2023 x 10
+  Paare laeuft mehrere Stunden.
+- Der Vermerk "Dukascopy ist per IP gesperrt" aus der `fetch_dukascopy.py`-Zeit stimmt nicht
+  mehr -- 503 und Timeouts sind Rate-Limitierung, nach Wiederholung liefert der Endpoint.
+- Nach `--apply` zwingend `python algo/build_parquet.py`.
+
 ## `macro_db.py`
 
 **Was:** Eine Zeile je Macro-Fenster (`:50–:10`) je Handelstag in `algo/results/macro_db.csv` --
@@ -976,6 +1010,16 @@ fuer den in `build_parquet.py` gebauten Forex-Cache, in drei getrennten Checks.
   anfaengt. Wer EURUSD-Statistiken ueber die volle Historie zieht, mischt damit eine echt
   lueckenhafte Fruehphase in den 2003+-Bulk -- fuer Vergleiche zwischen Jahren/Monaten
   entweder auf >=2003 einschraenken oder die kleineren `n` der Fruehjahre explizit mitlesen.
+- **Stunden-Luecken** (neu 2026-08-15): zaehlt je Handelstag die erwarteten NY-Vollstunden, die
+  **komplett leer** sind (`soll_stunden()`: Mo-Do 0-23, Fr 0-16, So 17-23), meldet ab vier
+  leeren Stunden und verdichtet zusaetzlich nach Monat. **Warum als eigene Kennzahl:** der
+  Feb-Jul-2023-Block (histdata-Quellenschaden, siehe `fill_luecken_dukascopy.py`) hat die
+  Kerzenzahl-Pruefung oben zwar getroffen, aber nur als "kurzer Tag" -- dass zwoelf Stunden
+  mitten in London- und NY-Session fehlen, war aus keiner Kennzahl ablesbar, und die 20er-Liste
+  der auffaelligen Tage verbarg einen 5-Monats-Block. Fuer fensterbasierte Auswertungen ist
+  genau das der toedliche Fall: fehlt die NY-Stunde 10 ganz, ist jede Aussage ueber die
+  NY-Killzone dieses Tages leer. Regressionsfall im Selbstcheck (Symbol `LOCH`, nur gerade
+  Stunden belegt, plus Negativkontrolle Feiertag).
 - **Attrappen-Quote** (`open==high==low==close`): aggregiert ueber alle Jahre 1,4-6,7 % je Symbol
   (Spec-Erwartung war <1 %), aber **nicht gleichverteilt ueber die Zeit** -- Beispiel EURUSD je
   Jahr: 2000: 30,0 %, 2003: 11,8 %, 2005: 11,3 %, 2007: 14,7 %, 2008: 6,4 %, 2010: 5,7 %, 2012:
