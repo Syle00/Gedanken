@@ -913,6 +913,19 @@ fuer den in `build_parquet.py` gebauten Forex-Cache, in drei getrennten Checks.
   Jahr: 2000: 30,0 %, 2003: 11,8 %, 2005: 11,3 %, 2007: 14,7 %, 2008: 6,4 %, 2010: 5,7 %, 2012:
   0,45 %, 2015: 1,18 %, 2019: 0,88 %, 2022: 1,22 %, 2025: 0,97 %. Fruehe Jahre sind duenn
   gehandelt, ab ca. 2012 liegt die Quote durchgehend unter 1,5 %.
+
+  Nachvollziehbar per direkter Abfrage gegen den Cache (nicht Teil von `verify_forex_data.py`,
+  das nur Aggregate persistiert):
+
+  ```python
+  import pandas as pd
+  df = pd.read_parquet('algo/cache/EURUSD_1m.parquet')
+  idx = pd.to_datetime(df['time'], unit='s', utc=True).dt.tz_convert('America/New_York')
+  df = df.set_index(idx)
+  df['jahr'] = df.index.year
+  flach = (df['open']==df['high']) & (df['low']==df['close']) & (df['open']==df['low'])
+  by_year = flach.groupby(df['jahr']).mean()
+  ```
 **Warum:** Eine einzelne Aggregatzahl ("6,7 % Attrappen") haette die Entscheidung "ganze
 2000-2011-Periode verwerfen" nahegelegt -- die Jahresaufschluesselung zeigt, dass das ein
 Frueh-Historie-Phaenomen ist, kein durchgehender Datenfehler.
