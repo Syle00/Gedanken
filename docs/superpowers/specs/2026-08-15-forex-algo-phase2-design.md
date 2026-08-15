@@ -40,9 +40,63 @@ Gemessen am 2026-08-15, nicht geschätzt.
 Trade-Simulation, $-P&L, Risiko-Sizing, Ensemble, Stress-Test.
 
 **Praktischer Blocker auf dem aktuellen Rechner:** `raw/marktdaten-tief/` enthält alle 73.105
-Tages-CSVs, aber `algo/cache/` existiert nicht — der Parquet-Cache ist gitignored und wurde auf
-diesem Gerät nie gebaut. `build_parquet.py` für alle 10 Paare ist zwingende Vorarbeit (§8,
-Schritt 1).
+Tages-CSVs, aber `algo/cache/` existierte nicht — der Parquet-Cache ist gitignored und wurde auf
+diesem Gerät nie gebaut. *(Erledigt am 2026-08-15: `pyarrow` nachinstalliert, Cache über alle 10
+Paare gebaut, siehe §1.1.)*
+
+### 1.1 Messung am gebauten Cache (2026-08-15) — zwei Befunde, die das Design ändern
+
+| Symbol | Kerzen | von | bis | flat % gesamt | fehlende Wochentage |
+|---|---:|---|---|---:|---:|
+| EURUSD | 8.499.827 | 2000-05-30 | 2026-08-07 | 4,43 | **540** |
+| GBPUSD | 8.298.336 | 2003-01-01 | 2026-08-07 | 4,10 | 15 |
+| USDJPY | 8.292.046 | 2003-01-01 | 2026-08-07 | 4,59 | 13 |
+| USDCHF | 8.283.008 | 2003-01-01 | 2026-08-07 | 5,19 | 22 |
+| AUDUSD | 8.111.229 | 2003-01-01 | 2026-08-07 | 5,88 | 15 |
+| USDCAD | 7.788.898 | 2003-01-01 | 2026-08-07 | 6,74 | 13 |
+| NZDUSD | 7.201.155 | 2005-08-12 | 2026-08-07 | 5,86 | 11 |
+| EURJPY | 8.565.125 | 2003-01-01 | 2026-08-07 | 1,86 | 13 |
+| EURGBP | 8.043.177 | 2003-01-01 | 2026-08-07 | 5,47 | 13 |
+| GBPJPY | 8.593.799 | 2003-01-01 | 2026-08-07 | 1,39 | 20 |
+
+Keine Duplikate, alle Reihen monoton sortiert. `verify_forex_data.py` meldet alle zehn Symbole
+als `AUFFAELLIG` — die Jahresaufschlüsselung erklärt beide Auffälligkeiten:
+
+**Befund 1 — die Attrappen-Quote ist ein Liquiditäts-Zeitartefakt, kein Bestandsfehler.** Sie
+fällt über die Jahre monoton, und die Kerzenzahl je Jahr steigt gegenläufig:
+
+| Jahr | EURUSD flat % | USDCAD flat % | USDCAD Kerzen |
+|---|---:|---:|---:|
+| 2003 | 11,76 | 23,65 | 248.005 |
+| 2008 | 6,36 | 17,12 | 276.953 |
+| 2012 | 0,45 | 1,36 | 367.869 |
+| 2019 | 0,88 | 0,76 | 372.245 |
+| 2026 | 1,01 | 1,06 | 223.411 (Teiljahr) |
+
+2003 hatte eine USDCAD-Minute schlicht oft keinen einzigen Kursdruck. Das ist echte Marktruhe,
+nicht der yfinance-Attrappen-Fall (dort 100 %, siehe Vorgänger-Spec §1.4).
+
+**Konsequenz für das Design — zwei Liquiditätsregime, nicht ein Datensatz.** Ein Backtest über
+2003–2011 misst einen strukturell anderen Markt als einer über 2012–2026: Detektoren, die auf
+Kerzengeometrie beruhen (FVG, Displacement, Sweep), sehen bei 10–24 % druckfreien Minuten etwas
+anderes als bei unter 1 %. Daraus folgt verbindlich:
+
+1. **Jeder Forex-Report gibt die Flat-Quote des ausgewerteten Fensters an** — als Pflichtangabe
+   neben `dubious_pct` und Break-even-Spread.
+2. **Ergebnisse werden zusätzlich nach Regime getrennt ausgewiesen** (bis 2011 / ab 2012). Ein
+   Gesamtergebnis über 23 Jahre ohne diese Aufteilung ist keine Kennzahl dieser Spec.
+3. Die Regime-Grenze 2012 ist aus der Tabelle abgelesen, nicht gesetzt: der Sprung liegt bei
+   allen geprüften Paaren zwischen 2011 und 2012.
+
+**Befund 2 — EURUSDs „Reichweite bis 2000" ist irreführend.** Die 540 fehlenden Wochentage sind
+**2001 und 2002 vollständig**; die Reihe springt von 2000 direkt auf 2003. Das Jahr 2000 selbst
+hat nur 182 Tage und **30 % flache Kerzen**. Verbindlich: **EURUSD-Auswertungen starten bei
+2003-01-01**, wie alle anderen Paare. Der Legacy-XLSX-Bestand aus 2000 wird nicht verwendet — ein
+naives `von=min(t)` würde sonst still ein unbrauchbares Jahr und ein Zweijahresloch einschließen.
+
+**Befund 3 — Bestandsende 2026-08-07**, nicht 11.08. wie in der Vorgänger-Spec §1.3 angenommen.
+Für die 23-Jahres-Statistik unkritisch, für alles Aktuelle relevant. Die restlichen fehlenden
+Wochentage (11–22 je Symbol, außer EURUSD) sind Feiertage ohne Notierung — unauffällig.
 
 ---
 
@@ -322,7 +376,8 @@ im Report ausdrücklich als solche gekennzeichnet.
 ### 5.4 Break-even-Spread — Pflichtkennzahl
 
 In **jedem** Forex-Report, analog zu `dubious_pct` auf der MNQ-Seite: ab welchem Spread kippt
-das Ergebnis ins Minus.
+das Ergebnis ins Minus. Zusammen mit `dubious_pct` und der Flat-Quote des ausgewerteten Fensters
+(§1.1) sind das die **drei Pflichtangaben** jedes Forex-Reports.
 
 **Numerisch bestimmt, nicht analytisch.** Der naheliegende Ansatz „Brutto-Pips ÷ Trade-Anzahl"
 ist falsch, weil der Spread über die Short-Stop-Asymmetrie (§5.2) mitbestimmt, *welche* Trades
