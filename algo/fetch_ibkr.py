@@ -379,6 +379,9 @@ def main(argv=None) -> int:
             for symbol in symbols:
                 letzter = _letzter_registrierter_tag(symbol)
                 tag = letzter + timedelta(days=1) if letzter else gestern
+                if tag > gestern:
+                    print(f"{symbol}: bereits aktuell bis {letzter} (letzter Handelstag: {gestern}), "
+                          f"nichts zu holen", flush=True)
                 while tag <= gestern:
                     if _ist_handelstag(tag):
                         dest = fetch_symbol_day(ib, symbol, tag, pacing)

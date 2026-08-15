@@ -570,6 +570,23 @@ immer `sys.exit(main())`. Nach dem Fix erster echter Nachlad-Lauf durchgefuehrt:
 (`raw/marktdaten/1s-abdeckung.csv`) war bereits luecklos bis 2026-08-14 (letzter Handelstag)
 aus vorherigen Testlaeufen, Lauf endete sauber mit Exit 0 ohne neue Fenster.
 
+**Ausserdem, gleicher Abend -- Standard-`python` hatte `ib_async` nicht installiert:**
+`python`/`py` (ohne Versionsflag) zeigen auf diesem Rechner auf Python 3.12, in dem alle
+anderen `algo/`-Pakete installiert waren, `ib_async` aber fehlte (nur eine separate 3.14-
+Installation hatte es). Der dokumentierte Aufruf `python algo/fetch_ibkr.py` brach dadurch
+sofort mit `ModuleNotFoundError` ab, noch bevor irgendein Download versucht wurde. Fix:
+`pip install -r algo/requirements.txt` in die 3.12-Umgebung nachgeholt. Alle 27 Selbstchecks
+(`algo/selfcheck.py`) bestehen weiterhin.
+
+**Dritter Fund, gleicher Abend -- Nachlad-Modus stumm, wenn nichts zu holen ist:** Nutzer
+meldete "es findet kein Download statt" bei einem Lauf ohne jede Konsolenausgabe. Root Cause:
+die Nachlad-`while`-Schleife in `main()` druckt nur pro tatsaechlich verarbeitetem Tag --
+ist das Register schon aktuell (kein Tag zwischen letztem Registereintrag und gestern), laeuft
+die Schleife nie und es gibt keinerlei Ausgabe, obwohl das korrektes Verhalten ist (kein neuer
+Handelstag seit dem letzten Lauf). Fix: `main()` druckt jetzt vor der Schleife pro Symbol
+explizit "bereits aktuell bis <Tag> (letzter Handelstag: <Tag>), nichts zu holen", wenn nichts
+offen ist -- Konsole bleibt nie mehr stumm.
+
 **Beobachtung fuer den echten Backfill:** Trotz `PacingLimiter` (60 Requests/10 Min,
 min. 0,5s Abstand) traten bei mehreren Testlaeufen wiederholt Pacing-Violations auf, meist
 in der zweiten Haelfte eines 46-Fenster-Laufs fuer ein Symbol -- IBKRs tatsaechliche
