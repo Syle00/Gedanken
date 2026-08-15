@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mitigation Block — Gedanken</title>
+<title>Eröffnungsauktion vs. 24x5-Markt — Gedanken</title>
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -65,7 +65,7 @@
 <li><a href="../p/enigma-fvg-projection.html">Enigma FVG Projection</a></li>
 <li><a href="../p/equilibrium-vs-discount.html">Equilibrium Vs. Discount</a></li>
 <li><a href="../p/erwartungswert-reward-to-risk-modell.html">Erwartungswert &amp; Reward-to-Risk-Modell</a></li>
-<li><a href="../p/eroeffnungsauktion-vs-24x5-markt.html">Eröffnungsauktion vs. 24x5-Markt</a></li>
+<li class="here"><a href="../p/eroeffnungsauktion-vs-24x5-markt.html">Eröffnungsauktion vs. 24x5-Markt</a></li>
 <li><a href="../p/event-horizon.html">Event Horizon</a></li>
 <li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a></li>
 <li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
@@ -112,7 +112,7 @@
 <li><a href="../p/mean-reversion-tests-adf-hurst-exponent-kointegration.html">Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration)</a></li>
 <li><a href="../p/meta-labeling-lopez-de-prado.html">Meta-Labeling (López de Prado)</a></li>
 <li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a></li>
-<li class="here"><a href="../p/mitigation-block.html">Mitigation Block</a></li>
+<li><a href="../p/mitigation-block.html">Mitigation Block</a></li>
 <li><a href="../p/modell-22.html">Modell 22</a></li>
 <li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a></li>
 <li><a href="../p/momentum-ursachen-opening-gap-strategie.html">Momentum-Ursachen &amp; Opening-Gap-Strategie</a></li>
@@ -175,62 +175,31 @@
 <article>
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
-  <h1>Mitigation Block</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-06</div><div class="srcline"><span>Quellen:</span> <a href="../p/mitigation-blocks-source.html">Mitigation Blocks (Source)</a>, <a href="../p/ict-mentorship-core-content-month-04-mitigation-blocks-source.html">ICT Mentorship Core Content - Month 04 - Mitigation Blocks (Source)</a></div></div>
-  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+  <h1>Eröffnungsauktion vs. 24x5-Markt</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">forex</span> <span class="tag">futures</span></div><div class="dates">erstellt 2026-08-15 · aktualisiert 2026-08-15</div></div>
+  
+  <div class="content"><h1 id="eroffnungsauktion-vs-24x5-markt">Eröffnungsauktion vs. 24x5-Markt</h1>
+<p>Futures (MNQ, ES, ...) haben einen täglichen Handelsschluss und eine Wiedereröffnung (bei MNQ:
+17:00 NY Schluss, 18:00 NY Globex-Reopen). Genau dieser Schluss-/Eröffnungswechsel erzeugt die
+Konzepte, die auf ihm aufbauen:</p>
 <ul>
-<li><a href="#definition">Definition</a></li>
-<li><a href="#verwandte-order-block-typen-mittlerweile-ingested">✅ Verwandte Order-Block-Typen mittlerweile ingested</a></li>
-<li><a href="#mw-muster-die-drei-referenzpunkte-a-b-c-2022er-video-erganzung">"M"/"W"-Muster &amp; die drei Referenzpunkte A-B-C (2022er Video-Ergänzung)</a></li>
-<li><a href="#verwandt">Verwandt</a></li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a> — Gap zwischen Vortagesschluss (~16:14) und
+  9:30-Eröffnung.</li>
+<li><a href="../p/new-day-opening-gap-ndog.html">New Day Opening Gap (NDOG)</a> — Gap zwischen letztem Kerzen-Close und erster Kerze des Tages.</li>
+<li>Das "erste FVG nach 9:30" und der Open Drive setzen ebenfalls eine Eröffnungsauktion voraus.</li>
 </ul>
-</div>
-</details>
-  <div class="content"><h1 id="mitigation-block">Mitigation Block</h1>
-<p>Order-Block-Variante nach einem <strong>Failure Swing</strong>: Bestätigung, dass Smart Money sich (z.B. Short)
-positioniert hat und tiefere Preise wahrscheinlicher werden.</p>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 44.png" alt="image 44" loading="lazy"><figcaption>Failure Swing als Bestätigung, dass Smart Money short positioniert ist.</figcaption></figure>
-
-<h2 id="definition">Definition</h2>
-<ul>
-<li>Fokus liegt auf der <strong>letzten bearishen Candle</strong> vor der Bewegung, innerhalb derer noch aktiv
-  gekauft wurde ("Buying stattgefunden hat") — das macht sie zum bearishen Level für einen Short.</li>
-</ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 45.png" alt="image 45" loading="lazy"><figcaption>Fokus auf die letzte bearishe Candle — innerhalb dieser fand noch Buying statt, das macht sie zum bearishen Level.</figcaption></figure>
-
-<ul>
-<li>Kehrt Preis zu dieser Candle zurück (Market Structure Shift Return), ist das typischerweise der
-  Moment, in dem Smart Money Verluste begrenzt oder auf Breakeven setzt.</li>
-<li>Danach wird erwartet, dass sich die Bewegung fortsetzt bis zum letzten (vorherigen) Low.</li>
-</ul>
-<h2 id="verwandte-order-block-typen-mittlerweile-ingested">✅ Verwandte Order-Block-Typen mittlerweile ingested</h2>
-<p>Der frühere Hinweis unten war zutreffend, ist inzwischen aber überholt: <a href="../p/breaker-block.html">Breaker Block</a>,
-<a href="../p/rejection-block.html">Rejection Block</a> und <a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a> sind seit 2026-08-02 eigene Seiten,
-<a href="../p/propulsion-block.html">Propulsion Block</a> kam am 2026-08-06 dazu.</p>
-<h2 id="mw-muster-die-drei-referenzpunkte-a-b-c-2022er-video-erganzung">"M"/"W"-Muster &amp; die drei Referenzpunkte A-B-C (2022er Video-Ergänzung)</h2>
-<p>Aus <a href="../p/ict-mentorship-core-content-month-04-mitigation-blocks-source.html">ICT Mentorship Core Content - Month 04 - Mitigation Blocks (Source)</a>:</p>
-<ul>
-<li>Das auslösende Chartbild wird als <strong>"M"-Pattern</strong> (bearish) bzw. <strong>"W"-Pattern</strong> (bullish)
-  bezeichnet — ein Failure Swing mit anschließendem Market-Structure-Bruch.</li>
-<li><strong>Drei Referenzpunkte</strong>: <strong>A</strong> (Ausgangs-Preisschwung, z.B. Long-Einstieg), <strong>B</strong> (Zwischenhoch/
-  -tief, an dem der A→B-Schwung endet), <strong>C</strong> (Punkt, an dem der B→C-Schwung den Market-Structure-
-  Bruch bestätigt). Kehrt Preis zu <strong>A</strong> zurück, können die dort in A→B eingegangenen Positionen
-  ihre in B→C entstandenen Verluste mitigieren — daher der Name.</li>
-<li><strong>Buyer's/Seller's Remorse</strong>: an einem gebrochenen alten Low (bullisher Fall: altes High) kaufen
-  Trader aus Reue zurück/verkaufen aus Reue — dieselbe psychologische Dynamik wie "Support broken
-  turns Resistance", hier aber institutionell (Smart Money mitigiert eigene Verlustpositionen)
-  statt rein retail-psychologisch begründet.</li>
-<li>Zielangabe konkretisiert: nach der Mitigation wird primär das <strong>Mean Threshold der zugehörigen
-  Liquidity Void</strong> als Ziel anvisiert, nicht nur "das letzte Low" pauschal.</li>
-</ul>
-<h2 id="verwandt">Verwandt</h2>
-<ul>
-<li><a href="../p/pd-array.html">PD Array</a></li>
-<li><a href="../p/breaker-block.html">Breaker Block</a>, <a href="../p/rejection-block.html">Rejection Block</a>, <a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a>, <a href="../p/propulsion-block.html">Propulsion Block</a></li>
-<li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a> — Mean Threshold der Liquidity Void als Zielpunkt</li>
-</ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">15</span></h2><ul><li><a href="../p/2022-04-02-2022-ict-mentorship-episode-16-source.html">2022-04-02 - 2022 ICT Mentorship Episode 16 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2024-03-06-short-mitigation-to-sellside-review-of-pd-arrays-narrative-mnq-source.html">2024-03-06 - Short Mitigation To Sellside Review Of PD Arrays Narrative MNQ (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-2022-episode-16-midnight-open-displacement-source.html">ICT 2022 - Episode 16 Midnight open + Displacement (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-04-mitigation-blocks-source.html">ICT Mentorship Core Content - Month 04 - Mitigation Blocks (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a><span class="cat">Konzepte</span></li><li><a href="../p/institutional-order-flow-source.html">Institutional Order Flow (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/mitigation-blocks-source.html">Mitigation Blocks (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-03-source.html">Month 03 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-04-source.html">Month 04 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a><span class="cat">Modelle</span></li><li><a href="../p/order-block.html">Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/propulsion-block.html">Propulsion Block</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li></ul></section>
-  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Mitigation Block.md</code></footer>
+<p>Forex-Paare (EURUSD, GBPUSD, ...) handeln 24x5 durchgehend (So 17:01 NY bis Fr 17:00 NY) — es
+gibt keinen täglichen Schluss, also strukturell <strong>kein</strong> ORG, <strong>kein</strong> NDOG und <strong>kein</strong> "erstes
+FVG nach 9:30" im ICT-Sinn. Was in Forex weiterhin existiert: das <strong>[[New Week Opening Gap (NWOG)
+Bias|NWOG]]</strong> — der reale Wochenend-Gap zwischen Freitagsschluss und Sonntagsöffnung.</p>
+<p><strong>Implementierung:</strong> <code>tools/analyze_ohlc.py::SESSION_TYP</code> markiert jedes Symbol als
+<code>futures_rth</code> oder <code>24x5</code>; <code>org_gap()</code>/<code>ndog_gap()</code> liefern für <code>24x5</code>-Symbole <code>None</code>, statt
+eine plausibel aussehende, aber bedeutungslose Zahl zu berechnen (siehe
+<code>docs/superpowers/specs/2026-08-14-forex-backtesting-design.md</code> §4).</p>
+<p>Nutzerkorrektur, die diese Unterscheidung ausgelöst hat (2026-08-14): <em>"in forex gibt es kein
+opening range gap ... ndog gibt es nicht aber nwog gibt es."</em></p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/new-day-opening-gap-ndog.html">New Day Opening Gap (NDOG)</a><span class="cat">Konzepte</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Eröffnungsauktion vs. 24x5-Markt.md</code></footer>
 </article>
 </main>
 </div>
