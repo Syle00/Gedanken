@@ -17,7 +17,6 @@ import argparse
 import csv
 import os
 import socket
-import subprocess
 import sys
 import time
 from collections import deque
@@ -62,14 +61,13 @@ def _gateway_sicherstellen(wartezeit: int = 180) -> None:
               f"bitte manuell starten oder IBC_GATEWAY_BAT setzen", flush=True)
         return
     print(f"Gateway auf Port {GATEWAY_PORT} nicht erreichbar, starte {GATEWAY_BAT} ...", flush=True)
-    # cwd explizit auf den IBC-Ordner setzen (leerzeichenfrei) -- ohne das erbt der
-    # Kindprozess das CWD von Python, hier der Repo-Pfad mit Leerzeichen ("...\Ablage 1\...").
-    # StartGateway.bat/StartIBC.bat parsen intern u.a. die Java-Version ueber ein `for /f`
-    # mit Backtick-Befehlssubstitution -- das bricht bei einem Leerzeichen im CWD mit
-    # "'set' kann syntaktisch an dieser Stelle nicht verarbeitet werden" ab, noch bevor
-    # Gateway selbst startet (Realfall 2026-08-15: Fenster oeffnet sich, aber IBKR kommt nie).
-    subprocess.Popen([str(GATEWAY_BAT)], cwd=str(GATEWAY_BAT.parent),
-                      creationflags=subprocess.CREATE_NEW_CONSOLE)
+    # os.startfile() statt subprocess.Popen: StartGateway.bat/StartIBC.bat brechen ueber
+    # subprocess.Popen() reproduzierbar mit "'set' kann syntaktisch an dieser Stelle nicht
+    # verarbeitet werden" ab (batch-interne `for /f`-Befehlssubstitution bei der
+    # Java-Versionserkennung) -- auch mit explizit gesetztem cwd, siehe algo/PLAN.md
+    # 2026-08-15. os.startfile() ist Pythons Aequivalent zum Explorer-Doppelklick (nutzt
+    # denselben ShellExecute-Mechanismus), der manuell nachweislich zuverlaessig funktioniert.
+    os.startfile(str(GATEWAY_BAT), cwd=str(GATEWAY_BAT.parent))
     start = time.monotonic()
     while time.monotonic() - start < wartezeit:
         if _gateway_erreichbar():
