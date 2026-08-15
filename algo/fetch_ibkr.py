@@ -26,7 +26,6 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from analyze_ohlc import pruefe_kerzen, OHLCDefekt  # noqa: E402
-from fetch_yfinance import trading_day  # noqa: E402
 
 NY = ZoneInfo("America/New_York")
 UTC = ZoneInfo("UTC")
@@ -152,16 +151,31 @@ def write_day_1s(symbol: str, day: date, rows: pd.DataFrame, contract: str) -> P
     return dest
 
 
-def fetch_window(ib, contract: str, symbol: str, end_utc: datetime, pacing: PacingLimiter) -> pd.DataFrame:
+def fetch_window(ib, contract: str, symbol: str, end_utc: datetime, pacing: PacingLimiter,
+                  sleep=time.sleep) -> pd.DataFrame:
     """Ein 30-Minuten-Fenster ueber `ib.reqHistoricalData`. `ib` ist injizierbar (echter
     ib_async.IB im CLI-Pfad, Stub in Tests). formatDate=2 liefert UNIX-Sekunden UTC direkt --
     keine Zeitzonen-Umrechnung noetig (schaedlichster Fehlertyp dieses Projekts, siehe
-    CLAUDE.md 'Zeit vor Preis')."""
-    pacing.wait()
+    CLAUDE.md 'Zeit vor Preis').
+
+    Bis zu 3 Versuche mit mind. 15s Abstand (Spec SS4: Pacing-Violations/transiente Fehler
+    duerfen einen 34h-Backfill nicht abbrechen). Nach 3 gescheiterten Versuchen wird das
+    Fenster als fehlgeschlagen gemeldet und ein leerer DataFrame zurueckgegeben -- der
+    Aufrufer (fetch_symbol_day) behandelt das wie ein Fenster ohne Trades."""
     future = _future_contract(contract, symbol)
-    bars = ib.reqHistoricalData(
-        future, endDateTime=end_utc, durationStr=f"{WINDOW_SECONDS} S",
-        barSizeSetting="1 secs", whatToShow="TRADES", useRTH=False, formatDate=2)
+    for versuch in range(1, 4):
+        pacing.wait()
+        try:
+            bars = ib.reqHistoricalData(
+                future, endDateTime=end_utc, durationStr=f"{WINDOW_SECONDS} S",
+                barSizeSetting="1 secs", whatToShow="TRADES", useRTH=False, formatDate=2)
+            break
+        except Exception as exc:
+            print(f"  ! {symbol} Fenster bis {end_utc}: Versuch {versuch}/3 fehlgeschlagen ({exc})")
+            if versuch == 3:
+                print(f"  ! {symbol} Fenster bis {end_utc}: nach 3 Versuchen aufgegeben, uebersprungen")
+                return pd.DataFrame(columns=["time", "open", "high", "low", "close", "volume"])
+            sleep(15.0)
     rows = [{"time": int(b.date.timestamp()) if hasattr(b.date, "timestamp") else int(b.date),
              "open": b.open, "high": b.high, "low": b.low, "close": b.close,
              "volume": b.volume} for b in bars]
@@ -182,13 +196,14 @@ def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
         if key in vorhanden:
             continue
         df = fetch_window(ib, contract, symbol, end_utc, pacing)
-        if df.empty:
-            continue
-        frames.append(df)
+        if not df.empty:
+            frames.append(df)
         neue_register_zeilen.append({
             "symbol": symbol, "von": key[0], "bis": key[1], "kontrakt": contract,
             "kerzen": len(df), "geholt_am": int(time.time())})
     if not frames:
+        if neue_register_zeilen:
+            register_append(neue_register_zeilen, register_path)
         return None
     rows = pd.concat(frames).sort_values("time").drop_duplicates("time", keep="first")
     try:
@@ -201,6 +216,34 @@ def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
     return dest
 
 
+def _ist_handelstag(d: date) -> bool:
+    """CME-Futures handeln nie an einem vollstaendig auf Sa/So liegenden Kalendertag (die
+    Session laeuft 18:00 NY Vortag bis 17:00 NY) -- Sa/So-Kalendertage ueberspringen spart
+    garantiert leere Requests (siehe Review-Fund 4)."""
+    return d.weekday() < 5
+
+
+def _letzter_handelstag_bis(d: date) -> date:
+    """`d`, oder der naechste Kalendertag davor, der kein Wochenende ist."""
+    while not _ist_handelstag(d):
+        d -= timedelta(days=1)
+    return d
+
+
+def _letzter_registrierter_tag(symbol: str, register_path: Path = REGISTER) -> date | None:
+    """Juengster Handelstag, der laut Register fuer `symbol` mindestens ein Fenster hat (auch
+    leere Fenster zaehlen, siehe Review-Fund 3), oder None ohne jeden Eintrag. Ein Fenster-
+    `bis`-Zeitstempel vor 18:00 NY gehoert zum Handelstag seines eigenen Kalendertags, ab
+    18:00 (Beginn des naechsten Handelstag-Fensters) zum Folgetag -- siehe day_windows()."""
+    tage = set()
+    for s, _von, bis in register_load(register_path):
+        if s != symbol:
+            continue
+        dt_ny = datetime.fromtimestamp(bis, tz=UTC).astimezone(NY)
+        tage.add(dt_ny.date() + timedelta(days=1) if dt_ny.hour >= 18 else dt_ny.date())
+    return max(tage) if tage else None
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                   formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -208,7 +251,10 @@ def main(argv=None) -> int:
     ap.add_argument("--backfill", nargs=2, metavar=("VON", "BIS"))
     ap.add_argument("--symbol", help="Komma-Liste, z.B. NQ oder NQ,ES (Default: beide)")
     a = ap.parse_args(argv)
-    symbols = a.symbol.split(",") if a.symbol else SYMBOLS
+    symbols = [s.strip().upper() for s in a.symbol.split(",")] if a.symbol else SYMBOLS
+    unbekannt = [s for s in symbols if s not in SYMBOLS]
+    if unbekannt:
+        ap.error(f"unbekannte Symbole: {', '.join(unbekannt)} -- bekannt: {', '.join(SYMBOLS)}")
 
     from ib_async import IB  # lokal importiert: Selbstcheck/Tests brauchen kein ib_async-Netz
     ib = IB()
@@ -216,23 +262,38 @@ def main(argv=None) -> int:
     pacing = PacingLimiter()
     try:
         if a.verify:
+            # Wochenend-Kalendertage rausrechnen -- sonst liest ein Verify an einem So/Mo
+            # "0 Kerzen" wie ein echter R1-Befund (IBKR liefert keine 1s-Bars), obwohl es
+            # nur ein geschlossener Handelstag war (Review-Fund 7).
+            day = _letzter_handelstag_bis(date.today() - timedelta(days=1))
             for symbol in symbols:
-                day = date.today() - timedelta(days=1)
                 contract = front_month(day, symbol)
                 _, end_utc = day_windows(day)[-1]
                 df = fetch_window(ib, contract, symbol, end_utc, pacing)
                 print(f"{symbol}: Verify-Fenster {len(df)} Kerzen geholt "
-                      f"(Kontrakt {contract}), nichts geschrieben")
+                      f"(Kontrakt {contract}, Tag {day}), nichts geschrieben")
         elif a.backfill:
             von, bis = date.fromisoformat(a.backfill[0]), date.fromisoformat(a.backfill[1])
             tag = von
             while tag <= bis:
-                for symbol in symbols:
-                    fetch_symbol_day(ib, symbol, tag, pacing)
+                if _ist_handelstag(tag):
+                    for symbol in symbols:
+                        fetch_symbol_day(ib, symbol, tag, pacing)
                 tag += timedelta(days=1)
         else:
+            # Nachlad: pro Symbol vom Tag nach dem juengsten Registereintrag bis gestern
+            # auffuellen (resumable, stateless). Ohne jeden Registereintrag (kalter Start)
+            # bewusst nur "gestern" holen statt unbegrenzt zurueck zu backfillen -- ein
+            # kompletter Nachlad ab leerem Register ist Aufgabe von --backfill, nicht des
+            # taeglichen Cronjobs (Review-Fund 1).
+            gestern = _letzter_handelstag_bis(date.today() - timedelta(days=1))
             for symbol in symbols:
-                fetch_symbol_day(ib, symbol, date.today() - timedelta(days=1), pacing)
+                letzter = _letzter_registrierter_tag(symbol)
+                tag = letzter + timedelta(days=1) if letzter else gestern
+                while tag <= gestern:
+                    if _ist_handelstag(tag):
+                        fetch_symbol_day(ib, symbol, tag, pacing)
+                    tag += timedelta(days=1)
     finally:
         ib.disconnect()
     return 0

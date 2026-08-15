@@ -107,8 +107,7 @@ def _forex_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> lis
 
 def _demo() -> None:
     """Selbstcheck: winziger Parquet-Cache in ein Tempdir, prueft Resample-Anker (NY-
-    Mitternacht) und von/bis-Filter. Futures-Pfad wird NICHT hier getestet (der laeuft
-    unveraendert ueber tools.analyze_ohlc.load(), bereits durch selfcheck.py abgedeckt)."""
+    Mitternacht) und von/bis-Filter, sowie den 1s-Futures-Pfad (IBKR-Anbindung)."""
     import tempfile
     import build_parquet as bp
 
