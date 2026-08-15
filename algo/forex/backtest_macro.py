@@ -56,6 +56,7 @@ from __future__ import annotations
 
 import argparse
 import bisect
+import calendar
 import csv
 import statistics
 import sys
@@ -100,6 +101,46 @@ CHUNK_JAHRE = 5
 
 CSV_FELDER = ["symbol", "day", "label", "macro", "range_pips", "netto_pips", "dir",
               "netto_rel", "fvgs", "rank", "n_blocks", "spooling"]
+
+
+def _nter_sonntag(jahr: int, monat: int, n: int) -> date:
+    """n-ter Sonntag des Monats (n=-1 -> letzter).
+
+    Der letzte Sonntag wird vom LETZTEN Tag des Monats zurueckgerechnet, nicht vom 28. Eine
+    frueher hier stehende Fassung startete bei Tag 28 und verlor damit die Tage 29-31: fuer
+    Maerz 2019 lieferte sie den 24. statt des 31., also ein um eine Woche zu breites
+    DST-Fenster. Aufgefallen ist das nur, weil der Selbstcheck gegen die tatsaechlichen
+    Umstellungstermine prueft und nicht gegen die eigene Rechenlogik."""
+    if n > 0:
+        d = date(jahr, monat, 1)
+        d += timedelta(days=(6 - d.weekday()) % 7)      # erster Sonntag
+        return d + timedelta(weeks=n - 1)
+    letzter = date(jahr, monat, calendar.monthrange(jahr, monat)[1])
+    return letzter - timedelta(days=(letzter.weekday() + 1) % 7)
+
+
+def dst_verdaechtig(tag: date) -> bool:
+    """Liegt `tag` in einem Fenster, in dem US- und EU-Sommerzeit auseinanderlaufen?
+
+    Hintergrund: der histdata-Endpoint stempelt seine Zeitstempel **ab 2019** an den EU-,
+    nicht an den US-Umstellungsterminen -- in den Wochen dazwischen liegt der Bestand eine
+    Stunde zu frueh (Befund 2026-08-15, siehe wiki/synthesis/Forex-Algo — ICT-Konzepte auf
+    23 Jahren (laufend).md und algo/repair_dst_2019.py). Betroffen sind 2,40 % aller Kerzen.
+
+    US: 2. Sonntag Maerz bis 1. Sonntag November. EU: letzter Sonntag Maerz bis letzter
+    Sonntag Oktober. Auseinander laufen sie also im Fruehjahr zwischen US-Start und EU-Start
+    und im Herbst zwischen EU-Ende und US-Ende.
+
+    Vor 2019 folgte der Endpoint der US-Regel und war korrekt -- deshalb der Jahresschnitt.
+    Ein zeitbasierter Backtest kann diese Tage bis zur Reparatur ausschliessen, statt auf
+    `raw/` zuzugreifen (Layer 1 ist unveraenderlich, die Reparatur ist ein eigener,
+    freizugebender Schritt).
+    """
+    if tag.year < 2019:
+        return False
+    j = tag.year
+    return (_nter_sonntag(j, 3, 2) <= tag < _nter_sonntag(j, 3, -1)
+            or _nter_sonntag(j, 10, -1) <= tag < _nter_sonntag(j, 11, 1))
 
 
 def blocks(tag: date) -> list[tuple[str, datetime, datetime, bool]]:
@@ -342,7 +383,7 @@ def schreibe_csv(zeilen: list[dict], fh, kopf: bool) -> None:
         w.writerow(z)
 
 
-def pool_aus_csv(pfad: Path = BLOCK_CSV) -> dict:
+def pool_aus_csv(pfad: Path = BLOCK_CSV, ohne_dst: bool = False) -> dict:
     """Gepoolter Bericht ueber alle Symbole, aus der CSV gestreamt.
 
     Warum nicht einfach die Zeilen im Speicher behalten: 4,3 Mio. dicts sind mehrere GB. Hier
@@ -358,8 +399,12 @@ def pool_aus_csv(pfad: Path = BLOCK_CSV) -> dict:
     n_ohne_netto = {"macro": 0, "ctrl": 0}
     tage: set[str] = set()
 
+    n_dst_raus = 0
     with pfad.open(encoding="utf-8") as fh:
         for z in csv.DictReader(fh):
+            if ohne_dst and dst_verdaechtig(date.fromisoformat(z["day"])):
+                n_dst_raus += 1
+                continue
             g = "macro" if z["macro"] == "True" else "ctrl"
             n_ges[g] += 1
             tage.add(z["day"])
@@ -379,8 +424,12 @@ def pool_aus_csv(pfad: Path = BLOCK_CSV) -> dict:
     if not n_ges["macro"] or not n_ges["ctrl"]:
         return {}
 
-    print("\n=== ALLE FX-PAARE GEPOOLT ===")
-    print(f"{len(tage):,} Handelstage, {sum(n_ges.values()):,} auswertbare 20min-Bloecke")
+    titel = ("ALLE FX-PAARE GEPOOLT, OHNE DST-VERDAECHTIGE TAGE" if ohne_dst
+             else "ALLE FX-PAARE GEPOOLT")
+    print(f"\n=== {titel} ===")
+    print(f"{len(tage):,} Handelstage, {sum(n_ges.values()):,} auswertbare 20min-Bloecke"
+          + (f"   ({n_dst_raus:,} Bloecke wegen DST-Versatz ausgeschlossen)"
+             if ohne_dst else ""))
     print(f"  {'':<12} {'n':>9} {'medRange':>10} {'medNetto':>10} {'dir':>6} "
           f"{'nettoRel':>9} {'Spooling':>9}")
     for name, g in (("Macro :50-:10", "macro"), ("Kontrolle", "ctrl")):
@@ -404,7 +453,7 @@ def pool_aus_csv(pfad: Path = BLOCK_CSV) -> dict:
     print("  Mann-Whitney (Macro > Kontrolle), einseitig:  "
           + "  ".join(f"{k} p={v:.4f}" for k, v in pvals.items()))
 
-    return {"titel": "ALLE FX-PAARE GEPOOLT", "n_tage": len(tage),
+    return {"titel": titel, "n_tage": len(tage), "n_dst_raus": n_dst_raus,
             "n_macro": n_ges["macro"], "n_ctrl": n_ges["ctrl"],
             "med_range_macro": statistics.median(puffer["macro"]["range_pips"]),
             "med_range_ctrl": statistics.median(puffer["ctrl"]["range_pips"]),
@@ -510,6 +559,43 @@ def selfcheck() -> None:
     assert len(FOREX_SYMBOLE) == 10, FOREX_SYMBOLE
     for s in FOREX_SYMBOLE:
         assert s in PIP_SIZE, s
+
+    # --- DST-Fenster gegen bekannte Umstellungstermine ---------------------------------
+    # Sonntagsberechnung zuerst, sonst pruefe ich das Fenster gegen dieselbe moegliche
+    # Fehlannahme, aus der es entstanden ist.
+    assert _nter_sonntag(2019, 3, 2) == date(2019, 3, 10), _nter_sonntag(2019, 3, 2)
+    assert _nter_sonntag(2019, 3, -1) == date(2019, 3, 31), _nter_sonntag(2019, 3, -1)
+    assert _nter_sonntag(2019, 10, -1) == date(2019, 10, 27), _nter_sonntag(2019, 10, -1)
+    assert _nter_sonntag(2019, 11, 1) == date(2019, 11, 3), _nter_sonntag(2019, 11, 1)
+    # Maerz 2021 begann selbst an einem Montag -- Randfall fuer "erster Sonntag".
+    assert _nter_sonntag(2021, 3, 2) == date(2021, 3, 14), _nter_sonntag(2021, 3, 2)
+    # Oktober 2020 endete an einem Samstag -- Randfall fuer "letzter Sonntag".
+    assert _nter_sonntag(2020, 10, -1) == date(2020, 10, 25), _nter_sonntag(2020, 10, -1)
+
+    # Fruehjahrsfenster 2019: US ab 10.03. auf Sommerzeit, EU erst ab 31.03.
+    assert dst_verdaechtig(date(2019, 3, 10)) is True
+    assert dst_verdaechtig(date(2019, 3, 20)) is True
+    assert dst_verdaechtig(date(2019, 3, 30)) is True
+    assert dst_verdaechtig(date(2019, 3, 31)) is False, "ab EU-Umstellung wieder synchron"
+    assert dst_verdaechtig(date(2019, 3, 9)) is False, "vor US-Umstellung synchron"
+    # Herbstfenster 2019: EU ab 27.10. zurueck, US erst ab 03.11.
+    assert dst_verdaechtig(date(2019, 10, 27)) is True
+    assert dst_verdaechtig(date(2019, 11, 2)) is True
+    assert dst_verdaechtig(date(2019, 11, 3)) is False
+    assert dst_verdaechtig(date(2019, 10, 26)) is False
+    # Gewoehnliche Tage
+    assert dst_verdaechtig(date(2019, 7, 1)) is False
+    assert dst_verdaechtig(date(2019, 1, 15)) is False
+    # Vor 2019 folgte der Endpoint der US-Regel und war korrekt -- derselbe Kalendertag,
+    # aber ein Jahr frueher, muss sauber sein.
+    assert dst_verdaechtig(date(2018, 3, 20)) is False, "vor 2019 kein Versatz"
+    assert dst_verdaechtig(date(2018, 10, 30)) is False, "vor 2019 kein Versatz"
+
+    # Umfang plausibel: ~4 Wochen je Jahr ab 2019 (die Wiki-Seite nennt 140 Handelstage
+    # je Paar ueber alle Jahre -- hier nur die Groessenordnung, nicht die Handelstage).
+    n_2019 = sum(1 for i in range(365)
+                 if dst_verdaechtig(date(2019, 1, 1) + timedelta(days=i)))
+    assert 25 <= n_2019 <= 32, n_2019
 
     print("forex.backtest_macro selfcheck: OK")
 

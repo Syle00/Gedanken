@@ -572,6 +572,55 @@ exakt passte -- klassisches DST-Muster. `fetch_histdata.py` konvertiert deshalb 
 (`America/New_York`, mit DST) statt per fixer Verschiebung. Nach dem Fix: alle drei Testtage bei
 94-100% `mid >= bid`-Konsistenz, Restabweichung ~0,3-0,4 Pip (plausibler halber Spread).
 
+**⚠️ Nachtrag 2026-08-15 -- die obige Regel gilt nur bis 2018.** Die Verifikation oben testete
+zwei Sommertage und einen Wintertag. An solchen Tagen sind US- und EU-Sommerzeit gleichzeitig
+aktiv bzw. gleichzeitig aus; die US- und die EU-Umstellungsregel sind dort **nicht
+unterscheidbar**. Sie unterscheiden sich nur in den ~4 Wochen pro Jahr zwischen den beiden
+Umstellungsterminen. Messung genau dort, quellenunabhaengig ueber die Wochengrenzen des
+24x5-Marktes (Freitagsschluss 17:00 NY, Sonntagsoeffnung 17:00 NY), alle 10 Paare:
+
+| Woche | 2007-2018 | 2019-2026 |
+|---|---|---|
+| Luecken-Woche (US != EU) | letzte Freitagskerze 16:59 NY ✓ | **15:59 NY** (1h zu frueh) |
+| gewoehnliche Woche | 16:59 NY ✓ | 16:59 NY ✓ |
+
+Der Endpoint hat also **2019 die Umstellungstermine** von der US- auf die EU-Regel gewechselt,
+der Offset (-5/-4) blieb -- typisch fuer eine europaeische Broker-Serveruhr (EET/EEST minus 7h).
+`label_zu_epoch()` bildet das als zwei Regime ab: vor `EU_REGEL_AB` (2019-01-01) echte
+`America/New_York`-Zeit, danach "Europe/Berlin minus 6h". Der Umschalttermin ist nur auf
+2018-11-05..2019-03-09 eingrenzbar -- in diesem Intervall liegt keine Luecken-Woche, die Wahl
+darin wirkt sich also auf kein Datum aus. Sechs Selbstcheck-Faelle inkl. Negativkontrolle.
+**Bereits geladener Bestand ist davon betroffen** (140 Handelstage je Paar, 2,40 % der Kerzen) --
+Reparatur siehe `repair_dst_2019.py` unten.
+
+## `repair_dst_2019.py` -- Umstempeln des DST-Versatzes im vorhandenen Bestand
+
+**Was:** Verschiebt die Zeitstempel der betroffenen Tagesdateien in `raw/marktdaten-tief/` um
++1h und sortiert sie nach NY-Tag neu ein. `--apply` schreibt, ohne Flag Trockenlauf;
+`--stichprobe` listet die Monats-Chunks fuer eine Gegenprobe per frischem Download.
+
+**Wie:** Die Luecken-Fenster werden aus `zoneinfo` berechnet (nicht als Datumsliste gepflegt),
+ab `EU_REGEL_AB`. Alle betroffenen Dateien werden gelesen, +3600 s gerechnet und nach NY-Tag neu
+gebuendelt -- noetig, weil die letzte Stunde eines Tages durch die Verschiebung in die Datei des
+Folgetags wandert. Vor dem Schreiben laeuft `pruefe_kerzen()` wie im Downloader.
+
+**Warum umstempeln statt neu laden:** Der Fehler ist eine reine Beschriftung -- jede Kerze
+existiert, nur ihr Zeitstempel ist 3600 s zu klein, die OHLC-Werte sind unberuehrt. Das
+Umstempeln ist verlustfrei und exakt aequivalent zu einem Neu-Download, holt aber nicht den
+oben dokumentierten Live-Feed-Drift des juengsten Datenrands in den Bestand.
+
+**Tragende Annahme, im Code geprueft statt vorausgesetzt:** alle Sommerzeit-Umstellungen fallen
+auf einen Sonntag, der Forex-Markt oeffnet aber erst Sonntag 17:00 NY -- beide Fenstergrenzen
+liegen damit im Wochenende, es kann keine Kerze ueber den Fensterrand hinauswandern. Das Skript
+zaehlt Grenzueberschreitungen mit und warnt; Trockenlauf ueber alle 10 Paare: **0 Faelle**,
+1 962 205 Kerzen erfasst.
+
+**Bekannte Grenzen:** (1) Nach `--apply` ist `python algo/build_parquet.py` zwingend, sonst
+traegt `algo/cache/` weiter die alte Zeitachse. (2) Das Skript ist **nicht idempotent** -- ein
+zweiter Lauf verschiebt noch einmal um +1h. Vor einem Wiederholungslauf den Bestand pruefen
+(Freitagsschluss muss auf 16:59 NY liegen). (3) Es repariert nur `raw/marktdaten-tief/`, nicht
+`raw/marktdaten/` (Futures, andere Quelle, nicht betroffen).
+
 **Bulk-Import 2026-08-14 abgeschlossen:** alle 10 Paare (EURUSD + GBPUSD/USDJPY/USDCHF/AUDUSD/
 USDCAD/NZDUSD/EURJPY/EURGBP/GBPJPY), 2003-2026, 73.100 Tagesdateien, 0 echte Fehler. Kein 429
 oder IP-Sperr-Hinweis unter diesem Lastprofil (1s Pause zwischen Chunks) -- histdata.com verhaelt

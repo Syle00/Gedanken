@@ -93,6 +93,66 @@ das ist eine Hypothese für den nächsten Lauf, kein Ergebnis. Erst Walk-Forward
 - **Der Spread ist gesetzt, nicht gemessen.** Der Bestand ist reines Bid. Deshalb ist die
   belastbare Kennzahl der Break-even-Spread, nicht der $-Betrag.
 
+## Macro-Fenster (:50–:10): größer ja, gerichteter nein (Stand 2026-08-15)
+
+Zwei unabhängige Messungen über den vollen Bestand, beide mit Kontrollgruppe — was
+`algo/macro_db.py` auf der MNQ-Seite fehlt, weil es Macro-Fenster nur untereinander vergleicht.
+
+**1. Blockstudie** (`algo/forex/backtest_macro.py`, 10 Paare, 2000–2026, **3.983.412** 20-Minuten-Blöcke,
+7.532 Handelstage). Jede Stunde zerfällt in drei Blöcke; die Kontrollen liegen direkt daneben:
+
+| | Macro :50–:10 | Kontrolle | Mann-Whitney |
+|---|---:|---:|---|
+| median Range | 9,10 Pips | 8,60 Pips | p = 0,0000 |
+| median Netto | 3,70 Pips | 3,40 Pips | p = 0,0000 |
+| **dir (Geradlinigkeit)** | **0,448** | **0,455** | **p = 1,0000** |
+| **Spooling-Quote** | **44,34 %** | **44,87 %** | **−0,52 pp** |
+
+**2. Offset-Kontrollgruppe** (`algo/backtest_macro_forex.py`, sechs 20-Minuten-Fenster je Stunde,
+~1,02 Mio. Macro-Fenster je Offset). Median-Delta der Expansionsquote über zehn Paare: **−0,03 pp**,
+positiv bei 4 von 10, **trennbar bei 0 von 10** (95-%-Wilson-Intervalle überlappen durchweg).
+
+### Der Größenvorteil gehört der vollen Stunde, nicht der :50
+
+Die zwei Studien schienen sich zu widersprechen. Die Auflösung steht in der Offset-Tabelle:
+
+| Offset | Fenster | med_range | Expansionsquote |
+|---|---|---:|---:|
+| **:50** | :50–:10 | **6,33** | 29,90 % |
+| **:00** | :00–:20 | **6,30** | **30,72 %** |
+| :10 | :10–:30 | 5,87 | 29,47 % |
+| :20 | :20–:40 | 5,98 | 29,57 % |
+| :30 | :30–:50 | 6,00 | 29,74 % |
+| :40 | :40–:00 | 5,98 | 29,98 % |
+
+Erhöht sind **genau die beiden Fenster, die den Stundenwechsel berühren** — :50–:10 enthält ihn,
+:00–:20 beginnt an ihm. Die vier mittstündigen Offsets liegen geschlossen bei 5,87–6,00. Die
+Blockstudie misst den Vorteil nur deshalb, weil ihre beiden Kontrollen (:10–:30, :30–:50) beide
+mittstündig liegen; mit :00–:20 als drittem Vergleich verschwindet er. Nach Expansionsquote
+schlägt :00 das Macro sogar.
+
+### Was daraus folgt — und was nicht
+
+**Widerlegt für Forex:** Die :50 ist als Uhrzeit nichts Besonderes. Was sich messen lässt, ist ein
+Stundenwechsel-Effekt, den das Macro-Fenster zufällig mitnimmt, weil es über die volle Stunde
+läuft.
+
+**Und für Spooling:** Nach der Definition dieses Vaults ist Spooling der gerichtete Lauf, gemessen
+über `dir` (siehe [[ICT Macros & Leading Candles]]). Genau dort zeigt sich **kein** Vorteil — die
+Geradlinigkeit im Macro liegt mit p = 1,0000 nicht über der Kontrolle, die Spooling-Quote sogar
+0,52 pp darunter. Auf 3,98 Millionen Blöcken ist das keine Frage der Stichprobengröße mehr.
+
+**Nicht widerlegt ist die MNQ-Aussage.** Der Index-Futures-Bestand kann ein Eigenverhalten haben —
+dort schließen Kontrakte, dort liegt eine Eröffnungsauktion, dort sind die Teilnehmer andere. Der
+Forex-Befund heißt: *falls* ein interbank-weiter Algorithmus zur :50 den Preis ausdehnt, hinterlässt
+er im FX-Spot über 24 Jahre keine Spur. ICTs eigene Begründung für Macros unterstellt aber genau
+einen solchen marktübergreifenden Mechanismus — das ist der Punkt, an dem der Befund weh tut.
+
+> ⚠️ **Vorbehalt zur Blockstudie:** Sie enthält die DST-verdächtigen Tage (siehe unten).
+> Gegengerechnet ohne diese 97.448 Blöcke ändern sich alle Kennzahlen erst in der vierten
+> Nachkommastelle (Spooling-Delta −0,525 → −0,506 pp). Die gepoolte Aussage hängt also nicht daran.
+> Für die **stundenweise** Aufschlüsselung bleibt die Reparatur Vorbedingung.
+
 ## Offene Hypothesen (werden mit jedem Lauf aktualisiert)
 
 - **London Silver Bullet trägt, die NY-Fenster nicht.** Einziges positives Fenster im ersten
@@ -117,6 +177,37 @@ das ist eine Hypothese für den nächsten Lauf, kein Ergebnis. Erst Walk-Forward
   er 1.065 von 1.109 Setups — das ist sein eigenes dokumentiertes Verhalten (ohne offene Position
   bewegt sich die Equity nicht, also entsteht kein neues Hoch, also hebt er sich nie auf). Für
   die Frage „trägt die Regel?" gehört er aus, für „wäre das handelbar?" hinein.
+
+## ⚠️ Datenvorbehalt: DST-Zeitversatz 2019–2026 (Stand 2026-08-15, Reparatur steht aus)
+
+Der histdata-Bestand ist in den Wochen, in denen USA und EU zu **verschiedenen Terminen** auf
+Sommerzeit umstellen, um eine Stunde zu früh gestempelt — **ab 2019**, davor korrekt. Der
+Endpoint hat 2019 seine Umstellungstermine von der US- auf die EU-Regel gewechselt, ohne den
+Offset zu ändern; in gewöhnlichen Wochen ist das unsichtbar, weil beide Regeln dort dasselbe
+Ergebnis liefern.
+
+Beleg ohne Fremdquelle: der 24x5-Markt schließt Freitag 17:00 NY, die letzte Freitagskerze muss
+also auf 16:59 NY liegen. Über alle zehn Paare gemessen — Lücken-Woche 2007–2018: 16:59 ✓,
+Lücken-Woche 2019–2026: **15:59**, gewöhnliche Woche: 16:59 ✓. Die Sonntagsöffnung zeigt
+dasselbe Bild.
+
+**Umfang:** 15 Fenster, 140 Handelstage je Paar, 1.962.205 von 81.676.600 Kerzen (2,40 %).
+
+**Warum das hier steht und nicht nur im Protokoll:** die gesamte Regel-Schicht dieser Seite ist
+**fensterbasiert** — Killzones, Silver-Bullet-Fenster, Midnight OR. Ein Stundenversatz schiebt
+einen Trade nicht ein bisschen, sondern in die falsche Session. Solange die Reparatur
+(`algo/repair_dst_2019.py --apply`, danach Cache-Neubau) nicht gelaufen ist, gelten alle Zahlen
+dieser Seite für diese 2,40 % des Bestands als unbelastbar. Für den bisherigen EURUSD-Lauf
+(2015–2019) sind es **20 der rund 1.250 Handelstage** — nur die beiden 2019er Fenster, weil die
+Jahrgänge 2015–2018 noch der US-Regel folgen und damit korrekt sind. Der Lauf ist dadurch nicht
+hinfällig; sobald die Auswertung aber ab 2019 reicht oder nach Fenstern aufgeschlüsselt wird,
+ist die Reparatur Vorbedingung.
+
+**Methodische Lehre, die über diesen Fall hinausgeht:** die ursprüngliche Zeitprüfung testete
+zwei Sommertage und einen Wintertag. An solchen Tagen sind US- und EU-Sommerzeit gleichzeitig
+aktiv — die beiden Regeln sind dort gar nicht unterscheidbar. Eine Zeitprüfung, die die
+Umstellungswochen nicht ausdrücklich enthält, prüft den einzigen Fall nicht, in dem sie greifen
+könnte. Vgl. [[Algo-Trading: Arbeitsstandards]] → „Zeit vor Preis".
 
 ## Verwandt
 

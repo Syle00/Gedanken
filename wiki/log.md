@@ -2481,3 +2481,24 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Für die ORG-C.E.-70-%-These festgehalten: über Forex nicht absicherbar (fällt unter den
   Ausschluss), bleibt auf der MNQ-Stichprobe und weiterhin unter Beobachtung.
 - Protokoll: algo/PLAN.md (3 Einträge), algo/README.md (Modulabschnitt algo/forex/)
+
+## [2026-08-15] query | DST-Zeitversatz im Forex-Bestand — Root Cause, Eingrenzung, Fix
+- Der Befund vom selben Tag („~1h-Versatz in den US/EU-Umstellungswochen, über alle 23 Jahre")
+  ist in zwei Punkten korrigiert: der Fehler beginnt **2019**, davor ist der Bestand korrekt.
+- Messweg ohne Fremdquelle: der 24x5-Markt schließt Freitag 17:00 NY und öffnet Sonntag
+  17:00 NY. Die letzte Freitagskerze muss auf 16:59 NY liegen — damit ist jede Woche der
+  23 Jahre prüfbar statt einiger Stichprobentage.
+- Ergebnis über alle 10 Paare und beide Wochengrenzen: Lücken-Woche 2007–2018 = 16:59 NY
+  (korrekt), Lücken-Woche 2019–2026 = 15:59 NY (1h zu früh), gewöhnliche Woche in beiden
+  Ären = 16:59 NY. Der histdata-Endpoint hat 2019 die Umstellungs*termine* von der US- auf
+  die EU-Regel gewechselt; der Offset −5/−4 blieb.
+- Umfang: 15 Fenster, 140 Handelstage je Paar, 1.962.205 von 81.676.600 Kerzen (2,40 %).
+- Methodische Lehre (zweiter Fall binnen zwei Tagen): die ursprüngliche Zeitprüfung testete
+  zwei Sommertage und einen Wintertag — an solchen Tagen sind US- und EU-Sommerzeit
+  gleichzeitig aktiv, die beiden Regeln sind dort **nicht unterscheidbar**. Der Test konnte
+  den Fehler methodisch nicht finden. Eine Zeitprüfung muss künftig die Umstellungswochen
+  ausdrücklich enthalten, sonst prüft sie den einzigen Fall nicht, in dem sie greifen könnte.
+- Fix in `algo/fetch_histdata.py::label_zu_epoch()` (zwei Regime) plus Reparaturskript
+  `algo/repair_dst_2019.py` (Trockenlauf sauber, `--apply` steht aus — `raw/` wird nicht
+  eigenmächtig geändert). Protokoll: `algo/PLAN.md`.
+- Seiten aktualisiert: wiki/synthesis/Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend).md
