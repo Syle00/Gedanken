@@ -39,8 +39,9 @@ def bars(symbol: str, tf: str, von: date | None = None, bis: date | None = None)
 
 
 def _futures_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> list[Bar]:
-    """Unveraendertes Verhalten gegenueber backtest_common.find_days()/load() -- ein Bar
-    je Tagesordner-Datei, im Bestand bereits im Ziel-Timeframe vorliegend."""
+    """Unveraendertes Verhalten gegenueber backtest_common.find_days()/load() fuer CSV-TFs --
+    ein Bar je Tagesordner-Datei. Fuer tf == '1s' wird stattdessen die Tages-Parquet-Datei
+    aus algo/fetch_ibkr.py gelesen (siehe _load_1s_parquet)."""
     out: list[Bar] = []
     for day_dir in sorted(DATA_DIR.glob("*/*/*")):
         if not day_dir.is_dir():
@@ -53,11 +54,27 @@ def _futures_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> l
             continue
         if bis and day > bis:
             continue
+        if tf == "1s":
+            dateien = sorted(day_dir.glob(f"{symbol} * 1s.parquet"))
+            if dateien:
+                out.extend(_load_1s_parquet(dateien[0]))
+            continue
         dateien = sorted(f for f in day_dir.glob(f"{symbol} * {tf}.csv") if "RTH" not in f.name)
         if dateien:
             out.extend(load(dateien[0]))
     out.sort(key=lambda b: b.t)
     return out
+
+
+def _load_1s_parquet(path: Path) -> list[Bar]:
+    """IBKR-1s-Tagesdatei -> Bar-Liste. `time` ist UNIX-Sekunden UTC (formatDate=2 in
+    fetch_ibkr.py), deshalb direkte tz_convert(NY) ohne Zwischenschritt."""
+    df = pd.read_parquet(path)
+    idx_series = pd.to_datetime(df["time"], unit="s", utc=True).dt.tz_convert(NY)
+    idx_py = pd.DatetimeIndex(idx_series).to_pydatetime()
+    return [Bar(t, float(o), float(h), float(l), float(c), float(v))
+            for t, o, h, l, c, v in zip(idx_py, df["open"], df["high"], df["low"],
+                                        df["close"], df["volume"])]
 
 
 def _forex_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> list[Bar]:
@@ -127,6 +144,31 @@ def _demo() -> None:
         finally:
             CACHE = orig
             del SESSION_TYP["TEST"]
+
+    # 1s-Parquet-Zweig (IBKR-Anbindung, algo/fetch_ibkr.py): eigenes Tempdir als DATA_DIR,
+    # weil _futures_bars() (anders als der Forex-Pfad oben) direkt gegen das importierte
+    # DATA_DIR aus analyze_ohlc glob't.
+    import analyze_ohlc as ao
+    with tempfile.TemporaryDirectory() as tmp:
+        orig_dd = ao.DATA_DIR
+        global DATA_DIR
+        try:
+            ao.DATA_DIR = DATA_DIR = Path(tmp)
+            tag_dir = DATA_DIR / "2026" / "06" / "15.06.2026"
+            tag_dir.mkdir(parents=True)
+            df = pd.DataFrame({
+                "time": [1781544600, 1781544601, 1781544602],
+                "open": [100.0, 100.25, 100.5], "high": [100.5, 100.5, 100.75],
+                "low": [99.75, 100.0, 100.25], "close": [100.25, 100.5, 100.5],
+                "volume": [3, 5, 2], "contract": ["NQU2026"] * 3,
+            })
+            df.to_parquet(tag_dir / "NQ 2026-06-15 1s.parquet", index=False)
+            b1s = bars("NQ", "1s")
+            assert len(b1s) == 3, len(b1s)
+            assert b1s[0].t == datetime(2026, 6, 15, 13, 30, tzinfo=NY), b1s[0].t
+            assert b1s[0].v == 3.0, b1s[0].v
+        finally:
+            ao.DATA_DIR = DATA_DIR = orig_dd
 
     _demo_dst()
     print("marktdaten: Selbstcheck ok")
