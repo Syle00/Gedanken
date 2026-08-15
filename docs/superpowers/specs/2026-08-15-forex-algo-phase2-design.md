@@ -82,7 +82,62 @@ wie opening range gap auch erstes fvg nach 9.30 ndog gibt es nicht aber nwog gib
 Forex-Module rufen die betroffenen Funktionen zusätzlich gar nicht erst auf — ein Aufruf, der
 garantiert `None` liefert, gehört nicht in den Code.
 
-### 2.3 Fenstersatz
+### 2.3 Modul-Inventur — dieselbe Frage, auf die vorhandenen Skripte angewandt
+
+Nutzerpräzisierung 2026-08-15: *„nutzen wir die bekannten Module macros, sb tgif etc.
+future only konzepte wie opening range gap und c.e davon entfallen"*. Das Kriterium aus §2.1/§2.2
+wird deshalb hier modul-für-modul durchdekliniert, damit beim Bauen nichts interpretiert werden
+muss.
+
+**Läuft auf Forex — dieselben Module, nur ein anderes Symbol:**
+
+| Modul | Was es misst | Anmerkung |
+|---|---|---|
+| `backtest_macro.py`, `macro_db.py` | Macro-Fenster (:50–:10) | `backtest_macro_forex.py` existiert bereits (Phase 1) |
+| `backtest_tgif.py` | TGIF-Freitagsmuster | reine Wochentagslogik |
+| `backtest_seasonal.py` | Saisonalität | läuft bereits über `--symbol` |
+| `backtest_daily_patterns.py`, `backtest_ohlc.py`, `backtest_nfp_week.py` | Tagesstatistik, NFP-Woche | nur 1d nötig |
+| `backtest_midnight_range_std.py`, `backtest_midnight_range_judas.py` | Midnight OR, Judas Swing | `_std` hat den Forex-Zweig schon |
+| `backtest_fvg_strength.py`, `backtest_hp_fvg.py` | FVG-Stärke, HP-FVG | reine Struktur |
+| `backtest_nwog.py` | Wochenendgap | NWOG existiert im Forex (§2.1) |
+| `backtest_sb_bellwether.py` | Timeframe-Wahl für die Ziel-Liquidität beim SB | variiert nur `levels_bars`, Entry/Stop unverändert |
+| `backtest_1m_gaps.py` | Häufigkeit von 1m-Vakuum | reine Kerzenstatistik; auf 23 Jahren erstmals aussagekräftig |
+| `backtest_risk_compare.py` | fix/GARCH/Kelly auf identischen SB-Signalen | über den Forex-Zwilling der Simulation |
+| `backtest_walkforward.py` | Walk-Forward-Wrapper | dünner Wrapper um `validate.py`, symbol-agnostisch |
+| `liquidity_report.py` | offene Liquidität über 1m/5m/15m/1d | nutzt nur `rules.py`-Bausteine, die alle tragen |
+| `mor_levels.py` | Midnight Opening Range, Quarters, SD-Projektionen | siehe Korrektur unten |
+| `explore_patterns.py` | Mustersuche ohne Vorab-These | rein statistisch |
+
+**Entfällt — futures-only:**
+
+| Modul | Warum |
+|---|---|
+| `backtest_org_ce.py` | ORG C.E. — kein Gap, kein C.E. davon |
+| `backtest_org_std_extrema.py` | ORG-Standardabweichungs-Extrema |
+| `backtest_ndog.py` | NDOG — keine tägliche Handelspause |
+| `backtest_1p_fvg_woche.py` | 1p FVG der Woche |
+| `backtest_1p_mindestgroesse.py` | These lautet wörtlich „das 1.p FVG der NY-AM-Session **nach dem Opening Range Gap**" |
+| `backtest_open_drive_vs_sb.py` | misst die Expansion 09:30–09:50 |
+| alle `RTH`-Varianten | RTH existiert in einem 24/5-Markt nicht |
+
+**Zwei Korrekturen an der Vorgänger-Spec (§6, Gruppe C), beim Durchdeklinieren gefunden:**
+
+1. **`backtest_fvg_specialness.py` ist nicht pauschal futures-only.** Das Modul prüft *drei*
+   Thesen: (1) das 1. FVG nach 9:30 NY, (2) das 1. FVG nach 0:00 NY, (3) das 1. FVG jeder neuen
+   Stunde im 1m-Chart. Nur **These 1** fällt unter den Ausschluss. These 2 (Mitternacht) und
+   These 3 (Stundenwechsel) sind reine Zeitdefinitionen ohne Eröffnungsbezug und laufen auf
+   Forex. Die Vorgänger-Spec ordnete das Modul als Ganzes der Gruppe C zu — zu grob. Für Forex
+   wird These 1 übersprungen, 2 und 3 laufen.
+2. **`mor_levels.py` trägt trotz „first presentation".** Der Begriff bezeichnet dort das erste
+   FVG **innerhalb der 0:00–0:30-Range**, nicht das erste nach 9:30. Mitternachtsbezug, kein
+   Eröffnungsbezug — läuft auf Forex.
+
+**Nicht Teil dieser Spec:** `backtest_fred_events.py`. Das Modul dokumentiert ausdrücklich, dass
+sich die ursprüngliche These mit FRED-Daten *nicht* sauber bauen ließ und deshalb bewusst nicht
+gebaut wurde. Es auf Forex zu übertragen hieße, einen nicht vorhandenen Baustein zu portieren.
+Bleibt, wo es ist.
+
+### 2.4 Fenstersatz
 
 Die drei Silver-Bullet-Fenster bleiben unverändert (gleiches Konzept): London SB 03:00–04:00,
 NY AM 10:00–11:00, NY PM 14:00–15:00. **Zusätzlich** werden die vier Killzones aus
@@ -134,7 +189,7 @@ Meinungsstück" (`CLAUDE.md`, Algo-Trading: Arbeitsstandards).
 algo/forex/
   __init__.py      Paket-Marker, keine Logik
   pnl.py           Pip-Wert, Lot-Sizing, $-P&L, Spread-Kosten, Break-even-Spread
-  rules.py         Fenstersatz (§2.3), sb_entry_signal(), plan_trade(), plan_trade_hp_fvg()
+  rules.py         Fenstersatz (§2.4), sb_entry_signal(), plan_trade(), plan_trade_hp_fvg()
   backtest.py      Strategy-Klasse + Runner (Daten über marktdaten.bars)
   ensemble.py      Forex-Analogon zum MNQ/ES-Feature-Paar
   stress.py        Forex-Krisenfenster
@@ -178,6 +233,37 @@ Der Preis ist reale Duplikation: ein Bugfix in der FVG-Entry-Erkennung muss kün
 Drift-Wächter, der die dupliziert übernommenen Funktionsrümpfe gegen ihre MNQ-Vorlage
 vergleicht und meldet, wenn eine Seite sich bewegt hat und die andere nicht. Damit wird die
 Drift ein sichtbares Ereignis statt eines schleichenden Auseinanderlaufens.
+
+### 4.4 Zwilling oder `--symbol`? Die Trennlinie
+
+Die Modul-Inventur (§2.3) listet vierzehn Module, die auf Forex laufen. Ein Zwilling für jedes
+davon wäre absurd — die meisten sind reine Auswertungsskripte ohne eigene Handelslogik. Es gibt
+deshalb zwei Klassen, und die Grenze verläuft entlang der Frage, ob ein Modul **Handelslogik
+enthält** oder nur **Daten auswertet**:
+
+**Klasse 1 — echter Zwilling in `algo/forex/`:** Module mit Regel-, P&L- oder Sizing-Logik.
+Das sind genau die sieben aus §4.1. Hier ist Duplikation die Nutzerentscheidung.
+
+**Klasse 2 — additiver `--symbol`-Parameter am bestehenden Modul:** die reinen Auswertungs-
+skripte aus §2.3. Ein Flag mit Default `MNQ` **ändert das MNQ-Verhalten nicht** — es fügt einen
+Codepfad hinzu, der ohne das Flag nie betreten wird. Der Regressionsnachweis (§7.2) belegt das
+mechanisch.
+
+**Präzedenzfall, nicht Neuerfindung:** Genau dieses Muster wurde in Phase 1 bereits angewandt
+und vom Nutzer freigegeben — `backtest_seasonal.py`, `backtest_macro.py`, `macro_db.py` und
+`mor_levels.py` haben ihr `--symbol` dort bekommen, `backtest_midnight_range_std.py` sogar einen
+vollen Forex-Zweig. Für `backtest_tgif.py`, `backtest_daily_patterns.py`, `backtest_ohlc.py` und
+`backtest_nfp_week.py` steht es noch aus und wird hier nachgezogen.
+
+**Abgrenzung zur Nutzervorgabe:** „Die aktuellen sollen nicht überschrieben werden" wird gelesen
+als *meine MNQ-Zahlen und mein MNQ-Verhalten müssen unverändert überleben* — nicht als
+*kein Zeichen darf sich in irgendeiner Datei ändern*. Bei einem additiven Default-Flag ist die
+erste Bedingung mechanisch prüfbar erfüllt, während die zweite Lesart vierzehn sinnlose Kopien
+erzwingen würde. Die Kernmodule aus §4.3 bleiben davon unberührt: **die** werden nicht angefasst,
+weder additiv noch sonstwie.
+
+> Falls der Nutzer das anders sieht, ist das die eine Stelle dieser Spec, an der eine Korrektur
+> spürbar mehr Arbeit bedeutet — dann bräuchte Klasse 2 ebenfalls Zwillinge.
 
 ---
 
@@ -295,7 +381,7 @@ Rückgabetyp-Unterschied, kein Parameterwert.
 Portierung von `sb_entry_signal()`, `plan_trade()` und `plan_trade_hp_fvg()` mit **derselben
 Logik**, drei Änderungen:
 
-1. `WINDOWS` wird zu einer Liste mit Herkunftskennzeichnung (SB-Fenster vs. Killzone, §2.3), der
+1. `WINDOWS` wird zu einer Liste mit Herkunftskennzeichnung (SB-Fenster vs. Killzone, §2.4), der
    Fenstername steht im `TradeSetup`, damit der Report je Fenster trennen kann.
 2. Tick-Rundung über `analyze_ohlc.to_tick()` statt über `pnl.round_to_tick()` — gleiche
    Funktion, anderer Einstieg, damit `algo/pnl.py` unberührt bleibt.
@@ -390,25 +476,32 @@ Die Kernbedingung des Nutzers wird **nachgewiesen, nicht behauptet**:
 ## 8. Reihenfolge
 
 1. **Vorarbeit:** `python algo/build_parquet.py` für alle 10 Paare. Der Cache existiert auf
-   diesem Rechner nicht (§1). Zwingend vor dem ersten Backtest, dauert.
-2. MNQ-Baseline einfrieren (§7.2, Schritt 1).
+   diesem Rechner nicht (§1). Zwingend vor dem ersten Backtest, dauert. *(erledigt 2026-08-15:
+   `pyarrow` nachinstalliert, Bau angestoßen)*
+2. MNQ-Baseline einfrieren (§7.2, Schritt 1). *(erledigt 2026-08-15: alle 26 Selbstchecks grün,
+   Ausgabe unter `algo/results/mnq_baseline_2026-08-15.txt`)*
 3. `algo/forex/pnl.py` + Selbstcheck.
 4. `algo/forex/rules.py` + Selbstcheck.
 5. `algo/forex/backtest.py` + Selbstcheck, erster Lauf auf EURUSD.
 6. Break-even-Spread-Achse (§5.4), Ergebnis gegen die Default-Spreads aus §5.3 halten.
 7. `algo/forex/ensemble.py`, `algo/forex/stress.py`.
-8. Validierung über `validate.py` für alle 10 Paare.
-9. MNQ-Regressionsdiff + `git status`-Nachweis (§7.2).
-10. `algo/PLAN.md`, `algo/README.md`, `wiki/synthesis/`, `wiki/log.md` nachziehen.
+8. Klasse-2-Module aus §4.4 nachziehen (`--symbol` für `backtest_tgif.py`,
+   `backtest_daily_patterns.py`, `backtest_ohlc.py`, `backtest_nfp_week.py`), dann die
+   Auswertungsskripte aus §2.3 über die 10 Paare laufen lassen. Bei
+   `backtest_fvg_specialness.py` These 1 überspringen (§2.3, Korrektur 1).
+9. Validierung über `validate.py` für alle 10 Paare.
+10. MNQ-Regressionsdiff + `git status`-Nachweis (§7.2).
+11. `algo/PLAN.md`, `algo/README.md`, `wiki/synthesis/`, `wiki/log.md` nachziehen.
 
-Schlägt Schritt 2 oder 9 fehl, wird gemeldet statt weitergebaut.
+Schlägt Schritt 2 oder 10 fehl, wird gemeldet statt weitergebaut.
 
 **Zuschnitt für die Umsetzung:** Die Schritte 1–6 bilden den ersten Implementierungsplan — an
 ihrem Ende steht eine erste belastbare $-Zahl mit Break-even-Spread auf EURUSD, also der Punkt,
-an dem sich beurteilen lässt, ob der Rest überhaupt lohnt. Die Schritte 7–10 (Ensemble,
-Stress-Test, Vollauswertung über 10 Paare, Dokumentation) bekommen einen eigenen Plan, sobald
-Schritt 6 Zahlen geliefert hat. Grund: Ensemble und Stress-Test bauen auf Kennzahlen auf, die
-Schritt 6 erst erzeugt — sie jetzt schon durchzuplanen hieße, ihre Parameter zu raten.
+an dem sich beurteilen lässt, ob der Rest überhaupt lohnt. Die Schritte 7–11 (Ensemble,
+Stress-Test, Klasse-2-Nachzug, Vollauswertung über 10 Paare, Dokumentation) bekommen einen
+eigenen Plan, sobald Schritt 6 Zahlen geliefert hat. Grund: Ensemble und Stress-Test bauen auf
+Kennzahlen auf, die Schritt 6 erst erzeugt — sie jetzt schon durchzuplanen hieße, ihre Parameter
+zu raten.
 
 ---
 
