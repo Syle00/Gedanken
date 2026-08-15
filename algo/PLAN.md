@@ -529,6 +529,37 @@ Ausserdem ein zweiter, unabhaengiger Bug gefunden und gefixt: der `if __name__ =
 Task 1 uebrig, bei der `main()`-Erweiterung in Task 3 nicht nachgezogen, durch keinen
 Selbstcheck abgedeckt.
 
+**Update 2026-08-15, spaeter Abend -- Gateway-Autostart (`_gateway_sicherstellen()`) reparaiert,
+Root Cause war ausserhalb von `fetch_ibkr.py`:** Nutzer meldete, dass `StartGateway.bat` per
+Doppelklick zuverlaessig startet, per `python fetch_ibkr.py` (also ueber `os.startfile()`) aber
+nicht -- Verdacht Sandbox, war es nicht. Root Cause per systematischem Debugging in IBC's
+eigenem `scripts/StartIBC.bat` (nicht im Repo, lokale IBC-Installation unter `C:\Users\janne\IBC`)
+gefunden, zwei gestapelte Bugs in derselben Zeile (Java-Versions-Erkennung fuer den
+`moduleAccess`-Flag):
+1. `for /f "... usebackq" %%A in (`java.exe ... 2^>^&1 ^| findstr ...`) do set ...` -- ein
+   gepipeter Unterbefehl in Backticks bricht beim nicht-interaktiven Start (`os.startfile`/
+   ShellExecute-Kette statt Explorer-Doppelklick) mit einem cmd.exe-Parserfehler ("'set' kann
+   syntaktisch an dieser Stelle nicht verarbeitet werden") den kompletten Batch-Lauf ab, noch
+   bevor Gateway ueberhaupt startet -- reproduziert: kein `java`-Prozess entsteht, IBC-Log
+   bricht exakt an dieser Zeile ab.
+2. Nach Umbau auf eine pipe-freie Variante (Zwischendatei statt Backtick-Pipe) zweiter,
+   unabhaengiger Fund: `pushd "%JAVA_PATH%"` + nacktes `java.exe` (IBC's eigener Workaround-
+   Kommentar dazu: "using %JAVA_PATH%\\java.exe ... causes an error") schlaegt fehl, weil auf
+   diesem Rechner `NoDefaultCurrentDirectoryInExePath=1` (Machine-Env-Var) gesetzt ist -- Windows
+   sucht dann nicht mehr im Arbeitsverzeichnis nach unqualifizierten .exe-Namen, `dir /b
+   java.exe` findet die Datei, aber `java.exe -version` scheitert mit "Befehl nicht gefunden".
+   Fix: vollqualifizierter Pfad `"%JAVA_PATH%\java.exe"` statt `pushd`+nacktem Namen (der
+   urspruengliche IBC-Kommentar bezog sich vermutlich auf den *gepipeten* Backtick-Fehler aus
+   Punkt 1, nicht auf den vollen Pfad an sich).
+
+Lokal in `C:\Users\janne\IBC\scripts\StartIBC.bat` gepatcht (Backup als `StartIBC.bat.bak-
+2026-08-15` daneben abgelegt) -- Datei liegt ausserhalb des Repos, ueberlebt also kein IBC-
+Update; bei einem IBC-Upgrade muss dieser Fix erneut angewendet werden. Verifiziert:
+`python algo/fetch_ibkr.py --verify --symbol NQ` startet Gateway jetzt automatisch und meldet
+"Gateway erreichbar nach 12s." (vorher: 3 Min. Timeout, nie erreichbar). `fetch_ibkr.py` selbst
+brauchte keine Code-Aenderung -- der Bug lag komplett in der vom Nutzer verwalteten
+IBC-Installation.
+
 **Beobachtung fuer den echten Backfill:** Trotz `PacingLimiter` (60 Requests/10 Min,
 min. 0,5s Abstand) traten bei mehreren Testlaeufen wiederholt Pacing-Violations auf, meist
 in der zweiten Haelfte eines 46-Fenster-Laufs fuer ein Symbol -- IBKRs tatsaechliche
