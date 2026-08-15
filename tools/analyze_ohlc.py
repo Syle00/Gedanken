@@ -191,11 +191,16 @@ def pruefe_kerzen(kerzen, symbol: str | None = None, quelle: str = "") -> list[s
                     weich.append(f"ts={ts}: {name} {x} liegt nicht auf dem {tick}-Raster")
 
     anteil = degeneriert / len(kerzen)
-    if len(kerzen) >= DEGEN_MIN_BARS and anteil > DEGEN_MAX_ANTEIL:
+    abstaende = [b - a for a, b in zip(ts_liste, ts_liste[1:])]
+    median_abstand = statistics.median(abstaende) if abstaende else None
+    # Auf 1s-Aufloesung ist ein degenerierter Bar der normale Abwaerts-Tick (erster Trade
+    # ist Hoechst-, letzter Tiefstpreis der Sekunde) -- kein Rauschen, das den Nutzer
+    # interessiert. Median-Abstand <=5s ist das verlaessliche Signal dafuer (Design SS7).
+    if (len(kerzen) >= DEGEN_MIN_BARS and anteil > DEGEN_MAX_ANTEIL
+            and (median_abstand is None or median_abstand > 5)):
         meldung = (f"{degeneriert} von {len(kerzen)} Kerzen degeneriert "
                    f"(open==high & low==close, {anteil:.0%})")
-        abstaende = [b - a for a, b in zip(ts_liste, ts_liste[1:])]
-        taeglich = abstaende and statistics.median(abstaende) >= DAILY_SEKUNDEN
+        taeglich = median_abstand is not None and median_abstand >= DAILY_SEKUNDEN
         (hart if taeglich else weich).append(
             meldung + (" -- Feed-Defekt" if taeglich else " -- duenner Intraday-Feed?"))
     if hart:
@@ -240,6 +245,14 @@ def demo_pruefe_kerzen() -> None:
     viele_tgl = [(i * tag, 100 + i, 100 + i, 98 + i, 98 + i) for i in range(50)]
     viele_1m = [(i * 60, 100 + i, 100 + i, 98 + i, 98 + i) for i in range(50)]
     assert pruefe_kerzen(viele_1m), "Intraday-Haeufung muss als weicher Hinweis kommen"
+
+    # 1s-Aufloesung: derselbe hohe Degeneriert-Anteil ist der NORMALE Abwaerts-Tick
+    # (erster Trade der Sekunde ist der hoechste, letzter der tiefste) und darf ueberhaupt
+    # keinen Hinweis ausloesen -- weder hart noch weich. Median-Abstand 1s liegt bei
+    # DEGEN_MIN_BARS=20 Kerzen klar unter der 5s-Schwelle aus Design SS7.
+    viele_1s = [(i * 1, 100 + i, 100 + i, 98 + i, 98 + i) for i in range(50)]
+    assert pruefe_kerzen(viele_1s) == [], \
+        "1s-Daten mit hohem Degeneriert-Anteil muessen komplett durchgehen"
 
     # Close ausserhalb High/Low = Settlement-Effekt (weich), Open ausserhalb = Defekt (hart)
     assert pruefe_kerzen([(0, 100.0, 101.0, 99.0, 98.0)]), "Close unter Low muss gemeldet werden"
