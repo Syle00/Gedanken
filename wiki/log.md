@@ -2463,3 +2463,21 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Seiten aktualisiert: keine (Wiki-Seiten folgen, sobald die ersten Forex-Zahlen vorliegen —
   eine Konzeptseite zur Eröffnungsauktions-Unterscheidung ist in der Spec als Schritt 10 vorgemerkt)
 - Protokoll: algo/PLAN.md (3 Einträge: Spec-Entscheidungen, Killzone-Diskrepanz, Vorarbeit)
+
+## [2026-08-15] synthesis | Forex-Algo gebaut, erstes Ergebnis auf EURUSD
+- Seiten erstellt: wiki/synthesis/Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend).md
+- Seiten aktualisiert: wiki/index.md
+- Code: algo/forex/{__init__,pnl,rules,backtest,selfcheck}.py — die MNQ-Konzepte auf dem
+  Forex-Bestand, abzüglich der 9:30-gebundenen Futures-Only-Konzepte. Keine MNQ-Datei angefasst
+  (nachgewiesen: 26/26 Selbstchecks bitgleich zur Baseline).
+- Erstes Ergebnis EURUSD 5m 2015–2019: 871 Trades, 18,3 % Treffer, −95.062 USD. Einziges
+  positives Fenster: London Silver Bullet (+3.651 USD, 160 Trades) — als offene Hypothese
+  notiert, nicht als Befund, weil der Abstand zum Rauschen klein ist.
+- ⚠️ Drei Zahlen, ohne die die Tabelle irreführend wäre, stehen auf der Seite: dubious_pct
+  28,6 % (Ergebnis ist eine Untergrenze), 85 % der Setups mit Stop enger als der Spread,
+  Spread gesetzt statt gemessen.
+- Strukturbefund: 1h und gröber sind für fensterbasierte Setups arithmetisch unbrauchbar —
+  ein SB-Fenster ist eine Stunde, darin passt auf 1h-Kerzen keine 3-Kerzen-Formation.
+- Für die ORG-C.E.-70-%-These festgehalten: über Forex nicht absicherbar (fällt unter den
+  Ausschluss), bleibt auf der MNQ-Stichprobe und weiterhin unter Beobachtung.
+- Protokoll: algo/PLAN.md (3 Einträge), algo/README.md (Modulabschnitt algo/forex/)

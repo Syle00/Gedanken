@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">141</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">348</span></a></li>
+<li class="active"><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Synthese</div><ul class="pagelist">
+<li><a href="../p/ensemble-strategie-backtest-ergebnis-commission-verzerrung-laufend.html">Ensemble-Strategie — Backtest-Ergebnis &amp; Commission-Verzerrung (laufend)</a></li>
+<li class="here"><a href="../p/forex-algo-ict-konzepte-auf-23-jahren-laufend.html">Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend)</a></li>
+<li><a href="../p/fvg-staerke-session-volatilitaet-confluence-laufend.html">FVG-Stärke, Session-Volatilität &amp; Confluence (laufend)</a></li>
+<li><a href="../p/high-probability-fvg-icts-kriterien-gegen-eigene-daten-laufend.html">High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend)</a></li>
+<li><a href="../p/journal-auswertung.html">Journal-Auswertung</a></li>
+<li><a href="../p/kw32-2026-weekly-review.html">KW32 2026 — Weekly Review</a></li>
+<li><a href="../p/machine-learning-fuer-den-algo-bewertung-laufend.html">Machine Learning für den Algo — Bewertung (laufend)</a></li>
+<li><a href="../p/macro-datenbank-laufend.html">Macro-Datenbank (laufend)</a></li>
+<li><a href="../p/makro-fred-zusammenhaenge-eigene-daten-laufend.html">Makro-FRED-Zusammenhaenge (Eigene Daten, laufend)</a></li>
+<li><a href="../p/mentorship-2025.html">MentorShip 2025</a></li>
+<li><a href="../p/mnq-2026-07-31-datenbasierter-tagesrueckblick.html">MNQ 2026-07-31 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/mnq-2026-08-03-datenbasierter-tagesrueckblick.html">MNQ 2026-08-03 — Datenbasierter Tagesrückblick</a></li>
+<li><a href="../p/mnq-2026-08-13-mor-fvg.html">MNQ 2026-08-13 — MOR &amp; FVG</a></li>
+<li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a></li>
+<li><a href="../p/quant-finance-formeln-fuer-den-mnq-algo-laufend.html">Quant-Finance-Formeln für den MNQ-Algo (laufend)</a></li>
+<li><a href="../p/risk-management-vergleich-laufend.html">Risk-Management-Vergleich (laufend)</a></li>
+<li><a href="../p/seasonal-tendency-eigene-daten-laufend.html">Seasonal Tendency (Eigene Daten, laufend)</a></li>
+<li><a href="../p/statistische-muster-jenseits-der-ict-konzepte-laufend.html">Statistische Muster jenseits der ICT-Konzepte (laufend)</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#synthesis">Synthese</a></div>
+  <h1>Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">forex</span> <span class="tag">backtest</span> <span class="tag">laufend</span></div><div class="dates">erstellt 2026-08-15 · aktualisiert 2026-08-15</div><div class="srcline"><span>Quellen:</span> <a href="../p/silver-bullet-model.html">Silver Bullet Model</a>, <a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a>, <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#was-ubertragen-wurde-und-was-nicht">Was übertragen wurde und was nicht</a></li>
+<li><a href="#erstes-ergebnis-silver-bullet-auf-eurusd-stand-2026-08-15">Erstes Ergebnis: Silver Bullet auf EURUSD (Stand 2026-08-15)</a><ul>
+<li><a href="#drei-zahlen-ohne-die-die-tabelle-irrefuhrend-ware">Drei Zahlen, ohne die die Tabelle irreführend wäre</a></li>
+</ul>
+</li>
+<li><a href="#offene-hypothesen-werden-mit-jedem-lauf-aktualisiert">Offene Hypothesen (werden mit jedem Lauf aktualisiert)</a></li>
+<li><a href="#strukturbefunde-unabhangig-vom-ergebnis">Strukturbefunde (unabhängig vom Ergebnis)</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="forex-algo-ict-konzepte-auf-23-jahren-laufend">Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend)</h1>
+<p>Diese Seite hält fest, wie sich die ICT-Konzepte aus diesem Vault schlagen, wenn man sie <strong>auf
+zehn Währungspaare über 23 Jahre</strong> loslässt statt auf die zweistellige MNQ-Tagesmenge. Sie wächst
+mit jedem Lauf; ältere Zahlen werden ersetzt, nicht als Schnappschuss stehengelassen.</p>
+<p>Technischer Unterbau: <code>algo/forex/</code> (Regel-, P&amp;L- und Simulationsschicht), Spec
+<code>docs/superpowers/specs/2026-08-15-forex-algo-phase2-design.md</code>. Die MNQ-Module bleiben davon
+unberührt — beide Serien laufen getrennt.</p>
+<h2 id="was-ubertragen-wurde-und-was-nicht">Was übertragen wurde und was nicht</h2>
+<p>Kriterium ist ein einziger Satz: <strong>setzt das Konzept die 9:30-Eröffnung als Ereignis voraus?</strong>
+Ein 24/5-Markt hat weder Schluss noch Eröffnung.</p>
+<p><strong>Läuft auf Forex:</strong> <a href="../p/silver-bullet-model.html">Silver Bullet Model</a> (1st presented FVG <em>im Fenster</em>), [[Fair Value Gap
+(FVG)]] inkl. Stärke-Einstufung, Swings/MSS, High-Probability-FVG, Liquiditäts-Level,
+<span class="broken" title="Seite existiert noch nicht">IPDA</span>-Fenster, <a href="../p/ict-killzones.html">Killzones</a>, <a href="../p/midnight-opening-range.html">Midnight Opening Range</a>, Macros, <strong>NWOG</strong>
+(Wochenendgap Fr 17:00 → So 17:01 ist real und im Bestand belegt), 1 %-Risiko, Kill-Switch.</p>
+<p><strong>Entfällt:</strong> <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG</a> und dessen C.E.,
+ORG-Standardabweichungs-Extrema, 1.p FVG des Tages und der Woche, 1p-Mindestgröße, erstes FVG
+nach 9:30, Open Drive, <strong>NDOG</strong>, alle RTH-Varianten.</p>
+<blockquote>
+<p>Folge für die <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG-C.E.-70-%-These</a>: Sie lässt
+sich über Forex <strong>nicht</strong> breiter absichern und bleibt auf der MNQ-Stichprobe (dort aktuell
+35–43 %). Jannes hat sie ausdrücklich als „weiter beobachten" markiert — sie bleibt bestehen
+und wird weiter kommentiert, nicht abgehakt.</p>
+</blockquote>
+<h2 id="erstes-ergebnis-silver-bullet-auf-eurusd-stand-2026-08-15">Erstes Ergebnis: Silver Bullet auf EURUSD (Stand 2026-08-15)</h2>
+<p>EURUSD, 5m, 2015-01-01 bis 2019-12-31, 372.971 Kerzen. Startkapital 100.000 USD, 1 % Risiko je
+Trade — identisch zur MNQ-Seite, damit die Serien vergleichbar sind. Kill-Switch aus (mit ihm
+misst ein Mehrjahres-Lauf überwiegend ihn selbst, siehe unten).</p>
+<table>
+<thead>
+<tr>
+<th>Fenster</th>
+<th style="text-align: right;">Trades</th>
+<th style="text-align: right;">Netto USD</th>
+<th style="text-align: right;">Treffer %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KZ London Close (10–12)</td>
+<td style="text-align: right;">185</td>
+<td style="text-align: right;">−30.802</td>
+<td style="text-align: right;">18,4</td>
+</tr>
+<tr>
+<td>NY AM Silver Bullet (10–11)</td>
+<td style="text-align: right;">164</td>
+<td style="text-align: right;">−26.192</td>
+<td style="text-align: right;">17,7</td>
+</tr>
+<tr>
+<td><strong>London Silver Bullet (3–4)</strong></td>
+<td style="text-align: right;"><strong>160</strong></td>
+<td style="text-align: right;"><strong>+3.651</strong></td>
+<td style="text-align: right;"><strong>21,2</strong></td>
+</tr>
+<tr>
+<td>KZ London (2–5)</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">−27.272</td>
+<td style="text-align: right;">10,6</td>
+</tr>
+<tr>
+<td>KZ NY-Forex (7–10)</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: right;">−5.788</td>
+<td style="text-align: right;">20,4</td>
+</tr>
+<tr>
+<td>KZ NY (7–9)</td>
+<td style="text-align: right;">95</td>
+<td style="text-align: right;">−6.802</td>
+<td style="text-align: right;">20,0</td>
+</tr>
+<tr>
+<td>NY PM Silver Bullet (14–15)</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">−1.724</td>
+<td style="text-align: right;">22,2</td>
+</tr>
+<tr>
+<td>KZ Asia (nachts, 0:00–0:30)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">−133</td>
+<td style="text-align: right;">0,0</td>
+</tr>
+<tr>
+<td><strong>Gesamt</strong></td>
+<td style="text-align: right;"><strong>871</strong></td>
+<td style="text-align: right;"><strong>−95.062</strong></td>
+<td style="text-align: right;"><strong>18,3</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lesart, ehrlich:</strong> Der Silver Bullet in der von MNQ übernommenen Parametrierung <strong>funktioniert
+auf EURUSD 5m nicht</strong>. Bei einem Chance-Risiko-Verhältnis um 3:1 läge die Break-even-Trefferquote
+bei rund 25 %; erreicht werden 18,3 %. Das Konto wäre von 100.000 auf 4.938 USD gefallen.</p>
+<p><strong>Das eine positive Fenster ist noch kein Befund.</strong> London Silver Bullet (+3.651 USD bei 160
+Trades) ist der einzige Lichtblick, und er passt zur Erwartung, dass Forex-Volumen in London
+liegt. Aber bei 21,2 % Trefferquote und dieser Stichprobe ist der Abstand zum Rauschen klein —
+das ist eine Hypothese für den nächsten Lauf, kein Ergebnis. Erst Walk-Forward über die vollen
+23 Jahre und die übrigen neun Paare entscheiden das.</p>
+<h3 id="drei-zahlen-ohne-die-die-tabelle-irrefuhrend-ware">Drei Zahlen, ohne die die Tabelle irreführend wäre</h3>
+<ul>
+<li><strong><code>dubious_pct</code> = 28,6 %.</strong> Bei über einem Viertel aller Trades liegt der Stop in der
+  Entry-Kerze oder Stop und Ziel in derselben Kerze. Aus OHLC ist dort nicht rekonstruierbar,
+  was zuerst geschah; aufgelöst wird zugunsten des Stops. Die Tabelle ist damit eine
+  <strong>Untergrenze</strong>, keine Punktschätzung.</li>
+<li><strong>85 % aller Setups werden gar nicht gehandelt.</strong> 5.895 von 6.964 Setups haben einen Stop
+  unter 3 Pips — also enger als der Spread. Der MNQ-Parameter „10 % der FVG-Größe als Puffer"
+  ergibt auf 5m-Forex Stops im Rauschbereich (Median 1,2 Pips, Minimum 0,2). Ohne diesen Filter
+  misst der Backtest die Mikrostruktur des Datenfeeds, nicht die Regel.</li>
+<li><strong>Der Spread ist gesetzt, nicht gemessen.</strong> Der Bestand ist reines Bid. Deshalb ist die
+  belastbare Kennzahl der Break-even-Spread, nicht der $-Betrag.</li>
+</ul>
+<h2 id="offene-hypothesen-werden-mit-jedem-lauf-aktualisiert">Offene Hypothesen (werden mit jedem Lauf aktualisiert)</h2>
+<ul>
+<li><strong>London Silver Bullet trägt, die NY-Fenster nicht.</strong> Einziges positives Fenster im ersten
+  Lauf. Zu prüfen: hält das über 23 Jahre und über die anderen neun Paare?</li>
+<li><strong>NY-Killzone 7–9 oder 7–10?</strong> <code>analyze_ohlc.KILLZONES</code> sagt 7–9, [[ICT Daily Range Session
+  Timing]] sagt für Forex ausdrücklich 7–10. Beide laufen als getrennte Fenster mit. Erster
+  Lauf: 7–10 verliert weniger (−5.788 gegen −6.802) bei mehr Trades — kein Unterschied, der
+  etwas beweist.</li>
+<li><strong>Ist die Parametrierung schuld oder das Konzept?</strong> Die 3-Pips-Untergrenze legt nahe, dass
+  <code>stop_buffer_pct</code> für Forex neu bestimmt werden muss statt von MNQ übernommen zu werden. Eine
+  Sensitivitätsanalyse steht aus.</li>
+<li><strong>Zwei Liquiditätsregime.</strong> Bis 2011 haben 10–24 % der Minuten keinen Kursdruck, ab 2012 unter
+  1 %. Ergebnisse aus beiden Zeiträumen sind nicht ohne Weiteres vergleichbar — künftige Läufe
+  werden getrennt ausgewiesen.</li>
+</ul>
+<h2 id="strukturbefunde-unabhangig-vom-ergebnis">Strukturbefunde (unabhängig vom Ergebnis)</h2>
+<ul>
+<li><strong>1h und gröber sind für fensterbasierte Setups unbrauchbar.</strong> Ein Silver-Bullet-Fenster ist
+  genau eine Stunde; auf 1h-Kerzen passt darin keine 3-Kerzen-FVG-Formation. Gemessen: 0 Trades.
+  Praktische Untergrenze ist 15m (vier Kerzen je Fenster, also genau eine mögliche Formation).</li>
+<li><strong>Der Drawdown-Kill-Switch ist für Mehrjahresläufe untauglich.</strong> Mit den MNQ-Defaults blockiert
+  er 1.065 von 1.109 Setups — das ist sein eigenes dokumentiertes Verhalten (ohne offene Position
+  bewegt sich die Equity nicht, also entsteht kein neues Hoch, also hebt er sich nie auf). Für
+  die Frage „trägt die Regel?" gehört er aus, für „wäre das handelbar?" hinein.</li>
+</ul>
+<h2 id="verwandt">Verwandt</h2>
+<p><a href="../p/silver-bullet-model.html">Silver Bullet Model</a> · <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a> · <a href="../p/ict-killzones.html">ICT Killzones</a> ·
+<a href="../p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a> · <a href="../p/fvg-staerke-session-volatilitaet-confluence-laufend.html">FVG-Stärke, Session-Volatilität &amp; Confluence (laufend)</a> ·
+<a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a> · <a href="../p/risk-management-vergleich-laufend.html">Risk-Management-Vergleich (laufend)</a></p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/synthesis/Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

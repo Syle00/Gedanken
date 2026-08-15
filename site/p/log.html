@@ -24,7 +24,7 @@
 <li><a href="../index.html#concepts">Konzepte<span class="count">141</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">348</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">17</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
@@ -198,6 +198,7 @@
 <li><a href="#2026-08-15-setup-forex-backtesting-infrastruktur-umgesetzt">[2026-08-15] setup | Forex-Backtesting-Infrastruktur umgesetzt</a></li>
 <li><a href="#2026-08-15-setup-automatische-raw-einsortierung-regel-erstlauf">[2026-08-15] setup | Automatische raw/-Einsortierung (Regel + Erstlauf)</a></li>
 <li><a href="#2026-08-15-setup-forex-algo-phase-2-design-spec-konzept-inventur">[2026-08-15] setup | Forex-Algo Phase 2 — Design-Spec + Konzept-Inventur</a></li>
+<li><a href="#2026-08-15-synthesis-forex-algo-gebaut-erstes-ergebnis-auf-eurusd">[2026-08-15] synthesis | Forex-Algo gebaut, erstes Ergebnis auf EURUSD</a></li>
 </ul>
 </div>
 </details>
@@ -2810,6 +2811,25 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Seiten aktualisiert: keine (Wiki-Seiten folgen, sobald die ersten Forex-Zahlen vorliegen —
   eine Konzeptseite zur Eröffnungsauktions-Unterscheidung ist in der Spec als Schritt 10 vorgemerkt)</li>
 <li>Protokoll: algo/PLAN.md (3 Einträge: Spec-Entscheidungen, Killzone-Diskrepanz, Vorarbeit)</li>
+</ul>
+<h2 id="2026-08-15-synthesis-forex-algo-gebaut-erstes-ergebnis-auf-eurusd">[2026-08-15] synthesis | Forex-Algo gebaut, erstes Ergebnis auf EURUSD</h2>
+<ul>
+<li>Seiten erstellt: wiki/synthesis/Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend).md</li>
+<li>Seiten aktualisiert: wiki/index.md</li>
+<li>Code: algo/forex/{<strong>init</strong>,pnl,rules,backtest,selfcheck}.py — die MNQ-Konzepte auf dem
+  Forex-Bestand, abzüglich der 9:30-gebundenen Futures-Only-Konzepte. Keine MNQ-Datei angefasst
+  (nachgewiesen: 26/26 Selbstchecks bitgleich zur Baseline).</li>
+<li>Erstes Ergebnis EURUSD 5m 2015–2019: 871 Trades, 18,3 % Treffer, −95.062 USD. Einziges
+  positives Fenster: London Silver Bullet (+3.651 USD, 160 Trades) — als offene Hypothese
+  notiert, nicht als Befund, weil der Abstand zum Rauschen klein ist.</li>
+<li>⚠️ Drei Zahlen, ohne die die Tabelle irreführend wäre, stehen auf der Seite: dubious_pct
+  28,6 % (Ergebnis ist eine Untergrenze), 85 % der Setups mit Stop enger als der Spread,
+  Spread gesetzt statt gemessen.</li>
+<li>Strukturbefund: 1h und gröber sind für fensterbasierte Setups arithmetisch unbrauchbar —
+  ein SB-Fenster ist eine Stunde, darin passt auf 1h-Kerzen keine 3-Kerzen-Formation.</li>
+<li>Für die ORG-C.E.-70-%-These festgehalten: über Forex nicht absicherbar (fällt unter den
+  Ausschluss), bleibt auf der MNQ-Stichprobe und weiterhin unter Beobachtung.</li>
+<li>Protokoll: algo/PLAN.md (3 Einträge), algo/README.md (Modulabschnitt algo/forex/)</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

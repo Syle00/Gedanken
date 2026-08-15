@@ -543,6 +543,7 @@ ausstehend).
 
 ## Synthesis
 
+- [[Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend)]] — die MNQ-Konzepte auf 10 Paaren statt einer zweistelligen Tagesmenge: Silver Bullet verliert auf EURUSD 5m über 5 Jahre (871 Trades, 18,3 % Treffer), einzig das Londoner Fenster ist positiv; 85 % aller Setups haben einen Stop enger als der Spread (2026-08-15)
 - [[FVG-Stärke, Session-Volatilität & Confluence (laufend)]] — **generiert** aus 27 MNQ-Tagen: der 9:30-Open trägt die 2,8-fache FVG-Größe von London, das Verhältnis FVG÷Kerze ist aber überall ≈0,45; HTF-Qs-Confluence hält, NDOG-Confluence nicht (2026-08-13)
 - [[High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend)]] — ICTs HP-Kriterien gegen 7.375 MNQ-FVGs: Vortageshälfte hält, Killzone bringt nichts, sofortiges Rebalance ist negativ, 98 % nicht reproduzierbar (2026-08-14)
 - [[Journal-Auswertung]] — **generiert** aus `raw/journal/`: Erfüllungsquote je Checklistenpunkt über 21 Einträge, verknüpft mit den zuständigen Wiki-Seiten; Ausreißer ist „Entry" mit 24 % (2026-08-02)

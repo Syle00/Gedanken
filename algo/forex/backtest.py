@@ -298,7 +298,8 @@ def lauf(symbol: str, bars: list[Bar], kurse_je_tag: dict[date, dict[str, float]
                                                                     killswitch_pct):
                 erg.killswitch_blockiert += 1
                 continue
-            tr = simuliere_setup(setup, tagesbars[start_idx:], symbol, sp, kurse, equity)
+            tr = simuliere_setup(setup, tagesbars[start_idx:], symbol, sp, kurse, equity,
+                                 dubious_aufloesung)
             if tr is None:
                 continue
             if tr.pnl_usd is None:
@@ -401,6 +402,17 @@ def demo() -> None:
     assert tr is not None and tr.grund == "stop", tr.grund
     assert tr.dubious, "Stop in der Entry-Kerze MUSS als dubious gelten"
     assert tr.t_exit == tr.t_entry, (tr.t_entry, tr.t_exit)
+
+    # --- Einklammerung: optimistische Aufloesung dreht NUR unbestimmte Faelle -----------
+    tr_opt = simuliere_setup(setup_l, folge_d, sym, s_pips, kurse, START_CASH,
+                             dubious_aufloesung="target")
+    assert tr_opt is not None and tr_opt.grund == "target" and tr_opt.dubious, tr_opt.grund
+    # Ein eindeutiger Stop-Out (Ziel nie beruehrt) bleibt auch optimistisch ein Stop-Out.
+    folge_klar = [b(10, 1, 1.10010, 1.10020, 1.09985, 1.10000),
+                  b(10, 2, 1.10000, 1.10010, 1.09880, 1.09890)]
+    tr_klar = simuliere_setup(setup_l, folge_klar, sym, s_pips, kurse, START_CASH,
+                              dubious_aufloesung="target")
+    assert tr_klar is not None and tr_klar.grund == "stop", tr_klar.grund
 
     # --- Rollover-Glattstellung ---------------------------------------------------------
     # Eine Kerze um 17:30 darf nicht mehr gehandelt werden.
@@ -506,6 +518,9 @@ def main(argv=None) -> int:
     ap.add_argument("--bis", default=None, help="JJJJ-MM-TT")
     ap.add_argument("--fenster", nargs="*", default=None)
     ap.add_argument("--min-stop-pips", type=float, default=3.0)
+    ap.add_argument("--dubious-optimistisch", action="store_true",
+                    help="Unbestimmte Fills zugunsten des Ziels aufloesen statt des Stops. "
+                         "NICHT die Handelsannahme -- nur die Gegengrenze zur Einklammerung.")
     ap.add_argument("--no-killswitch", action="store_true",
                     help="Drawdown-Kill-Switch aus. Fuer die Frage 'traegt die Regel?' -- "
                          "mit Kill-Switch misst ein Mehrjahres-Lauf ueberwiegend ihn selbst.")
@@ -539,8 +554,9 @@ def main(argv=None) -> int:
             kurse_je_tag[tag] = {}
 
     ks = None if a.no_killswitch else killswitch.DEFAULT_MAX_DRAWDOWN_PCT
+    aufl = "target" if a.dubious_optimistisch else "stop"
     erg = lauf(a.symbol, bars, kurse_je_tag, fenster=a.fenster,
-               min_stop_pips=a.min_stop_pips, killswitch_pct=ks)
+               min_stop_pips=a.min_stop_pips, killswitch_pct=ks, dubious_aufloesung=aufl)
 
     flach = sum(1 for b in bars if b.o == b.h == b.l == b.c)
     be = None
@@ -552,7 +568,8 @@ def main(argv=None) -> int:
             a.symbol)
     print(f"Zeitraum: {bars[0].t.date()} .. {bars[-1].t.date()}   "
           f"Kerzen: {len(bars):,}   TF: {a.tf}   min_stop_pips: {a.min_stop_pips}   "
-          f"Kill-Switch: {'aus' if ks is None else f'{ks:.0%}'}")
+          f"Kill-Switch: {'aus' if ks is None else f'{ks:.0%}'}   "
+          f"dubious->{aufl}")
     print(bericht(erg, flat_quote=100.0 * flach / len(bars), be_spread=be))
     return 0
 
