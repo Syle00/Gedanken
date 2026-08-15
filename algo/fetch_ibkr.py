@@ -83,6 +83,41 @@ class PacingLimiter:
         self._times.append(self._clock())
 
 
+def day_windows(day: date) -> list[tuple[datetime, datetime]]:
+    """46 Fenster a 30 Minuten: 18:00 NY des Vortages bis 17:00 NY `day`, als UTC-Paare.
+    Arithmetik laeuft auf tz-awaren NY-Zeitstempeln -- ein Fenster ueber einen DST-Wechsel
+    bleibt dadurch korrekt (kein manueller Offset noetig, siehe marktdaten.py-Kommentar
+    zum WANDUHR_TF-Fehlertyp, den wir hier bewusst vermeiden)."""
+    start = datetime.combine(day - timedelta(days=1), datetime.min.time(), tzinfo=NY).replace(hour=18)
+    end = datetime.combine(day, datetime.min.time(), tzinfo=NY).replace(hour=17)
+    out = []
+    cur = start
+    while cur < end:
+        nxt = cur + timedelta(seconds=WINDOW_SECONDS)
+        out.append((cur.astimezone(UTC), nxt.astimezone(UTC)))
+        cur = nxt
+    return out
+
+
+def register_load(path: Path = REGISTER) -> set[tuple[str, int, int]]:
+    """(symbol, von, bis) aller bereits erfolgreich geholten Fenster, als UNIX-Sekunden."""
+    if not path.exists():
+        return set()
+    with path.open(newline="", encoding="utf-8") as fh:
+        return {(r["symbol"], int(r["von"]), int(r["bis"])) for r in csv.DictReader(fh)}
+
+
+def register_append(rows: list[dict], path: Path = REGISTER) -> None:
+    """Haengt Zeilen an -- schreibt den Header nur, wenn die Datei neu angelegt wird."""
+    neu = not path.exists()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=REGISTER_HEADER)
+        if neu:
+            w.writeheader()
+        w.writerows(rows)
+
+
 def _demo() -> None:
     # Front-Monat: Tag vor und nach einem bekannten Roll (Verfall - 8 Tage) muss
     # unterschiedliche Kontrakte liefern, und der Roll-Termin selbst zaehlt schon zum
@@ -116,6 +151,35 @@ def _demo() -> None:
         limiter.wait()
     assert clock_state["t"] - start >= 600.0, \
         f"61 Requests dauerten nur {clock_state['t'] - start}s, muessen >= 600s sein"
+
+    # Fenster-Zerlegung: genau 46 Fenster, erstes beginnt 18:00 NY des Vortages,
+    # letztes endet 17:00 NY -- inklusive eines Tages ueber einen DST-Wechsel.
+    normal_tag = date(2026, 6, 15)
+    windows = day_windows(normal_tag)
+    assert len(windows) == 46, len(windows)
+    assert windows[0][0] == datetime(2026, 6, 14, 18, 0, tzinfo=NY).astimezone(UTC)
+    assert windows[-1][1] == datetime(2026, 6, 15, 17, 0, tzinfo=NY).astimezone(UTC)
+
+    dst_tag = date(2026, 11, 2)  # "fall back" 2026 faellt auf den 1. November
+    dst_windows = day_windows(dst_tag)
+    assert len(dst_windows) == 46, \
+        f"DST-Tag muss trotzdem 46 Fenster liefern, waren {len(dst_windows)}"
+
+    # Register-Resume: nach simuliertem Abbruch werden nur die fehlenden Fenster erkannt.
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        reg_path = Path(tmp) / "1s-abdeckung.csv"
+        alle_fenster = {(int(a.timestamp()), int(b.timestamp())) for a, b in windows[:10]}
+        geholt = set(list(alle_fenster)[:6])
+        register_append(
+            [{"symbol": "NQ", "von": v, "bis": b, "kontrakt": "NQU2026",
+              "kerzen": 1800, "geholt_am": 1786838400} for v, b in geholt],
+            path=reg_path)
+        vorhanden = register_load(reg_path)
+        assert vorhanden == {("NQ", v, b) for v, b in geholt}
+        fehlend = alle_fenster - {(v, b) for _, v, b in vorhanden}
+        assert len(fehlend) == 4, "nur die 4 nicht geholten Fenster duerfen fehlend sein"
+
     print("fetch_ibkr front_month/PacingLimiter demo ok")
 
 
