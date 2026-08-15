@@ -263,14 +263,25 @@ Importieren ist kein Überschreiben. Diese Module bleiben unverändert und werde
 | `tools/analyze_ohlc.py` | `Bar`, `fvgs()`, `swings()`, `hp_context()`, `untouched_levels()`, `KILLZONES`, `TICK_SIZE`, `to_tick()`, `SESSION_TYP`, `PIP_SIZE`, Guard |
 | `algo/marktdaten.py` | `bars(symbol, tf, von, bis)` — Tagesgrenze und DST-Anker bereits korrekt |
 | `algo/backtest_common.py` | `load_rows()`, `pearson()`, `write_result()` |
-| `algo/validate.py` | `run()`, `parameter_sensitivity()`, `walk_forward()`, `monte_carlo()`, `double_bootstrap_drawdown()` — vollständig symbol-agnostisch |
+| `algo/validate.py` | `monte_carlo()`, `double_bootstrap_drawdown()` — arbeiten auf reinen Zahlenreihen. **Nicht** `run()`/`walk_forward()`, siehe Korrektur unten |
 | `algo/risk_fixed.py`, `risk_kelly.py`, `risk_garch.py` | einheitliches `risk_pct(...)`-Interface |
 | `algo/risk_killswitch.py` | `allowed(peak, current)` |
 | `algo/confidence.py` | `bar_metrics(trades, df)` |
 
-**Befund, der den Zuschnitt trägt:** `validate.py` nimmt `(df, strategy_cls, bt_kwargs)` und
-kennt kein Symbol. Die gesamte Validierungsstufe der Roadmap ist damit ohne jede Duplikation
-nutzbar.
+> ⚠️ **Korrektur beim Bauen am 2026-08-15.** Die erste Fassung dieser Spec behauptete,
+> `validate.py` sei „vollständig symbol-agnostisch" und damit komplett wiederverwendbar. Das
+> ist nur halb richtig: symbol-agnostisch ja, aber `run()` ruft direkt
+> `Backtest(df, strategy_cls, **bt_kwargs).run()` — es ist an die `backtesting`-Bibliothek
+> gebunden, und `parameter_sensitivity()`/`walk_forward()` gehen über `run()`. Nur
+> `monte_carlo(baseline)` und `double_bootstrap_drawdown(returns)` arbeiten auf reinen Zahlen
+> und sind unverändert nutzbar.
+>
+> **Folge für §6.2:** `algo/forex/backtest.py` ist ein eigener Bar-Walk-Simulator statt einer
+> `backtesting`-Strategy. Begründung dort im Modulkopf; kurz: die Lib preist wie eine Aktie,
+> und die drei Forex-Spezifika (zeitabhängiger Pip-Wert, Ask/Bid-Trennung bei Stops,
+> Lot-Granularität) ließen sich nur über Preis-Hacks nachbauen, die dann die P&L-Rechnung der
+> Lib verfälschen. Walk-Forward wird deshalb über eine eigene, kurze Tagesfold-Schleife
+> gemacht statt über `validate.walk_forward()`.
 
 ### 4.3 Unangetastet und nicht ersetzt
 
@@ -447,6 +458,13 @@ für `size_rel`, die Regel „die 3-Kerzen-Formation muss komplett im Fenster li
 Hinweis dazu, dass ein randüberlappendes FVG nicht ungültig, sondern nur kein *1st Presented*
 FVG ist (Nutzerklärung 2026-08-11).
 
+**Vierte Änderung, beim Bauen dazugekommen:** `active_windows()` liefert ALLE zutreffenden
+Fenster statt des ersten Treffers wie `rules._active_window()`. Grund: die Fenster überlappen
+hier bewusst (NY AM Silver Bullet 10–11 liegt in KZ London Close 10–12), und „erster Treffer
+gewinnt" hätte das Ergebnis von der Reihenfolge der Liste abhängig gemacht — genau die
+Trennung verhindert, wegen der die Killzones überhaupt aufgenommen wurden. `sb_entry_signal()`
+bekommt das Fenster deshalb als Parameter, statt es selbst zu wählen.
+
 ### 6.2 `algo/forex/backtest.py`
 
 Strategy-Klasse auf derselben `backtesting`-Bibliothek, Daten über `marktdaten.bars(symbol, tf)`.
@@ -458,6 +476,26 @@ Strategy-Klasse auf derselben `backtesting`-Bibliothek, Daten über `marktdaten.
 3. **Kein Lookahead** in Signalen und Modellen.
 
 Forex-spezifisch zusätzlich: Short-Stop-Asymmetrie (§5.2) und 16:59-Glattstellung (§5.5).
+
+**Drei Funde aus dem ersten Bau (2026-08-15), alle bereits eingearbeitet:**
+
+1. **`dubious_pct` erfasste den häufigsten Fall nicht.** Die erste Fassung markierte nur „Stop
+   und Ziel in derselben Kerze". Auf 5m-EURUSD liegt aber bei **74,1 %** der gefüllten Trades
+   der **Stop in der Entry-Kerze** — auch dort ist die Reihenfolge aus OHLC nicht
+   rekonstruierbar. Gemeldet wurden trotzdem 0,0 %. Eine falsche Null bei einer Pflichtkennzahl
+   ist gefährlicher als ein hoher Wert, weil sie wie eine saubere Messung aussieht. Beide Fälle
+   zählen jetzt als `dubious`, beide werden zugunsten des Stops aufgelöst.
+2. **Mindest-Stop-Distanz `min_stop_pips` (neu, Default 3,0).** Der MNQ-Parameter
+   `stop_buffer_pct = 0,1` der FVG-Größe erzeugt auf 5m-EURUSD Stops mit **1,2 Pips Median und
+   0,2 Pips Minimum** — also unterhalb des Spreads von 0,6. Ein Stop, der enger als die
+   Geld-Brief-Spanne ist, wird vom Spread allein ausgelöst; das misst die Mikrostruktur des
+   Feeds, nicht die Regel. Solche Setups werden verworfen und gezählt. Auf der MNQ-Seite gibt
+   es dafür keine Entsprechung, weil MNQ-FVGs viele Punkte groß sind.
+3. **Chronologische Abwicklung.** Die erste Fassung lief Fenster für Fenster durch und buchte
+   damit einen 19:00-Asia-Trade vor einem 03:00-London-Trade auf die Equity — die Reihenfolge
+   der Fensterliste hätte über das Sizing die Trade-Größen mitbestimmt. Setups werden jetzt
+   erst gesammelt, dann nach Zeit abgewickelt. Zusammen damit läuft der Drawdown-Kill-Switch
+   (`algo/risk_killswitch.py`, 15 %) mit — gleiches Konzept wie MNQ, importiert statt kopiert.
 
 ### 6.3 `algo/forex/ensemble.py`
 

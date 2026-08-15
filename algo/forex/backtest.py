@@ -40,9 +40,26 @@ naive Bid-Betrachtung -- beides zuungunsten des Backtests, also konservativ.
 
 KONSERVATIVE FILL-REIHENFOLGE
 -----------------------------
-Liegen Stop UND Ziel in der Spanne derselben Kerze, ist aus OHLC nicht entscheidbar, was
-zuerst kam. Dann wird der STOP gewertet und der Trade als `dubious` gezaehlt. `dubious_pct`
-ist Pflichtkennzahl jedes Reports, wie auf der MNQ-Seite.
+Zwei verschiedene Ambiguitaeten, beide werden als `dubious` gezaehlt und beide werden
+zuungunsten des Backtests aufgeloest:
+
+  (a) Stop UND Ziel liegen in der Spanne derselben Kerze -> Stop gewertet.
+  (b) Der Stop liegt in der Spanne der ENTRY-Kerze -> Stop gewertet.
+
+(b) ist auf 5m-Forex der mit Abstand haeufigere Fall und wurde in der ersten Fassung dieses
+Moduls uebersehen: gemessen am 2026-08-15 auf EURUSD 5m (Januar 2019) traf das auf
+**74,1 %** aller gefuellten Trades zu, waehrend `dubious_pct` 0,0 % meldete. Eine gemeldete
+Null bei einer Pflichtkennzahl ist gefaehrlicher als ein hoher Wert -- sie sieht aus wie eine
+saubere Messung. `dubious_pct` ist Pflichtkennzahl jedes Reports, wie auf der MNQ-Seite.
+
+MINDEST-STOP-DISTANZ
+--------------------
+Auf der MNQ-Seite ist `stop_buffer_pct` (10 % der FVG-Groesse) unproblematisch, weil MNQ-FVGs
+viele Punkte gross sind. Auf 5m-Forex ergibt dieselbe Regel Stops mit **1,2 Pips Median und
+0,2 Pips Minimum** -- also unterhalb des Spreads. Ein Stop, der enger ist als die
+Geld-Brief-Spanne, ist keine Handelsentscheidung, sondern ein Rundungsartefakt: er wird vom
+Spread allein ausgeloest. `min_stop_pips` verwirft solche Setups und zaehlt sie; ohne diesen
+Filter misst der Backtest die Mikrostruktur des Datenfeeds statt die Regel.
 
 Aufruf:
     python algo/forex/backtest.py                      # Selbstcheck
@@ -68,6 +85,7 @@ sys.path.insert(0, str(_ALGO))
 sys.path.insert(0, str(_ALGO.parent / "tools"))
 
 from analyze_ohlc import Bar, NY, PIP_SIZE  # noqa: E402
+import risk_killswitch as killswitch  # noqa: E402  -- geteilt mit der MNQ-Seite, nicht kopiert
 
 from forex import pnl as fx_pnl  # noqa: E402
 from forex import rules as fx_rules  # noqa: E402
@@ -107,7 +125,10 @@ class Ergebnis:
     symbol: str
     trades: list[Trade] = field(default_factory=list)
     verworfen_kein_kurs: int = 0     # Pip-Wert nicht bestimmbar -> Trade nicht bewertbar
+    verworfen_stop_zu_eng: int = 0   # Stop unter min_stop_pips -> Rundungsartefakt, kein Setup
+    killswitch_blockiert: int = 0    # Drawdown-Kill-Switch stand, kein neuer Trade erlaubt
     flat_erzwungen: int = 0          # haette ohne Rollover-Regel weitergelaufen
+    end_equity: float = 0.0
 
     def netto_usd(self) -> float:
         return sum(t.pnl_usd for t in self.trades if t.pnl_usd is not None)
@@ -155,12 +176,14 @@ def simuliere_setup(setup, bars_ab: list[Bar], symbol: str, spread_pips: float,
     for b in bars_ab:
         if b.t >= flat_um:
             break
+        entry_kerze = False
         if not im_markt:
             # Entry: Long kauft zum Ask (Bid muss E - s erreichen), Short verkauft zum Bid.
             gefuellt = (b.l <= setup.entry - s) if long else (b.h >= setup.entry)
             if not gefuellt:
                 continue
             im_markt = True
+            entry_kerze = True
             tr.t_entry = b.t
             # Stop/Ziel koennen in derselben Kerze schon liegen -- unten mitgeprueft.
 
@@ -171,15 +194,20 @@ def simuliere_setup(setup, bars_ab: list[Bar], symbol: str, spread_pips: float,
             stop_hit = b.h >= setup.stop - s        # Ask erreicht den Stop frueher
             ziel_hit = b.l <= setup.target - s      # Ask erreicht das Ziel spaeter
 
-        if stop_hit and ziel_hit:
-            # Aus OHLC nicht entscheidbar, was zuerst kam -> Stop werten, Trade markieren.
+        # Zwei Ambiguitaeten, beide zuungunsten des Backtests aufgeloest (siehe Modul-Doku):
+        # (a) Stop und Ziel in derselben Kerze, (b) Stop in der Entry-Kerze -- dort ist nicht
+        # entscheidbar, ob der Ruecklauf den Entry vor oder nach dem Stop passiert hat.
+        if stop_hit and (ziel_hit or entry_kerze):
             tr.dubious = True
-            tr.t_exit, tr.exit, tr.grund = b.t, setup.stop, "stop"
-            break
         if stop_hit:
             tr.t_exit, tr.exit, tr.grund = b.t, setup.stop, "stop"
             break
         if ziel_hit:
+            if entry_kerze:
+                # Ziel in der Entry-Kerze ohne Stop-Beruehrung: die Reihenfolge ist hier
+                # eindeutig (Entry liegt zwischen Kerzen-Extrem und Ziel), aber die Kerze
+                # musste beide Preise durchlaufen -- als dubious markiert, nicht umgewertet.
+                tr.dubious = True
             tr.t_exit, tr.exit, tr.grund = b.t, setup.target, "target"
             break
 
@@ -204,7 +232,8 @@ def simuliere_setup(setup, bars_ab: list[Bar], symbol: str, spread_pips: float,
 
 def lauf(symbol: str, bars: list[Bar], kurse_je_tag: dict[date, dict[str, float]],
          spread_pips: float | None = None, fenster: list[str] | None = None,
-         min_target_pips: float = 10.0) -> Ergebnis:
+         min_target_pips: float = 10.0, min_stop_pips: float = 3.0,
+         killswitch_pct: float | None = killswitch.DEFAULT_MAX_DRAWDOWN_PCT) -> Ergebnis:
     """Backtest ueber die uebergebenen Bars. Ein Setup je Fenster und Tag (das *1st Presented*
     FVG ist per Definition eindeutig), danach vorwaerts abgewickelt.
 
@@ -216,23 +245,48 @@ def lauf(symbol: str, bars: list[Bar], kurse_je_tag: dict[date, dict[str, float]
     namen = fenster or [n for n, _, _, _ in fx_rules.WINDOWS]
     erg = Ergebnis(symbol=symbol)
     equity = START_CASH
+    peak = START_CASH
 
     for tag, tagesbars in sorted(_tage(bars).items()):
         kurse = kurse_je_tag.get(tag)
+
+        # Erst ALLE Setups des Tages sammeln, dann chronologisch abwickeln. Die erste Fassung
+        # lief Fenster fuer Fenster durch und buchte damit z.B. einen 19:00-Asia-Trade vor
+        # einem 03:00-London-Trade auf die Equity -- die Reihenfolge der WINDOWS-Liste haette
+        # so die Equity-Kurve (und ueber das Sizing die Trade-Groessen) mitbestimmt. Auf die
+        # Richtung einzelner Trades wirkt das nicht, auf Drawdown und Endkapital sehr wohl.
+        setups: list[tuple] = []
         for name in namen:
-            setup = None
             for i, b in enumerate(tagesbars):
                 if not any(n == name for n, _, _ in fx_rules.active_windows(tag, b.t)):
                     continue
                 setup = fx_rules.plan_trade(tagesbars[:i + 1], b.t, name, symbol=symbol,
                                             min_target_pips=min_target_pips)
                 if setup is not None:
-                    start_idx = i + 1
+                    setups.append((setup.t, setup, i + 1))
                     break
-            if setup is None:
+        setups.sort(key=lambda x: (x[0], x[1].window))
+
+        for _, setup, start_idx in setups:
+            if abs(setup.entry - setup.stop) / PIP_SIZE[symbol] < min_stop_pips:
+                erg.verworfen_stop_zu_eng += 1
                 continue
             if kurse is None:
                 erg.verworfen_kein_kurs += 1
+                continue
+            # Kill-Switch wie auf der MNQ-Seite (algo/backtest_bt.py, 15 % Drawdown seit
+            # Equity-Hoch). Gleiches Konzept, gleiches Modul -- algo/risk_killswitch.py wird
+            # importiert, nicht kopiert.
+            #
+            # Abschaltbar (killswitch_pct=None), weil er sonst die Messung uebernimmt: laut
+            # seiner eigenen Doku ist ein ausgeloester Kill-Switch "praktisch ein Dauerstopp",
+            # da die Equity ohne offene Position kein neues Hoch bilden kann. Auf 5 Jahren
+            # EURUSD blockierte er 1.065 von 1.109 Setups -- gemessen wurde dann der
+            # Kill-Switch, nicht die Regel. Fuer die Frage "traegt die Regel?" ohne, fuer die
+            # Frage "waere das System handelbar?" mit.
+            if killswitch_pct is not None and not killswitch.allowed(peak, equity,
+                                                                    killswitch_pct):
+                erg.killswitch_blockiert += 1
                 continue
             tr = simuliere_setup(setup, tagesbars[start_idx:], symbol, sp, kurse, equity)
             if tr is None:
@@ -244,7 +298,9 @@ def lauf(symbol: str, bars: list[Bar], kurse_je_tag: dict[date, dict[str, float]
                 erg.flat_erzwungen += 1
             erg.trades.append(tr)
             equity += tr.pnl_usd
+            peak = max(peak, equity)
 
+    erg.end_equity = equity
     return erg
 
 
@@ -253,7 +309,8 @@ def bericht(erg: Ergebnis, flat_quote: float | None = None,
     """Report mit den drei Pflichtangaben aus Spec §5.4: dubious_pct, Break-even-Spread und
     Flat-Quote des ausgewerteten Fensters."""
     zeilen = [f"=== {erg.symbol} ===",
-              f"Trades: {len(erg.trades)}   Netto: {erg.netto_usd():+,.2f} USD"]
+              f"Trades: {len(erg.trades)}   Netto: {erg.netto_usd():+,.2f} USD   "
+              f"Endkapital: {erg.end_equity:,.2f} USD (Start {START_CASH:,.0f})"]
     if erg.trades:
         gewinner = [t for t in erg.trades if (t.pnl_usd or 0) > 0]
         zeilen.append(f"Trefferquote: {100*len(gewinner)/len(erg.trades):.1f} %")
@@ -263,7 +320,9 @@ def bericht(erg: Ergebnis, flat_quote: float | None = None,
                   f"{'-' if be_spread is None else f'{be_spread:.2f} Pips'}")
     zeilen.append(f"Flat-Quote Fenster: "
                   f"{'-' if flat_quote is None else f'{flat_quote:.2f} %'}")
+    zeilen.append(f"verworfen (Stop enger als min_stop_pips): {erg.verworfen_stop_zu_eng}")
     zeilen.append(f"verworfen (kein Referenzkurs): {erg.verworfen_kein_kurs}")
+    zeilen.append(f"vom Kill-Switch blockiert: {erg.killswitch_blockiert}")
     zeilen.append(f"vor Rollover zwangsgeschlossen: {erg.flat_erzwungen}")
 
     nach_fenster: dict[str, list[Trade]] = {}
@@ -317,12 +376,21 @@ def demo() -> None:
     tr = simuliere_setup(setup_l, folge_l, sym, s_pips, kurse, START_CASH)
     assert tr is not None and tr.grund == "flat", tr.grund
 
-    # --- Konservative Fill-Reihenfolge -------------------------------------------------
-    # Stop UND Ziel in derselben Kerze -> Stop wird gewertet, Trade als dubious markiert.
+    # --- Konservative Fill-Reihenfolge (a): Stop UND Ziel in derselben Kerze -----------
     folge_d = [b(10, 1, 1.10010, 1.10020, 1.09985, 1.10000),
                b(10, 2, 1.10000, 1.10350, 1.09850, 1.10200)]
     tr = simuliere_setup(setup_l, folge_d, sym, s_pips, kurse, START_CASH)
     assert tr is not None and tr.grund == "stop" and tr.dubious, (tr.grund, tr.dubious)
+
+    # --- Konservative Fill-Reihenfolge (b): Stop in der ENTRY-Kerze --------------------
+    # Regressionswaechter fuer den Fund vom 2026-08-15: auf 5m-EURUSD betraf das 74,1 % aller
+    # Trades, waehrend dubious_pct 0,0 % meldete. Eine Kerze, die den Entry fuellt UND den
+    # Stop reisst -- die Reihenfolge darin ist aus OHLC nicht rekonstruierbar.
+    folge_eb = [b(10, 1, 1.10050, 1.10060, 1.09880, 1.09900)]
+    tr = simuliere_setup(setup_l, folge_eb, sym, s_pips, kurse, START_CASH)
+    assert tr is not None and tr.grund == "stop", tr.grund
+    assert tr.dubious, "Stop in der Entry-Kerze MUSS als dubious gelten"
+    assert tr.t_exit == tr.t_entry, (tr.t_entry, tr.t_exit)
 
     # --- Rollover-Glattstellung ---------------------------------------------------------
     # Eine Kerze um 17:30 darf nicht mehr gehandelt werden.
@@ -353,6 +421,69 @@ def demo() -> None:
     # Der Spread steckt bereits in den Fuellpreisen und wird NICHT zusaetzlich abgezogen --
     # Regressionswaechter gegen die Doppelzaehlung, vor der pnl.real_pnl_usd warnt.
 
+    # --- Mindest-Stop-Distanz -----------------------------------------------------------
+    # Ein Setup mit 1,2 Pips Stop (der gemessene Median auf 5m-EURUSD) liegt unter dem
+    # Default von 3 Pips und darf gar nicht erst gehandelt werden -- der Spread allein
+    # wuerde ihn ausloesen.
+    tag = date(2026, 1, 5)
+    eng = [b(10, 0, 1.10000, 1.10050, 1.09950, 1.10000),
+           b(10, 1, 1.10000, 1.10200, 1.09990, 1.10180),
+           b(10, 2, 1.10150, 1.10250, 1.10100, 1.10200)]
+    eng += [b(10, 3 + i, 1.10200, 1.10260, 1.10150, 1.10210) for i in range(8)]
+
+    class _FakeSetup:
+        pass
+
+    # Direkt ueber lauf() pruefen, weil der Filter dort sitzt: ein kuenstliches Setup mit
+    # 1,2 Pips Stop muss in verworfen_stop_zu_eng landen und darf keinen Trade erzeugen.
+    orig_plan = fx_rules.plan_trade
+
+    def fake_plan(bars_, when, name, **kw):
+        if name != "NY AM Silver Bullet" or when.minute != 0:
+            return None
+        return fx_rules.TradeSetup(t=when, window=name, herkunft="sb", side="long",
+                                   entry=1.10000, stop=1.09988, target=1.10300)
+    fx_rules.plan_trade = fake_plan
+    try:
+        e = lauf(sym, eng, {tag: {}}, spread_pips=s_pips)
+        assert e.verworfen_stop_zu_eng == 1, e.verworfen_stop_zu_eng
+        assert e.trades == [], e.trades
+        # Mit abgesenkter Schwelle entsteht derselbe Trade sehr wohl -- belegt, dass der
+        # Filter greift und nicht etwas anderes den Trade verhindert hat.
+        e2 = lauf(sym, eng, {tag: {}}, spread_pips=s_pips, min_stop_pips=1.0)
+        assert e2.verworfen_stop_zu_eng == 0, e2.verworfen_stop_zu_eng
+    finally:
+        fx_rules.plan_trade = orig_plan
+
+    # --- Chronologische Abwicklung ------------------------------------------------------
+    # Regressionswaechter: Setups muessen nach Zeit abgewickelt werden, nicht in der
+    # Reihenfolge der WINDOWS-Liste. Zwei Fenster, das spaetere steht in WINDOWS weiter oben
+    # -- die Trades muessen trotzdem chronologisch in erg.trades landen.
+    def fake_zwei(bars_, when, name, **kw):
+        stunde = {"London Silver Bullet": 3, "NY PM Silver Bullet": 14}.get(name)
+        if stunde is None or when.hour != stunde or when.minute != 0:
+            return None
+        return fx_rules.TradeSetup(t=when, window=name, herkunft="sb", side="long",
+                                   entry=1.10000, stop=1.09900, target=1.10300)
+
+    zwei = []
+    for hh in (3, 14):
+        zwei.append(b(hh, 0, 1.10050, 1.10060, 1.10040, 1.10050))
+        zwei.append(b(hh, 5, 1.10010, 1.10020, 1.09985, 1.10000))
+        zwei.append(b(hh, 10, 1.10000, 1.10310, 1.10000, 1.10300))
+    zwei.sort(key=lambda x: x.t)
+
+    fx_rules.plan_trade = fake_zwei
+    try:
+        e3 = lauf(sym, zwei, {tag: {}}, spread_pips=s_pips,
+                  fenster=["NY PM Silver Bullet", "London Silver Bullet"])
+        assert len(e3.trades) == 2, len(e3.trades)
+        assert e3.trades[0].t_entry < e3.trades[1].t_entry, \
+            "Trades muessen chronologisch gebucht werden, nicht in WINDOWS-Reihenfolge"
+        assert e3.trades[0].window == "London Silver Bullet", e3.trades[0].window
+    finally:
+        fx_rules.plan_trade = orig_plan
+
     print("forex.backtest demo: OK")
 
 
@@ -364,6 +495,13 @@ def main(argv=None) -> int:
     ap.add_argument("--von", default=None, help="JJJJ-MM-TT")
     ap.add_argument("--bis", default=None, help="JJJJ-MM-TT")
     ap.add_argument("--fenster", nargs="*", default=None)
+    ap.add_argument("--min-stop-pips", type=float, default=3.0)
+    ap.add_argument("--no-killswitch", action="store_true",
+                    help="Drawdown-Kill-Switch aus. Fuer die Frage 'traegt die Regel?' -- "
+                         "mit Kill-Switch misst ein Mehrjahres-Lauf ueberwiegend ihn selbst.")
+    ap.add_argument("--breakeven", action="store_true",
+                    help="Break-even-Spread numerisch suchen (rechnet den Backtest ~12x, "
+                         "auf Mehrjahres-Fenstern entsprechend teuer)")
     a = ap.parse_args(argv)
 
     if a.symbol is None:
@@ -390,12 +528,21 @@ def main(argv=None) -> int:
         for tag in {b.t.date() for b in bars}:
             kurse_je_tag[tag] = {}
 
-    erg = lauf(a.symbol, bars, kurse_je_tag, fenster=a.fenster)
+    ks = None if a.no_killswitch else killswitch.DEFAULT_MAX_DRAWDOWN_PCT
+    erg = lauf(a.symbol, bars, kurse_je_tag, fenster=a.fenster,
+               min_stop_pips=a.min_stop_pips, killswitch_pct=ks)
 
     flach = sum(1 for b in bars if b.o == b.h == b.l == b.c)
-    be = fx_pnl.break_even_spread(
-        lambda sp: lauf(a.symbol, bars, kurse_je_tag, spread_pips=sp,
-                        fenster=a.fenster).netto_usd(), a.symbol)
+    be = None
+    if a.breakeven:
+        be = fx_pnl.break_even_spread(
+            lambda sp: lauf(a.symbol, bars, kurse_je_tag, spread_pips=sp,
+                            fenster=a.fenster, min_stop_pips=a.min_stop_pips,
+                            killswitch_pct=ks).netto_usd(),
+            a.symbol)
+    print(f"Zeitraum: {bars[0].t.date()} .. {bars[-1].t.date()}   "
+          f"Kerzen: {len(bars):,}   TF: {a.tf}   min_stop_pips: {a.min_stop_pips}   "
+          f"Kill-Switch: {'aus' if ks is None else f'{ks:.0%}'}")
     print(bericht(erg, flat_quote=100.0 * flach / len(bars), be_spread=be))
     return 0
 

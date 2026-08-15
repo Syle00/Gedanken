@@ -1055,3 +1055,77 @@ Gegenproben am 2026-08-15:
 in Sommer- und Winterzeit, Gleichheit von TradingViews UTC- und FFs NY-Timestamps,
 Netzfehler-Pfad beider Quellen, Fallback-Umschaltung). Kein Netz-/Dateizugriff, laeuft in
 `selfcheck.py` mit.
+
+## `algo/forex/` -- Forex-Zwilling der Regel-, P&L- und Simulationsschicht (Phase 2, 2026-08-15)
+
+**Was.** Eigenes Unterpaket mit `pnl.py`, `rules.py`, `backtest.py`, `selfcheck.py`. Setzt die
+MNQ-Konzepte auf den 23-Jahres-Forex-Bestand um -- Nutzervorgabe: *"die genau gleichen Konzepte
+nutzen, ausser bekannte Sachen die nur fuer Future sind"*. Spec:
+`docs/superpowers/specs/2026-08-15-forex-algo-phase2-design.md`.
+
+**Warum getrennt statt parametrisiert.** Nutzerentscheidung 2026-08-15: die MNQ-Module duerfen
+sich nicht bewegen. `algo/pnl.py`, `algo/rules.py`, `algo/backtest_bt.py`, `algo/signals.py`,
+`algo/backtest_ensemble.py`, `algo/stress_test.py`, `algo/masters.py`, `algo/live_status.py`
+und `algo/selfcheck.py` sind unangetastet; nachgewiesen ueber den Diff gegen
+`algo/results/mnq_baseline_2026-08-15.txt` (26/26 Selbstchecks, bitgleich).
+
+**Geteilt, nicht kopiert:** `tools/analyze_ohlc.py` (Detektoren, KILLZONES, TICK_SIZE,
+PIP_SIZE, SESSION_TYP, 9:30-Guard), `algo/marktdaten.py`, `algo/risk_killswitch.py`,
+`algo/backtest_hp_fvg.py::bias_proxy`. Von `algo/validate.py` sind nur `monte_carlo()` und
+`double_bootstrap_drawdown()` nutzbar -- `run()`/`walk_forward()` haengen an
+`backtesting.Backtest` und damit an einer Strategy-Klasse, die es hier bewusst nicht gibt.
+
+**Welche Konzepte laufen.** Silver Bullet (1st presented FVG *im Fenster*), FVG-Detektion inkl.
+Staerke, Swings/MSS, HP-FVG, Liquiditaets-Level, IPDA-Fenster, Killzones, Midnight OR, Macros,
+NWOG, 1 %-Risiko, Kill-Switch. **Ausgeschlossen** (setzen die 9:30-Eroeffnung als Ereignis
+voraus): ORG, ORG C.E., ORG-Std-Extrema, 1p FVG Tag/Woche, 1p-Mindestgroesse, erstes FVG nach
+9:30, Open Drive, NDOG, alle RTH-Varianten.
+
+**Fenstersatz.** Die drei SB-Fenster (London 3-4, NY AM 10-11, NY PM 14-15) plus die vier
+Killzones, jedes getrennt ausgewiesen. `KZ NY 7-9` und `KZ NY-Forex 7-10` stehen bewusst
+NEBENeinander: `analyze_ohlc.KILLZONES` sagt 7-9, `wiki/concepts/ICT Daily Range Session
+Timing.md` sagt fuer Forex 7-10 -- der Widerspruch wird gemessen statt aufgeloest.
+`active_windows()` liefert deshalb ALLE zutreffenden Fenster, nicht den ersten Treffer.
+
+**`forex/pnl.py` -- die drei Fallgruppen des Pip-Werts.** Der Pip-Wert haengt ausschliesslich
+an der Quote-Waehrung, nie an der Basis; daraus folgt eine Regel statt einer
+Paar-Fallunterscheidung: `pip_wert_quote = PIP_SIZE * 100.000`; Quote == USD -> fertig ($10);
+sonst ueber `<QUOTE>USD` mal Kurs bzw. `USD<QUOTE>` durch Kurs. Der USD/XXX-Fall ist dabei kein
+Sonderfall, sondern faellt mit sich selbst als Referenz in dieselbe Zeile. Fehlt der
+Referenzkurs, gibt es `None` -- der Trade wird verworfen und gezaehlt, nie genaehert.
+`round_to_lot()` rundet auf 0,01 Lot ab, nie auf, und normalisiert vorher gegen das
+Float-Artefakt `5.0 / 0.01 = 499,99999999999994` (ein nacktes `floor` lieferte 4,99).
+
+**Zwei P&L-Konventionen, bewusst getrennt benannt.** `brutto_usd()` rechnet ohne jede
+Kostenannahme -- fuer Fuellpreise, die bereits auf der richtigen Marktseite liegen.
+`real_pnl_usd()` geht von rohen Bid-Preisen aus und zieht den Spread einmal explizit ab. Wer
+sie verwechselt, zaehlt den Spread doppelt oder gar nicht; deshalb stehen sie getrennt statt
+implizit vermischt.
+
+**`forex/backtest.py` -- eigener Bar-Walk statt `backtesting`-Lib.** Die Lib preist wie eine
+Aktie; fuer Forex kaemen drei weitere Brueche dazu (zeitabhaengiger Pip-Wert, Ask/Bid-Trennung,
+Lot-Granularitaet), die sich nur ueber Preis-Hacks nachbauen liessen, welche dann die
+P&L-Rechnung der Lib verfaelschen. Fill-Konvention: jede Seite wird dort gefuellt, wo ein
+Broker fuellen wuerde (Long kauft zum Ask, Short verkauft zum Bid) -- dadurch faellt der Spread
+automatisch genau einmal an, und die Short-Stop-Asymmetrie ergibt sich von selbst statt als
+Zuschlag. Positionen werden vor dem 17:00-Rollover glattgestellt, statt ein Swap-Modell zu
+raten.
+
+**Drei Pflichtangaben in jedem Report:** `dubious_pct`, Break-even-Spread (`--breakeven`,
+numerisch per Bisektion, rechnet den Backtest ~12x) und die Flat-Quote des Fensters.
+
+**Bekannte Grenzen.**
+- **Spread ist gesetzt, nicht gemessen** (`SPREAD_PIPS`, Bid-only-Bestand). Deshalb ist der
+  Break-even-Spread die belastbare Kennzahl, nicht der $-P&L.
+- **1h und groeber sind fuer die SB-Fenster unbrauchbar:** ein Fenster ist eine Stunde, auf
+  1h-Kerzen passt dort keine 3-Kerzen-Formation hinein (gemessen: 0 Trades).
+- **`min_stop_pips` (Default 3,0) ist ein Forex-Zusatz ohne MNQ-Entsprechung.** Ohne ihn liegt
+  die mediane Stop-Distanz bei 1,2 Pips, also unter dem Spread.
+- Kein Ensemble, kein Stress-Test, kein Walk-Forward -- Schritte 7-9 der Spec, noch offen.
+
+**Selbstcheck.** `python algo/forex/selfcheck.py` buendelt die drei Modul-Demos und den
+**Drift-Waechter**: er hasht die normalisierten Rumpfe von `sb_entry_signal`, `plan_trade` und
+`plan_trade_hp_fvg` in `algo/rules.py` und meldet, wenn das MNQ-Original sich bewegt hat. Er
+verhindert die Drift nicht -- er macht sie sichtbar, was bei bewusst duplizierter Logik der
+einzige ehrliche Umgang ist. Nach einer bewussten Uebernahme:
+`python algo/forex/selfcheck.py --hashes` und die Wache aktualisieren.
