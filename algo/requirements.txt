@@ -4,6 +4,7 @@ pandas>=2.2
 openpyxl>=3.1        # pandas-Backend fuer histdata.com-XLSX-Exporte (ingest_histdata_xlsx.py)
 matplotlib>=3.8
 yfinance>=1.5
+ib_async>=1.0         # IBKR TWS/Gateway-API-Client, Nachfolger von ib_insync (algo/fetch_ibkr.py)
 backtesting>=0.6
 scikit-learn>=1.4
 scipy>=1.10          # masters.py: t-/Beta-Verteilung, BCa-Bootstrap (alternative= ab 1.10)
