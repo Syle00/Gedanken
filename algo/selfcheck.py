@@ -35,7 +35,7 @@ from macro_db import selfcheck as macro_db_selfcheck  # noqa: E402
 from backtest_fvg_strength import selfcheck as fvg_strength_selfcheck  # noqa: E402
 from backtest_hp_fvg import selfcheck as hp_fvg_selfcheck  # noqa: E402
 from backtest_1p_mindestgroesse import selfcheck as mindestgroesse_selfcheck  # noqa: E402
-from analyze_ohlc import demo_pruefe_kerzen  # noqa: E402
+from analyze_ohlc import demo_pruefe_kerzen, demo_session_guard  # noqa: E402
 
 
 def _results_demo() -> None:
@@ -108,6 +108,7 @@ CHECKS = [
     ("backtest_hp_fvg", hp_fvg_selfcheck),
     ("backtest_1p_mindestgroesse", mindestgroesse_selfcheck),
     ("ohlc_gate", demo_pruefe_kerzen),
+    ("session_guard", demo_session_guard),
     ("dedup", _results_demo),
 ]
 

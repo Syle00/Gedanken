@@ -64,6 +64,27 @@ TICK_SIZE = {
     "USDJPY": 0.001, "EURJPY": 0.001, "GBPJPY": 0.001,   # JPY-Paare: 3 Nachkommastellen
 }
 
+# Zwei Attribute statt einer Instrument-Klasse -- es gibt genau zwei Session-Typen (siehe
+# docs/superpowers/specs/2026-08-14-forex-backtesting-design.md §3). "futures_rth": Handelstag
+# 18:00 Vorabend..17:00 NY mit echtem Schluss/Eroeffnung. "24x5": Forex, 00:00..23:59 NY,
+# durchgehend Mo 00:00 bis Fr 23:59 (mit Wochenend-Gap Fr 17:00 -> So 17:01) -- kein Schluss,
+# also kein ORG/NDOG, siehe Guard in org_gap()/ndog_gap() unten.
+SESSION_TYP = {
+    "MNQ": "futures_rth", "NQ": "futures_rth", "ES": "futures_rth", "MES": "futures_rth",
+    "YM": "futures_rth", "MYM": "futures_rth",
+    "EURUSD": "24x5", "GBPUSD": "24x5", "AUDUSD": "24x5", "NZDUSD": "24x5",
+    "USDCAD": "24x5", "USDCHF": "24x5", "EURGBP": "24x5",
+    "USDJPY": "24x5", "EURJPY": "24x5", "GBPJPY": "24x5",
+}
+
+# Pip-Groesse fuer Forex-Vergleichbarkeit (0.0001 Majors, 0.01 JPY-Paare) -- ohne das ist eine
+# FVG-Groesse von 0.00042 nicht gegen "MNQ 12 Punkte" lesbar.
+PIP_SIZE = {
+    "EURUSD": 0.0001, "GBPUSD": 0.0001, "AUDUSD": 0.0001, "NZDUSD": 0.0001,
+    "USDCAD": 0.0001, "USDCHF": 0.0001, "EURGBP": 0.0001,
+    "USDJPY": 0.01, "EURJPY": 0.01, "GBPJPY": 0.01,
+}
+
 
 def to_tick(price: float, symbol_or_tick, mode: str = "nearest") -> float:
     """Zwingt `price` auf das Tick-Raster. Zweites Argument ist entweder ein Symbolname
@@ -361,7 +382,8 @@ def open_price(bars: list[Bar], when: datetime) -> float | None:
     return None
 
 
-def org_gap(bars: list[Bar], day, tol_min: int = 10, tick: float | str | None = None) -> dict | None:
+def org_gap(bars: list[Bar], day, tol_min: int = 10, tick: float | str | None = None,
+            symbol: str | None = None) -> dict | None:
     """ORG (Opening Range Gap): Gap zwischen der ~16:14-Schlusskerze des Vortags und der
     9:30-Kerze von `day`. C.E. = Mittelpunkt. Prueft, ob der Preis den C.E. bis 10:00 NY
     (erste 30 Minuten) beruehrt. Quelle:
@@ -373,7 +395,13 @@ def org_gap(bars: list[Bar], day, tol_min: int = 10, tick: float | str | None = 
 
     None, wenn die 9:30-Kerze fehlt oder die naechstgelegene Vortagskerze mehr als
     `tol_min` Minuten von 16:14 entfernt liegt (z.B. duennes/unvollstaendiges Vortagesfenster).
+
+    `symbol`: gesetzt und SESSION_TYP[symbol] == "24x5" -> None. Ein 24/5-Markt hat weder
+    Schluss noch Eroeffnung, ORG existiert dort strukturell nicht (Nutzerkorrektur 2026-08-14,
+    siehe docs/superpowers/specs/2026-08-14-forex-backtesting-design.md §4).
     """
+    if symbol is not None and SESSION_TYP.get(symbol) == "24x5":
+        return None
     open_bar = next((b for b in bars if b.t == at(day, 9, 30)), None)
     if open_bar is None:
         return None
@@ -397,13 +425,18 @@ def org_gap(bars: list[Bar], day, tol_min: int = 10, tick: float | str | None = 
             "gap": hi - lo, "ce": ce, "filled_30m": fill_t is not None, "filled_t": fill_t}
 
 
-def ndog_gap(bars: list[Bar], day) -> dict | None:
+def ndog_gap(bars: list[Bar], day, symbol: str | None = None) -> dict | None:
     """NDOG (New Day Opening Gap): Gap zwischen dem letzten Kerzen-Close des Vortags (volle
     Globex-Session, kein 16:14-Anker wie bei org_gap()) und der ersten Kerze von `day`.
     Prueft, ob der Preis den Vortages-Close noch am selben Tag wieder erreicht ("Fill").
 
     None, wenn `day` oder der Vortag keine Kerzen in `bars` haben.
+
+    `symbol`: gesetzt und SESSION_TYP[symbol] == "24x5" -> None. Kein taeglicher Handelsschluss,
+    also keine Handelspause, also kein NDOG (siehe org_gap()).
     """
+    if symbol is not None and SESSION_TYP.get(symbol) == "24x5":
+        return None
     day_bars = sorted((b for b in bars if b.t.date() == day), key=lambda b: b.t)
     if not day_bars:
         return None
@@ -1267,6 +1300,21 @@ def main(argv=None):
     else:
         sys.stdout.reconfigure(encoding="utf-8")
         print(text)
+
+
+def demo_session_guard() -> None:
+    """org_gap()/ndog_gap() muessen fuer 24x5-Symbole None liefern, unabhaengig von den
+    Kerzendaten -- und fuer futures_rth/unbekannte Symbole unveraendert rechnen."""
+    tag = datetime(2026, 1, 5).date()
+    bars = [
+        Bar(at(tag - timedelta(days=1), 16, 14), 100, 100, 100, 100),
+        Bar(at(tag, 9, 30), 105, 105, 105, 105),
+    ]
+    assert org_gap(bars, tag, symbol="EURUSD") is None, "24x5 muss org_gap None liefern"
+    assert ndog_gap(bars, tag, symbol="EURUSD") is None, "24x5 muss ndog_gap None liefern"
+    assert org_gap(bars, tag) is not None, "ohne symbol muss sich nichts aendern (Rueckwaertskompat.)"
+    assert org_gap(bars, tag, symbol="MNQ") is not None, "futures_rth darf nicht geguardet werden"
+    print("analyze_ohlc.demo_session_guard: OK")
 
 
 if __name__ == "__main__":
