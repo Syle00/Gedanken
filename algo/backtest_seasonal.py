@@ -91,17 +91,26 @@ def week_of_month_table(rows: list[dict]) -> dict:
     return {str(wk): group_stats(rs) for wk, rs in sorted(by_week.items())}
 
 
-def run() -> dict:
-    rows = load_rows()
+def run(symbol: str = "MNQ") -> dict:
+    rows = load_rows(symbol)
     return {
-        "n_days": len(rows), "date_range": [rows[0]["day"], rows[-1]["day"]],
+        "symbol": symbol, "n_days": len(rows), "date_range": [rows[0]["day"], rows[-1]["day"]],
         "weekday": weekday_table(rows), "month": month_table(rows),
         "turn_of_month": turn_of_month(rows), "week_of_month": week_of_month_table(rows),
     }
 
 
-def main() -> None:
-    result = run()
+def out_path(symbol: str) -> Path:
+    """MNQ behaelt den bestehenden Namen (Protokollartefakt, siehe CLAUDE.md) -- jedes
+    andere Symbol bekommt einen eigenen, damit ein Forex-Lauf die MNQ-Datenbank nicht
+    ueberschreibt."""
+    if symbol == "MNQ":
+        return OUT_PATH
+    return OUT_PATH.parent / f"seasonal_tendency_{symbol}.json"
+
+
+def main(symbol: str = "MNQ") -> None:
+    result = run(symbol)
     rng = result["date_range"]
     print(f"{result['n_days']} Handelstage ({rng[0]} bis {rng[1]}).\n")
 
@@ -131,9 +140,10 @@ def main() -> None:
               f"Median-Range={s['median_range']:>7.2f}")
 
     db = {"generated_at": datetime.now(timezone.utc).isoformat(), **result}
-    OUT_PATH.write_text(json.dumps(db, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
-    print(f"\nDatenbank geschrieben: {OUT_PATH.relative_to(OUT_PATH.parent.parent)}")
+    ziel = out_path(symbol)
+    ziel.write_text(json.dumps(db, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
+    print(f"\nDatenbank geschrieben: {ziel.relative_to(ziel.parent.parent)}")
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1] if len(sys.argv) > 1 else "MNQ")
