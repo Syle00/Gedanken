@@ -45,13 +45,7 @@ def _future_contract(contract: str, symbol: str):
     """Baut ein ib_async-Future-Objekt aus dem Kontrakt-Code (z.B. 'NQU2026', 'NQ') --
     reqHistoricalData braucht ein Contract-Objekt, keinen blossen String. includeExpired=True
     ist Pflicht fuer den Backfill ueber bereits verfallene Kontrakte (Design SS3.2)."""
-    try:
-        from ib_async import Future
-    except ImportError:
-        # In Tests ohne ib_async: Mock-Objekt, das der Stub-IB ignoriert
-        class _MockFuture:
-            pass
-        return _MockFuture()
+    from ib_async import Future
     code = contract[len(symbol)]
     year = contract[len(symbol) + 1:]
     month = _MONTH_NUM[code]
@@ -332,37 +326,43 @@ def _demo() -> None:
 
     import tempfile
     with tempfile.TemporaryDirectory() as tmp:
-        orig_data_dir = DATA_DIR
-        DATA_DIR = Path(tmp)
+        global _future_contract
+        _orig_future_contract = _future_contract
+        _future_contract = lambda contract, symbol: contract  # Stub-IB ignoriert den Contract-Typ
         try:
-            stub = _StubIB()
-            pacing = PacingLimiter(clock=lambda: 0.0, sleep=lambda s: None)
-            tag = date(2026, 6, 15)
-            reg_path = DATA_DIR / "1s-abdeckung.csv"
-            dest = fetch_symbol_day(stub, "NQ", tag, pacing, register_path=reg_path)
-            assert dest is not None and dest.exists(), "erster Lauf muss eine Datei schreiben"
-            erster_call_count = stub.calls
-            assert erster_call_count == 46, erster_call_count
+            orig_data_dir = DATA_DIR
+            DATA_DIR = Path(tmp)
+            try:
+                stub = _StubIB()
+                pacing = PacingLimiter(clock=lambda: 0.0, sleep=lambda s: None)
+                tag = date(2026, 6, 15)
+                reg_path = DATA_DIR / "1s-abdeckung.csv"
+                dest = fetch_symbol_day(stub, "NQ", tag, pacing, register_path=reg_path)
+                assert dest is not None and dest.exists(), "erster Lauf muss eine Datei schreiben"
+                erster_call_count = stub.calls
+                assert erster_call_count == 46, erster_call_count
 
-            # Zweiter Lauf: Datei existiert schon -> write_day_1s() liefert None, aber
-            # fetch_symbol_day holt die Fenster trotzdem erneut an (Register schuetzt nur
-            # vor Doppel-Requests INNERHALB eines Laufs, nicht vor einem Re-Lauf auf eine
-            # bereits fertige Datei). Stattdessen: Register simuliert einen Abbruch nach
-            # 6 Fenstern, zweiter Lauf darf nur die restlichen 40 anfragen.
-            dest.unlink()
-            reg_path.unlink()
-            teil_fenster = day_windows(tag)[:6]
-            register_append(
-                [{"symbol": "NQ", "von": int(a.timestamp()), "bis": int(b.timestamp()),
-                  "kontrakt": "NQU2026", "kerzen": 1800, "geholt_am": 0}
-                 for a, b in teil_fenster],
-                path=reg_path)
-            stub2 = _StubIB()
-            fetch_symbol_day(stub2, "NQ", tag, pacing, register_path=reg_path)
-            assert stub2.calls == 40, \
-                f"Resume nach Abbruch bei 6/46 Fenstern muss 40 Requests machen, waren {stub2.calls}"
+                # Zweiter Lauf: Datei existiert schon -> write_day_1s() liefert None, aber
+                # fetch_symbol_day holt die Fenster trotzdem erneut an (Register schuetzt nur
+                # vor Doppel-Requests INNERHALB eines Laufs, nicht vor einem Re-Lauf auf eine
+                # bereits fertige Datei). Stattdessen: Register simuliert einen Abbruch nach
+                # 6 Fenstern, zweiter Lauf darf nur die restlichen 40 anfragen.
+                dest.unlink()
+                reg_path.unlink()
+                teil_fenster = day_windows(tag)[:6]
+                register_append(
+                    [{"symbol": "NQ", "von": int(a.timestamp()), "bis": int(b.timestamp()),
+                      "kontrakt": "NQU2026", "kerzen": 1800, "geholt_am": 0}
+                     for a, b in teil_fenster],
+                    path=reg_path)
+                stub2 = _StubIB()
+                fetch_symbol_day(stub2, "NQ", tag, pacing, register_path=reg_path)
+                assert stub2.calls == 40, \
+                    f"Resume nach Abbruch bei 6/46 Fenstern muss 40 Requests machen, waren {stub2.calls}"
+            finally:
+                DATA_DIR = orig_data_dir
         finally:
-            DATA_DIR = orig_data_dir
+            _future_contract = _orig_future_contract
 
     # Parquet-Roundtrip: Schreiben und Zurücklesen erhaelt Typen und Zeitstempel.
     with tempfile.TemporaryDirectory() as tmp:
