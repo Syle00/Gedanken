@@ -449,4 +449,4 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         _demo()
     else:
-        print(__doc__)
+        sys.exit(main())
