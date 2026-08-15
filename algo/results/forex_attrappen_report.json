@@ -1,0 +1,2891 @@
+{
+  "generated_at": "2026-08-15T00:21:42.145554+00:00",
+  "alle": [
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\AUDUSD 2026-07-20 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\AUDUSD 2026-07-21 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 720,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\AUDUSD 2026-07-22 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\AUDUSD 2026-07-23 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 718,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\AUDUSD 2026-07-24 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 706,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\AUDUSD 2026-07-27 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\AUDUSD 2026-07-28 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\AUDUSD 2026-07-29 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 717,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\AUDUSD 2026-07-30 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\AUDUSD 2026-07-31 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 704,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\AUDUSD 2026-08-03 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\AUDUSD 2026-08-04 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\AUDUSD 2026-08-05 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 718,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\AUDUSD 2026-08-06 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\AUDUSD 2026-08-07 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 702,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\AUDUSD 2026-08-10 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\AUDUSD 2026-08-11 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\AUDUSD 2026-08-12 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\AUDUSD 2026-08-03 5m.csv",
+      "symbol": "AUDUSD",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.2101
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\AUDUSD 2026-08-04 5m.csv",
+      "symbol": "AUDUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.1632
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\AUDUSD 2026-08-05 5m.csv",
+      "symbol": "AUDUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.184
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\AUDUSD 2026-08-06 5m.csv",
+      "symbol": "AUDUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.1597
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\AUDUSD 2026-08-07 5m.csv",
+      "symbol": "AUDUSD",
+      "tf": "5m",
+      "kerzen": 282,
+      "flat_anteil": 0.195
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\AUDUSD 2026-08-10 5m.csv",
+      "symbol": "AUDUSD",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.2065
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\AUDUSD 2026-08-11 5m.csv",
+      "symbol": "AUDUSD",
+      "tf": "5m",
+      "kerzen": 154,
+      "flat_anteil": 0.2143
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\AUDUSD 2026-08-12 5m.csv",
+      "symbol": "AUDUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.1806
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\AUDUSD 2026-08-03 15m.csv",
+      "symbol": "AUDUSD",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0109
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\AUDUSD 2026-08-04 15m.csv",
+      "symbol": "AUDUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\AUDUSD 2026-08-05 15m.csv",
+      "symbol": "AUDUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\AUDUSD 2026-08-06 15m.csv",
+      "symbol": "AUDUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\AUDUSD 2026-08-07 15m.csv",
+      "symbol": "AUDUSD",
+      "tf": "15m",
+      "kerzen": 94,
+      "flat_anteil": 0.0319
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\AUDUSD 2026-08-10 15m.csv",
+      "symbol": "AUDUSD",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\AUDUSD 2026-08-11 15m.csv",
+      "symbol": "AUDUSD",
+      "tf": "15m",
+      "kerzen": 52,
+      "flat_anteil": 0.0192
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\AUDUSD 2026-08-12 15m.csv",
+      "symbol": "AUDUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\EURGBP 2026-07-20 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1376,
+      "flat_anteil": 0.0051
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\EURGBP 2026-07-21 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\EURGBP 2026-07-22 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 0.0028
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\EURGBP 2026-07-23 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 0.0028
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\EURGBP 2026-07-24 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1394,
+      "flat_anteil": 0.0108
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\EURGBP 2026-07-27 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1378,
+      "flat_anteil": 0.0029
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\EURGBP 2026-07-28 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\EURGBP 2026-07-29 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1436,
+      "flat_anteil": 0.0021
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\EURGBP 2026-07-30 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\EURGBP 2026-07-31 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1394,
+      "flat_anteil": 0.0108
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\EURGBP 2026-08-03 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1379,
+      "flat_anteil": 0.0015
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\EURGBP 2026-08-04 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\EURGBP 2026-08-05 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1437,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\EURGBP 2026-08-06 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1436,
+      "flat_anteil": 0.0028
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\EURGBP 2026-08-07 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1394,
+      "flat_anteil": 0.0108
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\EURGBP 2026-08-10 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0022
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\EURGBP 2026-08-11 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\EURGBP 2026-08-12 1m.csv",
+      "symbol": "EURGBP",
+      "tf": "1m",
+      "kerzen": 1437,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\EURGBP 2026-08-03 5m.csv",
+      "symbol": "EURGBP",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\EURGBP 2026-08-04 5m.csv",
+      "symbol": "EURGBP",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\EURGBP 2026-08-05 5m.csv",
+      "symbol": "EURGBP",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\EURGBP 2026-08-06 5m.csv",
+      "symbol": "EURGBP",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\EURGBP 2026-08-07 5m.csv",
+      "symbol": "EURGBP",
+      "tf": "5m",
+      "kerzen": 282,
+      "flat_anteil": 0.0213
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\EURGBP 2026-08-10 5m.csv",
+      "symbol": "EURGBP",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\EURGBP 2026-08-11 5m.csv",
+      "symbol": "EURGBP",
+      "tf": "5m",
+      "kerzen": 154,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\EURGBP 2026-08-12 5m.csv",
+      "symbol": "EURGBP",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\EURGBP 2026-08-03 15m.csv",
+      "symbol": "EURGBP",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\EURGBP 2026-08-04 15m.csv",
+      "symbol": "EURGBP",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\EURGBP 2026-08-05 15m.csv",
+      "symbol": "EURGBP",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\EURGBP 2026-08-06 15m.csv",
+      "symbol": "EURGBP",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\EURGBP 2026-08-07 15m.csv",
+      "symbol": "EURGBP",
+      "tf": "15m",
+      "kerzen": 94,
+      "flat_anteil": 0.0213
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\EURGBP 2026-08-10 15m.csv",
+      "symbol": "EURGBP",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\EURGBP 2026-08-11 15m.csv",
+      "symbol": "EURGBP",
+      "tf": "15m",
+      "kerzen": 52,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\EURGBP 2026-08-12 15m.csv",
+      "symbol": "EURGBP",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\EURJPY 2026-07-20 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\EURJPY 2026-07-21 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\EURJPY 2026-07-22 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\EURJPY 2026-07-23 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\EURJPY 2026-07-24 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1395,
+      "flat_anteil": 0.0115
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\EURJPY 2026-07-27 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1379,
+      "flat_anteil": 0.0015
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\EURJPY 2026-07-28 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\EURJPY 2026-07-29 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\EURJPY 2026-07-30 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\EURJPY 2026-07-31 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1394,
+      "flat_anteil": 0.0108
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\EURJPY 2026-08-03 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\EURJPY 2026-08-04 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\EURJPY 2026-08-05 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\EURJPY 2026-08-06 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\EURJPY 2026-08-07 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1394,
+      "flat_anteil": 0.0108
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\EURJPY 2026-08-10 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\EURJPY 2026-08-11 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\EURJPY 2026-08-12 1m.csv",
+      "symbol": "EURJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\EURJPY 2026-08-03 5m.csv",
+      "symbol": "EURJPY",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\EURJPY 2026-08-04 5m.csv",
+      "symbol": "EURJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\EURJPY 2026-08-05 5m.csv",
+      "symbol": "EURJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\EURJPY 2026-08-06 5m.csv",
+      "symbol": "EURJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\EURJPY 2026-08-07 5m.csv",
+      "symbol": "EURJPY",
+      "tf": "5m",
+      "kerzen": 282,
+      "flat_anteil": 0.0213
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\EURJPY 2026-08-10 5m.csv",
+      "symbol": "EURJPY",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\EURJPY 2026-08-11 5m.csv",
+      "symbol": "EURJPY",
+      "tf": "5m",
+      "kerzen": 154,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\EURJPY 2026-08-12 5m.csv",
+      "symbol": "EURJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\EURJPY 2026-08-03 15m.csv",
+      "symbol": "EURJPY",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\EURJPY 2026-08-04 15m.csv",
+      "symbol": "EURJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\EURJPY 2026-08-05 15m.csv",
+      "symbol": "EURJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\EURJPY 2026-08-06 15m.csv",
+      "symbol": "EURJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\EURJPY 2026-08-07 15m.csv",
+      "symbol": "EURJPY",
+      "tf": "15m",
+      "kerzen": 94,
+      "flat_anteil": 0.0213
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\EURJPY 2026-08-10 15m.csv",
+      "symbol": "EURJPY",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\EURJPY 2026-08-11 15m.csv",
+      "symbol": "EURJPY",
+      "tf": "15m",
+      "kerzen": 52,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\EURJPY 2026-08-12 15m.csv",
+      "symbol": "EURJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\EURUSD 2026-07-20 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\EURUSD 2026-07-21 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\EURUSD 2026-07-22 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\EURUSD 2026-07-23 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1434,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\EURUSD 2026-07-24 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1409,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\EURUSD 2026-07-27 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\EURUSD 2026-07-28 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\EURUSD 2026-07-29 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1436,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\EURUSD 2026-07-30 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\EURUSD 2026-07-31 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1409,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\EURUSD 2026-08-03 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\EURUSD 2026-08-04 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\EURUSD 2026-08-05 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\EURUSD 2026-08-06 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1435,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\EURUSD 2026-08-07 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1408,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\EURUSD 2026-08-10 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\EURUSD 2026-08-11 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\EURUSD 2026-08-12 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\EURUSD 2026-08-03 5m.csv",
+      "symbol": "EURUSD",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.1159
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\EURUSD 2026-08-04 5m.csv",
+      "symbol": "EURUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.1806
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\EURUSD 2026-08-05 5m.csv",
+      "symbol": "EURUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.2014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\EURUSD 2026-08-06 5m.csv",
+      "symbol": "EURUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.2083
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\EURUSD 2026-08-07 5m.csv",
+      "symbol": "EURUSD",
+      "tf": "5m",
+      "kerzen": 282,
+      "flat_anteil": 0.2553
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\EURUSD 2026-08-10 5m.csv",
+      "symbol": "EURUSD",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.2391
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\EURUSD 2026-08-11 5m.csv",
+      "symbol": "EURUSD",
+      "tf": "5m",
+      "kerzen": 153,
+      "flat_anteil": 0.2876
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\EURUSD 2026-08-12 5m.csv",
+      "symbol": "EURUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.2465
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\EURUSD 2026-08-03 15m.csv",
+      "symbol": "EURUSD",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\EURUSD 2026-08-04 15m.csv",
+      "symbol": "EURUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\EURUSD 2026-08-05 15m.csv",
+      "symbol": "EURUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0104
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\EURUSD 2026-08-06 15m.csv",
+      "symbol": "EURUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0104
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\EURUSD 2026-08-07 15m.csv",
+      "symbol": "EURUSD",
+      "tf": "15m",
+      "kerzen": 94,
+      "flat_anteil": 0.0426
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\EURUSD 2026-08-10 15m.csv",
+      "symbol": "EURUSD",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\EURUSD 2026-08-11 15m.csv",
+      "symbol": "EURUSD",
+      "tf": "15m",
+      "kerzen": 51,
+      "flat_anteil": 0.0196
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\EURUSD 2026-08-12 15m.csv",
+      "symbol": "EURUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0208
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\GBPJPY 2026-07-20 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1379,
+      "flat_anteil": 0.0015
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\GBPJPY 2026-07-21 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\GBPJPY 2026-07-22 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\GBPJPY 2026-07-23 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\GBPJPY 2026-07-24 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1399,
+      "flat_anteil": 0.0143
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\GBPJPY 2026-07-27 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1376,
+      "flat_anteil": 0.0073
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\GBPJPY 2026-07-28 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\GBPJPY 2026-07-29 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\GBPJPY 2026-07-30 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\GBPJPY 2026-07-31 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1399,
+      "flat_anteil": 0.0143
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\GBPJPY 2026-08-03 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\GBPJPY 2026-08-04 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\GBPJPY 2026-08-05 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\GBPJPY 2026-08-06 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\GBPJPY 2026-08-07 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1399,
+      "flat_anteil": 0.0143
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\GBPJPY 2026-08-10 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\GBPJPY 2026-08-11 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0021
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\GBPJPY 2026-08-12 1m.csv",
+      "symbol": "GBPJPY",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\GBPJPY 2026-08-03 5m.csv",
+      "symbol": "GBPJPY",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\GBPJPY 2026-08-04 5m.csv",
+      "symbol": "GBPJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\GBPJPY 2026-08-05 5m.csv",
+      "symbol": "GBPJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\GBPJPY 2026-08-06 5m.csv",
+      "symbol": "GBPJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\GBPJPY 2026-08-07 5m.csv",
+      "symbol": "GBPJPY",
+      "tf": "5m",
+      "kerzen": 282,
+      "flat_anteil": 0.0213
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\GBPJPY 2026-08-10 5m.csv",
+      "symbol": "GBPJPY",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\GBPJPY 2026-08-11 5m.csv",
+      "symbol": "GBPJPY",
+      "tf": "5m",
+      "kerzen": 154,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\GBPJPY 2026-08-12 5m.csv",
+      "symbol": "GBPJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\GBPJPY 2026-08-03 15m.csv",
+      "symbol": "GBPJPY",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\GBPJPY 2026-08-04 15m.csv",
+      "symbol": "GBPJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\GBPJPY 2026-08-05 15m.csv",
+      "symbol": "GBPJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\GBPJPY 2026-08-06 15m.csv",
+      "symbol": "GBPJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\GBPJPY 2026-08-07 15m.csv",
+      "symbol": "GBPJPY",
+      "tf": "15m",
+      "kerzen": 94,
+      "flat_anteil": 0.0213
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\GBPJPY 2026-08-10 15m.csv",
+      "symbol": "GBPJPY",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\GBPJPY 2026-08-11 15m.csv",
+      "symbol": "GBPJPY",
+      "tf": "15m",
+      "kerzen": 52,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\GBPJPY 2026-08-12 15m.csv",
+      "symbol": "GBPJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\GBPUSD 2026-07-20 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\GBPUSD 2026-07-21 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\GBPUSD 2026-07-22 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\GBPUSD 2026-07-23 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1434,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\GBPUSD 2026-07-24 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1409,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\GBPUSD 2026-07-27 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\GBPUSD 2026-07-28 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\GBPUSD 2026-07-29 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1436,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\GBPUSD 2026-07-30 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\GBPUSD 2026-07-31 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1409,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\GBPUSD 2026-08-03 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\GBPUSD 2026-08-04 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\GBPUSD 2026-08-05 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\GBPUSD 2026-08-06 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\GBPUSD 2026-08-07 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1408,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\GBPUSD 2026-08-10 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\GBPUSD 2026-08-11 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\GBPUSD 2026-08-12 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\GBPUSD 2026-08-03 5m.csv",
+      "symbol": "GBPUSD",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\GBPUSD 2026-08-04 5m.csv",
+      "symbol": "GBPUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\GBPUSD 2026-08-05 5m.csv",
+      "symbol": "GBPUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\GBPUSD 2026-08-06 5m.csv",
+      "symbol": "GBPUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\GBPUSD 2026-08-07 5m.csv",
+      "symbol": "GBPUSD",
+      "tf": "5m",
+      "kerzen": 282,
+      "flat_anteil": 0.0213
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\GBPUSD 2026-08-10 5m.csv",
+      "symbol": "GBPUSD",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\GBPUSD 2026-08-11 5m.csv",
+      "symbol": "GBPUSD",
+      "tf": "5m",
+      "kerzen": 153,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\GBPUSD 2026-08-12 5m.csv",
+      "symbol": "GBPUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\GBPUSD 2026-08-03 15m.csv",
+      "symbol": "GBPUSD",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\GBPUSD 2026-08-04 15m.csv",
+      "symbol": "GBPUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\GBPUSD 2026-08-05 15m.csv",
+      "symbol": "GBPUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\GBPUSD 2026-08-06 15m.csv",
+      "symbol": "GBPUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\GBPUSD 2026-08-07 15m.csv",
+      "symbol": "GBPUSD",
+      "tf": "15m",
+      "kerzen": 94,
+      "flat_anteil": 0.0213
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\GBPUSD 2026-08-10 15m.csv",
+      "symbol": "GBPUSD",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\GBPUSD 2026-08-11 15m.csv",
+      "symbol": "GBPUSD",
+      "tf": "15m",
+      "kerzen": 51,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\GBPUSD 2026-08-12 15m.csv",
+      "symbol": "GBPUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\NZDUSD 2026-07-20 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\NZDUSD 2026-07-21 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 720,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\NZDUSD 2026-07-22 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\NZDUSD 2026-07-23 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 718,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\NZDUSD 2026-07-24 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 705,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\NZDUSD 2026-07-27 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\NZDUSD 2026-07-28 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\NZDUSD 2026-07-29 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 717,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\NZDUSD 2026-07-30 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\NZDUSD 2026-07-31 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 704,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\NZDUSD 2026-08-03 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\NZDUSD 2026-08-04 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\NZDUSD 2026-08-05 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 718,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\NZDUSD 2026-08-06 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 718,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\NZDUSD 2026-08-07 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 702,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\NZDUSD 2026-08-10 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\NZDUSD 2026-08-11 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\NZDUSD 2026-08-12 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\NZDUSD 2026-08-03 5m.csv",
+      "symbol": "NZDUSD",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.1123
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\NZDUSD 2026-08-04 5m.csv",
+      "symbol": "NZDUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.1319
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\NZDUSD 2026-08-05 5m.csv",
+      "symbol": "NZDUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0833
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\NZDUSD 2026-08-06 5m.csv",
+      "symbol": "NZDUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.1042
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\NZDUSD 2026-08-07 5m.csv",
+      "symbol": "NZDUSD",
+      "tf": "5m",
+      "kerzen": 282,
+      "flat_anteil": 0.1596
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\NZDUSD 2026-08-10 5m.csv",
+      "symbol": "NZDUSD",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.1558
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\NZDUSD 2026-08-11 5m.csv",
+      "symbol": "NZDUSD",
+      "tf": "5m",
+      "kerzen": 154,
+      "flat_anteil": 0.1299
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\NZDUSD 2026-08-12 5m.csv",
+      "symbol": "NZDUSD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.1424
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\NZDUSD 2026-08-03 15m.csv",
+      "symbol": "NZDUSD",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\NZDUSD 2026-08-04 15m.csv",
+      "symbol": "NZDUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\NZDUSD 2026-08-05 15m.csv",
+      "symbol": "NZDUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\NZDUSD 2026-08-06 15m.csv",
+      "symbol": "NZDUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\NZDUSD 2026-08-07 15m.csv",
+      "symbol": "NZDUSD",
+      "tf": "15m",
+      "kerzen": 94,
+      "flat_anteil": 0.0213
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\NZDUSD 2026-08-10 15m.csv",
+      "symbol": "NZDUSD",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\NZDUSD 2026-08-11 15m.csv",
+      "symbol": "NZDUSD",
+      "tf": "15m",
+      "kerzen": 52,
+      "flat_anteil": 0.0192
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\NZDUSD 2026-08-12 15m.csv",
+      "symbol": "NZDUSD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\USDCAD 2026-07-20 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\USDCAD 2026-07-21 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\USDCAD 2026-07-22 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1436,
+      "flat_anteil": 0.0035
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\USDCAD 2026-07-23 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\USDCAD 2026-07-24 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1382,
+      "flat_anteil": 0.0022
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\USDCAD 2026-07-27 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1377,
+      "flat_anteil": 0.0065
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\USDCAD 2026-07-28 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 0.0076
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\USDCAD 2026-07-29 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\USDCAD 2026-07-30 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\USDCAD 2026-07-31 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\USDCAD 2026-08-03 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\USDCAD 2026-08-04 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\USDCAD 2026-08-05 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0028
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\USDCAD 2026-08-06 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\USDCAD 2026-08-07 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1382,
+      "flat_anteil": 0.0022
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\USDCAD 2026-08-10 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1378,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\USDCAD 2026-08-11 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\USDCAD 2026-08-12 1m.csv",
+      "symbol": "USDCAD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\USDCAD 2026-08-03 5m.csv",
+      "symbol": "USDCAD",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\USDCAD 2026-08-04 5m.csv",
+      "symbol": "USDCAD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\USDCAD 2026-08-05 5m.csv",
+      "symbol": "USDCAD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\USDCAD 2026-08-06 5m.csv",
+      "symbol": "USDCAD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\USDCAD 2026-08-07 5m.csv",
+      "symbol": "USDCAD",
+      "tf": "5m",
+      "kerzen": 279,
+      "flat_anteil": 0.0108
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\USDCAD 2026-08-10 5m.csv",
+      "symbol": "USDCAD",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\USDCAD 2026-08-11 5m.csv",
+      "symbol": "USDCAD",
+      "tf": "5m",
+      "kerzen": 154,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\USDCAD 2026-08-12 5m.csv",
+      "symbol": "USDCAD",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\USDCAD 2026-08-03 15m.csv",
+      "symbol": "USDCAD",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\USDCAD 2026-08-04 15m.csv",
+      "symbol": "USDCAD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\USDCAD 2026-08-05 15m.csv",
+      "symbol": "USDCAD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\USDCAD 2026-08-06 15m.csv",
+      "symbol": "USDCAD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\USDCAD 2026-08-07 15m.csv",
+      "symbol": "USDCAD",
+      "tf": "15m",
+      "kerzen": 94,
+      "flat_anteil": 0.0106
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\USDCAD 2026-08-10 15m.csv",
+      "symbol": "USDCAD",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\USDCAD 2026-08-11 15m.csv",
+      "symbol": "USDCAD",
+      "tf": "15m",
+      "kerzen": 52,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\USDCAD 2026-08-12 15m.csv",
+      "symbol": "USDCAD",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\USDCHF 2026-07-20 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\USDCHF 2026-07-21 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\USDCHF 2026-07-22 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\USDCHF 2026-07-23 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0028
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\USDCHF 2026-07-24 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\USDCHF 2026-07-27 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1379,
+      "flat_anteil": 0.0051
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\USDCHF 2026-07-28 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1435,
+      "flat_anteil": 0.0028
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\USDCHF 2026-07-29 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1436,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\USDCHF 2026-07-30 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1432,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\USDCHF 2026-07-31 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1379,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\USDCHF 2026-08-03 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1379,
+      "flat_anteil": 0.0022
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\USDCHF 2026-08-04 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\USDCHF 2026-08-05 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\USDCHF 2026-08-06 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\USDCHF 2026-08-07 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1379,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\USDCHF 2026-08-10 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\USDCHF 2026-08-11 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0063
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\USDCHF 2026-08-12 1m.csv",
+      "symbol": "USDCHF",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\USDCHF 2026-08-03 5m.csv",
+      "symbol": "USDCHF",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\USDCHF 2026-08-04 5m.csv",
+      "symbol": "USDCHF",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\USDCHF 2026-08-05 5m.csv",
+      "symbol": "USDCHF",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\USDCHF 2026-08-06 5m.csv",
+      "symbol": "USDCHF",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\USDCHF 2026-08-07 5m.csv",
+      "symbol": "USDCHF",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\USDCHF 2026-08-10 5m.csv",
+      "symbol": "USDCHF",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\USDCHF 2026-08-11 5m.csv",
+      "symbol": "USDCHF",
+      "tf": "5m",
+      "kerzen": 154,
+      "flat_anteil": 0.0065
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\USDCHF 2026-08-12 5m.csv",
+      "symbol": "USDCHF",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\USDCHF 2026-08-03 15m.csv",
+      "symbol": "USDCHF",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\USDCHF 2026-08-04 15m.csv",
+      "symbol": "USDCHF",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\USDCHF 2026-08-05 15m.csv",
+      "symbol": "USDCHF",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\USDCHF 2026-08-06 15m.csv",
+      "symbol": "USDCHF",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\USDCHF 2026-08-07 15m.csv",
+      "symbol": "USDCHF",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\USDCHF 2026-08-10 15m.csv",
+      "symbol": "USDCHF",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\USDCHF 2026-08-11 15m.csv",
+      "symbol": "USDCHF",
+      "tf": "15m",
+      "kerzen": 52,
+      "flat_anteil": 0.0192
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\USDCHF 2026-08-12 15m.csv",
+      "symbol": "USDCHF",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\USDJPY 2026-07-20 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\USDJPY 2026-07-21 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\USDJPY 2026-07-22 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\USDJPY 2026-07-23 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\USDJPY 2026-07-24 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1379,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\USDJPY 2026-07-27 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1377,
+      "flat_anteil": 0.0029
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\USDJPY 2026-07-28 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\USDJPY 2026-07-29 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\USDJPY 2026-07-30 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\USDJPY 2026-07-31 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\USDJPY 2026-08-03 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\USDJPY 2026-08-04 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\USDJPY 2026-08-05 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\USDJPY 2026-08-06 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\USDJPY 2026-08-07 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1379,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\USDJPY 2026-08-10 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\USDJPY 2026-08-11 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1436,
+      "flat_anteil": 0.0007
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\USDJPY 2026-08-12 1m.csv",
+      "symbol": "USDJPY",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 0.0014
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\USDJPY 2026-08-03 5m.csv",
+      "symbol": "USDJPY",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\USDJPY 2026-08-04 5m.csv",
+      "symbol": "USDJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\USDJPY 2026-08-05 5m.csv",
+      "symbol": "USDJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\USDJPY 2026-08-06 5m.csv",
+      "symbol": "USDJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\USDJPY 2026-08-07 5m.csv",
+      "symbol": "USDJPY",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\USDJPY 2026-08-10 5m.csv",
+      "symbol": "USDJPY",
+      "tf": "5m",
+      "kerzen": 276,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\USDJPY 2026-08-11 5m.csv",
+      "symbol": "USDJPY",
+      "tf": "5m",
+      "kerzen": 153,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\USDJPY 2026-08-12 5m.csv",
+      "symbol": "USDJPY",
+      "tf": "5m",
+      "kerzen": 288,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\USDJPY 2026-08-03 15m.csv",
+      "symbol": "USDJPY",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\USDJPY 2026-08-04 15m.csv",
+      "symbol": "USDJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\USDJPY 2026-08-05 15m.csv",
+      "symbol": "USDJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\USDJPY 2026-08-06 15m.csv",
+      "symbol": "USDJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\USDJPY 2026-08-07 15m.csv",
+      "symbol": "USDJPY",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\USDJPY 2026-08-10 15m.csv",
+      "symbol": "USDJPY",
+      "tf": "15m",
+      "kerzen": 92,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\USDJPY 2026-08-11 15m.csv",
+      "symbol": "USDJPY",
+      "tf": "15m",
+      "kerzen": 51,
+      "flat_anteil": 0.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\USDJPY 2026-08-12 15m.csv",
+      "symbol": "USDJPY",
+      "tf": "15m",
+      "kerzen": 96,
+      "flat_anteil": 0.0
+    }
+  ],
+  "loeschvorschlag": [
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\AUDUSD 2026-07-20 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\AUDUSD 2026-07-21 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 720,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\AUDUSD 2026-07-22 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\AUDUSD 2026-07-23 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 718,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\AUDUSD 2026-07-24 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 706,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\AUDUSD 2026-07-27 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\AUDUSD 2026-07-28 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\AUDUSD 2026-07-29 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 717,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\AUDUSD 2026-07-30 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\AUDUSD 2026-07-31 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 704,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\AUDUSD 2026-08-03 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\AUDUSD 2026-08-04 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\AUDUSD 2026-08-05 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 718,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\AUDUSD 2026-08-06 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\AUDUSD 2026-08-07 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 702,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\AUDUSD 2026-08-10 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\AUDUSD 2026-08-11 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\AUDUSD 2026-08-12 1m.csv",
+      "symbol": "AUDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\EURUSD 2026-07-20 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\EURUSD 2026-07-21 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\EURUSD 2026-07-22 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\EURUSD 2026-07-23 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1434,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\EURUSD 2026-07-24 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1409,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\EURUSD 2026-07-27 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\EURUSD 2026-07-28 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\EURUSD 2026-07-29 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1436,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\EURUSD 2026-07-30 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\EURUSD 2026-07-31 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1409,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\EURUSD 2026-08-03 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\EURUSD 2026-08-04 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\EURUSD 2026-08-05 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\EURUSD 2026-08-06 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1435,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\EURUSD 2026-08-07 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1408,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\EURUSD 2026-08-10 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\EURUSD 2026-08-11 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\EURUSD 2026-08-12 1m.csv",
+      "symbol": "EURUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\GBPUSD 2026-07-20 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\GBPUSD 2026-07-21 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\GBPUSD 2026-07-22 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\GBPUSD 2026-07-23 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1434,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\GBPUSD 2026-07-24 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1409,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\GBPUSD 2026-07-27 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\GBPUSD 2026-07-28 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\GBPUSD 2026-07-29 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1436,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\GBPUSD 2026-07-30 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\GBPUSD 2026-07-31 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1409,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\GBPUSD 2026-08-03 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\GBPUSD 2026-08-04 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\GBPUSD 2026-08-05 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\GBPUSD 2026-08-06 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1438,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\GBPUSD 2026-08-07 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1408,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\GBPUSD 2026-08-10 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1380,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\GBPUSD 2026-08-11 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\GBPUSD 2026-08-12 1m.csv",
+      "symbol": "GBPUSD",
+      "tf": "1m",
+      "kerzen": 1439,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\20.07.2026\\NZDUSD 2026-07-20 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\21.07.2026\\NZDUSD 2026-07-21 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 720,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\22.07.2026\\NZDUSD 2026-07-22 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\23.07.2026\\NZDUSD 2026-07-23 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 718,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\24.07.2026\\NZDUSD 2026-07-24 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 705,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\27.07.2026\\NZDUSD 2026-07-27 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\28.07.2026\\NZDUSD 2026-07-28 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\29.07.2026\\NZDUSD 2026-07-29 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 717,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\30.07.2026\\NZDUSD 2026-07-30 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\07\\31.07.2026\\NZDUSD 2026-07-31 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 704,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\03.08.2026\\NZDUSD 2026-08-03 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\04.08.2026\\NZDUSD 2026-08-04 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\05.08.2026\\NZDUSD 2026-08-05 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 718,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\06.08.2026\\NZDUSD 2026-08-06 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 718,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\07.08.2026\\NZDUSD 2026-08-07 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 702,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\10.08.2026\\NZDUSD 2026-08-10 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 690,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\11.08.2026\\NZDUSD 2026-08-11 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    },
+    {
+      "pfad": "raw\\marktdaten\\2026\\08\\12.08.2026\\NZDUSD 2026-08-12 1m.csv",
+      "symbol": "NZDUSD",
+      "tf": "1m",
+      "kerzen": 719,
+      "flat_anteil": 1.0
+    }
+  ]
+}

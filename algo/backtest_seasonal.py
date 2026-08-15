@@ -119,7 +119,11 @@ def main(symbol: str = "MNQ") -> None:
         print(f"  {name}: n={s['n']:>3}  Bullish%={s['bullish_pct']:>5.1f}  "
               f"Median-Range={s['median_range']:>7.2f}")
 
-    print("\n-- Monat (Rohbefund, n=1 Jahr -- kein Mehrjahres-Seasonality-Test) --")
+    jahre = rng[1].year - rng[0].year + 1
+    if jahre <= 1:
+        print("\n-- Monat (Rohbefund, n=1 Jahr -- kein Mehrjahres-Seasonality-Test) --")
+    else:
+        print(f"\n-- Monat (echter Mehrjahres-Befund, n={jahre} Jahre) --")
     for key, s in result["month"].items():
         y, m = key.split("-")
         print(f"  {MONTH_NAMES[int(m)]} {y}: n={s['n']:>2}  Bullish%={s['bullish_pct']:>5.1f}  "

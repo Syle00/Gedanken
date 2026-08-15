@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-14T23:50:33.757617+00:00",
+  "generated_at": "2026-08-15T00:02:49.489588+00:00",
   "zeit": [
     {
       "symbol": "EURUSD",
@@ -158,7 +158,7 @@
           "kerzen": 957
         }
       ],
-      "auffaellig_gesamt": 4016,
+      "auffaellig_gesamt": 3243,
       "fehlende_wochentage": [
         "2000-12-25",
         "2001-01-01",
@@ -268,7 +268,7 @@
           "kerzen": 1144
         }
       ],
-      "auffaellig_gesamt": 3843,
+      "auffaellig_gesamt": 3090,
       "fehlende_wochentage": [
         "2003-10-02",
         "2003-10-03",
@@ -373,7 +373,7 @@
           "kerzen": 1272
         }
       ],
-      "auffaellig_gesamt": 4027,
+      "auffaellig_gesamt": 3329,
       "fehlende_wochentage": [
         "2003-12-25",
         "2005-07-01",
@@ -476,7 +476,7 @@
           "kerzen": 1220
         }
       ],
-      "auffaellig_gesamt": 4226,
+      "auffaellig_gesamt": 3516,
       "fehlende_wochentage": [
         "2003-12-25",
         "2004-03-16",
@@ -586,7 +586,7 @@
           "kerzen": 821
         }
       ],
-      "auffaellig_gesamt": 4052,
+      "auffaellig_gesamt": 3347,
       "fehlende_wochentage": [
         "2003-08-22",
         "2003-09-05",
@@ -691,7 +691,7 @@
           "kerzen": 750
         }
       ],
-      "auffaellig_gesamt": 4597,
+      "auffaellig_gesamt": 3934,
       "fehlende_wochentage": [
         "2003-12-25",
         "2005-07-01",
@@ -794,7 +794,7 @@
           "kerzen": 887
         }
       ],
-      "auffaellig_gesamt": 3320,
+      "auffaellig_gesamt": 2645,
       "fehlende_wochentage": [
         "2005-12-30",
         "2007-12-25",
@@ -895,7 +895,7 @@
           "kerzen": 1347
         }
       ],
-      "auffaellig_gesamt": 3233,
+      "auffaellig_gesamt": 2361,
       "fehlende_wochentage": [
         "2003-12-25",
         "2005-07-01",
@@ -998,7 +998,7 @@
           "kerzen": 1135
         }
       ],
-      "auffaellig_gesamt": 4267,
+      "auffaellig_gesamt": 3562,
       "fehlende_wochentage": [
         "2003-12-25",
         "2005-07-01",
@@ -1101,7 +1101,7 @@
           "kerzen": 1343
         }
       ],
-      "auffaellig_gesamt": 3101,
+      "auffaellig_gesamt": 2203,
       "fehlende_wochentage": [
         "2003-07-14",
         "2003-07-15",

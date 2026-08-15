@@ -1,0 +1,32 @@
+﻿340 Dateien geprueft, 72 ueber 90% flach (Loeschkandidaten, NICHT geloescht):
+  100.0%  raw\marktdaten\2026\07\20.07.2026\AUDUSD 2026-07-20 1m.csv
+  100.0%  raw\marktdaten\2026\07\21.07.2026\AUDUSD 2026-07-21 1m.csv
+  100.0%  raw\marktdaten\2026\07\22.07.2026\AUDUSD 2026-07-22 1m.csv
+  100.0%  raw\marktdaten\2026\07\23.07.2026\AUDUSD 2026-07-23 1m.csv
+  100.0%  raw\marktdaten\2026\07\24.07.2026\AUDUSD 2026-07-24 1m.csv
+  100.0%  raw\marktdaten\2026\07\27.07.2026\AUDUSD 2026-07-27 1m.csv
+  100.0%  raw\marktdaten\2026\07\28.07.2026\AUDUSD 2026-07-28 1m.csv
+  100.0%  raw\marktdaten\2026\07\29.07.2026\AUDUSD 2026-07-29 1m.csv
+  100.0%  raw\marktdaten\2026\07\30.07.2026\AUDUSD 2026-07-30 1m.csv
+  100.0%  raw\marktdaten\2026\07\31.07.2026\AUDUSD 2026-07-31 1m.csv
+  100.0%  raw\marktdaten\2026\08\03.08.2026\AUDUSD 2026-08-03 1m.csv
+  100.0%  raw\marktdaten\2026\08\04.08.2026\AUDUSD 2026-08-04 1m.csv
+  100.0%  raw\marktdaten\2026\08\05.08.2026\AUDUSD 2026-08-05 1m.csv
+  100.0%  raw\marktdaten\2026\08\06.08.2026\AUDUSD 2026-08-06 1m.csv
+  100.0%  raw\marktdaten\2026\08\07.08.2026\AUDUSD 2026-08-07 1m.csv
+  100.0%  raw\marktdaten\2026\08\10.08.2026\AUDUSD 2026-08-10 1m.csv
+  100.0%  raw\marktdaten\2026\08\11.08.2026\AUDUSD 2026-08-11 1m.csv
+  100.0%  raw\marktdaten\2026\08\12.08.2026\AUDUSD 2026-08-12 1m.csv
+  100.0%  raw\marktdaten\2026\07\20.07.2026\EURUSD 2026-07-20 1m.csv
+  100.0%  raw\marktdaten\2026\07\21.07.2026\EURUSD 2026-07-21 1m.csv
+  100.0%  raw\marktdaten\2026\07\22.07.2026\EURUSD 2026-07-22 1m.csv
+  100.0%  raw\marktdaten\2026\07\23.07.2026\EURUSD 2026-07-23 1m.csv
+  100.0%  raw\marktdaten\2026\07\24.07.2026\EURUSD 2026-07-24 1m.csv
+  100.0%  raw\marktdaten\2026\07\27.07.2026\EURUSD 2026-07-27 1m.csv
+  100.0%  raw\marktdaten\2026\07\28.07.2026\EURUSD 2026-07-28 1m.csv
+  100.0%  raw\marktdaten\2026\07\29.07.2026\EURUSD 2026-07-29 1m.csv
+  100.0%  raw\marktdaten\2026\07\30.07.2026\EURUSD 2026-07-30 1m.csv
+  100.0%  raw\marktdaten\2026\07\31.07.2026\EURUSD 2026-07-31 1m.csv
+  100.0%  raw\marktdaten\2026\08\03.08.2026\EURUSD 2026-08-03 1m.csv
+  100.0%  raw\marktdaten\2026\08\04.08.2026\EURUSD 2026-08-04 1m.csv
+  ... und 42 weitere, siehe Report
