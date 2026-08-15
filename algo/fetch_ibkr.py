@@ -152,30 +152,51 @@ def write_day_1s(symbol: str, day: date, rows: pd.DataFrame, contract: str) -> P
 
 
 def fetch_window(ib, contract: str, symbol: str, end_utc: datetime, pacing: PacingLimiter,
-                  sleep=time.sleep) -> pd.DataFrame:
+                  sleep=time.sleep) -> pd.DataFrame | None:
     """Ein 30-Minuten-Fenster ueber `ib.reqHistoricalData`. `ib` ist injizierbar (echter
     ib_async.IB im CLI-Pfad, Stub in Tests). formatDate=2 liefert UNIX-Sekunden UTC direkt --
     keine Zeitzonen-Umrechnung noetig (schaedlichster Fehlertyp dieses Projekts, siehe
     CLAUDE.md 'Zeit vor Preis').
 
     Bis zu 3 Versuche mit mind. 15s Abstand (Spec SS4: Pacing-Violations/transiente Fehler
-    duerfen einen 34h-Backfill nicht abbrechen). Nach 3 gescheiterten Versuchen wird das
-    Fenster als fehlgeschlagen gemeldet und ein leerer DataFrame zurueckgegeben -- der
-    Aufrufer (fetch_symbol_day) behandelt das wie ein Fenster ohne Trades."""
+    duerfen einen 34h-Backfill nicht abbrechen). IBKR meldet einen Fehlschlag (z.B. Error 162
+    "pacing violation") NICHT als Python-Exception, sondern nur ueber `ib.errorEvent` --
+    `reqHistoricalData` liefert dabei ganz normal eine leere Liste zurueck, ununterscheidbar
+    von einem Fenster ohne Trades. Realfall 2026-08-15: 3 ES-Fenster wurden nach einer
+    Pacing-Violation stillschweigend als "0 Kerzen, kein Trade" ins Register geschrieben und
+    waeren nie wieder nachgeholt worden -- eine 90-Minuten-Luecke, die als erledigt galt.
+    Deshalb: `errorEvent` waehrend des Requests mitschneiden; kommt ein Fehler UND die
+    Antwort ist leer, gilt der Versuch als fehlgeschlagen, nicht als "kein Trade". Gibt nach
+    3 gescheiterten Versuchen `None` zurueck (nicht einen leeren DataFrame) -- der Aufrufer
+    (fetch_symbol_day) darf ein `None`-Fenster NICHT ins Register schreiben, sonst gilt die
+    Luecke faelschlich als prueft-und-leer statt als offen."""
     future = _future_contract(contract, symbol)
     for versuch in range(1, 4):
         pacing.wait()
+        fehler: list[tuple[int, str]] = []
+
+        def _on_error(reqId, errorCode, errorString, errContract, fehler=fehler):
+            fehler.append((errorCode, errorString))
+
+        ib.errorEvent += _on_error
         try:
             bars = ib.reqHistoricalData(
                 future, endDateTime=end_utc, durationStr=f"{WINDOW_SECONDS} S",
                 barSizeSetting="1 secs", whatToShow="TRADES", useRTH=False, formatDate=2)
-            break
         except Exception as exc:
-            print(f"  ! {symbol} Fenster bis {end_utc}: Versuch {versuch}/3 fehlgeschlagen ({exc})")
-            if versuch == 3:
-                print(f"  ! {symbol} Fenster bis {end_utc}: nach 3 Versuchen aufgegeben, uebersprungen")
-                return pd.DataFrame(columns=["time", "open", "high", "low", "close", "volume"])
-            sleep(15.0)
+            fehler.append((-1, str(exc)))
+            bars = []
+        finally:
+            ib.errorEvent -= _on_error
+
+        if bars or not fehler:
+            break
+        print(f"  ! {symbol} Fenster bis {end_utc}: Versuch {versuch}/3 fehlgeschlagen ({fehler})")
+        if versuch == 3:
+            print(f"  ! {symbol} Fenster bis {end_utc}: nach 3 Versuchen aufgegeben -- "
+                  f"NICHT registriert, wird beim naechsten Lauf erneut versucht")
+            return None
+        sleep(15.0)
     rows = [{"time": int(b.date.timestamp()) if hasattr(b.date, "timestamp") else int(b.date),
              "open": b.open, "high": b.high, "low": b.low, "close": b.close,
              "volume": b.volume} for b in bars]
@@ -196,6 +217,11 @@ def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
         if key in vorhanden:
             continue
         df = fetch_window(ib, contract, symbol, end_utc, pacing)
+        if df is None:
+            # Fehlgeschlagen (z.B. Pacing-Violation nach 3 Versuchen) -- KEINE Registerzeile,
+            # sonst gilt das Fenster faelschlich als "geprueft, kein Trade" statt "offen"
+            # (Realfall 2026-08-15, siehe fetch_window()-Docstring).
+            continue
         if not df.empty:
             frames.append(df)
         neue_register_zeilen.append({
@@ -375,9 +401,21 @@ def _demo() -> None:
         def __init__(self, ts, o, h, l, c, v):
             self.date, self.open, self.high, self.low, self.close, self.volume = ts, o, h, l, c, v
 
+    class _StubEvent:
+        """Minimaler Ersatz fuer ib_async's errorEvent -- unterstuetzt nur +=/-=, ruft nie
+        auf. Reicht, damit fetch_window() denselben Handler-An-/Abmelde-Code laufen lassen
+        kann wie gegen ein echtes IB()."""
+
+        def __iadd__(self, handler):
+            return self
+
+        def __isub__(self, handler):
+            return self
+
     class _StubIB:
         def __init__(self):
             self.calls = 0
+            self.errorEvent = _StubEvent()
 
         def reqHistoricalData(self, contract, endDateTime, **kw):
             self.calls += 1
