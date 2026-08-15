@@ -23,6 +23,10 @@ wiki/graphify-out/
 journal/.secrets.yaml
 # FRED-API-Key (stlouisfed.org). Gehoert nie ins Repo, auch nicht ins private.
 algo/.secrets.yaml
+# IBC-Konfiguration (IB-Gateway-Auto-Login) landet hier NIE direkt -- die eigentliche
+# Config liegt unter %USERPROFILE%\ibc\, dieser Eintrag faengt nur einen versehentlichen
+# Kopiervorgang ins Repo ab (Design SS9).
+algo/ibc/
 
 # --- Python ---
 __pycache__/
