@@ -38,6 +38,25 @@ WINDOW_SECONDS = 1800
 
 # Verfallsmonate NQ/ES: H (Maerz), M (Juni), U (September), Z (Dezember).
 QUARTER_MONTHS = [(3, "H"), (6, "M"), (9, "U"), (12, "Z")]
+_MONTH_NUM = {code: month for month, code in QUARTER_MONTHS}
+
+
+def _future_contract(contract: str, symbol: str):
+    """Baut ein ib_async-Future-Objekt aus dem Kontrakt-Code (z.B. 'NQU2026', 'NQ') --
+    reqHistoricalData braucht ein Contract-Objekt, keinen blossen String. includeExpired=True
+    ist Pflicht fuer den Backfill ueber bereits verfallene Kontrakte (Design SS3.2)."""
+    try:
+        from ib_async import Future
+    except ImportError:
+        # In Tests ohne ib_async: Mock-Objekt, das der Stub-IB ignoriert
+        class _MockFuture:
+            pass
+        return _MockFuture()
+    code = contract[len(symbol)]
+    year = contract[len(symbol) + 1:]
+    month = _MONTH_NUM[code]
+    return Future(symbol=symbol, lastTradeDateOrContractMonth=f"{year}{month:02d}",
+                  exchange="CME", includeExpired=True)
 
 
 def _third_friday(year: int, month: int) -> date:
@@ -139,14 +158,15 @@ def write_day_1s(symbol: str, day: date, rows: pd.DataFrame, contract: str) -> P
     return dest
 
 
-def fetch_window(ib, contract: str, end_utc: datetime, pacing: PacingLimiter) -> pd.DataFrame:
+def fetch_window(ib, contract: str, symbol: str, end_utc: datetime, pacing: PacingLimiter) -> pd.DataFrame:
     """Ein 30-Minuten-Fenster ueber `ib.reqHistoricalData`. `ib` ist injizierbar (echter
     ib_async.IB im CLI-Pfad, Stub in Tests). formatDate=2 liefert UNIX-Sekunden UTC direkt --
     keine Zeitzonen-Umrechnung noetig (schaedlichster Fehlertyp dieses Projekts, siehe
     CLAUDE.md 'Zeit vor Preis')."""
     pacing.wait()
+    future = _future_contract(contract, symbol)
     bars = ib.reqHistoricalData(
-        contract, endDateTime=end_utc, durationStr=f"{WINDOW_SECONDS} S",
+        future, endDateTime=end_utc, durationStr=f"{WINDOW_SECONDS} S",
         barSizeSetting="1 secs", whatToShow="TRADES", useRTH=False, formatDate=2)
     rows = [{"time": int(b.date.timestamp()) if hasattr(b.date, "timestamp") else int(b.date),
              "open": b.open, "high": b.high, "low": b.low, "close": b.close,
@@ -167,7 +187,7 @@ def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
         key = (int(start_utc.timestamp()), int(end_utc.timestamp()))
         if key in vorhanden:
             continue
-        df = fetch_window(ib, contract, end_utc, pacing)
+        df = fetch_window(ib, contract, symbol, end_utc, pacing)
         if df.empty:
             continue
         frames.append(df)
@@ -203,9 +223,12 @@ def main(argv=None) -> int:
     try:
         if a.verify:
             for symbol in symbols:
-                dest = fetch_symbol_day(ib, symbol, date.today() - timedelta(days=1), pacing)
-                print(f"{symbol}: Verify-Fenster geholt, nichts geschrieben (--verify)"
-                      if dest is None else f"{symbol}: unerwartet geschrieben nach {dest}")
+                day = date.today() - timedelta(days=1)
+                contract = front_month(day, symbol)
+                _, end_utc = day_windows(day)[-1]
+                df = fetch_window(ib, contract, symbol, end_utc, pacing)
+                print(f"{symbol}: Verify-Fenster {len(df)} Kerzen geholt "
+                      f"(Kontrakt {contract}), nichts geschrieben")
         elif a.backfill:
             von, bis = date.fromisoformat(a.backfill[0]), date.fromisoformat(a.backfill[1])
             tag = von
