@@ -222,6 +222,7 @@
 <li><a href="#2026-08-16-setup-1s-als-vorzugsquelle-datenlage-pruefung-gegen-1s-abdeckungcsv">[2026-08-16] setup | 1s als Vorzugsquelle + Datenlage-Pruefung gegen 1s-abdeckung.csv</a></li>
 <li><a href="#2026-08-16-setup-cot-daten-im-weekly-bias-algocotpy">[2026-08-16] setup | COT-Daten im Weekly Bias (algo/cot.py)</a></li>
 <li><a href="#2026-08-16-fix-cot-substring-falle-mischte-e-mini-und-micro-kontrakt-es-zahlen-falsch">[2026-08-16] fix | COT: Substring-Falle mischte E-Mini und Micro-Kontrakt (ES-Zahlen falsch)</a></li>
+<li><a href="#2026-08-16-setup-micromini-strikt-getrennt-cot-divergenz-these-gebacktestet-widerlegt">[2026-08-16] setup | Micro/Mini strikt getrennt + COT-Divergenz-These gebacktestet (widerlegt)</a></li>
 </ul>
 </div>
 </details>
@@ -3469,6 +3470,37 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Kontraktfamilien enthalten einander woertlich (Micro &lt;-&gt; E-Mini), und der Fehler ist still --
   er liefert plausible Zahlen des falschen Instruments. Nur der Abgleich mit der Chart-Quelle
   des Nutzers hat ihn aufgedeckt; die Selbstchecks liefen vorher gruen durch.</li>
+</ul>
+<h2 id="2026-08-16-setup-micromini-strikt-getrennt-cot-divergenz-these-gebacktestet-widerlegt">[2026-08-16] setup | Micro/Mini strikt getrennt + COT-Divergenz-These gebacktestet (widerlegt)</h2>
+<ul>
+<li><strong>Nutzervorgabe: Micro und Mini in Zukunft streng unterscheiden.</strong> Anlass war der
+  Substring-Bug in <code>cot.py</code> (E-Mini/Micro vermischt). Im eigenen Code steckten zwei weitere
+  Vermischungen, beide entfernt:</li>
+<li><code>bias_levels.py::gaps_auto()</code> fiel bei duenner NQ-Historie auf <strong>MNQ</strong> zurueck und gab
+    Micro-Preise als NQ-Level aus. <code>GAP_SYMBOLE</code> ist jetzt <code>["NQ"]</code>, <strong>ohne Rueckfall</strong>;
+    reicht die Historie nicht, wird <code>hinweis</code> gesetzt statt ersetzt.</li>
+<li><code>bias_levels.py::compute()</code> zog die Wochen-Range aus <code>load_rows("MNQ")</code>, waehrend die Gaps
+    aus NQ kamen -- eine Datei mit zwei Instrumenten. Jetzt durchgehend NQ. Nebenbefund: NQ und
+    ES haben mit <strong>6540</strong> 1d-Tagesdateien ohnehin die laengere Historie, MNQ nur 1885 -- der
+    Micro-Rueckfall war nie noetig, nur bequem.</li>
+<li>Als Dauerregel im Gedaechtnis abgelegt (<code>micro-mini-streng-trennen</code>).</li>
+<li><strong>Backtest der gestern notierten Divergenz-These:</strong> <code>algo/backtest_cot_divergenz.py</code>.
+  These: zeigen NQ und ES im COT gegeneinander, laeuft in der Folgewoche das bullish
+  signalisierte Symbol besser als das bearishe.
+  <strong>Ergebnis: widerlegt.</strong> n=101 Divergenzfaelle seit 2022, <strong>Trefferquote 46,5 %</strong> --
+  unter Zufall. Ø-Spread -0,068 %, Median -0,104 %, stdev 1,158. Kontrollgruppe Gleichlauf
+  (n=132): 48,5 %, Ø +0,049 %. Kein messbarer Unterschied zwischen beiden Gruppen.</li>
+<li>Methodik ohne Lookahead: Der CFTC-Report traegt den Stand <strong>Dienstag</strong> und erscheint
+  <strong>Freitag</strong> nach Schluss -- handelbar also fruehestens ab Montag darauf. Gemessen wurde
+  deshalb Signal aus Report der Woche W gegen Return der Woche <strong>W+1</strong> (Montag-Open bis
+  Freitag-Close), nie gegen die Woche, in der der Report erschien.
+  Gerechnet ausschliesslich auf NQ und ES, nie auf MNQ/MES.</li>
+<li><code>Weekly Bias KW34 2026.md</code> entsprechend korrigiert: die Divergenz steht dort jetzt als
+  <strong>Beschreibung der Lage</strong>, ausdruecklich nicht als Signal, mit den Backtest-Zahlen dabei.</li>
+<li>Methodische Lehre, uebertragbar: Eine Beobachtung, die als "das ist die eigentlich handelbare
+  Konstellation" formuliert wird, ist genau deshalb sofort zu backtesten -- die Formulierung
+  suggeriert einen Vorsprung, den die Zahlen hier nicht hergeben. Zwei Tage spaeter waere sie
+  als bekannte Wahrheit weitergetragen worden.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

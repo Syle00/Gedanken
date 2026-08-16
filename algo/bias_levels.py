@@ -59,12 +59,13 @@ TV_IMPACT = {1: "Red", 0: "Orange"}                 # -1 (Low) bewusst raus
 # bewegen die US-Indizes nicht. TradingView filtert das serverseitig (countries=US),
 # ForexFactory liefert alle Waehrungen -- dort wird beim Parsen gefiltert.
 WAEHRUNG = "USD"
-# NQ ist das Leitsymbol (CLAUDE.md seit 2026-08-15), hat aber erst ab 12.08.2026 Intraday-
-# Historie. MNQ traegt denselben Index und reicht Wochen zurueck -- deshalb Fallback, aber
-# mit ausgewiesenem Symbol: NQ- und MNQ-Prints koennen um Ticks abweichen, das darf nicht
-# stillschweigend als "NQ-Level" durchgehen.
-GAP_SYMBOLE = ["NQ", "MNQ"]
-GAP_MIN_TAGE = 6        # weniger Tage -> naechstes Symbol probieren
+# **Micro und Mini werden streng getrennt** (Nutzervorgabe 2026-08-16). MNQ ist NICHT als
+# Ersatz fuer NQ zugelassen, auch nicht als Rueckfall bei duenner Historie: die Kontrakte
+# weichen minutenweise um bis zu 7,75 Punkte ab (gemessen ueber 1200 gemeinsame Minuten), und
+# beim COT-Report lieferte dieselbe Verwechslung fuer ES ein komplett umgekehrtes Signal.
+# Fehlen NQ-Daten, wird das gemeldet -- nicht durch das Micro-Pendant ersetzt.
+GAP_SYMBOLE = ["NQ"]
+GAP_MIN_TAGE = 6        # weniger Tage -> Datenlage melden, nicht ersetzen
 GAP_RUECKBLICK = 35     # Tage: deckt die vergangene Woche + offene NWOG der letzten ~5 Wochen
 
 
@@ -315,24 +316,22 @@ def datenlage(symbol: str, von: date, bis: date) -> dict:
 
 
 def gaps_auto(heute: date | None = None) -> dict:
-    """`gaps()` fuer das erste Symbol aus GAP_SYMBOLE mit brauchbarer Historie.
+    """`gaps()` fuer das Leitsymbol. **Kein Symbol-Rueckfall** -- Micro ersetzt nie Mini.
 
-    Faellt auf MNQ zurueck, solange NQ nur wenige Tage Intraday-Daten hat. Das Ergebnis
-    traegt `symbol` und (bei Fallback) `hinweis` -- der Bericht muss ausweisen, woher die
-    Level stammen, statt MNQ-Prints als NQ-Level auszugeben.
+    Reicht die Historie nicht, wird `hinweis` gesetzt und die duenne Datenlage gemeldet.
+    Frueher fiel diese Funktion auf MNQ zurueck; das ist seit der Micro/Mini-Trennung
+    (2026-08-16) untersagt, weil ein Micro-Preis als "NQ-Level" still falsch ist.
     """
-    letzter = None
-    for i, sym in enumerate(GAP_SYMBOLE):
+    for sym in GAP_SYMBOLE:
         g = gaps(sym, heute)
-        letzter = letzter or g
-        if len(g.get("quellen", {})) >= GAP_MIN_TAGE:
-            if i:
-                g["hinweis"] = (f"{GAP_SYMBOLE[0]} hat im Fenster zu wenig Intraday-Historie, "
-                                f"Level stammen aus {sym} (gleicher Index, Ticks koennen "
-                                f"minimal abweichen)")
-            return g
-    return letzter or {"symbol": GAP_SYMBOLE[0], "error": "keine Daten",
-                       "ndog": [], "nwog": [], "offen": []}
+        tage = len(g.get("quellen", {}))
+        if tage < GAP_MIN_TAGE:
+            g["hinweis"] = (f"nur {tage} Handelstage {sym}-Historie im Fenster -- Level sind "
+                            f"entsprechend duenn belegt. Kein Rueckfall auf das Micro-Pendant "
+                            f"(Micro und Mini werden streng getrennt).")
+        return g
+    return {"symbol": GAP_SYMBOLE[0], "error": "kein Symbol konfiguriert",
+            "ndog": [], "nwog": [], "offen": []}
 
 
 def gaps(symbol: str = "NQ", heute: date | None = None) -> dict:
@@ -442,7 +441,9 @@ def news(target_day: date, weekly: bool = False) -> dict:
 # --------------------------------------------------------------------------- Zusammenbau
 
 def compute(target_day: date, weekly: bool) -> dict:
-    rows = load_rows("MNQ")
+    # NQ, nicht MNQ: gehandelt wird der Mini, und NQ hat mit 6540 Tagesdateien ohnehin die
+    # laengere 1d-Historie. Micro/Mini werden strikt getrennt (Nutzervorgabe 2026-08-16).
+    rows = load_rows("NQ")
     if weekly:
         mon = next_monday(target_day)
         iso = mon.isocalendar()

@@ -211,12 +211,21 @@ dabei am 12-Monats-Tief (−46.511 im selben Zeitraum). Nach der Lesart aus
 [[COT (Commitment of Traders) Data]] steht damit ein bullishes NQ-Signal gegen ein bearishes
 ES-Signal.
 
-Diese Divergenz ist verwertbarer als jede Einzelaussage: Sie ist auf Positionierungsebene das,
-was [[SMT (Smart Money Divergence)|SMT]] auf Preisebene beschreibt. Falls sie sich im Chart
-spiegelt — NQ hält, während ES nachgibt (oder umgekehrt) — wäre das die eigentlich handelbare
-Beobachtung dieser Woche. **Ungeprüft:** ob eine COT-Divergenz zwischen NQ und ES historisch
-etwas über die Folgewoche aussagt, ist im Vault nicht untersucht. Als These notiert, nicht als
-Signal.
+Diese Divergenz ist auf Positionierungsebene das, was [[SMT (Smart Money Divergence)|SMT]] auf
+Preisebene beschreibt — **als Handelssignal für die Folgewoche taugt sie aber nicht.**
+
+> **Gebacktestet und widerlegt** (`algo/backtest_cot_divergenz.py`, 16.08.2026). Über 101
+> Divergenzfälle seit 2022: Läuft in der Folgewoche das Symbol mit dem bullishen COT-Signal
+> besser als das mit dem bearishen? **Trefferquote 46,5 %** — schlechter als der Münzwurf.
+> Ø-Spread −0,068 %, Median −0,104 %. Die Kontrollgruppe (beide Symbole gleiches Signal,
+> n=132) liegt mit 48,5 % praktisch gleichauf. Es gibt also keinen messbaren Unterschied
+> zwischen Divergenz und Gleichlauf.
+>
+> Gemessen wurde ohne Lookahead: Signal aus dem Report der Woche W (Stand Dienstag,
+> veröffentlicht Freitag) gegen den Return der Woche W+1 (Montag-Open bis Freitag-Close).
+
+Die Divergenz bleibt damit eine **Beschreibung der Lage**, kein Vorsprung. Sie erklärt, warum
+kein einheitliches Index-Bias sinnvoll ist — mehr nicht.
 
 Einschränkungen, die dazugehören: COT ist ein **Wochenbild mit Verzögerung** (Stand Dienstag,
 veröffentlicht Freitag) und taugt zur Bias-Bestätigung, nicht zum Timing. Die Kombination, auf

@@ -3074,3 +3074,33 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Kontraktfamilien enthalten einander woertlich (Micro <-> E-Mini), und der Fehler ist still --
   er liefert plausible Zahlen des falschen Instruments. Nur der Abgleich mit der Chart-Quelle
   des Nutzers hat ihn aufgedeckt; die Selbstchecks liefen vorher gruen durch.
+
+## [2026-08-16] setup | Micro/Mini strikt getrennt + COT-Divergenz-These gebacktestet (widerlegt)
+- **Nutzervorgabe: Micro und Mini in Zukunft streng unterscheiden.** Anlass war der
+  Substring-Bug in `cot.py` (E-Mini/Micro vermischt). Im eigenen Code steckten zwei weitere
+  Vermischungen, beide entfernt:
+  - `bias_levels.py::gaps_auto()` fiel bei duenner NQ-Historie auf **MNQ** zurueck und gab
+    Micro-Preise als NQ-Level aus. `GAP_SYMBOLE` ist jetzt `["NQ"]`, **ohne Rueckfall**;
+    reicht die Historie nicht, wird `hinweis` gesetzt statt ersetzt.
+  - `bias_levels.py::compute()` zog die Wochen-Range aus `load_rows("MNQ")`, waehrend die Gaps
+    aus NQ kamen -- eine Datei mit zwei Instrumenten. Jetzt durchgehend NQ. Nebenbefund: NQ und
+    ES haben mit **6540** 1d-Tagesdateien ohnehin die laengere Historie, MNQ nur 1885 -- der
+    Micro-Rueckfall war nie noetig, nur bequem.
+  - Als Dauerregel im Gedaechtnis abgelegt (`micro-mini-streng-trennen`).
+- **Backtest der gestern notierten Divergenz-These:** `algo/backtest_cot_divergenz.py`.
+  These: zeigen NQ und ES im COT gegeneinander, laeuft in der Folgewoche das bullish
+  signalisierte Symbol besser als das bearishe.
+  **Ergebnis: widerlegt.** n=101 Divergenzfaelle seit 2022, **Trefferquote 46,5 %** --
+  unter Zufall. Ø-Spread -0,068 %, Median -0,104 %, stdev 1,158. Kontrollgruppe Gleichlauf
+  (n=132): 48,5 %, Ø +0,049 %. Kein messbarer Unterschied zwischen beiden Gruppen.
+- Methodik ohne Lookahead: Der CFTC-Report traegt den Stand **Dienstag** und erscheint
+  **Freitag** nach Schluss -- handelbar also fruehestens ab Montag darauf. Gemessen wurde
+  deshalb Signal aus Report der Woche W gegen Return der Woche **W+1** (Montag-Open bis
+  Freitag-Close), nie gegen die Woche, in der der Report erschien.
+  Gerechnet ausschliesslich auf NQ und ES, nie auf MNQ/MES.
+- `Weekly Bias KW34 2026.md` entsprechend korrigiert: die Divergenz steht dort jetzt als
+  **Beschreibung der Lage**, ausdruecklich nicht als Signal, mit den Backtest-Zahlen dabei.
+- Methodische Lehre, uebertragbar: Eine Beobachtung, die als "das ist die eigentlich handelbare
+  Konstellation" formuliert wird, ist genau deshalb sofort zu backtesten -- die Formulierung
+  suggeriert einen Vorsprung, den die Zahlen hier nicht hergeben. Zwei Tage spaeter waere sie
+  als bekannte Wahrheit weitergetragen worden.
