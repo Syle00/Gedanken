@@ -28,6 +28,26 @@ Handle ohne Rückfrage bei Ingest und beim Einsortieren loser Dateien in `raw/`.
 Übrigen nach. Die harte Sperre für Live-Handel mit echtem Geld aus der IBKR-Roadmap bleibt in
 jedem Fall bestehen und wird von dieser Regel nicht gelockert.
 
+## Session-Start
+
+Gib zu Beginn jeder Session ungefragt drei Zeilen aus, bevor du mit der eigentlichen Aufgabe
+beginnst:
+
+```
+raw/:  <lose Dateien -> wohin einsortiert / "nichts offen">
+Daten: <NQ/ES 1s-Abdeckung bis Datum | Lücken oder "keine">
+Offen: <PLAN-Backlog in Stichworten | Stand Gedanken-Clone>
+```
+
+Quellen: `python tools/sort_marktdaten.py --quiet` und `tools/sort_bilder.py --quiet` für
+Zeile 1, `raw/marktdaten/1s-abdeckung.csv` für Zeile 2, `algo/PLAN.md` für Zeile 3.
+
+**Die Statuszeile berichtet, sie repariert nicht.** Findest du eine Datenlücke, melde sie —
+geschlossen wird sie erst auf Ansage (siehe `## Autonomie`). Einzige Ausnahme ist das
+Einsortieren loser Dateien, das ohnehin autonom läuft. Findest du nichts, schreibe „nichts
+offen" statt die Zeile wegzulassen: eine fehlende Zeile ist nicht von einer vergessenen
+Prüfung zu unterscheiden.
+
 ## Layer 0 — Übergeordnetes Ziel: autonomer IBKR-Handelsalgorithmus
 
 Verfolge als Ziel von allem in diesem Repo einen Handelsalgorithmus für NQ und ES, der
