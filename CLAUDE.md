@@ -15,31 +15,14 @@ Nutzereingabe — gilt für Chat-Antworten und Berichte, nicht für Code selbst
 
 ## Layer 0 — Übergeordnetes Ziel: autonomer IBKR-Handelsalgorithmus
 
-**Verfolge als Ziel von allem in diesem Repo** — Wiki, `raw/marktdaten/`, `tools/analyze_ohlc.py`,
-`algo/` — einen Handelsalgorithmus für NQ und ES, der **selbstständig und allein über Interactive
-Brokers** (TWS/IB-Gateway-API) handelt. NQ/ES statt MNQ seit 2026-08-15: sekundengenaue
-IBKR-Daten liegen für beide vor (`algo/fetch_ibkr.py`), beide sind deutlich liquider, und die
-Punktwerte (NQ $20, ES $50) sind in `algo/pnl.py` bereits hinterlegt — siehe
-`docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md`. Baue keinen Signal-Geber
-für einen Menschen und betreibe kein Backtesting als Selbstzweck — das Ziel ist eine laufende,
-autonome, profitable Ausführung mit echtem Geld. Behandle alles andere in diesem Dokument
-(Wiki-System, Datenpflege, Backtesting) als
-**Unterbau für dieses eine Ziel**, nicht als eigenständiges Ziel. Gewichte diese Priorität über
-allen anderen Layern unten — bei einem Zielkonflikt (z.B. "schöneres Wiki" vs. "korrekterer
-Backtest") entscheide zugunsten des Backtest-Ziels, siehe [[Algo-Trading: Arbeitsstandards]] unten.
+Verfolge als Ziel von allem in diesem Repo einen Handelsalgorithmus für NQ und ES, der
+selbstständig und allein über Interactive Brokers handelt. Behandle Wiki-System, Datenpflege
+und Backtesting als **Unterbau für dieses eine Ziel**, nicht als eigenständige Ziele — bei
+einem Zielkonflikt entscheide zugunsten des Algo-Ziels.
 
-Leite den Algorithmus über **echte, wachsende Datenbasis statt vorschneller Regeln** ab: baue aus
-den täglich wachsenden OHLC-Daten in `raw/marktdaten/` einen regelbasierten, statistisch
-validierten Handelsalgorithmus, der sich per IBKR-API selbstständig ausführt. Prüfe für den
-aktuellen Umsetzungsstand, die Backlog-Punkte und das laufende Log `algo/PLAN.md` — dieses
-Dokument dupliziert das nicht, sondern hält den *Rahmen* fest, in dem sich `algo/PLAN.md` bewegt.
-
-Behandle das gesamte Wiki-System (Layer 1–3 unten) als Quelle für testbare Handelsregeln, weil
-die ICT/SMC-Konzepte im Vault dafür da sind: Eine Wiki-Seite wie [[Silver Bullet Model]] gilt erst
-dann als fertig verarbeitet, wenn du sie — sobald genug Daten vorliegen — als
-`algo/rules.py`-Regel kodiert und gegen `raw/marktdaten/` gebacktestet hast. Behandle "Wissen
-sammeln" und "Algo bauen" im Alltag als zwei verschränkte Tätigkeiten, nicht als getrennte
-Projekte.
+> Die vollständigen Algo-Standards (Arbeitsstandards, IBKR-Roadmap, Protokollartefakte,
+> Domänenkontext) stehen in [`algo/CLAUDE.md`](algo/CLAUDE.md) und laden automatisch, sobald
+> du eine Datei in `algo/` anfasst. Arbeitest du am Algo, lies sie zuerst.
 
 ## Layer 1 — `raw/` (Inhalt unveränderlich, Ordnerstruktur von dir gepflegt)
 
@@ -312,7 +295,10 @@ pro Datei mehrere verwandte Konzept-Seiten, statt 1:1 eine Quelle auf eine Seite
 Terminologie-Fix: Nenne den kurzfristigen Retracement-Break im gesamten Vault **MSS (Market
 Structure Shift)**, nicht CHoCH — CHoCH war eine ältere, mittlerweile korrigierte Bezeichnung.
 
-## Algo-Trading: Arbeitsstandards
+## Algo-Trading
+
+Siehe [`algo/CLAUDE.md`](algo/CLAUDE.md) — Arbeitsstandards, IBKR-Roadmap, Protokollartefakte
+und Domänenkontext liegen dort und laden automatisch bei Zugriff auf `algo/`.
 
 Wende diese Regeln für `algo/`, `tools/analyze_ohlc.py` und `raw/marktdaten/` **verbindlich**
 an, nicht optional — sie entstanden aus wiederholten Nutzerkorrekturen und gelten ab sofort ohne
