@@ -228,6 +228,7 @@
 <li><a href="#2026-08-16-setup-news-zeilen-zusaetzlich-in-impact-farbe">[2026-08-16] setup | News-Zeilen zusaetzlich in Impact-Farbe</a></li>
 <li><a href="#2026-08-16-revert-schriftfarbe-in-news-zeilen-wieder-entfernt">[2026-08-16] revert | Schriftfarbe in News-Zeilen wieder entfernt</a></li>
 <li><a href="#2026-08-16-backtest-zwei-thesen-aus-jannes-kw34-bias-geprueft-beide-bestaetigt">[2026-08-16] backtest | Zwei Thesen aus Jannes' KW34-Bias geprueft -- beide bestaetigt</a></li>
+<li><a href="#2026-08-16-lint-juni-level-des-nutzers-gegen-zweite-quelle-geprueft-verdacht-back-adjustment">[2026-08-16] lint | Juni-Level des Nutzers gegen zweite Quelle geprueft -- Verdacht Back-Adjustment</a></li>
 </ul>
 </div>
 </details>
@@ -3596,6 +3597,65 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Groessenordnung. Nicht abschliessend geklaert.</li>
 <li>Nebenbefund: <code>algo/backtest_fred_events.py</code> rechnet weiterhin auf <strong>MNQ</strong> -- widerspricht der
   Micro/Mini-Trennung von heute und sollte auf NQ umgestellt werden. Backlog.</li>
+</ul>
+<h2 id="2026-08-16-lint-juni-level-des-nutzers-gegen-zweite-quelle-geprueft-verdacht-back-adjustment">[2026-08-16] lint | Juni-Level des Nutzers gegen zweite Quelle geprueft -- Verdacht Back-Adjustment</h2>
+<ul>
+<li>Nutzer praezisierte seine Buyside-Pools: 30.599,75 am <strong>29.06.</strong>, 30.975,50 am <strong>16.06.</strong>,
+  ATH am <strong>03.06.</strong> Gegen den Bestand geprueft und zusaetzlich per <strong>yfinance NQ=F</strong> als
+  unabhaengiger Zweitquelle:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Datum</th>
+<th>Nutzer-Chart</th>
+<th>Bestand 1d</th>
+<th>yfinance NQ=F</th>
+<th>Differenz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>03.06.</td>
+<td>31.100,00 (ATH)</td>
+<td>30.807,75</td>
+<td><strong>30.807,75</strong></td>
+<td>292,25</td>
+</tr>
+<tr>
+<td>16.06.</td>
+<td>30.975,50</td>
+<td>30.664,50</td>
+<td><strong>30.664,50</strong></td>
+<td>311,00</td>
+</tr>
+<tr>
+<td>29.06.</td>
+<td>30.599,75</td>
+<td>30.069,50</td>
+<td><strong>30.069,50</strong></td>
+<td>530,25</td>
+</tr>
+</tbody>
+</table>
+<p>Bestand und yfinance sind <strong>auf den Tick identisch</strong> -- die Bestandsdaten stimmen hier also,
+  anders als bei der bekannten 1d-Snapshot-Schwaeche einzelner Tage.</p>
+<ul>
+<li>Die Differenzen sind <strong>nicht konstant</strong> (292 / 311 / 530), also kein einfacher
+  Kontrakt-Offset zwischen NQM2026 und NQU2026. Das Muster passt auf <strong>Back-Adjustment</strong>:
+  TradingViews Continuous-Reihe (NQ1!) verschiebt historische Preise bei jedem Rollover, damit
+  die Kurve stetig bleibt. Genau die "B-ADJ"-Falle, die im Vault schon als eine der vier
+  TradingView-Fallen notiert ist.</li>
+<li><strong>Praktische Folge, falls sich das bestaetigt:</strong> Ein aus dem B-ADJ-Chart abgelesenes
+  Juni-Level liegt im tatsaechlich gehandelten Kontrakt an anderer Stelle. Fuer die
+  Chart-Struktur (wo liegt der Pool relativ zum Preis) bleibt es richtig, als absoluter
+  Orderpreis nicht. Aktuelle Level am rechten Chartrand sind davon <strong>nicht</strong> betroffen --
+  deshalb stimmte der Sellside-Pool 29.780,50 vom 12.08. exakt.</li>
+<li>Nicht abschliessend geklaert -- haengt an der Chart-Einstellung des Nutzers (NQ1! mit
+  Back-Adjustment gegen NQU2026 unadjustiert). Rueckfrage gestellt.</li>
+<li>Bestaetigt auf Nutzerwunsch: <strong>COT bleibt aus dem Daily Bias</strong> (nur Weekly, weil der
+  CFTC-Report woechentlich erscheint) -- war bereits so implementiert. Der News-Block laeuft
+  im Daily im <strong>selben Format</strong> wie im Weekly, nur auf den einen Zieltag reduziert.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

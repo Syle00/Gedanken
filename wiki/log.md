@@ -3189,3 +3189,32 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Groessenordnung. Nicht abschliessend geklaert.
 - Nebenbefund: `algo/backtest_fred_events.py` rechnet weiterhin auf **MNQ** -- widerspricht der
   Micro/Mini-Trennung von heute und sollte auf NQ umgestellt werden. Backlog.
+
+## [2026-08-16] lint | Juni-Level des Nutzers gegen zweite Quelle geprueft -- Verdacht Back-Adjustment
+- Nutzer praezisierte seine Buyside-Pools: 30.599,75 am **29.06.**, 30.975,50 am **16.06.**,
+  ATH am **03.06.** Gegen den Bestand geprueft und zusaetzlich per **yfinance NQ=F** als
+  unabhaengiger Zweitquelle:
+
+  | Datum | Nutzer-Chart | Bestand 1d | yfinance NQ=F | Differenz |
+  |---|---|---|---|---|
+  | 03.06. | 31.100,00 (ATH) | 30.807,75 | **30.807,75** | 292,25 |
+  | 16.06. | 30.975,50 | 30.664,50 | **30.664,50** | 311,00 |
+  | 29.06. | 30.599,75 | 30.069,50 | **30.069,50** | 530,25 |
+
+  Bestand und yfinance sind **auf den Tick identisch** -- die Bestandsdaten stimmen hier also,
+  anders als bei der bekannten 1d-Snapshot-Schwaeche einzelner Tage.
+- Die Differenzen sind **nicht konstant** (292 / 311 / 530), also kein einfacher
+  Kontrakt-Offset zwischen NQM2026 und NQU2026. Das Muster passt auf **Back-Adjustment**:
+  TradingViews Continuous-Reihe (NQ1!) verschiebt historische Preise bei jedem Rollover, damit
+  die Kurve stetig bleibt. Genau die "B-ADJ"-Falle, die im Vault schon als eine der vier
+  TradingView-Fallen notiert ist.
+- **Praktische Folge, falls sich das bestaetigt:** Ein aus dem B-ADJ-Chart abgelesenes
+  Juni-Level liegt im tatsaechlich gehandelten Kontrakt an anderer Stelle. Fuer die
+  Chart-Struktur (wo liegt der Pool relativ zum Preis) bleibt es richtig, als absoluter
+  Orderpreis nicht. Aktuelle Level am rechten Chartrand sind davon **nicht** betroffen --
+  deshalb stimmte der Sellside-Pool 29.780,50 vom 12.08. exakt.
+- Nicht abschliessend geklaert -- haengt an der Chart-Einstellung des Nutzers (NQ1! mit
+  Back-Adjustment gegen NQU2026 unadjustiert). Rueckfrage gestellt.
+- Bestaetigt auf Nutzerwunsch: **COT bleibt aus dem Daily Bias** (nur Weekly, weil der
+  CFTC-Report woechentlich erscheint) -- war bereits so implementiert. Der News-Block laeuft
+  im Daily im **selben Format** wie im Weekly, nur auf den einen Zieltag reduziert.
