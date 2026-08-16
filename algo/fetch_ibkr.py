@@ -38,8 +38,13 @@ REGISTER_HEADER = ["symbol", "von", "bis", "kontrakt", "kerzen", "geholt_am"]
 SYMBOLS = ["NQ", "ES"]
 WINDOW_SECONDS = 1800
 GATEWAY_HOST, GATEWAY_PORT = "127.0.0.1", 4002
-# Ueberschreibbar per Umgebungsvariable, falls IBC mal an einem anderen Ort installiert wird.
-GATEWAY_BAT = Path(os.environ.get("IBC_GATEWAY_BAT", r"C:\Users\janne\IBC\StartGateway.bat"))
+# Zwei-Rechner-Betrieb: IBC liegt je nach Rechner woanders (C:\IBC bzw. %USERPROFILE%\IBC).
+# Darum nicht hart verdrahten, sondern die bekannten Orte durchprobieren -- IBC_GATEWAY_BAT
+# sticht immer, damit ein dritter Ort ohne Code-Aenderung funktioniert.
+GATEWAY_BAT_KANDIDATEN = [Path(r"C:\IBC") / "StartGateway.bat",
+                          Path.home() / "IBC" / "StartGateway.bat"]
+GATEWAY_BAT = Path(os.environ["IBC_GATEWAY_BAT"]) if os.environ.get("IBC_GATEWAY_BAT") else \
+    next((p for p in GATEWAY_BAT_KANDIDATEN if p.exists()), GATEWAY_BAT_KANDIDATEN[0])
 
 
 def _gateway_erreichbar(timeout: float = 1.0) -> bool:

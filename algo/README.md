@@ -1251,6 +1251,19 @@ Buchhaltungs-Index, kein Datenbestand -- ein unlesbares Fenster gilt als "noch n
 und wird beim naechsten Lauf schlicht neu gezogen. Vorher legte **eine** defekte Zeile das
 ganze Skript lahm.
 
+**Gateway-Autostart / Zwei-Rechner-Betrieb (2026-08-16):** Ist Port 4002 nicht erreichbar,
+startet `_gateway_sicherstellen()` IBC selbst per `os.startfile()` (nicht `subprocess.Popen`,
+siehe Kommentar im Code) und wartet bis zu 180s auf den Login. Der Pfad zu `StartGateway.bat`
+ist **nicht** hart verdrahtet: `GATEWAY_BAT` probiert `C:\IBC\StartGateway.bat` und
+`%USERPROFILE%\IBC\StartGateway.bat` in dieser Reihenfolge durch (erster existierender
+gewinnt), weil IBC auf den beiden genutzten Rechnern an unterschiedlichen Orten liegt. Die
+Umgebungsvariable `IBC_GATEWAY_BAT` sticht beides, fuer einen dritten Ort ohne Code-Aenderung.
+Zwei zugehoerige Patches liegen **ausserhalb des Repos** in der IBC-Installation und ueberleben
+kein IBC-Update (bei einem Upgrade erneut anwenden): `scripts/StartIBC.bat` (Java-Versions-
+erkennung, 2026-08-15) und `StartGateway.bat` (`IBC_PATH`/`CONFIG`/`TWS_SETTINGS_PATH` ueber
+`%~dp0` statt `%USERPROFILE%\IBC`, 2026-08-16). Voraussetzung ausserdem: `ib_async` aus
+`algo/requirements.txt` in genau der Python-Installation, mit der das Skript laeuft.
+
 **Warum:** IBKR ist dieselbe Quelle wie die spaetere Order-Ausfuehrung -- keine Quellen-Drift
 zwischen Backtest und Live-Betrieb (E1). NQ/ES statt MNQ, weil beide vom gebuchten
 CME-L1-Paket abgedeckt sind und deutlich liquider (E2); MNQ-Backtests bleiben unveraendert
