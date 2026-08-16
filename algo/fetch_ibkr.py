@@ -504,6 +504,60 @@ def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
     return dest, f"geschrieben ({len(rows)} Kerzen, {len(neue_register_zeilen)} Fenster)"
 
 
+def live_fenster(symbol: str, day: date, seit: datetime, ib=None,
+                  pacing: PacingLimiter | None = None) -> list[dict]:
+    """Laufender Handelstag, **rein im Speicher**: holt die 30-Minuten-Fenster von `day`, die
+    Kerzen nach `seit` enthalten koennen, und gibt die Kerzenzeilen zurueck
+    (time/open/high/low/close/volume, aufsteigend, ohne Duplikate).
+
+    **Schreibt bewusst weder Tagesdatei noch Registerzeile.** Eine mitten am Tag geschriebene
+    Tagesdatei waere dauerhaft eingefroren: write_day_1s() ueberschreibt nie, und
+    fetch_symbol_day() ueberspringt jeden Tag, dessen Datei existiert -- selbst ein spaeterer
+    expliziter --backfill wuerde den Teiltag also nicht mehr heilen. Der Teiltag entstuende
+    dabei lautlos: Fenster, die in der Zukunft enden, beantwortet IBKR mit Error 162
+    ("no data"), und _echter_fehler() stuft genau das absichtlich als "Markt zu" statt als
+    Fehlschlag ein -- es gaebe kein FEHLGESCHLAGEN, sondern eine sauber aussehende Datei.
+    Eine Registerzeile wiederum wuerde _letzter_registrierter_tag() auf heute setzen, worauf
+    der taegliche Nachlad ("bis gestern") den Tag nie mehr holt. Wird gar nichts geschrieben,
+    ist diese ganze Fehlerklasse per Konstruktion ausgeschlossen.
+
+    `seit` grenzt den Abruf auf das Neue ein: ein Live-Loop kostet damit 1-2 Requests je
+    Zyklus statt 46 (Pacing: 1 Request/10s, siehe PacingLimiter).
+
+    Faellt hart aus statt eine Luecke zu liefern: ein nicht erreichbares Gateway laesst
+    `ib.connect` durch, ein nach drei Versuchen fehlgeschlagenes Fenster wirft. Ein Loch
+    mitten im Live-Strom waere schlimmer als gar keine Zahl.
+
+    `ib`/`pacing` sind injizierbar (echte Verbindung im Betrieb, Stub im Selbstcheck)."""
+    jetzt = datetime.now(UTC)
+    seit_utc = seit.astimezone(UTC)
+    fenster = [(s, e) for s, e in day_windows(day) if e > seit_utc and s <= jetzt]
+    if not fenster:
+        return []
+    eigene_verbindung = ib is None
+    if eigene_verbindung:
+        _gateway_sicherstellen()
+        from ib_async import IB  # lokal: der Selbstcheck laeuft ohne ib_async
+        ib = IB()
+        ib.connect(GATEWAY_HOST, GATEWAY_PORT, clientId=8, readonly=True)
+    pacing = pacing or PacingLimiter()
+    contract = front_month(day, symbol)
+    zeilen: dict[int, dict] = {}
+    try:
+        for _start_utc, end_utc in fenster:
+            df = fetch_window(ib, contract, symbol, end_utc, pacing)
+            if df is None:
+                raise RuntimeError(f"{symbol}: Livefenster bis {end_utc} nach 3 Versuchen "
+                                   f"fehlgeschlagen -- lieber kein Stand als ein Loch")
+            for zeile in df.to_dict("records"):
+                zeilen[zeile["time"]] = zeile
+    finally:
+        if eigene_verbindung:
+            ib.disconnect()
+    grenze = int(seit_utc.timestamp())
+    return [zeilen[t] for t in sorted(zeilen) if t > grenze]
+
+
 def _ist_handelstag(d: date) -> bool:
     """CME-Futures handeln nie an einem vollstaendig auf Sa/So liegenden Kalendertag (die
     Session laeuft 18:00 NY Vortag bis 17:00 NY) -- Sa/So-Kalendertage ueberspringen spart
@@ -902,6 +956,38 @@ def _demo() -> None:
                 DATA_DIR = orig_data_dir
         finally:
             _future_contract = _orig_future_contract
+
+    # Live-Fenster (laufender Handelstag): nur die Fenster nach `seit`, und weder Tagesdatei
+    # noch Registerzeile -- genau das haelt die Einfrier-Fehlerklasse aus fetch_symbol_day()
+    # vom laufenden Tag fern (siehe live_fenster-Docstring).
+    with tempfile.TemporaryDirectory() as tmp:
+        orig_data_dir = DATA_DIR
+        DATA_DIR = Path(tmp)
+        _orig_future_contract = _future_contract
+        _future_contract = lambda contract, symbol: contract
+        try:
+            tag = date(2026, 6, 15)
+            fenster = day_windows(tag)
+            seit = fenster[-3][1]  # Ende des drittletzten Fensters -> 2 Fenster sind offen
+            stub = _StubIB()
+            zeilen = live_fenster("NQ", tag, seit, ib=stub,
+                                  pacing=PacingLimiter(clock=lambda: 0.0, sleep=lambda s: None))
+            assert stub.calls == 2, \
+                f"nur die 2 Fenster nach `seit` duerfen geholt werden, waren {stub.calls}"
+            assert zeilen, "die offenen Fenster muessen Kerzen liefern"
+            grenze = int(seit.timestamp())
+            assert all(z["time"] > grenze for z in zeilen), "keine Kerze darf vor `seit` liegen"
+            assert [z["time"] for z in zeilen] == sorted({z["time"] for z in zeilen}), \
+                "Rueckgabe muss aufsteigend und duplikatfrei sein"
+            assert list(DATA_DIR.iterdir()) == [], \
+                "live_fenster darf weder Tagesdatei noch Registerzeile hinterlassen"
+            # Nichts mehr offen -> kein einziger Request.
+            stub_leer = _StubIB()
+            assert live_fenster("NQ", tag, fenster[-1][1], ib=stub_leer) == []
+            assert stub_leer.calls == 0, "ohne offenes Fenster darf kein Request entstehen"
+        finally:
+            _future_contract = _orig_future_contract
+            DATA_DIR = orig_data_dir
 
     # Parquet-Roundtrip: Schreiben und Zurücklesen erhaelt Typen und Zeitstempel.
     with tempfile.TemporaryDirectory() as tmp:

@@ -51,41 +51,73 @@ LIVE_DIR = Path(__file__).resolve().parent / "live"
 NY = ZoneInfo("America/New_York")
 
 
+def _live_1s(day: date) -> list[Bar]:
+    """Laufender Handelstag: bereits geholte 1s-Kerzen aus dem transienten Puffer unter
+    algo/live/ plus die seither entstandenen, ueber fetch_ibkr.live_fenster() (kein
+    raw/marktdaten/-Schreibvorgang, keine Registerzeile -- Begruendung dort). Der Puffer
+    macht den Abruf inkrementell: je Zyklus 1-2 Fenster statt 46, nur der erste Lauf eines
+    Tages holt die bis dahin verstrichene Session am Stueck.
+
+    Der Puffer wird jedes Mal komplett neu geschrieben und liegt bewusst NICHT in
+    raw/marktdaten/ -- er ist ein Zwischenstand, keine Tagesdatei, und kann deshalb weder
+    einfrieren noch mit einer echten verwechselt werden."""
+    puffer = LIVE_DIR / day.isoformat() / f"{DISPLAY_SYMBOL} {day.isoformat()} 1s-live.csv"
+    bisher = load(puffer) if puffer.exists() else []
+    # Sessionbeginn 18:00 NY am Vorabend, siehe fetch_ibkr.day_windows().
+    seit = bisher[-1].t if bisher else at(day - timedelta(days=1), 18)
+    zeilen = fetch_ibkr.live_fenster(DISPLAY_SYMBOL, day, seit)
+    neu = [Bar(datetime.fromtimestamp(z["time"], NY), float(z["open"]), float(z["high"]),
+               float(z["low"]), float(z["close"])) for z in zeilen]
+    alle = bisher + neu
+    if neu:
+        write_live_day("1s-live", day, alle)
+    return alle
+
+
 def _download_1s(day: date, holen: bool = True) -> list[Bar]:
-    """Handelstag als 1s-Balken. Zuerst aus raw/marktdaten/ -- hat /daten-1s den Tag schon
-    gezogen, kostet das keinen IBKR-Request. Sonst denselben Weg nehmen, den /daten-1s nutzt:
+    """Handelstag als 1s-Balken, je nach Tag aus zwei Quellen.
+
+    **Abgeschlossener Tag:** aus raw/marktdaten/ -- hat /daten-1s den Tag schon gezogen,
+    kostet das keinen IBKR-Request. Sonst denselben Weg nehmen, den /daten-1s nutzt:
     fetch_ibkr.main() schreibt die Tagesdatei (und startet dabei selbst das Gateway), danach
     wird sie gelesen. Bewusst der Umweg ueber die Datei statt eines direkten Rueckgabewerts:
-    Live-Betrieb und Backtest sehen so garantiert dieselben Bytes. Fehler duerfen den Loop
-    nicht abbrechen -- dann bleibt die Liste leer und der Aufrufer meldet "keine Daten",
-    statt zu raten. `holen=False` unterbindet den Abruf ganz (--dry-run).
+    Live-Betrieb und Backtest sehen so garantiert dieselben Bytes.
 
-    **Der noch laufende Handelstag wird bewusst NICHT per fetch_ibkr geholt.**
-    write_day_1s() ueberschreibt eine Tagesdatei nie und fetch_symbol_day() ueberspringt
-    jeden Tag, dessen Datei existiert ("schon vorhanden (0 Requests)"). Ein mitten am Tag
-    geholter Stand waere damit dauerhaft als vollstaendiger Handelstag eingefroren -- exakt
-    der Datenverlust, den fetch_symbol_day() mit "Alles-oder-nichts je Tag" verhindern soll
-    (dort dokumentiert an "ES 2026-02-19 endete so bei 11:29 NY statt 17:00, sah aber wie ein
-    fertiger Handelstag aus"), und jeder folgende Zyklus laese den eingefrorenen Stand als
-    "live". Lieber gar keine Zahl als eine, die aktuell aussieht und es nicht ist
-    (CLAUDE.md, "Frische Live-Daten bei Zukunftsfragen"). Der laufende Tag braucht dafuer
-    einen eigenen Abrufweg in fetch_ibkr (transientes Ziel, keine Registerzeilen,
-    inkrementell statt 46 Fenster je Zyklus) -- siehe algo/PLAN.md."""
+    **Laufender Tag:** ueber _live_1s()/fetch_ibkr.live_fenster(), also ohne jede Datei in
+    raw/marktdaten/ -- eine mitten am Tag geschriebene Tagesdatei waere dauerhaft als
+    vollstaendiger Handelstag eingefroren (Begruendung in live_fenster()). Eine trotzdem
+    vorhandene Tagesdatei des laufenden Tages wird bewusst ignoriert: sie kann nur ein
+    solcher Teiltag sein.
+
+    Fehler duerfen den Loop nicht abbrechen -- dann bleibt die Liste leer und der Aufrufer
+    meldet "keine Daten", statt zu raten. `holen=False` unterbindet jeden Abruf (--dry-run).
+    Am laufenden Tag gilt zusaetzlich eine Frischegrenze von 20 Minuten: aeltere Kerzen sind
+    kein Live-Stand, und eine Zahl, die aktuell aussieht und es nicht ist, ist schlechter als
+    gar keine (CLAUDE.md, "Frische Live-Daten bei Zukunftsfragen")."""
     jetzt = datetime.now(NY)
     laeuft_noch = jetzt < at(day, 17)  # Session endet 17:00 NY, siehe fetch_ibkr.day_windows()
-    vorhanden = markt_bars(DISPLAY_SYMBOL, "1s", von=day, bis=day)
-    if vorhanden:
-        alter = jetzt - vorhanden[-1].t
-        if laeuft_noch and alter > timedelta(minutes=20):
-            print(f"  ! 1s: Tagesdatei fuer {day} endet {vorhanden[-1].t:%H:%M:%S} NY, jetzt "
-                  f"ist {jetzt:%H:%M:%S} NY ({alter} alt) -- kein Live-Stand", file=sys.stderr)
+    if laeuft_noch:
+        if not holen:
             return []
+        try:
+            kerzen = _live_1s(day)
+        except Exception as exc:  # Gateway nicht erreichbar, Fenster fehlgeschlagen, ...
+            print(f"  ! 1s: IBKR-Livefenster fehlgeschlagen ({exc})", file=sys.stderr)
+            return []
+        if not kerzen:
+            print(f"  ! 1s: IBKR liefert fuer {day} noch keine Kerzen", file=sys.stderr)
+            return []
+        alter = jetzt - kerzen[-1].t
+        if alter > timedelta(minutes=20):
+            print(f"  ! 1s: letzte Kerze {kerzen[-1].t:%H:%M:%S} NY, jetzt ist "
+                  f"{jetzt:%H:%M:%S} NY ({alter} alt) -- kein Live-Stand", file=sys.stderr)
+            return []
+        return kerzen
+    vorhanden = markt_bars(DISPLAY_SYMBOL, "1s", von=day, bis=day)
+    if vorhanden or not holen:
+        if not vorhanden:
+            print(f"  ! 1s: keine Tagesdatei fuer {day} in raw/marktdaten/", file=sys.stderr)
         return vorhanden
-    if laeuft_noch or not holen:
-        print(f"  ! 1s: keine Tagesdatei fuer {day} in raw/marktdaten/"
-              + (" -- der laufende Handelstag wird hier bewusst nicht geholt "
-                 "(siehe _download_1s)" if laeuft_noch else ""), file=sys.stderr)
-        return []
     try:
         fetch_ibkr.main(["--backfill", day.isoformat(), day.isoformat(),
                          "--symbol", DISPLAY_SYMBOL, "--kein-fenster"])
@@ -176,6 +208,14 @@ def run_detectors(bars: list[Bar], day: date, now: datetime,
 
     `daily_bars` (optional): 1d-Kerzen ueber ~70 Tage fuer open_gap_history() (noch offene
     NDOG/NWOG-Level der letzten 5 Handelstage/-wochen). None -> beide Historien leer."""
+    # Kein Lookahead: `bars` wird unten auf `now` gescoped, `daily_bars` braucht dieselbe
+    # Grenze. Eine 1d-Kerze von `day` selbst ist am laufenden Tag noch nicht fertig -- ihre
+    # High/Low wuerden in open_gap_history() ueber "Gap gefuellt oder nicht" entscheiden,
+    # obwohl der Tag noch laeuft. Das ist die einzige Stelle im Live-Bericht, an der eine
+    # fertige Zukunftskerze auftauchen koennte; ganze Tageskerzen sind erst ab dem Folgetag
+    # bekannt, deshalb der Schnitt am Kalendertag statt an `now`.
+    if daily_bars:
+        daily_bars = [b for b in daily_bars if b.t.date() < day]
     ndog_open_hist = open_gap_history(daily_bars, day, 5, weekly=False) if daily_bars else []
     nwog_open_hist = open_gap_history(daily_bars, day, 5, weekly=True) if daily_bars else []
     if not bars:
@@ -315,6 +355,12 @@ def selftest() -> None:
     print("selftest (Task 3: write_live_day) ok")
 
     # Task 2: run_detectors gegen echte, bereits abgeschlossene Daten (31.07.2026).
+    # ⚠️ Letzter Micro/Mini-Beruehrungspunkt im Code: hier laufen MNQ-CSVs durch
+    # run_detectors(), das intern mit DISPLAY_SYMBOL == "NQ" rechnet (SYMBOL_TICK,
+    # org_gap(symbol=...), ndog_gap(symbol=...)). Numerisch folgenlos -- beide Kontrakte
+    # haben Tickgroesse 0,25 und denselben Sessiontyp -- und bewusst so belassen, weil es
+    # fuer NQ keine 5m-CSVs mit dieser Historie gibt. Keine Vorlage: im Produktivpfad
+    # duerfen Micro- und Mini-Kerzen nie in derselben Reihe landen.
     # Bewusst Vortag + Tag zusammen: die Tagesdatei beginnt 18:00 NY am Vorabend, org_gap()
     # braucht aber die ~16:14-Schlusskerze des Vortags -- genau der Grund, warum
     # fetch_today() im Betrieb `5m_weit` mitliefert. Frueher reichte die 31.07-Datei allein
@@ -388,6 +434,45 @@ def selftest() -> None:
     fuenf = resample_bars(eine_min, "5m")
     assert len(fuenf) == 1, f"300 1s-Kerzen ergeben 1 5m-Kerze, nicht {len(fuenf)}"
     assert fuenf[0].h == max(b.h for b in eine_min), "high der 5m-Kerze = Maximum der 1s-Kerzen"
+
+    # --- laufender Handelstag: Livefenster statt Tagesdatei -----------------
+    # Gegen einen Stub statt gegen IBKR: der Live-Pfad muss auch ohne Gateway pruefbar sein.
+    # `morgen` liegt garantiert vor 17:00 NY seines eigenen Tages, gilt also als "laeuft noch",
+    # und hat sicher keine Tagesdatei in raw/marktdaten/.
+    morgen = datetime.now(NY).date() + timedelta(days=1)
+    puffer = LIVE_DIR / morgen.isoformat() / f"{DISPLAY_SYMBOL} {morgen.isoformat()} 1s-live.csv"
+    orig_live_fenster = fetch_ibkr.live_fenster
+
+    def _zeilen(sekunden_alt: int) -> list[dict]:
+        ts = int((datetime.now(NY) - timedelta(seconds=sekunden_alt)).timestamp())
+        return [{"time": ts, "open": 23000.0, "high": 23001.0, "low": 22999.0,
+                 "close": 23000.5, "volume": 7}]
+
+    try:
+        # Gateway nicht erreichbar -> leere Liste + Meldung, niemals ein alter Stand.
+        fetch_ibkr.live_fenster = lambda *a, **k: (_ for _ in ()).throw(
+            ConnectionRefusedError("kein Gateway"))
+        assert _download_1s(morgen) == [], "ohne Gateway darf kein Stand zurueckkommen"
+        assert not puffer.exists(), "ein fehlgeschlagener Abruf darf keinen Puffer schreiben"
+
+        # Frische Kerzen -> Bar-Liste + transienter Puffer unter algo/live/ (nicht raw/).
+        fetch_ibkr.live_fenster = lambda *a, **k: _zeilen(1)
+        frisch = _download_1s(morgen)
+        assert len(frisch) == 1 and frisch[0].o == 23000.0, frisch
+        assert puffer.exists(), "geholte Livekerzen muessen in den Puffer geschrieben werden"
+        assert not markt_bars(DISPLAY_SYMBOL, "1s", von=morgen, bis=morgen), \
+            "der laufende Tag darf keine Tagesdatei in raw/marktdaten/ hinterlassen"
+        puffer.unlink()
+
+        # Zu alte Kerzen -> kein Live-Stand (20-Minuten-Frischegrenze).
+        fetch_ibkr.live_fenster = lambda *a, **k: _zeilen(3600)
+        assert _download_1s(morgen) == [], "eine Stunde alte Kerzen sind kein Live-Stand"
+    finally:
+        fetch_ibkr.live_fenster = orig_live_fenster
+        if puffer.exists():
+            puffer.unlink()
+        if puffer.parent.exists():
+            puffer.parent.rmdir()
     print("selftest (Task 6: NQ ueber IBKR-1s) ok")
 
 
@@ -435,6 +520,10 @@ def _live_run() -> dict:
                 "first_run": False, "untouched_levels": [], "org_ce": None, "ndog_today": None,
                 "nwog_today": None, "ndog_open_history": [], "nwog_open_history": []}
 
+    # Nur die Intraday-Timeframes. `1d` wird -- anders als frueher -- nicht mehr nach
+    # algo/live/ gespiegelt: es kommt jetzt unveraendert aus raw/marktdaten/ (bis 2026-08-16
+    # war es ein frischer yfinance-Download, den es ohne Kopie nicht mehr gab). Eine Kopie
+    # waere eine zweite, alternde Fassung derselben Datei.
     for tf in INTRADAY_TFS:
         if daten[tf]:
             write_live_day(tf, day, daten[tf])
