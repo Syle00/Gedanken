@@ -212,6 +212,7 @@
 <li><a href="#2026-08-16-setup-bias-vorlagen-laufen-jetzt-ueber-den-windows-task-scheduler">[2026-08-16] setup | Bias-Vorlagen laufen jetzt ueber den Windows Task Scheduler</a></li>
 <li><a href="#2026-08-16-setup-journal-bias-dateien-nach-rawjournalbiasdailyweekly-sortiert">[2026-08-16] setup | Journal-Bias-Dateien nach raw/journal/bias/{daily,weekly}/ sortiert</a></li>
 <li><a href="#2026-08-16-setup-tape-reading-trade-execution-ebenfalls-in-eigene-ordner">[2026-08-16] setup | Tape Reading + Trade Execution ebenfalls in eigene Ordner</a></li>
+<li><a href="#2026-08-16-setup-bias-ablage-auf-inbox-prinzip-umgestellt">[2026-08-16] setup | Bias-Ablage auf Inbox-Prinzip umgestellt</a></li>
 </ul>
 </div>
 </details>
@@ -3187,6 +3188,26 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Methodische Lehre, uebertragbar: Ordner umsortieren ist nie folgenlos, solange Skripte die
   alte Struktur globben. Nach jedem Verschieben in <code>raw/</code> pruefen, <strong>wer</strong> dort liest -- ein
   flacher <code>glob</code> faellt nicht mit einem Fehler auf, sondern mit einem stillen Null-Ergebnis.</li>
+</ul>
+<h2 id="2026-08-16-setup-bias-ablage-auf-inbox-prinzip-umgestellt">[2026-08-16] setup | Bias-Ablage auf Inbox-Prinzip umgestellt</h2>
+<ul>
+<li>Nutzer-Workflow praezisiert: neu erzeugte Daily-/Weekly-Bias-Dateien sollen <strong>flach in
+  <code>raw/journal/</code></strong> liegen (dort traegt er "Mein Bias" ein) und erst nach Ablauf des Tages bzw.
+  der Woche ins Archiv wandern. Meine Command-Aenderung von heute mittag (direkt nach
+  <code>bias/daily/</code> schreiben) war damit falsch und ist zurueckgedreht.</li>
+<li>Neu: <code>tools/sortiere_bias.py</code> -- verschiebt <code>Daily Bias YYYY-MM-DD.md</code> nach <code>bias/daily/</code>,
+  sobald das Datum &lt; heute ist, und <code>Weekly Bias KWNN JJJJ.md</code> nach <code>bias/weekly/</code>, sobald
+  (Jahr, KW) &lt; laufende ISO-Woche. Uneindeutiger Altbestand ("Daily Bias 10.08",
+  "Daily Bias Journal 5", "Weekly Bias KW 33") wird <strong>nicht geraten</strong>, sondern gemeldet.
+  Bestehende Zieldateien werden nie ueberschrieben, Inhalte nie veraendert.
+  <code>--demo</code>-Selbstcheck (Datums-/KW-Logik inkl. Jahreswechsel, Kollision, Fremdreihen
+  unangetastet) und <code>--dry-run</code> vorhanden.</li>
+<li>In <code>tools/bias-cron.cmd</code> vorgeschaltet: der 20:03-Task raeumt erst auf, dann erzeugt er die
+  neue Datei. Deckt "am Ende des Tages" ab; der Morgen-Fall folgt automatisch, weil die Datei
+  des Vortages beim naechsten Lauf &lt; heute ist.</li>
+<li>Zurueckgeholt nach flach, weil noch aktuell: <code>Daily Bias 2026-08-17.md</code> (morgen),
+  <code>Weekly Bias KW34 2026.md</code> (kommende Woche). Probelauf <code>--dry-run</code> bestaetigt: beide bleiben
+  liegen, nichts sonst einzusortieren.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

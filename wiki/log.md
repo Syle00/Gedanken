@@ -2812,3 +2812,22 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Methodische Lehre, uebertragbar: Ordner umsortieren ist nie folgenlos, solange Skripte die
   alte Struktur globben. Nach jedem Verschieben in `raw/` pruefen, **wer** dort liest -- ein
   flacher `glob` faellt nicht mit einem Fehler auf, sondern mit einem stillen Null-Ergebnis.
+
+## [2026-08-16] setup | Bias-Ablage auf Inbox-Prinzip umgestellt
+- Nutzer-Workflow praezisiert: neu erzeugte Daily-/Weekly-Bias-Dateien sollen **flach in
+  `raw/journal/`** liegen (dort traegt er "Mein Bias" ein) und erst nach Ablauf des Tages bzw.
+  der Woche ins Archiv wandern. Meine Command-Aenderung von heute mittag (direkt nach
+  `bias/daily/` schreiben) war damit falsch und ist zurueckgedreht.
+- Neu: `tools/sortiere_bias.py` -- verschiebt `Daily Bias YYYY-MM-DD.md` nach `bias/daily/`,
+  sobald das Datum < heute ist, und `Weekly Bias KWNN JJJJ.md` nach `bias/weekly/`, sobald
+  (Jahr, KW) < laufende ISO-Woche. Uneindeutiger Altbestand ("Daily Bias 10.08",
+  "Daily Bias Journal 5", "Weekly Bias KW 33") wird **nicht geraten**, sondern gemeldet.
+  Bestehende Zieldateien werden nie ueberschrieben, Inhalte nie veraendert.
+  `--demo`-Selbstcheck (Datums-/KW-Logik inkl. Jahreswechsel, Kollision, Fremdreihen
+  unangetastet) und `--dry-run` vorhanden.
+- In `tools/bias-cron.cmd` vorgeschaltet: der 20:03-Task raeumt erst auf, dann erzeugt er die
+  neue Datei. Deckt "am Ende des Tages" ab; der Morgen-Fall folgt automatisch, weil die Datei
+  des Vortages beim naechsten Lauf < heute ist.
+- Zurueckgeholt nach flach, weil noch aktuell: `Daily Bias 2026-08-17.md` (morgen),
+  `Weekly Bias KW34 2026.md` (kommende Woche). Probelauf `--dry-run` bestaetigt: beide bleiben
+  liegen, nichts sonst einzusortieren.
