@@ -146,9 +146,16 @@ mitbringt: `_gateway_sicherstellen()` (startet das Gateway bei Bedarf selbst),
 und `flatten` aus `fetch_yfinance.py`. Diese Helfer sind quellenunabhängig und wandern nach
 `algo/marktdaten.py`, bevor `fetch_yfinance.py` gelöscht wird.
 
-**Symbolwechsel:** `live_status.py` läuft bisher auf `MNQ=F`. Der IBKR-Pfad liefert NQ und ES.
-Das deckt sich mit der Layer-0-Entscheidung vom 2026-08-15 (NQ/ES statt MNQ) und ist damit
-kein Sonderfall, sondern das Nachziehen einer bereits getroffenen Entscheidung.
+**Symbolwechsel:** `live_status.py` läuft bisher auf `MNQ=F` (Micro, yfinance) und wird auf
+**NQ** umgestellt — den E-mini-Nasdaq-100-Future, Punktwert $20, in `algo/pnl.py` bereits
+hinterlegt. Nur NQ, nicht zusätzlich ES: der Live-Status bleibt ein Ein-Symbol-Zyklus, wie
+bisher. Das deckt sich mit der Layer-0-Entscheidung vom 2026-08-15 (NQ/ES statt MNQ) und mit
+der IBKR-1s-Abdeckung, die für NQ vorliegt.
+
+> Begriffsklärung: „Mini NQ" ist hier der **E-mini** (`NQ`, $20/Punkt), nicht der Micro E-mini
+> (`MNQ`, $2/Punkt). Die Kurse beider Kontrakte sind identisch — unterschieden sich nur
+> Punktwert und Kontraktgröße. Sollte doch der Micro gemeint sein, ändern sich ausschließlich
+> Symbolname und `pnl.py`-Eintrag, nicht der Datenpfad.
 
 **Mitzuziehen:** `.claude/commands/algo-live-status.md` beschreibt den Zyklus in Titel und
 Rumpf als „fuer MNQ". Die Beschreibung wird auf NQ/ES angepasst — sonst beschreibt der Skill
