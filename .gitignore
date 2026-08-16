@@ -51,12 +51,6 @@ desktop.ini
 # gemeldet wurden) und wird bei jedem Lauf neu geschrieben -- keine Historie wert.
 algo/live/*/state.json
 
-# Ad-hoc-Fortschrittslogs langlaufender Hintergrundprozesse (z.B. IBKR-Backfill) -- wachsen
-# waehrend der Prozess laeuft und stehen als offene Datei einem Git-Rebase im Weg (Windows
-# verweigert das Ersetzen einer gerade beschriebenen Datei). Keine Historie wert, anders als
-# die Text-Statusberichte unten.
-algo/live/*.log
-
 # Die Intraday-CSVs daneben bleiben ab 04.08.2026 bewusst VERSIONIERT: yfinance liefert
 # 1m-Daten nur ~30 und 5m nur ~60 Tage rueckwirkend, danach sind diese Snapshots nicht
 # mehr rekonstruierbar. ~80 KB je Handelstag sind der Preis dafuer, dass die Datenlage
