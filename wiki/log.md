@@ -2721,3 +2721,23 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   automatisch defekt. `ES/NQ 2026-02-16` sind mit 68.400 statt 82.800 Kerzen **korrekt** --
   Presidents' Day, CME schliesst 13:00 NY. Vollstaendigkeit darf deshalb nicht ueber eine
   Sollkerzenzahl geprueft werden, sondern ueber "kein Fenster fehlgeschlagen".
+
+## [2026-08-16] setup | fetch_ibkr.py -- Pacing-Rate korrigiert, Statusmeldungen entluegt
+- Seiten aktualisiert: keine (Code/Doku, Zahlen in algo/PLAN.md)
+- Befund 1: Der `PacingLimiter` setzte "60 Requests je 600s" als Zaehler-Deckel um, der erst
+  beim 61. Request greift. Ein Handelstag hat nur 46 Fenster und lief damit an der Grenze
+  vorbei -- gemessen 41 Requests in 60s = 41 Req/Min gegen erlaubte 6. IBKR nahm exakt 41 an
+  und wies ab Fenster 42 ab. Beide frueheren Anpassungen (0,5s -> 1,5s) hatten nur den Burst
+  gestreckt, nicht die Rate gesenkt -- klassischer Symptomfix, der den Abbruch verschob.
+- Fix 1: `min_gap` wird aus `window / max_requests` abgeleitet (= 10s) statt handgesetzt.
+  Die Laufzeittabelle des Designs (46 Fenster ~ 8 Min) war immer schon auf 10s gerechnet.
+- Befund 2: `fetch_symbol_day()` gab fuer drei verschiedene Ausgaenge `None` zurueck, und die
+  Aufrufer machten daraus "uebersprungen (schon vorhanden/keine Daten)" -- auch fuer einen
+  Tag, der gerade an 5 Pacing-Violations gescheitert war.
+- Fix 2: Rueckgabe `(pfad, status)` mit unterscheidbaren Texten, plus Schlussbilanz je
+  Backfill, die offen gebliebene Tage namentlich nennt.
+- Methodische Lehre, uebertragbar: Wird eine Grenze als *Rate* formuliert ("N je Zeitfenster"),
+  muss sie auch als Rate durchgesetzt werden. Eine Pruefung, die nur beim Erreichen des
+  Zaehlers anschlaegt, laesst jeden Lauf unterhalb des Zaehlers ungebremst durch -- und genau
+  diese Laeufe sind der Normalfall. Und: eine Statusmeldung, die mehrere Ausgaenge in einen
+  Text zusammenfasst, verwandelt einen Fehlschlag in ein "alles gut".

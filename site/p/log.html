@@ -208,6 +208,7 @@
 <li><a href="#2026-08-16-ingest-youtube-turning-loss-into-gain-market-alchemy-d8du4fmvoqu">[2026-08-16] ingest | YouTube: Turning Loss Into Gain - Market Alchemy (d8du4fMvOQU)</a></li>
 <li><a href="#2026-08-16-setup-bugfix-fetch_ibkr-fortschrittsfenster-codepage">[2026-08-16] setup | Bugfix fetch_ibkr-Fortschrittsfenster (Codepage)</a></li>
 <li><a href="#2026-08-16-setup-fetch_ibkrpy-stiller-datenverlust-behoben-backfill-holt-gesamte-1s-historie">[2026-08-16] setup | fetch_ibkr.py -- stiller Datenverlust behoben, Backfill holt gesamte 1s-Historie</a></li>
+<li><a href="#2026-08-16-setup-fetch_ibkrpy-pacing-rate-korrigiert-statusmeldungen-entluegt">[2026-08-16] setup | fetch_ibkr.py -- Pacing-Rate korrigiert, Statusmeldungen entluegt</a></li>
 </ul>
 </div>
 </details>
@@ -3088,6 +3089,27 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   automatisch defekt. <code>ES/NQ 2026-02-16</code> sind mit 68.400 statt 82.800 Kerzen <strong>korrekt</strong> --
   Presidents' Day, CME schliesst 13:00 NY. Vollstaendigkeit darf deshalb nicht ueber eine
   Sollkerzenzahl geprueft werden, sondern ueber "kein Fenster fehlgeschlagen".</li>
+</ul>
+<h2 id="2026-08-16-setup-fetch_ibkrpy-pacing-rate-korrigiert-statusmeldungen-entluegt">[2026-08-16] setup | fetch_ibkr.py -- Pacing-Rate korrigiert, Statusmeldungen entluegt</h2>
+<ul>
+<li>Seiten aktualisiert: keine (Code/Doku, Zahlen in algo/PLAN.md)</li>
+<li>Befund 1: Der <code>PacingLimiter</code> setzte "60 Requests je 600s" als Zaehler-Deckel um, der erst
+  beim 61. Request greift. Ein Handelstag hat nur 46 Fenster und lief damit an der Grenze
+  vorbei -- gemessen 41 Requests in 60s = 41 Req/Min gegen erlaubte 6. IBKR nahm exakt 41 an
+  und wies ab Fenster 42 ab. Beide frueheren Anpassungen (0,5s -&gt; 1,5s) hatten nur den Burst
+  gestreckt, nicht die Rate gesenkt -- klassischer Symptomfix, der den Abbruch verschob.</li>
+<li>Fix 1: <code>min_gap</code> wird aus <code>window / max_requests</code> abgeleitet (= 10s) statt handgesetzt.
+  Die Laufzeittabelle des Designs (46 Fenster ~ 8 Min) war immer schon auf 10s gerechnet.</li>
+<li>Befund 2: <code>fetch_symbol_day()</code> gab fuer drei verschiedene Ausgaenge <code>None</code> zurueck, und die
+  Aufrufer machten daraus "uebersprungen (schon vorhanden/keine Daten)" -- auch fuer einen
+  Tag, der gerade an 5 Pacing-Violations gescheitert war.</li>
+<li>Fix 2: Rueckgabe <code>(pfad, status)</code> mit unterscheidbaren Texten, plus Schlussbilanz je
+  Backfill, die offen gebliebene Tage namentlich nennt.</li>
+<li>Methodische Lehre, uebertragbar: Wird eine Grenze als <em>Rate</em> formuliert ("N je Zeitfenster"),
+  muss sie auch als Rate durchgesetzt werden. Eine Pruefung, die nur beim Erreichen des
+  Zaehlers anschlaegt, laesst jeden Lauf unterhalb des Zaehlers ungebremst durch -- und genau
+  diese Laeufe sind der Normalfall. Und: eine Statusmeldung, die mehrere Ausgaenge in einen
+  Text zusammenfasst, verwandelt einen Fehlschlag in ein "alles gut".</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

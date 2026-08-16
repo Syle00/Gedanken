@@ -1245,8 +1245,28 @@ angefragt und das Ergebnis anschliessend von `write_day_1s()` verworfen -- bei e
 **Wie:** `front_month()` bestimmt den aktiven Quartalskontrakt deterministisch und netzfrei
 (Roll = Verfall - 8 Tage). `day_windows()` zerlegt einen Handelstag in 46 Fenster a 30 Minuten
 (18:00 NY Vortag - 17:00 NY), DST-sicher ueber tz-awares NY-Datetime-Arithmetik.
-`PacingLimiter` haelt die IBKR-Grenze (60 Requests/10 Min, min. 0,5s Abstand) ein, mit
-injizierbarer Uhr fuer Tests. `raw/marktdaten/1s-abdeckung.csv` (append-only) loest drei
+`PacingLimiter` haelt die IBKR-Grenze (60 Requests je 600s) ein, mit injizierbarer Uhr fuer
+Tests. **Die Bremse ist `min_gap`, und es wird aus `window / max_requests` abgeleitet (= 10s),
+nicht handgesetzt.** Die deque-Pruefung allein greift erst beim 61. Request -- ein voller
+Handelstag hat nur 46 Fenster und lief damit komplett an der Grenze vorbei: gemessen 41
+Requests in 60s = **41 Req/Min gegen erlaubte 6**. IBKR nahm am 2026-08-16 reproduzierbar 41
+Requests an und wies ab Fenster 42 mit Error 162 ab; weil jeder Wiederholversuch selbst ein
+Request ist, riss danach der Rest des Tages ab. Die beiden frueheren `min_gap`-Werte (0,5s,
+dann 1,5s) kurierten nur das Symptom -- sie streckten den Burst, blieben aber weit ueber der
+Rate. Mit 10s liegt der Durchsatz bei den 6 Req/Min aus Design SS3.3 und trifft die
+Laufzeittabelle SS3.4 (46 Fenster ~ 7,7 Min je Symbol und Tag, 6-Monats-Backfill ~31h) --
+diese Tabelle war immer schon auf 10s gerechnet, nur der Code nicht. Bekannte Grenze: der
+Zustand lebt im Prozess, zwei gleichzeitige `fetch_ibkr`-Laeufe teilen sich IBKRs
+serverseitiges Kontingent, ohne voneinander zu wissen.
+
+**Statusmeldungen (`fetch_symbol_day` gibt `(pfad, status)` zurueck).** Frueher war die
+Rueckgabe nur `Path | None` fuer drei verschiedene Ausgaenge, und beide `main()`-Schleifen
+machten daraus `uebersprungen (schon vorhanden/keine Daten)` -- diese Zeile erschien auch
+fuer einen Tag, der gerade an 5 Pacing-Violations gescheitert war. Jetzt sind die Texte
+unterscheidbar (`geschrieben (N Kerzen, M Fenster)`, `schon vorhanden (0 Requests)`,
+`FEHLGESCHLAGEN (x/46 Fenster)`, `alle Fenster leer`), und jeder Backfill endet mit einer
+Bilanz, die offen gebliebene Tage namentlich auflistet -- bei 264 Tagesdateien verschwaende
+ein Fehlschlag sonst im Scrollback. `raw/marktdaten/1s-abdeckung.csv` (append-only) loest drei
 Probleme: "kein Trade" vs. "nicht geholt" unterscheidbar machen, Backfill wiederaufnehmbar
 machen, Nachlad zustandslos machen.
 

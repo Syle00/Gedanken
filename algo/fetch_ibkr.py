@@ -226,21 +226,37 @@ class PacingLimiter:
     Sekunden zwischen zwei Requests. `clock`/`sleep` sind injizierbar, damit Tests ohne
     echtes Warten laufen.
 
-    `min_gap`-Default 1.5s statt der urspruenglich angenommenen 0.5s (Review-Fund
-    2026-08-15): 0.5s haette rechnerisch die "6 Requests je 2s fuer denselben
-    Kontrakt"-Regel (Design SS3.3) mit Reserve einhalten sollen, in der Praxis kamen beim
-    echten Backfill-Testlauf trotzdem wiederholt Pacing-Violations (Error 162), meist in
-    der zweiten Haelfte eines 46-Fenster-Laufs. 1.5s gibt deutlich mehr Puffer, auf Kosten
-    von mehr Laufzeit (46 Fenster ~= 69s statt ~23s pro Symbol -- fuer einen 34h-Backfill
-    vernachlaessigbar gegen die Kosten eines abgebrochenen Laufs)."""
+    **`min_gap` ist die eigentliche Bremse und muss `window / max_requests` sein (10s).**
+    Die deque-Pruefung allein greift erst beim 61. Request -- ein voller Handelstag hat aber
+    nur 46 Fenster und lief damit komplett an der Grenze vorbei. Gemessen: 41 Requests in
+    60s = **41 Req/Min gegen erlaubte 6**. Genau bei Request 42 begann IBKR am 2026-08-16
+    reproduzierbar mit Error 162 "pacing violation" abzuweisen, und weil jeder der drei
+    Wiederholversuche selbst ein Request ist, riss danach der ganze Rest des Tages ab
+    (5 Fenster x 3 Versuche, alle abgelehnt).
+
+    Die frueheren Anlaeufe (0.5s, dann 1.5s nach dem Review-Fund 2026-08-15) kurierten das
+    Symptom: sie streckten den Burst von 20s auf 60s, blieben aber beide um ein Vielfaches
+    ueber der Rate und verschoben den Abbruch nur weiter nach hinten -- daher der Eindruck,
+    Violations kaemen "meist in der zweiten Haelfte eines Laufs". Mit 10s liegt der
+    Durchsatz bei den 6 Req/Min, die Design SS3.3 als Grenze und SS3.4 als Rechengrundlage
+    nennt (46 Fenster ~= 8 Min je Symbol und Tag, 6-Monats-Backfill ~34h) -- die
+    Laufzeittabelle des Designs war also immer schon auf 10s gerechnet, nur der Code nicht.
+
+    ponytail: der Zustand lebt im Prozess. Zwei gleichzeitige fetch_ibkr-Prozesse teilen
+    sich IBKRs serverseitiges Kontingent, ohne voneinander zu wissen -- der zweite startet
+    mit leerer deque in ein bereits erschoepftes Budget. Sichtbar geworden, als zwei Laeufe
+    direkt hintereinander starteten: der zweite scheiterte an Fenster 1. Wenn das oefter
+    stoert, den letzten Request-Zeitpunkt in einer Datei neben dem Register ablegen."""
 
     def __init__(self, clock=time.monotonic, sleep=time.sleep,
-                 max_requests: int = 60, window: float = 600.0, min_gap: float = 1.5):
+                 max_requests: int = 60, window: float = 600.0, min_gap: float | None = None):
         self._clock = clock
         self._sleep = sleep
         self._max = max_requests
         self._window = window
-        self._min_gap = min_gap
+        # Aus der Grenze abgeleitet statt frei gewaehlt: eine handgesetzte Zahl war genau
+        # der Fehler, aus dem die Violations kamen.
+        self._min_gap = window / max_requests if min_gap is None else min_gap
         self._times: deque[float] = deque(maxlen=max_requests)
 
     def wait(self) -> None:
@@ -419,10 +435,17 @@ def fetch_window(ib, contract: str, symbol: str, end_utc: datetime, pacing: Paci
 
 
 def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
-                      register_path: Path = REGISTER, sleep=time.sleep) -> Path | None:
+                      register_path: Path = REGISTER, sleep=time.sleep) -> tuple[Path | None, str]:
     """Ein Handelstag, ein Symbol: alle Fenster holen, zusammensetzen, Gate, schreiben,
-    Register anhaengen. Gibt den geschriebenen Pfad zurueck (None, wenn die Datei schon
-    existierte oder der Tag unvollstaendig blieb).
+    Register anhaengen. Gibt `(pfad, status)` zurueck -- `pfad` ist None, sobald keine Datei
+    entstand.
+
+    **Der Status wird mitgegeben, statt ihn den Aufrufer raten zu lassen.** Frueher war die
+    Rueckgabe nur `Path | None` und beide Schleifen in main() machten daraus
+    "uebersprungen (schon vorhanden/keine Daten)" -- diese Meldung erschien am 2026-08-16
+    auch fuer einen Tag, der gerade an 5 Pacing-Violations gescheitert war. Ein Fehlschlag,
+    der wie "ist schon da, alles gut" aussieht, ist in einem 30-Stunden-Lauf genau die
+    Sorte Meldung, die man nicht nachtraeglich richtigstellen kann.
 
     **Resume-Autoritaet ist die Tagesdatei, nicht das Register.** Existiert sie, wird der Tag
     ohne einen einzigen Request uebersprungen -- damit macht jeder Neustart von selbst dort
@@ -447,8 +470,7 @@ def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
     zustande."""
     dest_pfad = _tagesdatei(symbol, day)
     if dest_pfad.exists():
-        print(f"  = {symbol} {day}: Tagesdatei vorhanden, uebersprungen (0 Requests)", flush=True)
-        return None
+        return None, "schon vorhanden (0 Requests)"
     contract = front_month(day, symbol)
     alle_fenster = day_windows(day)
     frames, neue_register_zeilen, fehlgeschlagen = [], [], 0
@@ -467,23 +489,19 @@ def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
             "symbol": symbol, "von": int(start_utc.timestamp()), "bis": int(end_utc.timestamp()),
             "kontrakt": contract, "kerzen": len(df), "geholt_am": int(time.time())})
     if fehlgeschlagen:
-        print(f"  ! {symbol} {day}: {fehlgeschlagen}/{len(alle_fenster)} Fenster fehlgeschlagen "
-              f"-- keine Datei, keine Registerzeilen, der ganze Tag wird beim naechsten Lauf "
-              f"erneut geholt", flush=True)
-        return None
+        return None, (f"FEHLGESCHLAGEN ({fehlgeschlagen}/{len(alle_fenster)} Fenster) -- keine "
+                      f"Datei, keine Registerzeilen, wird beim naechsten Lauf erneut geholt")
     if not frames:
-        print(f"  = {symbol} {day}: alle Fenster leer (kein Handelstag?), nichts geschrieben",
-              flush=True)
-        return None
+        return None, "alle Fenster leer (kein Handelstag?)"
     rows = pd.concat(frames).sort_values("time").drop_duplicates("time", keep="first")
     try:
         dest = write_day_1s(symbol, day, rows, contract)
     except OHLCDefekt as exc:
-        print(f"  ! {symbol} {day}: {exc} -- keine Datei, keine Registerzeilen")
-        return None
-    if dest is not None:
-        register_append(neue_register_zeilen, register_path)
-    return dest
+        return None, f"FEHLGESCHLAGEN (Gate: {exc}) -- keine Datei, keine Registerzeilen"
+    if dest is None:                      # zwischen Eingangspruefung und Schreiben entstanden
+        return None, "schon vorhanden (0 Requests)"
+    register_append(neue_register_zeilen, register_path)
+    return dest, f"geschrieben ({len(rows)} Kerzen, {len(neue_register_zeilen)} Fenster)"
 
 
 def _ist_handelstag(d: date) -> bool:
@@ -590,13 +608,23 @@ def main(argv=None) -> int:
                   f"{len(symbols)} Symbol(e) = {gesamt} Tagesdateien. Bereits vorhandene "
                   f"werden ohne Request uebersprungen.", flush=True)
             erledigt = 0
+            offen: list[str] = []
             for tag in handelstage:
                 for symbol in symbols:
                     erledigt += 1
-                    dest = fetch_symbol_day(ib, symbol, tag, pacing)
-                    status = f"geschrieben ({dest.name})" if dest else "uebersprungen (schon vorhanden/keine Daten)"
+                    _, status = fetch_symbol_day(ib, symbol, tag, pacing)
+                    if status.startswith("FEHLGESCHLAGEN"):
+                        offen.append(f"{symbol} {tag}")
                     print(f"{_balken(erledigt, gesamt)} {erledigt}/{gesamt} "
                           f"{symbol} {tag}: {status}", flush=True)
+            # Schlussbilanz: bei 264 Tagesdateien ist die Zeile-fuer-Zeile-Ausgabe nicht mehr
+            # ueberschaubar, und offene Tage duerfen nicht im Scrollback verschwinden.
+            if offen:
+                print(f"\n! {len(offen)} von {gesamt} Tagesdateien offen geblieben: "
+                      f"{', '.join(offen)}\n  Denselben Aufruf einfach wiederholen -- fertige "
+                      f"Tage kosten 0 Requests, nur diese werden neu geholt.", flush=True)
+            else:
+                print(f"\nAlle {gesamt} Tagesdateien vollstaendig.", flush=True)
         else:
             # Nachlad: pro Symbol vom Tag nach dem juengsten Registereintrag bis gestern
             # auffuellen (resumable, stateless). Ohne jeden Registereintrag (kalter Start)
@@ -612,8 +640,7 @@ def main(argv=None) -> int:
                           f"nichts zu holen", flush=True)
                 while tag <= gestern:
                     if _ist_handelstag(tag):
-                        dest = fetch_symbol_day(ib, symbol, tag, pacing)
-                        status = f"geschrieben ({dest.name})" if dest else "uebersprungen (schon vorhanden/keine Daten)"
+                        _, status = fetch_symbol_day(ib, symbol, tag, pacing)
                         print(f"{symbol} {tag}: {status}", flush=True)
                     tag += timedelta(days=1)
     finally:
@@ -683,6 +710,21 @@ def _demo() -> None:
         limiter.wait()
     assert clock_state["t"] - start >= 600.0, \
         f"61 Requests dauerten nur {clock_state['t'] - start}s, muessen >= 600s sein"
+
+    # Der eigentliche Test: die Grenze ist eine *Rate*, kein Deckel beim 61. Request.
+    # Ein voller Handelstag (46 Fenster) liegt unter 60 Requests -- frueher fiel er damit
+    # komplett durch die Pruefung und lief mit 41 Req/Min statt der erlaubten 6 (siehe
+    # PacingLimiter-Docstring). Genau diese Rate deckt der Check jetzt ab, fuer mehrere
+    # Laufgroessen unterhalb des Deckels.
+    for n in (10, 41, 46, 60):
+        clock_state["t"] = 0.0
+        lim = PacingLimiter(clock=fake_clock, sleep=fake_sleep)
+        for _ in range(n):
+            lim.wait()
+        erlaubt_ab = (n - 1) * 600.0 / 60
+        assert clock_state["t"] >= erlaubt_ab, (
+            f"{n} Requests dauerten {clock_state['t']:.1f}s, muessen >= {erlaubt_ab:.1f}s "
+            f"dauern (60 Requests je 600s = 1 alle 10s, auch unterhalb des 60er-Deckels)")
 
     # Fenster-Zerlegung: genau 46 Fenster, erstes beginnt 18:00 NY des Vortages,
     # letztes endet 17:00 NY -- inklusive eines Tages ueber einen DST-Wechsel.
@@ -803,8 +845,9 @@ def _demo() -> None:
                 pacing = PacingLimiter(clock=lambda: 0.0, sleep=lambda s: None)
                 tag = date(2026, 6, 15)
                 reg_path = DATA_DIR / "1s-abdeckung.csv"
-                dest = fetch_symbol_day(stub, "NQ", tag, pacing, register_path=reg_path)
+                dest, status = fetch_symbol_day(stub, "NQ", tag, pacing, register_path=reg_path)
                 assert dest is not None and dest.exists(), "erster Lauf muss eine Datei schreiben"
+                assert status.startswith("geschrieben"), status
                 erster_call_count = stub.calls
                 assert erster_call_count == 46, erster_call_count
 
@@ -815,7 +858,8 @@ def _demo() -> None:
                 # verworfen -- bei einem 6-Monats-Backfill ueber einen halb gefuellten
                 # Bestand sind das Stunden Laufzeit fuer nichts.
                 stub2 = _StubIB()
-                assert fetch_symbol_day(stub2, "NQ", tag, pacing, register_path=reg_path) is None
+                dest2, status2 = fetch_symbol_day(stub2, "NQ", tag, pacing, register_path=reg_path)
+                assert dest2 is None and status2.startswith("schon vorhanden"), status2
                 assert stub2.calls == 0, \
                     f"vorhandene Tagesdatei muss 0 Requests kosten, waren {stub2.calls}"
 
@@ -827,8 +871,13 @@ def _demo() -> None:
                 dest.unlink()
                 reg_path.unlink()
                 stub3 = _StubIB(leer_ab=35, fehler=True)
-                assert fetch_symbol_day(stub3, "NQ", tag, pacing, register_path=reg_path,
-                                        sleep=lambda s: None) is None
+                dest3, status3 = fetch_symbol_day(stub3, "NQ", tag, pacing,
+                                                  register_path=reg_path, sleep=lambda s: None)
+                assert dest3 is None, "fehlgeschlagener Tag darf keinen Pfad liefern"
+                # Genau der Fund vom 2026-08-16: der Status darf einen Fehlschlag NICHT als
+                # "schon vorhanden/keine Daten" ausgeben.
+                assert status3.startswith("FEHLGESCHLAGEN"), status3
+                assert "vorhanden" not in status3,                     f"ein Fehlschlag darf nicht wie 'schon da' klingen: {status3}"
                 assert not dest.exists(), \
                     "ein Tag mit fehlgeschlagenen Fenstern darf KEINE Tagesdatei hinterlassen"
                 assert not reg_path.exists(), \
@@ -839,9 +888,11 @@ def _demo() -> None:
                 # geschrieben werden -- nur eben kuerzer (Realfall Presidents' Day
                 # 2026-02-16, CME schliesst 13:00 NY).
                 stub4 = _StubIB(leer_ab=38, fehler=False)
-                dest4 = fetch_symbol_day(stub4, "NQ", tag, pacing, register_path=reg_path)
+                dest4, status4 = fetch_symbol_day(stub4, "NQ", tag, pacing,
+                                                  register_path=reg_path)
                 assert dest4 is not None and dest4.exists(), \
                     "ein verkuerzter Handelstag muss trotzdem geschrieben werden"
+                assert status4.startswith("geschrieben"), status4
                 kerzen_kurz = len(pd.read_parquet(dest4))
                 assert kerzen_kurz == kerzen_komplett * 38 // 46, \
                     f"Early-Close-Tag muss genau 38/46 der Kerzen haben, waren {kerzen_kurz}"
