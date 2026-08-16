@@ -10,9 +10,10 @@ und welche Level dabei genommen wurden.
 Spec: docs/superpowers/specs/2026-08-10-macro-datenbank-design.md
 
 Aufruf:
-    python algo/macro_db.py build       # algo/results/macro_db.csv neu bauen
-    python algo/macro_db.py stats       # Auswertung
-    python algo/macro_db.py plot        # Diagramme + Wiki-Seite
+    python algo/macro_db.py build --symbol NQ    # algo/results/macro_db.csv neu bauen (1s)
+    python algo/macro_db.py stats --symbol NQ    # Auswertung
+    python algo/macro_db.py plot --symbol NQ     # Diagramme + Wiki-Seite
+    python algo/macro_db.py build --symbol MNQ --tf 1m   # MNQ hat keine 1s-Historie
     python algo/macro_db.py --selfcheck
 """
 from __future__ import annotations
@@ -29,10 +30,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from tools.analyze_ohlc import (CFG, DATA_DIR, NY, Bar, at, displacements, fvgs,  # noqa: E402
-                                load, structure_breaks, sweeps, untouched_levels)
+                                structure_breaks, sweeps, untouched_levels)
 
-from marktdaten import session_day_from_path  # noqa: E402  -- 2026-08-16 von
-                                              # backtest_macro hierher gezogen
+from marktdaten import resample_bars  # noqa: E402
+from marktdaten import tage as tage_bars  # noqa: E402  -- Alias, weil `tage` im Modul
+                                          # bereits als lokaler Variablenname (Anzahl
+                                          # Handelstage) in cmd_build/cmd_stats/cmd_plot
+                                          # verwendet wird. Ersetzt seit 2026-08-16 den
+                                          # direkten DATA_DIR.rglob(*1m.csv)+load()-Weg,
+                                          # siehe build().
 
 # Der MNQ-Handelstag laeuft 18:00 (Vorabend) .. 17:00. Das erste Macro-Fenster ist
 # 18:50, das letzte 16:50 -- 23 Stunden. 17:50 liegt in der Globex-Pause.
@@ -116,8 +122,15 @@ def is_complete(bars: list[Bar], start: datetime, end: datetime,
     nur vollstaendig erfasste Fenster gehen in die Statistik -- eine halbe
     Kerzenreihe verzerrt Range, Nettoweg und Startminute, ohne dass man es der Zahl
     ansieht.
+
+    Prueft auf MINUTEN-Abdeckung, nicht auf exakte Kerzen-Timestamps: auf 1s-Daten
+    liegt so gut wie nie eine Kerze exakt auf `HH:MM:00`, ein Vergleich gegen
+    `{b.t for b in bars}` wuerde dort fast jedes Fenster faelschlich verwerfen
+    (identisches Problem wie backtest_macro.py vor der 1s-Umstellung 2026-08-16,
+    siehe `abgedeckte_minuten()` dort). Auf 1m-Daten liegt jede Kerze ohnehin exakt
+    auf der Minute, das Verhalten dort bleibt unveraendert.
     """
-    have = {b.t for b in bars}
+    have = {b.t.replace(second=0, microsecond=0) for b in bars}
     win_min = int((end - start).total_seconds() // 60)
     soll_win = {start + timedelta(minutes=i) for i in range(win_min)}
     soll_pre = {start - timedelta(minutes=i + 1) for i in range(pre_min)}
@@ -139,6 +152,11 @@ def measure_window(win: list[Bar], dir_thr: float = DIR_THR,
     ist der Punkt, an dem der Move einsetzt, und misst die
     Manipulation-vor-Expansion-Sequenz innerhalb der 20 Minuten
     (siehe wiki/concepts/ICT Macros & Leading Candles.md).
+
+    `start_min` wird ueber den Zeitstempel-Abstand zum Fensterbeginn berechnet, NICHT ueber
+    den Listenindex: auf 1m-Kerzen ist Index == Minute (unveraendertes Verhalten), auf
+    1s-Kerzen waere der Index eine Sekunde und ohne diese Umrechnung als "Minute"
+    fehletikettiert (~1200 Kerzen in einem 20-Min-1s-Fenster statt 20).
     """
     hi = max(b.h for b in win)
     lo = min(b.l for b in win)
@@ -146,11 +164,12 @@ def measure_window(win: list[Bar], dir_thr: float = DIR_THR,
     netto = win[-1].c - win[0].o
     ab = abs(netto)
     if netto >= 0:
-        start_min = min(range(len(win)), key=lambda i: win[i].l)
+        idx = min(range(len(win)), key=lambda i: win[i].l)
         direction = "up"
     else:
-        start_min = max(range(len(win)), key=lambda i: win[i].h)
+        idx = max(range(len(win)), key=lambda i: win[i].h)
         direction = "down"
+    start_min = (win[idx].t - win[0].t).total_seconds() / 60.0
     d = ab / rng if rng else 0.0
     return {"range": rng, "netto": netto, "dir": d, "direction": direction,
             "start_min": start_min, "expansion": bool(d >= dir_thr and ab >= netto_thr)}
@@ -190,11 +209,19 @@ def measure_excursion(bars: list[Bar], start: datetime,
     None je Horizont, wenn die Minuten nicht lueckenlos vorliegen: am Sessionende (17:00)
     fehlen sie regelmaessig, und eine halbe Kerzenreihe wuerde die Exkursion still nach
     unten verzerren.
+
+    Die Luecken-Pruefung zaehlt ABGEDECKTE MINUTEN, nicht Kerzen: `len(seg) < n` ging
+    davon aus, dass eine Kerze = eine Minute ist (stimmt fuer 1m-Daten), auf 1s-Kerzen
+    haette ein 20-Min-Segment aber ~1200 Kerzen und die Pruefung waere nie ausgeloest --
+    eine echte Datenluecke (z.B. nur 5 von 20 Minuten belegt) bliebe unbemerkt.
     """
     out: dict = {}
     for n in horizonte:
         seg = window_bars(bars, start, start + timedelta(minutes=n))
-        if len(seg) < n:
+        soll_minuten = {(start + timedelta(minutes=i)).replace(second=0, microsecond=0)
+                        for i in range(n)}
+        have_minuten = {b.t.replace(second=0, microsecond=0) for b in seg}
+        if not soll_minuten <= have_minuten:
             out[f"exc_up_{n}"] = out[f"exc_dn_{n}"] = None
             out[f"mfe_{n}"] = out[f"reach10_{n}"] = None
             continue
@@ -219,6 +246,11 @@ def measure_pre(bars: list[Bar], start: datetime, pre_min: int = PRE_MIN) -> dic
     Volumen" ist auf diesem Bestand nicht baubar.
 
     Sieht ausschliesslich Kerzen mit `t < start`: kein Lookahead.
+
+    Die Vollstaendigkeits-Pruefung der Normierungs-Bloecke unten zaehlt abgedeckte
+    MINUTEN, nicht Kerzen (`len(blk) == pre_min` ging von 1 Kerze = 1 Minute aus -- auf
+    1s-Kerzen haette ein 10-Minuten-Block ~600 Kerzen und die Gleichheit waere nie wahr,
+    `pre_range_rel` waere dadurch auf 1s-Daten IMMER None).
     """
     pre = window_bars(bars, start - timedelta(minutes=pre_min), start)
     if not pre:
@@ -232,8 +264,12 @@ def measure_pre(bars: list[Bar], start: datetime, pre_min: int = PRE_MIN) -> dic
     refs = []
     for k in range(1, NORM_BLOCKS + 1):
         b_end = start - timedelta(minutes=pre_min * k)
-        blk = window_bars(bars, b_end - timedelta(minutes=pre_min), b_end)
-        if len(blk) == pre_min:
+        b_start = b_end - timedelta(minutes=pre_min)
+        blk = window_bars(bars, b_start, b_end)
+        soll = {(b_start + timedelta(minutes=i)).replace(second=0, microsecond=0)
+               for i in range(pre_min)}
+        have = {b.t.replace(second=0, microsecond=0) for b in blk}
+        if soll <= have:
             refs.append(max(b.h for b in blk) - min(b.l for b in blk))
     med = statistics.median(refs) if len(refs) >= NORM_BLOCKS // 2 else None
     pre_range_rel = (rng_pre / med) if med else None
@@ -299,12 +335,21 @@ def measure_events(bars: list[Bar], start: datetime) -> dict:
     return out
 
 
-def measure_levels(bars: list[Bar], start: datetime, end: datetime) -> dict:
+def measure_levels(bars: list[Bar], start: datetime, end: datetime,
+                   native: list[Bar] | None = None) -> dict:
     """Offene Liquiditaets-Level vor dem Fenster und welche davon im Fenster fielen.
 
     Level-Quelle ist `untouched_levels` auf `bars[t < start]`: Swing-Hochs/-Tiefs, die
     bis zum Fensterstart nie wieder genommen wurden -- das ist die ICT-Kernliquiditaet
     ("Target Liquiditaet min. 2 H/L").
+
+    `bars` ist die (ggf. auf 1m resampelte) Kontext-Reihe fuer die Swing-Erkennung selbst
+    -- `untouched_levels` nutzt `CFG["swing"]`, das auf 1m kalibriert ist. Ob ein Level
+    IM Fenster genommen wurde (`levels_hit`) sowie der Referenzpreis `ref` werden dagegen,
+    wenn vorhanden, aus `native` (der echten, nicht resampelten Kerzenreihe) bestimmt --
+    ein Level-Touch, der nur innerhalb einer 1m-Kerze passiert, darf auf 1s-Praezision
+    nicht verlorengehen. Ohne `native` (z.B. wenn `bars` bereits 1m ist) faellt beides auf
+    `bars` zurueck, unveraendertes Verhalten.
 
     Bewusst NICHT enthalten, obwohl die Spec sie in 4.1 nennt:
 
@@ -320,15 +365,17 @@ def measure_levels(bars: list[Bar], start: datetime, end: datetime) -> dict:
 
     Beides ist ein eigener Schritt -- siehe algo/PLAN.md.
     """
+    ref_bars = native if native is not None else bars
     hist = [b for b in bars if b.t < start]
-    win = window_bars(bars, start, end)
-    if not hist or not win:
+    win = window_bars(ref_bars, start, end)
+    hist_ref = [b for b in ref_bars if b.t < start]
+    if not hist or not win or not hist_ref:
         return {"levels_open": None, "levels_hit": "", "nearest_level_dist": None}
 
     offen = untouched_levels(hist, CFG["swing"])
     hi = max(b.h for b in win)
     lo = min(b.l for b in win)
-    ref = hist[-1].c
+    ref = hist_ref[-1].c
 
     getroffen = []
     for lv in offen:
@@ -353,19 +400,28 @@ FIELDS = ["symbol", "session_day", "window", "weekday", "session",
 
 
 def build(symbol: str = "MNQ", dir_thr: float = DIR_THR,
-          netto_thr: float = NETTO_THR) -> tuple[list[dict], list[dict]]:
+          netto_thr: float = NETTO_THR, tf: str = "1s") -> tuple[list[dict], list[dict]]:
     """Baut die Datenbank neu und liefert (Zeilen, Ausschluesse).
 
     Rechnet immer alles neu -- bei einigen hundert Zeilen dauert das Sekunden, eine
     Inkrementell-Logik waere Code fuer ein Problem, das es nicht gibt.
+
+    `tf` bestimmt die Rohdatenquelle ueber `marktdaten.tage()`: `"1s"` liest die
+    IBKR-Parquets (Standard, deckt fuer NQ/ES deutlich mehr Handelstage ab als die
+    manuellen 1m-Exporte), `"1m"` die alten TradingView-CSVs -- fuer MNQ noetig, weil
+    dafuer keine 1s-Historie existiert (siehe backtest_macro.py-Konvention).
     """
     rows, skipped = [], []
-    for path in sorted(DATA_DIR.rglob(f"{symbol} *-*-* 1m.csv")):
-        bars = load(path)
-        if not bars:
-            skipped.append({"session_day": path.name, "window": "-", "grund": "Datei leer"})
-            continue
-        session_day = session_day_from_path(path)
+    for session_day, bars in tage_bars(symbol, tf):
+        # Kontext-Detektoren (Sweep/MSS/Displacement/offene Level) sind auf 1m kalibriert
+        # (CFG-Schwellen, siehe measure_events()-Docstring) und liefen bislang PRO FENSTER
+        # (~24x/Tag) auf der wachsenden 1s-Praefixliste neu -- auf 1s-Kerzen (~50.000+/Tag)
+        # sowohl falsch (swing=2 sucht dann einen Strukturbruch ueber 2 SEKUNDEN statt 2
+        # Minuten) als auch unbenutzbar langsam (Stunden statt Minuten fuer NQ/ES).
+        # Fix: einmal pro Tag auf 1m resampeln, Kontext-Detektoren rechnen auf dieser
+        # kleinen Reihe -- die Fenster-Eigenmessung (Range/Netto/MFE) bleibt auf `bars`
+        # (echte 1s-Aufloesung), das ist der eigentliche Sinn der 1s-Anbindung.
+        bars_ctx = resample_bars(bars, "1m") if tf == "1s" else bars
         for label, start, end in macro_windows_session(session_day):
             if not is_complete(bars, start, end):
                 win = window_bars(bars, start, end)
@@ -379,8 +435,8 @@ def build(symbol: str = "MNQ", dir_thr: float = DIR_THR,
                          "window": label, "weekday": start.strftime("%a"),
                          "session": SESSION_BY_HOUR[start.hour],
                          **measure_pre(bars, start),
-                         **measure_events(bars, start),
-                         **measure_levels(bars, start, end),
+                         **measure_events(bars_ctx, start),
+                         **measure_levels(bars_ctx, start, end, native=bars),
                          **measure_window(win, dir_thr, netto_thr),
                          **measure_excursion(bars, start)})
     return rows, skipped
@@ -418,8 +474,8 @@ def read_csv() -> list[dict]:
     return out
 
 
-def _csv_veraltet(symbol: str = "MNQ") -> bool:
-    """True, wenn die CSV fehlt, aelter ist als die juengste 1m-Rohdatei, oder nicht
+def _csv_veraltet(symbol: str = "MNQ", tf: str = "1s") -> bool:
+    """True, wenn die CSV fehlt, aelter ist als die juengste Rohdatei, oder nicht
     mehr zu `FIELDS` passt.
 
     Der Spaltenvergleich ist der wichtigere Teil: kommt im Code eine Spalte dazu, ist
@@ -432,7 +488,8 @@ def _csv_veraltet(symbol: str = "MNQ") -> bool:
         kopf = next(csv.reader(fh), [])
     if kopf != FIELDS:
         return True
-    quellen = list(DATA_DIR.rglob(f"{symbol} *-*-* 1m.csv"))
+    endung = "parquet" if tf == "1s" else "csv"
+    quellen = list(DATA_DIR.rglob(f"{symbol} *-*-* {tf}.{endung}"))
     if not quellen:
         return False
     return CSV_PATH.stat().st_mtime < max(q.stat().st_mtime for q in quellen)
@@ -999,8 +1056,8 @@ def _schreibe_wiki(symbol, rows, tage, basis, fenster, knapp, basis_lv) -> None:
     WIKI_SEITE.write_text("\n".join(zeilen), encoding="utf-8")
 
 
-def cmd_build(symbol: str) -> None:
-    rows, skipped = build(symbol)
+def cmd_build(symbol: str, tf: str = "1s") -> None:
+    rows, skipped = build(symbol, tf=tf)
     write_csv(rows)
     tage = len({r["session_day"] for r in rows})
     print(f"{len(rows)} Fenster aus {tage} Handelstagen -> {CSV_PATH}")
@@ -1302,6 +1359,9 @@ if __name__ == "__main__":
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("cmd", nargs="?", choices=["build", "stats", "plot"])
     p.add_argument("--symbol", default="MNQ")
+    # Standard "1s": IBKR-Parquets, deckt fuer NQ/ES mehr Tage ab als die manuellen
+    # 1m-Exporte. MNQ hat keine 1s-Historie -- dafuer explizit --tf 1m angeben.
+    p.add_argument("--tf", default="1s", choices=["1s", "1m"])
     p.add_argument("--selfcheck", action="store_true")
     a = p.parse_args()
     # Ohne das bricht der En-Dash in den Konfidenzintervallen auf einer cp1252-Konsole
@@ -1313,7 +1373,7 @@ if __name__ == "__main__":
     if a.selfcheck:
         selfcheck()
     elif a.cmd == "build":
-        cmd_build(a.symbol)
+        cmd_build(a.symbol, a.tf)
     elif a.cmd == "plot":
         cmd_plot(a.symbol)
     else:
@@ -1322,7 +1382,7 @@ if __name__ == "__main__":
         # Fehlt die CSV oder ist sie aelter als die juengste Rohdatei, wird vorher
         # gebaut: sonst laege stillschweigend ein veralteter Stand im Report, und genau
         # das soll dieses Projekt nicht tun.
-        if _csv_veraltet(a.symbol):
-            cmd_build(a.symbol)
+        if _csv_veraltet(a.symbol, a.tf):
+            cmd_build(a.symbol, a.tf)
             print()
         cmd_stats(a.symbol)
