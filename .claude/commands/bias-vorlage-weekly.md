@@ -21,9 +21,10 @@ Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoch
 
    - nach Tagen gruppiert, **alle fuenf Handelstage** aufgefuehrt
    - je Termin **eine** Zeile, danach eine **Leerzeile**
-   - Impact als Farbsymbol: 🔴 Red, 🟠 Orange
+   - Impact als Farbsymbol **und Schriftfarbe**: Red-Zeilen rot (`#e05252`), Orange-Zeilen
+     orange (`#e08a2e`), gesetzt per `<span style="color:...">` um die ganze Zeile
    - Uhrzeiten immer beschriftet: `14:00 NY / 20:00 DE`
-   - Tage ohne Termine: `❌ keine USD-Termine`
+   - Tage ohne Termine: `❌ keine USD-Termine` -- **ohne** Farbe, bleibt neutral
 
    Als Fliesstext, nicht in ```-Zaeunen -- sonst rendern Symbole und Fettung nicht, und die
    Leerzeilen wirken nicht als Absatz.

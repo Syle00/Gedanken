@@ -225,6 +225,7 @@
 <li><a href="#2026-08-16-setup-micromini-strikt-getrennt-cot-divergenz-these-gebacktestet-widerlegt">[2026-08-16] setup | Micro/Mini strikt getrennt + COT-Divergenz-These gebacktestet (widerlegt)</a></li>
 <li><a href="#2026-08-16-setup-news-block-nach-tagen-gruppiert-ausgerichtet-leere-tage-mit">[2026-08-16] setup | News-Block: nach Tagen gruppiert, ausgerichtet, leere Tage mit ❌</a></li>
 <li><a href="#2026-08-16-setup-news-block-auf-zeilen-layout-farbsymbole-nyde-beschriftet">[2026-08-16] setup | News-Block auf Zeilen-Layout: Farbsymbole, NY/DE beschriftet</a></li>
+<li><a href="#2026-08-16-setup-news-zeilen-zusaetzlich-in-impact-farbe">[2026-08-16] setup | News-Zeilen zusaetzlich in Impact-Farbe</a></li>
 </ul>
 </div>
 </details>
@@ -3540,6 +3541,22 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Forecast/Previous nur, wenn die Quelle sie liefert -- FOMC Minutes haben keine, dort entfaellt
   die Klammer statt zwei Gedankenstriche zu zeigen.</li>
 <li><code>Weekly Bias KW34 2026.md</code> auf das neue Format umgestellt.</li>
+</ul>
+<h2 id="2026-08-16-setup-news-zeilen-zusaetzlich-in-impact-farbe">[2026-08-16] setup | News-Zeilen zusaetzlich in Impact-Farbe</h2>
+<ul>
+<li>Nutzervorgabe: Orange-News in orange, Red-News in rot schreiben; Tage ohne Termine bleiben
+  unveraendert (neutral, nur ❌).</li>
+<li>Umgesetzt ueber inline-HTML (<code>&lt;span style="color:..."&gt;</code> um die ganze Terminzeile), weil
+  Markdown keine Schriftfarbe kennt. Farben: Red <code>#e05252</code>, Orange <code>#e08a2e</code> -- mittlere
+  Saettigung, damit sie auf hellem <strong>und</strong> dunklem Hintergrund lesbar bleiben.</li>
+<li><strong>Vor dem Einbau gegengeprueft</strong>, ob der Site-Generator das ueberhaupt durchlaesst:
+  <code>tools/build_site.py</code> nutzt python-markdown mit der <code>extra</code>-Erweiterung. Testkonvertierung
+  bestaetigt beides -- der <code>&lt;span&gt;</code> bleibt unveraendert erhalten <strong>und</strong> die Markdown-Fettung
+  darin wird weiter zu <code>&lt;strong&gt;</code> gerendert. Die Farbe funktioniert also in Obsidian und im
+  generierten <code>site/</code>-HTML gleichermassen.</li>
+<li>Symbol bleibt zusaetzlich stehen (🔴/🟠): Farbe allein ist kein verlaessliches
+  Unterscheidungsmerkmal, wenn eine Datei mal als reiner Text oder in einem Viewer ohne
+  HTML-Unterstuetzung gelesen wird.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

@@ -3139,3 +3139,18 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Forecast/Previous nur, wenn die Quelle sie liefert -- FOMC Minutes haben keine, dort entfaellt
   die Klammer statt zwei Gedankenstriche zu zeigen.
 - `Weekly Bias KW34 2026.md` auf das neue Format umgestellt.
+
+## [2026-08-16] setup | News-Zeilen zusaetzlich in Impact-Farbe
+- Nutzervorgabe: Orange-News in orange, Red-News in rot schreiben; Tage ohne Termine bleiben
+  unveraendert (neutral, nur ❌).
+- Umgesetzt ueber inline-HTML (`<span style="color:...">` um die ganze Terminzeile), weil
+  Markdown keine Schriftfarbe kennt. Farben: Red `#e05252`, Orange `#e08a2e` -- mittlere
+  Saettigung, damit sie auf hellem **und** dunklem Hintergrund lesbar bleiben.
+- **Vor dem Einbau gegengeprueft**, ob der Site-Generator das ueberhaupt durchlaesst:
+  `tools/build_site.py` nutzt python-markdown mit der `extra`-Erweiterung. Testkonvertierung
+  bestaetigt beides -- der `<span>` bleibt unveraendert erhalten **und** die Markdown-Fettung
+  darin wird weiter zu `<strong>` gerendert. Die Farbe funktioniert also in Obsidian und im
+  generierten `site/`-HTML gleichermassen.
+- Symbol bleibt zusaetzlich stehen (🔴/🟠): Farbe allein ist kein verlaessliches
+  Unterscheidungsmerkmal, wenn eine Datei mal als reiner Text oder in einem Viewer ohne
+  HTML-Unterstuetzung gelesen wird.

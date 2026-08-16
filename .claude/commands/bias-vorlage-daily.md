@@ -24,8 +24,9 @@ Erzeuge `raw/journal/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.
      Aussage. Nie als Abruf-Fehler ausgeben.
    - sonst **`news.block` unveraendert uebernehmen** -- **kein** Codeblock, keine Tabelle,
      nichts selbst formatieren. Kommt fertig aus `bias_levels.py::news_block()`: je Termin
-     eine Zeile plus Leerzeile, Impact als 🔴/🟠, Uhrzeiten als `14:00 NY / 20:00 DE`,
-     Tage ohne Termine mit `❌ keine USD-Termine`.
+     eine Zeile plus Leerzeile, Impact als 🔴/🟠 **und** als Schriftfarbe der Zeile
+     (`<span style="color:#e05252">` rot / `#e08a2e` orange), Uhrzeiten als
+     `14:00 NY / 20:00 DE`, Tage ohne Termine mit `❌ keine USD-Termine` (neutral, ohne Farbe).
 
    `news.source` mit ausgeben: normalerweise `forexfactory`, bei einem Zieltag ausserhalb der
    laufenden FF-Woche (Sonntagslauf fuer Montag) `tradingview` plus `news.hinweis` -- kein

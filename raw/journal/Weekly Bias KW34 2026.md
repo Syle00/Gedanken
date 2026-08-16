@@ -13,13 +13,13 @@ Zielwoche vollständig ab). **Nur USD** — gehandelt werden NQ/ES.
 
 **Mi 19.08.**
 
-🔴 **14:00 NY** / 20:00 DE — FOMC Meeting Minutes
+<span style="color:#e05252">🔴 **14:00 NY** / 20:00 DE — FOMC Meeting Minutes</span>
 
 **Do 20.08.**
 
-🟠 **08:30 NY** / 14:30 DE — Philly Fed Manufacturing Index  (Forecast 24.3, Previous 41.4)
+<span style="color:#e08a2e">🟠 **08:30 NY** / 14:30 DE — Philly Fed Manufacturing Index  (Forecast 24.3, Previous 41.4)</span>
 
-🟠 **08:30 NY** / 14:30 DE — Unemployment Claims  (Forecast 210K, Previous 209K)
+<span style="color:#e08a2e">🟠 **08:30 NY** / 14:30 DE — Unemployment Claims  (Forecast 210K, Previous 209K)</span>
 
 **Fr 21.08.** ❌ keine USD-Termine
 
@@ -252,7 +252,14 @@ und die NQ/ES-Divergenz als Beobachtungsauftrag.
 
 Weekly Chart haben wir einen Suspensionblock Bisi gebildet 2 vii und Buyside genommen wir haben auch über dem Swing High geclosed.
 28,500,00 Low High bei 29,851,25.
-3 Buysie Liq Pools abgesehen vom PWH und PDH 30,599,75 29. Juli
-30,975,50 15 juli und das ATH = All time high bei 31,100,00
+3 Buysie Liq Pools abgesehen vom PWH und PDH 30,599,75 29. Juni
+30,975,50 15 juni und das ATH = All time high bei 31,100,00
 
-Ein Retracement ins BISI ist denkbar weil wir bereits gute Buyside genommen haben und einen Internal Liq Sweep in Form des Bisi realistisch ist. 
+Ein Retracement ins BISI ist denkbar weil wir bereits gute Buyside genommen haben und einen Internal Liq Sweep in Form des Bisi realistisch ist.
+
+Daily Chart bin ich gespanntt ob alte FVG genutzt werden als IFVG oder reclaimed FVG vom 23. Juli z.b Im Daily Chart sehe ich abgesehen von Buyside Pools nicht viel weiter. Ein Daily bisi mit einer vii 13.08 auch hier wäre ein Retracement denkbar.
+
+4h Chart großes sibi vom 22 juni 22 uhr interessiert michschauen ob die noch relevant ist. Viel Sellside das sind keine rel die nebeneinander liegen sondern alles swing lows aber es passt zum interene Liq sweep
+
+Im 1H Chart sind sind es bessere Sellside Pools 12.08 18:00 uhr bei 29,780,50 unterhalb des Daily Bisi das gefällt mir als DOL gut.
+Sollte der Longterm Bias 
