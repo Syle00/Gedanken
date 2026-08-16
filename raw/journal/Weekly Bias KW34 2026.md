@@ -13,13 +13,13 @@ Zielwoche vollständig ab). **Nur USD** — gehandelt werden NQ/ES.
 
 **Mi 19.08.**
 
-<span style="color:#e05252">🔴 **14:00 NY** / 20:00 DE — FOMC Meeting Minutes</span>
+🔴 **14:00 NY** / 20:00 DE — FOMC Meeting Minutes
 
 **Do 20.08.**
 
-<span style="color:#e08a2e">🟠 **08:30 NY** / 14:30 DE — Philly Fed Manufacturing Index  (Forecast 24.3, Previous 41.4)</span>
+🟠 **08:30 NY** / 14:30 DE — Philly Fed Manufacturing Index  (Forecast 24.3, Previous 41.4)
 
-<span style="color:#e08a2e">🟠 **08:30 NY** / 14:30 DE — Unemployment Claims  (Forecast 210K, Previous 209K)</span>
+🟠 **08:30 NY** / 14:30 DE — Unemployment Claims  (Forecast 210K, Previous 209K)
 
 **Fr 21.08.** ❌ keine USD-Termine
 
@@ -262,4 +262,5 @@ Daily Chart bin ich gespanntt ob alte FVG genutzt werden als IFVG oder reclaimed
 4h Chart großes sibi vom 22 juni 22 uhr interessiert michschauen ob die noch relevant ist. Viel Sellside das sind keine rel die nebeneinander liegen sondern alles swing lows aber es passt zum interene Liq sweep
 
 Im 1H Chart sind sind es bessere Sellside Pools 12.08 18:00 uhr bei 29,780,50 unterhalb des Daily Bisi das gefällt mir als DOL gut.
-Sollte der Longterm Bias 
+Sollte der Longterm Bias weiterhin Bullish sein sehe ich ungern einen close unterhalb. Allgemein wenn wir weiter Bullish sind muss Price mir das zeigen aber da wir Montag keine News haben und keine NFP am Freitag ist wird die Priceaction wohl etwas schwierig.
+S&P Chart sieht ähnlich aus. Ich werde schauen was der Montag bringt

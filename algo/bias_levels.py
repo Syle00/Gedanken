@@ -424,9 +424,6 @@ def _tv_news(von: date, bis: date) -> dict:
 
 WOCHENTAG_DE = {"Mon": "Mo", "Tue": "Di", "Wed": "Mi", "Thu": "Do", "Fri": "Fr",
                 "Sat": "Sa", "Sun": "So"}
-# Zeilenfarbe je Impact. Bewusst mittlere Saettigung: die Werte muessen sowohl auf hellem als
-# auch auf dunklem Hintergrund lesbar bleiben (Obsidian-Theme und site/-Darkmode).
-IMPACT_HEX = {"Red": "#e05252", "Orange": "#e08a2e"}
 
 
 def news_block(events: list[dict], von: date | None = None, bis: date | None = None) -> str:
@@ -475,12 +472,8 @@ def news_block(events: list[dict], von: date | None = None, bis: date | None = N
             if e["previous"]:
                 werte.append(f"Previous {e['previous']}")
             schwanz = f"  ({', '.join(werte)})" if werte else ""
-            # Zeilenfarbe nach Impact (Nutzervorgabe 2026-08-16). Markdown kennt keine Farben;
-            # Obsidian und python-markdown ("extra") lassen inline-HTML durch, Fettung und
-            # Wikilinks innerhalb des <span> rendern weiter.
-            zeilen += [f'<span style="color:{IMPACT_HEX["Red" if rot else "Orange"]}">'
-                       f"{symbol} **{e['ny'][11:]} NY** / {e['de']} DE — "
-                       f"{e['title']}{schwanz}</span>", ""]
+            zeilen += [f"{symbol} **{e['ny'][11:]} NY** / {e['de']} DE — "
+                       f"{e['title']}{schwanz}", ""]
     return "\n".join(zeilen).strip()
 
 

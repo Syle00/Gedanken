@@ -226,6 +226,7 @@
 <li><a href="#2026-08-16-setup-news-block-nach-tagen-gruppiert-ausgerichtet-leere-tage-mit">[2026-08-16] setup | News-Block: nach Tagen gruppiert, ausgerichtet, leere Tage mit ❌</a></li>
 <li><a href="#2026-08-16-setup-news-block-auf-zeilen-layout-farbsymbole-nyde-beschriftet">[2026-08-16] setup | News-Block auf Zeilen-Layout: Farbsymbole, NY/DE beschriftet</a></li>
 <li><a href="#2026-08-16-setup-news-zeilen-zusaetzlich-in-impact-farbe">[2026-08-16] setup | News-Zeilen zusaetzlich in Impact-Farbe</a></li>
+<li><a href="#2026-08-16-revert-schriftfarbe-in-news-zeilen-wieder-entfernt">[2026-08-16] revert | Schriftfarbe in News-Zeilen wieder entfernt</a></li>
 </ul>
 </div>
 </details>
@@ -3557,6 +3558,16 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Symbol bleibt zusaetzlich stehen (🔴/🟠): Farbe allein ist kein verlaessliches
   Unterscheidungsmerkmal, wenn eine Datei mal als reiner Text oder in einem Viewer ohne
   HTML-Unterstuetzung gelesen wird.</li>
+</ul>
+<h2 id="2026-08-16-revert-schriftfarbe-in-news-zeilen-wieder-entfernt">[2026-08-16] revert | Schriftfarbe in News-Zeilen wieder entfernt</h2>
+<ul>
+<li>Auf Nutzerwunsch rueckgaengig gemacht: die kurz zuvor eingebaute Impact-Schriftfarbe
+  (<code>&lt;span style="color:..."&gt;</code> um jede Terminzeile) ist wieder raus, samt <code>IMPACT_HEX</code>.</li>
+<li>Stand jetzt wie davor: Zeilen-Layout mit Farbsymbol 🔴/🟠, Uhrzeiten als
+  <code>14:00 NY / 20:00 DE</code>, je Termin eine Zeile plus Leerzeile, leere Tage mit ❌.</li>
+<li>In beiden Commands als <strong>ausdrueckliches Nicht-Feature</strong> vermerkt ("keine Schriftfarbe --
+  am 2026-08-16 eingebaut und auf Nutzerwunsch entfernt, nicht erneut hinzufuegen"), damit es
+  bei der naechsten Formatierungsrunde nicht versehentlich zurueckkommt.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

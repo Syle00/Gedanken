@@ -3154,3 +3154,12 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Symbol bleibt zusaetzlich stehen (🔴/🟠): Farbe allein ist kein verlaessliches
   Unterscheidungsmerkmal, wenn eine Datei mal als reiner Text oder in einem Viewer ohne
   HTML-Unterstuetzung gelesen wird.
+
+## [2026-08-16] revert | Schriftfarbe in News-Zeilen wieder entfernt
+- Auf Nutzerwunsch rueckgaengig gemacht: die kurz zuvor eingebaute Impact-Schriftfarbe
+  (`<span style="color:...">` um jede Terminzeile) ist wieder raus, samt `IMPACT_HEX`.
+- Stand jetzt wie davor: Zeilen-Layout mit Farbsymbol 🔴/🟠, Uhrzeiten als
+  `14:00 NY / 20:00 DE`, je Termin eine Zeile plus Leerzeile, leere Tage mit ❌.
+- In beiden Commands als **ausdrueckliches Nicht-Feature** vermerkt ("keine Schriftfarbe --
+  am 2026-08-16 eingebaut und auf Nutzerwunsch entfernt, nicht erneut hinzufuegen"), damit es
+  bei der naechsten Formatierungsrunde nicht versehentlich zurueckkommt.
