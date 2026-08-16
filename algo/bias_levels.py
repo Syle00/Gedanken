@@ -170,6 +170,31 @@ def _gap_bars(symbol: str, von: date, bis: date) -> tuple[list, dict[date, str]]
     return bars, quelle
 
 
+def tick(preis: float, groesse: float = 0.25) -> float:
+    """Auf das Kontrakt-Tickraster runden. MNQ/NQ/ES handeln nur in 0,25-Schritten -- ein
+    berechnetes Level, das dazwischen liegt, ist als Entry/Stop/Ziel nicht handelbar."""
+    return round(round(preis / groesse) * groesse, 2)
+
+
+def unterteilung(a: float, b: float) -> dict:
+    """Hs / Qs / Os einer Range plus C.E. -- Reihenfolge immer von unten nach oben.
+
+    Hs = Halves (50%), Qs = Quarters (25/50/75%), Os = Octants (12,5%-Schritte).
+    C.E. (Consequent Encroachment) ist die Mitte und damit identisch mit H1/Q2/O4 --
+    bewusst zusaetzlich ausgewiesen, weil im Vault durchgaengig mit diesem Namen gearbeitet
+    wird. Alle Werte aufs 0,25-Raster.
+    """
+    lo, hi = (a, b) if a <= b else (b, a)
+    spanne = hi - lo
+    def bei(anteil: float) -> float:
+        return tick(lo + spanne * anteil)
+    return {"low": tick(lo), "high": tick(hi), "spanne": round(spanne, 2),
+            "ce": bei(0.5),
+            "hs": {"H1": bei(0.5)},
+            "qs": {f"Q{i}": bei(i / 4) for i in (1, 2, 3)},
+            "os": {f"O{i}": bei(i / 8) for i in (1, 2, 3, 4, 5, 6, 7)}}
+
+
 def _gaps_aus_bars(bars: list, quelle: dict | None = None) -> tuple[list, list]:
     """(ndog, nwog) aus einer Bar-Folge -- reine Rechnung, kein Dateizugriff, damit testbar.
 
@@ -198,14 +223,17 @@ def _gaps_aus_bars(bars: list, quelle: dict | None = None) -> tuple[list, list]:
         fill = next((x.t for x in bars if x.t > nachher.t and x.l <= vorher.c <= x.h), None)
         e = {"tag": tag.isoformat(),
              "weekday": tag.strftime("%a"),
-             "close": round(vorher.c, 2),
+             # close = Close der letzten gehandelten Kerze vor der Pause,
+             # open  = Open der ersten Kerze nach der Pause (Nutzervorgabe 2026-08-16)
+             "close": tick(vorher.c),
              "close_t": vorher.t.strftime("%Y-%m-%d %H:%M:%S"),
-             "open": round(nachher.o, 2),
+             "open": tick(nachher.o),
              "open_t": nachher.t.strftime("%Y-%m-%d %H:%M:%S"),
              "gap": round(gap, 2),
-             "ce": round((vorher.c + nachher.o) / 2, 2),
              "filled": fill is not None,
-             "quelle": quelle.get(vorher.t.date(), "?")}
+             "quelle": quelle.get(vorher.t.date(), "?"),
+             **{k: v for k, v in unterteilung(vorher.c, nachher.o).items()
+                if k in ("ce", "hs", "qs", "os", "spanne")}}
         (nwog if ist_wochenende else ndog).append(e)
     return ndog, nwog
 
@@ -369,6 +397,20 @@ def demo() -> None:
     assert next_trading_day(date(2026, 8, 17)) == date(2026, 8, 18), "Mo -> Di"
     assert next_monday(date(2026, 8, 14)) == date(2026, 8, 17)
     assert next_monday(date(2026, 8, 16)) == date(2026, 8, 17), "So -> Montag darauf"
+
+    # Tickraster + Hs/Qs/Os. Futures handeln nur in 0,25-Schritten (CLAUDE.md/Nutzervorgabe).
+    assert tick(28443.375) == 28443.5 and tick(28443.1) == 28443.0, tick(28443.375)
+    u = unterteilung(28284.0, 28602.75)          # NWOG 02.08.2026, Spanne 318.75
+    assert (u["low"], u["high"], u["spanne"]) == (28284.0, 28602.75, 318.75), u
+    assert u["ce"] == u["hs"]["H1"] == u["qs"]["Q2"] == u["os"]["O4"], "C.E. == H1 == Q2 == O4"
+    assert u["ce"] == 28443.5, u["ce"]            # 28284 + 159.375 -> aufs Raster
+    # 28284 + 318.75*0.25 = 28363.6875 -> 28363.75; *0.75 = 28523.0625 -> 28523.0
+    assert u["qs"]["Q1"] == 28363.75 and u["qs"]["Q3"] == 28523.0, u["qs"]
+    assert list(u["os"]) == [f"O{i}" for i in range(1, 8)], u["os"]
+    assert all(u["os"][f"O{i}"] <= u["os"][f"O{i+1}"] for i in range(1, 7)), "Os aufsteigend"
+    # Richtung egal: ein bearisher Gap (open < close) liefert dieselbe Unterteilung
+    assert unterteilung(28602.75, 28284.0) == u, "Reihenfolge der Argumente darf nichts aendern"
+    assert all(abs(v * 4 - round(v * 4)) < 1e-9 for v in u["qs"].values()), "Qs auf 0,25-Raster"
 
     # Gap-Erkennung ueber Handelspausen. Synthetische Bars, kein Dateizugriff.
     # Regressionsschutz gegen den Fehler vom 16.08.2026: analyze_ohlc.ndog_gap() nahm

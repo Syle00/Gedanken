@@ -59,6 +59,21 @@ Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoch
    Danach die Range der auslaufenden Woche (aus `letzte_woche`).
    Preise aufs 0,25-Tickraster.
 
+   **Zu jedem offenen Gap zusaetzlich die volle Qs/Os/Hs-Tabelle** (steht fertig in `hs`,
+   `qs`, `os`, `ce` je Eintrag -- nicht selbst rechnen, ist bereits aufs Raster gerundet):
+
+   | | Level |
+   |---|---|
+   | High (Open) | ... |
+   | O7 / O6 / O5 | ... |
+   | Q3 | ... |
+   | **C.E. (= H1 = Q2 = O4)** | ... |
+   | Q1 | ... |
+   | O3 / O2 / O1 | ... |
+   | Low (Close) | ... |
+
+   Immer von oben nach unten lesbar. C.E. hervorheben -- es ist der meistgenutzte Bezugspunkt.
+
 5. **Wiki-Bezug.** Immer [[Weekly Range Trading Model]] und [[IPDA Data Ranges]], plus nach
    eigenem Urteil z.B. [[Using Monthly & Weekly Ranges (Source)]] (Monatswechsel, NFP-Woche).
 

@@ -2886,3 +2886,27 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Datenformats mit. Vor der Wiederverwendung auf einer neuen Aufloesung pruefen, ob die
   Annahme noch gilt -- hier "erste Kerze des Tages == Session-Open", was ab 1s-Daten falsch
   ist. Der Fehler war klein genug (-0.25 statt +19.25), um als plausibler Wert durchzugehen.
+
+## [2026-08-16] setup | Gap-Definition praezisiert + Qs/Os/Hs je NDOG/NWOG
+- Nutzervorgabe: NWOG/NDOG-**Close** = Close der letzten gehandelten Kerze vor der Pause,
+  **Open** = Open der ersten Kerze danach; dazu je Gap die volle Qs/Os/Hs-Tabelle.
+- Neu in `bias_levels.py`: `tick()` (0,25-Raster, MNQ/NQ/ES handeln nicht dazwischen) und
+  `unterteilung()` -- Hs (50%), Qs (25/50/75%), Os (12,5%-Schritte) plus C.E., alles gerundet.
+  C.E. == H1 == Q2 == O4, im Selbstcheck festgenagelt. Jeder Gap-Eintrag traegt die Werte jetzt
+  mit; die Commands sollen sie uebernehmen statt selbst zu rechnen.
+- **Datenmangel gefunden, nicht behoben (Nutzerkorrektur bestaetigt):** Fuer den NWOG vom
+  02.08. meldet der Bestand Open **28602.75 um 18:10**, der Nutzer-Chart **28565.00 um 18:00**.
+  Ursache: sowohl `MNQ 2026-08-03 1m.csv` als auch `MNQ 2026-08-02 4h.csv` beginnen erst
+  18:10 NY -- die ersten zehn Minuten der Sonntag-Session fehlen im Export ("nur geladene
+  Balken", bekannte TradingView-Falle). Beim Close 28284.00 vs. 28287.00 des Nutzers bleiben
+  3 Punkte offen, vermutlich MNQ1! gegen eine andere Kontraktreihe.
+  Wirkung auf die Levels: mit Bestandsdaten Spanne 318.75 / C.E. 28443.50, mit den korrekten
+  Werten Spanne 278.00 / **C.E. 28426.00** -- 17,5 Punkte Unterschied im meistgenutzten
+  Bezugspunkt. Die Rechnung stimmt in beiden Faellen, die Eingangsdaten nicht.
+- Geprueft und ausgeschlossen: die frischen TradingView-Exporte in `raw/` decken nur
+  12.-14.08. ab (1s sogar nur die letzten ~75 Minuten des 14.08.) und helfen fuer den
+  02.08. nicht.
+- Methodische Lehre, uebertragbar: Ein Gap-Level ist nur so gut wie die *erste* Kerze nach der
+  Pause. Fehlt sie, ist der Fehler nicht sichtbar -- der Wert wirkt plausibel, weil er ein
+  echter Preis ist, nur zehn Minuten zu spaet. Bei Gap-Levels deshalb immer pruefen, ob der
+  erste Bar wirklich auf der Session-Oeffnung liegt (18:00 NY), nicht bloss "kurz danach".

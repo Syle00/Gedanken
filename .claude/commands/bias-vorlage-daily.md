@@ -61,6 +61,21 @@ Erzeuge `raw/journal/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.
    Fehlende Werte (`null`): Zeile weglassen statt Zahl erfinden.
    Alle Preise aufs 0,25-Tickraster.
 
+   **Zu jedem offenen Gap zusaetzlich die volle Qs/Os/Hs-Tabelle** (steht fertig in `hs`,
+   `qs`, `os`, `ce` je Eintrag -- nicht selbst rechnen, ist bereits aufs Raster gerundet):
+
+   | | Level |
+   |---|---|
+   | High (Open) | ... |
+   | O7 / O6 / O5 | ... |
+   | Q3 | ... |
+   | **C.E. (= H1 = Q2 = O4)** | ... |
+   | Q1 | ... |
+   | O3 / O2 / O1 | ... |
+   | Low (Close) | ... |
+
+   Immer von oben nach unten lesbar. C.E. hervorheben -- es ist der meistgenutzte Bezugspunkt.
+
 6. **Weekly-Bias-Rueckverlinkung.** ISO-KW von `<ZIEL>` bestimmen, nach
    `Weekly Bias KW<NN> <JAHR>.md` globben -- erst in `raw/journal/`, dann in
    `raw/journal/bias/weekly/` (schon einsortiert). Existiert sie: Wikilink

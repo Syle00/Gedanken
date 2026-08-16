@@ -215,6 +215,7 @@
 <li><a href="#2026-08-16-setup-bias-ablage-auf-inbox-prinzip-umgestellt">[2026-08-16] setup | Bias-Ablage auf Inbox-Prinzip umgestellt</a></li>
 <li><a href="#2026-08-16-setup-bias-news-auf-usd-gefiltert">[2026-08-16] setup | Bias-News auf USD gefiltert</a></li>
 <li><a href="#2026-08-16-setup-ndognwog-im-levels-abschnitt-aus-den-marktdaten-statt-aus-dem-live-feed">[2026-08-16] setup | NDOG/NWOG im Levels-Abschnitt aus den Marktdaten statt aus dem Live-Feed</a></li>
+<li><a href="#2026-08-16-setup-gap-definition-praezisiert-qsoshs-je-ndognwog">[2026-08-16] setup | Gap-Definition praezisiert + Qs/Os/Hs je NDOG/NWOG</a></li>
 </ul>
 </div>
 </details>
@@ -3267,6 +3268,31 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Datenformats mit. Vor der Wiederverwendung auf einer neuen Aufloesung pruefen, ob die
   Annahme noch gilt -- hier "erste Kerze des Tages == Session-Open", was ab 1s-Daten falsch
   ist. Der Fehler war klein genug (-0.25 statt +19.25), um als plausibler Wert durchzugehen.</li>
+</ul>
+<h2 id="2026-08-16-setup-gap-definition-praezisiert-qsoshs-je-ndognwog">[2026-08-16] setup | Gap-Definition praezisiert + Qs/Os/Hs je NDOG/NWOG</h2>
+<ul>
+<li>Nutzervorgabe: NWOG/NDOG-<strong>Close</strong> = Close der letzten gehandelten Kerze vor der Pause,
+  <strong>Open</strong> = Open der ersten Kerze danach; dazu je Gap die volle Qs/Os/Hs-Tabelle.</li>
+<li>Neu in <code>bias_levels.py</code>: <code>tick()</code> (0,25-Raster, MNQ/NQ/ES handeln nicht dazwischen) und
+  <code>unterteilung()</code> -- Hs (50%), Qs (25/50/75%), Os (12,5%-Schritte) plus C.E., alles gerundet.
+  C.E. == H1 == Q2 == O4, im Selbstcheck festgenagelt. Jeder Gap-Eintrag traegt die Werte jetzt
+  mit; die Commands sollen sie uebernehmen statt selbst zu rechnen.</li>
+<li><strong>Datenmangel gefunden, nicht behoben (Nutzerkorrektur bestaetigt):</strong> Fuer den NWOG vom
+  02.08. meldet der Bestand Open <strong>28602.75 um 18:10</strong>, der Nutzer-Chart <strong>28565.00 um 18:00</strong>.
+  Ursache: sowohl <code>MNQ 2026-08-03 1m.csv</code> als auch <code>MNQ 2026-08-02 4h.csv</code> beginnen erst
+  18:10 NY -- die ersten zehn Minuten der Sonntag-Session fehlen im Export ("nur geladene
+  Balken", bekannte TradingView-Falle). Beim Close 28284.00 vs. 28287.00 des Nutzers bleiben
+  3 Punkte offen, vermutlich MNQ1! gegen eine andere Kontraktreihe.
+  Wirkung auf die Levels: mit Bestandsdaten Spanne 318.75 / C.E. 28443.50, mit den korrekten
+  Werten Spanne 278.00 / <strong>C.E. 28426.00</strong> -- 17,5 Punkte Unterschied im meistgenutzten
+  Bezugspunkt. Die Rechnung stimmt in beiden Faellen, die Eingangsdaten nicht.</li>
+<li>Geprueft und ausgeschlossen: die frischen TradingView-Exporte in <code>raw/</code> decken nur
+  12.-14.08. ab (1s sogar nur die letzten ~75 Minuten des 14.08.) und helfen fuer den
+  02.08. nicht.</li>
+<li>Methodische Lehre, uebertragbar: Ein Gap-Level ist nur so gut wie die <em>erste</em> Kerze nach der
+  Pause. Fehlt sie, ist der Fehler nicht sichtbar -- der Wert wirkt plausibel, weil er ein
+  echter Preis ist, nur zehn Minuten zu spaet. Bei Gap-Levels deshalb immer pruefen, ob der
+  erste Bar wirklich auf der Session-Oeffnung liegt (18:00 NY), nicht bloss "kurz danach".</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
