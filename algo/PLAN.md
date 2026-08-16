@@ -621,7 +621,11 @@ gefallen (Volltext samt Quellenzitaten in `PLAN-archiv-bis-2026-08.md`, Eintraeg
   `wiki/concepts/Kerzenzahl in einer Ineffizienz.md`.
 - **Feiertags-/HRLR-Effekt**: zwei pruefbare Teilthesen -- kleinere Ranges nach US-Feiertagen
   (trivial) und geringere PD-Array-Praezision (interessanter, bisher ungeprueft).
-  `wiki/concepts/Low Resistance Liquidity Run.md`.
+  `wiki/concepts/Low Resistance Liquidity Run.md`. **Methodikfalle:** der Feiertag selbst kann auf
+  ein Wochenende fallen (Beispiel 4. Juli 2026 = Samstag, betroffener Handelstag war der Montag
+  danach) -- ein Filter auf "Boersenfeiertag" trifft dann gar keinen Handelstag. Filtern muss auf
+  den **ersten regulaeren Handelstag nach einem Feiertagswochenende**, je nach Jahr Montag oder
+  Dienstag (NYSE/CME-Feiertagsliste).
 - **Continuous Contract vs. Front Month**: `raw/marktdaten/` fuehrt nur die Continuous-Reihe;
   ICTs Regel verlangt einen Front-Month-Gegencheck, der im Backtest komplett fehlt. Materialitaet
   nicht gemessen. `wiki/concepts/Continuous Contract vs. Front Month.md`.
@@ -630,6 +634,26 @@ gefallen (Volltext samt Quellenzitaten in `PLAN-archiv-bis-2026-08.md`, Eintraeg
   Backtest-Wert (35-43 %): Symbol (NQ vs. MNQ) und Definition (Beruehrung vs. Close) -- beides in
   `algo/backtest_org.py` pruefbar. Die These bleibt auf Nutzerwunsch aktiv in Beobachtung, siehe
   [[Algo-Trading: Arbeitsstandards]].
+
+### Backlog: laufender Handelstag fuer `live_status.py` (2026-08-16, blockiert Live-Betrieb)
+
+`live_status.py` liest seit 2026-08-16 NQ-1s aus `raw/marktdaten/` statt MNQ aus yfinance.
+Fuer **abgeschlossene** Handelstage ist das vollstaendig (`--dry-run 2026-08-14` liefert einen
+kompletten Bericht inkl. ORG-C.E. und NDOG/NWOG-Historie). Fuer den **laufenden** Tag fehlt
+der Abrufweg, und `fetch_ibkr.py` kann ihn in seiner heutigen Form nicht liefern:
+
+- `write_day_1s()` ueberschreibt nie, `fetch_symbol_day()` ueberspringt jeden Tag, dessen
+  Datei existiert. Ein mitten am Tag geholter Stand waere damit dauerhaft als vollstaendiger
+  Handelstag eingefroren -- derselbe Datenverlust wie `ES 2026-02-19` (endete bei 11:29 NY
+  statt 17:00, sah aber fertig aus), nur diesmal automatisch in jedem Loop-Durchlauf.
+- Die Registerzeilen des Teiltags wuerden `_letzter_registrierter_tag()` auf heute setzen; der
+  taegliche Nachlad ("bis gestern") wuerde diesen Tag danach nie mehr holen -- stille Luecke.
+- 46 Fenster je Zyklus sind fuer einen 10-Minuten-Loop ohnehin zu viel (Pacing).
+
+`_download_1s()` verweigert den laufenden Tag deshalb bewusst mit einer klaren Meldung, statt
+einen eingefrorenen Stand als "live" auszugeben (CLAUDE.md, "Frische Live-Daten"). Noetig ist
+ein eigener Modus in `fetch_ibkr.py`: transientes Ziel (`algo/live/`, gitignored), keine
+Registerzeilen, inkrementell nur das letzte Fenster statt aller 46.
 
 ## Naechster Schritt
 

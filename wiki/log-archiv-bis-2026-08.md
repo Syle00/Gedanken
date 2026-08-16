@@ -1,4 +1,4 @@
-﻿# Log
+﻿# Wiki-Log — Archiv bis 2026-08
 
 > **Archiv.** Chronologische Einträge bis einschließlich 2026-08-16. Ab diesem Datum trägt
 > die Git-Historie den Verlauf (`git log`); hier wird nichts mehr angehängt. Diese Datei

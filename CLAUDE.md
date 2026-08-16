@@ -291,22 +291,20 @@ Gruppiere nach Kategorie (`## Concepts`, `## Models`, `## Sources`, `## Synthesi
 
 ## `log.md`-Format
 
-Führe `log.md` append-only, neueste Einträge unten. Beginne jeden Eintrag mit einem festen Präfix,
-damit er mit einfachen Tools grep-bar bleibt:
+Seit 2026-08-16 trägt die **Git-Historie** den chronologischen Verlauf (`git log`), nicht mehr
+`wiki/log.md` — `push.ps1` erzwingt dafür eine aussagekräftige Commit-Message im Format
+`<typ> | <worum ging es>`, z.B. `ingest | Essentials To ICT Daytrading`. Mögliche Typen:
+`ingest`, `query`, `lint`, `synthesis`, `setup`, `fix` (auch für autonome Wiki-Erweiterungen
+außerhalb eines formalen Ingest, siehe "Kontinuierliches Wachstum" oben). Alte, chronologische
+Einträge bis 2026-08-16 im alten `## [Datum] typ | Titel`-Format stehen weiterhin in
+`wiki/log-archiv-bis-2026-08.md` (append-only, nicht mehr fortgeführt).
 
-```
-## [2026-08-01] ingest | Essentials To ICT Daytrading
-- Seiten erstellt: wiki/sources/Essentials To ICT Daytrading.md, wiki/concepts/IPDA.md
-- Seiten aktualisiert: wiki/index.md
-```
-
-Mögliche Typen: `ingest`, `query`, `lint`, `synthesis`, `setup` (auch für autonome
-Wiki-Erweiterungen außerhalb eines formalen Ingest, siehe "Kontinuierliches Wachstum" oben).
-
-Seit 2026-08-16 trägt die Git-Historie den chronologischen Verlauf. Hänge an `wiki/log.md`
-nur noch an, was keine Commit-Message ausdrückt: offene Fragen, bewusste Abweichungen von den
-Konventionen, Widerspruchsmarker. Alles Übrige gehört in die Commit-Message, die `push.ps1`
-seither erzwingt.
+`wiki/log.md` selbst ist seit 2026-08-16 **kein chronologisches Protokoll mehr**, sondern eine
+kurze, nicht datierte Liste dessen, was keine Commit-Message ausdrückt: offene Fragen, bewusste
+Abweichungen von den Konventionen, Widerspruchsmarker, die auf keiner Wiki-Seite unterkommen.
+Setze einen neuen Widerspruchsmarker **zuerst auf die betroffene Wiki-Seite selbst**
+(Seitenkonvention oben); trage in `wiki/log.md` nur ein, was sich keiner einzelnen Seite
+zuordnen lässt (Beispiel: eine vault-weite Content-Lücke wie eine fehlende Konzeptseite).
 
 ## Domänenkontext: trading-ict
 

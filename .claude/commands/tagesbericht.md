@@ -10,10 +10,13 @@ Schreibe einen Tagesbericht fuer das Gedanken-Vault.
    `git log --pretty=format:"%ad %s" --date=format:"%H:%M" --since="<Datum> 00:00" --until="<Datum> 23:59" --reverse -- . ':!site' ':!.obsidian'`
    Commits mit der Nachricht `wiki update <Datum>` herausfiltern -- das sind reine
    `push.ps1`-Checkpoints (Build-Artefakte), kein inhaltlicher Fortschritt.
-3. Die Motivation hinter den Commits aus deren Messages ableiten. Seit 2026-08-16 sind sie
-   aussagekraeftig (`<typ> | <worum ging es>`); `push.ps1` erzwingt das. Fuer Tage **vor** dem
-   2026-08-16 stattdessen `wiki/log-archiv-bis-2026-08.md` nach `## [<Datum>]` durchsuchen --
-   damals waren alle Commit-Messages `wiki update <Datum>` und damit wertlos.
+3. Die Motivation hinter den Commits aus deren Messages ableiten. Ab dem 2026-08-16 sind sie
+   aussagekraeftig (`<typ> | <worum ging es>`); `push.ps1` erzwingt das seit dem 16.08. ca. 16:31
+   NY-unabhaengig (Ortszeit des Rechners). Fuer Tage **bis einschliesslich 2026-08-16**
+   zusaetzlich `wiki/log-archiv-bis-2026-08.md` nach `## [<Datum>]` durchsuchen -- der 16.08.
+   selbst hatte bis zu dieser Uhrzeit noch ausschliesslich generische `wiki update <Datum>`-
+   Commits, das Archiv deckt genau diese Luecke; an allen Tagen davor waren *alle*
+   Commit-Messages `wiki update <Datum>` und damit wertlos.
 4. Falls vorhanden, `algo/live/<Datum>-status-log.md` auf Live-Trading-Beobachtungen des Tages
    pruefen.
 5. Daraus einen **thematisch gruppierten** Bericht auf Deutsch schreiben (nicht chronologisch
