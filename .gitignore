@@ -13,6 +13,12 @@ wiki/graphify-out/
 # Aendert sich bei jedem Fensterwechsel; die uebrige .obsidian/-Config bleibt versioniert.
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
+# Laufzeit-Cache der Graph-Ansicht, aendert sich bei jedem Node-Ziehen -- kein Content.
+.obsidian/graph.json
+
+# --- Zweitrechner-Artefakte (projektfremd) ---
+Claude Setup.exe
+err.log
 
 # --- Claude Code ---
 # Maschinenlokale Permissions/Modes; settings.json (Projekt-Hooks) bleibt versioniert.
