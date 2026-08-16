@@ -274,7 +274,6 @@ Aufgrund der wenigen News erwarte ich das wir keine große Priceaction iérhalte
 
 ---
 
-*Gegenprüfung (Claude, 16.08.2026):*
 
 - **PDH 30.283,00 bestätigt.** Das ist das High vom Fr 14.08. (09:05 NY) aus den
   NQ-Intraday-Daten. Achtung: Die 1d-Reihe im Bestand enthält den 14.08. **gar nicht**, ihr

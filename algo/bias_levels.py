@@ -41,6 +41,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import date, datetime, timedelta
+from datetime import time as _time
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -66,6 +67,7 @@ WAEHRUNG = "USD"
 # Fehlen NQ-Daten, wird das gemeldet -- nicht durch das Micro-Pendant ersetzt.
 GAP_SYMBOLE = ["NQ"]
 GAP_MIN_TAGE = 6        # weniger Tage -> Datenlage melden, nicht ersetzen
+SESSION_ENDE = _time(17, 0)   # 17:00 NY -- danach Pause bis 18:00
 GAP_RUECKBLICK = 35     # Tage: deckt die vergangene Woche + offene NWOG der letzten ~5 Wochen
 
 
@@ -84,13 +86,59 @@ def week_range(rows: list[dict], target_day: date) -> dict | None:
             "days": len(week_rows)}
 
 
-def yesterday_range(rows: list[dict], target_day: date) -> dict | None:
-    """H/L/C des letzten Handelstages vor target_day. None wenn keiner vorliegt."""
+def handelstag(t: datetime) -> date:
+    """Handelstag eines NY-Zeitstempels: ab 18:00 gehoert die Kerze zum *naechsten* Werktag.
+    Die Session laeuft Vortag 18:00 -> Handelstag 17:00."""
+    if t.time() < SESSION_ENDE:
+        return t.date()
+    d = t.date() + timedelta(days=1)
+    while d.weekday() >= 5:
+        d += timedelta(days=1)
+    return d
+
+
+def intraday_range(symbol: str, tag: date) -> dict | None:
+    """H/L/C eines Handelstags aus den Intraday-Daten (1s bevorzugt, sonst 1m).
+
+    Existiert, weil die 1d-Reihe hier nachweislich unzuverlassig ist: fuer den 14.08.2026
+    fehlt sie ganz (letzter Eintrag 13.08.), und einzelne Tage sind zu frueh gezogene
+    Snapshots. Wer den PDH daraus zieht, bekommt dann den falschen Tag **und** einen zu
+    niedrigen Wert -- am 2026-08-16 belegt: 1d 30272.75 (13.08.) statt 30283.00 (14.08.).
+    """
+    bars, _ = _gap_bars(symbol, tag - timedelta(days=4), tag + timedelta(days=1))
+    tages = [b for b in bars if handelstag(b.t) == tag]
+    if not tages:
+        return None
+    tages.sort(key=lambda b: b.t)
+    return {"day": tag.isoformat(),
+            "high": tick(max(b.h for b in tages)),
+            "low": tick(min(b.l for b in tages)),
+            "close": tick(tages[-1].c),
+            "quelle": "intraday"}
+
+
+def yesterday_range(rows: list[dict], target_day: date,
+                    symbol: str | None = None) -> dict | None:
+    """H/L/C des letzten Handelstages vor target_day.
+
+    `symbol` gesetzt -> zuerst aus den Intraday-Daten (genauer, siehe intraday_range()),
+    erst danach als Rueckfall aus der 1d-Reihe. Das Ergebnis traegt `quelle`.
+    """
+    if symbol:
+        d = target_day - timedelta(days=1)
+        for _ in range(5):                     # bis zu 5 Tage zurueck (Wochenende/Feiertag)
+            if d.weekday() < 5:
+                r = intraday_range(symbol, d)
+                if r:
+                    return r
+            d -= timedelta(days=1)
+
     prior = [r for r in rows if r["day"] < target_day]
     if not prior:
         return None
     r = prior[-1]
-    return {"day": r["day"].isoformat(), "high": r["high"], "low": r["low"], "close": r["close"]}
+    return {"day": r["day"].isoformat(), "high": r["high"], "low": r["low"],
+            "close": r["close"], "quelle": "1d"}
 
 
 def next_trading_day(today: date) -> date:
@@ -515,7 +563,7 @@ def compute(target_day: date, weekly: bool) -> dict:
     return {"day": target_day.isoformat(),
             "weekday": target_day.strftime("%A"),
             "weekly_range": week_range(rows, target_day),
-            "yesterday_range": yesterday_range(rows, target_day),
+            "yesterday_range": yesterday_range(rows, target_day, symbol=GAP_SYMBOLE[0]),
             "gaps": gaps_auto(heute=target_day),
             "news": news(target_day)}
 
@@ -528,7 +576,16 @@ def demo() -> None:
     ]
     assert week_range(rows, date(2026, 8, 12)) == {"high": 111.0, "low": 99.0, "days": 3}
     assert yesterday_range(rows, date(2026, 8, 12)) == {
-        "day": "2026-08-11", "high": 107.0, "low": 102.0, "close": 103.0}
+        "day": "2026-08-11", "high": 107.0, "low": 102.0, "close": 103.0, "quelle": "1d"}
+
+    # Session-Zuordnung: ab 18:00 zaehlt die Kerze zum naechsten Handelstag, Fr-Abend -> Mo.
+    # Ohne das liest yesterday_range() fuer Montag den falschen Tag aus -- am 2026-08-16
+    # belegt: 1d lieferte den 13.08. (High 30272.75) statt des 14.08. (High 30283.00),
+    # also falscher Tag **und** 10,25 Punkte zu wenig.
+    assert handelstag(datetime(2026, 8, 14, 16, 59, tzinfo=NEWYORK)) == date(2026, 8, 14)
+    assert handelstag(datetime(2026, 8, 13, 18, 0, tzinfo=NEWYORK)) == date(2026, 8, 14)
+    assert handelstag(datetime(2026, 8, 14, 18, 0, tzinfo=NEWYORK)) == date(2026, 8, 17), "Fr->Mo"
+    assert handelstag(datetime(2026, 8, 16, 20, 0, tzinfo=NEWYORK)) == date(2026, 8, 17), "So->Mo"
     assert week_range(rows, date(2026, 8, 3)) is None, "andere ISO-Woche -> None"
     assert yesterday_range(rows, date(2026, 8, 10)) is None, "kein Vortag -> None"
 

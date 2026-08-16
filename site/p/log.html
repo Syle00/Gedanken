@@ -230,6 +230,7 @@
 <li><a href="#2026-08-16-backtest-zwei-thesen-aus-jannes-kw34-bias-geprueft-beide-bestaetigt">[2026-08-16] backtest | Zwei Thesen aus Jannes' KW34-Bias geprueft -- beide bestaetigt</a></li>
 <li><a href="#2026-08-16-lint-juni-level-des-nutzers-gegen-zweite-quelle-geprueft-verdacht-back-adjustment">[2026-08-16] lint | Juni-Level des Nutzers gegen zweite Quelle geprueft -- Verdacht Back-Adjustment</a></li>
 <li><a href="#2026-08-16-lint-korrektur-back-adjustment-verdacht-bei-den-juni-leveln-geschwaecht">[2026-08-16] lint | Korrektur: Back-Adjustment-Verdacht bei den Juni-Leveln geschwaecht</a></li>
+<li><a href="#2026-08-16-fix-yesterday_range-zieht-den-pdh-jetzt-aus-den-intraday-daten">[2026-08-16] fix | yesterday_range() zieht den PDH jetzt aus den Intraday-Daten</a></li>
 </ul>
 </div>
 </details>
@@ -3680,6 +3681,29 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Nutzer-Ergaenzungen in <code>Weekly Bias KW34 2026.md</code> unter "Mein Bias" eingetragen (Target PDH
   30.283,00, SIBI 23.06., Buyside-Pool 30.599,75) plus eine klar abgesetzte Gegenpruefung --
   sein Text bleibt unveraendert, meine Anmerkungen stehen darunter als eigener Block.</li>
+</ul>
+<h2 id="2026-08-16-fix-yesterday_range-zieht-den-pdh-jetzt-aus-den-intraday-daten">[2026-08-16] fix | yesterday_range() zieht den PDH jetzt aus den Intraday-Daten</h2>
+<ul>
+<li><strong>Fehler, gestern beim Gegenrechnen eines Nutzer-Levels aufgefallen:</strong> <code>yesterday_range()</code>
+  las den letzten Handelstag aus der 1d-Reihe. Fuer Montag den 17.08. lieferte sie damit den
+  <strong>13.08. mit High 30272.75</strong> -- falscher Tag <em>und</em> 10,25 Punkte zu wenig. Richtig ist der
+  <strong>14.08. mit High 30283.00</strong>. Ursache: die 1d-Reihe enthaelt den 14.08. gar nicht.</li>
+<li>Betroffen war jede Daily-Bias-Datei ("gestrige Daily Range") und damit auch der PDH, den der
+  Nutzer als Tagesziel benutzt -- ein Level, das direkt in Entry-/Zielentscheidungen eingeht.</li>
+<li>Neu: <code>intraday_range(symbol, tag)</code> (H/L/C eines Handelstags aus 1s/1m) und <code>handelstag()</code>
+  (NY-Zeitstempel -&gt; Handelstag, ab 18:00 der naechste Werktag). <code>yesterday_range()</code> nimmt bei
+  gesetztem <code>symbol</code> zuerst die Intraday-Quelle und faellt erst danach auf 1d zurueck; das
+  Ergebnis traegt jetzt <code>quelle</code> ("intraday"/"1d"), damit im Bericht sichtbar ist, woher der
+  Wert stammt.</li>
+<li>Die Session-Zuordnung ist der Kern: Fr 18:00 gehoert zum <strong>Montag</strong>, nicht zum Samstag.
+  Ohne diese Regel liest die Funktion erneut den falschen Tag. Im Selbstcheck fixiert
+  (Fr-&gt;Mo, So-&gt;Mo, 16:59 bleibt beim laufenden Tag).</li>
+<li>Der bestehende <code>yesterday_range</code>-Check schlug durch die neue <code>quelle</code>-Angabe fehl und wurde
+  nachgezogen -- er hat also genau das getan, wofuer er da ist. <code>selfcheck.py</code>: 28/28 gruen.</li>
+<li>Nutzer-Targets in <code>Daily Bias 2026-08-17.md</code> unter "Mein Bias" hinterlegt (PDH 30.283,00,
+  SIBI 23.06., Buyside-Pool 30.599,75) mit abgesetzter Gegenpruefung: PDH liegt 129 Punkte
+  ueber dem Freitagsschluss, der Buyside-Pool 445 Punkte. Die Median-Range newsarmer Tage
+  (266,9) deckt den PDH, nicht den Pool -- Einordnung "PDH Tagesziel, Pool Wochenziel".</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

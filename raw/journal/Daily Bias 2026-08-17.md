@@ -89,3 +89,31 @@ Reaktion auf das NWOG/NDOG zu lesen als über eine Vorab-Richtung.
 
 ## Mein Bias
 
+### Targets und relevante PD Arrays (Mo 17.08.)
+
+- **Target: PDH 30.283,00** — möglich.
+- **Relevantes PD Array: SIBI vom 23.06.**
+- **Höchster Buyside Pool, der für Montag und Dienstag gerade erkennbar ist: 30.599,75 (30.06.)**
+
+Übernommen aus [[Weekly Bias KW34 2026]] — Montag ist bereits Teil dieser Woche, die
+Wochenstruktur (Retracement ins BISI, Sellside 29.780,50 als DOL) gilt unverändert.
+
+---
+
+*Gegenprüfung (Claude, 16.08.2026):*
+
+- **PDH 30.283,00 bestätigt** — High vom Fr 14.08., 09:05 NY, aus den NQ-Intraday-Daten.
+  Der Freitag schloss bei 30.154,00, das Ziel liegt also **129 Punkte** über dem letzten Print.
+  Tagesrange Freitag: H 30.283,00 / L 30.028,50 / C 30.154,00.
+- **30.599,75 (30.06.) exakt bestätigt** als Tages-High. Liegt **445 Punkte** über dem
+  Freitagsschluss — als Montagsziel weit, als Wochenziel erreichbar.
+- Einordnung zur Erwartung „wenig Bewegung": Die Median-Tagesrange an newsarmen Tagen liegt bei
+  **266,9 Punkten** (n=42, gemessen über 753 NQ-Handelstage). Vom Freitagsschluss aus reicht das
+  rechnerisch für den PDH (129 Punkte), **nicht** für 30.599,75. Montag ist zudem mit
+  61,4 % bullish (n=376) der stärkste Wochentag — beides zusammen stützt eher „PDH als
+  Tagesziel, Buyside-Pool als Wochenziel".
+- ⚠️ Der PDH stammt aus den Intraday-Daten. Die **1d-Reihe im Bestand enthält den 14.08. nicht**
+  (letzter Eintrag 13.08., High 30.272,75) — wer den PDH von dort zieht, bekommt den falschen
+  Tag und 10,25 Punkte zu wenig. `bias_levels.py::yesterday_range()` wurde am 16.08. auf die
+  Intraday-Quelle umgestellt.
+

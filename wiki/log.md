@@ -3240,3 +3240,25 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Nutzer-Ergaenzungen in `Weekly Bias KW34 2026.md` unter "Mein Bias" eingetragen (Target PDH
   30.283,00, SIBI 23.06., Buyside-Pool 30.599,75) plus eine klar abgesetzte Gegenpruefung --
   sein Text bleibt unveraendert, meine Anmerkungen stehen darunter als eigener Block.
+
+## [2026-08-16] fix | yesterday_range() zieht den PDH jetzt aus den Intraday-Daten
+- **Fehler, gestern beim Gegenrechnen eines Nutzer-Levels aufgefallen:** `yesterday_range()`
+  las den letzten Handelstag aus der 1d-Reihe. Fuer Montag den 17.08. lieferte sie damit den
+  **13.08. mit High 30272.75** -- falscher Tag *und* 10,25 Punkte zu wenig. Richtig ist der
+  **14.08. mit High 30283.00**. Ursache: die 1d-Reihe enthaelt den 14.08. gar nicht.
+- Betroffen war jede Daily-Bias-Datei ("gestrige Daily Range") und damit auch der PDH, den der
+  Nutzer als Tagesziel benutzt -- ein Level, das direkt in Entry-/Zielentscheidungen eingeht.
+- Neu: `intraday_range(symbol, tag)` (H/L/C eines Handelstags aus 1s/1m) und `handelstag()`
+  (NY-Zeitstempel -> Handelstag, ab 18:00 der naechste Werktag). `yesterday_range()` nimmt bei
+  gesetztem `symbol` zuerst die Intraday-Quelle und faellt erst danach auf 1d zurueck; das
+  Ergebnis traegt jetzt `quelle` ("intraday"/"1d"), damit im Bericht sichtbar ist, woher der
+  Wert stammt.
+- Die Session-Zuordnung ist der Kern: Fr 18:00 gehoert zum **Montag**, nicht zum Samstag.
+  Ohne diese Regel liest die Funktion erneut den falschen Tag. Im Selbstcheck fixiert
+  (Fr->Mo, So->Mo, 16:59 bleibt beim laufenden Tag).
+- Der bestehende `yesterday_range`-Check schlug durch die neue `quelle`-Angabe fehl und wurde
+  nachgezogen -- er hat also genau das getan, wofuer er da ist. `selfcheck.py`: 28/28 gruen.
+- Nutzer-Targets in `Daily Bias 2026-08-17.md` unter "Mein Bias" hinterlegt (PDH 30.283,00,
+  SIBI 23.06., Buyside-Pool 30.599,75) mit abgesetzter Gegenpruefung: PDH liegt 129 Punkte
+  ueber dem Freitagsschluss, der Buyside-Pool 445 Punkte. Die Median-Range newsarmer Tage
+  (266,9) deckt den PDH, nicht den Pool -- Einordnung "PDH Tagesziel, Pool Wochenziel".
