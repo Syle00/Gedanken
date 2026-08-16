@@ -2937,3 +2937,27 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   minutenweise deutlich auseinanderlaufen. Ein Einzelwert-Vergleich (ein Close, ein Level)
   taugt deshalb nicht als Beleg fuer "Datenfehler" -- erst die Verteilung ueber viele
   gemeinsame Punkte trennt Rauschen (NQ/MNQ-Spread) von echtem Mangel (fehlende 18:00-Kerze).
+
+## [2026-08-16] setup | NQ-Historie eingesortiert -- NWOG 31.07./02.08. stimmt jetzt exakt
+- Der Nutzer hatte laengere NQ-1m-Exporte im **Gedanken**-Vault abgelegt (nicht in "VS Folder 1").
+  `sortiere_marktdaten.py` liest deshalb jetzt beide `raw/`-Ablagen; geschrieben wird nur in
+  den Bestand dieses Repos.
+- Gemessen aus `CME_MINI_NQU2026, 1_92659.csv` (28.07.-14.08., 18506 Kerzen): **alle 13
+  Session-Uebergaenge sauber**, Pause exakt 1:01:00 bzw. 2 Tage + 1:01:00, jedes Open auf
+  18:00. Der Export ist vollstaendig -- die fehlende 18:00-Kerze war allein ein Problem der
+  aelteren MNQ-Datei.
+- **NWOG 31.07. -> 02.08. bestaetigt die Nutzermessung exakt:** Close **28287.00** (Fr 16:59)
+  -> Open **28565.00** (So 18:00), Gap **+278.00**, C.E. **28426.00**, weiterhin **offen**.
+  Vorher aus MNQ: 28284.00 -> 28602.75, C.E. 28443.50 -- 17,5 Punkte daneben.
+- NQ traegt jetzt 14 Tage im 35-Tage-Fenster, `gaps_auto()` braucht **keinen MNQ-Fallback mehr**;
+  die Level stammen aus dem tatsaechlich gehandelten Symbol.
+- Zweiter offener Gap neu gerechnet: NDOG 29.07. 27259.25 -> 27202.00, C.E. **27230.50**
+  (aus MNQ vorher 27259.75 -> 27208.00, C.E. 27233.88).
+- Zwei Haerte-Fixes im Sortierer, beide aus dem Dry-Run heraus: (1) Bei mehreren Exporten
+  desselben Tages gewinnt die **vollstaendigste** Fassung, nicht die alphabetisch erste --
+  sonst haette ein angeschnittener 3-Tage-Export einen vollen Tag verdraengt. (2) Namensdeutung
+  um CBOT/COMEX/NYMEX-Praefixe, Kontraktmonate (MNQU2026, YMU2026) und Exporte **ohne**
+  Hash-Suffix erweitert; TradingView haengt den Hash nur beim Wiederholungsexport an.
+  Fremdformate (histdata-Forex, TVC_DXY, preview.csv) werden weiter uebersprungen statt geraten.
+- 11 NQ-Tagesdateien neu angelegt (28.07.-11.08.), nichts ueberschrieben. Der 28.07. ist mit
+  566/1380 Kerzen angeschnitten und als solcher gemeldet.

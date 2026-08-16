@@ -217,6 +217,7 @@
 <li><a href="#2026-08-16-setup-ndognwog-im-levels-abschnitt-aus-den-marktdaten-statt-aus-dem-live-feed">[2026-08-16] setup | NDOG/NWOG im Levels-Abschnitt aus den Marktdaten statt aus dem Live-Feed</a></li>
 <li><a href="#2026-08-16-setup-gap-definition-praezisiert-qsoshs-je-ndognwog">[2026-08-16] setup | Gap-Definition praezisiert + Qs/Os/Hs je NDOG/NWOG</a></li>
 <li><a href="#2026-08-16-setup-einsortierung-loser-tradingview-exporte-datenquellen-gegenprobe">[2026-08-16] setup | Einsortierung loser TradingView-Exporte + Datenquellen-Gegenprobe</a></li>
+<li><a href="#2026-08-16-setup-nq-historie-eingesortiert-nwog-31070208-stimmt-jetzt-exakt">[2026-08-16] setup | NQ-Historie eingesortiert -- NWOG 31.07./02.08. stimmt jetzt exakt</a></li>
 </ul>
 </div>
 </details>
@@ -3322,6 +3323,31 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   minutenweise deutlich auseinanderlaufen. Ein Einzelwert-Vergleich (ein Close, ein Level)
   taugt deshalb nicht als Beleg fuer "Datenfehler" -- erst die Verteilung ueber viele
   gemeinsame Punkte trennt Rauschen (NQ/MNQ-Spread) von echtem Mangel (fehlende 18:00-Kerze).</li>
+</ul>
+<h2 id="2026-08-16-setup-nq-historie-eingesortiert-nwog-31070208-stimmt-jetzt-exakt">[2026-08-16] setup | NQ-Historie eingesortiert -- NWOG 31.07./02.08. stimmt jetzt exakt</h2>
+<ul>
+<li>Der Nutzer hatte laengere NQ-1m-Exporte im <strong>Gedanken</strong>-Vault abgelegt (nicht in "VS Folder 1").
+  <code>sortiere_marktdaten.py</code> liest deshalb jetzt beide <code>raw/</code>-Ablagen; geschrieben wird nur in
+  den Bestand dieses Repos.</li>
+<li>Gemessen aus <code>CME_MINI_NQU2026, 1_92659.csv</code> (28.07.-14.08., 18506 Kerzen): <strong>alle 13
+  Session-Uebergaenge sauber</strong>, Pause exakt 1:01:00 bzw. 2 Tage + 1:01:00, jedes Open auf
+  18:00. Der Export ist vollstaendig -- die fehlende 18:00-Kerze war allein ein Problem der
+  aelteren MNQ-Datei.</li>
+<li><strong>NWOG 31.07. -&gt; 02.08. bestaetigt die Nutzermessung exakt:</strong> Close <strong>28287.00</strong> (Fr 16:59)
+  -&gt; Open <strong>28565.00</strong> (So 18:00), Gap <strong>+278.00</strong>, C.E. <strong>28426.00</strong>, weiterhin <strong>offen</strong>.
+  Vorher aus MNQ: 28284.00 -&gt; 28602.75, C.E. 28443.50 -- 17,5 Punkte daneben.</li>
+<li>NQ traegt jetzt 14 Tage im 35-Tage-Fenster, <code>gaps_auto()</code> braucht <strong>keinen MNQ-Fallback mehr</strong>;
+  die Level stammen aus dem tatsaechlich gehandelten Symbol.</li>
+<li>Zweiter offener Gap neu gerechnet: NDOG 29.07. 27259.25 -&gt; 27202.00, C.E. <strong>27230.50</strong>
+  (aus MNQ vorher 27259.75 -&gt; 27208.00, C.E. 27233.88).</li>
+<li>Zwei Haerte-Fixes im Sortierer, beide aus dem Dry-Run heraus: (1) Bei mehreren Exporten
+  desselben Tages gewinnt die <strong>vollstaendigste</strong> Fassung, nicht die alphabetisch erste --
+  sonst haette ein angeschnittener 3-Tage-Export einen vollen Tag verdraengt. (2) Namensdeutung
+  um CBOT/COMEX/NYMEX-Praefixe, Kontraktmonate (MNQU2026, YMU2026) und Exporte <strong>ohne</strong>
+  Hash-Suffix erweitert; TradingView haengt den Hash nur beim Wiederholungsexport an.
+  Fremdformate (histdata-Forex, TVC_DXY, preview.csv) werden weiter uebersprungen statt geraten.</li>
+<li>11 NQ-Tagesdateien neu angelegt (28.07.-11.08.), nichts ueberschrieben. Der 28.07. ist mit
+  566/1380 Kerzen angeschnitten und als solcher gemeldet.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
