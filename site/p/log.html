@@ -209,6 +209,7 @@
 <li><a href="#2026-08-16-setup-bugfix-fetch_ibkr-fortschrittsfenster-codepage">[2026-08-16] setup | Bugfix fetch_ibkr-Fortschrittsfenster (Codepage)</a></li>
 <li><a href="#2026-08-16-setup-fetch_ibkrpy-stiller-datenverlust-behoben-backfill-holt-gesamte-1s-historie">[2026-08-16] setup | fetch_ibkr.py -- stiller Datenverlust behoben, Backfill holt gesamte 1s-Historie</a></li>
 <li><a href="#2026-08-16-setup-fetch_ibkrpy-pacing-rate-korrigiert-statusmeldungen-entluegt">[2026-08-16] setup | fetch_ibkr.py -- Pacing-Rate korrigiert, Statusmeldungen entluegt</a></li>
+<li><a href="#2026-08-16-setup-bias-vorlagen-laufen-jetzt-ueber-den-windows-task-scheduler">[2026-08-16] setup | Bias-Vorlagen laufen jetzt ueber den Windows Task Scheduler</a></li>
 </ul>
 </div>
 </details>
@@ -3110,6 +3111,33 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Zaehlers anschlaegt, laesst jeden Lauf unterhalb des Zaehlers ungebremst durch -- und genau
   diese Laeufe sind der Normalfall. Und: eine Statusmeldung, die mehrere Ausgaenge in einen
   Text zusammenfasst, verwandelt einen Fehlschlag in ein "alles gut".</li>
+</ul>
+<h2 id="2026-08-16-setup-bias-vorlagen-laufen-jetzt-ueber-den-windows-task-scheduler">[2026-08-16] setup | Bias-Vorlagen laufen jetzt ueber den Windows Task Scheduler</h2>
+<ul>
+<li>Symptommeldung: "beide journal skills funktionieren nicht, Dateien werden nicht automatisch
+  erstellt, ForexFactory-Anbindung funktioniert nicht".</li>
+<li>Befund 1 (ForexFactory): <strong>nicht defekt</strong>. Direkt gemessen -- <code>bias_levels.py --next</code> liefert
+  4 Events (<code>source: forexfactory</code>, <code>error: None</code>), <code>--weekly</code> 21 Events inkl. FOMC Minutes,
+  der TradingView-Fallback fuer den Freitagsfall 30 Events. Beide Quellen und beide Modi intakt.</li>
+<li>Befund 2 (Root Cause): Es existierte <strong>kein Scheduler</strong>. <code>CronList</code> leer, kein Windows-Task,
+  keine Cron-Datei in <code>~/.claude</code>. Beide Commands waren laut ihrem eigenen Header "fuer den Cron
+  20:00" geschrieben -- dieser Cron wurde nie angelegt und haette auch nie funktioniert:
+  <code>CronCreate</code> ist laut eigener Doku session-only, rein im Speicher, feuert nur solange die REPL
+  offen und idle ist, und laeuft nach 7 Tagen aus. Ein 20:00-Job feuert damit praktisch nie.</li>
+<li>Belege: <code>Daily Bias 2026-08-05/-10/-15</code> und <code>Weekly Bias KW33</code> fehlen; die vorhandenen Dateien
+  tragen Zeitstempel 11:30/18:57 -- alle von Hand im Chat erzeugt, keine einzige um 20:00.</li>
+<li>Fix: <code>tools/bias-cron.cmd</code> (headless-Wrapper, <code>claude -p</code> mit engem <code>--allowedTools</code>-Scope,
+  Log nach <code>algo/live/bias-cron.log</code>, bereits von <code>algo/live/*.log</code> gitignored) plus
+  <code>tools/setup-bias-tasks.cmd</code> (legt beide Tasks an, So-Do bzw. Fr 20:03).
+  Die Setup-Datei ist noetig, weil Git Bash <code>/create</code> sonst zu <code>C:/Program Files/Git/create</code>
+  umschreibt -- das war der erste Fehlschlag beim manuellen Anlegen.</li>
+<li>Verifiziert: beide Tasks <code>State: Ready</code>, naechste Laeufe 16.08. bzw. 21.08. 20:03; der Daily-Task
+  einmal echt getriggert, <code>LastTaskResult: 0</code>, Log zeigt einen vollstaendigen Lauf inkl.
+  ForexFactory-Abruf und korrektem Nicht-Ueberschreiben der bestehenden Datei.</li>
+<li>Methodische Lehre, uebertragbar: Ein Command, der "fuer den Cron" geschrieben ist, dokumentiert
+  eine <em>Absicht</em>, keinen laufenden Mechanismus. Wenn zwei Features gleichzeitig als kaputt gemeldet
+  werden, zuerst pruefen, ob sie einen gemeinsamen Ausloeser haben -- hier war die vermeintlich
+  defekte Datenanbindung nur deshalb unsichtbar, weil sie nie aufgerufen wurde.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

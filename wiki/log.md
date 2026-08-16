@@ -2741,3 +2741,29 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Zaehlers anschlaegt, laesst jeden Lauf unterhalb des Zaehlers ungebremst durch -- und genau
   diese Laeufe sind der Normalfall. Und: eine Statusmeldung, die mehrere Ausgaenge in einen
   Text zusammenfasst, verwandelt einen Fehlschlag in ein "alles gut".
+
+## [2026-08-16] setup | Bias-Vorlagen laufen jetzt ueber den Windows Task Scheduler
+- Symptommeldung: "beide journal skills funktionieren nicht, Dateien werden nicht automatisch
+  erstellt, ForexFactory-Anbindung funktioniert nicht".
+- Befund 1 (ForexFactory): **nicht defekt**. Direkt gemessen -- `bias_levels.py --next` liefert
+  4 Events (`source: forexfactory`, `error: None`), `--weekly` 21 Events inkl. FOMC Minutes,
+  der TradingView-Fallback fuer den Freitagsfall 30 Events. Beide Quellen und beide Modi intakt.
+- Befund 2 (Root Cause): Es existierte **kein Scheduler**. `CronList` leer, kein Windows-Task,
+  keine Cron-Datei in `~/.claude`. Beide Commands waren laut ihrem eigenen Header "fuer den Cron
+  20:00" geschrieben -- dieser Cron wurde nie angelegt und haette auch nie funktioniert:
+  `CronCreate` ist laut eigener Doku session-only, rein im Speicher, feuert nur solange die REPL
+  offen und idle ist, und laeuft nach 7 Tagen aus. Ein 20:00-Job feuert damit praktisch nie.
+- Belege: `Daily Bias 2026-08-05/-10/-15` und `Weekly Bias KW33` fehlen; die vorhandenen Dateien
+  tragen Zeitstempel 11:30/18:57 -- alle von Hand im Chat erzeugt, keine einzige um 20:00.
+- Fix: `tools/bias-cron.cmd` (headless-Wrapper, `claude -p` mit engem `--allowedTools`-Scope,
+  Log nach `algo/live/bias-cron.log`, bereits von `algo/live/*.log` gitignored) plus
+  `tools/setup-bias-tasks.cmd` (legt beide Tasks an, So-Do bzw. Fr 20:03).
+  Die Setup-Datei ist noetig, weil Git Bash `/create` sonst zu `C:/Program Files/Git/create`
+  umschreibt -- das war der erste Fehlschlag beim manuellen Anlegen.
+- Verifiziert: beide Tasks `State: Ready`, naechste Laeufe 16.08. bzw. 21.08. 20:03; der Daily-Task
+  einmal echt getriggert, `LastTaskResult: 0`, Log zeigt einen vollstaendigen Lauf inkl.
+  ForexFactory-Abruf und korrektem Nicht-Ueberschreiben der bestehenden Datei.
+- Methodische Lehre, uebertragbar: Ein Command, der "fuer den Cron" geschrieben ist, dokumentiert
+  eine *Absicht*, keinen laufenden Mechanismus. Wenn zwei Features gleichzeitig als kaputt gemeldet
+  werden, zuerst pruefen, ob sie einen gemeinsamen Ausloeser haben -- hier war die vermeintlich
+  defekte Datenanbindung nur deshalb unsichtbar, weil sie nie aufgerufen wurde.
