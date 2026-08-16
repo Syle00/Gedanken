@@ -3124,3 +3124,18 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Trennlinie jetzt ASCII, und `main()` schaltet stdout auf UTF-8 mit `errors="replace"`.
   In der Markdown-Datei selbst (UTF-8) erscheint das Kreuz korrekt.
 - `Weekly Bias KW34 2026.md` auf das neue Format umgestellt.
+
+## [2026-08-16] setup | News-Block auf Zeilen-Layout: Farbsymbole, NY/DE beschriftet
+- Nutzervorgabe, praezisiert: Red/Orange als **Farbsymbol**, Uhrzeiten **immer mit NY und DE
+  beschriftet**, je Termin **eine Zeile Text, dann eine Leerzeile**.
+- `news_block()` entsprechend umgebaut -- **weg vom Spaltenlayout**. Grund, der beim Umbau
+  auffiel: Emoji sind nicht monospace-breit, in einer ausgerichteten Tabelle verrutscht damit
+  jede Zeile mit Farbsymbol. Als Fliesstext ist das egal, und Leerzeilen rendern in Obsidian
+  als Absatz -- also genau die gewuenschte Luft.
+- Folge davon: der Block gehoert jetzt **nicht mehr in ```-Zaeune**. In einem Codeblock wuerden
+  weder Symbole noch Fettung rendern und die Leerzeilen keinen Absatz bilden. Beide Commands
+  entsprechend korrigiert (vorher stand dort ausdruecklich "in einen Codeblock uebernehmen").
+- Format je Zeile: `🔴 **14:00 NY** / 20:00 DE — FOMC Meeting Minutes  (Forecast x, Previous y)`.
+  Forecast/Previous nur, wenn die Quelle sie liefert -- FOMC Minutes haben keine, dort entfaellt
+  die Klammer statt zwei Gedankenstriche zu zeigen.
+- `Weekly Bias KW34 2026.md` auf das neue Format umgestellt.

@@ -15,11 +15,18 @@ Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoch
    **Nur USD** -- `bias_levels.py` filtert das bereits, gehandelt werden NQ/ES.
    Kein WebFetch auf forexfactory.com -- HTTP 403 fuer Bots.
 
-2. **News-Abschnitt.** **`news.block` unveraendert in einen ```-Codeblock uebernehmen** --
-   nicht in eine Markdown-Tabelle umbauen und nicht selbst ausrichten. Der Block kommt fertig
-   aus `bias_levels.py::news_block()`: nach Tagen gruppiert, Spalten monospace untereinander,
-   eine Leerzeile zwischen den Tagen, **alle fuenf Handelstage aufgefuehrt** -- Tage ohne
-   Termine mit **❌ keine USD-Termine**. Genau so hat der Nutzer es sich am 2026-08-16 gewuenscht.
+2. **News-Abschnitt.** **`news.block` unveraendert uebernehmen** -- **kein** Codeblock, keine
+   Markdown-Tabelle, nichts selbst formatieren. Der Block kommt fertig aus
+   `bias_levels.py::news_block()` und sieht so aus (Nutzervorgabe 2026-08-16):
+
+   - nach Tagen gruppiert, **alle fuenf Handelstage** aufgefuehrt
+   - je Termin **eine** Zeile, danach eine **Leerzeile**
+   - Impact als Farbsymbol: 🔴 Red, 🟠 Orange
+   - Uhrzeiten immer beschriftet: `14:00 NY / 20:00 DE`
+   - Tage ohne Termine: `❌ keine USD-Termine`
+
+   Als Fliesstext, nicht in ```-Zaeunen -- sonst rendern Symbole und Fettung nicht, und die
+   Leerzeilen wirken nicht als Absatz.
 
    Unter dem Block eine kurze Einordnung in Prosa: wie viele Termine, welcher ist der
    Taktgeber, welche Tage sind leer. Red-Folder-Termine (NFP, CPI, FOMC) dort hervorheben.

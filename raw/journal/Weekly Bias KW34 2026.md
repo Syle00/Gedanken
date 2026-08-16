@@ -7,23 +7,21 @@
 Quelle: **ForexFactory** (`news.source: forexfactory`, Feed-Span 16.–21.08. — deckt die
 Zielwoche vollständig ab). **Nur USD** — gehandelt werden NQ/ES.
 
-```
-NY      DE      Impact   Event                               Forecast  Previous
--------------------------------------------------------------------------------
+**Mo 17.08.** ❌ keine USD-Termine
 
-Mo 17.08.   ❌ keine USD-Termine
+**Di 18.08.** ❌ keine USD-Termine
 
-Di 18.08.   ❌ keine USD-Termine
+**Mi 19.08.**
 
-Mi 19.08.
-14:00   20:00   RED      FOMC Meeting Minutes                       –         –
+🔴 **14:00 NY** / 20:00 DE — FOMC Meeting Minutes
 
-Do 20.08.
-08:30   14:30   orange   Philly Fed Manufacturing Index          24.3      41.4
-08:30   14:30   orange   Unemployment Claims                     210K      209K
+**Do 20.08.**
 
-Fr 21.08.   ❌ keine USD-Termine
-```
+🟠 **08:30 NY** / 14:30 DE — Philly Fed Manufacturing Index  (Forecast 24.3, Previous 41.4)
+
+🟠 **08:30 NY** / 14:30 DE — Unemployment Claims  (Forecast 210K, Previous 209K)
+
+**Fr 21.08.** ❌ keine USD-Termine
 
 **Drei USD-Termine in der ganzen Woche, verteilt auf zwei Tage.** Montag, Dienstag und Freitag
 sind leer — das ist kein Abrufproblem, sondern die Nachrichtenlage. Der einzige echte Taktgeber
@@ -252,4 +250,9 @@ und die NQ/ES-Divergenz als Beobachtungsauftrag.
 
 ## Mein Bias
 
-Weekly Chart haben wir einen Suspensionblock Bisi gebildet 2 vii 
+Weekly Chart haben wir einen Suspensionblock Bisi gebildet 2 vii und Buyside genommen wir haben auch über dem Swing High geclosed.
+28,500,00 Low High bei 29,851,25.
+3 Buysie Liq Pools abgesehen vom PWH und PDH 30,599,75 29. Juli
+30,975,50 15 juli und das ATH = All time high bei 31,100,00
+
+Ein Retracement ins BISI ist denkbar weil wir bereits gute Buyside genommen haben und einen Internal Liq Sweep in Form des Bisi realistisch ist. 

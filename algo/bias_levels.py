@@ -427,19 +427,18 @@ WOCHENTAG_DE = {"Mon": "Mo", "Tue": "Di", "Wed": "Mi", "Thu": "Do", "Fri": "Fr",
 
 
 def news_block(events: list[dict], von: date | None = None, bis: date | None = None) -> str:
-    """Termine als monospace-Block, nach Tagen gruppiert und spaltenweise ausgerichtet.
+    """Termine als Fliesszeilen, nach Tagen gruppiert -- je Termin **eine** Zeile, danach
+    eine Leerzeile (Nutzervorgabe 2026-08-16).
 
-    Bewusst hier und nicht im Command: eine von Hand gesetzte Spaltenbreite verrutscht bei
-    jedem laengeren Eventnamen, und ein schiefer Block ist genau das, was der Nutzer am
-    2026-08-16 bemaengelt hat. Leere Handelstage werden mitgefuehrt -- dass Montag *keine*
-    Termine hat, ist eine Aussage, kein Nichts.
+    Kein Spaltenlayout mehr: Emoji sind nicht monospace-breit, in einer ausgerichteten Tabelle
+    verrutscht damit jede Zeile mit Farbsymbol. Als Fliesstext ist das egal, und Leerzeilen
+    rendern in Obsidian als Absatz -- genau die gewuenschte Luft zwischen den Terminen.
+
+    Impact als Farbsymbol (🔴 Red / 🟠 Orange), Uhrzeiten immer mit "NY" und "DE" beschriftet,
+    damit keine Verwechslung moeglich ist. Leere Handelstage werden mitgefuehrt -- dass Montag
+    *keine* Termine hat, ist eine Aussage fuer die Wochenplanung, kein Nichts.
     """
-    breite = {"ny": 7, "de": 7, "impact": 8, "event": 34}
-    kopf = (f"{'NY':<{breite['ny']}} {'DE':<{breite['de']}} {'Impact':<{breite['impact']}} "
-            f"{'Event':<{breite['event']}} {'Forecast':>9} {'Previous':>9}")
-    # ASCII statt Unicode-Strich: der Block landet ueber bias-cron.cmd in einem
-    # Log, das die Windows-Konsole in cp1252 schreibt -- "─" bricht dort ab.
-    zeilen = [kopf, "-" * len(kopf)]
+    zeilen: list[str] = []
 
     je_tag: dict = {}
     for e in events:
@@ -458,20 +457,23 @@ def news_block(events: list[dict], von: date | None = None, bis: date | None = N
         t = date.fromisoformat(tag)
         label = f"{WOCHENTAG_DE.get(t.strftime('%a'), t.strftime('%a'))} {t:%d.%m.}"
         drin = sorted(je_tag.get(tag, []), key=lambda e: e["ny"])
-        zeilen.append("")
         if not drin:
-            # Rotes Kreuz (Nutzervorgabe 2026-08-16): ein leerer Handelstag soll auf einen
-            # Blick als leer erkennbar sein, nicht als uebersehene Zeile.
-            zeilen.append(f"{label}   ❌ keine USD-Termine")
+            # Rotes Kreuz: ein leerer Handelstag soll auf einen Blick als leer erkennbar sein,
+            # nicht als uebersehene Zeile.
+            zeilen += [f"**{label}** ❌ keine USD-Termine", ""]
             continue
-        zeilen.append(label)
+        zeilen += [f"**{label}**", ""]
         for e in drin:
-            imp = "RED" if e["impact"] == "Red" else "orange"
-            zeilen.append(
-                f"{e['ny'][11:]:<{breite['ny']}} {e['de']:<{breite['de']}} "
-                f"{imp:<{breite['impact']}} {e['title'][:breite['event']]:<{breite['event']}} "
-                f"{(e['forecast'] or '–'):>9} {(e['previous'] or '–'):>9}")
-    return "\n".join(zeilen)
+            symbol = "🔴" if e["impact"] == "Red" else "🟠"
+            werte = []
+            if e["forecast"]:
+                werte.append(f"Forecast {e['forecast']}")
+            if e["previous"]:
+                werte.append(f"Previous {e['previous']}")
+            schwanz = f"  ({', '.join(werte)})" if werte else ""
+            zeilen += [f"{symbol} **{e['ny'][11:]} NY** / {e['de']} DE — "
+                       f"{e['title']}{schwanz}", ""]
+    return "\n".join(zeilen).strip()
 
 
 def news(target_day: date, weekly: bool = False) -> dict:

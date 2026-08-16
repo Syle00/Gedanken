@@ -224,6 +224,7 @@
 <li><a href="#2026-08-16-fix-cot-substring-falle-mischte-e-mini-und-micro-kontrakt-es-zahlen-falsch">[2026-08-16] fix | COT: Substring-Falle mischte E-Mini und Micro-Kontrakt (ES-Zahlen falsch)</a></li>
 <li><a href="#2026-08-16-setup-micromini-strikt-getrennt-cot-divergenz-these-gebacktestet-widerlegt">[2026-08-16] setup | Micro/Mini strikt getrennt + COT-Divergenz-These gebacktestet (widerlegt)</a></li>
 <li><a href="#2026-08-16-setup-news-block-nach-tagen-gruppiert-ausgerichtet-leere-tage-mit">[2026-08-16] setup | News-Block: nach Tagen gruppiert, ausgerichtet, leere Tage mit ❌</a></li>
+<li><a href="#2026-08-16-setup-news-block-auf-zeilen-layout-farbsymbole-nyde-beschriftet">[2026-08-16] setup | News-Block auf Zeilen-Layout: Farbsymbole, NY/DE beschriftet</a></li>
 </ul>
 </div>
 </details>
@@ -3522,6 +3523,22 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   headless-Lauf, der ueber <code>tools/bias-cron.cmd</code> nach <code>algo/live/bias-cron.log</code> schreibt.
   Trennlinie jetzt ASCII, und <code>main()</code> schaltet stdout auf UTF-8 mit <code>errors="replace"</code>.
   In der Markdown-Datei selbst (UTF-8) erscheint das Kreuz korrekt.</li>
+<li><code>Weekly Bias KW34 2026.md</code> auf das neue Format umgestellt.</li>
+</ul>
+<h2 id="2026-08-16-setup-news-block-auf-zeilen-layout-farbsymbole-nyde-beschriftet">[2026-08-16] setup | News-Block auf Zeilen-Layout: Farbsymbole, NY/DE beschriftet</h2>
+<ul>
+<li>Nutzervorgabe, praezisiert: Red/Orange als <strong>Farbsymbol</strong>, Uhrzeiten <strong>immer mit NY und DE
+  beschriftet</strong>, je Termin <strong>eine Zeile Text, dann eine Leerzeile</strong>.</li>
+<li><code>news_block()</code> entsprechend umgebaut -- <strong>weg vom Spaltenlayout</strong>. Grund, der beim Umbau
+  auffiel: Emoji sind nicht monospace-breit, in einer ausgerichteten Tabelle verrutscht damit
+  jede Zeile mit Farbsymbol. Als Fliesstext ist das egal, und Leerzeilen rendern in Obsidian
+  als Absatz -- also genau die gewuenschte Luft.</li>
+<li>Folge davon: der Block gehoert jetzt <strong>nicht mehr in ```-Zaeune</strong>. In einem Codeblock wuerden
+  weder Symbole noch Fettung rendern und die Leerzeilen keinen Absatz bilden. Beide Commands
+  entsprechend korrigiert (vorher stand dort ausdruecklich "in einen Codeblock uebernehmen").</li>
+<li>Format je Zeile: <code>🔴 **14:00 NY** / 20:00 DE — FOMC Meeting Minutes  (Forecast x, Previous y)</code>.
+  Forecast/Previous nur, wenn die Quelle sie liefert -- FOMC Minutes haben keine, dort entfaellt
+  die Klammer statt zwei Gedankenstriche zu zeigen.</li>
 <li><code>Weekly Bias KW34 2026.md</code> auf das neue Format umgestellt.</li>
 </ul></div>
   

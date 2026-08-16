@@ -22,10 +22,10 @@ Erzeuge `raw/journal/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.
    - `news.events` **leer, aber `news.error` ist `null`** -> `Keine USD-Termine mit Red-/
      Orange-Impact.` Das ist **kein Fehler**, sondern ein newsarmer Tag und eine verwertbare
      Aussage. Nie als Abruf-Fehler ausgeben.
-   - sonst **`news.block` unveraendert in einen ```-Codeblock** uebernehmen -- kommt fertig
-     ausgerichtet aus `bias_levels.py::news_block()`, nicht in eine Tabelle umbauen und nicht
-     selbst ausrichten. Tage ohne Termine tragen dort **❌ keine USD-Termine**.
-     Red-Folder-Events in der Prosa darunter hervorheben.
+   - sonst **`news.block` unveraendert uebernehmen** -- **kein** Codeblock, keine Tabelle,
+     nichts selbst formatieren. Kommt fertig aus `bias_levels.py::news_block()`: je Termin
+     eine Zeile plus Leerzeile, Impact als 🔴/🟠, Uhrzeiten als `14:00 NY / 20:00 DE`,
+     Tage ohne Termine mit `❌ keine USD-Termine`.
 
    `news.source` mit ausgeben: normalerweise `forexfactory`, bei einem Zieltag ausserhalb der
    laufenden FF-Woche (Sonntagslauf fuer Montag) `tradingview` plus `news.hinweis` -- kein
