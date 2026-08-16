@@ -7,7 +7,8 @@
     committen -- schlaegt der Build fehl, entsteht kein Commit mit kaputter Website.
 
 .PARAMETER Message
-    Commit-Nachricht. Ohne Angabe: "wiki update <Datum>".
+    Commit-Nachricht. Pflicht, sobald es etwas zu committen gibt -- ohne Angabe bricht
+    das Skript ab, statt eine Message zu erraten.
 
 .PARAMETER NoPush
     Nur lokal committen, nicht pushen.
@@ -90,14 +91,40 @@ if ($nothingToCommit) {
     Write-Host "`n[3/4] Commit uebersprungen." -ForegroundColor Cyan
 } else {
     Write-Host "  $(git diff --cached --shortstat)"
-    if (-not $Message) { $Message = "wiki update $(Get-Date -Format 'yyyy-MM-dd')" }
+    if (-not $Message) {
+        # Bewusst ein Abbruch statt einer generierten Message: eine geratene Message ist
+        # genauso wertlos wie "wiki update" und verdeckt nur, dass niemand hingesehen hat.
+        Write-Host "`nKeine Commit-Message angegeben." -ForegroundColor Yellow
+        Write-Host "  Geaendert: $(git diff --cached --shortstat)"
+        Write-Host "  Bereiche:  $((git diff --cached --name-only | ForEach-Object { ($_ -split '/')[0] } | Sort-Object -Unique) -join ', ')"
+        Fail "Bitte mit -Message '<typ> | <worum ging es>' erneut aufrufen. Es wurde nichts committet."
+    }
     Write-Host "`n[3/4] Commit: $Message" -ForegroundColor Cyan
     git commit -q -m $Message
     if ($LASTEXITCODE -ne 0) { Fail "'git commit' fehlgeschlagen." }
     Write-Host "  $(git log -1 --format='%h %s')"
 }
 
-# --- 4. Push ---------------------------------------------------------------
+# --- 4. Zweitrechner-Clone im Blick behalten --------------------------------
+# "Gedanken" ist ein zweiter Clone desselben Repos, kein separater Ordner. Haengt er
+# zurueck, liegen dort schnell uncommittete Marktdaten, die nirgends gesichert sind.
+# Bewusst nur melden, nicht ziehen: ein Pull in einem fremden Arbeitsverzeichnis kann
+# dort laufende Aenderungen zerschiessen. Nachziehen macht /update.
+# Bewusst VOR Schritt 5 (Push): die dortigen exit-Pfade (-NoPush, kein Remote,
+# Push fehlgeschlagen) wuerden diesen Block sonst je nach Aufrufart ueberspringen.
+$zweit = "C:\Users\Jannes\Desktop\Gedanken"
+if (Test-Path (Join-Path $zweit '.git')) {
+    $offen = (git -C $zweit status --porcelain | Measure-Object -Line).Lines
+    $dort = git -C $zweit rev-parse HEAD 2>$null
+    $hier = git rev-parse HEAD
+    if ($dort -ne $hier -or $offen -gt 0) {
+        Write-Host "`nGedanken-Clone weicht ab:" -ForegroundColor Yellow
+        if ($dort -ne $hier) { Write-Host "  anderer Stand als hier - mit /update nachziehen" }
+        if ($offen -gt 0)    { Write-Host "  $offen uncommittete Datei(en) - dort sichern" }
+    }
+}
+
+# --- 5. Push ---------------------------------------------------------------
 if ($NoPush) {
     Write-Host "`n[4/4] Push uebersprungen (-NoPush)." -ForegroundColor Yellow
     exit 0

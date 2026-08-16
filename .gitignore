@@ -9,6 +9,12 @@ wiki/graphify-out/
 # Der Notion-Export ist bereits nach raw/ entpackt.
 *.zip
 
+# Roh-Exporte aus TradingView: der Inhalt liegt nach tools/sortiere_marktdaten.py
+# als Tagesdatei in raw/marktdaten/. Das Original ist ab da redundant -- aufbewahrt,
+# aber nicht versioniert (gleiche Logik wie beim Notion-Export-ZIP oben).
+raw/_tv-exporte/
+
+
 # --- Obsidian ---
 # Aendert sich bei jedem Fensterwechsel; die uebrige .obsidian/-Config bleibt versioniert.
 .obsidian/workspace.json
@@ -50,6 +56,13 @@ desktop.ini
 # state.json ist reine Laufzeit-Buchhaltung des 10-Minuten-Zyklus (welche Events schon
 # gemeldet wurden) und wird bei jedem Lauf neu geschrieben -- keine Historie wert.
 algo/live/*/state.json
+
+# Fortschrittslogs langlaufender Prozesse (IBKR-Backfill/-Nachlad, siehe fetch_ibkr.py
+# --kein-fenster) -- wachsen waehrend der Prozess laeuft und stehen als offene Datei einem
+# Git-Rebase im Weg (Windows verweigert das Ersetzen einer gerade beschriebenen Datei).
+# Keine Historie wert, anders als die Text-Statusberichte unten.
+algo/live/*.log
+algo/live/.fetch_ibkr-fenster.pid
 
 # Die Intraday-CSVs daneben bleiben ab 04.08.2026 bewusst VERSIONIERT: yfinance liefert
 # 1m-Daten nur ~30 und 5m nur ~60 Tage rueckwirkend, danach sind diese Snapshots nicht

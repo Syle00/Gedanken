@@ -5,6 +5,9 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 > **Einstieg:** [[Smart Money Concepts (SMC)]] — Wurzelseite über dem gesamten ICT-Material.
 > Der Katalog unten ist alphabetisch; die SMC-Seite ordnet dieselben Seiten inhaltlich.
 
+> **Protokoll:** [[log]] hält seit 2026-08-16 nur noch, was keine Commit-Message ausdrückt.
+> Der chronologische Verlauf bis dahin steht in [[log-archiv-bis-2026-08]].
+
 ## Concepts
 
 - [[Accumulation & Reaccumulation Model]] — Low-taken-Expansion vs. Dip-Reentry-Phasen nach einem Sweep (2026-08-01)
@@ -271,7 +274,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 
 ### ICT Executions (Chart-only Trade-Beispiele, ohne Voiceover)
 
-> Playlist mit 61 Videos, laufender Batch-Ingest (siehe `wiki/log.md`). Jedes Video zeigt nur den
+> Playlist mit 61 Videos, laufender Batch-Ingest (siehe `wiki/log-archiv-bis-2026-08.md`). Jedes Video zeigt nur den
 > Chart ohne gesprochenen Kommentar — Inhalt wird per Frame-Extraktion visuell rekonstruiert.
 
 - [[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)]] — Lunch-Macro-Short, FVG-Entry, gestaffelte Partials, Ziel an Weekly BSL C.E.
@@ -592,4 +595,4 @@ ausstehend).
   Notion-Clip ohne echten Inhalt).
 - Lint-Durchgang 2026-08-06: mehrere Konzeptseiten enthielten veraltete ⚠️-Hinweise auf Seiten, die
   inzwischen längst existieren ([[PD Array]], [[New Week Opening Gap (NWOG) Bias]],
-  [[Smart Money Concepts (SMC)]]) — korrigiert, siehe `wiki/log.md`.
+  [[Smart Money Concepts (SMC)]]) — korrigiert, siehe `wiki/log-archiv-bis-2026-08.md`.

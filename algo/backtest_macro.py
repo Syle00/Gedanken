@@ -19,9 +19,15 @@ Gemessen je Block (nur wenn >=15 der 20 Minuten Daten haben, sonst verworfen):
     dir     = netto / range  (1.0 = glatte Expansion, 0.0 = Hin und Her)
     rang    = Platz des Blocks nach range unter allen Bloecken des Tages (1 = groesster)
 
+Datenbasis: seit 2026-08-16 standardmaessig die IBKR-1s-Parquets (NQ/ES), vorher die
+1m-CSVs. `--tf 1m` schaltet zurueck -- die alten MNQ-Laeufe in algo/PLAN.md bleiben damit
+reproduzierbar. Auf 1s werden Phantomkerzen (volume == 0) verworfen, das erledigt
+marktdaten.tage(); die Blockmessung sieht nur gehandelte Sekunden.
+
 Aufruf:
-    python algo/backtest_macro.py                 # MNQ, alle 1m-Tage in raw/marktdaten
+    python algo/backtest_macro.py                 # NQ, alle 1s-Tage in raw/marktdaten
     python algo/backtest_macro.py --symbol ES
+    python algo/backtest_macro.py --symbol MNQ --tf 1m
     python algo/backtest_macro.py --selfcheck
 """
 
@@ -30,30 +36,47 @@ from __future__ import annotations
 import argparse
 import statistics
 import sys
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from scipy.stats import mannwhitneyu  # noqa: E402 -- via scikit-learn, s. requirements.txt
 
-from tools.analyze_ohlc import DATA_DIR, Bar, at, fvgs, load  # noqa: E402
+from tools.analyze_ohlc import Bar, at, fvgs  # noqa: E402
 
 from backtest_common import write_result  # noqa: E402
+from marktdaten import session_day_from_path, tage  # noqa: E402  -- macro_db importiert
+                                                    # session_day_from_path von hier
 
-MIN_BARS = 15  # von 20 Minuten -- weniger heisst Datenluecke, nicht ruhiger Markt
+MIN_MINUTEN = 15  # von 20 -- weniger heisst Datenluecke, nicht ruhiger Markt.
+# Bewusst in MINUTEN, nicht in Kerzen: auf 1s liefert IBKR fuer jede Sekunde eine Kerze,
+# `len(win) >= 15` waere dort immer wahr und der Luecken-Waechter damit wirkungslos.
+# Nach dem Phantomfilter (marktdaten.tage) zaehlt hier, wie viele der 20 Minuten
+# ueberhaupt einen Trade gesehen haben. Auf 1m ist das identisch zur alten Kerzenzahl --
+# eine 1m-Kerze ist genau eine Minute -, die 1m-Ergebnisse bleiben also unveraendert.
+
 # Mindestgroesse eines FVG -- RELATIV zur lokalen Kerzenrange, nicht in Punkten. Eine
 # absolute Schwelle waere hier ein Messfehler: eine 1m-Kerze ist um 9:35 fast dreimal so
 # gross wie um 4:00 (gemessen ueber 27 Tage, siehe wiki/synthesis/FVG-Stärke,
 # Session-Volatilität & Confluence (laufend).md). Mit "2 Punkte" haette derselbe Filter in
 # den NY-Bloecken fast alles durchgelassen und in Asia/London aussortiert -- und genau
-# solche Bloecke werden hier gegeneinander getestet. Median ueber alle FVG: 0,45.
-MIN_FVG_REL = 0.45
+# solche Bloecke werden hier gegeneinander getestet.
+#
+# Die Schwelle MUSS zum Timeframe passen, sonst ist sie derselbe Messfehler nur eine Ebene
+# hoeher (Messung 2026-08-16, NQ+ES):
+#   1m: Median size_rel 0,45 ueber 27 MNQ-Tage (7.279 FVG) -- haelt rund die Haelfte.
+#   1s: Median 1,00 ueber 8 Tage (101.593 FVG). Auf 1s ist die lokale Median-Kerzenrange
+#       fast immer exakt ein Tick, size_rel rastet deshalb auf ein Gitter ein und 1,00
+#       allein ist ein Massepunkt mit 24 % aller FVG. ">= Median" haelt hier 68 % statt
+#       der ~50 %, die die 1m-Regel haelt -- die Schwelle liegt darum auf der naechsten
+#       Gitterstufe 1,50 (haelt 36 %). Ohne das waere "grosses FVG" auf 1s bedeutungslos.
+FVG_REL_DEFAULT = {"1m": 0.45, "1s": 1.50}
 
 
 def blocks(session_day):
     """Alle 69 20-Minuten-Bloecke eines Handelstags: (label, start, ende, ist_macro).
 
-    Der MNQ-Handelstag laeuft von 18:00 des Vorabends bis 17:00 des `session_day`
+    Der Handelstag laeuft von 18:00 des Vorabends bis 17:00 des `session_day`
     (dazwischen die Globex-Pause 17:00-18:00). Er ist damit 23 Stunden lang, also
     69 Bloecke zu 20 Minuten, davon 23 Macro-Fenster (:50-:10).
 
@@ -72,19 +95,20 @@ def blocks(session_day):
     return out
 
 
-def session_day_from_path(path) -> date:
-    """Handelstag aus dem Dateinamen: 'MNQ 2026-07-09 1m.csv' -> date(2026, 7, 9).
+def abgedeckte_minuten(win: list[Bar]) -> int:
+    """Wie viele verschiedene Minuten des Blocks haben ueberhaupt eine Kerze.
 
-    Bewusst aus dem Namen statt aus den Bars: die Datei enthaelt Kerzen von zwei
-    Kalendertagen (18:00 Vorabend .. 17:00), eine Heuristik ueber die Bars waere
-    bei Fragmenttagen mehrdeutig.
+    Auf 1m ist das die Kerzenzahl, auf 1s die Zahl der Minuten mit mindestens einem
+    gehandelten Tick. Damit misst derselbe Schwellwert auf beiden Timeframes dasselbe:
+    Datenabdeckung, nicht Handelsaktivitaet.
     """
-    return datetime.strptime(path.name.split(" ")[1], "%Y-%m-%d").date()
+    return len({b.t.replace(second=0, microsecond=0) for b in win})
 
 
-def measure(bars: list[Bar], start, end, tages_fvgs=None) -> dict | None:
+def measure(bars: list[Bar], start, end, tages_fvgs=None,
+            min_rel: float = FVG_REL_DEFAULT["1s"]) -> dict | None:
     win = [b for b in bars if start <= b.t < end]
-    if len(win) < MIN_BARS:
+    if abgedeckte_minuten(win) < MIN_MINUTEN:
         return None
     hi, lo = max(b.h for b in win), min(b.l for b in win)
     rng = hi - lo
@@ -99,41 +123,49 @@ def measure(bars: list[Bar], start, end, tages_fvgs=None) -> dict | None:
         tages_fvgs = fvgs(bars)
     fvg = [f for f in tages_fvgs
            if start <= f["t_start"] and f["t_end"] < end
-           and f["size_rel"] is not None and f["size_rel"] >= MIN_FVG_REL]
+           and f["size_rel"] is not None and f["size_rel"] >= min_rel]
     return {"range": rng, "netto": net, "dir": net / rng if rng else 0.0,
             "fvgs": len(fvg), "fvg_pts": sum(f["size"] for f in fvg)}
 
 
-def collect(symbol: str) -> dict[str, list[dict]]:
-    """label -> Liste der Tagesmessungen (inkl. Tagesrang nach range)."""
+def collect(symbol: str, tf: str = "1s",
+            min_rel: float | None = None) -> tuple[dict[str, list[dict]], list[dict]]:
+    """(label -> Liste der Tagesmessungen inkl. Tagesrang, Abdeckung je Tag).
+
+    Die zweite Rueckgabe ist die Datenabdeckung: wie viele der 69 Bloecke eines Tages
+    genug Minuten hatten. Sie ist kein Beiwerk -- an ihr sieht man Halbtage und
+    Kontrakt-Rolltage (siehe Bericht), statt sie stillschweigend mitzumitteln.
+    """
+    if min_rel is None:
+        min_rel = FVG_REL_DEFAULT[tf]
     per_label: dict[str, list[dict]] = {}
-    for path in sorted(DATA_DIR.rglob(f"{symbol} *-*-* 1m.csv")):
-        bars = load(path)
-        if not bars:
-            continue
-        day = session_day_from_path(path)
+    abdeckung: list[dict] = []
+    for day, bars in tage(symbol, tf):
         tages_fvgs = fvgs(bars)     # einmal pro Tag statt 69x je Block
         today = []
         for label, start, end, is_macro in blocks(day):
-            m = measure(bars, start, end, tages_fvgs)
+            m = measure(bars, start, end, tages_fvgs, min_rel)
             if m:
                 today.append({"label": label, "macro": is_macro, "day": day, **m})
+        abdeckung.append({"day": day, "bars": len(bars), "blocks": len(today)})
         for rank, m in enumerate(sorted(today, key=lambda x: -x["range"]), start=1):
             m["rank"] = rank
             m["n_blocks"] = len(today)
         for m in today:
             per_label.setdefault(m["label"], []).append(m)
-    return per_label
+    return per_label, abdeckung
 
 
 def med(xs):
     return statistics.median(xs) if xs else None
 
 
-def report(symbol: str) -> dict:
-    per_label = collect(symbol)
+def report(symbol: str, tf: str = "1s", min_rel: float | None = None) -> dict:
+    if min_rel is None:
+        min_rel = FVG_REL_DEFAULT[tf]
+    per_label, abdeckung = collect(symbol, tf, min_rel)
     if not per_label:
-        print(f"Keine 1m-Daten fuer {symbol} gefunden.")
+        print(f"Keine {tf}-Daten fuer {symbol} gefunden.")
         return {}
 
     rows = [m for ms in per_label.values() for m in ms]
@@ -141,8 +173,16 @@ def report(symbol: str) -> dict:
     macro = [m for m in rows if m["macro"]]
     ctrl = [m for m in rows if not m["macro"]]
 
-    print(f"{symbol}: {len(days)} Handelstage ({days[0]} .. {days[-1]}), "
+    print(f"{symbol} auf {tf}: {len(days)} Handelstage ({days[0]} .. {days[-1]}), "
           f"{len(rows)} auswertbare 20min-Bloecke")
+    # Ein Tag mit auffaellig wenigen auswertbaren Bloecken ist entweder ein Halbtag oder
+    # ein Kontrakt-Rolltag (Vormonat noch liquide, Folgemonat schon geholt). Beides muss
+    # sichtbar sein, statt im Median unterzugehen -- Marktdaten-Nulltoleranz.
+    duenn = [a for a in abdeckung if a["blocks"] < 60]
+    if duenn:
+        print(f"  Duenne Tage (<60 von 68 messbaren Bloecken) -- pruefen, nicht ignorieren:")
+        for a in duenn:
+            print(f"    {a['day']}  {a['blocks']:>2}/68 Bloecke  aus {a['bars']:>6} Kerzen")
     print(f"  Macro (:50-:10) n={len(macro):4d}  median range {med([m['range'] for m in macro]):7.2f} "
           f"netto {med([m['netto'] for m in macro]):6.2f}  dir {med([m['dir'] for m in macro]):.2f}")
     print(f"  Kontrolle       n={len(ctrl):4d}  median range {med([m['range'] for m in ctrl]):7.2f} "
@@ -154,7 +194,7 @@ def report(symbol: str) -> dict:
              for k in ("range", "netto", "dir", "fvgs")}
     print("  Mann-Whitney (Macro > Kontrolle), einseitig:  "
           + "  ".join(f"{k} p={v:.4f}" for k, v in pvals.items()))
-    print(f"  FVGs (>= {MIN_FVG_REL:.2f} x Kerzenrange) je Block:  Macro {sum(m['fvgs'] for m in macro)/len(macro):.2f}"
+    print(f"  FVGs (>= {min_rel:.2f} x Kerzenrange) je Block:  Macro {sum(m['fvgs'] for m in macro)/len(macro):.2f}"
           f"   Kontrolle {sum(m['fvgs'] for m in ctrl)/len(ctrl):.2f}"
           f"   | Bloecke ganz ohne FVG: Macro {100*sum(1 for m in macro if not m['fvgs'])/len(macro):.0f} %"
           f"  Kontrolle {100*sum(1 for m in ctrl if not m['fvgs'])/len(ctrl):.0f} %")
@@ -186,7 +226,9 @@ def report(symbol: str) -> dict:
                   f"medRange {s['med_range']:7.2f}  medNetto {s['med_netto']:6.2f}  "
                   f"dir {s['med_dir']:.2f}  medRang {s['med_rank']:.1f}/{med([m['n_blocks'] for m in rows]):.0f}")
 
-    out = {"symbol": symbol, "days": [str(d) for d in days], "blocks": stats, "p": pvals,
+    out = {"symbol": symbol, "tf": tf, "min_fvg_rel": min_rel,
+           "days": [str(d) for d in days], "blocks": stats, "p": pvals,
+           "abdeckung": [{**a, "day": str(a["day"])} for a in abdeckung],
            "macro_vs_ctrl": {
                "macro": {"n": len(macro), "med_range": med([m["range"] for m in macro]),
                          "med_netto": med([m["netto"] for m in macro]),
@@ -194,7 +236,10 @@ def report(symbol: str) -> dict:
                "kontrolle": {"n": len(ctrl), "med_range": med([m["range"] for m in ctrl]),
                              "med_netto": med([m["netto"] for m in ctrl]),
                              "med_dir": med([m["dir"] for m in ctrl])}}}
-    write_result("macro", out)
+    # Getrennte Datei je Symbol UND Timeframe. Beides ist noetig: das frueher einzige
+    # `macro.json` liess einen ES-Lauf den MNQ-Lauf ueberschreiben, und ein 1s-Lauf haette
+    # das 1m-Ergebnis geplaettet, auf das sich macro_db.py (DIR_THR/NETTO_THR) beruft.
+    write_result(f"macro_{symbol}_{tf}", out)
     return out
 
 
@@ -226,18 +271,40 @@ def selfcheck() -> None:
     assert abs(m["netto"] - 20.0) < 1e-9, m                     # 120 - 100
     assert measure(bars[:10], start, end) is None, "zu wenige Kerzen muss None geben"
 
+    # --- Minuten- statt Kerzenzaehlung (1s-Umstellung 2026-08-16) ------------
+    # Auf 1m sind beide identisch: 20 Kerzen = 20 Minuten.
+    assert abgedeckte_minuten(bars) == 20, abgedeckte_minuten(bars)
+    # Auf 1s zaehlt die Minute, nicht die Kerze. 600 Sekunden am Stueck sind 10 Minuten
+    # und muessen verworfen werden -- frueher haette len(win) >= 15 hier durchgewunken
+    # und einen Block mit einer 10-Minuten-Luecke als vollstaendig gemessen.
+    dicht = [Bar(start + timedelta(seconds=s), 100.0, 100.5, 99.5, 100.0, 7.0)
+             for s in range(600)]
+    assert abgedeckte_minuten(dicht) == 10, abgedeckte_minuten(dicht)
+    assert measure(dicht, start, end) is None, "10 von 20 Minuten muss None geben"
+    # 15 Minuten mit je einem einzigen Tick reichen -- der Waechter misst Abdeckung,
+    # nicht Aktivitaet (ein ruhiger Asia-Block ist kein Datenfehler).
+    duenn = [Bar(start + timedelta(minutes=i), 100.0, 100.5, 99.5, 100.0, 1.0)
+             for i in range(15)]
+    assert measure(duenn, start, end) is not None, "15 abgedeckte Minuten muessen reichen"
+
+    # Die TF-Schwellen duerfen nicht gleich sein -- 0,45 auf 1s waere der Messfehler,
+    # den der Kommentar an FVG_REL_DEFAULT beschreibt.
+    assert FVG_REL_DEFAULT["1s"] > FVG_REL_DEFAULT["1m"], FVG_REL_DEFAULT
+
     assert session_day_from_path(Path("MNQ 2026-07-09 1m.csv")) == date(2026, 7, 9)
+    assert session_day_from_path(Path("NQ 2026-03-24 1s.parquet")) == date(2026, 3, 24)
     print("backtest_macro.selfcheck: OK")
 
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--symbol", default="MNQ")
-    p.add_argument("--min-fvg", type=float, default=MIN_FVG_REL,
+    p.add_argument("--symbol", default="NQ")
+    p.add_argument("--tf", default="1s", choices=sorted(FVG_REL_DEFAULT),
+                   help="1s = IBKR-Parquets (NQ/ES), 1m = alte CSV-Basis (auch MNQ)")
+    p.add_argument("--min-fvg", type=float, default=None,
                    help="Mindestgroesse eines FVG als Vielfaches der lokalen "
-                        "Kerzenrange (Default 0.45 = Median)")
+                        "Kerzenrange (Default je TF: 1s 1.50, 1m 0.45)")
     p.add_argument("--selfcheck", action="store_true")
     a = p.parse_args()
-    MIN_FVG_REL = a.min_fvg
-    selfcheck() if a.selfcheck else report(a.symbol)
+    selfcheck() if a.selfcheck else report(a.symbol, a.tf, a.min_fvg)

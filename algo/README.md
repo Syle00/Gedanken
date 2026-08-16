@@ -343,6 +343,23 @@ nicht in `selfcheck.py` eingehaengt).
   zum RTH-Open (Tageszeit-Confounder). Kennzahlen je Block: Range, |Netto|, dir = Netto/Range
   und der Tagesrang nach Range. Signifikanz per Mann-Whitney (einseitig, Macro > Kontrolle).
 
+  **Seit 2026-08-16 laeuft es standardmaessig auf 1s** (IBKR-Parquets, NQ/ES) statt auf 1m --
+  `--tf 1m` schaltet auf die alte CSV-Basis zurueck und reproduziert die frueheren
+  MNQ-Zahlen unveraendert (verifiziert: n=593/1271, p=0,0009/0,0001/0,0015/0,0062). Drei
+  Dinge muss man dabei wissen:
+  - Der Luecken-Waechter zaehlt **Minuten mit Kerze**, nicht Kerzen (`MIN_MINUTEN = 15` von
+    20). Auf 1s liefert IBKR fuer jede Sekunde eine Kerze -- eine Kerzenzaehlung waere dort
+    immer erfuellt und der Waechter wirkungslos. Auf 1m ist beides identisch.
+  - Phantomkerzen (`volume == 0`, flach auf dem letzten Kurs) filtert `marktdaten.tage()`
+    weg, bevor gemessen wird. Von 82.800 Rohkerzen eines 23h-Tags bleiben ~46.000-70.000.
+  - Die FVG-Schwelle haengt am Timeframe (`FVG_REL_DEFAULT`): 0,45 auf 1m, **1,50 auf 1s**.
+    Auf 1s ist die lokale Median-Kerzenrange fast immer genau ein Tick, `size_rel` rastet
+    darum auf ein Gitter ein und der Median 1,00 ist ein Massepunkt mit 24 % aller FVG --
+    ">= Median" haelt dort 68 % statt der ~50 %, die die 1m-Regel haelt. Ergebnisse gehen
+    nach `algo/results/macro_<symbol>_<tf>.json` -- **beide** Schluessel sind noetig: das
+    frueher einzige `macro.json` liess einen ES-Lauf den MNQ-Lauf stillschweigend
+    ueberschreiben (beim Umbau aufgefallen, alte Dateien entsprechend umbenannt).
+
 - `backtest_open_drive_vs_sb.py` -- laesst ein starker RTH-Open-Drive (09:30-09:50) die
   Silver-Bullet-Stunde (10:00-11:00) leerlaufen? Anlass: Jannes' Satz nach dem Tapereading vom
   2026-08-11, der Move sei vor seinem Fenster gelaufen. Misst je Tag Range und
@@ -387,7 +404,7 @@ Mittelfristig loest der IBKR-Adapter (PLAN.md Schritt 4) das Problem an der Wurz
 nur ~30 Tage zurueck (yfinance-Grenze), aktuell 22 MNQ-Tage bis einschliesslich 2026-08-10.
 Der laufende Handelstag fehlt immer, weil `fetch_yfinance.py` ihn bewusst nicht schreibt
 (`end` exklusiv, sonst bliebe ein Tagesstumpf liegen). Bloecke desselben Tages sind nicht unabhaengig, der
-p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_BARS = 15` verwirft Bloecke mit
+p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_MINUTEN = 15` verwirft Bloecke mit
 Datenluecken, statt sie als ruhigen Markt zu zaehlen; `backtest_open_drive_vs_sb.py` macht
 dasselbe mit `MIN_BARS_OPEN = 15` / `MIN_BARS_SB = 45` und wirft damit Fragmenttage raus. Bei
 n=21 sind beide Nicht-Befunde dort schwach -- der Test gehoert mit wachsendem Bestand wiederholt.
@@ -1066,6 +1083,21 @@ jetzt ~12,5 s fuer dieselbe volle 1m-Historie.
 **Warum:** `backtest_common.py::load_rows()` und die Gruppe-A/B-Module brauchen einen Loader, der
 Forex und Futures gleich behandelt, ohne dass jedes Skript selbst zwischen CSV- und
 Parquet-Pfad unterscheiden muss.
+
+**`tage(symbol, tf)` -- das tagesweise Gegenstueck (2026-08-16).** `bars()` liefert einen
+durchgehenden Strom; Auswerter, die je Handelstag messen (`backtest_macro.py`, perspektivisch
+`macro_db.py`), brauchen stattdessen `(session_day, bars)` je Tagesdatei. Genau das liefert
+`tage()`. Zwei Dinge passieren dort zentral, damit sie nicht in jedem Auswerter neu (und
+verschieden) implementiert werden:
+- **Phantomfilter fuer 1s.** IBKR liefert fuer *jede* Sekunde des Fensters eine Kerze, auch
+  fuer Sekunden ohne einen einzigen Trade -- flach auf dem letzten Kurs (`o==h==l==c`,
+  `volume == 0`). `tage()` wirft sie weg; danach entspricht die Reihe dem, was ein 1s-Chart
+  zeigt. Ohne den Filter nimmt ein `open="first"`-Aggregat eine Phantomkerze statt des ersten
+  echten Trades als Open (PLAN.md, 2026-08-15). Groessenordnung: von 82.800 Rohkerzen eines
+  23h-Tags bleiben ~46.000-70.000.
+- **`session_day_from_path()`** liegt jetzt ebenfalls hier (vorher in `backtest_macro.py`,
+  von wo `macro_db.py` sie importierte). Der Handelstag kommt aus dem **Dateinamen**, nicht
+  aus den Bars: eine Tagesdatei enthaelt zwei Kalendertage (18:00 Vorabend .. 17:00).
 **Bekannte Grenzen:** Nur Gruppe-A/B-Module (`backtest_seasonal.py`,
 `backtest_midnight_range_std.py`) sind bislang tatsaechlich umgestellt (siehe `algo/PLAN.md`-
 Backlog fuer die restlichen acht). Gruppe-C-Module (ORG/NDOG-abhaengig) bleiben MNQ-only, siehe
@@ -1094,7 +1126,7 @@ Loeschkandidat gefuehrt.
 ## `bias_levels.py` -- Levels + News fuer die Bias-Vorlage
 
 **Was.** Liefert als ein JSON alles, was `/bias-vorlage-daily` und `/bias-vorlage-weekly` zum
-Vorbefuellen von `raw/journal/Daily Bias *.md` / `Weekly Bias KW*.md` brauchen: Wochen-Range,
+Vorbefuellen von `raw/journal/bias/daily/Daily Bias *.md` / `bias/weekly/Weekly Bias KW*.md` brauchen: Wochen-Range,
 Vortages-Range (H/L/C), das Zieldatum (naechster Handelstag bzw. kommender Montag) und die
 Red-/Orange-Folder-News.
 
@@ -1229,17 +1261,118 @@ einzige ehrliche Umgang ist. Nach einer bewussten Uebernahme:
 Tages-Parquet in `raw/marktdaten/<jjjj>/<mm>/<tt.mm.jjjj>/<SYM> <jjjj-mm-tt> 1s.parquet` ab
 -- gleiche Ordnerstruktur wie die TradingView-/yfinance-CSVs, nur Parquet statt CSV wegen
 Volumen (~5x kleiner, siehe Design SS4). Drei Betriebsarten: `--verify` (ein Fenster, schreibt
-nichts), `--backfill VON BIS`, ohne Argumente = Nachlad seit dem letzten Registereintrag.
+nichts), `--backfill [VON BIS]`, ohne Argumente = Nachlad seit dem letzten Registereintrag.
 Siehe `docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md` fuer die volle
 Entscheidungshistorie (E1-E11).
+
+**`--backfill` ohne Datumsangabe holt die gesamte verfuegbare 1s-Historie** (`HISTORIE_TAGE`
+= 183 Tage zurueck bis zum letzten Handelstag; weiter reicht IBKRs 1s-Vorhaltung nicht). Der
+Aufruf ist beliebig oft wiederholbar und setzt von selbst fort, weil **die Tagesdatei die
+Resume-Autoritaet ist, nicht das Register**: existiert
+`raw/marktdaten/.../<SYM> <tag> 1s.parquet`, ueberspringt `fetch_symbol_day()` den Tag ohne
+einen einzigen Request. Vorher wurden auch fuer laengst fertige Tage alle 46 Fenster
+angefragt und das Ergebnis anschliessend von `write_day_1s()` verworfen -- bei einem
+6-Monats-Lauf ueber einen halb gefuellten Bestand Stunden Laufzeit fuer nichts.
 
 **Wie:** `front_month()` bestimmt den aktiven Quartalskontrakt deterministisch und netzfrei
 (Roll = Verfall - 8 Tage). `day_windows()` zerlegt einen Handelstag in 46 Fenster a 30 Minuten
 (18:00 NY Vortag - 17:00 NY), DST-sicher ueber tz-awares NY-Datetime-Arithmetik.
-`PacingLimiter` haelt die IBKR-Grenze (60 Requests/10 Min, min. 0,5s Abstand) ein, mit
-injizierbarer Uhr fuer Tests. `raw/marktdaten/1s-abdeckung.csv` (append-only) loest drei
+`PacingLimiter` haelt die IBKR-Grenze (60 Requests je 600s) ein, mit injizierbarer Uhr fuer
+Tests. **Die Bremse ist `min_gap`, und es wird aus `window / max_requests` abgeleitet (= 10s),
+nicht handgesetzt.** Die deque-Pruefung allein greift erst beim 61. Request -- ein voller
+Handelstag hat nur 46 Fenster und lief damit komplett an der Grenze vorbei: gemessen 41
+Requests in 60s = **41 Req/Min gegen erlaubte 6**. IBKR nahm am 2026-08-16 reproduzierbar 41
+Requests an und wies ab Fenster 42 mit Error 162 ab; weil jeder Wiederholversuch selbst ein
+Request ist, riss danach der Rest des Tages ab. Die beiden frueheren `min_gap`-Werte (0,5s,
+dann 1,5s) kurierten nur das Symptom -- sie streckten den Burst, blieben aber weit ueber der
+Rate. Mit 10s liegt der Durchsatz bei den 6 Req/Min aus Design SS3.3 und trifft die
+Laufzeittabelle SS3.4 (46 Fenster ~ 7,7 Min je Symbol und Tag, 6-Monats-Backfill ~31h) --
+diese Tabelle war immer schon auf 10s gerechnet, nur der Code nicht. Bekannte Grenze: der
+Zustand lebt im Prozess, zwei gleichzeitige `fetch_ibkr`-Laeufe teilen sich IBKRs
+serverseitiges Kontingent, ohne voneinander zu wissen.
+
+**Statusmeldungen (`fetch_symbol_day` gibt `(pfad, status)` zurueck).** Frueher war die
+Rueckgabe nur `Path | None` fuer drei verschiedene Ausgaenge, und beide `main()`-Schleifen
+machten daraus `uebersprungen (schon vorhanden/keine Daten)` -- diese Zeile erschien auch
+fuer einen Tag, der gerade an 5 Pacing-Violations gescheitert war. Jetzt sind die Texte
+unterscheidbar (`geschrieben (N Kerzen, M Fenster)`, `schon vorhanden (0 Requests)`,
+`FEHLGESCHLAGEN (x/46 Fenster)`, `alle Fenster leer`), und jeder Backfill endet mit einer
+Bilanz, die offen gebliebene Tage namentlich auflistet -- bei 264 Tagesdateien verschwaende
+ein Fehlschlag sonst im Scrollback. `raw/marktdaten/1s-abdeckung.csv` (append-only) loest drei
 Probleme: "kein Trade" vs. "nicht geholt" unterscheidbar machen, Backfill wiederaufnehmbar
 machen, Nachlad zustandslos machen.
+
+`register_append()` schreibt den kompletten Block als **einen** `write()`-Aufruf (Umweg ueber
+`io.StringIO`), statt `csv.writer` feldweise in den gepufferten Stream schreiben zu lassen.
+Grund: Laufen zwei `fetch_ibkr`-Prozesse gleichzeitig (Backfill + Nachlad), verschraenken sich
+sonst deren Teilschreibvorgaenge und zerreissen einen Datensatz mitten im Feld -- genau so
+entstand am 2026-08-16 eine kaputte Zeile in der Registerdatei. `register_load()` ueberspringt
+defekte Zeilen mit Warnung, statt mit `ValueError` abzubrechen: Das Register ist ein
+Buchhaltungs-Index, kein Datenbestand -- ein unlesbares Fenster gilt als "noch nicht geholt"
+und wird beim naechsten Lauf schlicht neu gezogen. Vorher legte **eine** defekte Zeile das
+ganze Skript lahm.
+
+**Alles-oder-nichts je Handelstag (2026-08-16).** `fetch_symbol_day()` schreibt einen Tag nur,
+wenn **kein** Fenster fehlgeschlagen ist; sonst entsteht weder Datei noch Registerzeile und
+der ganze Tag wird beim naechsten Lauf neu geholt. Anlass ist ein realer, stiller
+Datenverlust: frueher wurde der Tag aus den Fenstern zusammengesetzt, die ankamen, und weil
+`write_day_1s()` nie ueberschreibt, war das Loch danach dauerhaft eingefroren --
+`ES 2026-02-19 1s.parquet` endete so bei 11:29 NY statt 17:00 (35 von 46 Fenstern, 63.000
+statt 82.800 Kerzen) und sah dabei aus wie ein fertiger Handelstag. Verschaerfend wirkte der
+frueher hier stehende Register-Filter: er uebersprang beim naechsten Lauf genau die Fenster,
+deren Daten nur im Speicher des abgebrochenen Laufs existiert hatten -- ein zweiter Lauf
+konnte das Loch also nicht fuellen, sondern zementierte es. Dieser Filter ist entfernt; das
+Register ist jetzt reine Dokumentation ("kein Trade" vs. "nicht geholt") und der Nachlad-
+Startpunkt, nicht mehr die Resume-Instanz. Preis der Regel: nach einem Abbruch mitten im Tag
+bis zu 46 wiederholte Requests (~70s) -- gegen einen 34-Stunden-Backfill vernachlaessigbar,
+gegen eine unsichtbare Datenluecke ohnehin.
+
+**Fehler vs. leeres Fenster (`_echter_fehler()`).** `reqHistoricalData` liefert bei jedem
+Fehlschlag eine ganz normale leere Liste; ob "kein Handel" oder "Request abgewiesen" steht
+ausschliesslich in `errorEvent`. Zwei Faelle gelten deshalb ausdruecklich **nicht** als
+Fehlschlag: Codes 2100-2199 (IBKRs Verbindungsmeldungen wie "Market data farm connection is
+OK", die im Normalbetrieb staendig kommen) und **162 mit "no data" im Text** -- IBKRs Antwort
+fuer ein Fenster ohne jeden Handel, also Feiertag oder Early Close. Ohne diese Unterscheidung
+kaeme ein verkuerzter Handelstag unter der Alles-oder-nichts-Regel nie zustande (Realfall:
+Presidents' Day 2026-02-16, CME schliesst 13:00 NY, die letzten 8 Fenster sind leer -- die
+vorhandene Datei mit 68.400 statt 82.800 Kerzen ist **korrekt**, kein Defekt). Unterschieden
+wird bewusst ueber den *Text*, nicht ueber den Code: die Pacing-Violation traegt dieselbe
+Nummer 162, und sie als "Markt zu" zu verbuchen wuerde eine echte Datenluecke als geschlossen
+ausweisen.
+
+**Gateway-Autostart / Zwei-Rechner-Betrieb (2026-08-16):** Ist Port 4002 nicht erreichbar,
+startet `_gateway_sicherstellen()` IBC selbst per `os.startfile()` (nicht `subprocess.Popen`,
+siehe Kommentar im Code) und wartet bis zu 180s auf den Login. Der Pfad zu `StartGateway.bat`
+ist **nicht** hart verdrahtet: `GATEWAY_BAT` probiert `C:\IBC\StartGateway.bat` und
+`%USERPROFILE%\IBC\StartGateway.bat` in dieser Reihenfolge durch (erster existierender
+gewinnt), weil IBC auf den beiden genutzten Rechnern an unterschiedlichen Orten liegt. Die
+Umgebungsvariable `IBC_GATEWAY_BAT` sticht beides, fuer einen dritten Ort ohne Code-Aenderung.
+Zwei zugehoerige Patches liegen **ausserhalb des Repos** in der IBC-Installation und ueberleben
+kein IBC-Update (bei einem Upgrade erneut anwenden): `scripts/StartIBC.bat` (Java-Versions-
+erkennung, 2026-08-15) und `StartGateway.bat` (`IBC_PATH`/`CONFIG`/`TWS_SETTINGS_PATH` ueber
+`%~dp0` statt `%USERPROFILE%\IBC`, 2026-08-16). Voraussetzung ausserdem: `ib_async` aus
+`algo/requirements.txt` in genau der Python-Installation, mit der das Skript laeuft.
+
+**Fortschrittsfenster (2026-08-16):** Jeder Lauf spiegelt seine Ausgabe zusaetzlich nach
+`algo/live/fetch_ibkr-<jjjj-mm-tt>.log` (`_Tee`, nach jedem `write()` geflusht) und oeffnet ein
+zweites Konsolenfenster, das dieses Log live mitliest (`Get-Content -Wait`) -- damit ein
+stundenlanger Backfill sichtbar mitlaeuft, ohne die aufrufende Konsole zu blockieren. Die
+Fenster-Fortschrittszeilen tragen einen Balken (`_balken()`, z.B. `[####------] 18/46`), beim
+Backfill zusaetzlich der Tages-/Symbol-Gesamtfortschritt. Alle Laeufe eines Tages schreiben in
+dieselbe Logdatei; ein noch offenes Fenster (PID in `algo/live/.fetch_ibkr-fenster.pid`, per
+`tasklist` geprueft) wird wiederverwendet statt gestapelt. `--kein-fenster` schaltet die Anzeige
+ab -- fuer den spaeteren unbeaufsichtigten Tages-Task. Schlaegt das Oeffnen fehl, laeuft der
+Download unveraendert weiter; die Anzeige ist Beiwerk, der Datenlauf zaehlt. Log und PID-Datei
+sind gitignored.
+
+Die `tasklist`-Ausgabe wird bewusst als **Bytes** ausgewertet, nicht mit `text=True` (Bugfix
+2026-08-16): Windows-Konsolentools schreiben in der OEM-Codepage (cp850), `text=True` dekodiert
+aber mit der ANSI-Locale (cp1252) -- das deutsche "ausgefuehrt" in der Leermeldung enthaelt
+Byte 0x81, in cp1252 undefiniert. Der `UnicodeDecodeError` faellt in subprocess' Reader-Thread
+an und wird dort verschluckt, `.stdout` ist danach still `None`: jeder Lauf mit einer bereits
+beendeten Fenster-PID starb mit `AttributeError: 'NoneType' object has no attribute 'lower'`,
+bevor ueberhaupt ein Fenster aufgehen konnte. Merke fuer kuenftige Aufrufe externer
+Windows-Tools: entweder Bytes vergleichen oder `encoding=` explizit setzen.
 
 **Warum:** IBKR ist dieselbe Quelle wie die spaetere Order-Ausfuehrung -- keine Quellen-Drift
 zwischen Backtest und Live-Betrieb (E1). NQ/ES statt MNQ, weil beide vom gebuchten
@@ -1268,3 +1401,36 @@ blieben fast immer exakt gleich, weil `max`/`min` von Phantomkerzen unberuehrt b
 1:1 wie von IBKR geliefert (Nulltoleranz-Prinzip, nichts wegwerfen). Jeder Verbraucher von
 1s-Daten (Backtests, Resampling), der "echte Trades" statt Preisfortschreibung braucht, muss
 selbst nach `volume > 0` filtern -- die Spalte steht dafuer im Parquet-Schema bereit.
+
+## `live_status.py` -- NQ ueber IBKR-1s statt MNQ ueber yfinance (2026-08-16)
+
+**Was:** Der Live-Zyklus laeuft auf `DISPLAY_SYMBOL = "NQ"` und bezieht seine Kerzen aus den
+IBKR-1s-Tagesdateien (`marktdaten.bars(symbol, "1s")`), nicht mehr aus yfinance (`MNQ=F`).
+`yfinance`, `pandas` und `fetch_yfinance` sind aus dem Modul verschwunden.
+
+**Wie:** `_download_1s(day)` liest die 1s-Tagesdatei aus `raw/marktdaten/`; fehlt sie fuer
+einen abgeschlossenen Tag, holt `fetch_ibkr.main(["--backfill", tag, tag, "--symbol", "NQ",
+"--kein-fenster"])` sie nach (derselbe Weg wie `/daten-1s`, Gateway-Start inklusive) und sie
+wird danach gelesen -- Live-Betrieb und Backtest sehen so garantiert dieselben Bytes.
+`fetch_today()` verdichtet den 1s-Strom per `marktdaten.resample_bars()` auf 1m/5m/15m/1h/4h
+und liefert zusaetzlich `5m_weit` (Vortage + heute, fuer `org_gap()`, das die
+~16:14-Schlusskerze des Vortags braucht) sowie `1d` (70 Kalendertage fuer die NDOG/NWOG-
+Historie). `write_live_day()` schreibt die Timeframes weiterhin nach `algo/live/<tag>/`,
+jetzt ohne pandas. Die 1d-Historie waechst durch den Symbolwechsel von 1885 (MNQ) auf 6540
+(NQ) Tagesdateien.
+
+**Warum NQ:** Layer-0-Ziel ist die Ausfuehrung ueber IBKR; historische Daten und spaetere
+Orders kommen damit vom selben Broker (keine Datenquellen-Drift Backtest/Live). Tickgroesse
+0,25 wie MNQ, `SYMBOL_TICK` bleibt an `DISPLAY_SYMBOL` gekoppelt.
+
+**Bekannte Grenzen:**
+- **Der laufende Handelstag wird nicht geholt** (klare Fehlermeldung statt eingefrorener
+  Zahlen) -- Begruendung und noetiger Folge-Umbau stehen in `algo/PLAN.md`, Backlog
+  "laufender Handelstag fuer live_status.py". Der Live-Pfad ist damit bis dahin nur nutzbar,
+  wenn die 1s-Tagesdatei bereits vorliegt.
+- Eine vorhandene Tagesdatei, deren letzte Kerze am laufenden Tag mehr als 20 Minuten
+  zurueckliegt, gilt als kein Live-Stand und wird verworfen (statt als aktuell ausgegeben).
+- Die aus 1s abgeleiteten Opens koennen eine Volumen-0-Phantomkerze treffen (siehe
+  `fetch_ibkr.py`-Abschnitt oben); High/Low sind davon unberuehrt.
+- `liquidity_report.py` teilt sich `fetch_today()` und akzeptiert deshalb nur noch `NQ` --
+  historische MNQ-Dateien mit NQ-Livekerzen zu mischen waere Micro/Mini-Vermengung.

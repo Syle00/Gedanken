@@ -25,7 +25,7 @@
 <li><a href="../index.html#models">Modelle<span class="count">28</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">354</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
-<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">3</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
 <li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
@@ -179,8 +179,15 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>COT (Commitment of Traders) Data</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/one-shot-one-kill-model-source.html">One Shot One Kill Model (Source)</a></div></div>
-  
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-16</div><div class="srcline"><span>Quellen:</span> <a href="../p/one-shot-one-kill-model-source.html">One Shot One Kill Model (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#cot-hedging-program-12-monats-methode">COT Hedging Program (12-Monats-Methode)</a></li>
+<li><a href="#automatisiert-seit-2026-08-16-algocotpy">Automatisiert seit 2026-08-16: algo/cot.py</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
   <div class="content"><h1 id="cot-commitment-of-traders-data">COT (Commitment of Traders) Data</h1>
 <p>Positionierungsdaten großer Marktteilnehmer (Commercials), genutzt zur Bias-Bestätigung im Verbund
 mit <a href="../p/seasonal-tendency.html">Seasonal Tendency</a> und <a href="../p/smt-smart-money-divergence.html">SMT</a>.</p>
@@ -210,12 +217,50 @@ immer, welcher Lookback gemeint ist.</p>
 <li>Beispiel: EU macht ein Higher High, während Commercials stark Short gehen, kombiniert mit
   bearisher <a href="../p/seasonal-tendency.html">Seasonal Tendency</a> → starkes Bias-Signal für Shorts trotz des Higher High.</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 219.png" alt="image 219" loading="lazy"></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 219.png" alt="image 219" loading="lazy"></figure>
 
 <p><em>COT Hedging Program: High/Low der letzten 12 Monate und die 0-Linie als Bullish-/
 Bearish-Trennlinie.</em></p>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 220.png" alt="image 220" loading="lazy"><figcaption>Bearish-Einschätzung, da der aktuelle COT-Wert unter der 12-Monats-0-Linie liegt.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 220.png" alt="image 220" loading="lazy"><figcaption>Bearish-Einschätzung, da der aktuelle COT-Wert unter der 12-Monats-0-Linie liegt.</figcaption></figure>
 
+<h2 id="automatisiert-seit-2026-08-16-algocotpy">Automatisiert seit 2026-08-16: <code>algo/cot.py</code></h2>
+<p>Die Auswertung läuft jetzt im Weekly Bias mit (<code>/bias-vorlage-weekly</code>, Abschnitt „COT"), Quelle
+ist der CFTC-Legacy-Report über das Paket <a href="https://github.com/NDelventhal/cot_reports"><code>cot_reports</code></a>.</p>
+<p><strong>Marktreihe zählt.</strong> Die CFTC führt NQ dreifach, mit deutlich verschiedenen Zahlen. Maßgeblich
+ist <strong><code>NASDAQ MINI</code></strong> — das ist die Reihe, die Jannes' Indikator abbildet:</p>
+<table>
+<thead>
+<tr>
+<th>CFTC-Reihe</th>
+<th>Commercials net (Report 2026-07-28)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NASDAQ MINI</strong></td>
+<td><strong>−14.946</strong> ← entspricht dem oben belegten Indikatorwert −14,95 K</td>
+</tr>
+<tr>
+<td>NASDAQ-100 Consolidated</td>
+<td>−8.044</td>
+</tr>
+<tr>
+<td>MICRO E-MINI NASDAQ-100</td>
+<td>+69.021</td>
+</tr>
+</tbody>
+</table>
+<p>Für ES gilt analog <code>E-MINI S&amp;P 500</code>. Wer die falsche Reihe nimmt, rechnet still an der
+Chart-Quelle vorbei.</p>
+<p><strong>Validierung der EQ-Lesart.</strong> Für den oben dokumentierten Stand (03.08.2026, Report 2026-07-28)
+reproduziert <code>algo/cot.py</code> alle fünf Horizonte des Indikators exakt: 3M SELL, 6M SELL,
+<strong>12M BUY</strong>, 2Y BUY, 4Y SELL — bei einem 12M-EQ von −26.471 (Seite oben: „rund −27 K") und einer
+12M-Range von −66.754 bis +13.812 (Seite oben: „−68 K … +15 K"). Damit ist die Präzisierung
+„EQ statt 0-Linie" nicht nur begründet, sondern nachgerechnet. Der Fall ist als Regressionscheck
+in <code>cot.py::demo()</code> festgehalten.</p>
+<p>Ausgewertet werden nach ICT-Lesart <strong>nur Commercials gegen Large Speculators</strong> (Non-Commercials);
+Small Specs bleiben außen vor. <code>gegenlaeufig</code> markiert den interessanten Zustand, in dem beide
+Gruppen auf verschiedenen Seiten stehen.</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a></li>

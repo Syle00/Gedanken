@@ -22,7 +22,8 @@ def get_metadata(video_id: str) -> dict:
     out = subprocess.run(
         [sys.executable, "-m", "yt_dlp", "--skip-download", "--print",
          "%(title)s\n%(channel)s\n%(upload_date)s\n%(duration_string)s", url],
-        capture_output=True, text=True, check=True,
+        capture_output=True, check=True,
+        encoding="utf-8", errors="replace",  # yt-dlp gibt UTF-8, nicht die Windows-ANSI-Locale
     ).stdout.strip().split("\n")
     title, channel, upload_date, duration = out[0], out[1], out[2], out[3]
     date_fmt = f"{upload_date[:4]}-{upload_date[4:6]}-{upload_date[6:8]}"

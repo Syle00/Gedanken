@@ -31,6 +31,7 @@ from backtest_bt import demo as backtest_bt_demo  # noqa: E402
 from backtest_risk_compare import demo as backtest_risk_compare_demo  # noqa: E402
 from validate import demo as validate_demo  # noqa: E402
 from backtest_common import demo as backtest_common_demo  # noqa: E402
+from cot import demo as cot_demo  # noqa: E402
 from macro_db import selfcheck as macro_db_selfcheck  # noqa: E402
 from backtest_fvg_strength import selfcheck as fvg_strength_selfcheck  # noqa: E402
 from backtest_hp_fvg import selfcheck as hp_fvg_selfcheck  # noqa: E402
@@ -111,6 +112,7 @@ CHECKS = [
     ("backtest_risk_compare", backtest_risk_compare_demo),
     ("validate", validate_demo),
     ("backtest_common", backtest_common_demo),
+    ("cot", cot_demo),
     ("macro_db", macro_db_selfcheck),
     ("backtest_fvg_strength", fvg_strength_selfcheck),
     ("backtest_hp_fvg", hp_fvg_selfcheck),
