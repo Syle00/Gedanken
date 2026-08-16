@@ -210,6 +210,7 @@
 <li><a href="#2026-08-16-setup-fetch_ibkrpy-stiller-datenverlust-behoben-backfill-holt-gesamte-1s-historie">[2026-08-16] setup | fetch_ibkr.py -- stiller Datenverlust behoben, Backfill holt gesamte 1s-Historie</a></li>
 <li><a href="#2026-08-16-setup-fetch_ibkrpy-pacing-rate-korrigiert-statusmeldungen-entluegt">[2026-08-16] setup | fetch_ibkr.py -- Pacing-Rate korrigiert, Statusmeldungen entluegt</a></li>
 <li><a href="#2026-08-16-setup-bias-vorlagen-laufen-jetzt-ueber-den-windows-task-scheduler">[2026-08-16] setup | Bias-Vorlagen laufen jetzt ueber den Windows Task Scheduler</a></li>
+<li><a href="#2026-08-16-setup-journal-bias-dateien-nach-rawjournalbiasdailyweekly-sortiert">[2026-08-16] setup | Journal-Bias-Dateien nach raw/journal/bias/{daily,weekly}/ sortiert</a></li>
 </ul>
 </div>
 </details>
@@ -3138,6 +3139,33 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   eine <em>Absicht</em>, keinen laufenden Mechanismus. Wenn zwei Features gleichzeitig als kaputt gemeldet
   werden, zuerst pruefen, ob sie einen gemeinsamen Ausloeser haben -- hier war die vermeintlich
   defekte Datenanbindung nur deshalb unsichtbar, weil sie nie aufgerufen wurde.</li>
+</ul>
+<h2 id="2026-08-16-setup-journal-bias-dateien-nach-rawjournalbiasdailyweekly-sortiert">[2026-08-16] setup | Journal-Bias-Dateien nach raw/journal/bias/{daily,weekly}/ sortiert</h2>
+<ul>
+<li>Auftrag: Daily- und Weekly-Bias fuer bessere Uebersicht in den bestehenden <code>bias/</code>-Ordner.</li>
+<li>Verschoben: 92 Dateien nach <code>bias/daily/</code> (9 generierte ISO-Vorlagen + 82 Notion-Altbestand
+  "Daily Bias Journal N" + 1 handschriftlicher Eintrag), 30 nach <code>bias/weekly/</code>
+  (2 generierte + 27 Notion-Altbestand + 1 handschriftlicher). <code>raw/journal/</code> enthaelt jetzt
+  nur noch Tape Reading, Trade Execution, Journal.md, assets/ und bias/.</li>
+<li><strong>Bewusst nicht umbenannt.</strong> Drei Namensschemata liegen weiter nebeneinander
+  ("Daily Bias 2026-08-03", "Daily Bias 10.08", "Daily Bias Journal 5"). Grund: der Wikilink
+  <code>&lt;span class="broken" title="Seite existiert noch nicht"&gt;Weekly Bias KW 33&lt;/span&gt;</code> in <code>Daily Bias 2026-08-14.md</code> waere bei einer Umbenennung gebrochen.
+  Verschieben ist unkritisch, weil Obsidian vault-weit nach Dateinamen aufloest.</li>
+<li>Pfade in beiden Commands nachgezogen (<code>bias-vorlage-daily.md</code> 3 Stellen,
+  <code>bias-vorlage-weekly.md</code> 2 Stellen) -- ohne das haette der 20:03-Task die naechste Datei
+  wieder ins Hauptverzeichnis gelegt und die Sortierung sofort wieder zerfallen lassen.</li>
+<li><strong>Korrektur zum Eintrag von heute frueh:</strong> Die Aussage "es existiert kein Scheduler" war
+  unvollstaendig. <code>algo/PLAN.md</code> (2026-08-15) dokumentiert zwei <strong>Cloud-Routinen</strong>
+  (<code>trig_01RqWifxLRoF1cMSXntn8SDN</code> Daily So-Do 20:07, <code>trig_01HuaCqVbDB6MXfqb7tR9hff</code> Weekly
+  Fr 20:07). <code>CronList</code> zeigt sie nicht -- es listet nur Session-Crons, nicht Cloud-Routinen.
+  Der Befund "noch kein automatischer Lauf erfolgt" bleibt trotzdem richtig, aber aus einem
+  anderen Grund: die Routinen wurden erst am 15.08. angelegt, der erste Daily-Lauf faellt auf
+  den 16.08. 20:07, der erste Weekly-Lauf auf den 21.08. Es gab schlicht noch keinen Termin.</li>
+<li><strong>Offene Kollision:</strong> Seit heute frueh laufen zusaetzlich zwei Windows-Tasks um 20:03 --
+  vier Minuten vor den Cloud-Routinen. Doppelbelegung, muss vom Nutzer aufgeloest werden.</li>
+<li>Methodische Lehre, uebertragbar: Bevor ein fehlender Mechanismus als "existiert nicht"
+  diagnostiziert wird, <code>algo/PLAN.md</code> lesen -- das Projektlog kennt Infrastruktur, die kein
+  lokales Tool sichtbar macht.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

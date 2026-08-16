@@ -2767,3 +2767,29 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   eine *Absicht*, keinen laufenden Mechanismus. Wenn zwei Features gleichzeitig als kaputt gemeldet
   werden, zuerst pruefen, ob sie einen gemeinsamen Ausloeser haben -- hier war die vermeintlich
   defekte Datenanbindung nur deshalb unsichtbar, weil sie nie aufgerufen wurde.
+
+## [2026-08-16] setup | Journal-Bias-Dateien nach raw/journal/bias/{daily,weekly}/ sortiert
+- Auftrag: Daily- und Weekly-Bias fuer bessere Uebersicht in den bestehenden `bias/`-Ordner.
+- Verschoben: 92 Dateien nach `bias/daily/` (9 generierte ISO-Vorlagen + 82 Notion-Altbestand
+  "Daily Bias Journal N" + 1 handschriftlicher Eintrag), 30 nach `bias/weekly/`
+  (2 generierte + 27 Notion-Altbestand + 1 handschriftlicher). `raw/journal/` enthaelt jetzt
+  nur noch Tape Reading, Trade Execution, Journal.md, assets/ und bias/.
+- **Bewusst nicht umbenannt.** Drei Namensschemata liegen weiter nebeneinander
+  ("Daily Bias 2026-08-03", "Daily Bias 10.08", "Daily Bias Journal 5"). Grund: der Wikilink
+  `[[Weekly Bias KW 33]]` in `Daily Bias 2026-08-14.md` waere bei einer Umbenennung gebrochen.
+  Verschieben ist unkritisch, weil Obsidian vault-weit nach Dateinamen aufloest.
+- Pfade in beiden Commands nachgezogen (`bias-vorlage-daily.md` 3 Stellen,
+  `bias-vorlage-weekly.md` 2 Stellen) -- ohne das haette der 20:03-Task die naechste Datei
+  wieder ins Hauptverzeichnis gelegt und die Sortierung sofort wieder zerfallen lassen.
+- **Korrektur zum Eintrag von heute frueh:** Die Aussage "es existiert kein Scheduler" war
+  unvollstaendig. `algo/PLAN.md` (2026-08-15) dokumentiert zwei **Cloud-Routinen**
+  (`trig_01RqWifxLRoF1cMSXntn8SDN` Daily So-Do 20:07, `trig_01HuaCqVbDB6MXfqb7tR9hff` Weekly
+  Fr 20:07). `CronList` zeigt sie nicht -- es listet nur Session-Crons, nicht Cloud-Routinen.
+  Der Befund "noch kein automatischer Lauf erfolgt" bleibt trotzdem richtig, aber aus einem
+  anderen Grund: die Routinen wurden erst am 15.08. angelegt, der erste Daily-Lauf faellt auf
+  den 16.08. 20:07, der erste Weekly-Lauf auf den 21.08. Es gab schlicht noch keinen Termin.
+- **Offene Kollision:** Seit heute frueh laufen zusaetzlich zwei Windows-Tasks um 20:03 --
+  vier Minuten vor den Cloud-Routinen. Doppelbelegung, muss vom Nutzer aufgeloest werden.
+- Methodische Lehre, uebertragbar: Bevor ein fehlender Mechanismus als "existiert nicht"
+  diagnostiziert wird, `algo/PLAN.md` lesen -- das Projektlog kennt Infrastruktur, die kein
+  lokales Tool sichtbar macht.

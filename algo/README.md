@@ -1094,7 +1094,7 @@ Loeschkandidat gefuehrt.
 ## `bias_levels.py` -- Levels + News fuer die Bias-Vorlage
 
 **Was.** Liefert als ein JSON alles, was `/bias-vorlage-daily` und `/bias-vorlage-weekly` zum
-Vorbefuellen von `raw/journal/Daily Bias *.md` / `Weekly Bias KW*.md` brauchen: Wochen-Range,
+Vorbefuellen von `raw/journal/bias/daily/Daily Bias *.md` / `bias/weekly/Weekly Bias KW*.md` brauchen: Wochen-Range,
 Vortages-Range (H/L/C), das Zieldatum (naechster Handelstag bzw. kommender Montag) und die
 Red-/Orange-Folder-News.
 
