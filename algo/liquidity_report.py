@@ -37,7 +37,7 @@ from analyze_ohlc import Bar, at, load, untouched_levels  # noqa: E402
 from backtest_1p_fvg_woche import find_days  # noqa: E402
 from rules import (session_extrema, ipda_windows, rel_pair, level_untouched,  # noqa: E402
                     daily_hilo_from_bars, prev_day_level, prev_week_level)
-from live_status import fetch_today, _bars_from_df  # noqa: E402
+from live_status import fetch_today, DISPLAY_SYMBOL as LIVE_SYMBOL  # noqa: E402
 from fetch_yfinance import trading_day  # noqa: E402
 
 import pandas as pd
@@ -151,8 +151,8 @@ def _classify(pool: dict, last_price: float, confluence: int) -> tuple[str, str]
     return label, ", ".join(gruende)
 
 
-def build_report(symbol: str, today: date, dfs: dict) -> list[dict]:
-    live_by_tf = {tf: (_bars_from_df(dfs[tf]) if not dfs[tf].empty else []) for tf in INTRADAY_TFS}
+def build_report(symbol: str, today: date, live: dict[str, list[Bar]]) -> list[dict]:
+    live_by_tf = {tf: live[tf] for tf in INTRADAY_TFS}
     last_price = None
     for tf in ("1m", "5m", "15m"):
         if live_by_tf[tf]:
@@ -275,20 +275,27 @@ def main(argv=None) -> int:
         selfcheck()
         return 0
 
+    if a.symbol != LIVE_SYMBOL:
+        # combined_bars() mischt historische <symbol>-Dateien mit den Live-Kerzen aus
+        # live_status.fetch_today(). Die kommen seit 2026-08-16 von NQ -- ein anderes Symbol
+        # hier wuerde Micro und Mini in einer Kerzenreihe vermengen (im Vault verboten).
+        print(f"Live-Daten kommen von {LIVE_SYMBOL}, angefragt ist {a.symbol} -- Micro und "
+              f"Mini nicht vermengen. Aufruf mit {LIVE_SYMBOL} wiederholen.")
+        return 1
     now = datetime.now(NY)
     today = trading_day(pd.Timestamp(now))
-    dfs = fetch_today(today)
-    if dfs["5m"].empty:
-        print("Keine Live-Daten (Markt geschlossen oder yfinance-Fehler).")
+    live = fetch_today(today)
+    if not live["5m"]:
+        print("Keine Live-Daten (Markt geschlossen oder IBKR-Gateway nicht erreichbar).")
         return 1
 
-    live5 = _bars_from_df(dfs["5m"]) or _bars_from_df(dfs["1m"])
+    live5 = live["5m"] or live["1m"]
     if not live5:
         print("Kein aktueller Preis ermittelbar.")
         return 1
     last_price = live5[-1].c
 
-    pools = build_report(a.symbol, today, dfs)
+    pools = build_report(a.symbol, today, live)
     print("\n".join(report(pools, a.symbol, last_price)))
     return 0
 

@@ -1369,3 +1369,36 @@ blieben fast immer exakt gleich, weil `max`/`min` von Phantomkerzen unberuehrt b
 1:1 wie von IBKR geliefert (Nulltoleranz-Prinzip, nichts wegwerfen). Jeder Verbraucher von
 1s-Daten (Backtests, Resampling), der "echte Trades" statt Preisfortschreibung braucht, muss
 selbst nach `volume > 0` filtern -- die Spalte steht dafuer im Parquet-Schema bereit.
+
+## `live_status.py` -- NQ ueber IBKR-1s statt MNQ ueber yfinance (2026-08-16)
+
+**Was:** Der Live-Zyklus laeuft auf `DISPLAY_SYMBOL = "NQ"` und bezieht seine Kerzen aus den
+IBKR-1s-Tagesdateien (`marktdaten.bars(symbol, "1s")`), nicht mehr aus yfinance (`MNQ=F`).
+`yfinance`, `pandas` und `fetch_yfinance` sind aus dem Modul verschwunden.
+
+**Wie:** `_download_1s(day)` liest die 1s-Tagesdatei aus `raw/marktdaten/`; fehlt sie fuer
+einen abgeschlossenen Tag, holt `fetch_ibkr.main(["--backfill", tag, tag, "--symbol", "NQ",
+"--kein-fenster"])` sie nach (derselbe Weg wie `/daten-1s`, Gateway-Start inklusive) und sie
+wird danach gelesen -- Live-Betrieb und Backtest sehen so garantiert dieselben Bytes.
+`fetch_today()` verdichtet den 1s-Strom per `marktdaten.resample_bars()` auf 1m/5m/15m/1h/4h
+und liefert zusaetzlich `5m_weit` (Vortage + heute, fuer `org_gap()`, das die
+~16:14-Schlusskerze des Vortags braucht) sowie `1d` (70 Kalendertage fuer die NDOG/NWOG-
+Historie). `write_live_day()` schreibt die Timeframes weiterhin nach `algo/live/<tag>/`,
+jetzt ohne pandas. Die 1d-Historie waechst durch den Symbolwechsel von 1885 (MNQ) auf 6540
+(NQ) Tagesdateien.
+
+**Warum NQ:** Layer-0-Ziel ist die Ausfuehrung ueber IBKR; historische Daten und spaetere
+Orders kommen damit vom selben Broker (keine Datenquellen-Drift Backtest/Live). Tickgroesse
+0,25 wie MNQ, `SYMBOL_TICK` bleibt an `DISPLAY_SYMBOL` gekoppelt.
+
+**Bekannte Grenzen:**
+- **Der laufende Handelstag wird nicht geholt** (klare Fehlermeldung statt eingefrorener
+  Zahlen) -- Begruendung und noetiger Folge-Umbau stehen in `algo/PLAN.md`, Backlog
+  "laufender Handelstag fuer live_status.py". Der Live-Pfad ist damit bis dahin nur nutzbar,
+  wenn die 1s-Tagesdatei bereits vorliegt.
+- Eine vorhandene Tagesdatei, deren letzte Kerze am laufenden Tag mehr als 20 Minuten
+  zurueckliegt, gilt als kein Live-Stand und wird verworfen (statt als aktuell ausgegeben).
+- Die aus 1s abgeleiteten Opens koennen eine Volumen-0-Phantomkerze treffen (siehe
+  `fetch_ibkr.py`-Abschnitt oben); High/Low sind davon unberuehrt.
+- `liquidity_report.py` teilt sich `fetch_today()` und akzeptiert deshalb nur noch `NQ` --
+  historische MNQ-Dateien mit NQ-Livekerzen zu mischen waere Micro/Mini-Vermengung.

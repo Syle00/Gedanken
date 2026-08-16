@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Live-Status-Zyklus fuer MNQ: zieht den heutigen Handelstag per yfinance, laesst die
-bestehenden Detektoren aus tools/analyze_ohlc.py + algo/rules.py darueber laufen und
-gibt eine JSON-Zusammenfassung der *neuen* Ereignisse seit dem letzten Lauf aus.
-Siehe docs/superpowers/specs/2026-08-04-algo-live-status-loop-design.md.
+"""Live-Status-Zyklus fuer NQ: liest den heutigen Handelstag als IBKR-1s-Balken (ueber
+marktdaten.bars(), bei Bedarf per fetch_ibkr nachgeholt), verdichtet ihn auf die noetigen
+Timeframes, laesst die bestehenden Detektoren aus tools/analyze_ohlc.py + algo/rules.py
+darueber laufen und gibt eine JSON-Zusammenfassung der *neuen* Ereignisse seit dem letzten
+Lauf aus. Siehe docs/superpowers/specs/2026-08-04-algo-live-status-loop-design.md und
+docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md.
 
 Aufruf:
     python algo/live_status.py                       # live: heutiger Handelstag
@@ -27,16 +29,19 @@ from analyze_ohlc import (  # noqa: E402
 )
 from rules import plan_trade, _active_window  # noqa: E402
 
-import pandas as pd
-import yfinance as yf
+from marktdaten import resample_bars, bars as markt_bars  # noqa: E402
+import fetch_ibkr  # noqa: E402
 
-from fetch_yfinance import trading_day, flatten, SYMBOL  # noqa: E402
-
-DISPLAY_SYMBOL = "MNQ"
+DISPLAY_SYMBOL = "NQ"
 # Tick-Raster des gehandelten Kontrakts -- abgeleitete Preise (FVG-C.E., ORG-C.E.)
-# muessen darauf liegen, sonst sind es keine handelbaren Preise.
+# muessen darauf liegen, sonst sind es keine handelbaren Preise. NQ laeuft wie MNQ in
+# 0,25-Schritten, der Symbolwechsel aendert daran nichts.
 SYMBOL_TICK = DISPLAY_SYMBOL
-INTERVALS = ["1m", "5m", "15m", "1h", "1d"]
+INTRADAY_TFS = ["1m", "5m", "15m", "1h", "4h"]
+# Historie fuer open_gap_history(): 5 Handelstage (NDOG) + 5 Handelswochen (NWOG).
+# 70 Kalendertage decken beides, und der von-Filter erspart markt_bars() das Einlesen
+# aller ~6540 NQ-Tagesdateien bei jedem Zyklus.
+DAILY_LOOKBACK_DAYS = 70
 
 BASE_TF = "5m"
 _tf_min = TF_MINUTES[BASE_TF]
@@ -46,69 +51,83 @@ LIVE_DIR = Path(__file__).resolve().parent / "live"
 NY = ZoneInfo("America/New_York")
 
 
-def _download(tf: str, start: str, end: str) -> pd.DataFrame:
+def _download_1s(day: date, holen: bool = True) -> list[Bar]:
+    """Handelstag als 1s-Balken. Zuerst aus raw/marktdaten/ -- hat /daten-1s den Tag schon
+    gezogen, kostet das keinen IBKR-Request. Sonst denselben Weg nehmen, den /daten-1s nutzt:
+    fetch_ibkr.main() schreibt die Tagesdatei (und startet dabei selbst das Gateway), danach
+    wird sie gelesen. Bewusst der Umweg ueber die Datei statt eines direkten Rueckgabewerts:
+    Live-Betrieb und Backtest sehen so garantiert dieselben Bytes. Fehler duerfen den Loop
+    nicht abbrechen -- dann bleibt die Liste leer und der Aufrufer meldet "keine Daten",
+    statt zu raten. `holen=False` unterbindet den Abruf ganz (--dry-run).
+
+    **Der noch laufende Handelstag wird bewusst NICHT per fetch_ibkr geholt.**
+    write_day_1s() ueberschreibt eine Tagesdatei nie und fetch_symbol_day() ueberspringt
+    jeden Tag, dessen Datei existiert ("schon vorhanden (0 Requests)"). Ein mitten am Tag
+    geholter Stand waere damit dauerhaft als vollstaendiger Handelstag eingefroren -- exakt
+    der Datenverlust, den fetch_symbol_day() mit "Alles-oder-nichts je Tag" verhindern soll
+    (dort dokumentiert an "ES 2026-02-19 endete so bei 11:29 NY statt 17:00, sah aber wie ein
+    fertiger Handelstag aus"), und jeder folgende Zyklus laese den eingefrorenen Stand als
+    "live". Lieber gar keine Zahl als eine, die aktuell aussieht und es nicht ist
+    (CLAUDE.md, "Frische Live-Daten bei Zukunftsfragen"). Der laufende Tag braucht dafuer
+    einen eigenen Abrufweg in fetch_ibkr (transientes Ziel, keine Registerzeilen,
+    inkrementell statt 46 Fenster je Zyklus) -- siehe algo/PLAN.md."""
+    jetzt = datetime.now(NY)
+    laeuft_noch = jetzt < at(day, 17)  # Session endet 17:00 NY, siehe fetch_ibkr.day_windows()
+    vorhanden = markt_bars(DISPLAY_SYMBOL, "1s", von=day, bis=day)
+    if vorhanden:
+        alter = jetzt - vorhanden[-1].t
+        if laeuft_noch and alter > timedelta(minutes=20):
+            print(f"  ! 1s: Tagesdatei fuer {day} endet {vorhanden[-1].t:%H:%M:%S} NY, jetzt "
+                  f"ist {jetzt:%H:%M:%S} NY ({alter} alt) -- kein Live-Stand", file=sys.stderr)
+            return []
+        return vorhanden
+    if laeuft_noch or not holen:
+        print(f"  ! 1s: keine Tagesdatei fuer {day} in raw/marktdaten/"
+              + (" -- der laufende Handelstag wird hier bewusst nicht geholt "
+                 "(siehe _download_1s)" if laeuft_noch else ""), file=sys.stderr)
+        return []
     try:
-        return flatten(yf.download(SYMBOL, start=start, end=end, interval=tf, progress=False))
-    except Exception as exc:  # Netzwerk-/yfinance-Fehler sollen den Loop nicht abbrechen
-        print(f"  ! {tf}: Download fehlgeschlagen ({exc})", file=sys.stderr)
-        return pd.DataFrame()
+        fetch_ibkr.main(["--backfill", day.isoformat(), day.isoformat(),
+                         "--symbol", DISPLAY_SYMBOL, "--kein-fenster"])
+    except Exception as exc:  # Gateway-/Netzwerkfehler sollen den Loop nicht abbrechen
+        print(f"  ! 1s: IBKR-Abruf fehlgeschlagen ({exc})", file=sys.stderr)
+        return []
+    return markt_bars(DISPLAY_SYMBOL, "1s", von=day, bis=day)
 
 
-def fetch_today(target_day: date) -> dict[str, pd.DataFrame]:
-    """Alle INTERVALS + 4h (aus 1h resampled), gefiltert auf target_day ueber trading_day()
-    (aus fetch_yfinance.py) -- die Globex-Session startet 18:00 NY am Vortag, ohne die
-    Filterung landen Vorabend-Kerzen sonst unter dem falschen Kalendertag.
+def fetch_today(target_day: date, holen: bool = True) -> dict[str, list[Bar]]:
+    """Alle INTRADAY_TFS aus dem 1s-Strom des Tages, 1d aus dem CSV-Bestand. Die
+    Globex-Session startet 18:00 NY am Vortag -- markt_bars()/_load_1s_parquet() liefern
+    bereits NY-lokalisierte Zeitstempel und die Tagesdatei enthaelt genau einen Handelstag,
+    deshalb entfaellt die frueher noetige trading_day()-Nachfilterung des
+    yfinance-Kalenderschnitts.
 
-    `5m_unfiltered` ist bewusst die ungefilterte 5m-Rohspanne (mehrere Tage) -- org_gap()
-    braucht die ~16:14-Schlusskerze des *Vortags*, die die Tages-Filterung sonst wegwirft.
-
-    `1d_unfiltered` deckt ~70 Kalendertage zurueck -- genug fuer die letzten 5 Handelstage
-    (NDOG) und 5 Handelswochen (NWOG), siehe wiki/concepts/New Day Opening Gap (NDOG).md."""
-    start = (target_day - timedelta(days=3)).isoformat()
-    end = (target_day + timedelta(days=1)).isoformat()
-    dfs: dict[str, pd.DataFrame] = {}
-    for tf in INTERVALS:
-        raw = _download(tf, start, end)
-        if tf == "5m":
-            dfs["5m_unfiltered"] = raw
-        if not raw.empty:
-            daily = tf == "1d"
-            raw = raw[raw.index.map(lambda ts: trading_day(ts, daily)) == target_day]
-        dfs[tf] = raw
-    dfs["1d_unfiltered"] = _download("1d", (target_day - timedelta(days=70)).isoformat(), end)
-
-    hourly = dfs["1h"]
-    if not hourly.empty:
-        dfs["4h"] = (hourly.resample("4h").agg(
-            {"Open": "first", "High": "max", "Low": "min", "Close": "last"}).dropna())
-    else:
-        dfs["4h"] = pd.DataFrame()
-    return dfs
+    `5m_weit` haengt die Vortage vor die heutigen 5m-Kerzen -- org_gap() braucht die
+    ~16:14-Schlusskerze des *Vortags*, die vor dem Beginn der heutigen Tagesdatei (18:00
+    Vorabend) liegt. Die Vortage werden nur gelesen, nie geholt: fehlen sie, bleibt org_ce
+    None, statt falsch zu werden."""
+    eins = _download_1s(target_day, holen=holen)
+    out: dict[str, list[Bar]] = {tf: (resample_bars(eins, tf) if eins else [])
+                                 for tf in INTRADAY_TFS}
+    vortage = markt_bars(DISPLAY_SYMBOL, "1s", von=target_day - timedelta(days=3),
+                         bis=target_day - timedelta(days=1))
+    out["5m_weit"] = (resample_bars(vortage, "5m") + out["5m"]) if vortage else out["5m"]
+    out["1d"] = markt_bars(DISPLAY_SYMBOL, "1d",
+                           von=target_day - timedelta(days=DAILY_LOOKBACK_DAYS),
+                           bis=target_day)
+    return out
 
 
-def write_live_day(tf: str, day: date, rows: pd.DataFrame) -> Path:
+def write_live_day(tf: str, day: date, rows: list[Bar]) -> Path:
+    """Schreibt die Kerzen im CSV-Format von tools/analyze_ohlc.py::load() (UNIX-Sekunden)
+    nach algo/live/<tag>/ -- transienter Zwischenstand fuer Nachschau/Debugging, nicht Teil
+    von raw/marktdaten/."""
     dest = LIVE_DIR / day.isoformat() / f"{DISPLAY_SYMBOL} {day.isoformat()} {tf}.csv"
     dest.parent.mkdir(parents=True, exist_ok=True)
-    out = pd.DataFrame({
-        "time": rows.index.as_unit("s").astype("int64"),
-        "open": rows["Open"].to_numpy(),
-        "high": rows["High"].to_numpy(),
-        "low": rows["Low"].to_numpy(),
-        "close": rows["Close"].to_numpy(),
-    })
-    out.to_csv(dest, index=False)
+    zeilen = ["time,open,high,low,close"]
+    zeilen += [f"{int(b.t.timestamp())},{b.o},{b.h},{b.l},{b.c}" for b in rows]
+    dest.write_text("\n".join(zeilen) + "\n", encoding="utf-8")
     return dest
-
-
-def _bars_from_df(df: pd.DataFrame) -> list[Bar]:
-    """Wie load(), nur direkt aus einem yfinance-DataFrame statt einer CSV-Datei.
-
-    1d-Kerzen kommen von yfinance tz-naiv (nur ein Datum, keine Uhrzeit) -- wie in
-    fetch_yfinance.trading_day(daily=True) wird das Datum direkt als NY-Handelstag
-    behandelt statt konvertiert, siehe [[Algo-Trading: Arbeitsstandards]] (Zeit vor Preis)."""
-    idx = df.index.tz_localize(NY) if df.index.tz is None else df.index.tz_convert(NY)
-    return [Bar(t.to_pydatetime(), float(o), float(h), float(l), float(c))
-            for t, o, h, l, c in zip(idx, df["Open"], df["High"], df["Low"], df["Close"])]
 
 
 def open_gap_history(daily_bars: list[Bar], upto_day: date, n: int, weekly: bool) -> list[dict]:
@@ -285,9 +304,8 @@ def selftest() -> None:
     print("selftest (Task 1: diff_events) ok")
 
     # Task 3: write_live_day mit synthetischen Daten -- kein Netzwerk noetig.
-    idx = pd.date_range("2026-01-02 10:00", periods=2, freq="5min", tz="America/New_York")
-    synth = pd.DataFrame({"Open": [100.0, 101.0], "High": [101.0, 102.0],
-                           "Low": [99.5, 100.5], "Close": [100.5, 101.5]}, index=idx)
+    synth = [Bar(datetime(2026, 1, 2, 10, 0, tzinfo=NY), 100.0, 101.0, 99.5, 100.5),
+             Bar(datetime(2026, 1, 2, 10, 5, tzinfo=NY), 101.0, 102.0, 100.5, 101.5)]
     dest = write_live_day("5m", date(2026, 1, 2), synth)
     assert dest.exists()
     written_bars = load(dest)
@@ -297,10 +315,18 @@ def selftest() -> None:
     print("selftest (Task 3: write_live_day) ok")
 
     # Task 2: run_detectors gegen echte, bereits abgeschlossene Daten (31.07.2026).
-    day_path = (Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
-                / "2026" / "07" / "31.07.2026" / "MNQ 2026-07-31 5m.csv")
-    real_bars = load(day_path)
+    # Bewusst Vortag + Tag zusammen: die Tagesdatei beginnt 18:00 NY am Vorabend, org_gap()
+    # braucht aber die ~16:14-Schlusskerze des Vortags -- genau der Grund, warum
+    # fetch_today() im Betrieb `5m_weit` mitliefert. Frueher reichte die 31.07-Datei allein
+    # zurueck bis 30.07 15:00; seit sie auf die Globex-Session gekuerzt wurde (Commit
+    # 6135627ee, "aus 1m neu resampled") lief dieser Selbstcheck auf None.
+    def _mnq(tag: date) -> list[Bar]:
+        return load(Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
+                    / f"{tag:%Y}" / f"{tag:%m}" / f"{tag:%d.%m.%Y}"
+                    / f"MNQ {tag.isoformat()} 5m.csv")
+
     day31 = date(2026, 7, 31)
+    real_bars = sorted(_mnq(date(2026, 7, 30)) + _mnq(day31), key=lambda b: b.t)
     det = run_detectors(real_bars, day31, real_bars[-1].t)
     assert det["price"]["last"] == real_bars[-1].c
     assert isinstance(det["fvgs"], list) and isinstance(det["sweeps"], list)
@@ -308,9 +334,7 @@ def selftest() -> None:
     assert det["org_ce"] is not None and det["org_ce"]["filled_30m"] is True  # ORG-C.E.-Tracking
     assert det["ndog_today"] is not None and isinstance(det["ndog_today"]["filled"], bool)  # NDOG-Tracking
     assert day31.weekday() == 4 and det["nwog_today"] is None  # Freitag -> kein NWOG (nur montags)
-    monday_path = (Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
-                   / "2026" / "07" / "20.07.2026" / "MNQ 2026-07-20 5m.csv")
-    monday_bars = load(monday_path)
+    monday_bars = _mnq(date(2026, 7, 20))
     monday_det = run_detectors(monday_bars, date(2026, 7, 20), monday_bars[-1].t)
     assert monday_det["nwog_today"] is not None and isinstance(monday_det["nwog_today"]["filled"], bool)
     empty_det = run_detectors([], day31, real_bars[-1].t)
@@ -318,8 +342,8 @@ def selftest() -> None:
     assert empty_det["untouched_levels"] == [] and empty_det["org_ce"] is None
     assert empty_det["ndog_today"] is None and empty_det["nwog_today"] is None
 
-    # Fix 6: kein Ereignis vor Session-Start (18:00 NY am Vorabend), obwohl die CSV
-    # bis 2026-07-30 15:00 zurueckreicht. `price` bleibt die echte letzte Kerze.
+    # Fix 6: kein Ereignis vor Session-Start (18:00 NY am Vorabend), obwohl die Kerzenreihe
+    # bis 2026-07-29 18:00 zurueckreicht. `price` bleibt die echte letzte Kerze.
     session_start = at(day31 - timedelta(days=1), 18)
     assert real_bars[0].t < session_start, real_bars[0].t  # Vorbedingung des Tests
     for cat in ("fvgs", "sweeps", "structure_breaks", "untouched_levels"):
@@ -351,22 +375,39 @@ def selftest() -> None:
     assert nwh == [], nwh  # einzig vorhandener Montag (Aug3) hat selbst keinen Vortag -> kein Gap
     print("selftest (open_gap_history) ok")
 
+    # --- Symbol und Datenquelle ------------------------------------------
+    assert DISPLAY_SYMBOL == "NQ", f"live_status laeuft auf NQ, nicht {DISPLAY_SYMBOL}"
+    assert "yfinance" not in sys.modules, "live_status darf yfinance nicht mehr importieren"
+
+    # --- 1s -> 5m ohne Netz: resample_bars liefert BASE_TF ----------------
+    # 300 aufeinanderfolgende 1s-Kerzen ab 9:30:00 (per timedelta statt Sekundenfeld -- ueber
+    # 59 waere das ein ValueError).
+    eine_min = [Bar(datetime(2026, 8, 14, 9, 30, tzinfo=NY) + timedelta(seconds=s),
+                    23000.0 + s, 23001.0 + s, 22999.0 + s, 23000.5 + s)
+                for s in range(0, 300, 1)]
+    fuenf = resample_bars(eine_min, "5m")
+    assert len(fuenf) == 1, f"300 1s-Kerzen ergeben 1 5m-Kerze, nicht {len(fuenf)}"
+    assert fuenf[0].h == max(b.h for b in eine_min), "high der 5m-Kerze = Maximum der 1s-Kerzen"
+    print("selftest (Task 6: NQ ueber IBKR-1s) ok")
+
 
 def _dry_run(day_str: str) -> dict:
+    """Pipeline gegen einen fertigen Handelstag -- bewusst ohne Abruf (`holen=False`), ein
+    Trockenlauf soll keinen 46-Fenster-Backfill ausloesen."""
     day = date.fromisoformat(day_str)
-    path = (Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
-            / f"{day:%Y}" / f"{day:%m}" / f"{day:%d.%m.%Y}"
-            / f"{DISPLAY_SYMBOL} {day.isoformat()} {BASE_TF}.csv")
-    if not path.exists():
+    daten = fetch_today(day, holen=False)
+    bars = daten[BASE_TF]
+    if not bars:
         return {"generated_at": datetime.now(NY).isoformat(), "day": day_str,
-                "market_data": False, "error": f"keine {BASE_TF}-Datei fuer {day_str} gefunden",
+                "market_data": False,
+                "error": f"keine 1s-Daten fuer {day_str} in raw/marktdaten/",
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
                 "first_run": False, "untouched_levels": [], "org_ce": None, "ndog_today": None,
                 "nwog_today": None, "ndog_open_history": [], "nwog_open_history": []}
-    bars = load(path)
     now = bars[-1].t
-    det = run_detectors(bars, day, now)
+    det = run_detectors(bars, day, now, org_bars=daten["5m_weit"],
+                        daily_bars=daten["1d"] or None)
     empty_state = {"fvgs": [], "sweeps": [], "structure_breaks": [], "setup": None}
     new_events, _ = diff_events(det, empty_state)
     # --dry-run vergleicht per Konstruktion immer gegen einen leeren State.
@@ -381,24 +422,26 @@ def _dry_run(day_str: str) -> dict:
 
 def _live_run() -> dict:
     now = datetime.now(NY)
-    day = trading_day(pd.Timestamp(now))
-    dfs = fetch_today(day)
-    if dfs["5m"].empty:
+    # Globex-Handelstag: ab 18:00 NY laeuft bereits die Session des Folgetages (wie
+    # marktdaten.trading_day(), hier ohne pandas-Timestamp-Umweg).
+    day = now.date() + timedelta(days=1) if now.hour >= 18 else now.date()
+    daten = fetch_today(day)
+    if not daten[BASE_TF]:
         return {"generated_at": now.isoformat(), "day": day.isoformat(), "market_data": False,
-                "error": "keine 5m-Daten (Markt geschlossen oder yfinance-Fehler)",
+                "error": f"keine {BASE_TF}-Daten (Markt geschlossen oder IBKR-Gateway nicht "
+                         f"erreichbar)",
                 "price": None, "active_macro_window": None,
                 "active_silver_bullet_window": None, "setup": None, "new_events": [],
                 "first_run": False, "untouched_levels": [], "org_ce": None, "ndog_today": None,
                 "nwog_today": None, "ndog_open_history": [], "nwog_open_history": []}
 
-    for tf, df in dfs.items():
-        if tf not in ("5m_unfiltered", "1d_unfiltered") and not df.empty:
-            write_live_day(tf, day, df)
+    for tf in INTRADAY_TFS:
+        if daten[tf]:
+            write_live_day(tf, day, daten[tf])
 
-    bars = load(LIVE_DIR / day.isoformat() / f"{DISPLAY_SYMBOL} {day.isoformat()} 5m.csv")
-    org_bars = _bars_from_df(dfs["5m_unfiltered"]) if not dfs["5m_unfiltered"].empty else bars
-    daily_bars = _bars_from_df(dfs["1d_unfiltered"]) if not dfs["1d_unfiltered"].empty else None
-    det = run_detectors(bars, day, now, org_bars=org_bars, daily_bars=daily_bars)
+    bars = daten[BASE_TF]
+    det = run_detectors(bars, day, now, org_bars=daten["5m_weit"],
+                        daily_bars=daten["1d"] or None)
 
     state_path = LIVE_DIR / day.isoformat() / "state.json"
     first_run = not state_path.exists()  # vor dem Schreiben des neuen States pruefen
