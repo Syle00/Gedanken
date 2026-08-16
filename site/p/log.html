@@ -231,6 +231,7 @@
 <li><a href="#2026-08-16-lint-juni-level-des-nutzers-gegen-zweite-quelle-geprueft-verdacht-back-adjustment">[2026-08-16] lint | Juni-Level des Nutzers gegen zweite Quelle geprueft -- Verdacht Back-Adjustment</a></li>
 <li><a href="#2026-08-16-lint-korrektur-back-adjustment-verdacht-bei-den-juni-leveln-geschwaecht">[2026-08-16] lint | Korrektur: Back-Adjustment-Verdacht bei den Juni-Leveln geschwaecht</a></li>
 <li><a href="#2026-08-16-fix-yesterday_range-zieht-den-pdh-jetzt-aus-den-intraday-daten">[2026-08-16] fix | yesterday_range() zieht den PDH jetzt aus den Intraday-Daten</a></li>
+<li><a href="#2026-08-16-setup-daily-bias-ausdruecklich-nur-ein-handelstag-voraus">[2026-08-16] setup | Daily-Bias: ausdruecklich nur ein Handelstag voraus</a></li>
 </ul>
 </div>
 </details>
@@ -3704,6 +3705,19 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   SIBI 23.06., Buyside-Pool 30.599,75) mit abgesetzter Gegenpruefung: PDH liegt 129 Punkte
   ueber dem Freitagsschluss, der Buyside-Pool 445 Punkte. Die Median-Range newsarmer Tage
   (266,9) deckt den PDH, nicht den Pool -- Einordnung "PDH Tagesziel, Pool Wochenziel".</li>
+</ul>
+<h2 id="2026-08-16-setup-daily-bias-ausdruecklich-nur-ein-handelstag-voraus">[2026-08-16] setup | Daily-Bias: ausdruecklich nur ein Handelstag voraus</h2>
+<ul>
+<li>Nutzervorgabe: nicht heute schon die Dienstags-Datei anlegen -- ab Montagabend erst Dienstag.</li>
+<li><strong>Geprueft statt behauptet:</strong> <code>next_trading_day()</code> ueber alle Wochentage durchgerechnet.
+  So 20:03 -&gt; Mo, Mo 20:03 -&gt; Di, Di -&gt; Mi, Do -&gt; Fr, Fr -&gt; Mo. Der Command erzeugt also
+  bereits genau einen Tag voraus, das gewuenschte Verhalten war schon implementiert.</li>
+<li>Heute Abend laeuft der Task damit ins Leere: die Montags-Datei existiert schon, die Regel
+  "existiert schon -&gt; nicht ueberschreiben" greift. Kein Eingriff noetig.</li>
+<li>Regel trotzdem ausdruecklich im Command verankert, damit sie nicht durch eine spaetere
+  Formatierungs- oder Feature-Aenderung aufweicht: <code>&lt;ZIEL&gt;</code> ist ausschliesslich
+  <code>next_trading_day(heute)</code>, nie zwei Tage, nie "gleich die ganze Woche"; bei vorhandener
+  Zieldatei wird auch <strong>keine</strong> fuer den uebernaechsten Tag angelegt.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

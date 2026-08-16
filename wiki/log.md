@@ -3262,3 +3262,15 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   SIBI 23.06., Buyside-Pool 30.599,75) mit abgesetzter Gegenpruefung: PDH liegt 129 Punkte
   ueber dem Freitagsschluss, der Buyside-Pool 445 Punkte. Die Median-Range newsarmer Tage
   (266,9) deckt den PDH, nicht den Pool -- Einordnung "PDH Tagesziel, Pool Wochenziel".
+
+## [2026-08-16] setup | Daily-Bias: ausdruecklich nur ein Handelstag voraus
+- Nutzervorgabe: nicht heute schon die Dienstags-Datei anlegen -- ab Montagabend erst Dienstag.
+- **Geprueft statt behauptet:** `next_trading_day()` ueber alle Wochentage durchgerechnet.
+  So 20:03 -> Mo, Mo 20:03 -> Di, Di -> Mi, Do -> Fr, Fr -> Mo. Der Command erzeugt also
+  bereits genau einen Tag voraus, das gewuenschte Verhalten war schon implementiert.
+- Heute Abend laeuft der Task damit ins Leere: die Montags-Datei existiert schon, die Regel
+  "existiert schon -> nicht ueberschreiben" greift. Kein Eingriff noetig.
+- Regel trotzdem ausdruecklich im Command verankert, damit sie nicht durch eine spaetere
+  Formatierungs- oder Feature-Aenderung aufweicht: `<ZIEL>` ist ausschliesslich
+  `next_trading_day(heute)`, nie zwei Tage, nie "gleich die ganze Woche"; bei vorhandener
+  Zieldatei wird auch **keine** fuer den uebernaechsten Tag angelegt.

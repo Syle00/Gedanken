@@ -4,6 +4,12 @@ description: Erzeugt die vorbefuellte Daily-Bias-Datei fuer den naechsten Handel
 
 Erzeuge `raw/journal/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.
 
+> **Immer nur EIN Handelstag voraus** (Nutzervorgabe 2026-08-16). `<ZIEL>` ist ausschliesslich
+> `next_trading_day(heute)` -- nie zwei Tage, nie "gleich die ganze Woche". Am Sonntagabend
+> entsteht die Montags-Datei, am Montagabend die fuer Dienstag, und so weiter. Existiert die
+> Zieldatei bereits, wird sie **nicht** ersetzt und auch keine fuer den uebernaechsten Tag
+> angelegt -- dann ist schlicht nichts zu tun.
+
 > Ablage bewusst flach in `raw/journal/`: frische Bias-Dateien bleiben dort sichtbar, solange
 > sie aktuell sind. `tools/sortiere_bias.py` raeumt sie nach Ablauf des Tages selbst nach
 > `raw/journal/bias/daily/` -- nicht selbst dorthin schreiben.
