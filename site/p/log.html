@@ -221,6 +221,7 @@
 <li><a href="#2026-08-16-setup-raw-inbox-geleert-ablage-konvention-festgehalten">[2026-08-16] setup | raw/-Inbox geleert, Ablage-Konvention festgehalten</a></li>
 <li><a href="#2026-08-16-setup-1s-als-vorzugsquelle-datenlage-pruefung-gegen-1s-abdeckungcsv">[2026-08-16] setup | 1s als Vorzugsquelle + Datenlage-Pruefung gegen 1s-abdeckung.csv</a></li>
 <li><a href="#2026-08-16-setup-cot-daten-im-weekly-bias-algocotpy">[2026-08-16] setup | COT-Daten im Weekly Bias (algo/cot.py)</a></li>
+<li><a href="#2026-08-16-fix-cot-substring-falle-mischte-e-mini-und-micro-kontrakt-es-zahlen-falsch">[2026-08-16] fix | COT: Substring-Falle mischte E-Mini und Micro-Kontrakt (ES-Zahlen falsch)</a></li>
 </ul>
 </div>
 </details>
@@ -3436,6 +3437,38 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   <strong>Serie</strong> genauso fehlertraechtig wie die Rechnung darauf. Drei plausible NQ-Reihen, drei
   verschiedene Ergebnisse -- ohne einen dokumentierten Referenzwert aus der Nutzerquelle waere
   nicht entscheidbar gewesen, welche stimmt.</li>
+</ul>
+<h2 id="2026-08-16-fix-cot-substring-falle-mischte-e-mini-und-micro-kontrakt-es-zahlen-falsch">[2026-08-16] fix | COT: Substring-Falle mischte E-Mini und Micro-Kontrakt (ES-Zahlen falsch)</h2>
+<ul>
+<li><strong>Nutzerkorrektur, bestaetigt:</strong> Jannes hielt gegen, dass ES im Chart bei Commercials
+  <strong>-142.440</strong> und Large Specs <strong>+11.280</strong> steht -- ausgegeben hatte <code>cot.py</code> +87.447/-38.467.
+  Er hatte recht, es war ein Bug im eigenen Code, keine Chart-Abweichung.</li>
+<li><strong>Ursache:</strong> <code>reihe()</code> filterte per Substring (<code>markt not in r["markt"]</code>). "E-MINI S&amp;P 500"
+  steckt woertlich in "MICRO E-MINI S&amp;P 500 INDEX" -- <strong>beide Maerkte landeten in derselben
+  Reihe</strong>, je Reportdatum zwei Zeilen. Welcher Wert dann als "aktuell" galt, entschied die
+  Sortierreihenfolge, nicht die Fachlogik. Fuer ES gewann der Micro-Kontrakt.</li>
+<li>Warum es NQ nicht traf: "NASDAQ MINI" ist kein Substring von "NASDAQ-100 Consolidated" oder
+  "MICRO E-MINI NASDAQ-100 INDEX". Die NQ-Zahlen waren zufaellig korrekt -- der Fehler war
+  also nur in einem von zwei Symbolen sichtbar, was ihn ohne Gegenprobe schwer auffindbar macht.</li>
+<li><strong>Fix:</strong> <code>marktname()</code> schneidet den Boersenteil ab (" - CHICAGO MERCANTILE EXCHANGE") und
+  vergleicht <strong>exakt</strong>; sowohl beim Laden als auch in <code>reihe()</code>. Selbstcheck ergaenzt: ein
+  gemischter Roh-Datensatz (E-Mini + Micro, gleiches Datum) muss genau <strong>eine</strong> ES-Zeile mit
+  -142.440/+11.280 ergeben, und "NASDAQ-100 Consolidated" darf nicht als "NASDAQ MINI" durchgehen.</li>
+<li><strong>Wirkung auf die Aussage -- vollstaendige Umkehr fuer ES:</strong> vorher "4 von 5 Horizonten
+  bullish", jetzt <strong>alle fuenf bearish</strong>. Der korrigierte Wert -142.440 ist zugleich das Tief
+  der 3M-, 6M- und 12M-Range: die Commercials sind so kurz wie seit zwoelf Monaten nicht.</li>
+<li>Neuer Befund daraus: <strong>NQ und ES stehen gegeneinander.</strong> NQ-Commercials netto long (alle
+  Horizonte bullish, +32.421 in zwei Wochen), ES netto short (alle bearish, -46.511 im selben
+  Zeitraum). Eine Divergenz auf Positionierungsebene, analog zu <a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a>
+  auf Preisebene. <code>Weekly Bias KW34 2026.md</code> entsprechend korrigiert -- die vorherige Aussage
+  "beide Maerkte Commercials long" war schlicht falsch.</li>
+<li><strong>Offene These, ausdruecklich ungeprueft:</strong> ob eine COT-Divergenz zwischen NQ und ES etwas
+  ueber die Folgewoche aussagt, ist im Vault nicht untersucht. In der Bias-Datei als
+  Beobachtungsauftrag notiert, nicht als Signal.</li>
+<li>Methodische Lehre, uebertragbar: Bei Marktnamen aus externen Quellen nie mit <code>in</code> filtern.
+  Kontraktfamilien enthalten einander woertlich (Micro &lt;-&gt; E-Mini), und der Fehler ist still --
+  er liefert plausible Zahlen des falschen Instruments. Nur der Abgleich mit der Chart-Quelle
+  des Nutzers hat ihn aufgedeckt; die Selbstchecks liefen vorher gruen durch.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

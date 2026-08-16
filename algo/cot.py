@@ -78,9 +78,11 @@ def _lade_jahre(jahre: list[int]) -> list[dict]:
     with _im_temp():
         for jahr in jahre:
             df = cot_reports.cot_year(year=jahr, cot_report_type="legacy_fut")
-            d = df[df["Market and Exchange Names"].isin(
-                [m for m in df["Market and Exchange Names"].unique()
-                 if any(k in str(m) for k in MAERKTE.values())])]
+            # Exakt der Marktteil vor " - ", siehe reihe(): "E-MINI S&P 500" darf nicht
+            # zusaetzlich "MICRO E-MINI S&P 500 INDEX" einsammeln.
+            gewuenscht = set(MAERKTE.values())
+            d = df[df["Market and Exchange Names"].map(
+                lambda m: marktname(str(m)) in gewuenscht)]
             for _, r in d.iterrows():
                 zeilen.append({"markt": str(r["Market and Exchange Names"]),
                                "datum": str(r[SPALTE_DATUM])[:10],
@@ -89,12 +91,25 @@ def _lade_jahre(jahre: list[int]) -> list[dict]:
     return zeilen
 
 
+def marktname(roh: str) -> str:
+    """Marktteil eines CFTC-Namens ohne Boerse: "E-MINI S&P 500 - CHICAGO MERCANTILE EXCHANGE"
+    -> "E-MINI S&P 500"."""
+    return roh.split(" - ")[0].strip()
+
+
 def reihe(zeilen: list[dict], symbol: str) -> list[dict]:
-    """Netto-Positionen je Reportdatum, aufsteigend. Commercials und Large Specs."""
+    """Netto-Positionen je Reportdatum, aufsteigend. Commercials und Large Specs.
+
+    **Exakter Namensvergleich, kein Substring.** "E-MINI S&P 500" steckt woertlich in
+    "MICRO E-MINI S&P 500 INDEX" -- ein `in`-Test zieht beide Maerkte in dieselbe Reihe, und
+    dann entscheidet die Sortierreihenfolge, welcher Wert als "aktuell" gilt. Genau so kam am
+    2026-08-16 fuer ES +87.447 (Micro) statt -142.440 (E-Mini) heraus; aufgefallen ist es nur,
+    weil Jannes die Zahl aus seinem Chart dagegengehalten hat.
+    """
     markt = MAERKTE[symbol]
     out = []
     for r in zeilen:
-        if markt not in r["markt"]:
+        if marktname(r["markt"]) != markt:
             continue
         out.append({"datum": r["datum"],
                     "commercials": r["c_long"] - r["c_short"],
@@ -176,6 +191,29 @@ def demo() -> None:
     assert bewerte([])["error"], "leere Reihe -> Fehler, kein Absturz"
 
     assert MAERKTE["NQ"] == "NASDAQ MINI", "kalibriert am Wiki-Wert -14,95k (2026-07-28)"
+
+    # Substring-Falle (Bug vom 2026-08-16): "E-MINI S&P 500" steckt woertlich in
+    # "MICRO E-MINI S&P 500 INDEX". Ohne exakten Vergleich landen beide Maerkte in einer
+    # Reihe und der letzte Eintrag ist Zufall -- fuer ES kam so +87.447 (Micro) statt
+    # -142.440 (E-Mini) heraus.
+    assert marktname("E-MINI S&P 500 - CHICAGO MERCANTILE EXCHANGE") == "E-MINI S&P 500"
+    assert marktname("MICRO E-MINI S&P 500 INDEX - CHICAGO MERCANTILE EXCHANGE") \
+        == "MICRO E-MINI S&P 500 INDEX"
+    _gemischt = [
+        {"markt": "E-MINI S&P 500 - CHICAGO MERCANTILE EXCHANGE", "datum": "2026-08-11",
+         "c_long": 0, "c_short": 142440, "nc_long": 11280, "nc_short": 0},
+        {"markt": "MICRO E-MINI S&P 500 INDEX - CHICAGO MERCANTILE EXCHANGE",
+         "datum": "2026-08-11", "c_long": 87447, "c_short": 0, "nc_long": 0,
+         "nc_short": 38467},
+    ]
+    _es = reihe(_gemischt, "ES")
+    assert len(_es) == 1, f"Micro darf nicht mitkommen: {_es}"
+    assert (_es[0]["commercials"], _es[0]["large_specs"]) == (-142440, 11280), _es
+    # Gegenprobe: NASDAQ MINI ist kein Substring der anderen NQ-Reihen, muss aber exakt greifen
+    _nq = reihe([{"markt": "NASDAQ-100 Consolidated - CHICAGO MERCANTILE EXCHANGE",
+                  "datum": "2026-08-11", "c_long": 1, "c_short": 0,
+                  "nc_long": 0, "nc_short": 1}], "NQ")
+    assert _nq == [], "Consolidated darf nicht als NASDAQ MINI durchgehen"
 
     # Regressionsschutz: der am 2026-08-16 gegen Jannes' eigenen Indikator validierte Fall.
     # Wiki (Stand 03.08.2026, Report 2026-07-28): 3M SELL, 6M SELL, 12M BUY, 2Y BUY, 4Y SELL

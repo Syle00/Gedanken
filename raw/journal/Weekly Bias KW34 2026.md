@@ -122,12 +122,17 @@ Speculators**, Signal gegen das **EQ der Lookback-Range** — nicht gegen die 0-
 
 | Symbol | Commercials | Large Specs | Lage |
 |---|---|---|---|
-| **NQ** | **+17.475** | **−39.302** | gegenläufig |
-| **ES** | **+87.447** | **−38.467** | gegenläufig |
+| **NQ** | **+17.475** (long) | **−39.302** (short) | gegenläufig |
+| **ES** | **−142.440** (short) | **+11.280** (long) | gegenläufig |
 
-**Beide Märkte zeigen dieselbe Konstellation: Commercials netto long, Large Specs netto short.**
-Das ist die Aufstellung, auf die ICT abstellt — und für Index-Futures ungewöhnlich, weil
-Commercials dort strukturell netto short sind.
+**NQ und ES stehen gegeneinander.** In beiden Märkten sind Commercials und Large Specs
+gegenläufig positioniert — aber mit umgekehrten Vorzeichen: Bei NQ sind die Commercials netto
+**long** (für Index-Futures die Ausnahme, sie sind dort strukturell short), bei ES netto
+**short** und das nahe am 12-Monats-Tief.
+
+Das ist eine Divergenz zwischen den beiden Indizes, wie sie [[SMT (Smart Money Divergence)|SMT]]
+auf Preisebene beschreibt — hier auf Positionierungsebene. Sie ist der auffälligste Befund
+dieser Woche und spricht gegen ein einheitliches Index-Bias.
 
 **NQ — alle Horizonte bullish (einig)**
 
@@ -139,24 +144,25 @@ Commercials dort strukturell netto short sind.
 | 2Y | −66.754 … +17.475 | −24.640 | 🟢 bullish |
 | 4Y | −66.754 … +43.337 | −11.708 | 🟢 bullish |
 
-**ES — vier von fünf bullish, 4Y widerspricht**
+**ES — alle Horizonte bearish (einig)**
 
 | Horizont | Range (Low … High) | EQ | Signal |
 |---|---|---|---|
-| 3M | −142.440 … +110.074 | −16.183 | 🟢 bullish |
-| 6M | −142.440 … +110.074 | −16.183 | 🟢 bullish |
-| 12M | −142.440 … +134.019 | −4.210 | 🟢 bullish |
-| 2Y | −233.202 … +134.019 | −49.592 | 🟢 bullish |
-| **4Y** | −233.202 … +435.558 | +101.178 | 🔴 **bearish** |
+| 3M | −142.440 … +110.074 | −16.183 | 🔴 bearish |
+| 6M | −142.440 … +110.074 | −16.183 | 🔴 bearish |
+| **12M** | −142.440 … +134.019 | −4.210 | 🔴 **bearish** |
+| 2Y | −233.202 … +134.019 | −49.592 | 🔴 bearish |
+| 4Y | −233.202 … +435.558 | +101.178 | 🔴 bearish |
 
-> Bei ES sind sich die Horizonte **nicht einig** — die 4Y-Range reicht bis +435.558 und hebt das
-> EQ auf +101.178, über den aktuellen +87.447. Jede ES-COT-Aussage muss deshalb den Lookback
-> nennen. Bei NQ stellt sich die Frage nicht, dort zeigen alle fünf in dieselbe Richtung.
+> Der aktuelle ES-Wert **−142.440 ist zugleich das Tief der 3M-, 6M- und 12M-Range** — die
+> Commercials sind so kurz positioniert wie seit zwölf Monaten nicht. Alle fünf Horizonte
+> zeigen deshalb in dieselbe Richtung; ein Lookback-Streit stellt sich hier nicht.
 
-**Wende gegenüber Anfang August.** Am Report vom 28.07. standen die NQ-Commercials noch bei
+**Wende gegenüber Anfang August (NQ).** Am Report vom 28.07. standen die NQ-Commercials noch bei
 −14.946 (3M/6M/4Y bearish, nur 12M/2Y bullish). In zwei Wochen sind sie um **+32.421** auf
-+17.475 gedreht und haben damit jeden Horizont ins Bullische gekippt. Das ist die deutlichste
-Bewegung im Datensatz — und der Grund, warum ein COT-Urteil aus der Vorwoche hier nicht mehr trägt.
++17.475 gedreht und haben damit jeden Horizont ins Bullische gekippt. ES lief im selben Zeitraum
+in die Gegenrichtung (−95.929 → −142.440, also **−46.511**). Die beiden Indizes haben sich in
+zwei Wochen auseinanderbewegt — ein COT-Urteil aus der Vorwoche trägt hier nicht mehr.
 
 ## Wiki-Bezug
 
@@ -198,19 +204,28 @@ nicht KW34-Ziele.
 
 **Kein Turn-of-Month.** KW34 liegt in der Monatsmitte, die Turn-of-Month-Kennzahlen greifen nicht.
 
-**COT ist das einzige klare Signal dieser Woche.** Anders als Newslage und Saisonalität zeigt
-die Positionierung eindeutig: NQ-Commercials netto long über **alle fünf Horizonte**, Large
-Specs gegenläufig short — und das nach einer Drehung um +32.421 in zwei Wochen. Nach der
-Lesart aus [[COT (Commitment of Traders) Data]] ist das ein bullishes Bias-Signal.
+**COT ist der auffälligste Befund — aber kein einheitlicher.** Die Positionierung zeigt in den
+beiden Indizes gegeneinander: NQ-Commercials netto **long** über alle fünf Horizonte (nach einer
+Drehung um +32.421 in zwei Wochen), ES-Commercials netto **short** über alle fünf Horizonte und
+dabei am 12-Monats-Tief (−46.511 im selben Zeitraum). Nach der Lesart aus
+[[COT (Commitment of Traders) Data]] steht damit ein bullishes NQ-Signal gegen ein bearishes
+ES-Signal.
+
+Diese Divergenz ist verwertbarer als jede Einzelaussage: Sie ist auf Positionierungsebene das,
+was [[SMT (Smart Money Divergence)|SMT]] auf Preisebene beschreibt. Falls sie sich im Chart
+spiegelt — NQ hält, während ES nachgibt (oder umgekehrt) — wäre das die eigentlich handelbare
+Beobachtung dieser Woche. **Ungeprüft:** ob eine COT-Divergenz zwischen NQ und ES historisch
+etwas über die Folgewoche aussagt, ist im Vault nicht untersucht. Als These notiert, nicht als
+Signal.
 
 Einschränkungen, die dazugehören: COT ist ein **Wochenbild mit Verzögerung** (Stand Dienstag,
-veröffentlicht Freitag) und taugt zur Bias-Bestätigung, nicht zum Timing. Bei ES widerspricht
-der 4Y-Horizont. Und die Kombination, auf die ICT eigentlich abstellt — COT plus
-[[Seasonal Tendency]] plus [[SMT (Smart Money Divergence)|SMT]] — ist hier nur zur Hälfte
-gegeben, weil die Saisonalität (dritte Monatswoche, 50,3 %) neutral steht.
+veröffentlicht Freitag) und taugt zur Bias-Bestätigung, nicht zum Timing. Die Kombination, auf
+die ICT abstellt — COT plus [[Seasonal Tendency]] plus SMT — ist hier nur teilweise gegeben,
+weil die Saisonalität (dritte Monatswoche, 50,3 %) neutral steht.
 
-**Was diese Einschätzung nicht leistet:** Sie nennt kein Wochenziel. Die Newslage ist dünn, die
-Saisonalität neutral und die offenen Gaps liegen zu weit unten. Was bleibt: ein bullishes
-COT-Bild gegen eine neutrale Saisonalität, plus die Level oben als Bezugspunkte.
+**Was diese Einschätzung nicht leistet:** Sie nennt kein Wochenziel und kein einheitliches
+Index-Bias. Die Newslage ist dünn, die Saisonalität neutral, die offenen Gaps liegen zu weit
+unten — und COT zeigt in NQ und ES gegeneinander. Was bleibt: die Level oben als Bezugspunkte
+und die NQ/ES-Divergenz als Beobachtungsauftrag.
 
 ## Mein Bias

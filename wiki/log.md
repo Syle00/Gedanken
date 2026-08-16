@@ -3043,3 +3043,34 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   **Serie** genauso fehlertraechtig wie die Rechnung darauf. Drei plausible NQ-Reihen, drei
   verschiedene Ergebnisse -- ohne einen dokumentierten Referenzwert aus der Nutzerquelle waere
   nicht entscheidbar gewesen, welche stimmt.
+
+## [2026-08-16] fix | COT: Substring-Falle mischte E-Mini und Micro-Kontrakt (ES-Zahlen falsch)
+- **Nutzerkorrektur, bestaetigt:** Jannes hielt gegen, dass ES im Chart bei Commercials
+  **-142.440** und Large Specs **+11.280** steht -- ausgegeben hatte `cot.py` +87.447/-38.467.
+  Er hatte recht, es war ein Bug im eigenen Code, keine Chart-Abweichung.
+- **Ursache:** `reihe()` filterte per Substring (`markt not in r["markt"]`). "E-MINI S&P 500"
+  steckt woertlich in "MICRO E-MINI S&P 500 INDEX" -- **beide Maerkte landeten in derselben
+  Reihe**, je Reportdatum zwei Zeilen. Welcher Wert dann als "aktuell" galt, entschied die
+  Sortierreihenfolge, nicht die Fachlogik. Fuer ES gewann der Micro-Kontrakt.
+- Warum es NQ nicht traf: "NASDAQ MINI" ist kein Substring von "NASDAQ-100 Consolidated" oder
+  "MICRO E-MINI NASDAQ-100 INDEX". Die NQ-Zahlen waren zufaellig korrekt -- der Fehler war
+  also nur in einem von zwei Symbolen sichtbar, was ihn ohne Gegenprobe schwer auffindbar macht.
+- **Fix:** `marktname()` schneidet den Boersenteil ab (" - CHICAGO MERCANTILE EXCHANGE") und
+  vergleicht **exakt**; sowohl beim Laden als auch in `reihe()`. Selbstcheck ergaenzt: ein
+  gemischter Roh-Datensatz (E-Mini + Micro, gleiches Datum) muss genau **eine** ES-Zeile mit
+  -142.440/+11.280 ergeben, und "NASDAQ-100 Consolidated" darf nicht als "NASDAQ MINI" durchgehen.
+- **Wirkung auf die Aussage -- vollstaendige Umkehr fuer ES:** vorher "4 von 5 Horizonten
+  bullish", jetzt **alle fuenf bearish**. Der korrigierte Wert -142.440 ist zugleich das Tief
+  der 3M-, 6M- und 12M-Range: die Commercials sind so kurz wie seit zwoelf Monaten nicht.
+- Neuer Befund daraus: **NQ und ES stehen gegeneinander.** NQ-Commercials netto long (alle
+  Horizonte bullish, +32.421 in zwei Wochen), ES netto short (alle bearish, -46.511 im selben
+  Zeitraum). Eine Divergenz auf Positionierungsebene, analog zu [[SMT (Smart Money Divergence)]]
+  auf Preisebene. `Weekly Bias KW34 2026.md` entsprechend korrigiert -- die vorherige Aussage
+  "beide Maerkte Commercials long" war schlicht falsch.
+- **Offene These, ausdruecklich ungeprueft:** ob eine COT-Divergenz zwischen NQ und ES etwas
+  ueber die Folgewoche aussagt, ist im Vault nicht untersucht. In der Bias-Datei als
+  Beobachtungsauftrag notiert, nicht als Signal.
+- Methodische Lehre, uebertragbar: Bei Marktnamen aus externen Quellen nie mit `in` filtern.
+  Kontraktfamilien enthalten einander woertlich (Micro <-> E-Mini), und der Fehler ist still --
+  er liefert plausible Zahlen des falschen Instruments. Nur der Abgleich mit der Chart-Quelle
+  des Nutzers hat ihn aufgedeckt; die Selbstchecks liefen vorher gruen durch.
