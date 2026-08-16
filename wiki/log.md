@@ -3009,3 +3009,37 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Methodische Lehre, uebertragbar: Ein Abdeckungsregister ist eine Absichtserklaerung, kein
   Bestandsnachweis. Es muss gegen den tatsaechlichen Dateibestand gepruefen werden, sonst
   meldet die Pipeline "1s vorhanden" fuer Tage, deren Datei nie ankam oder geloescht wurde.
+
+## [2026-08-16] setup | COT-Daten im Weekly Bias (algo/cot.py)
+- Nutzerwunsch: COT in den Weekly Bias, Quelle https://github.com/NDelventhal/cot_reports,
+  Auswertung wie bei ICT -- **nur Commercials gegen Large Speculators**.
+- Neu: `algo/cot.py` (+ `cot_reports>=0.1.3` in `algo/requirements.txt`, in `selfcheck.py`
+  registriert -> jetzt 28 Checks). Haengt als `cot` an `bias_levels.py --weekly`; im Daily
+  bewusst **nicht**, der CFTC-Report erscheint nur woechentlich.
+- **Marktreihe kalibriert -- der entscheidende Schritt.** Die CFTC fuehrt NQ dreifach mit
+  deutlich verschiedenen Zahlen. Zum Report 2026-07-28: `NASDAQ MINI` -14.946,
+  `NASDAQ-100 Consolidated` -8.044, `MICRO E-MINI` +69.021. Nur die erste trifft die
+  **-14,95 K**, die `wiki/concepts/COT (Commitment of Traders) Data.md` als Wert von Jannes'
+  eigenem Indikator belegt. Ohne diesen Abgleich waere die Automatisierung still an seiner
+  Chart-Quelle vorbeigelaufen. ES analog ueber `E-MINI S&P 500`.
+- **EQ-Lesart validiert, nicht nur uebernommen.** Fuer den Wiki-Stand vom 03.08.2026
+  reproduziert `cot.py` **alle fuenf Horizonte exakt**: 3M SELL, 6M SELL, 12M BUY, 2Y BUY,
+  4Y SELL -- bei 12M-EQ -26.471 (Wiki: "rund -27 K") und 12M-Range -66.754..+13.812
+  (Wiki: "-68 K .. +15 K"). Die Praezisierung "EQ der Lookback-Range statt 0-Linie" ist damit
+  nachgerechnet statt geglaubt; der Fall ist als Regressionscheck in `demo()` fixiert.
+- Aktueller Stand (Report 2026-08-11), in `Weekly Bias KW34 2026.md` eingetragen:
+  NQ Commercials **+17.475** gegen Large Specs **-39.302**, alle fuenf Horizonte bullish
+  (einig). ES **+87.447** gegen **-38.467**, vier von fuenf bullish -- **4Y bearish**, weil
+  die 4Y-Range bis +435.558 reicht und das EQ auf +101.178 hebt. Bei ES muss der Lookback
+  deshalb genannt werden.
+- Bemerkenswert: NQ-Commercials sind in zwei Wochen um **+32.421** gedreht (-14.946 -> +17.475)
+  und haben damit jeden Horizont ins Bullische gekippt. Ein COT-Urteil aus der Vorwoche traegt
+  hier nicht mehr -- und Commercials netto **long** ist bei Index-Futures die Ausnahme, weil
+  sie dort strukturell short sind.
+- Nebenwirkung des Pakets abgefangen: `cot_reports` legt `annual.txt` im *aktuellen*
+  Arbeitsverzeichnis ab. `cot.py` wechselt dafuer in ein Temp-Verzeichnis, sonst landet die
+  Datei im Repo-Root (ist bei den ersten Handversuchen genau so passiert und wurde entfernt).
+- Methodische Lehre, uebertragbar: Bei einer externen Datenquelle ist die Auswahl der richtigen
+  **Serie** genauso fehlertraechtig wie die Rechnung darauf. Drei plausible NQ-Reihen, drei
+  verschiedene Ergebnisse -- ohne einen dokumentierten Referenzwert aus der Nutzerquelle waere
+  nicht entscheidbar gewesen, welche stimmt.

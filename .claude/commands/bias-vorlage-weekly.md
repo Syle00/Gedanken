@@ -85,21 +85,45 @@ Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoch
 
    Immer von oben nach unten lesbar. C.E. hervorheben -- es ist der meistgenutzte Bezugspunkt.
 
-5. **Wiki-Bezug.** Immer [[Weekly Range Trading Model]] und [[IPDA Data Ranges]], plus nach
-   eigenem Urteil z.B. [[Using Monthly & Weekly Ranges (Source)]] (Monatswechsel, NFP-Woche).
+5. **COT-Abschnitt** (nur im Weekly -- der CFTC-Report erscheint einmal die Woche).
+   Steht in `cot` aus Schritt 1, je Symbol NQ und ES. Auswertung nach
+   [[COT (Commitment of Traders) Data]]: **nur Commercials gegen Large Speculators**,
+   Small Specs bleiben aussen vor.
 
-6. **Einschaetzung (Claude).** Wochenrichtung + Wahrscheinlichkeit, gestuetzt auf
+   | Symbol | Stand | Commercials | Large Specs | 3M | 6M | 12M | 2Y | 4Y |
+   |---|---|---|---|---|---|---|---|---|
+
+   Regeln, die nicht verhandelbar sind:
+   - **Signal = Wert gegen das EQ der Lookback-Range, nie gegen die 0-Linie.** Bei
+     Index-Futures sind Commercials strukturell netto short; die 0-Linien-Lesart liest fast
+     immer "bearish" und sagt damit nichts. `eq`, `high` und `low` je Horizont mit ausgeben,
+     damit die Aussage nachpruefbar ist.
+   - **Immer alle Horizonte nennen.** Steht `einig: false`, widersprechen sie sich -- dann
+     ausdruecklich schreiben, welcher Lookback gemeint ist, statt ein pauschales COT-Urteil
+     zu faellen.
+   - `gegenlaeufig: true` (Commercials und Large Specs auf verschiedenen Seiten) ist der
+     eigentlich interessante Zustand -- das ist die Konstellation, auf die ICT abstellt.
+     Sind beide auf derselben Seite, das ebenfalls sagen.
+   - Bei `cot.error` oder `<symbol>.error`: `⚠️ COT-Abruf fehlgeschlagen (<error>)` eintragen
+     und weitermachen -- nie Zahlen erfinden.
+
+6. **Wiki-Bezug.** Immer [[Weekly Range Trading Model]] und [[IPDA Data Ranges]], plus
+   [[COT (Commitment of Traders) Data]] und [[Seasonal Tendency]], sowie nach eigenem Urteil
+   z.B. [[Using Monthly & Weekly Ranges (Source)]] (Monatswechsel, NFP-Woche).
+
+7. **Einschaetzung (Claude).** Wochenrichtung + Wahrscheinlichkeit, gestuetzt auf
    `algo/seasonal_tendency.json` (Wochen-/Turn-of-Month-Muster), `algo/backtest_nwog.py`
    (Bias-intakt-Quote nur 7% -- diese Einschraenkung bei jeder NWOG-Richtungsaussage nennen)
    und die Red-Folder-Events aus Schritt 2 (NFP-Woche -> `algo/backtest_nfp_week.py`).
 
-7. **Datei schreiben** nach `raw/journal/Weekly Bias KW<NN> <JAHR>.md`:
+8. **Datei schreiben** nach `raw/journal/Weekly Bias KW<NN> <JAHR>.md`:
 
    ```markdown
    # Weekly Bias KW<NN> <JAHR>
 
    ## News (Red/Orange Folder), ganze Woche
    ## Levels
+   ## COT (Commercials vs. Large Specs)
    ## Wiki-Bezug
    ## Einschaetzung (Claude)
    ## Mein Bias
@@ -107,4 +131,4 @@ Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoch
 
    Existiert die Datei schon: fragen statt ueberschreiben.
 
-8. Kurz bestaetigen: Pfad + Status von News-Abruf und Live-Daten. Kein `push.ps1`.
+9. Kurz bestaetigen: Pfad + Status von News-Abruf und Live-Daten. Kein `push.ps1`.

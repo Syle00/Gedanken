@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict]
 created: 2026-08-01
-updated: 2026-08-02
+updated: 2026-08-16
 sources: ["[[One Shot One Kill Model (Source)]]"]
 ---
 
@@ -41,6 +41,34 @@ Bearish-Trennlinie.*
 
 ![[image 220.png]]
 *Bearish-Einschätzung, da der aktuelle COT-Wert unter der 12-Monats-0-Linie liegt.*
+
+## Automatisiert seit 2026-08-16: `algo/cot.py`
+
+Die Auswertung läuft jetzt im Weekly Bias mit (`/bias-vorlage-weekly`, Abschnitt „COT"), Quelle
+ist der CFTC-Legacy-Report über das Paket [`cot_reports`](https://github.com/NDelventhal/cot_reports).
+
+**Marktreihe zählt.** Die CFTC führt NQ dreifach, mit deutlich verschiedenen Zahlen. Maßgeblich
+ist **`NASDAQ MINI`** — das ist die Reihe, die Jannes' Indikator abbildet:
+
+| CFTC-Reihe | Commercials net (Report 2026-07-28) |
+|---|---|
+| **NASDAQ MINI** | **−14.946** ← entspricht dem oben belegten Indikatorwert −14,95 K |
+| NASDAQ-100 Consolidated | −8.044 |
+| MICRO E-MINI NASDAQ-100 | +69.021 |
+
+Für ES gilt analog `E-MINI S&P 500`. Wer die falsche Reihe nimmt, rechnet still an der
+Chart-Quelle vorbei.
+
+**Validierung der EQ-Lesart.** Für den oben dokumentierten Stand (03.08.2026, Report 2026-07-28)
+reproduziert `algo/cot.py` alle fünf Horizonte des Indikators exakt: 3M SELL, 6M SELL,
+**12M BUY**, 2Y BUY, 4Y SELL — bei einem 12M-EQ von −26.471 (Seite oben: „rund −27 K") und einer
+12M-Range von −66.754 bis +13.812 (Seite oben: „−68 K … +15 K"). Damit ist die Präzisierung
+„EQ statt 0-Linie" nicht nur begründet, sondern nachgerechnet. Der Fall ist als Regressionscheck
+in `cot.py::demo()` festgehalten.
+
+Ausgewertet werden nach ICT-Lesart **nur Commercials gegen Large Speculators** (Non-Commercials);
+Small Specs bleiben außen vor. `gegenlaeufig` markiert den interessanten Zustand, in dem beide
+Gruppen auf verschiedenen Seiten stehen.
 
 ## Verwandt
 

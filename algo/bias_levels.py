@@ -446,9 +446,13 @@ def compute(target_day: date, weekly: bool) -> dict:
     if weekly:
         mon = next_monday(target_day)
         iso = mon.isocalendar()
+        # COT nur im Weekly: der CFTC-Report erscheint woechentlich (Stand Dienstag,
+        # Veroeffentlichung Freitag) -- fuer eine Tagesvorlage gibt es nichts Neues.
+        from cot import cot as _cot
         return {"target_week": {"monday": mon.isoformat(), "kw": iso[1], "year": iso[0]},
                 "letzte_woche": week_range(rows, target_day),
                 "gaps": gaps_auto(heute=target_day),
+                "cot": _cot(["NQ", "ES"], stichtag=target_day),
                 "news": news(mon, weekly=True)}
     return {"day": target_day.isoformat(),
             "weekday": target_day.strftime("%A"),

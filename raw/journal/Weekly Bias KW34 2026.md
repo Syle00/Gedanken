@@ -114,10 +114,56 @@ Alle vier gefüllt — die Woche hat jeden Tages-Gap wieder eingesammelt.
 Der Schlusskurs liegt bei **30154.00**, also im oberen Drittel der KW33-Range. Das Wochen-High
 (30283.00) liegt nur ~129 Punkte darüber und ist der nächstliegende Liquiditätspunkt nach oben.
 
+## COT (Commercials vs. Large Specs)
+
+Stand **11.08.2026** (CFTC-Legacy-Report, Reihen „NASDAQ MINI" bzw. „E-MINI S&P 500").
+Ausgewertet nach [[COT (Commitment of Traders) Data]]: nur **Commercials gegen Large
+Speculators**, Signal gegen das **EQ der Lookback-Range** — nicht gegen die 0-Linie.
+
+| Symbol | Commercials | Large Specs | Lage |
+|---|---|---|---|
+| **NQ** | **+17.475** | **−39.302** | gegenläufig |
+| **ES** | **+87.447** | **−38.467** | gegenläufig |
+
+**Beide Märkte zeigen dieselbe Konstellation: Commercials netto long, Large Specs netto short.**
+Das ist die Aufstellung, auf die ICT abstellt — und für Index-Futures ungewöhnlich, weil
+Commercials dort strukturell netto short sind.
+
+**NQ — alle Horizonte bullish (einig)**
+
+| Horizont | Range (Low … High) | EQ | Signal |
+|---|---|---|---|
+| 3M | −14.946 … +17.475 | +1.264 | 🟢 bullish |
+| 6M | −31.456 … +17.475 | −6.990 | 🟢 bullish |
+| **12M** | −66.754 … +17.475 | −24.640 | 🟢 **bullish** |
+| 2Y | −66.754 … +17.475 | −24.640 | 🟢 bullish |
+| 4Y | −66.754 … +43.337 | −11.708 | 🟢 bullish |
+
+**ES — vier von fünf bullish, 4Y widerspricht**
+
+| Horizont | Range (Low … High) | EQ | Signal |
+|---|---|---|---|
+| 3M | −142.440 … +110.074 | −16.183 | 🟢 bullish |
+| 6M | −142.440 … +110.074 | −16.183 | 🟢 bullish |
+| 12M | −142.440 … +134.019 | −4.210 | 🟢 bullish |
+| 2Y | −233.202 … +134.019 | −49.592 | 🟢 bullish |
+| **4Y** | −233.202 … +435.558 | +101.178 | 🔴 **bearish** |
+
+> Bei ES sind sich die Horizonte **nicht einig** — die 4Y-Range reicht bis +435.558 und hebt das
+> EQ auf +101.178, über den aktuellen +87.447. Jede ES-COT-Aussage muss deshalb den Lookback
+> nennen. Bei NQ stellt sich die Frage nicht, dort zeigen alle fünf in dieselbe Richtung.
+
+**Wende gegenüber Anfang August.** Am Report vom 28.07. standen die NQ-Commercials noch bei
+−14.946 (3M/6M/4Y bearish, nur 12M/2Y bullish). In zwei Wochen sind sie um **+32.421** auf
++17.475 gedreht und haben damit jeden Horizont ins Bullische gekippt. Das ist die deutlichste
+Bewegung im Datensatz — und der Grund, warum ein COT-Urteil aus der Vorwoche hier nicht mehr trägt.
+
 ## Wiki-Bezug
 
 - [[Weekly Range Trading Model]] — Wochenstruktur, welcher Tag High/Low setzt
 - [[IPDA Data Ranges]] — übergeordneter Datenbereich, in dem KW34 liegt
+- [[COT (Commitment of Traders) Data]] — EQ-Lesart der 12-Monats-Range, siehe COT-Abschnitt
+- [[Seasonal Tendency]] — im Verbund mit COT zur Bias-Bestätigung
 - [[New Day Opening Gap (NDOG)]] — für die beiden offenen Gaps oben
 - [[Two Stage News Delivery (FOMC & NFP)]] — einschlägig für Mittwoch 14:00
 - [[Using Monthly & Weekly Ranges (Source)]] — KW34 liegt in der Monatsmitte
@@ -152,8 +198,19 @@ nicht KW34-Ziele.
 
 **Kein Turn-of-Month.** KW34 liegt in der Monatsmitte, die Turn-of-Month-Kennzahlen greifen nicht.
 
-**Was diese Einschätzung nicht leistet:** Sie nennt keine Wochenrichtung. Die Newslage ist zu
-dünn, die Saisonalität widersprüchlich und die offenen Gaps zu weit entfernt, um daraus eine
-belastbare Richtung abzuleiten. Das Verwertbare sind die Level, nicht der Bias.
+**COT ist das einzige klare Signal dieser Woche.** Anders als Newslage und Saisonalität zeigt
+die Positionierung eindeutig: NQ-Commercials netto long über **alle fünf Horizonte**, Large
+Specs gegenläufig short — und das nach einer Drehung um +32.421 in zwei Wochen. Nach der
+Lesart aus [[COT (Commitment of Traders) Data]] ist das ein bullishes Bias-Signal.
+
+Einschränkungen, die dazugehören: COT ist ein **Wochenbild mit Verzögerung** (Stand Dienstag,
+veröffentlicht Freitag) und taugt zur Bias-Bestätigung, nicht zum Timing. Bei ES widerspricht
+der 4Y-Horizont. Und die Kombination, auf die ICT eigentlich abstellt — COT plus
+[[Seasonal Tendency]] plus [[SMT (Smart Money Divergence)|SMT]] — ist hier nur zur Hälfte
+gegeben, weil die Saisonalität (dritte Monatswoche, 50,3 %) neutral steht.
+
+**Was diese Einschätzung nicht leistet:** Sie nennt kein Wochenziel. Die Newslage ist dünn, die
+Saisonalität neutral und die offenen Gaps liegen zu weit unten. Was bleibt: ein bullishes
+COT-Bild gegen eine neutrale Saisonalität, plus die Level oben als Bezugspunkte.
 
 ## Mein Bias

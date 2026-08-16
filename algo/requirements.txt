@@ -9,3 +9,4 @@ backtesting>=0.6
 scikit-learn>=1.4
 scipy>=1.10          # masters.py: t-/Beta-Verteilung, BCa-Bootstrap (alternative= ab 1.10)
 pyarrow>=15.0        # Parquet-Backend fuer den histdata-Forex-Cache (algo/build_parquet.py)
+cot_reports>=0.1.3   # CFTC Commitment-of-Traders-Reports (algo/cot.py), Repo NDelventhal/cot_reports
