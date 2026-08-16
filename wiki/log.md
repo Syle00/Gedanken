@@ -3218,3 +3218,25 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Bestaetigt auf Nutzerwunsch: **COT bleibt aus dem Daily Bias** (nur Weekly, weil der
   CFTC-Report woechentlich erscheint) -- war bereits so implementiert. Der News-Block laeuft
   im Daily im **selben Format** wie im Weekly, nur auf den einen Zieltag reduziert.
+
+## [2026-08-16] lint | Korrektur: Back-Adjustment-Verdacht bei den Juni-Leveln geschwaecht
+- Der Nutzer praezisierte erneut: 30.599,75 liegt am **30.06.** (nicht 29.06.), 30.975,50 am
+  16.06., ATH am 03.06. Nachgerechnet:
+  - **30.599,75 am 30.06. ist im Bestand exakt vorhanden** (1d-High dieses Tages).
+    Die erste Nennung war schlicht einen Tag daneben.
+  - 30.975,50: kein Treffer, naechster Wert 30.968,00 am 22.06. (7,5 Punkte).
+  - 31.100,00: kein Treffer, hoechster Punkt Mai-Juli bleibt 30.968,00.
+- **Damit ist der gestern notierte Back-Adjustment-Verdacht deutlich geschwaecht**: ein B-ADJ
+  haette *alle* historischen Level systematisch verschoben, nicht eines exakt getroffen. Der
+  vorherige Log-Eintrag bleibt als Untersuchungsschritt stehen, die Schlussfolgerung darin ist
+  aber nicht mehr tragfaehig -- die Abweichungen sind offenbar teils Datums-, teils
+  Ablesefragen, kein systematischer Reihen-Offset.
+- **Neuer, praktisch wichtiger Fund:** Der PDH fuer Montag ist **30.283,00** (High Fr 14.08.
+  09:05 NY, aus den Intraday-Daten). Die **1d-Reihe enthaelt den 14.08. ueberhaupt nicht** --
+  ihr letzter Eintrag ist der 13.08. mit 30.272,75. Wer den PDH aus der Tagesreihe zieht,
+  bekommt einen 10,25 Punkte zu niedrigen Wert **und** den falschen Tag. Betrifft jede Stelle,
+  die `load_rows()` fuer "gestriges High" nutzt -- `yesterday_range()` in `bias_levels.py`
+  eingeschlossen. Backlog.
+- Nutzer-Ergaenzungen in `Weekly Bias KW34 2026.md` unter "Mein Bias" eingetragen (Target PDH
+  30.283,00, SIBI 23.06., Buyside-Pool 30.599,75) plus eine klar abgesetzte Gegenpruefung --
+  sein Text bleibt unveraendert, meine Anmerkungen stehen darunter als eigener Block.

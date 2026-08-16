@@ -265,3 +265,24 @@ Im 1H Chart sind sind es bessere Sellside Pools 12.08 18:00 uhr bei 29,780,50 un
 Sollte der Longterm Bias weiterhin Bullish sein sehe ich ungern einen close unterhalb. Allgemein wenn wir weiter Bullish sind muss Price mir das zeigen aber da wir Montag keine News haben und keine NFP am Freitag ist wird die Priceaction wohl etwas schwierig.
 S&P Chart sieht ähnlich aus. Ich werde schauen was der Montag bringt
 Aufgrund der wenigen News erwarte ich das wir keine große Priceaction iérhalten es sei denn wir bekommen Geopolitische News oder andere unvorhersebare sachen. Am Mittwoch und DOnnerstag gehe davon aus das wir dort die beste Priceaction erhalten.
+
+### Targets und relevante PD Arrays
+
+- **Target: PDH 30.283,00** — möglich.
+- **Relevantes PD Array: SIBI vom 23.06.**
+- **Höchster Buyside Pool, der für Montag und Dienstag gerade erkennbar ist: 30.599,75 (30.06.)**
+
+---
+
+*Gegenprüfung (Claude, 16.08.2026):*
+
+- **PDH 30.283,00 bestätigt.** Das ist das High vom Fr 14.08. (09:05 NY) aus den
+  NQ-Intraday-Daten. Achtung: Die 1d-Reihe im Bestand enthält den 14.08. **gar nicht**, ihr
+  letzter Tag ist der 13.08. mit High 30.272,75 — wer den PDH aus der Tagesreihe zieht, bekommt
+  hier den falschen Wert. Dein Chart-Wert ist der richtige.
+- **30.599,75 am 30.06. exakt bestätigt** (1d-High dieses Tages). Deine Datumskorrektur von
+  29.06. auf 30.06. stimmt; der 29.06. hatte 30.069,50.
+- **SIBI 23.06.:** Tagesrange H 30.701,25 / L 29.577,25 / C 29.666,00 — für die genaue
+  Gap-Lage fehlen mir Intraday-Daten aus dem Juni, das kann ich nicht nachrechnen.
+- Offen: Deine Werte **30.975,50** und **ATH 31.100,00** finden sich nicht im Bestand
+  (höchster Punkt Mai–Juli: 30.968,00 am 22.06., auch per yfinance bestätigt).

@@ -229,6 +229,7 @@
 <li><a href="#2026-08-16-revert-schriftfarbe-in-news-zeilen-wieder-entfernt">[2026-08-16] revert | Schriftfarbe in News-Zeilen wieder entfernt</a></li>
 <li><a href="#2026-08-16-backtest-zwei-thesen-aus-jannes-kw34-bias-geprueft-beide-bestaetigt">[2026-08-16] backtest | Zwei Thesen aus Jannes' KW34-Bias geprueft -- beide bestaetigt</a></li>
 <li><a href="#2026-08-16-lint-juni-level-des-nutzers-gegen-zweite-quelle-geprueft-verdacht-back-adjustment">[2026-08-16] lint | Juni-Level des Nutzers gegen zweite Quelle geprueft -- Verdacht Back-Adjustment</a></li>
+<li><a href="#2026-08-16-lint-korrektur-back-adjustment-verdacht-bei-den-juni-leveln-geschwaecht">[2026-08-16] lint | Korrektur: Back-Adjustment-Verdacht bei den Juni-Leveln geschwaecht</a></li>
 </ul>
 </div>
 </details>
@@ -3656,6 +3657,29 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Bestaetigt auf Nutzerwunsch: <strong>COT bleibt aus dem Daily Bias</strong> (nur Weekly, weil der
   CFTC-Report woechentlich erscheint) -- war bereits so implementiert. Der News-Block laeuft
   im Daily im <strong>selben Format</strong> wie im Weekly, nur auf den einen Zieltag reduziert.</li>
+</ul>
+<h2 id="2026-08-16-lint-korrektur-back-adjustment-verdacht-bei-den-juni-leveln-geschwaecht">[2026-08-16] lint | Korrektur: Back-Adjustment-Verdacht bei den Juni-Leveln geschwaecht</h2>
+<ul>
+<li>Der Nutzer praezisierte erneut: 30.599,75 liegt am <strong>30.06.</strong> (nicht 29.06.), 30.975,50 am
+  16.06., ATH am 03.06. Nachgerechnet:</li>
+<li><strong>30.599,75 am 30.06. ist im Bestand exakt vorhanden</strong> (1d-High dieses Tages).
+    Die erste Nennung war schlicht einen Tag daneben.</li>
+<li>30.975,50: kein Treffer, naechster Wert 30.968,00 am 22.06. (7,5 Punkte).</li>
+<li>31.100,00: kein Treffer, hoechster Punkt Mai-Juli bleibt 30.968,00.</li>
+<li><strong>Damit ist der gestern notierte Back-Adjustment-Verdacht deutlich geschwaecht</strong>: ein B-ADJ
+  haette <em>alle</em> historischen Level systematisch verschoben, nicht eines exakt getroffen. Der
+  vorherige Log-Eintrag bleibt als Untersuchungsschritt stehen, die Schlussfolgerung darin ist
+  aber nicht mehr tragfaehig -- die Abweichungen sind offenbar teils Datums-, teils
+  Ablesefragen, kein systematischer Reihen-Offset.</li>
+<li><strong>Neuer, praktisch wichtiger Fund:</strong> Der PDH fuer Montag ist <strong>30.283,00</strong> (High Fr 14.08.
+  09:05 NY, aus den Intraday-Daten). Die <strong>1d-Reihe enthaelt den 14.08. ueberhaupt nicht</strong> --
+  ihr letzter Eintrag ist der 13.08. mit 30.272,75. Wer den PDH aus der Tagesreihe zieht,
+  bekommt einen 10,25 Punkte zu niedrigen Wert <strong>und</strong> den falschen Tag. Betrifft jede Stelle,
+  die <code>load_rows()</code> fuer "gestriges High" nutzt -- <code>yesterday_range()</code> in <code>bias_levels.py</code>
+  eingeschlossen. Backlog.</li>
+<li>Nutzer-Ergaenzungen in <code>Weekly Bias KW34 2026.md</code> unter "Mein Bias" eingetragen (Target PDH
+  30.283,00, SIBI 23.06., Buyside-Pool 30.599,75) plus eine klar abgesetzte Gegenpruefung --
+  sein Text bleibt unveraendert, meine Anmerkungen stehen darunter als eigener Block.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
