@@ -125,6 +125,28 @@ def sortiere(trocken: bool = False) -> dict:
             beste.items(), key=lambda kv: (kv[0][2], kv[0][0], kv[0][1])):
         ziel = zielpfad(sym, tf, tag)
         if ziel.exists():
+            # Bestandsdatei nie ueberschreiben (CLAUDE.md: raw/ ist inhaltlich unveraenderlich).
+            # Ist der Export aber deutlich vollstaendiger, wird er als "(2)"-Fassung daneben
+            # gelegt -- das etablierte Muster fuer einen zweiten Export desselben Tages.
+            # Anlass: NQ 2026-08-12 lag mit 1011 Kerzen ab 00:09 im Bestand, der Export hatte
+            # 1380 ab 18:00; die fehlenden 7 h verschluckten den NDOG vom 11.08.
+            try:
+                vorhandene_zeilen = sum(1 for _ in ziel.open(encoding="utf-8-sig")) - 1
+            except Exception:
+                vorhandene_zeilen = -1
+            if len(rows) > vorhandene_zeilen > 0:
+                zweit = ziel.with_name(f"{ziel.stem} (2){ziel.suffix}")
+                if zweit.exists():
+                    vorhanden.append(f"{zweit.name} (schon da)")
+                    continue
+                if not trocken:
+                    with zweit.open("w", newline="", encoding="utf-8") as fh:
+                        w = csv.DictWriter(fh, fieldnames=felder)
+                        w.writeheader()
+                        w.writerows(rows)
+                geschrieben.append(f"{quelle.name} -> {zweit.relative_to(ROOT)} "
+                                   f"({len(rows)} statt {vorhandene_zeilen} Zeilen)")
+                continue
             vorhanden.append(f"{ziel.name} ({len(rows)} Zeilen, nicht ueberschrieben)")
             continue
         # Fuer 1s liegt im Bestand die IBKR-Parquet-Datei (voller Handelstag, 82800 Bars).

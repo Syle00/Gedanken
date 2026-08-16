@@ -162,9 +162,14 @@ def _gap_bars(symbol: str, von: date, bis: date) -> tuple[list, dict[date, str]]
             bars.extend(marktdaten._load_1s_parquet(p1s[0]))
             quelle[tag] = "1s"
             continue
-        p1m = sorted(f for f in day_dir.glob(f"{symbol} * 1m.csv") if "RTH" not in f.name)
+        # Liegen mehrere 1m-Fassungen eines Tages vor ("... 1m.csv" und "... 1m (2).csv"),
+        # gewinnt die **zeilenreichste**, nicht die alphabetisch erste: die "(2)"-Fassung ist
+        # der nachgelieferte, vollstaendigere Export. Am 12.08.2026 fehlten der Bestandsdatei
+        # 7 h Session (1011 statt 1380 Kerzen) -- damit verschwand ein ganzer NDOG.
+        p1m = [f for f in day_dir.glob(f"{symbol} * 1m*.csv") if "RTH" not in f.name]
         if p1m:
-            bars.extend(load(p1m[0]))
+            beste = max(p1m, key=lambda f: sum(1 for _ in f.open(encoding="utf-8-sig")))
+            bars.extend(load(beste))
             quelle[tag] = "1m"
     bars.sort(key=lambda b: b.t)
     return bars, quelle
