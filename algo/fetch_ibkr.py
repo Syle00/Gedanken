@@ -5,8 +5,13 @@ plus volume/contract). Siehe docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbi
 
 Drei Betriebsarten:
     python algo/fetch_ibkr.py --verify [--symbol NQ]      # ein 30-Min-Fenster, schreibt nichts
+    python algo/fetch_ibkr.py --backfill                  # gesamte verfuegbare 1s-Historie
     python algo/fetch_ibkr.py --backfill 2026-02-17 2026-08-14
     python algo/fetch_ibkr.py                             # Nachlad: letzter Registereintrag bis gestern
+
+`--backfill` ohne Datumsangabe holt alles, was IBKR fuer 1s-Bars vorhaelt (~6 Monate), und
+kann beliebig oft neu gestartet werden: bereits vorhandene Tagesdateien werden ohne einen
+einzigen Request uebersprungen, der Lauf macht also von selbst dort weiter, wo er aufhoerte.
 
 Verbindet sich ausschliesslich readonly gegen Port 4002 (Paper-Gateway) -- dieser Datenpfad
 hat konstruktionsbedingt keinen Weg zu echtem Kapital (Spec Design SS9).
@@ -37,6 +42,11 @@ REGISTER = DATA_DIR / "1s-abdeckung.csv"
 REGISTER_HEADER = ["symbol", "von", "bis", "kontrakt", "kerzen", "geholt_am"]
 SYMBOLS = ["NQ", "ES"]
 WINDOW_SECONDS = 1800
+# IBKR haelt 1s-Bars rund 6 Monate vor (Design SS2/E1). Bewusst 183 statt "6 Monate"
+# gerechnet: faellt der Startzeitpunkt einen Tag zu weit zurueck, meldet IBKR fuer die
+# betroffenen Tage sauber "no data" und der Lauf geht weiter -- ein zu spaeter Start
+# wuerde dagegen stillschweigend Historie liegenlassen.
+HISTORIE_TAGE = 183
 GATEWAY_HOST, GATEWAY_PORT = "127.0.0.1", 4002
 # Zwei-Rechner-Betrieb: IBC liegt je nach Rechner woanders (C:\IBC bzw. %USERPROFILE%\IBC).
 # Darum nicht hart verdrahten, sondern die bekannten Orte durchprobieren -- IBC_GATEWAY_BAT
@@ -305,12 +315,18 @@ def register_append(rows: list[dict], path: Path = REGISTER) -> None:
         fh.flush()
 
 
+def _tagesdatei(symbol: str, day: date) -> Path:
+    """Zielpfad der Tagesdatei. Eigene Funktion, weil dieser Pfad seit dem Resume-Umbau an
+    zwei Stellen gebraucht wird: beim Schreiben und beim Ueberspringen bereits fertiger Tage."""
+    return (DATA_DIR / f"{day:%Y}" / f"{day:%m}" / f"{day:%d.%m.%Y}"
+            / f"{symbol} {day.isoformat()} 1s.parquet")
+
+
 def write_day_1s(symbol: str, day: date, rows: pd.DataFrame, contract: str) -> Path | None:
     """Schreibt eine Tagesdatei als Parquet, niemals ueberschreibend (wie
     fetch_yfinance.write_day()). Fuehrt vorher das Nulltoleranz-Gate aus -- wirft es
     OHLCDefekt, entsteht keine Datei (Aufrufer faengt das ab, siehe fetch_symbol_day)."""
-    dest = (DATA_DIR / f"{day:%Y}" / f"{day:%m}" / f"{day:%d.%m.%Y}"
-            / f"{symbol} {day.isoformat()} 1s.parquet")
+    dest = _tagesdatei(symbol, day)
     if dest.exists():
         return None
     for hinweis in pruefe_kerzen(
@@ -322,6 +338,30 @@ def write_day_1s(symbol: str, day: date, rows: pd.DataFrame, contract: str) -> P
     out["contract"] = contract
     out.to_parquet(dest, index=False)
     return dest
+
+
+def _echter_fehler(code: int, text: str) -> bool:
+    """Trennt echte Stoerungen von IBKR-Meldungen, die ein leeres Fenster *erklaeren*.
+
+    Notwendig, weil `reqHistoricalData` bei jedem Fehlschlag ganz normal eine leere Liste
+    zurueckgibt -- ob "kein Handel" oder "Request abgewiesen" steht ausschliesslich in
+    `errorEvent`. Zwei Faelle sind kein Fehlschlag:
+
+    - **Codes 2100-2199**: IBKRs System-/Verbindungsmeldungen ("Market data farm connection
+      is OK", 2104/2106/2158). Die kommen im Normalbetrieb staendig und haben mit dem
+      Request nichts zu tun.
+    - **162 mit "no data" im Text**: IBKRs Antwort fuer ein Fenster ohne jeden Handel --
+      Feiertag oder Early Close (z.B. Presidents' Day 2026-02-16, CME schliesst 13:00 NY,
+      die letzten 8 Tagesfenster sind leer). Ausgerechnet dieselbe Nummer 162 traegt aber
+      auch die Pacing-Violation, deshalb ueber den *Text* unterscheiden statt ueber den Code:
+      eine Pacing-Violation als "Markt zu" zu verbuchen wuerde eine Datenluecke als
+      geschlossen ausweisen.
+    """
+    if 2100 <= code < 2200:
+        return False
+    if code == 162 and "no data" in text.lower():
+        return False
+    return True
 
 
 def fetch_window(ib, contract: str, symbol: str, end_utc: datetime, pacing: PacingLimiter,
@@ -362,6 +402,7 @@ def fetch_window(ib, contract: str, symbol: str, end_utc: datetime, pacing: Paci
         finally:
             ib.errorEvent -= _on_error
 
+        fehler = [(c, t) for c, t in fehler if _echter_fehler(c, t)]
         if bars or not fehler:
             break
         print(f"  ! {symbol} Fenster bis {end_utc}: Versuch {versuch}/3 fehlgeschlagen ({fehler})")
@@ -378,38 +419,61 @@ def fetch_window(ib, contract: str, symbol: str, end_utc: datetime, pacing: Paci
 
 
 def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
-                      register_path: Path = REGISTER) -> Path | None:
-    """Ein Handelstag, ein Symbol: bereits abgedeckte Fenster ueberspringen, Rest holen,
-    zusammensetzen, Gate, schreiben, Register anhaengen. Gibt den geschriebenen Pfad zurueck
-    (None, wenn die Datei schon existierte oder gar kein Fenster geholt werden konnte)."""
+                      register_path: Path = REGISTER, sleep=time.sleep) -> Path | None:
+    """Ein Handelstag, ein Symbol: alle Fenster holen, zusammensetzen, Gate, schreiben,
+    Register anhaengen. Gibt den geschriebenen Pfad zurueck (None, wenn die Datei schon
+    existierte oder der Tag unvollstaendig blieb).
+
+    **Resume-Autoritaet ist die Tagesdatei, nicht das Register.** Existiert sie, wird der Tag
+    ohne einen einzigen Request uebersprungen -- damit macht jeder Neustart von selbst dort
+    weiter, wo der letzte Lauf aufhoerte, und ein Wiederholungslauf ueber einen fertigen
+    Zeitraum kostet nichts. Frueher wurden pro Tag trotzdem alle 46 Fenster angefragt und das
+    Ergebnis dann von write_day_1s() verworfen.
+
+    **Alles-oder-nichts je Tag.** Schlaegt auch nur ein Fenster fehl, entsteht weder Datei
+    noch Registerzeile; der ganze Tag wird beim naechsten Lauf neu geholt. Grund ist ein
+    realer Datenverlust: frueher schrieb diese Funktion den Tag aus den Fenstern, die
+    ankamen, und weil write_day_1s() nie ueberschreibt, war das Loch danach dauerhaft
+    eingefroren -- `ES 2026-02-19` endete so bei 11:29 NY statt 17:00 (35 von 46 Fenstern),
+    sah aber wie ein fertiger Handelstag aus. Verschaerfend kam der frueher hier stehende
+    Register-Filter dazu: er uebersprang genau die Fenster, deren Daten nur im Speicher des
+    abgebrochenen Laufs existierten, sodass ein zweiter Lauf das Loch nicht mehr fuellen
+    konnte, sondern zementierte. Der Preis der neuen Regel sind bis zu 46 wiederholte
+    Requests (~70 s) nach einem Abbruch mitten im Tag -- gegen einen 34-Stunden-Backfill
+    vernachlaessigbar, gegen eine unsichtbare Datenluecke ohnehin.
+
+    Ein Fenster ohne Handel (Feiertag, Early Close) ist *kein* Fehlschlag, siehe
+    _echter_fehler() -- sonst kaeme ein verkuerzter Handelstag wie Presidents' Day nie
+    zustande."""
+    dest_pfad = _tagesdatei(symbol, day)
+    if dest_pfad.exists():
+        print(f"  = {symbol} {day}: Tagesdatei vorhanden, uebersprungen (0 Requests)", flush=True)
+        return None
     contract = front_month(day, symbol)
-    vorhanden = {(v, b) for s, v, b in register_load(register_path) if s == symbol}
     alle_fenster = day_windows(day)
-    frames, neue_register_zeilen = [], []
+    frames, neue_register_zeilen, fehlgeschlagen = [], [], 0
     for i, (start_utc, end_utc) in enumerate(alle_fenster, start=1):
-        key = (int(start_utc.timestamp()), int(end_utc.timestamp()))
-        if key in vorhanden:
-            print(f"    {_balken(i, len(alle_fenster))} {i}/{len(alle_fenster)} {symbol} {day} "
-                  f"{end_utc:%H:%M} UTC: schon vorhanden, uebersprungen", flush=True)
-            continue
-        df = fetch_window(ib, contract, symbol, end_utc, pacing)
+        df = fetch_window(ib, contract, symbol, end_utc, pacing, sleep=sleep)
         if df is None:
-            # Fehlgeschlagen (z.B. Pacing-Violation nach 3 Versuchen) -- KEINE Registerzeile,
-            # sonst gilt das Fenster faelschlich als "geprueft, kein Trade" statt "offen"
-            # (Realfall 2026-08-15, siehe fetch_window()-Docstring).
+            fehlgeschlagen += 1
             print(f"    {_balken(i, len(alle_fenster))} {i}/{len(alle_fenster)} {symbol} {day} "
-                  f"{end_utc:%H:%M} UTC: fehlgeschlagen, wird spaeter erneut versucht", flush=True)
+                  f"{end_utc:%H:%M} UTC: fehlgeschlagen", flush=True)
             continue
         print(f"    {_balken(i, len(alle_fenster))} {i}/{len(alle_fenster)} {symbol} {day} "
               f"{end_utc:%H:%M} UTC: {len(df)} Kerzen geholt", flush=True)
         if not df.empty:
             frames.append(df)
         neue_register_zeilen.append({
-            "symbol": symbol, "von": key[0], "bis": key[1], "kontrakt": contract,
-            "kerzen": len(df), "geholt_am": int(time.time())})
+            "symbol": symbol, "von": int(start_utc.timestamp()), "bis": int(end_utc.timestamp()),
+            "kontrakt": contract, "kerzen": len(df), "geholt_am": int(time.time())})
+    if fehlgeschlagen:
+        print(f"  ! {symbol} {day}: {fehlgeschlagen}/{len(alle_fenster)} Fenster fehlgeschlagen "
+              f"-- keine Datei, keine Registerzeilen, der ganze Tag wird beim naechsten Lauf "
+              f"erneut geholt", flush=True)
+        return None
     if not frames:
-        if neue_register_zeilen:
-            register_append(neue_register_zeilen, register_path)
+        print(f"  = {symbol} {day}: alle Fenster leer (kein Handelstag?), nichts geschrieben",
+              flush=True)
         return None
     rows = pd.concat(frames).sort_values("time").drop_duplicates("time", keep="first")
     try:
@@ -450,11 +514,34 @@ def _letzter_registrierter_tag(symbol: str, register_path: Path = REGISTER) -> d
     return max(tage) if tage else None
 
 
+def _backfill_zeitraum(argumente: list[str], heute: date | None = None) -> tuple[date, date]:
+    """Zeitraum fuer --backfill. Leere Liste = gesamte verfuegbare Historie (HISTORIE_TAGE
+    zurueck bis zum letzten Handelstag), sonst die beiden angegebenen ISO-Daten.
+
+    Der Endtag ist bewusst der letzte *Handelstag*, nicht schlicht gestern: an einem Sonntag
+    wuerde `gestern` sonst auf Samstag fallen, `_ist_handelstag()` filtert ihn wieder heraus,
+    und der Lauf endete beim Freitag -- was er auch soll, aber die gemeldete Zeitraumgrenze
+    haette gelogen."""
+    heute = heute or date.today()
+    if not argumente:
+        bis = _letzter_handelstag_bis(heute - timedelta(days=1))
+        return bis - timedelta(days=HISTORIE_TAGE), bis
+    if len(argumente) != 2:
+        raise ValueError(f"--backfill braucht entweder kein Argument (gesamte Historie) "
+                         f"oder genau zwei (VON BIS), bekommen: {len(argumente)}")
+    von, bis = date.fromisoformat(argumente[0]), date.fromisoformat(argumente[1])
+    if von > bis:
+        raise ValueError(f"--backfill: VON ({von}) liegt nach BIS ({bis})")
+    return von, bis
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                   formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--verify", action="store_true")
-    ap.add_argument("--backfill", nargs=2, metavar=("VON", "BIS"))
+    ap.add_argument("--backfill", nargs="*", metavar=("VON", "BIS"),
+                    help="ohne Angabe: gesamte verfuegbare 1s-Historie "
+                         f"(letzte {HISTORIE_TAGE} Tage bis gestern); sonst VON BIS")
     ap.add_argument("--symbol", help="Komma-Liste, z.B. NQ oder NQ,ES (Default: beide)")
     ap.add_argument("--kein-fenster", dest="kein_fenster", action="store_true",
                     help="kein zweites Fortschrittsfenster oeffnen (fuer unbeaufsichtigte "
@@ -464,6 +551,14 @@ def main(argv=None) -> int:
     unbekannt = [s for s in symbols if s not in SYMBOLS]
     if unbekannt:
         ap.error(f"unbekannte Symbole: {', '.join(unbekannt)} -- bekannt: {', '.join(SYMBOLS)}")
+    # Bewusst vor Fortschrittsfenster und Gateway-Start: ein Tippfehler im Datum soll nicht
+    # erst nach dem (bis zu dreiminuetigen) Gateway-Cold-Start auffliegen.
+    zeitraum = None
+    if a.backfill is not None:
+        try:
+            zeitraum = _backfill_zeitraum(a.backfill)
+        except ValueError as exc:
+            ap.error(str(exc))
 
     if not a.kein_fenster:
         _fortschrittsfenster_oeffnen()
@@ -486,11 +581,14 @@ def main(argv=None) -> int:
                 df = fetch_window(ib, contract, symbol, end_utc, pacing)
                 print(f"{symbol}: Verify-Fenster {len(df)} Kerzen geholt "
                       f"(Kontrakt {contract}, Tag {day}), nichts geschrieben")
-        elif a.backfill:
-            von, bis = date.fromisoformat(a.backfill[0]), date.fromisoformat(a.backfill[1])
+        elif zeitraum is not None:
+            von, bis = zeitraum
             handelstage = [von + timedelta(days=i) for i in range((bis - von).days + 1)
                            if _ist_handelstag(von + timedelta(days=i))]
             gesamt = len(handelstage) * len(symbols)
+            print(f"Backfill {von} bis {bis}: {len(handelstage)} Handelstage x "
+                  f"{len(symbols)} Symbol(e) = {gesamt} Tagesdateien. Bereits vorhandene "
+                  f"werden ohne Request uebersprungen.", flush=True)
             erledigt = 0
             for tag in handelstage:
                 for symbol in symbols:
@@ -621,8 +719,43 @@ def _demo() -> None:
         fehlend = alle_fenster - {(v, b) for _, v, b in vorhanden}
         assert len(fehlend) == 4, "nur die 4 nicht geholten Fenster duerfen fehlend sein"
 
-    # Fetch-Orchestrierung ohne Netz: Stub-IB liefert kanonische Bars, register_load()
-    # muss bereits geholte Fenster ueberspringen (kein zweiter reqHistoricalData-Aufruf).
+    # Backfill-Zeitraum: ohne Argumente die gesamte Historie, mit zweien genau die Angabe,
+    # alles andere ein Fehler. Feste "heute"-Vorgabe, damit der Check nicht am Kalender haengt.
+    heute_di = date(2026, 8, 12)  # ein Mittwoch
+    von, bis = _backfill_zeitraum([], heute=heute_di)
+    assert bis == date(2026, 8, 11), f"Endtag muss der letzte Handelstag sein, war {bis}"
+    assert (bis - von).days == HISTORIE_TAGE
+    heute_mo = date(2026, 8, 10)  # Montag -> gestern waere Sonntag
+    _, bis_mo = _backfill_zeitraum([], heute=heute_mo)
+    assert bis_mo == date(2026, 8, 7), \
+        f"an einem Montag muss der Endtag auf Freitag zurueckfallen, war {bis_mo}"
+    assert _backfill_zeitraum(["2026-02-17", "2026-08-14"]) == (date(2026, 2, 17), date(2026, 8, 14))
+    for kaputt in ([" 2026-02-17"], ["2026-02-17", "2026-08-14", "NQ"]):
+        try:
+            _backfill_zeitraum(kaputt)
+            raise AssertionError(f"{kaputt} haette abgelehnt werden muessen")
+        except ValueError:
+            pass
+    try:
+        _backfill_zeitraum(["2026-08-14", "2026-02-17"])
+        raise AssertionError("VON nach BIS haette abgelehnt werden muessen")
+    except ValueError:
+        pass
+
+    # Fehlerklassifikation: nur echte Stoerungen duerfen ein leeres Fenster zum Fehlschlag
+    # machen. Verbindungsmeldungen und "keine Daten" (Feiertag/Early Close) nicht -- sonst
+    # kaeme ein verkuerzter Handelstag nie zustande bzw. jedes Fenster liefe dreimal.
+    assert not _echter_fehler(2104, "Market data farm connection is OK:usfarm")
+    assert not _echter_fehler(2158, "Sec-def data farm connection is OK")
+    assert not _echter_fehler(
+        162, "Historical Market Data Service error message:HMDS query returned no data: "
+             "NQH2026@CME Trades")
+    assert _echter_fehler(162, "Historical Market Data Service error message:pacing violation"), \
+        "die Pacing-Violation traegt dieselbe Nummer 162 -- sie darf NICHT als 'kein Handel' gelten"
+    assert _echter_fehler(200, "No security definition has been found for the request")
+    assert _echter_fehler(-1, "connection reset")
+
+    # Fetch-Orchestrierung ohne Netz: Stub-IB liefert kanonische Bars.
     class _FakeBar:
         def __init__(self, ts, o, h, l, c, v):
             self.date, self.open, self.high, self.low, self.close, self.volume = ts, o, h, l, c, v
@@ -639,12 +772,20 @@ def _demo() -> None:
             return self
 
     class _StubIB:
-        def __init__(self):
+        """`leer_ab`: ab diesem Request-Zaehler liefert der Stub nichts mehr -- mit
+        `fehler=True` als echte Stoerung (Pacing), sonst als sauberes 'keine Daten'."""
+
+        def __init__(self, leer_ab: int | None = None, fehler: bool = True):
             self.calls = 0
             self.errorEvent = _StubEvent()
+            self._leer_ab, self._fehler = leer_ab, fehler
 
         def reqHistoricalData(self, contract, endDateTime, **kw):
             self.calls += 1
+            if self._leer_ab is not None and self.calls > self._leer_ab:
+                if self._fehler:
+                    raise RuntimeError("simulierte Pacing-Violation")
+                return []
             start = int(endDateTime.timestamp()) - WINDOW_SECONDS
             return [_FakeBar(start + i, 100.0 + i, 100.5 + i, 99.5 + i, 100.0 + i, 5)
                     for i in range(0, WINDOW_SECONDS, 900)]
@@ -667,23 +808,45 @@ def _demo() -> None:
                 erster_call_count = stub.calls
                 assert erster_call_count == 46, erster_call_count
 
-                # Zweiter Lauf: Datei existiert schon -> write_day_1s() liefert None, aber
-                # fetch_symbol_day holt die Fenster trotzdem erneut an (Register schuetzt nur
-                # vor Doppel-Requests INNERHALB eines Laufs, nicht vor einem Re-Lauf auf eine
-                # bereits fertige Datei). Stattdessen: Register simuliert einen Abbruch nach
-                # 6 Fenstern, zweiter Lauf darf nur die restlichen 40 anfragen.
+                kerzen_komplett = len(pd.read_parquet(dest))
+
+                # Resume: eine vorhandene Tagesdatei kostet KEINEN Request. Frueher wurden
+                # trotzdem alle 46 Fenster angefragt und das Ergebnis von write_day_1s()
+                # verworfen -- bei einem 6-Monats-Backfill ueber einen halb gefuellten
+                # Bestand sind das Stunden Laufzeit fuer nichts.
+                stub2 = _StubIB()
+                assert fetch_symbol_day(stub2, "NQ", tag, pacing, register_path=reg_path) is None
+                assert stub2.calls == 0, \
+                    f"vorhandene Tagesdatei muss 0 Requests kosten, waren {stub2.calls}"
+
+                # Regression zu ES 2026-02-19 (Datenverlust): schlaegt auch nur ein Fenster
+                # fehl, darf WEDER eine Datei NOCH eine Registerzeile entstehen. Frueher
+                # wurde der Tag aus den angekommenen Fenstern geschrieben, sah wie ein
+                # fertiger Handelstag aus und war wegen der Nie-Ueberschreiben-Regel
+                # dauerhaft eingefroren.
                 dest.unlink()
                 reg_path.unlink()
-                teil_fenster = day_windows(tag)[:6]
-                register_append(
-                    [{"symbol": "NQ", "von": int(a.timestamp()), "bis": int(b.timestamp()),
-                      "kontrakt": "NQU2026", "kerzen": 1800, "geholt_am": 0}
-                     for a, b in teil_fenster],
-                    path=reg_path)
-                stub2 = _StubIB()
-                fetch_symbol_day(stub2, "NQ", tag, pacing, register_path=reg_path)
-                assert stub2.calls == 40, \
-                    f"Resume nach Abbruch bei 6/46 Fenstern muss 40 Requests machen, waren {stub2.calls}"
+                stub3 = _StubIB(leer_ab=35, fehler=True)
+                assert fetch_symbol_day(stub3, "NQ", tag, pacing, register_path=reg_path,
+                                        sleep=lambda s: None) is None
+                assert not dest.exists(), \
+                    "ein Tag mit fehlgeschlagenen Fenstern darf KEINE Tagesdatei hinterlassen"
+                assert not reg_path.exists(), \
+                    "fehlgeschlagene Fenster duerfen KEINE Registerzeilen hinterlassen"
+
+                # Gegenprobe Early Close: liefert IBKR fuer die letzten Fenster sauber
+                # 'keine Daten' statt eines Fehlers, ist der Tag vollstaendig und muss
+                # geschrieben werden -- nur eben kuerzer (Realfall Presidents' Day
+                # 2026-02-16, CME schliesst 13:00 NY).
+                stub4 = _StubIB(leer_ab=38, fehler=False)
+                dest4 = fetch_symbol_day(stub4, "NQ", tag, pacing, register_path=reg_path)
+                assert dest4 is not None and dest4.exists(), \
+                    "ein verkuerzter Handelstag muss trotzdem geschrieben werden"
+                kerzen_kurz = len(pd.read_parquet(dest4))
+                assert kerzen_kurz == kerzen_komplett * 38 // 46, \
+                    f"Early-Close-Tag muss genau 38/46 der Kerzen haben, waren {kerzen_kurz}"
+                assert len(register_load(reg_path)) == 46, \
+                    "auch die leeren Fenster gehoeren ins Register (sonst 'kein Trade' == 'nicht geholt')"
             finally:
                 DATA_DIR = orig_data_dir
         finally:

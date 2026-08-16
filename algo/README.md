@@ -1229,9 +1229,18 @@ einzige ehrliche Umgang ist. Nach einer bewussten Uebernahme:
 Tages-Parquet in `raw/marktdaten/<jjjj>/<mm>/<tt.mm.jjjj>/<SYM> <jjjj-mm-tt> 1s.parquet` ab
 -- gleiche Ordnerstruktur wie die TradingView-/yfinance-CSVs, nur Parquet statt CSV wegen
 Volumen (~5x kleiner, siehe Design SS4). Drei Betriebsarten: `--verify` (ein Fenster, schreibt
-nichts), `--backfill VON BIS`, ohne Argumente = Nachlad seit dem letzten Registereintrag.
+nichts), `--backfill [VON BIS]`, ohne Argumente = Nachlad seit dem letzten Registereintrag.
 Siehe `docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md` fuer die volle
 Entscheidungshistorie (E1-E11).
+
+**`--backfill` ohne Datumsangabe holt die gesamte verfuegbare 1s-Historie** (`HISTORIE_TAGE`
+= 183 Tage zurueck bis zum letzten Handelstag; weiter reicht IBKRs 1s-Vorhaltung nicht). Der
+Aufruf ist beliebig oft wiederholbar und setzt von selbst fort, weil **die Tagesdatei die
+Resume-Autoritaet ist, nicht das Register**: existiert
+`raw/marktdaten/.../<SYM> <tag> 1s.parquet`, ueberspringt `fetch_symbol_day()` den Tag ohne
+einen einzigen Request. Vorher wurden auch fuer laengst fertige Tage alle 46 Fenster
+angefragt und das Ergebnis anschliessend von `write_day_1s()` verworfen -- bei einem
+6-Monats-Lauf ueber einen halb gefuellten Bestand Stunden Laufzeit fuer nichts.
 
 **Wie:** `front_month()` bestimmt den aktiven Quartalskontrakt deterministisch und netzfrei
 (Roll = Verfall - 8 Tage). `day_windows()` zerlegt einen Handelstag in 46 Fenster a 30 Minuten
@@ -1250,6 +1259,34 @@ defekte Zeilen mit Warnung, statt mit `ValueError` abzubrechen: Das Register ist
 Buchhaltungs-Index, kein Datenbestand -- ein unlesbares Fenster gilt als "noch nicht geholt"
 und wird beim naechsten Lauf schlicht neu gezogen. Vorher legte **eine** defekte Zeile das
 ganze Skript lahm.
+
+**Alles-oder-nichts je Handelstag (2026-08-16).** `fetch_symbol_day()` schreibt einen Tag nur,
+wenn **kein** Fenster fehlgeschlagen ist; sonst entsteht weder Datei noch Registerzeile und
+der ganze Tag wird beim naechsten Lauf neu geholt. Anlass ist ein realer, stiller
+Datenverlust: frueher wurde der Tag aus den Fenstern zusammengesetzt, die ankamen, und weil
+`write_day_1s()` nie ueberschreibt, war das Loch danach dauerhaft eingefroren --
+`ES 2026-02-19 1s.parquet` endete so bei 11:29 NY statt 17:00 (35 von 46 Fenstern, 63.000
+statt 82.800 Kerzen) und sah dabei aus wie ein fertiger Handelstag. Verschaerfend wirkte der
+frueher hier stehende Register-Filter: er uebersprang beim naechsten Lauf genau die Fenster,
+deren Daten nur im Speicher des abgebrochenen Laufs existiert hatten -- ein zweiter Lauf
+konnte das Loch also nicht fuellen, sondern zementierte es. Dieser Filter ist entfernt; das
+Register ist jetzt reine Dokumentation ("kein Trade" vs. "nicht geholt") und der Nachlad-
+Startpunkt, nicht mehr die Resume-Instanz. Preis der Regel: nach einem Abbruch mitten im Tag
+bis zu 46 wiederholte Requests (~70s) -- gegen einen 34-Stunden-Backfill vernachlaessigbar,
+gegen eine unsichtbare Datenluecke ohnehin.
+
+**Fehler vs. leeres Fenster (`_echter_fehler()`).** `reqHistoricalData` liefert bei jedem
+Fehlschlag eine ganz normale leere Liste; ob "kein Handel" oder "Request abgewiesen" steht
+ausschliesslich in `errorEvent`. Zwei Faelle gelten deshalb ausdruecklich **nicht** als
+Fehlschlag: Codes 2100-2199 (IBKRs Verbindungsmeldungen wie "Market data farm connection is
+OK", die im Normalbetrieb staendig kommen) und **162 mit "no data" im Text** -- IBKRs Antwort
+fuer ein Fenster ohne jeden Handel, also Feiertag oder Early Close. Ohne diese Unterscheidung
+kaeme ein verkuerzter Handelstag unter der Alles-oder-nichts-Regel nie zustande (Realfall:
+Presidents' Day 2026-02-16, CME schliesst 13:00 NY, die letzten 8 Fenster sind leer -- die
+vorhandene Datei mit 68.400 statt 82.800 Kerzen ist **korrekt**, kein Defekt). Unterschieden
+wird bewusst ueber den *Text*, nicht ueber den Code: die Pacing-Violation traegt dieselbe
+Nummer 162, und sie als "Markt zu" zu verbuchen wuerde eine echte Datenluecke als geschlossen
+ausweisen.
 
 **Gateway-Autostart / Zwei-Rechner-Betrieb (2026-08-16):** Ist Port 4002 nicht erreichbar,
 startet `_gateway_sicherstellen()` IBC selbst per `os.startfile()` (nicht `subprocess.Popen`,

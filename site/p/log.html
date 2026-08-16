@@ -207,6 +207,7 @@
 <li><a href="#2026-08-16-ingest-youtube-weekend-us-holiday-volume-protocol-cdjxtt4-o-q">[2026-08-16] ingest | YouTube: Weekend US Holiday Volume Protocol (cDjxtT4-O-Q)</a></li>
 <li><a href="#2026-08-16-ingest-youtube-turning-loss-into-gain-market-alchemy-d8du4fmvoqu">[2026-08-16] ingest | YouTube: Turning Loss Into Gain - Market Alchemy (d8du4fMvOQU)</a></li>
 <li><a href="#2026-08-16-setup-bugfix-fetch_ibkr-fortschrittsfenster-codepage">[2026-08-16] setup | Bugfix fetch_ibkr-Fortschrittsfenster (Codepage)</a></li>
+<li><a href="#2026-08-16-setup-fetch_ibkrpy-stiller-datenverlust-behoben-backfill-holt-gesamte-1s-historie">[2026-08-16] setup | fetch_ibkr.py -- stiller Datenverlust behoben, Backfill holt gesamte 1s-Historie</a></li>
 </ul>
 </div>
 </details>
@@ -3069,6 +3070,24 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   UnicodeDecodeError faellt im Reader-Thread an, wird verschluckt, und <code>.stdout</code> ist danach
   still <code>None</code> -- ein <code>except subprocess.SubprocessError</code> faengt das <strong>nicht</strong>. Entweder Bytes
   vergleichen oder <code>encoding=</code> explizit setzen.</li>
+</ul>
+<h2 id="2026-08-16-setup-fetch_ibkrpy-stiller-datenverlust-behoben-backfill-holt-gesamte-1s-historie">[2026-08-16] setup | fetch_ibkr.py -- stiller Datenverlust behoben, Backfill holt gesamte 1s-Historie</h2>
+<ul>
+<li>Seiten aktualisiert: keine (reine Code-/Doku-Aenderung, siehe algo/PLAN.md fuer die Zahlen)</li>
+<li>Befund: <code>fetch_symbol_day()</code> schrieb eine Tagesdatei auch dann, wenn Fenster fehlgeschlagen
+  waren. Mit der Nie-Ueberschreiben-Regel fror das Loch dauerhaft ein -- <code>ES 2026-02-19</code> endet
+  11:29 NY statt 17:00 (35/46 Fenster) und sah trotzdem wie ein fertiger Handelstag aus.
+  Der Register-Filter machte es schlimmer: er uebersprang beim naechsten Lauf genau die
+  Fenster, deren Daten nur im Speicher des abgebrochenen Laufs existiert hatten.</li>
+<li>Fix: Alles-oder-nichts je Handelstag; Resume laeuft jetzt ueber die Existenz der Tagesdatei
+  statt ueber das Register (fertiger Tag = 0 Requests); <code>_echter_fehler()</code> trennt echte
+  Stoerungen von "kein Handel" (Feiertag/Early Close, IBKR-Code 162 mit "no data") --
+  bewusst ueber den Text, weil die Pacing-Violation dieselbe Nummer traegt;
+  <code>--backfill</code> ohne Datumsangabe holt die gesamte verfuegbare Historie (183 Tage).</li>
+<li>Merkposten fuer kuenftige Datenpruefungen: eine Tagesdatei mit "zu wenig" Kerzen ist nicht
+  automatisch defekt. <code>ES/NQ 2026-02-16</code> sind mit 68.400 statt 82.800 Kerzen <strong>korrekt</strong> --
+  Presidents' Day, CME schliesst 13:00 NY. Vollstaendigkeit darf deshalb nicht ueber eine
+  Sollkerzenzahl geprueft werden, sondern ueber "kein Fenster fehlgeschlagen".</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

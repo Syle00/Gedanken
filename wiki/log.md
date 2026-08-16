@@ -2704,3 +2704,20 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   UnicodeDecodeError faellt im Reader-Thread an, wird verschluckt, und `.stdout` ist danach
   still `None` -- ein `except subprocess.SubprocessError` faengt das **nicht**. Entweder Bytes
   vergleichen oder `encoding=` explizit setzen.
+
+## [2026-08-16] setup | fetch_ibkr.py -- stiller Datenverlust behoben, Backfill holt gesamte 1s-Historie
+- Seiten aktualisiert: keine (reine Code-/Doku-Aenderung, siehe algo/PLAN.md fuer die Zahlen)
+- Befund: `fetch_symbol_day()` schrieb eine Tagesdatei auch dann, wenn Fenster fehlgeschlagen
+  waren. Mit der Nie-Ueberschreiben-Regel fror das Loch dauerhaft ein -- `ES 2026-02-19` endet
+  11:29 NY statt 17:00 (35/46 Fenster) und sah trotzdem wie ein fertiger Handelstag aus.
+  Der Register-Filter machte es schlimmer: er uebersprang beim naechsten Lauf genau die
+  Fenster, deren Daten nur im Speicher des abgebrochenen Laufs existiert hatten.
+- Fix: Alles-oder-nichts je Handelstag; Resume laeuft jetzt ueber die Existenz der Tagesdatei
+  statt ueber das Register (fertiger Tag = 0 Requests); `_echter_fehler()` trennt echte
+  Stoerungen von "kein Handel" (Feiertag/Early Close, IBKR-Code 162 mit "no data") --
+  bewusst ueber den Text, weil die Pacing-Violation dieselbe Nummer traegt;
+  `--backfill` ohne Datumsangabe holt die gesamte verfuegbare Historie (183 Tage).
+- Merkposten fuer kuenftige Datenpruefungen: eine Tagesdatei mit "zu wenig" Kerzen ist nicht
+  automatisch defekt. `ES/NQ 2026-02-16` sind mit 68.400 statt 82.800 Kerzen **korrekt** --
+  Presidents' Day, CME schliesst 13:00 NY. Vollstaendigkeit darf deshalb nicht ueber eine
+  Sollkerzenzahl geprueft werden, sondern ueber "kein Fenster fehlgeschlagen".
