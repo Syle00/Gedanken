@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">141</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">143</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">348</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">349</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -201,6 +201,7 @@
 <li><a href="#2026-08-15-synthesis-forex-algo-gebaut-erstes-ergebnis-auf-eurusd">[2026-08-15] synthesis | Forex-Algo gebaut, erstes Ergebnis auf EURUSD</a></li>
 <li><a href="#2026-08-15-query-dst-zeitversatz-im-forex-bestand-root-cause-eingrenzung-fix">[2026-08-15] query | DST-Zeitversatz im Forex-Bestand — Root Cause, Eingrenzung, Fix</a></li>
 <li><a href="#2026-08-15-setup-ibkr-1s-datenanbindung-nqes">[2026-08-15] setup | IBKR 1s-Datenanbindung NQ/ES</a></li>
+<li><a href="#2026-08-16-ingest-youtube-the-week-in-the-life-cycle-of-price-dmhswlms9iy">[2026-08-16] ingest | YouTube: The Week In The Life Cycle Of Price (dmHSwlmS9iY)</a></li>
 </ul>
 </div>
 </details>
@@ -298,7 +299,7 @@
 <li>159 Notizen aus dem raw/-Wurzelverzeichnis nach raw/journal/ verschoben: 82 Daily Bias Journal, 27 Weekly Bias Journal, 19 Trade Execution Journal, 30 Tape Reading, dazu Journal.md (die Notion-Datenbanktabelle mit Datum/Bias/Tags aller Einträge, Juni 2025 – 2026).</li>
 <li>695 lose Screenshots aus dem Vault-Root nach raw/journal/assets/ verschoben; 9 Screenshot_2025-01-20_*.png gehören zu ICT Silver Bullet.md und gingen stattdessen nach raw/trading-ict/assets/.</li>
 <li><strong>Fehler behoben, der vorher unbemerkt war</strong>: 382 der Journal-Screenshots trugen exakt dieselben Namen wie Bilder in raw/trading-ict/assets/ (image 1.png … image 383.png), inhaltlich aber verschiedene Bilder (per Hash geprüft, keine echten Duplikate). Da Obsidian und tools/build_site.py Embeds allein über den Dateinamen auflösen und Root-Dateien zuerst gewinnen, zeigten die ICT-Wiki-Seiten seit dem Upload die Journal-Screenshots statt der ICT-Charts (Beispiel: wiki/concepts/PD Array.md → site/p/pd-array.html verwies auf den Journal-Screenshot image 183.png). Die 382 kollidierenden Dateien tragen jetzt das Präfix "journal-"; die Embeds in den Journal-Notizen wurden entsprechend nachgezogen.</li>
-<li>Nebenbei bereinigt: Die Notion-Embeds der Journal-Notizen nutzten die Form <code>&lt;img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 1.png" alt="image 1" loading="lazy"&gt;</code> (wurzel-relativ, mit redundantem Alias). 321 Embeds auf die reine Namensform normalisiert, damit sie ordnerunabhängig auflösen.</li>
+<li>Nebenbei bereinigt: Die Notion-Embeds der Journal-Notizen nutzten die Form <code>&lt;img class="wiki-img" src="../../raw/trading-ict/assets/image 1.png" alt="image 1" loading="lazy"&gt;</code> (wurzel-relativ, mit redundantem Alias). 321 Embeds auf die reine Namensform normalisiert, damit sie ordnerunabhängig auflösen.</li>
 <li>Kontrolle nach der Migration: 0 Bilder im Vault-Root, 0 verbleibende Namenskollisionen vault-weit, 0 unauflösbare Bild-Embeds in raw/journal/, Site-Build 149 Seiten / 1157 Bilder (vorher 775 — die Differenz waren genau die verdeckten ICT-Assets).</li>
 <li>CLAUDE.md aktualisiert: raw/journal/ dokumentiert, plus Warnhinweis zur vault-weiten Eindeutigkeit von Bildnamen bei künftigen Notion-Exporten.</li>
 <li>Noch nicht ingestet: Das Journal ist bislang reines Rohmaterial, es gibt noch keine wiki/-Seiten dazu. 223 der Screenshots werden von keiner Notiz referenziert (Notion-Exportreste).</li>
@@ -315,7 +316,7 @@
 <h2 id="2026-08-02-ingest-mentorship-2025-lektionen-01030405">[2026-08-02] ingest | MentorShip 2025, Lektionen 01/03/04/05</h2>
 <ul>
 <li>Nutzeranweisung: neue Dateien aus raw/ ebenfalls importieren. Betroffen: <code>01 Trading All Time Market Highs.md</code>, <code>03 Trading Premarket and Regular Session Liquidity.md</code>, <code>04 Alltime Highs und TGIF.md</code>, <code>05 Advanced ICT Liquidity Concepts.md</code> (lagen im raw/-Wurzelverzeichnis). Alle vier nach <code>raw/trading-ict/MentorShip 2025/</code> verschoben; die zuvor ingestete Lektion 06 dort zu <code>06 Opening Range Theory - 1st Presented FVG Logic.md</code> umbenannt, damit die Reihe durchnummeriert bleibt (raw/raw_path der Source-Seite nachgezogen).</li>
-<li><strong>Fehler behoben, der sonst still gewirkt hätte</strong>: Die vier Exporte enthielten 22 Embeds der Form <code>&lt;img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image.png" alt="image" loading="lazy"&gt;</code> … <code>&lt;img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 8.png" alt="image 8" loading="lazy"&gt;</code>, ohne dass Bilder mitgeliefert wurden. Dateien mit exakt diesen Namen liegen bereits in <code>raw/trading-ict/assets/</code> und gehören zu anderen ICT-Notizen — Obsidian und tools/build_site.py hätten stillschweigend die falschen Charts angezeigt (dasselbe Muster wie bei der Journal-Migration).</li>
+<li><strong>Fehler behoben, der sonst still gewirkt hätte</strong>: Die vier Exporte enthielten 22 Embeds der Form <code>&lt;img class="wiki-img" src="../../raw/bilder/image.png" alt="image" loading="lazy"&gt;</code> … <code>&lt;img class="wiki-img" src="../../raw/trading-ict/assets/image 8.png" alt="image 8" loading="lazy"&gt;</code>, ohne dass Bilder mitgeliefert wurden. Dateien mit exakt diesen Namen liegen bereits in <code>raw/trading-ict/assets/</code> und gehören zu anderen ICT-Notizen — Obsidian und tools/build_site.py hätten stillschweigend die falschen Charts angezeigt (dasselbe Muster wie bei der Journal-Migration).</li>
 <li>Die 22 Original-Charts stattdessen aus den Notion-Quellseiten nachgeladen (MCP-Fetch → presigned S3-URLs) und unter sprechenden, vault-weit eindeutigen Namen abgelegt: <code>MentorShip 2025 - 01/03/04/05 &lt;Beschreibung&gt;.png</code>. Alle Embeds in den vier Rohdateien entsprechend umgeschrieben (1 + 9 + 3 + 9 = 22, per Assertion gegen die vorhandenen Dateien geprüft).</li>
 <li>Seiten erstellt: wiki/concepts/Trading All Time Highs (ATH).md (neu; trägt Lektion 01 + 05: Continuation-Checkliste mit 7 Key Reference Points, dann die 3 Stages of Accumulation, in denen Smart Money nach dem Candle Body Close über dem ATH heavy Shorts aufbaut, plus die verallgemeinerte Orderflow-Regel "kein Close über dem C.E einer PD Array → short"), wiki/sources/Trading All Time Market Highs (Source).md, wiki/sources/Trading Premarket and Regular Session Liquidity (Source).md, wiki/sources/Alltime Highs und TGIF (Source).md, wiki/sources/Advanced ICT Liquidity Concepts (Source).md</li>
 <li>Seiten aktualisiert: wiki/concepts/ICT Daily Range Session Timing.md (neuer Intraday-Fahrplan 7:00–11:30 als Tabelle: Premarket-Run, 8:30 News Driver, 9:30 Fake Drop, Lunch Macro nach 10 Uhr und ab 11:30), wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md (9:30-Fake-Drop, 4-ORG-Regel = letzte 3 Tage + laufender Tag, ORG am ATH-Tag mit Candle-Body-Close-Bedingung), wiki/concepts/Breakaway Gap.md (Auswahlregel bei zwei Displacements: das zuerst entstandene Gap zählt; Inversion-Varianten jeder PD Array; Frontmatter-Quelle von <code>&lt;a href="../p/kurz-notizen-source.html"&gt;Kurz Notizen&lt;/a&gt;</code> auf die Source-Seite korrigiert), wiki/concepts/IPDA Data Ranges.md (PD Arrays sind bis zu 60 Tage rückwirkend nutzbar — das 20/40/60-Fenster begrenzt nicht nur die High/Low-Suche), wiki/models/Weekly Range Trading Model.md (TGIF-Fallbeispiel), wiki/index.md (4 Quellen unter "MentorShip 2025", neue Konzeptseite unter Concepts).</li>
@@ -655,7 +656,7 @@
 <li>Nutzerauftrag: "sortiere die Dateien im raw Ordner ein, sodass es aufgeräumt und clean ist".</li>
 <li>Bestandsaufnahme <code>raw/</code>: Root enthält nur noch 6 lose <code>.md</code>-Notizen (bewusst dort, siehe Konvention oben) plus die vier einsortierten Ordner <code>bilder/</code>, <code>journal/</code>, <code>marktdaten/</code>, <code>trading-ict/</code>. Keine Zip-/Tmp-/Thumbs-Reste, kein zweites leeres Stub außer dem bereits bekannten (<code>Reeinforced Liquidity Pools -...</code>, siehe „Offene Punkte" in wiki/index.md).</li>
 <li><strong>Echte Namenskollision gefunden</strong>: <code>raw/bilder/image.png</code> sowie <code>image 1.png</code>…<code>image 8.png</code> (9 Dateien, automatisch von <code>tools/sort_bilder.py</code> aus dem Vault-Root dorthin verschoben) trugen exakt dieselben Namen wie aktiv verlinkte Bilder in <code>raw/trading-ict/assets/</code> — per Hash geprüft: inhaltlich <strong>unterschiedliche</strong> Bilder. <code>raw/trading-ict/assets/image*.png</code> wird u.a. von <code>raw/trading-ict/2026/From Vision To Execution.md</code> und 6 Wiki-Seiten (<code>Turtle Soup</code>, <code>ICT Macros &amp; Leading Candles</code>, <code>BISI &amp; SIBI</code>, <code>IFVG</code>, <code>AMD Cycle</code>, <code>Trading Journal &amp; DOL Checklist</code>) referenziert — dasselbe Bug-Muster, das beim Journal-Import 2026-08-02 bereits einmal zu falsch angezeigten Charts führte.</li>
-<li>Die 9 Dateien in <code>raw/bilder/</code> waren selbst <strong>nirgends referenziert</strong> (weder in raw/ noch in wiki/) — reines Kollisionsrisiko ohne aktuellen Schaden, aber eine Falle für jede künftige Notiz, die <code>&lt;img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image.png" alt="image" loading="lazy"&gt;</code> schreibt.</li>
+<li>Die 9 Dateien in <code>raw/bilder/</code> waren selbst <strong>nirgends referenziert</strong> (weder in raw/ noch in wiki/) — reines Kollisionsrisiko ohne aktuellen Schaden, aber eine Falle für jede künftige Notiz, die <code>&lt;img class="wiki-img" src="../../raw/bilder/image.png" alt="image" loading="lazy"&gt;</code> schreibt.</li>
 <li>Behoben: alle 9 Dateien in <code>raw/bilder/</code> mit Präfix versehen (<code>bilder - image.png</code>, <code>bilder - image 1.png</code>, … <code>bilder - image 8.png</code>). Herkunft/Domäne unbekannt (keine Notiz referenziert sie), daher der neutrale Ordner-Präfix statt eines inhaltlichen. Kollisionscheck über alle drei Asset-Ordner (<code>raw/bilder</code>, <code>raw/trading-ict/assets</code>, <code>raw/journal/assets</code>) danach: 0 Kollisionen vault-weit.</li>
 <li>Offener Punkt: die 9 umbenannten Bilder bleiben unzugeordnetes Rohmaterial (Herkunft/Kontext unklar) — falls der Nutzer weiß, wozu sie gehören, können sie beim nächsten Ingest sprechend benannt und einer Notiz zugeordnet werden.</li>
 </ul>
@@ -2862,6 +2863,42 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   <code>algo/selfcheck.py</code>, <code>CLAUDE.md</code> geaendert; <code>.claude/commands/daten-1s.md</code> neu</li>
 <li>Details: docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md,
   algo/PLAN.md (Eintrag 2026-08-15)</li>
+</ul>
+<h2 id="2026-08-16-ingest-youtube-the-week-in-the-life-cycle-of-price-dmhswlms9iy">[2026-08-16] ingest | YouTube: The Week In The Life Cycle Of Price (dmHSwlmS9iY)</h2>
+<ul>
+<li>Scan-Fenster: Einzelvideo per URL angefragt (kein Kanal-Scan). Video 2026-08-15, 1:25:25,
+  noch nicht ingested (weder in <code>raw/trading-ict/2026/</code> noch in diesem Log).</li>
+<li>Transkript: <code>raw/trading-ict/2026/yt-dmHSwlmS9iY-transcript.md</code>, 14.560 Woerter,
+  <strong>volle Abdeckung</strong> (endet mit den Schlussworten, kein Auto-Caption-Cutoff).</li>
+<li>Seiten erstellt:</li>
+<li>wiki/sources/youtube/2026-08-15 - The Week In The Life Cycle Of Price (Source).md</li>
+<li>wiki/concepts/Continuous Contract vs. Front Month.md</li>
+<li>wiki/concepts/Gladhanding.md</li>
+<li>Seiten erweitert: wiki/concepts/TGIF (Thank God its Friday).md (25-%-Arbeitsziel, 40-%-Extremfall),
+  wiki/concepts/Open Float &amp; Liquidity Pools.md (Session-Level-Katalog, Guarded Liquidity),
+  wiki/concepts/ICT Macros &amp; Leading Candles.md (Begruendung 9:50-10:10, Entry ausserhalb),
+  wiki/concepts/Institutional Order Flow (Body vs Wick).md, wiki/concepts/Suspension Block.md,
+  wiki/models/Silver Bullet Model.md (vollstaendige Entry-Anatomie Live-Trade 15.08.),
+  wiki/models/Market Maker Manipulation Templates.md (Live-Fallstudie Consolidation Midweek Rally),
+  wiki/models/Weekly Range Trading Model.md (Wochenend-Routine), wiki/index.md</li>
+<li>Selbst getroffene Entscheidungen (statt Rueckfrage):</li>
+<li><strong>⚠️ → ✅ in <a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a></strong>: Die 15-Min-"Bellwether"-Regel war als reine
+    Nutzer-Arbeitsweise ohne Quellenbeleg markiert. ICT nutzt in diesem Video woertlich denselben
+    Begriff mit derselben Begruendung → als bestaetigt umgestellt. Der negative Backtest daneben
+    betrifft die <strong>Ziel</strong>-Auswahl, nicht die Pool-Erkennung; beide Aussagen bleiben nebeneinander
+    stehen, der Unterschied ist explizit vermerkt.</li>
+<li><strong>⚠️ → ✅ in <a href="../p/weekly-range-trading-model.html">Weekly Range Trading Model</a></strong>: Der Marker "Suspensionblock ohne klare
+    Definition, bei weiterem 2026-Ingest praezisieren" war seit dem Anlegen von
+    <a href="../p/suspension-block.html">Suspension Block</a> (2026-08-03) veraltet. Aufgeloest, inkl. Korrektur der urspruenglichen
+    Vermutung (kein Order-Block-Verwandter).</li>
+<li><strong>Kein eigener "Guarded Liquidity"-Konzeptseite</strong>, sondern Abschnitt in
+    <a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a> neben den bestehenden REH/REL-Regeln — dasselbe Thema,
+    keine Doppelung.</li>
+<li><strong>Kein eigener "Weekly Profiles"-Eintrag</strong>: Das im Video gezeigte Profil ist das bereits
+    dokumentierte "Consolidation Midweek Rally" aus <a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a> —
+    dort als Live-Fallstudie ergaenzt statt neu angelegt.</li>
+<li>Zwei neue, noch ungeprüfte Backtest-Kandidaten nach <code>algo/PLAN.md</code> uebertragen
+  (Gladhanding-Regel, TGIF-40-%-Trennkriterium).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

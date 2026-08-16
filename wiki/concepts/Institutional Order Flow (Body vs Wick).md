@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-10
-sources: ["[[Institutional Order Flow (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]"]
+updated: 2026-08-16
+sources: ["[[Institutional Order Flow (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]"]
 ---
 
 # Institutional Order Flow (Body vs Wick)
@@ -50,6 +50,19 @@ Body-Grenze, nicht als Preis-Grenze.
   wenn alle drei fallen, war die Prämisse falsch.
 - Ist Preis auf Seite, ist das *beste* Verhalten, den Wick gar nicht erst zu nehmen ("it won't take
   out that low, it'll just rip higher").
+
+## Nicht erreichte C.E. als eigenständiges Signal → [[Gladhanding]]
+
+Die Body-vs-Wick-Regel oben beschreibt, **wo Bodies schließen dürfen**. Die Gegenseite — was es
+bedeutet, wenn Preis ein Level **gar nicht erst erreicht** — hat ICT 2026-08-15 unter dem Begriff
+[[Gladhanding]] benannt: Berührt ein Rücksetzer die C.E. eines bullishen BISI nicht, ist das ein
+*starkes* Bullish-Signal, kein Zeichen fehlender Kraft. Grundlage ist die Regel, dass ein
+**bullisher Markt Ineffizienzen offen lassen darf**; Läufe, die in der **oberen Hälfte** eines
+Gaps starten, bestätigen den Order Flow. Details und Fallbeispiel: [[Gladhanding]].
+
+Ergänzend aus derselben Quelle: Ein **Wick oberhalb des Marktes** wird wie ein Gap behandelt
+(„premium wick") und über seine C.E. gegradet — dieselbe Body-Grenzen-Logik wie im Abschnitt oben,
+nur auf einen Wick statt auf ein FVG angewandt.
 
 ## Wick-Counting: Reentry vs. Sellside/Buyside-Liquidity (Kurz Notizen)
 

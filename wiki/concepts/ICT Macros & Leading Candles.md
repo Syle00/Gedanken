@@ -1,9 +1,9 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-10
+updated: 2026-08-16
 backtest: algo/backtest_macro.py
-sources: ["[[From Vision To Execution (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]", "[[ICT Gems - The Functions of a Macro (Source)]]", "[[ICT Gems - How Price Behaves At Specific Times (Source)]]", "[[ICT Gems - When To Anticipate Price Spooling (Source)]]", "[[ICT Gems - How to Trade the Final Hour Macro (Source)]]", "[[ICT Gems - Blending Silver Bullets and Macros (Source)]]", "[[ICT Gems - ICT Teaches how to Scalp Every 1 Hour Candle (Source)]]"]
+sources: ["[[From Vision To Execution (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]", "[[ICT Gems - The Functions of a Macro (Source)]]", "[[ICT Gems - How Price Behaves At Specific Times (Source)]]", "[[ICT Gems - When To Anticipate Price Spooling (Source)]]", "[[ICT Gems - How to Trade the Final Hour Macro (Source)]]", "[[ICT Gems - Blending Silver Bullets and Macros (Source)]]", "[[ICT Gems - ICT Teaches how to Scalp Every 1 Hour Candle (Source)]]", "[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]"]
 ---
 
 # ICT Macros & Leading Candles
@@ -401,6 +401,36 @@ Bemerkenswert für die Tabelle darüber: mit 7,75 Punkten liegt genau dieses SB 
 10-Punkte-Schwelle**, ab der sich FVGs überhaupt erst im Macro häufen. Es gehört zur häufigen
 Sorte, nicht zur selektiven. Und es entstand 14:12, also zwei Minuten **nach** dem Macro
 13:50–14:10 (im [[Silver Bullet Model|SB-Fenster]] 14:00–15:00 dagegen liegt es).
+
+## Warum gerade 9:50–10:10 (Begründung, 2026-08-15)
+
+Aus [[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]] —
+ICTs strukturelle Begründung des Fensters, die bislang im Vault fehlte (die Zeit war belegt, die
+Herleitung nicht):
+
+- Es liegt **innerhalb der Dealing Range der ersten Handelsstunde**.
+- Es markiert den **Close der Opening Range**, die laut ICT **30 Minuten** lang ist (9:30–10:00) —
+  *„I don't care what anybody else tells you."* Das Macro klammert diesen Übergang also, statt
+  zufällig darin zu liegen. Siehe [[ORG (Opening Range Gap) & 1st Presented FVG]],
+  [[Midnight Opening Range]].
+- Im Zusammenspiel mit [[Buy & Sell Program|Power of Three]]: Das High (bzw. Low) des Tages-Setups
+  bildet sich typischerweise **irgendwo innerhalb der 9:30–10:00-Opening-Range**.
+
+### Zweitfunktion: Guarded-Liquidity-Test
+
+Über die Displacement-Erwartung hinaus dient das Fenster als **Entscheidungsinstrument**: Liegen
+Relative Equal Highs knapp über Markt und werden sie im Macro **nicht** genommen, gelten sie als
+verteidigt (*guarded*) — die Gegenrichtung wird dann zum Setup. Ausgeführt in
+[[Open Float & Liquidity Pools]].
+
+### Entry knapp außerhalb des Fensters
+
+ICT stieg im dokumentierten Trade vom 15.08.2026 um **10:11 ET** ein — eine Minute nach Macro-Ende:
+*„If the macro is delivering in so close proximity to a PD array, I would trade inside the macro
+time. I'm only one minute after. There's nothing wrong with that."* Ein
+[[CISD (Change in State of Delivery)|CISD]]/Order Block außerhalb des Fensters gilt ihm zudem als
+gültiger Pyramiding-Entry. Die Macro-Zeit ist damit ein **Fokusfenster, keine harte Sperre** —
+passend zum Befund weiter oben, dass 09:50–10:10 statistisch nicht das größte Fenster des Tages ist.
 
 ## Chart-Konvention (Nutzer)
 

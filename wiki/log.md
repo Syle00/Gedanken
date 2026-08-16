@@ -2509,3 +2509,38 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   `algo/selfcheck.py`, `CLAUDE.md` geaendert; `.claude/commands/daten-1s.md` neu
 - Details: docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md,
   algo/PLAN.md (Eintrag 2026-08-15)
+
+## [2026-08-16] ingest | YouTube: The Week In The Life Cycle Of Price (dmHSwlmS9iY)
+- Scan-Fenster: Einzelvideo per URL angefragt (kein Kanal-Scan). Video 2026-08-15, 1:25:25,
+  noch nicht ingested (weder in `raw/trading-ict/2026/` noch in diesem Log).
+- Transkript: `raw/trading-ict/2026/yt-dmHSwlmS9iY-transcript.md`, 14.560 Woerter,
+  **volle Abdeckung** (endet mit den Schlussworten, kein Auto-Caption-Cutoff).
+- Seiten erstellt:
+  - wiki/sources/youtube/2026-08-15 - The Week In The Life Cycle Of Price (Source).md
+  - wiki/concepts/Continuous Contract vs. Front Month.md
+  - wiki/concepts/Gladhanding.md
+- Seiten erweitert: wiki/concepts/TGIF (Thank God its Friday).md (25-%-Arbeitsziel, 40-%-Extremfall),
+  wiki/concepts/Open Float & Liquidity Pools.md (Session-Level-Katalog, Guarded Liquidity),
+  wiki/concepts/ICT Macros & Leading Candles.md (Begruendung 9:50-10:10, Entry ausserhalb),
+  wiki/concepts/Institutional Order Flow (Body vs Wick).md, wiki/concepts/Suspension Block.md,
+  wiki/models/Silver Bullet Model.md (vollstaendige Entry-Anatomie Live-Trade 15.08.),
+  wiki/models/Market Maker Manipulation Templates.md (Live-Fallstudie Consolidation Midweek Rally),
+  wiki/models/Weekly Range Trading Model.md (Wochenend-Routine), wiki/index.md
+- Selbst getroffene Entscheidungen (statt Rueckfrage):
+  - **⚠️ → ✅ in [[Open Float & Liquidity Pools]]**: Die 15-Min-"Bellwether"-Regel war als reine
+    Nutzer-Arbeitsweise ohne Quellenbeleg markiert. ICT nutzt in diesem Video woertlich denselben
+    Begriff mit derselben Begruendung → als bestaetigt umgestellt. Der negative Backtest daneben
+    betrifft die **Ziel**-Auswahl, nicht die Pool-Erkennung; beide Aussagen bleiben nebeneinander
+    stehen, der Unterschied ist explizit vermerkt.
+  - **⚠️ → ✅ in [[Weekly Range Trading Model]]**: Der Marker "Suspensionblock ohne klare
+    Definition, bei weiterem 2026-Ingest praezisieren" war seit dem Anlegen von
+    [[Suspension Block]] (2026-08-03) veraltet. Aufgeloest, inkl. Korrektur der urspruenglichen
+    Vermutung (kein Order-Block-Verwandter).
+  - **Kein eigener "Guarded Liquidity"-Konzeptseite**, sondern Abschnitt in
+    [[Open Float & Liquidity Pools]] neben den bestehenden REH/REL-Regeln — dasselbe Thema,
+    keine Doppelung.
+  - **Kein eigener "Weekly Profiles"-Eintrag**: Das im Video gezeigte Profil ist das bereits
+    dokumentierte "Consolidation Midweek Rally" aus [[Market Maker Manipulation Templates]] —
+    dort als Live-Fallstudie ergaenzt statt neu angelegt.
+- Zwei neue, noch ungeprüfte Backtest-Kandidaten nach `algo/PLAN.md` uebertragen
+  (Gladhanding-Regel, TGIF-40-%-Trennkriterium).

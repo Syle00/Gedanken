@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">141</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">143</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">348</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">349</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -48,6 +48,7 @@
 <li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
 <li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
 <li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/continuous-contract-vs-front-month.html">Continuous Contract vs. Front Month</a></li>
 <li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
 <li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
 <li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
@@ -77,6 +78,7 @@
 <li><a href="../p/forward-futures-maerkte-contango-backwardation-yale-econ-252.html">Forward- &amp; Futures-Märkte (Contango, Backwardation, Yale Econ 252)</a></li>
 <li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
 <li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a></li>
+<li><a href="../p/gladhanding.html">Gladhanding</a></li>
 <li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
 <li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
 <li><a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a></li>
@@ -203,13 +205,13 @@ Rahmen einer Makroanalyse.</p>
   Marker sitzt auf dem ersten Handelstag des <strong>zuletzt vollständig abgeschlossenen Kalendermonats</strong> —
   nicht auf dem laufenden Monat. Analyse im November → Marker auf den 1. Oktober.</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 49.png" alt="image 49" loading="lazy"><figcaption>USDX Daily über ein Jahr ausgemalt: alle ca. 4 Monate ein markanter Shift.</figcaption></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 49.png" alt="image 49" loading="lazy"><figcaption>USDX Daily über ein Jahr ausgemalt: alle ca. 4 Monate ein markanter Shift.</figcaption></figure>
 
 <ul>
 <li>Für den Lookback (siehe <a href="../p/ipda-data-ranges.html">IPDA Data Ranges</a>, 20/40/60 Tage) wird 1 Trading-Tag pro Monat als
   Bezugspunkt genutzt.</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 52.png" alt="image 52" loading="lazy"></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 52.png" alt="image 52" loading="lazy"></figure>
 
 <p><em>Lookback-Beispiel: anhaltend bullisher Kontext trotz Shift — Liquidität liegt weiterhin unter der
 Sellside.</em></p>
@@ -234,7 +236,7 @@ symmetrisch nach vorne projiziert:</p>
   signifikanter Run/Sweep auf die Gegenseite (z.B. Sellside) stattgefunden hat — erst wenn das alte
   High/Low genommen wird, beginnt sich der Shift zu bestätigen.</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 60.png" alt="image 60" loading="lazy"></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 60.png" alt="image 60" loading="lazy"></figure>
 
 <p><em>Vor dem eigentlichen Shift gab es keinen signifikanten Run auf die Sellside — das änderte sich
 erst, nachdem das alte High genommen wurde.</em></p>
@@ -242,7 +244,7 @@ erst, nachdem das alte High genommen wurde.</em></p>
 <li>Ein Short-Term-High-Sweep erzeugt nicht zwangsläufig ein neues (höheres) High — bleibt das aus,
   ist das selbst ein Hinweis auf einen bevorstehenden Shift (verwandt: <a href="../p/turtle-soup.html">Turtle Soup</a>).</li>
 </ul>
-<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 62.png" alt="image 62" loading="lazy"></figure>
+<figure><img class="wiki-img" src="../../raw/trading-ict/assets/image 62.png" alt="image 62" loading="lazy"></figure>
 
 <p><em>Nach dem Sweep eines Shortterm-Highs wird nicht einmal ein neues High geschaffen — Hinweis auf
 einen bevorstehenden Shift.</em></p>
