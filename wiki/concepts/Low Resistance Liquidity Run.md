@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-16
-sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)]]", "[[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]]"]
+sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)]]", "[[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]]", "[[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain - Market Alchemy (Source)]]"]
 ---
 
 # Low Resistance Liquidity Run
@@ -112,6 +112,34 @@ Preis-Struktur-Erklärung, warum manche Highs/Lows "verteidigt" sind:
   Rücklauf zum letzten Swing praktisch widerstandsfrei zum nächsten alten High/Low durchläuft.
 - Je **mehr Preisaktion** (Candles, Konsolidierung) um ein Level herum stattgefunden hat, desto
   stärker ist es institutionell verteidigt — Faustregel für die Einschätzung ohne zusätzliche Tools.
+
+### Stop-Weite und Größe: HRLR verlangt das Gegenteil von LRLR (2026-05-13)
+
+Aus [[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain — Market Alchemy (Source)]] —
+der direkteste Vergleich beider Regime, den ICT selbst zieht:
+
+> *„I'm going to give it **a little bit more room** in the trade because it's high resistance
+> liquidity run conditions. Low resistance liquidity run conditions, I'll be **more aggressive**
+> about moving my stop losses down, because I'm not concerned about it coming back."*
+
+| | Low Resistance | High Resistance |
+|---|---|---|
+| Stop nachziehen | aggressiv, früh | zurückhaltend, mehr Luft |
+| Betreuungsaufwand | gering, *„rewards you quickly"* | hoch, *„you got to babysit the position"* |
+| Positionsgröße | normal | kleiner stückeln, damit Teilverkäufe möglich sind |
+
+- **Stückelung als Psychologie-Werkzeug**: ICT empfiehlt Anfängern unter diesen Bedingungen
+  ausdrücklich **viele kleine Kontrakte** (Beispiel: 24 Micro) statt weniger großer, um früh
+  Teilgewinne nehmen zu können. Sonst kippt die Aufmerksamkeit von der Preisaktion auf die eigene
+  Position: *„instead of watching the process unfold, your mind shifts to ‚am I going to get stopped
+  out or not?'"* Siehe [[Partial Profit-Taking & R-Multiple-Skalierung]].
+- **Erwartung ans zweite Bein**: Nach dem ersten Lauf soll der zweite **schneller** kommen, damit
+  die Gegenseite ihre Orders nicht zurückziehen kann — Details und ICTs Warnung gegen mechanisches
+  Zählen auf [[Kerzenzahl in einer Ineffizienz]].
+- **Realitätscheck von ICT selbst**: *„You all want the get-in-easy low resistance liquidity run
+  conditions… But what happens when 98 % of the time it's doing things like it is today?"* Die
+  Fähigkeit, HRLR zu navigieren, ist damit kein Sonderfall, sondern der Normalfall — *„you can make
+  money on the good days, but you'll give it all back on days like this."*
 
 ### Navigieren statt Aussitzen (Live-Trade 2026-08-10)
 

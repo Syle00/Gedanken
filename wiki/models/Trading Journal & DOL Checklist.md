@@ -1,8 +1,8 @@
 ---
 tags: [model, ict, trading-ict, routine]
 created: 2026-08-01
-updated: 2026-08-06
-sources: ["[[What To Focus On Right Now (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[ICT Mentorship Core Content - Month 1 - What To Focus On Right Now (Source)]]"]
+updated: 2026-08-16
+sources: ["[[What To Focus On Right Now (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[ICT Mentorship Core Content - Month 1 - What To Focus On Right Now (Source)]]", "[[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain - Market Alchemy (Source)]]"]
 ---
 
 # Trading Journal & DOL Checklist
@@ -79,6 +79,30 @@ Das Journal muss **nicht erschöpfend** sein — nur festhalten, was auf dem akt
 **salient** ist. Der Detailgrad darf mit wachsender Erfahrung zunehmen; am Anfang reicht wenig. Sinn
 der Übung: am Ende der Woche/des Monats zurückblicken und sich erinnern, dass unklare Marktphasen
 vorübergehen und wieder in prognosefähiges Verhalten zurückkehren.
+
+## Journaling als Priming — die Methode dahinter (2026-05-13)
+
+Aus [[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain — Market Alchemy (Source)]].
+ICT beschreibt hier erstmals **warum** das Journal wirkt, nicht nur was hineingehört:
+
+**Der Handgriff**: Screenshot mit den eigenen Annotationen ablegen und den inneren Dialog
+**nachträglich so eintragen, als wäre er live geführt worden** — *„if you didn't do it live, you
+fill it in as if you did."*
+
+**Der Effekt**:
+
+> *„You're anchoring subconsciously a measure of **pseudo experience** — you're tricking your brain
+> into believing that you saw that thing happen when it formed or just before it."*
+
+Beim späteren Durchsehen (Tages-/Wochenende) verknüpfen sich die Annotationen mit dem, was Preis
+tatsächlich tat. ICTs Analogien: der Effekt, nach einem Autokauf überall dasselbe Modell zu sehen,
+und die Frau im roten Kleid aus *The Matrix* — wer auf Rot geeicht ist, übersieht alles andere.
+Übertragen: *„you're **priming your subconscious** to filter out the things that are of great
+interest to you. That's what the PD arrays that I'm teaching [do]."*
+
+Das ergänzt die Haltungsfrage unten um einen konkreten Mechanismus: Das Journal ist nicht nur
+Rechenschaft über vergangene Trades, sondern ein **Wahrnehmungstraining** für künftige — der Grund,
+warum es auch bei Verlust-Trades und bei nicht genommenen Setups ausgefüllt wird.
 
 ## Verwandt
 

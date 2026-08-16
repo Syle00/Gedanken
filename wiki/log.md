@@ -2655,3 +2655,40 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Live-Beispiel exakt), sondern dass die Praezision *streut*. Ein Test auf reine Trefferquote
   wuerde die Behauptung verfehlen. Dazu ein Kalender-Fallstrick vermerkt: gefiltert werden muss
   der **erste regulaere Handelstag nach einem Feiertagswochenende**, nicht der Feiertag selbst.
+
+## [2026-08-16] ingest | YouTube: Turning Loss Into Gain - Market Alchemy (d8du4fMvOQU)
+- Scan-Fenster: Einzelvideo per URL. Video 2026-05-13, 1:34:34, nicht ingested.
+  Nutzerhinweis bestaetigt: alle heute verarbeiteten Videos sind 2026er Jahrgang, Ablage
+  entsprechend in `raw/trading-ict/2026/` (war bereits so).
+- Transkript: `raw/trading-ict/2026/yt-d8du4fMvOQU-transcript.md`, 12.422 Woerter (~131 W/Min),
+  **volle Abdeckung** (ordentliche Verabschiedung). Sechster Fetch dieser Session, kein IP-Block.
+- Seiten erstellt:
+  - wiki/sources/youtube/2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source).md
+- Seiten erweitert: wiki/models/Missed Entry Trade Management Playbook.md,
+  wiki/concepts/Kerzenzahl in einer Ineffizienz.md, wiki/concepts/IFVG (Inverse Fair Value Gap).md,
+  wiki/concepts/Low Resistance Liquidity Run.md, wiki/concepts/Event Horizon.md,
+  wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md,
+  wiki/models/Trading Journal & DOL Checklist.md, wiki/index.md
+- **Scheinbarer Widerspruch aufgeloest (Re-Entry nach Stop-out)**: Der Ingest vom 02.07.-Video
+  (heute frueh) hielt eine **harte Re-Entry-Sperre** fest (*"I can't reenter it ... there has to be
+  rules"*). In diesem Video steigt ICT nach dem Stop-out **wieder ein** — mit identischem Ziel.
+  Kein Widerspruch: Beide Male entscheidet dasselbe Kriterium, naemlich die Lage in der
+  Marktmaker-Kurve. Wiedereinstieg, solange das Narrativ intakt und die Idee strukturell **frueh**
+  ist; Sperre, sobald *"too far up on the curve"* / *"long in the tooth"*. ICT nennt das
+  Curve-Kriterium woertlich in **beiden** Videos. Als Vergleichstabelle auf
+  [[Missed Entry Trade Management Playbook]] dokumentiert, inkl. der Anfaengerregel (im ersten Jahr
+  generell kein Re-Entry nach Stop-out).
+- **Qualifizierung der heute frueh angelegten Seite [[Kerzenzahl in einer Ineffizienz]]**: ICT
+  verwahrt sich in diesem Video ausdruecklich gegen mechanisches Kerzenzaehlen (*"don't turn this
+  into a science ... I don't do those things"*). Zusammen mit dem Zitat der 13.07.-Quelle
+  (*"the only time I'm counting candles is when inside inefficiencies"*) ergibt das: Kerzenzahl ist
+  bei ICT durchgehend eine **qualitative** Aussage ueber Verweildauer/Tempo, nie ein Ausloeser. Die
+  Skala auf der Seite ist entsprechend als Erwartung markiert, nicht als Signalgeber — relevant
+  fuer den bereits eingetragenen Backtest-Kandidaten: zu pruefen ist die **Trennschaerfe** zwischen
+  2 und 3 Kerzen, nicht eine mechanische Regel.
+- Zweite unabhaengige Bestaetigung fuer die Event-Horizon-Regel "Limit knapp **vor** dem Level"
+  (heute frueh aus dem 02.07.-Video uebernommen) — hier mit anderer Begruendung (Spread/Fill-Risiko
+  statt dazwischenliegender Struktur). Als ✅ auf [[Event Horizon]] vermerkt.
+- Kein neuer Backtest-Kandidat: Der Inhalt ist ueberwiegend Trade-Management, Positionsgroesse und
+  Psychologie. Die einzige quantitative Aussage ("zweites Bein in weniger Kerzen als das erste")
+  entwertet ICT selbst als nicht-mechanisch.

@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, fvg, orderflow, 2026]
 created: 2026-08-16
 updated: 2026-08-16
-sources: ["[[2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)|How To Probe Low Probability RTH Opening Ranges (Source)]]"]
+sources: ["[[2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)|How To Probe Low Probability RTH Opening Ranges (Source)]]", "[[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain - Market Alchemy (Source)]]"]
 ---
 
 # Kerzenzahl in einer Ineffizienz
@@ -48,6 +48,40 @@ Ineffizienz**:
 
 Nach fünf Kerzen im Gap kippte im Beispiel die Erwartung — Preis lief anschließend zurück nach
 oben und wischte die nachgezogenen Short-Stops aus.
+
+## Verweildauer *zwischen* zwei PD Arrays = manuelle Intervention (2026-05-13)
+
+Aus [[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain — Market Alchemy (Source)]] —
+dieselbe Lesart, aber auf den Raum **zwischen** zwei Arrays statt in ein Gap hinein angewandt:
+
+> *„Way too many candles in here. **That's how you know they're holding it.** It's between two PD
+> arrays. This doesn't make any sense at all. So that's how you can identify it."*
+
+Zweite, unabhängige Signatur derselben Diagnose: **beidseitige Dochte**. Sieht die Zone aus wie ein
+Stachelschwein (*„like a porcupine, where it has these little needles and thorns on both sides"*),
+ist es Eingriff; wären es glatte Kerzen mit erkennbarer Richtung, wäre es normaler
+Higher-Timeframe-Orderflow, der eine PD Array abarbeitet.
+
+Praktische Folge im Fallbeispiel: ICT wertete die Zone als *„shenanigans"* und **blieb bei seiner
+These**, statt die Verweildauer als Widerlegung zu lesen — die Kerzenzahl sagte hier „Manipulation",
+nicht „falsch positioniert".
+
+## Verwandt, aber getrennt: der Geschwindigkeits-Maßstab für ein zweites Bein
+
+Ebenfalls aus derselben Quelle, und ausdrücklich **keine** Anwendung dieser Seite: Nach einem
+ersten Lauf zu einem Pool (dort sieben Kerzen) erwartet ICT den zweiten Lauf **schneller** —
+*„I want less than seven candlesticks to get to that buy side."* Begründung ist nicht die
+Ineffizienz, sondern die Ausführung: Tempo verhindert, dass die Gegenseite ihre Orders zurückzieht.
+
+> ⚠️ **ICT verwahrt sich dort ausdrücklich gegen mechanisches Zählen**: *„Don't start turning this
+> into a science… ‚See, ICT counts candles and it's a specific number' — **I don't do those
+> things.**"* Das ist ein **Vergleich zweier Beine**, keine feste Zahl.
+>
+> Zusammen mit dem Zitat oben („the only time I'm counting candles is when inside inefficiencies")
+> ergibt das ein konsistentes Bild: Kerzenzahl ist bei ICT durchgehend eine **qualitative Aussage
+> über Verweildauer und Tempo**, nie ein Auslöser. Die Skala oben ist entsprechend als Erwartung zu
+> lesen, nicht als Signalgeber — was für einen Backtest heißt, dass die Trennschärfe zwischen 2 und
+> 3 Kerzen die eigentlich zu prüfende Behauptung ist.
 
 ## Praktische Konsequenz
 

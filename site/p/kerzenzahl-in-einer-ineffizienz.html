@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li class="active"><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">28</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">353</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">354</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -179,12 +179,14 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Kerzenzahl in einer Ineffizienz</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">fvg</span> <span class="tag">orderflow</span> <span class="tag">2026</span></div><div class="dates">erstellt 2026-08-16 · aktualisiert 2026-08-16</div><div class="srcline"><span>Quellen:</span> <a href="../p/2026-07-13-how-to-probe-low-probability-rth-opening-ranges-source.html">How To Probe Low Probability RTH Opening Ranges (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">fvg</span> <span class="tag">orderflow</span> <span class="tag">2026</span></div><div class="dates">erstellt 2026-08-16 · aktualisiert 2026-08-16</div><div class="srcline"><span>Quellen:</span> <a href="../p/2026-07-13-how-to-probe-low-probability-rth-opening-ranges-source.html">How To Probe Low Probability RTH Opening Ranges (Source)</a>, <a href="../p/2026-05-13-turning-loss-into-gain-market-alchemy-source.html">Turning Loss Into Gain - Market Alchemy (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#die-skala">Die Skala</a></li>
 <li><a href="#was-die-ideale-eine-kerze-tut">Was die ideale eine Kerze tut</a></li>
 <li><a href="#abgrenzung-gegen-supportresistance">Abgrenzung gegen Support/Resistance</a></li>
+<li><a href="#verweildauer-zwischen-zwei-pd-arrays-manuelle-intervention-2026-05-13">Verweildauer zwischen zwei PD Arrays = manuelle Intervention (2026-05-13)</a></li>
+<li><a href="#verwandt-aber-getrennt-der-geschwindigkeits-mastab-fur-ein-zweites-bein">Verwandt, aber getrennt: der Geschwindigkeits-Maßstab für ein zweites Bein</a></li>
 <li><a href="#praktische-konsequenz">Praktische Konsequenz</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -251,6 +253,35 @@ Ineffizienz</strong>:</p>
 </blockquote>
 <p>Nach fünf Kerzen im Gap kippte im Beispiel die Erwartung — Preis lief anschließend zurück nach
 oben und wischte die nachgezogenen Short-Stops aus.</p>
+<h2 id="verweildauer-zwischen-zwei-pd-arrays-manuelle-intervention-2026-05-13">Verweildauer <em>zwischen</em> zwei PD Arrays = manuelle Intervention (2026-05-13)</h2>
+<p>Aus <a href="../p/2026-05-13-turning-loss-into-gain-market-alchemy-source.html">Turning Loss Into Gain — Market Alchemy (Source)</a> —
+dieselbe Lesart, aber auf den Raum <strong>zwischen</strong> zwei Arrays statt in ein Gap hinein angewandt:</p>
+<blockquote>
+<p><em>„Way too many candles in here. </em><em>That's how you know they're holding it.</em><em> It's between two PD
+arrays. This doesn't make any sense at all. So that's how you can identify it."</em></p>
+</blockquote>
+<p>Zweite, unabhängige Signatur derselben Diagnose: <strong>beidseitige Dochte</strong>. Sieht die Zone aus wie ein
+Stachelschwein (<em>„like a porcupine, where it has these little needles and thorns on both sides"</em>),
+ist es Eingriff; wären es glatte Kerzen mit erkennbarer Richtung, wäre es normaler
+Higher-Timeframe-Orderflow, der eine PD Array abarbeitet.</p>
+<p>Praktische Folge im Fallbeispiel: ICT wertete die Zone als <em>„shenanigans"</em> und <strong>blieb bei seiner
+These</strong>, statt die Verweildauer als Widerlegung zu lesen — die Kerzenzahl sagte hier „Manipulation",
+nicht „falsch positioniert".</p>
+<h2 id="verwandt-aber-getrennt-der-geschwindigkeits-mastab-fur-ein-zweites-bein">Verwandt, aber getrennt: der Geschwindigkeits-Maßstab für ein zweites Bein</h2>
+<p>Ebenfalls aus derselben Quelle, und ausdrücklich <strong>keine</strong> Anwendung dieser Seite: Nach einem
+ersten Lauf zu einem Pool (dort sieben Kerzen) erwartet ICT den zweiten Lauf <strong>schneller</strong> —
+<em>„I want less than seven candlesticks to get to that buy side."</em> Begründung ist nicht die
+Ineffizienz, sondern die Ausführung: Tempo verhindert, dass die Gegenseite ihre Orders zurückzieht.</p>
+<blockquote>
+<p>⚠️ <strong>ICT verwahrt sich dort ausdrücklich gegen mechanisches Zählen</strong>: <em>„Don't start turning this
+into a science… ‚See, ICT counts candles and it's a specific number' — </em><em>I don't do those
+things.</em><em>"</em> Das ist ein <strong>Vergleich zweier Beine</strong>, keine feste Zahl.</p>
+<p>Zusammen mit dem Zitat oben („the only time I'm counting candles is when inside inefficiencies")
+ergibt das ein konsistentes Bild: Kerzenzahl ist bei ICT durchgehend eine <strong>qualitative Aussage
+über Verweildauer und Tempo</strong>, nie ein Auslöser. Die Skala oben ist entsprechend als Erwartung zu
+lesen, nicht als Signalgeber — was für einen Backtest heißt, dass die Trennschärfe zwischen 2 und
+3 Kerzen die eigentlich zu prüfende Behauptung ist.</p>
+</blockquote>
 <h2 id="praktische-konsequenz">Praktische Konsequenz</h2>
 <ul>
 <li>Die Regel ist ein <strong>Abbruchkriterium</strong>, kein Entry-Trigger: Sie sagt, wann eine bestehende
@@ -272,7 +303,7 @@ fallende Fortsetzungsrate mit Bruch zwischen 2 und 3. Vermerkt in <code>algo/PLA
 <li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a> — Bodies als das, was im Gap zählt</li>
 <li><a href="../p/low-probability-day-probing.html">Low Probability Day Probing</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">2026-07-06 - Weekend US Holiday Volume Protocol (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-13-how-to-probe-low-probability-rth-opening-ranges-source.html">2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/low-probability-day-probing.html">Low Probability Day Probing</a><span class="cat">Modelle</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">7</span></h2><ul><li><a href="../p/2026-05-13-turning-loss-into-gain-market-alchemy-source.html">2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">2026-07-06 - Weekend US Holiday Volume Protocol (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-13-how-to-probe-low-probability-rth-opening-ranges-source.html">2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/low-probability-day-probing.html">Low Probability Day Probing</a><span class="cat">Modelle</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Kerzenzahl in einer Ineffizienz.md</code></footer>
 </article>
 </main>

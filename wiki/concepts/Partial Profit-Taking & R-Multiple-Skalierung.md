@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, trade-management]
 created: 2026-08-06
-updated: 2026-08-11
-sources: ["[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)]]", "[[2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]", "[[2024-09-11 - ICT Executions September 11, 2024 NQ Long MOC Macro (Source)]]", "[[2023-01-12 - ICT Executions January 12, 2023 ES Short Last Hour Setup (Source)]]", "[[2023-02-01 - ICT Executions February 1, 2023 ES Short (Source)]]"]
+updated: 2026-08-16
+sources: ["[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)]]", "[[2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]", "[[2024-09-11 - ICT Executions September 11, 2024 NQ Long MOC Macro (Source)]]", "[[2023-01-12 - ICT Executions January 12, 2023 ES Short Last Hour Setup (Source)]]", "[[2023-02-01 - ICT Executions February 1, 2023 ES Short (Source)]]", "[[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain - Market Alchemy (Source)]]"]
 ---
 
 # Partial Profit-Taking & R-Multiple-Skalierung
@@ -121,6 +121,32 @@ genommener Partials unverändert** — *"no strangling the trade if the Large Ra
 manifests..."*. Kontrastiert die übrigen Beispiele dieser Seite (die den Stop nach Partials aktiv
 auf Breakeven/"Risk Removed" verschieben): welche Variante gilt, hängt vom Zieltyp ab
 (Intraday-Ziel vs. größere Swing-Range).
+
+## „Running down equity" — Partial an jedem neuen Hoch (2026-05-13)
+
+Aus [[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain — Market Alchemy (Source)]]
+eine von ICT benannte Technik, die er nach eigener Aussage schon Jahre zuvor gelehrt hat:
+
+> *„Every time it takes a new high and I'm in a long, **as soon as it takes the high out**, I'm
+> going to take a partial off there."*
+
+Der Auslöser ist damit **strukturell** (neues Hoch genommen), nicht R-basiert und nicht an ein
+vorab gesetztes Ziel gebunden. Begründung: Auf das volle Erreichen des Endziels mit der kompletten
+Position zu bestehen, sei *„a little overzealous if you're brand new."*
+
+**Zwei weitere Management-Elemente aus derselben Quelle:**
+
+- **Bedingtes Bracket, vorab erklärt**: Für den Fall eines Stop-outs an einem bestimmten Level
+  liegen bereits Orders bereit (im Beispiel: 10 weitere Kontrakte raus, 4 bleiben mit Stop unter der
+  IFVG-C.E.). Der Plan steht **vor** dem Ereignis — *„that way you can see everything's been
+  explained ahead of time."*
+- **„Strangle the position"**: Ist die Idee ausgereizt, wird der Stop bewusst eng gezogen statt auf
+  das Ziel zu warten — *„I've done worn out my welcome in this trade… either it moves in my favor
+  and rewards my patience, or it removes me from the trade and I've taken a little bit more than I
+  would have."* Vgl. „Last Exit" in [[Missed Entry Trade Management Playbook]].
+- **Größe als Psychologie-Werkzeug** unter [[Low Resistance Liquidity Run|High-Resistance-Bedingungen]]:
+  viele kleine Kontrakte, damit früh Teilgewinne möglich sind — sonst verschiebt sich die
+  Aufmerksamkeit von der Preisaktion auf die eigene Position.
 
 ## Bezug zum Reward-to-Risk-Modell
 

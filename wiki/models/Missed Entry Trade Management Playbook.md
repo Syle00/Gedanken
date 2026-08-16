@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, 2026, execution]
 created: 2026-08-01
 updated: 2026-08-16
-sources: ["[[Missed Entry How To Navigate The Same Trade Idea (Source)]]", "[[2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)|Missed Entry How To Navigate The Same Trade Idea (Source, Video)]]", "[[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]"]
+sources: ["[[Missed Entry How To Navigate The Same Trade Idea (Source)]]", "[[2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)|Missed Entry How To Navigate The Same Trade Idea (Source, Video)]]", "[[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain - Market Alchemy (Source)]]"]
 ---
 
 # Missed Entry / Trade Management Playbook
@@ -105,6 +105,35 @@ als [[CISD (Change in State of Delivery)|CISD]]/[[Rejection Block]] identifizier
   verpassen.
 - **Vorzeitiger Komplettausstieg** ist explizit erlaubt und wurde hier genutzt: *„Too much of a
   retracement on my part for the trade I was in."* — deckt sich mit „Last Exit" oben.
+
+### Wann ein Wiedereinstieg nach dem Stop-out doch erlaubt ist
+
+Die Re-Entry-Sperre oben stammt aus dem 02.07.-Video. In
+[[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain — Market Alchemy (Source)]]
+macht ICT das **Gegenteil**: Stop-out, danach Wiedereinstieg am nächsten IFVG mit identischem Ziel.
+Kein Widerspruch — beide Male entscheidet **dasselbe Kriterium**:
+
+> *„**None of these things that caused me to get stopped out change the underlying narrative** of
+> where price is going to go."* (13.05., Wiedereinstieg)
+>
+> *„I can't reenter it… I'm **long in the tooth** on this sell."* (02.07., Sperre)
+
+| | Wiedereinstieg erlaubt | Sperre |
+|---|---|---|
+| **Narrativ** | unverändert gültig, Ziel noch offen | erfüllt oder überholt |
+| **Lage in der Bewegung** | strukturell **früh** | ausgereizt |
+| ICTs eigene Formulierung | *„everything is indicating that it still could potentially go where I think it should go"* | *„too far up on the curve"* |
+
+Bemerkenswert: ICT nennt das Curve-Kriterium **in beiden** Videos. Auch im Mai-Video sagt er
+vorsorglich: *„This is a day where if I get stopped out, I wouldn't want to add in or try to
+re-enter, **cuz we're too far up on the curve**"* — für den späteren Verlauf desselben Tages. Die
+Sperre ist also nicht an den Verlust gekoppelt, sondern an die **Position innerhalb der
+Marktmaker-Kurve** (siehe [[Reclaimed Order Block]] zur Kurven-Terminologie).
+
+> ⚠️ **Für Anfänger gilt die Sperre unabhängig davon.** *„Are you allowed to take another trade if
+> you get stopped out? **In the beginning, you shouldn't.** I promise you if you do that in your
+> first year, you won't blow out. You won't go on tilt."* Die Unterscheidung oben setzt die
+> Erfahrung voraus, das Narrativ überhaupt zuverlässig beurteilen zu können.
 
 ### Kontext-Filter: Feiertagsvolumen
 
