@@ -128,23 +128,18 @@ def _forex_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> lis
     idx = pd.to_datetime(df["time"], unit="s", utc=True).dt.tz_convert(NY)
     df = df.set_index(idx).drop(columns="time").sort_index()
 
-    if tf in WANDUHR_TF:
-        res = df.tz_localize(None).resample(
-            PANDAS_FREQ[tf], label="left", closed="left").agg(OHLC).dropna()
-        res.index = res.index.tz_localize(NY, ambiguous=True, nonexistent="shift_forward")
-        df = res
-    elif tf != "1m":
-        df = df.resample(PANDAS_FREQ[tf], label="left", closed="left",
-                         origin="start_day").agg(OHLC).dropna()
-
-    if von:
-        df = df[df.index.date >= von]
-    if bis:
-        df = df[df.index.date <= bis]
-
     idx_py = df.index.to_pydatetime()
     opens, highs, lows, closes = (df[c].to_numpy() for c in ("open", "high", "low", "close"))
-    return [Bar(t, o, h, l, c) for t, o, h, l, c in zip(idx_py, opens, highs, lows, closes)]
+    out = [Bar(t, o, h, l, c) for t, o, h, l, c in zip(idx_py, opens, highs, lows, closes)]
+    if tf != "1m":
+        out = resample_bars(out, tf)
+
+    if von:
+        out = [b for b in out if b.t.date() >= von]
+    if bis:
+        out = [b for b in out if b.t.date() <= bis]
+
+    return out
 
 
 def _demo() -> None:
