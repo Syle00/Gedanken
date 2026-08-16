@@ -343,6 +343,23 @@ nicht in `selfcheck.py` eingehaengt).
   zum RTH-Open (Tageszeit-Confounder). Kennzahlen je Block: Range, |Netto|, dir = Netto/Range
   und der Tagesrang nach Range. Signifikanz per Mann-Whitney (einseitig, Macro > Kontrolle).
 
+  **Seit 2026-08-16 laeuft es standardmaessig auf 1s** (IBKR-Parquets, NQ/ES) statt auf 1m --
+  `--tf 1m` schaltet auf die alte CSV-Basis zurueck und reproduziert die frueheren
+  MNQ-Zahlen unveraendert (verifiziert: n=593/1271, p=0,0009/0,0001/0,0015/0,0062). Drei
+  Dinge muss man dabei wissen:
+  - Der Luecken-Waechter zaehlt **Minuten mit Kerze**, nicht Kerzen (`MIN_MINUTEN = 15` von
+    20). Auf 1s liefert IBKR fuer jede Sekunde eine Kerze -- eine Kerzenzaehlung waere dort
+    immer erfuellt und der Waechter wirkungslos. Auf 1m ist beides identisch.
+  - Phantomkerzen (`volume == 0`, flach auf dem letzten Kurs) filtert `marktdaten.tage()`
+    weg, bevor gemessen wird. Von 82.800 Rohkerzen eines 23h-Tags bleiben ~46.000-70.000.
+  - Die FVG-Schwelle haengt am Timeframe (`FVG_REL_DEFAULT`): 0,45 auf 1m, **1,50 auf 1s**.
+    Auf 1s ist die lokale Median-Kerzenrange fast immer genau ein Tick, `size_rel` rastet
+    darum auf ein Gitter ein und der Median 1,00 ist ein Massepunkt mit 24 % aller FVG --
+    ">= Median" haelt dort 68 % statt der ~50 %, die die 1m-Regel haelt. Ergebnisse gehen
+    nach `algo/results/macro_<symbol>_<tf>.json` -- **beide** Schluessel sind noetig: das
+    frueher einzige `macro.json` liess einen ES-Lauf den MNQ-Lauf stillschweigend
+    ueberschreiben (beim Umbau aufgefallen, alte Dateien entsprechend umbenannt).
+
 - `backtest_open_drive_vs_sb.py` -- laesst ein starker RTH-Open-Drive (09:30-09:50) die
   Silver-Bullet-Stunde (10:00-11:00) leerlaufen? Anlass: Jannes' Satz nach dem Tapereading vom
   2026-08-11, der Move sei vor seinem Fenster gelaufen. Misst je Tag Range und
@@ -387,7 +404,7 @@ Mittelfristig loest der IBKR-Adapter (PLAN.md Schritt 4) das Problem an der Wurz
 nur ~30 Tage zurueck (yfinance-Grenze), aktuell 22 MNQ-Tage bis einschliesslich 2026-08-10.
 Der laufende Handelstag fehlt immer, weil `fetch_yfinance.py` ihn bewusst nicht schreibt
 (`end` exklusiv, sonst bliebe ein Tagesstumpf liegen). Bloecke desselben Tages sind nicht unabhaengig, der
-p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_BARS = 15` verwirft Bloecke mit
+p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_MINUTEN = 15` verwirft Bloecke mit
 Datenluecken, statt sie als ruhigen Markt zu zaehlen; `backtest_open_drive_vs_sb.py` macht
 dasselbe mit `MIN_BARS_OPEN = 15` / `MIN_BARS_SB = 45` und wirft damit Fragmenttage raus. Bei
 n=21 sind beide Nicht-Befunde dort schwach -- der Test gehoert mit wachsendem Bestand wiederholt.
@@ -1066,6 +1083,21 @@ jetzt ~12,5 s fuer dieselbe volle 1m-Historie.
 **Warum:** `backtest_common.py::load_rows()` und die Gruppe-A/B-Module brauchen einen Loader, der
 Forex und Futures gleich behandelt, ohne dass jedes Skript selbst zwischen CSV- und
 Parquet-Pfad unterscheiden muss.
+
+**`tage(symbol, tf)` -- das tagesweise Gegenstueck (2026-08-16).** `bars()` liefert einen
+durchgehenden Strom; Auswerter, die je Handelstag messen (`backtest_macro.py`, perspektivisch
+`macro_db.py`), brauchen stattdessen `(session_day, bars)` je Tagesdatei. Genau das liefert
+`tage()`. Zwei Dinge passieren dort zentral, damit sie nicht in jedem Auswerter neu (und
+verschieden) implementiert werden:
+- **Phantomfilter fuer 1s.** IBKR liefert fuer *jede* Sekunde des Fensters eine Kerze, auch
+  fuer Sekunden ohne einen einzigen Trade -- flach auf dem letzten Kurs (`o==h==l==c`,
+  `volume == 0`). `tage()` wirft sie weg; danach entspricht die Reihe dem, was ein 1s-Chart
+  zeigt. Ohne den Filter nimmt ein `open="first"`-Aggregat eine Phantomkerze statt des ersten
+  echten Trades als Open (PLAN.md, 2026-08-15). Groessenordnung: von 82.800 Rohkerzen eines
+  23h-Tags bleiben ~46.000-70.000.
+- **`session_day_from_path()`** liegt jetzt ebenfalls hier (vorher in `backtest_macro.py`,
+  von wo `macro_db.py` sie importierte). Der Handelstag kommt aus dem **Dateinamen**, nicht
+  aus den Bars: eine Tagesdatei enthaelt zwei Kalendertage (18:00 Vorabend .. 17:00).
 **Bekannte Grenzen:** Nur Gruppe-A/B-Module (`backtest_seasonal.py`,
 `backtest_midnight_range_std.py`) sind bislang tatsaechlich umgestellt (siehe `algo/PLAN.md`-
 Backlog fuer die restlichen acht). Gruppe-C-Module (ORG/NDOG-abhaengig) bleiben MNQ-only, siehe

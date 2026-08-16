@@ -655,6 +655,41 @@ einen eingefrorenen Stand als "live" auszugeben (CLAUDE.md, "Frische Live-Daten"
 ein eigener Modus in `fetch_ibkr.py`: transientes Ziel (`algo/live/`, gitignored), keine
 Registerzeilen, inkrementell nur das letzte Fenster statt aller 46.
 
+### Backlog: Kontraktroll in `fetch_ibkr.py` sitzt zu frueh (2026-08-16, beim 1s-Umbau gefunden)
+
+`fetch_ibkr.py` wechselt am **12.03.2026** von H2026 (Maerz) auf M2026 (Juni) -- zu einem
+Zeitpunkt, an dem das Volumen noch im Maerz-Kontrakt lag. Die betroffenen Tage liegen als
+`raw/marktdaten/`-Parquets vor und sehen aeusserlich vollstaendig aus (82.800 Kerzen, keine
+Zeitluecke), enthalten aber einen praktisch untraded Kontrakt:
+
+| Tag | Kontrakt | Sekunden mit Trade | Tagesvolumen |
+|---|---|---|---|
+| NQ 11.03. | NQH2026 | 49.515 | 467.980 |
+| NQ 12.03. | NQM2026 | 4.055 | **9.042** |
+| NQ 13.03. | NQM2026 | 11.077 | 26.553 |
+| NQ 16.03. | NQM2026 | 43.927 | 280.694 |
+| ES 11.03. | ESH2026 | 55.716 | 1.508.796 |
+| ES 12.03. | ESM2026 | 24.391 | **95.786** |
+| ES 13.03. | ESM2026 | 33.663 | 202.143 |
+
+Am 12.03. ist das Volumen rund **50-fach** (NQ) bzw. **16-fach** (ES) niedriger als am Vortag.
+Die Preise sind echt, aber die 1s-Mikrostruktur dieser Tage ist eine andere: FVGs entstehen
+dort, weil kaum jemand handelt, nicht weil der Preis effizient wegspringt. Fuer jede Auswertung
+auf Tick-/Sekundenebene sind die Tage damit nicht vergleichbar mit dem Rest.
+
+Zwei Dinge fangen den Effekt heute ab, keines loest ihn:
+- `backtest_macro.py` verwirft dank `MIN_MINUTEN` die zu duennen Bloecke automatisch und weist
+  die betroffenen Tage im Bericht namentlich aus (NQ 12.03. faellt dadurch von 68 auf 22
+  auswertbare Bloecke).
+- Die uebrigen Bloecke bleiben aber drin und mitteln mit.
+
+**Zu tun:** Front-Month in `fetch_ibkr.py` ueber das **Volumen** waehlen statt ueber den
+Kalender -- gerollt wird, wenn der Folgekontrakt den aktuellen im Tagesvolumen ueberholt
+(Standardregel im Futures-Handel), nicht an einem festen Datum. Danach die betroffenen Tage
+(12./13.03.2026, beide Symbole) im richtigen Kontrakt neu holen. Solange das offen ist, gilt
+`raw/marktdaten/1s-abdeckung.csv` als vollstaendig, obwohl zwei Tage die falsche Serie
+enthalten.
+
 ## Naechster Schritt
 
 **Korrektur (2026-08-03):** Der urspruengliche Plan war, mit dem Backtest zu warten, bis

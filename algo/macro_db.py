@@ -31,7 +31,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from tools.analyze_ohlc import (CFG, DATA_DIR, NY, Bar, at, displacements, fvgs,  # noqa: E402
                                 load, structure_breaks, sweeps, untouched_levels)
 
-from backtest_macro import session_day_from_path  # noqa: E402
+from marktdaten import session_day_from_path  # noqa: E402  -- 2026-08-16 von
+                                              # backtest_macro hierher gezogen
 
 # Der MNQ-Handelstag laeuft 18:00 (Vorabend) .. 17:00. Das erste Macro-Fenster ist
 # 18:50, das letzte 16:50 -- 23 Stunden. 17:50 liegt in der Globex-Pause.

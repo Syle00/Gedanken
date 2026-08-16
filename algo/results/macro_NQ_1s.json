@@ -1,0 +1,836 @@
+{
+  "generated_at": "2026-08-16T15:43:26.835751+00:00",
+  "symbol": "NQ",
+  "tf": "1s",
+  "min_fvg_rel": 1.5,
+  "days": [
+    "2026-02-12",
+    "2026-02-13",
+    "2026-02-16",
+    "2026-02-17",
+    "2026-02-18",
+    "2026-02-19",
+    "2026-02-20",
+    "2026-02-23",
+    "2026-02-24",
+    "2026-02-25",
+    "2026-02-26",
+    "2026-02-27",
+    "2026-03-02",
+    "2026-03-03",
+    "2026-03-04",
+    "2026-03-05",
+    "2026-03-06",
+    "2026-03-09",
+    "2026-03-10",
+    "2026-03-11",
+    "2026-03-12",
+    "2026-03-13",
+    "2026-03-16",
+    "2026-03-17",
+    "2026-03-18",
+    "2026-03-19",
+    "2026-03-20",
+    "2026-03-23",
+    "2026-03-24",
+    "2026-03-25",
+    "2026-08-13",
+    "2026-08-14"
+  ],
+  "blocks": {
+    "18:10-18:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 36.5,
+      "med_netto": 18.0,
+      "med_dir": 0.4657534246575342,
+      "med_rank": 34,
+      "fvgs_je_block": 133.32258064516128
+    },
+    "18:30-18:50": {
+      "macro": false,
+      "n": 30,
+      "med_range": 36.875,
+      "med_netto": 12.5,
+      "med_dir": 0.42292406561812956,
+      "med_rank": 48.0,
+      "fvgs_je_block": 141.16666666666666
+    },
+    "18:50-19:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 36.0,
+      "med_netto": 17.25,
+      "med_dir": 0.4578313253012048,
+      "med_rank": 45,
+      "fvgs_je_block": 155.6451612903226
+    },
+    "19:10-19:30": {
+      "macro": false,
+      "n": 30,
+      "med_range": 33.5,
+      "med_netto": 13.5,
+      "med_dir": 0.37685881370091895,
+      "med_rank": 46.5,
+      "fvgs_je_block": 159.3
+    },
+    "19:30-19:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 38.25,
+      "med_netto": 17.75,
+      "med_dir": 0.5169082125603864,
+      "med_rank": 45,
+      "fvgs_je_block": 164.8709677419355
+    },
+    "19:50-20:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 41.5,
+      "med_netto": 15.0,
+      "med_dir": 0.34782608695652173,
+      "med_rank": 33,
+      "fvgs_je_block": 187.1290322580645
+    },
+    "20:10-20:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 45.5,
+      "med_netto": 16.0,
+      "med_dir": 0.40375586854460094,
+      "med_rank": 35,
+      "fvgs_je_block": 182.29032258064515
+    },
+    "20:30-20:50": {
+      "macro": false,
+      "n": 32,
+      "med_range": 39.625,
+      "med_netto": 13.25,
+      "med_dir": 0.37389135254988914,
+      "med_rank": 35.0,
+      "fvgs_je_block": 181.6875
+    },
+    "20:50-21:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 39.75,
+      "med_netto": 16.75,
+      "med_dir": 0.4772727272727273,
+      "med_rank": 37,
+      "fvgs_je_block": 193.74193548387098
+    },
+    "21:10-21:30": {
+      "macro": false,
+      "n": 30,
+      "med_range": 33.25,
+      "med_netto": 14.0,
+      "med_dir": 0.352401817591691,
+      "med_rank": 47.5,
+      "fvgs_je_block": 189.36666666666667
+    },
+    "21:30-21:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 29.5,
+      "med_netto": 13.0,
+      "med_dir": 0.39766081871345027,
+      "med_rank": 47,
+      "fvgs_je_block": 171.16129032258064
+    },
+    "21:50-22:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 29.25,
+      "med_netto": 9.75,
+      "med_dir": 0.3853211009174312,
+      "med_rank": 55,
+      "fvgs_je_block": 157.1290322580645
+    },
+    "22:10-22:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 26.75,
+      "med_netto": 13.5,
+      "med_dir": 0.39416058394160586,
+      "med_rank": 52,
+      "fvgs_je_block": 145.61290322580646
+    },
+    "22:30-22:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 29.25,
+      "med_netto": 7.5,
+      "med_dir": 0.3533834586466165,
+      "med_rank": 53,
+      "fvgs_je_block": 150.16129032258064
+    },
+    "22:50-23:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 27.0,
+      "med_netto": 11.0,
+      "med_dir": 0.5068493150684932,
+      "med_rank": 57,
+      "fvgs_je_block": 134.51612903225808
+    },
+    "23:10-23:30": {
+      "macro": false,
+      "n": 30,
+      "med_range": 21.875,
+      "med_netto": 9.25,
+      "med_dir": 0.3678839957035446,
+      "med_rank": 58.5,
+      "fvgs_je_block": 131.7
+    },
+    "23:30-23:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 28.5,
+      "med_netto": 10.75,
+      "med_dir": 0.3203125,
+      "med_rank": 56,
+      "fvgs_je_block": 135.80645161290323
+    },
+    "23:50-00:10": {
+      "macro": true,
+      "n": 30,
+      "med_range": 21.875,
+      "med_netto": 8.25,
+      "med_dir": 0.40789473684210525,
+      "med_rank": 59.5,
+      "fvgs_je_block": 135.63333333333333
+    },
+    "00:10-00:30": {
+      "macro": false,
+      "n": 30,
+      "med_range": 28.375,
+      "med_netto": 11.75,
+      "med_dir": 0.3949617346938775,
+      "med_rank": 57.0,
+      "fvgs_je_block": 140.73333333333332
+    },
+    "00:30-00:50": {
+      "macro": false,
+      "n": 30,
+      "med_range": 26.875,
+      "med_netto": 13.25,
+      "med_dir": 0.48043478260869565,
+      "med_rank": 54.0,
+      "fvgs_je_block": 131.53333333333333
+    },
+    "00:50-01:10": {
+      "macro": true,
+      "n": 30,
+      "med_range": 27.75,
+      "med_netto": 16.25,
+      "med_dir": 0.5904392764857882,
+      "med_rank": 48.5,
+      "fvgs_je_block": 143.03333333333333
+    },
+    "01:10-01:30": {
+      "macro": false,
+      "n": 30,
+      "med_range": 26.25,
+      "med_netto": 13.0,
+      "med_dir": 0.40295868347338937,
+      "med_rank": 49.5,
+      "fvgs_je_block": 146.5
+    },
+    "01:30-01:50": {
+      "macro": false,
+      "n": 30,
+      "med_range": 34.25,
+      "med_netto": 14.75,
+      "med_dir": 0.5756597305269873,
+      "med_rank": 43.5,
+      "fvgs_je_block": 159.76666666666668
+    },
+    "01:50-02:10": {
+      "macro": true,
+      "n": 30,
+      "med_range": 34.5,
+      "med_netto": 16.875,
+      "med_dir": 0.5148388197168685,
+      "med_rank": 47.0,
+      "fvgs_je_block": 158.03333333333333
+    },
+    "02:10-02:30": {
+      "macro": false,
+      "n": 30,
+      "med_range": 31.875,
+      "med_netto": 16.0,
+      "med_dir": 0.4449850352487269,
+      "med_rank": 49.5,
+      "fvgs_je_block": 165.93333333333334
+    },
+    "02:30-02:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 33.0,
+      "med_netto": 12.0,
+      "med_dir": 0.46078431372549017,
+      "med_rank": 51,
+      "fvgs_je_block": 154.06451612903226
+    },
+    "02:50-03:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 44.75,
+      "med_netto": 15.0,
+      "med_dir": 0.4556213017751479,
+      "med_rank": 36,
+      "fvgs_je_block": 186.61290322580646
+    },
+    "03:10-03:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 49.25,
+      "med_netto": 20.5,
+      "med_dir": 0.43147208121827413,
+      "med_rank": 25,
+      "fvgs_je_block": 203.2258064516129
+    },
+    "03:30-03:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 44.75,
+      "med_netto": 18.25,
+      "med_dir": 0.42441860465116277,
+      "med_rank": 32,
+      "fvgs_je_block": 200.2258064516129
+    },
+    "03:50-04:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 51.75,
+      "med_netto": 21.5,
+      "med_dir": 0.576530612244898,
+      "med_rank": 29,
+      "fvgs_je_block": 197.58064516129033
+    },
+    "04:10-04:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 39.25,
+      "med_netto": 17.5,
+      "med_dir": 0.41496598639455784,
+      "med_rank": 38,
+      "fvgs_je_block": 193.3548387096774
+    },
+    "04:30-04:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 45.0,
+      "med_netto": 13.25,
+      "med_dir": 0.37735849056603776,
+      "med_rank": 34,
+      "fvgs_je_block": 191.3548387096774
+    },
+    "04:50-05:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 48.5,
+      "med_netto": 11.25,
+      "med_dir": 0.2916666666666667,
+      "med_rank": 35,
+      "fvgs_je_block": 184.2258064516129
+    },
+    "05:10-05:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 37.5,
+      "med_netto": 14.5,
+      "med_dir": 0.36507936507936506,
+      "med_rank": 41,
+      "fvgs_je_block": 182.7741935483871
+    },
+    "05:30-05:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 34.75,
+      "med_netto": 11.75,
+      "med_dir": 0.2875,
+      "med_rank": 45,
+      "fvgs_je_block": 180.25806451612902
+    },
+    "05:50-06:10": {
+      "macro": true,
+      "n": 32,
+      "med_range": 40.375,
+      "med_netto": 17.5,
+      "med_dir": 0.5048639000446229,
+      "med_rank": 34.5,
+      "fvgs_je_block": 170.15625
+    },
+    "06:10-06:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 34.5,
+      "med_netto": 12.5,
+      "med_dir": 0.4166666666666667,
+      "med_rank": 47,
+      "fvgs_je_block": 173.16129032258064
+    },
+    "06:30-06:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 46.5,
+      "med_netto": 17.5,
+      "med_dir": 0.3942857142857143,
+      "med_rank": 37,
+      "fvgs_je_block": 178.32258064516128
+    },
+    "06:50-07:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 47.0,
+      "med_netto": 16.0,
+      "med_dir": 0.3382352941176471,
+      "med_rank": 32,
+      "fvgs_je_block": 185.19354838709677
+    },
+    "07:10-07:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 48.25,
+      "med_netto": 19.5,
+      "med_dir": 0.47,
+      "med_rank": 33,
+      "fvgs_je_block": 178.29032258064515
+    },
+    "07:30-07:50": {
+      "macro": false,
+      "n": 32,
+      "med_range": 48.0,
+      "med_netto": 22.625,
+      "med_dir": 0.5266487665715724,
+      "med_rank": 33.5,
+      "fvgs_je_block": 182.65625
+    },
+    "07:50-08:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 52.5,
+      "med_netto": 34.25,
+      "med_dir": 0.5829787234042553,
+      "med_rank": 28,
+      "fvgs_je_block": 177.32258064516128
+    },
+    "08:10-08:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 48.25,
+      "med_netto": 18.5,
+      "med_dir": 0.4666666666666667,
+      "med_rank": 28,
+      "fvgs_je_block": 180.90322580645162
+    },
+    "08:30-08:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 80.25,
+      "med_netto": 29.25,
+      "med_dir": 0.42857142857142855,
+      "med_rank": 15,
+      "fvgs_je_block": 163.0
+    },
+    "08:50-09:10": {
+      "macro": true,
+      "n": 32,
+      "med_range": 51.0,
+      "med_netto": 24.125,
+      "med_dir": 0.45023696682464454,
+      "med_rank": 25.0,
+      "fvgs_je_block": 162.8125
+    },
+    "09:10-09:30": {
+      "macro": false,
+      "n": 32,
+      "med_range": 50.375,
+      "med_netto": 28.875,
+      "med_dir": 0.48950671658225064,
+      "med_rank": 25.5,
+      "fvgs_je_block": 155.96875
+    },
+    "09:30-09:50": {
+      "macro": false,
+      "n": 32,
+      "med_range": 150.5,
+      "med_netto": 63.875,
+      "med_dir": 0.4721864559401483,
+      "med_rank": 2.0,
+      "fvgs_je_block": 48.53125
+    },
+    "09:50-10:10": {
+      "macro": true,
+      "n": 32,
+      "med_range": 126.875,
+      "med_netto": 41.875,
+      "med_dir": 0.35257613292295376,
+      "med_rank": 4.0,
+      "fvgs_je_block": 61.53125
+    },
+    "10:10-10:30": {
+      "macro": false,
+      "n": 32,
+      "med_range": 122.25,
+      "med_netto": 56.875,
+      "med_dir": 0.48426030491247885,
+      "med_rank": 4.5,
+      "fvgs_je_block": 72.21875
+    },
+    "10:30-10:50": {
+      "macro": false,
+      "n": 32,
+      "med_range": 97.125,
+      "med_netto": 30.625,
+      "med_dir": 0.39712137029733596,
+      "med_rank": 6.0,
+      "fvgs_je_block": 79.6875
+    },
+    "10:50-11:10": {
+      "macro": true,
+      "n": 32,
+      "med_range": 93.125,
+      "med_netto": 41.25,
+      "med_dir": 0.3623321123321124,
+      "med_rank": 7.0,
+      "fvgs_je_block": 86.96875
+    },
+    "11:10-11:30": {
+      "macro": false,
+      "n": 32,
+      "med_range": 81.625,
+      "med_netto": 28.625,
+      "med_dir": 0.4074252064437526,
+      "med_rank": 10.5,
+      "fvgs_je_block": 89.59375
+    },
+    "11:30-11:50": {
+      "macro": false,
+      "n": 32,
+      "med_range": 76.75,
+      "med_netto": 29.875,
+      "med_dir": 0.4212599646391017,
+      "med_rank": 11.0,
+      "fvgs_je_block": 100.125
+    },
+    "11:50-12:10": {
+      "macro": true,
+      "n": 32,
+      "med_range": 71.25,
+      "med_netto": 23.125,
+      "med_dir": 0.35913514709135147,
+      "med_rank": 13.5,
+      "fvgs_je_block": 104.78125
+    },
+    "12:10-12:30": {
+      "macro": false,
+      "n": 32,
+      "med_range": 67.875,
+      "med_netto": 30.25,
+      "med_dir": 0.42123592563498297,
+      "med_rank": 18.5,
+      "fvgs_je_block": 121.0625
+    },
+    "12:30-12:50": {
+      "macro": false,
+      "n": 32,
+      "med_range": 68.375,
+      "med_netto": 24.125,
+      "med_dir": 0.4160825959844334,
+      "med_rank": 18.0,
+      "fvgs_je_block": 116.59375
+    },
+    "12:50-13:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 64.75,
+      "med_netto": 17.5,
+      "med_dir": 0.3176470588235294,
+      "med_rank": 22,
+      "fvgs_je_block": 120.0
+    },
+    "13:10-13:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 58.75,
+      "med_netto": 19.75,
+      "med_dir": 0.39805825242718446,
+      "med_rank": 20,
+      "fvgs_je_block": 128.32258064516128
+    },
+    "13:30-13:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 66.75,
+      "med_netto": 28.25,
+      "med_dir": 0.45785876993166286,
+      "med_rank": 19,
+      "fvgs_je_block": 124.41935483870968
+    },
+    "13:50-14:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 55.75,
+      "med_netto": 19.75,
+      "med_dir": 0.37454545454545457,
+      "med_rank": 24,
+      "fvgs_je_block": 126.41935483870968
+    },
+    "14:10-14:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 54.5,
+      "med_netto": 16.5,
+      "med_dir": 0.32608695652173914,
+      "med_rank": 28,
+      "fvgs_je_block": 141.8709677419355
+    },
+    "14:30-14:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 54.25,
+      "med_netto": 21.5,
+      "med_dir": 0.4697508896797153,
+      "med_rank": 25,
+      "fvgs_je_block": 130.03225806451613
+    },
+    "14:50-15:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 59.75,
+      "med_netto": 26.0,
+      "med_dir": 0.4530612244897959,
+      "med_rank": 21,
+      "fvgs_je_block": 133.0
+    },
+    "15:10-15:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 55.5,
+      "med_netto": 34.75,
+      "med_dir": 0.5523560209424084,
+      "med_rank": 20,
+      "fvgs_je_block": 119.29032258064517
+    },
+    "15:30-15:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 59.5,
+      "med_netto": 24.25,
+      "med_dir": 0.4090909090909091,
+      "med_rank": 22,
+      "fvgs_je_block": 109.2258064516129
+    },
+    "15:50-16:10": {
+      "macro": true,
+      "n": 31,
+      "med_range": 59.25,
+      "med_netto": 21.75,
+      "med_dir": 0.3640776699029126,
+      "med_rank": 19,
+      "fvgs_je_block": 90.80645161290323
+    },
+    "16:10-16:30": {
+      "macro": false,
+      "n": 31,
+      "med_range": 31.75,
+      "med_netto": 8.5,
+      "med_dir": 0.29411764705882354,
+      "med_rank": 54,
+      "fvgs_je_block": 159.7741935483871
+    },
+    "16:30-16:50": {
+      "macro": false,
+      "n": 31,
+      "med_range": 20.25,
+      "med_netto": 7.25,
+      "med_dir": 0.352112676056338,
+      "med_rank": 63,
+      "fvgs_je_block": 136.83870967741936
+    }
+  },
+  "p": {
+    "range": 0.010334731145264182,
+    "netto": 0.2680825301616191,
+    "dir": 0.41613206527098523,
+    "fvgs": 0.6107632518541647
+  },
+  "abdeckung": [
+    {
+      "day": "2026-02-12",
+      "bars": 46898,
+      "blocks": 68
+    },
+    {
+      "day": "2026-02-13",
+      "bars": 56342,
+      "blocks": 68
+    },
+    {
+      "day": "2026-02-16",
+      "bars": 23446,
+      "blocks": 56
+    },
+    {
+      "day": "2026-02-17",
+      "bars": 50994,
+      "blocks": 68
+    },
+    {
+      "day": "2026-02-18",
+      "bars": 46661,
+      "blocks": 68
+    },
+    {
+      "day": "2026-02-19",
+      "bars": 47996,
+      "blocks": 68
+    },
+    {
+      "day": "2026-02-20",
+      "bars": 47805,
+      "blocks": 68
+    },
+    {
+      "day": "2026-02-23",
+      "bars": 50792,
+      "blocks": 68
+    },
+    {
+      "day": "2026-02-24",
+      "bars": 47966,
+      "blocks": 68
+    },
+    {
+      "day": "2026-02-25",
+      "bars": 46487,
+      "blocks": 68
+    },
+    {
+      "day": "2026-02-26",
+      "bars": 48794,
+      "blocks": 68
+    },
+    {
+      "day": "2026-02-27",
+      "bars": 52144,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-02",
+      "bars": 60008,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-03",
+      "bars": 63060,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-04",
+      "bars": 61832,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-05",
+      "bars": 59610,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-06",
+      "bars": 56808,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-09",
+      "bars": 67898,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-10",
+      "bars": 56546,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-11",
+      "bars": 49515,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-12",
+      "bars": 4055,
+      "blocks": 30
+    },
+    {
+      "day": "2026-03-13",
+      "bars": 11077,
+      "blocks": 53
+    },
+    {
+      "day": "2026-03-16",
+      "bars": 43927,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-17",
+      "bars": 46759,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-18",
+      "bars": 48564,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-19",
+      "bars": 59404,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-20",
+      "bars": 55267,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-23",
+      "bars": 64663,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-24",
+      "bars": 55806,
+      "blocks": 68
+    },
+    {
+      "day": "2026-03-25",
+      "bars": 53412,
+      "blocks": 68
+    },
+    {
+      "day": "2026-08-13",
+      "bars": 46113,
+      "blocks": 68
+    },
+    {
+      "day": "2026-08-14",
+      "bars": 44854,
+      "blocks": 68
+    }
+  ],
+  "macro_vs_ctrl": {
+    "macro": {
+      "n": 684,
+      "med_range": 48.0,
+      "med_netto": 17.875,
+      "med_dir": 0.4405626331579634
+    },
+    "kontrolle": {
+      "n": 1427,
+      "med_range": 43.75,
+      "med_netto": 17.5,
+      "med_dir": 0.42063492063492064
+    }
+  }
+}

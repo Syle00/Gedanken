@@ -119,6 +119,39 @@ def _load_1s_parquet(path: Path) -> list[Bar]:
                                         df["close"], df["volume"])]
 
 
+def session_day_from_path(path: Path) -> date:
+    """Handelstag aus dem Dateinamen: 'NQ 2026-03-24 1s.parquet' -> date(2026, 3, 24).
+
+    Bewusst aus dem Namen statt aus den Bars: eine Tagesdatei enthaelt Kerzen von zwei
+    Kalendertagen (18:00 Vorabend .. 17:00), eine Heuristik ueber die Bars waere bei
+    Fragmenttagen mehrdeutig.
+    """
+    return datetime.strptime(path.name.split(" ")[1], "%Y-%m-%d").date()
+
+
+def tage(symbol: str, tf: str):
+    """Iteriert `(session_day, bars)` je Tagesdatei -- das Gegenstueck zu `bars()` fuer
+    Auswerter, die je Handelstag messen (Macro-Backtest, Macro-Datenbank) statt einen
+    durchgehenden Strom zu brauchen.
+
+    `tf == "1s"` liest die IBKR-Tagesparquets aus `fetch_ibkr.py` und wirft dabei
+    **Phantomkerzen weg** (`volume == 0`): IBKR liefert fuer JEDE Sekunde des Fensters
+    eine Kerze, auch fuer Sekunden ohne einen einzigen Trade. Die sind flach auf dem
+    letzten Kurs (o==h==l==c) und damit kein Marktereignis, sondern Fuellmaterial --
+    ein `open="first"`-Aggregat wuerde sonst eine Phantomkerze statt des ersten echten
+    Trades als Open nehmen (algo/PLAN.md, 2026-08-15). Nach dem Filter entspricht die
+    Reihe dem, was ein 1s-Chart zeigt: eine Kerze je gehandelter Sekunde. Gemessen:
+    von 82.800 Rohkerzen eines 23h-Tags bleiben rund 46.000-70.000 uebrig.
+    """
+    endung = "parquet" if tf == "1s" else "csv"
+    for path in sorted(DATA_DIR.rglob(f"{symbol} *-*-* {tf}.{endung}")):
+        if "RTH" in path.name:
+            continue
+        bs = [b for b in _load_1s_parquet(path) if b.v] if tf == "1s" else load(path)
+        if bs:
+            yield session_day_from_path(path), bs
+
+
 def _forex_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> list[Bar]:
     """Liest den 1m-Parquet-Cache, resampled bei Bedarf. Anker an NY-Mitternacht: der Index
     ist bereits NY-lokalisiert, `origin="start_day"` verankert Resample-Buckets deshalb an
