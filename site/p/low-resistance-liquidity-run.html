@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li class="active"><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">28</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">352</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">353</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -179,7 +179,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Low Resistance Liquidity Run</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-14</div><div class="srcline"><span>Quellen:</span> <a href="../p/low-resistance-liquidity-runs-part-1-source.html">Low Resistance Liquidity Runs Part 1 (Source)</a>, <a href="../p/low-resistance-liquidity-runs-part-2-source.html">Low Resistance Liquidity Runs Part 2 (Source)</a>, <a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a>, <a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">ICT Algorithmic Time &amp; Price Grids (Source)</a>, <a href="../p/ict-mentorship-core-content-month-1-liquidity-runs-source.html">ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)</a>, <a href="../p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">Navigating High Resistance Liquidity Run Conditions (Source)</a>, <a href="../p/2022-05-04-2022-ict-mentorship-episode-23-source.html">2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-16</div><div class="srcline"><span>Quellen:</span> <a href="../p/low-resistance-liquidity-runs-part-1-source.html">Low Resistance Liquidity Runs Part 1 (Source)</a>, <a href="../p/low-resistance-liquidity-runs-part-2-source.html">Low Resistance Liquidity Runs Part 2 (Source)</a>, <a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a>, <a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">ICT Algorithmic Time &amp; Price Grids (Source)</a>, <a href="../p/ict-mentorship-core-content-month-1-liquidity-runs-source.html">ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)</a>, <a href="../p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">Navigating High Resistance Liquidity Run Conditions (Source)</a>, <a href="../p/2022-05-04-2022-ict-mentorship-episode-23-source.html">2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)</a>, <a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">Weekend US Holiday Volume Protocol (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#verschachtelte-eq-messung">Verschachtelte EQ-Messung</a></li>
@@ -187,6 +187,7 @@
 <li><a href="#umsetzung-fur-50-75-pip-runs-part-2">Umsetzung für 50-75 Pip Runs (Part 2)</a></li>
 <li><a href="#setup-erkennung-leere-zone-zwischen-zwei-daily-pd-arrays-2026-erganzung">Setup-Erkennung: leere Zone zwischen zwei Daily PD Arrays (2026-Ergänzung)</a></li>
 <li><a href="#gegenstuck-high-resistance-liquidity-run">Gegenstück: High Resistance Liquidity Run</a><ul>
+<li><a href="#warum-feiertage-hrlr-erzeugen-der-mechanismus-2026-erganzung">Warum Feiertage HRLR erzeugen — der Mechanismus (2026-Ergänzung)</a></li>
 <li><a href="#mechanik-2022er-video-erganzung">Mechanik (2022er Video-Ergänzung)</a></li>
 <li><a href="#navigieren-statt-aussitzen-live-trade-2026-08-10">Navigieren statt Aussitzen (Live-Trade 2026-08-10)</a></li>
 </ul>
@@ -244,6 +245,60 @@ longen sind, aber optisch das Gegenteil zeigen (langsam statt schnell). Quelle:
 US-Feiertags-Wochenenden</strong> (z.B. 4. Juli auf Sa/So: Montag meist schwierige, schlechte Price
 Action → am Montag lieber nicht traden, erst Dienstag wieder einsteigen) und <strong>vor
 Zinsentscheiden/FOMC-Meetings</strong>.</p>
+<h3 id="warum-feiertage-hrlr-erzeugen-der-mechanismus-2026-erganzung">Warum Feiertage HRLR erzeugen — der Mechanismus (2026-Ergänzung)</h3>
+<p>Aus <a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">Weekend US Holiday Volume Protocol (Source)</a>,
+der ausführlichen Fassung der bislang nur als Kurznotiz vorhandenen Warnregel
+(<a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a>). ICT begründet sie erstmals — es ist <strong>keine
+Kalender-Heuristik, sondern ein Partizipationsargument</strong>:</p>
+<ul>
+<li>Große Adressen wissen, dass das Volumen dünn bleibt (Abwesenheit, Sommermonate). Damit fehlt der
+  Anlass für große Ranges: <em>„There's </em><em>no need for them</em><em> to start spreading the market higher or
+  lower on a great big range, because there isn't enough interest to make it reasonable to assume
+  why the market went that high."</em></li>
+<li><strong>Sie können Teilnahme auch nicht erzwingen</strong> — <em>„he won't be able to engineer participation,
+  cuz there's a vacuum of interest."</em></li>
+<li><strong>Die entscheidende Konsequenz</strong>: <em>„They don't need to have the market to be that </em><em>precise</em><em>."</em>
+  Die PD Arrays verschwinden nicht, sie werden <strong>unschärfer</strong>. Wer an einem solchen Tag auf die
+  gewohnte Tick-Präzision setzt, handelt gegen die Bedingungen — nicht gegen die Methode.</li>
+<li>Beantwortet damit auch den häufigen Einwand, ein <em>US</em>-Feiertag könne einen global gehandelten
+  Kontrakt nicht betreffen.</li>
+</ul>
+<p><strong>Erkennungsmerkmale im laufenden Handel</strong> (dieselbe Quelle):</p>
+<table>
+<thead>
+<tr>
+<th>Tell</th>
+<th>Normalfall zum Vergleich</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Index-Entkopplung</strong> (Dow scharf runter, ES gemischt, NQ anders)</td>
+<td>Gleichlauf aller drei = <em>„no-brainer"</em>, siehe <a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></td>
+</tr>
+<tr>
+<td>News nimmt zwar ein Tief mit, <strong>berührt das erste signifikante FVG aber gar nicht</strong></td>
+<td>FVG wird angelaufen</td>
+</tr>
+<tr>
+<td>Preis steht <strong>mittig</strong> in der 15-Min-Range, beide Seiten offen</td>
+<td>klare Premium-/Discount-Lage</td>
+</tr>
+<tr>
+<td>Failures to launch, träge Kerzen, sofortiges Zurückrollen nach Ausbruch</td>
+<td>Displacement trägt</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Die Empfehlung ist eindeutig</strong>: <em>„I've lost more money trading after holidays like this than in
+any other thing."</em> — und <em>„</em><em>Enough is not trading at all on a day like today.</em><em> That's the right
+answer."</em> Das Protokoll für den Fall, dass man trotzdem teilnimmt, steht auf
+<a href="../p/low-probability-day-probing.html">Low Probability Day Probing</a>.</p>
+<blockquote>
+<p><strong>Was am schlechten Tag trotzdem trug</strong>: Quadranten- und C.E.-Level blieben im Live-Beispiel
+präzise (Umkehr exakt am unteren Quadranten, <a href="../p/event-horizon.html">Event Horizon</a> auf den Punkt). Unschärfer wurde
+die <em>Erzählung</em>, nicht das Raster — die Levels hielten, nur die Wege dorthin waren zäh.</p>
+</blockquote>
 <h3 id="mechanik-2022er-video-erganzung">Mechanik (2022er Video-Ergänzung)</h3>
 <p>Aus <a href="../p/ict-mentorship-core-content-month-1-liquidity-runs-source.html">ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)</a> — die konkrete
 Preis-Struktur-Erklärung, warum manche Highs/Lows "verteidigt" sind:</p>
@@ -302,7 +357,7 @@ gedeutet — ein "Run" widerlegt keine Bias, ein "Sweep" ist dagegen die Pflicht
 <li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a></li>
 <li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a> — dieselbe Unterscheidung, aus Range-Perspektive statt Preis-Struktur-Perspektive</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">30</span></h2><ul><li><a href="../p/2022-01-19-2022-ict-mentorship-introduction-source.html">2022-01-19 - 2022 ICT Mentorship Introduction (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2022-01-22-2022-ict-mentorship-episode-2-source.html">2022-01-22 - 2022 ICT Mentorship Episode 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2022-05-04-2022-ict-mentorship-episode-23-source.html">2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2022-05-11-2022-ict-mentorship-episode-26-source.html">2022-05-11 - 2022 ICT Mentorship Episode 26 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2023-01-12-ict-executions-january-12-2023-es-long-source.html">2023-01-12 - ICT Executions January 12, 2023 ES Long (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2023-01-17-ict-executions-january-17-2023-es-short-source.html">2023-01-17 - ICT Executions January 17, 2023 ES Short (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-01-19-ict-private-mentorship-high-probability-fvgs-masterclass-source.html">2025-01-19 - ICT Private Mentorship - High Probability FVGs Masterclass (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a><span class="cat">Konzepte</span></li><li><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a><span class="cat">Konzepte</span></li><li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a><span class="cat">Konzepte</span></li><li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-gems-balanced-price-ranges-inside-fair-value-gaps-source.html">ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-04-reinforcing-liquidity-concepts-price-delivery-source.html">ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts &amp; Price Delivery (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-1-liquidity-runs-source.html">ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-runs-part-1-source.html">Low Resistance Liquidity Runs Part 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/low-resistance-liquidity-runs-part-2-source.html">Low Resistance Liquidity Runs Part 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a><span class="cat">Konzepte</span></li><li><a href="../p/month-07-weekly-source.html">Month 07 - Weekly (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-1-source.html">Month 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a><span class="cat">Modelle</span></li><li><a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">34</span></h2><ul><li><a href="../p/2022-01-19-2022-ict-mentorship-introduction-source.html">2022-01-19 - 2022 ICT Mentorship Introduction (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2022-01-22-2022-ict-mentorship-episode-2-source.html">2022-01-22 - 2022 ICT Mentorship Episode 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2022-05-04-2022-ict-mentorship-episode-23-source.html">2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2022-05-11-2022-ict-mentorship-episode-26-source.html">2022-05-11 - 2022 ICT Mentorship Episode 26 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2023-01-12-ict-executions-january-12-2023-es-long-source.html">2023-01-12 - ICT Executions January 12, 2023 ES Long (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2023-01-17-ict-executions-january-17-2023-es-short-source.html">2023-01-17 - ICT Executions January 17, 2023 ES Short (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-01-19-ict-private-mentorship-high-probability-fvgs-masterclass-source.html">2025-01-19 - ICT Private Mentorship - High Probability FVGs Masterclass (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">2026-07-06 - Weekend US Holiday Volume Protocol (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a><span class="cat">Konzepte</span></li><li><a href="../p/algorithmic-price-delivery-continuum-source.html">Algorithmic Price Delivery Continuum (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a><span class="cat">Konzepte</span></li><li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a><span class="cat">Konzepte</span></li><li><a href="../p/event-horizon.html">Event Horizon</a><span class="cat">Konzepte</span></li><li><a href="../p/external-vs-internal-range-liquidity.html">External vs. Internal Range Liquidity</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/fomc-federal-open-market-committee.html">FOMC (Federal Open Market Committee)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-gems-balanced-price-ranges-inside-fair-value-gaps-source.html">ICT Gems - Balanced Price Ranges Inside Fair Value Gaps (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-04-reinforcing-liquidity-concepts-price-delivery-source.html">ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts &amp; Price Delivery (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-1-liquidity-runs-source.html">ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/low-probability-day-probing.html">Low Probability Day Probing</a><span class="cat">Modelle</span></li><li><a href="../p/low-resistance-liquidity-runs-part-1-source.html">Low Resistance Liquidity Runs Part 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/low-resistance-liquidity-runs-part-2-source.html">Low Resistance Liquidity Runs Part 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/midnight-opening-range.html">Midnight Opening Range</a><span class="cat">Konzepte</span></li><li><a href="../p/month-07-weekly-source.html">Month 07 - Weekly (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-1-source.html">Month 1 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a><span class="cat">Modelle</span></li><li><a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a><span class="cat">Konzepte</span></li><li><a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Low Resistance Liquidity Run.md</code></footer>
 </article>
 </main>

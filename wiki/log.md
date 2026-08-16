@@ -2622,3 +2622,36 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Neuer Backtest-Kandidat in `algo/PLAN.md`: Kerzenzahl/Verweildauer in FVGs. Beruehrt sich mit
   dem Gladhanding-Kandidaten von heute frueh — Empfehlung dort vermerkt, beide in **einem**
   Script `algo/backtest_gap_verweildauer.py` zu messen statt getrennt.
+
+## [2026-08-16] ingest | YouTube: Weekend US Holiday Volume Protocol (cDjxtT4-O-Q)
+- Scan-Fenster: Einzelvideo per URL. Video 2026-07-06, 28:10, nicht ingested.
+- Transkript: `raw/trading-ict/2026/yt-cDjxtT4-O-Q-transcript.md`, 3.546 Woerter (~126 W/Min),
+  **volle Abdeckung** (ordentliche Verabschiedung). Fuenfter Fetch dieser Session, kein IP-Block.
+- Seiten erstellt:
+  - wiki/sources/youtube/2026-07-06 - Weekend US Holiday Volume Protocol (Source).md
+- Seiten erweitert: wiki/concepts/Low Resistance Liquidity Run.md (Hauptort),
+  wiki/models/Low Probability Day Probing.md, wiki/concepts/Event Horizon.md,
+  wiki/concepts/SMT (Smart Money Divergence).md, wiki/index.md
+- Selbst getroffene Entscheidungen (statt Rueckfrage):
+  - **Keine eigene "Holiday Volume"-Seite angelegt.** [[Low Resistance Liquidity Run]] deckt den
+    Feiertagsfall im High-Resistance-Abschnitt bereits ab und zitiert dafuer die Kurznotiz
+    [[Post US Holiday Monday Followup (Source)]]. Dieses Video ist die ausfuehrliche Fassung
+    derselben Regel — dort als Mechanismus-Abschnitt ergaenzt statt eine dritte Stelle zu
+    eroeffnen. Beide Quellenseiten sind gegenseitig verlinkt.
+  - **Verallgemeinerung [[Event Horizon]]**: Die Seite definierte ihn als Mittelpunkt zwischen
+    **zwei Liquidity Pools**. ICT misst ihn hier zwischen einem **alten Hoch** und der **C.E. eines
+    15-Min-FVG** — also zwischen zwei beliebigen Referenzleveln. Definition entsprechend
+    erweitert, der Zwei-Pools-Fall bleibt als haeufigster Sonderfall stehen.
+  - **Index-Entkopplung nach [[SMT (Smart Money Divergence)]]**, mit expliziter Abgrenzung: Dort
+    ist Divergenz ein *Entry-Signal*, hier ein *Bedingungs-Filter* (handelbar ja/nein). Gleiche
+    Beobachtung, andere Verwendung — Unterschied auf der Seite vermerkt.
+- **Inhaltliche Praezisierung gegenueber dem Ingest von heute frueh**: [[Low Probability Day Probing]]
+  legte nahe, schlechte Tage generell mit einem Probe-Trade anzugehen. Dieses Video widerspricht
+  dem fuer den Feiertagsfall ausdruecklich (*"Enough is not trading at all on a day like today"*).
+  Auf der Modellseite als Vorfrage mit Unterscheidungstabelle ergaenzt: Warten (Interesse vertagt)
+  → Probing sinnvoll; Partizipationsvakuum (Interesse fehlt) → gar nicht handeln.
+- Neuer Backtest-Kandidat in `algo/PLAN.md`: Feiertags-/HRLR-Effekt. Wichtig fuer die Auswertung —
+  ICT behauptet **nicht**, dass die Level versagen (Quadrant und Event Horizon hielten im
+  Live-Beispiel exakt), sondern dass die Praezision *streut*. Ein Test auf reine Trefferquote
+  wuerde die Behauptung verfehlen. Dazu ein Kalender-Fallstrick vermerkt: gefiltert werden muss
+  der **erste regulaere Handelstag nach einem Feiertagswochenende**, nicht der Feiertag selbst.

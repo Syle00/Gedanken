@@ -2,7 +2,7 @@
 tags: [model, ict, trading-ict, execution, risk, 2026]
 created: 2026-08-16
 updated: 2026-08-16
-sources: ["[[2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)|How To Probe Low Probability RTH Opening Ranges (Source)]]", "[[2026-07-14 - Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)|Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)]]"]
+sources: ["[[2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)|How To Probe Low Probability RTH Opening Ranges (Source)]]", "[[2026-07-14 - Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)|Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)]]", "[[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]]"]
 ---
 
 # Low Probability Day Probing
@@ -20,7 +20,31 @@ herauszufinden, was der Markt will, bevor die eigentlich handelbaren Tage kommen
   wartet — *„it's a 50/50 whether we're going to have a nice price run this morning or everybody's
   going to just stand aside and let the volatility come in."*
 - **Montag allgemein** (siehe unten).
+- **Der erste Handelstag nach einem US-Feiertagswochenende** — der schärfste Fall, siehe
+  [[Low Resistance Liquidity Run]] (High-Resistance-Abschnitt).
 - Kein klarer eigener Bias aus der Preisstruktur — ICT: *„I don't know where the entry is yet."*
+
+## Erst die Vorfrage: probing oder gar nicht?
+
+Wichtige Abstufung aus
+[[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]] —
+nicht jeder schlechte Tag rechtfertigt einen Probe-Trade. Am Tag nach einem Feiertagswochenende
+lautet ICTs Antwort ausdrücklich **gar nicht handeln**:
+
+> *„**Enough is not trading at all on a day like today.** That's the right answer."*
+> *„I've lost more money trading after holidays like this than in any other thing."*
+
+Der Unterschied zum Probing-Fall (Montag ohne News vor einer News-Woche) liegt im Grund für die
+schlechten Bedingungen:
+
+| Bedingung | Ursache | Vorgehen |
+|---|---|---|
+| Montag vor News-Woche | Marktteilnehmer **warten ab** — Interesse ist da, nur vertagt | Probing sinnvoll: die Frage „was will der Markt?" hat eine Antwort |
+| Tag nach Feiertagswochenende | **Partizipationsvakuum** — das Interesse fehlt schlicht | Kein Probing: es gibt niemanden, dessen Absicht man abfragen könnte |
+
+Im Feiertags-Video handelt ICT trotzdem — ausdrücklich zu Demonstrationszwecken und mit
+offengelegtem Ergebnis (−1.800 $, danach +220 $ und +1.000 $ nach Umkehr). Das ist ein
+Lehrbeispiel, keine Empfehlung: *„You shouldn't be trading today with live funds."*
 
 ## Die Montags-Regel
 
@@ -73,6 +97,22 @@ I'm going to be wrong today because of the volatility."* Ergebnis des Tages ware
 Ausführungen, ein Scratch** — für ICT ein positives Resultat, weil das Tagestief anschließend
 korrekt antizipiert war (siehe
 [[2026-07-14 - Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)|Teil 2]]).
+
+## Vorzeitiger Ausstieg statt Stop abwarten
+
+Ergänzung aus dem Feiertags-Video: Wer unter schlechten Bedingungen doch positioniert ist, wartet
+den Stop **nicht ab**, sobald die Struktur gegen die These spricht.
+
+> *„While I'm talking to you, it's failing to go lower. … Because of that, **I know I'm possibly
+> wrong**, so I'm going to close the trade, save the stop loss, reverse."*
+
+- **Auslöser war ein konkretes Kriterium**, keine Bauchentscheidung: Das SIBI schloss **nicht unter
+  seiner C.E.** — damit war die bearishe Lesart hinfällig (siehe
+  [[Institutional Order Flow (Body vs Wick)]]).
+- **Ergebnis**: Der bewusste Ausstieg ersparte den deutlich größeren Stop-out — *„protected the
+  stop loss that would have clearly gotten a larger stop out."*
+- Der anschließende Reverse war durch dieselbe Struktur gedeckt, nicht durch den Verlust — es gilt
+  weiterhin die Einschränkung oben, dass ein Stop-out kein Signal für die Gegenrichtung ist.
 
 ## Abgrenzung: Probing ist kein Rechtfertigungsgrund
 

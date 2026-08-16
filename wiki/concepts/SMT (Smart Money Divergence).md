@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-06
-sources: ["[[Bond Mega-Trades (Source)]]", "[[Commodity Mega-Trades (Source)]]", "[[Institutional Marketstructure (Source)]]", "[[Macro Economic To Micro Technical (Source)]]", "[[Qualifying Trade Conditions With 10 Year Yields (Source)]]", "[[SMT Smart Money Technique (Source)]]"]
+updated: 2026-08-16
+sources: ["[[Bond Mega-Trades (Source)]]", "[[Commodity Mega-Trades (Source)]]", "[[Institutional Marketstructure (Source)]]", "[[Macro Economic To Micro Technical (Source)]]", "[[Qualifying Trade Conditions With 10 Year Yields (Source)]]", "[[SMT Smart Money Technique (Source)]]", "[[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]]"]
 ---
 
 # SMT (Smart Money Divergence)
@@ -95,6 +95,27 @@ DXY- und FX-Move typischerweise **1–2 Wochen voraus** — im dokumentierten Se
 bestätigten DXY, USDCHF, USDCAD, EURUSD, GBPUSD, USDJPY, NZDUSD und AUDUSD alle denselben Rhythmus
 aus erster und letzter Septemberwoche. Dieselbe **3–4-Monats-Kadenz** wie in [[Quarterly Shift]],
 hier auf die Zins-/DXY-Beziehung angewendet.
+
+## Index-Gleichlauf als Bedingungs-Filter, nicht nur als Signal (2026-Ergänzung)
+
+Aus [[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]]:
+ICT nutzt den Abgleich von **Dow, ES und NQ** hier nicht, um eine Divergenz als Entry zu handeln,
+sondern um zu entscheiden, **ob der Tag überhaupt handelbar ist**.
+
+- **Gleichlauf aller drei** → das Setup ist eindeutig: *„If they were all moving like this, then
+  it's a **no-brainer** this is going to become a bullish fair value gap to send prices higher."*
+- **Entkopplung** (im Beispiel: Dow fällt scharf, ES gemischt, NQ wieder anders) → Warnsignal für
+  dünne, unentschlossene Bedingungen. Kein Trade-Signal, sondern ein **Grund, die Hände
+  stillzuhalten** — siehe [[Low Resistance Liquidity Run]] (High-Resistance-Bedingungen) und
+  [[Low Probability Day Probing]].
+
+Abgrenzung zur klassischen SMT oben: Dort ist die Divergenz zwischen zwei korrelierten Instrumenten
+das **Einstiegssignal**. Hier ist die fehlende Kopplung eine Aussage über die **Marktqualität** —
+dieselbe Beobachtung, andere Verwendung. Beides schließt sich nicht aus, aber die Unterscheidung
+verhindert, eine Schönwetter-Divergenz an einem strukturell kaputten Tag als Setup zu lesen.
+
+> Hinweis: ICT verglich hier **Continuous Contracts** und wechselte für die Ausführung bewusst auf
+> den Front Month (NQU2026) — siehe [[Continuous Contract vs. Front Month]].
 
 ## Verwandt
 

@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
 updated: 2026-08-16
-sources: ["[[Missed Entry How To Navigate The Same Trade Idea (Source)]]", "[[2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)|Missed Entry How To Navigate The Same Trade Idea (Source, Video)]]", "[[Trading Complex Opening Ranges With Fed Impact 07-14-2026 (Source)]]"]
+sources: ["[[Missed Entry How To Navigate The Same Trade Idea (Source)]]", "[[2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)|Missed Entry How To Navigate The Same Trade Idea (Source, Video)]]", "[[Trading Complex Opening Ranges With Fed Impact 07-14-2026 (Source)]]", "[[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]]"]
 ---
 
 # Event Horizon
@@ -19,6 +19,25 @@ Entscheidungs- und Partial-Profit-Marker:
 
 ![[image 38.png]]
 *2 gestackte Sellside-Pools: Teilgewinne am 1. Pool, Event Horizon bei 50% zwischen beiden Pools als weiterer Referenzpunkt.*
+
+## Verallgemeinerung: zwei beliebige Referenzpunkte, nicht nur zwei Pools (2026-Ergänzung)
+
+Die Definition oben nennt **zwei gestackte Liquidity Pools**. In
+[[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]]
+misst ICT den Event Horizon zwischen **zwei verschiedenen Referenztypen**:
+
+> dem **alten Hoch** und der **C.E. eines 15-Min-FVG** — *„a halfway point between these two
+> reference points."*
+
+Der Event Horizon ist damit allgemeiner als bisher notiert: der Mittelpunkt zwischen **zwei
+benachbarten Referenzleveln**, egal ob Liquidity Pool, Gap-C.E. oder anderes
+[[PD Array|PD-Array-Level]]. Der Sonderfall „zwei Liquidity Pools" bleibt der häufigste, ist aber
+nicht die Bedingung.
+
+**Präzision trotz schlechter Bedingungen**: Im Beispiel wurde der Level *„by hand, very very
+loosely determined"* bestimmt und lag bei **30.037,50** — exakt dort stoppte der Kerzenkörper und
+drehte. Und das an einem Tag mit dünnem Feiertagsvolumen (siehe
+[[Low Resistance Liquidity Run]]), an dem ICT selbst vor nachlassender Präzision warnt.
 
 ## Partial *vor* dem Event Horizon, wenn ein altes Low dazwischenliegt (2026-Ergänzung)
 

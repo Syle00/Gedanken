@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">28</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">352</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">353</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -204,6 +204,7 @@
 <li><a href="#2026-08-16-ingest-youtube-the-week-in-the-life-cycle-of-price-dmhswlms9iy">[2026-08-16] ingest | YouTube: The Week In The Life Cycle Of Price (dmHSwlmS9iY)</a></li>
 <li><a href="#2026-08-16-ingest-youtube-missed-entry-how-to-navigate-the-same-trade-idea-ezb4vbufdhw">[2026-08-16] ingest | YouTube: Missed Entry How To Navigate The Same Trade Idea (EZB4vBUFdHw)</a></li>
 <li><a href="#2026-08-16-ingest-youtube-how-to-probe-low-probability-rth-opening-ranges-teil-12">[2026-08-16] ingest | YouTube: How To Probe Low Probability RTH Opening Ranges, Teil 1+2</a></li>
+<li><a href="#2026-08-16-ingest-youtube-weekend-us-holiday-volume-protocol-cdjxtt4-o-q">[2026-08-16] ingest | YouTube: Weekend US Holiday Volume Protocol (cDjxtT4-O-Q)</a></li>
 </ul>
 </div>
 </details>
@@ -2981,6 +2982,40 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Neuer Backtest-Kandidat in <code>algo/PLAN.md</code>: Kerzenzahl/Verweildauer in FVGs. Beruehrt sich mit
   dem Gladhanding-Kandidaten von heute frueh — Empfehlung dort vermerkt, beide in <strong>einem</strong>
   Script <code>algo/backtest_gap_verweildauer.py</code> zu messen statt getrennt.</li>
+</ul>
+<h2 id="2026-08-16-ingest-youtube-weekend-us-holiday-volume-protocol-cdjxtt4-o-q">[2026-08-16] ingest | YouTube: Weekend US Holiday Volume Protocol (cDjxtT4-O-Q)</h2>
+<ul>
+<li>Scan-Fenster: Einzelvideo per URL. Video 2026-07-06, 28:10, nicht ingested.</li>
+<li>Transkript: <code>raw/trading-ict/2026/yt-cDjxtT4-O-Q-transcript.md</code>, 3.546 Woerter (~126 W/Min),
+  <strong>volle Abdeckung</strong> (ordentliche Verabschiedung). Fuenfter Fetch dieser Session, kein IP-Block.</li>
+<li>Seiten erstellt:</li>
+<li>wiki/sources/youtube/2026-07-06 - Weekend US Holiday Volume Protocol (Source).md</li>
+<li>Seiten erweitert: wiki/concepts/Low Resistance Liquidity Run.md (Hauptort),
+  wiki/models/Low Probability Day Probing.md, wiki/concepts/Event Horizon.md,
+  wiki/concepts/SMT (Smart Money Divergence).md, wiki/index.md</li>
+<li>Selbst getroffene Entscheidungen (statt Rueckfrage):</li>
+<li><strong>Keine eigene "Holiday Volume"-Seite angelegt.</strong> <a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a> deckt den
+    Feiertagsfall im High-Resistance-Abschnitt bereits ab und zitiert dafuer die Kurznotiz
+    <a href="../p/post-us-holiday-monday-followup-source.html">Post US Holiday Monday Followup (Source)</a>. Dieses Video ist die ausfuehrliche Fassung
+    derselben Regel — dort als Mechanismus-Abschnitt ergaenzt statt eine dritte Stelle zu
+    eroeffnen. Beide Quellenseiten sind gegenseitig verlinkt.</li>
+<li><strong>Verallgemeinerung <a href="../p/event-horizon.html">Event Horizon</a></strong>: Die Seite definierte ihn als Mittelpunkt zwischen
+    <strong>zwei Liquidity Pools</strong>. ICT misst ihn hier zwischen einem <strong>alten Hoch</strong> und der <strong>C.E. eines
+    15-Min-FVG</strong> — also zwischen zwei beliebigen Referenzleveln. Definition entsprechend
+    erweitert, der Zwei-Pools-Fall bleibt als haeufigster Sonderfall stehen.</li>
+<li><strong>Index-Entkopplung nach <a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a></strong>, mit expliziter Abgrenzung: Dort
+    ist Divergenz ein <em>Entry-Signal</em>, hier ein <em>Bedingungs-Filter</em> (handelbar ja/nein). Gleiche
+    Beobachtung, andere Verwendung — Unterschied auf der Seite vermerkt.</li>
+<li><strong>Inhaltliche Praezisierung gegenueber dem Ingest von heute frueh</strong>: <a href="../p/low-probability-day-probing.html">Low Probability Day Probing</a>
+  legte nahe, schlechte Tage generell mit einem Probe-Trade anzugehen. Dieses Video widerspricht
+  dem fuer den Feiertagsfall ausdruecklich (<em>"Enough is not trading at all on a day like today"</em>).
+  Auf der Modellseite als Vorfrage mit Unterscheidungstabelle ergaenzt: Warten (Interesse vertagt)
+  → Probing sinnvoll; Partizipationsvakuum (Interesse fehlt) → gar nicht handeln.</li>
+<li>Neuer Backtest-Kandidat in <code>algo/PLAN.md</code>: Feiertags-/HRLR-Effekt. Wichtig fuer die Auswertung —
+  ICT behauptet <strong>nicht</strong>, dass die Level versagen (Quadrant und Event Horizon hielten im
+  Live-Beispiel exakt), sondern dass die Praezision <em>streut</em>. Ein Test auf reine Trefferquote
+  wuerde die Behauptung verfehlen. Dazu ein Kalender-Fallstrick vermerkt: gefiltert werden muss
+  der <strong>erste regulaere Handelstag nach einem Feiertagswochenende</strong>, nicht der Feiertag selbst.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

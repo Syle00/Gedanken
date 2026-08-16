@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-14
-sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)]]"]
+updated: 2026-08-16
+sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)]]", "[[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]]"]
 ---
 
 # Low Resistance Liquidity Run
@@ -58,6 +58,43 @@ Chop-artige Seek-&-Destroy-Bedingungen statt eines glatten Runs — typisch **na
 US-Feiertags-Wochenenden** (z.B. 4. Juli auf Sa/So: Montag meist schwierige, schlechte Price
 Action → am Montag lieber nicht traden, erst Dienstag wieder einsteigen) und **vor
 Zinsentscheiden/FOMC-Meetings**.
+
+### Warum Feiertage HRLR erzeugen — der Mechanismus (2026-Ergänzung)
+
+Aus [[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]],
+der ausführlichen Fassung der bislang nur als Kurznotiz vorhandenen Warnregel
+([[Post US Holiday Monday Followup (Source)]]). ICT begründet sie erstmals — es ist **keine
+Kalender-Heuristik, sondern ein Partizipationsargument**:
+
+- Große Adressen wissen, dass das Volumen dünn bleibt (Abwesenheit, Sommermonate). Damit fehlt der
+  Anlass für große Ranges: *„There's **no need for them** to start spreading the market higher or
+  lower on a great big range, because there isn't enough interest to make it reasonable to assume
+  why the market went that high."*
+- **Sie können Teilnahme auch nicht erzwingen** — *„he won't be able to engineer participation,
+  cuz there's a vacuum of interest."*
+- **Die entscheidende Konsequenz**: *„They don't need to have the market to be that **precise**."*
+  Die PD Arrays verschwinden nicht, sie werden **unschärfer**. Wer an einem solchen Tag auf die
+  gewohnte Tick-Präzision setzt, handelt gegen die Bedingungen — nicht gegen die Methode.
+- Beantwortet damit auch den häufigen Einwand, ein *US*-Feiertag könne einen global gehandelten
+  Kontrakt nicht betreffen.
+
+**Erkennungsmerkmale im laufenden Handel** (dieselbe Quelle):
+
+| Tell | Normalfall zum Vergleich |
+|---|---|
+| **Index-Entkopplung** (Dow scharf runter, ES gemischt, NQ anders) | Gleichlauf aller drei = *„no-brainer"*, siehe [[SMT (Smart Money Divergence)]] |
+| News nimmt zwar ein Tief mit, **berührt das erste signifikante FVG aber gar nicht** | FVG wird angelaufen |
+| Preis steht **mittig** in der 15-Min-Range, beide Seiten offen | klare Premium-/Discount-Lage |
+| Failures to launch, träge Kerzen, sofortiges Zurückrollen nach Ausbruch | Displacement trägt |
+
+**Die Empfehlung ist eindeutig**: *„I've lost more money trading after holidays like this than in
+any other thing."* — und *„**Enough is not trading at all on a day like today.** That's the right
+answer."* Das Protokoll für den Fall, dass man trotzdem teilnimmt, steht auf
+[[Low Probability Day Probing]].
+
+> **Was am schlechten Tag trotzdem trug**: Quadranten- und C.E.-Level blieben im Live-Beispiel
+> präzise (Umkehr exakt am unteren Quadranten, [[Event Horizon]] auf den Punkt). Unschärfer wurde
+> die *Erzählung*, nicht das Raster — die Levels hielten, nur die Wege dorthin waren zäh.
 
 ### Mechanik (2022er Video-Ergänzung)
 
