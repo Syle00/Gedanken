@@ -2,7 +2,11 @@
 description: Erzeugt die vorbefuellte Weekly-Bias-Datei fuer die kommende Handelswoche (News, Levels, Wiki-Bezug, eigene Einschaetzung) -- fuer den Cron freitags 20:00 oder manuellen Aufruf
 ---
 
-Erzeuge `raw/journal/bias/weekly/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoche.
+Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoche.
+
+> Ablage bewusst flach in `raw/journal/`: frische Bias-Dateien bleiben dort sichtbar, solange
+> sie aktuell sind. `tools/sortiere_bias.py` raeumt sie nach Ablauf der Woche selbst nach
+> `raw/journal/bias/weekly/` -- nicht selbst dorthin schreiben.
 
 1. **Zielwoche + Levels + News holen.** `python algo/bias_levels.py --weekly` ausfuehren.
    Die JSON-Ausgabe liefert `target_week` (`monday`, `kw`, `year` -- daraus `<NN>`/`<JAHR>`
@@ -46,7 +50,7 @@ Erzeuge `raw/journal/bias/weekly/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende
    (Bias-intakt-Quote nur 7% -- diese Einschraenkung bei jeder NWOG-Richtungsaussage nennen)
    und die Red-Folder-Events aus Schritt 2 (NFP-Woche -> `algo/backtest_nfp_week.py`).
 
-7. **Datei schreiben** nach `raw/journal/bias/weekly/Weekly Bias KW<NN> <JAHR>.md`:
+7. **Datei schreiben** nach `raw/journal/Weekly Bias KW<NN> <JAHR>.md`:
 
    ```markdown
    # Weekly Bias KW<NN> <JAHR>

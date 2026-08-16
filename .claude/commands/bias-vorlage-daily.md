@@ -2,7 +2,11 @@
 description: Erzeugt die vorbefuellte Daily-Bias-Datei fuer den naechsten Handelstag (News, Levels, Wiki-Bezug, eigene Einschaetzung) -- fuer den Cron So-Do 20:00 oder manuellen Aufruf am Vorabend
 ---
 
-Erzeuge `raw/journal/bias/daily/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.
+Erzeuge `raw/journal/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.
+
+> Ablage bewusst flach in `raw/journal/`: frische Bias-Dateien bleiben dort sichtbar, solange
+> sie aktuell sind. `tools/sortiere_bias.py` raeumt sie nach Ablauf des Tages selbst nach
+> `raw/journal/bias/daily/` -- nicht selbst dorthin schreiben.
 
 1. **Levels + News holen.** `python algo/bias_levels.py --next` ausfuehren. Die JSON-Ausgabe
    liefert alles auf einmal: `day` (= `<ZIEL>`, Sa/So sind schon auf Montag geschoben),
@@ -39,7 +43,8 @@ Erzeuge `raw/journal/bias/daily/Daily Bias <ZIEL>.md` fuer den naechsten Handels
    Alle Preise aufs 0,25-Tickraster (MNQ).
 
 5. **Weekly-Bias-Rueckverlinkung.** ISO-KW von `<ZIEL>` bestimmen, nach
-   `raw/journal/bias/weekly/Weekly Bias KW<NN> <JAHR>.md` globben. Existiert sie: Wikilink
+   `Weekly Bias KW<NN> <JAHR>.md` globben -- erst in `raw/journal/`, dann in
+   `raw/journal/bias/weekly/` (schon einsortiert). Existiert sie: Wikilink
    `[[Weekly Bias KW<NN> <JAHR>]]`. Sonst `_(noch kein Weekly Bias fuer diese Woche)_` --
    keinen toten Link setzen.
 
@@ -55,7 +60,7 @@ Erzeuge `raw/journal/bias/daily/Daily Bias <ZIEL>.md` fuer den naechsten Handels
    (empirisch bislang 35-43%, laut Nutzerentscheid nicht als widerlegt abhaken).
    Klar getrennt vom Nutzerbereich.
 
-8. **Datei schreiben** nach `raw/journal/bias/daily/Daily Bias <ZIEL>.md`:
+8. **Datei schreiben** nach `raw/journal/Daily Bias <ZIEL>.md`:
 
    ```markdown
    # Daily Bias <ZIEL>
