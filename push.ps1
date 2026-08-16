@@ -112,7 +112,7 @@ if ($nothingToCommit) {
 # dort laufende Aenderungen zerschiessen. Nachziehen macht /update.
 # Bewusst VOR Schritt 5 (Push): die dortigen exit-Pfade (-NoPush, kein Remote,
 # Push fehlgeschlagen) wuerden diesen Block sonst je nach Aufrufart ueberspringen.
-$zweit = "C:\Users\Jannes\Desktop\Gedanken-gibt-es-nicht"
+$zweit = "C:\Users\Jannes\Desktop\Gedanken"
 if (Test-Path (Join-Path $zweit '.git')) {
     $offen = (git -C $zweit status --porcelain | Measure-Object -Line).Lines
     $dort = git -C $zweit rev-parse HEAD 2>$null
