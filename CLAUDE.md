@@ -237,10 +237,12 @@ an — dort ist Loggen nicht optional, sondern Standardverfahren.
    Querverweise.
 5. Aktualisiere `wiki/index.md` (neue Seiten eintragen).
 6. Hänge einen Eintrag an `wiki/log.md` an.
-7. **Führe `.\push.ps1 -Message "ingest | <Quellname>"` selbst aus** — das baut die HTML-Website
-   neu, erstellt einen lokalen Checkpoint-Commit und pusht ins private GitHub-Repo. Ohne diesen
-   Schritt ist der Ingest nicht abgeschlossen. Das gehört zum Ingest dazu — frag **nicht erst
-   nach**; bei einem Batch genügt ein Aufruf am Schluss.
+7. **Führe `.\push.ps1 -Message "<typ> | <worum ging es>"` am Ende der Session selbst aus** —
+   das baut die HTML-Website neu, erstellt einen Checkpoint-Commit und pusht ins private
+   Repo. Ein Aufruf pro Session genügt, nicht einer pro Ingest. Ohne diesen Schritt ist der
+   Ingest nicht abgeschlossen; frag **nicht erst nach**. `push.ps1` verweigert seit
+   2026-08-16 den Dienst ohne `-Message` — die Git-Historie ist die Chronik des Projekts,
+   siehe `## log.md`-Format.
 
 **Arbeite ohne Rückfragen, im Batch.** Behandle eine Aufforderung wie „injeziere den neuen
 Kontent" oder „importiere" als vollständige Freigabe für alles, was an neuem Material vorliegt —
