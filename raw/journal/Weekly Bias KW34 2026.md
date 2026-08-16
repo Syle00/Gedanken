@@ -7,14 +7,27 @@
 Quelle: **ForexFactory** (`news.source: forexfactory`, Feed-Span 16.–21.08. — deckt die
 Zielwoche vollständig ab). **Nur USD** — gehandelt werden NQ/ES.
 
-| Tag | NY | DE | Event | Impact | Forecast | Previous |
-|---|---|---|---|---|---|---|
-| **Mi 19.08.** | **14:00** | **20:00** | **FOMC Meeting Minutes** | 🔴 **Red** | – | – |
-| Do 20.08. | 08:30 | 14:30 | Philly Fed Manufacturing Index | 🟠 Orange | 24.3 | 41.4 |
-| Do 20.08. | 08:30 | 14:30 | Unemployment Claims | 🟠 Orange | 210K | 209K |
+```
+NY      DE      Impact   Event                               Forecast  Previous
+-------------------------------------------------------------------------------
 
-**Mo, Di und Fr haben keine USD-Termine mit Red-/Orange-Impact.** Das ist kein Abrufproblem,
-sondern die Nachrichtenlage: Der einzige echte Taktgeber ist Mittwoch 14:00 NY.
+Mo 17.08.   ❌ keine USD-Termine
+
+Di 18.08.   ❌ keine USD-Termine
+
+Mi 19.08.
+14:00   20:00   RED      FOMC Meeting Minutes                       –         –
+
+Do 20.08.
+08:30   14:30   orange   Philly Fed Manufacturing Index          24.3      41.4
+08:30   14:30   orange   Unemployment Claims                     210K      209K
+
+Fr 21.08.   ❌ keine USD-Termine
+```
+
+**Drei USD-Termine in der ganzen Woche, verteilt auf zwei Tage.** Montag, Dienstag und Freitag
+sind leer — das ist kein Abrufproblem, sondern die Nachrichtenlage. Der einzige echte Taktgeber
+ist **Mittwoch 14:00 NY**.
 
 Das ist ein **Nachmittagstermin** — anders als CPI/PPI, die vor dem Open liegen und die
 Tagesrange von Beginn an prägen. Für Mittwoch gilt [[Two Stage News Delivery (FOMC & NFP)]]:
@@ -238,3 +251,5 @@ unten — und COT zeigt in NQ und ES gegeneinander. Was bleibt: die Level oben a
 und die NQ/ES-Divergenz als Beobachtungsauftrag.
 
 ## Mein Bias
+
+Weekly Chart haben wir einen Suspensionblock Bisi gebildet 2 vii 

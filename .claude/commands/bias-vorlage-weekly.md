@@ -15,9 +15,14 @@ Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoch
    **Nur USD** -- `bias_levels.py` filtert das bereits, gehandelt werden NQ/ES.
    Kein WebFetch auf forexfactory.com -- HTTP 403 fuer Bots.
 
-2. **News-Abschnitt.** Tabelle
-   `| Tag | NY | DE | Event | Impact | Forecast | Previous |`, Red-Folder-Termine
-   (NFP, CPI, FOMC) hervorheben. Keine Waehrungsspalte -- es ist durchgaengig USD.
+2. **News-Abschnitt.** **`news.block` unveraendert in einen ```-Codeblock uebernehmen** --
+   nicht in eine Markdown-Tabelle umbauen und nicht selbst ausrichten. Der Block kommt fertig
+   aus `bias_levels.py::news_block()`: nach Tagen gruppiert, Spalten monospace untereinander,
+   eine Leerzeile zwischen den Tagen, **alle fuenf Handelstage aufgefuehrt** -- Tage ohne
+   Termine mit **❌ keine USD-Termine**. Genau so hat der Nutzer es sich am 2026-08-16 gewuenscht.
+
+   Unter dem Block eine kurze Einordnung in Prosa: wie viele Termine, welcher ist der
+   Taktgeber, welche Tage sind leer. Red-Folder-Termine (NFP, CPI, FOMC) dort hervorheben.
 
    `news.source` **immer mit ausgeben** (eine Zeile unter der Tabelle). Freitags abends kennt
    ForexFactory die kommende Woche noch nicht, dann steht dort `tradingview` plus ein

@@ -3104,3 +3104,23 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Konstellation" formuliert wird, ist genau deshalb sofort zu backtesten -- die Formulierung
   suggeriert einen Vorsprung, den die Zahlen hier nicht hergeben. Zwei Tage spaeter waere sie
   als bekannte Wahrheit weitergetragen worden.
+
+## [2026-08-16] setup | News-Block: nach Tagen gruppiert, ausgerichtet, leere Tage mit ❌
+- Nutzerwunsch: ForexFactory-Termine optisch besser einordnen, untereinander mit Abstand;
+  Tage ohne Termine zusaetzlich mit rotem Kreuz markieren.
+- Neu: `bias_levels.py::news_block()`. Erzeugt den fertigen Monospace-Block -- nach Tagen
+  gruppiert, Leerzeile zwischen den Tagen, Spalten (NY/DE/Impact/Event/Forecast/Previous)
+  ausgerichtet, **alle fuenf Handelstage aufgefuehrt**, leere mit `❌ keine USD-Termine`.
+  Haengt als `news.block` an jedem Abruf; beide Commands uebernehmen ihn **unveraendert**.
+- Bewusst in Python statt als Anweisung im Command: eine von Hand gesetzte Spaltenbreite
+  verrutscht beim naechsten laengeren Eventnamen, und genau der schiefe Block war der Anlass.
+  So ist die Ausrichtung deterministisch statt vom Modell abhaengig.
+- Dass leere Tage **mitgefuehrt** werden, ist inhaltlich gemeint: "Montag hat keine Termine"
+  ist eine Aussage fuer die Wochenplanung, kein Nichts. Vorher standen sie nur als Prosa-Satz
+  unter der Tabelle und gingen unter.
+- Zwei Encoding-Fallen unterwegs behoben: der urspruengliche Unicode-Trennstrich (`─`) und das
+  Emoji brechen auf einer cp1252-Konsole mit `UnicodeEncodeError` ab -- und damit der
+  headless-Lauf, der ueber `tools/bias-cron.cmd` nach `algo/live/bias-cron.log` schreibt.
+  Trennlinie jetzt ASCII, und `main()` schaltet stdout auf UTF-8 mit `errors="replace"`.
+  In der Markdown-Datei selbst (UTF-8) erscheint das Kreuz korrekt.
+- `Weekly Bias KW34 2026.md` auf das neue Format umgestellt.

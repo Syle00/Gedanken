@@ -422,6 +422,58 @@ def _tv_news(von: date, bis: date) -> dict:
     return {"source": "tradingview", "events": sorted(evs, key=lambda x: x["ny"])}
 
 
+WOCHENTAG_DE = {"Mon": "Mo", "Tue": "Di", "Wed": "Mi", "Thu": "Do", "Fri": "Fr",
+                "Sat": "Sa", "Sun": "So"}
+
+
+def news_block(events: list[dict], von: date | None = None, bis: date | None = None) -> str:
+    """Termine als monospace-Block, nach Tagen gruppiert und spaltenweise ausgerichtet.
+
+    Bewusst hier und nicht im Command: eine von Hand gesetzte Spaltenbreite verrutscht bei
+    jedem laengeren Eventnamen, und ein schiefer Block ist genau das, was der Nutzer am
+    2026-08-16 bemaengelt hat. Leere Handelstage werden mitgefuehrt -- dass Montag *keine*
+    Termine hat, ist eine Aussage, kein Nichts.
+    """
+    breite = {"ny": 7, "de": 7, "impact": 8, "event": 34}
+    kopf = (f"{'NY':<{breite['ny']}} {'DE':<{breite['de']}} {'Impact':<{breite['impact']}} "
+            f"{'Event':<{breite['event']}} {'Forecast':>9} {'Previous':>9}")
+    # ASCII statt Unicode-Strich: der Block landet ueber bias-cron.cmd in einem
+    # Log, das die Windows-Konsole in cp1252 schreibt -- "─" bricht dort ab.
+    zeilen = [kopf, "-" * len(kopf)]
+
+    je_tag: dict = {}
+    for e in events:
+        je_tag.setdefault(e["ny"][:10], []).append(e)
+
+    tage = sorted(je_tag)
+    if von and bis:                       # alle Handelstage des Zeitraums, auch die leeren
+        d, alle = von, []
+        while d <= bis:
+            if d.weekday() < 5:
+                alle.append(d.isoformat())
+            d += timedelta(days=1)
+        tage = sorted(set(alle) | set(je_tag))
+
+    for tag in tage:
+        t = date.fromisoformat(tag)
+        label = f"{WOCHENTAG_DE.get(t.strftime('%a'), t.strftime('%a'))} {t:%d.%m.}"
+        drin = sorted(je_tag.get(tag, []), key=lambda e: e["ny"])
+        zeilen.append("")
+        if not drin:
+            # Rotes Kreuz (Nutzervorgabe 2026-08-16): ein leerer Handelstag soll auf einen
+            # Blick als leer erkennbar sein, nicht als uebersehene Zeile.
+            zeilen.append(f"{label}   ❌ keine USD-Termine")
+            continue
+        zeilen.append(label)
+        for e in drin:
+            imp = "RED" if e["impact"] == "Red" else "orange"
+            zeilen.append(
+                f"{e['ny'][11:]:<{breite['ny']}} {e['de']:<{breite['de']}} "
+                f"{imp:<{breite['impact']}} {e['title'][:breite['event']]:<{breite['event']}} "
+                f"{(e['forecast'] or '–'):>9} {(e['previous'] or '–'):>9}")
+    return "\n".join(zeilen)
+
+
 def news(target_day: date, weekly: bool = False) -> dict:
     """Red-/Orange-Folder-Events fuer target_day (bzw. Mo-Fr ab target_day bei weekly=True).
 
@@ -432,9 +484,11 @@ def news(target_day: date, weekly: bool = False) -> dict:
     bis = target_day + timedelta(days=4) if weekly else target_day
     ff = _ff_news(target_day, bis)
     if not ff.get("error"):
+        ff["block"] = news_block(ff["events"], target_day, bis)
         return ff
     tv = _tv_news(target_day, bis)
     tv["hinweis"] = f"ForexFactory nicht nutzbar ({ff['error']}) -- TradingView-Kalender verwendet"
+    tv["block"] = news_block(tv.get("events", []), target_day, bis)
     return tv
 
 
@@ -602,6 +656,13 @@ def _boom(*a, **k):
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Der News-Block enthaelt ein Emoji. Ohne das hier bricht die Ausgabe auf einer
+    # cp1252-Konsole mit UnicodeEncodeError ab -- und damit der headless-Lauf, der ueber
+    # tools/bias-cron.cmd in algo/live/bias-cron.log schreibt.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
     import argparse
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)

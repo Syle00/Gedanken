@@ -223,6 +223,7 @@
 <li><a href="#2026-08-16-setup-cot-daten-im-weekly-bias-algocotpy">[2026-08-16] setup | COT-Daten im Weekly Bias (algo/cot.py)</a></li>
 <li><a href="#2026-08-16-fix-cot-substring-falle-mischte-e-mini-und-micro-kontrakt-es-zahlen-falsch">[2026-08-16] fix | COT: Substring-Falle mischte E-Mini und Micro-Kontrakt (ES-Zahlen falsch)</a></li>
 <li><a href="#2026-08-16-setup-micromini-strikt-getrennt-cot-divergenz-these-gebacktestet-widerlegt">[2026-08-16] setup | Micro/Mini strikt getrennt + COT-Divergenz-These gebacktestet (widerlegt)</a></li>
+<li><a href="#2026-08-16-setup-news-block-nach-tagen-gruppiert-ausgerichtet-leere-tage-mit">[2026-08-16] setup | News-Block: nach Tagen gruppiert, ausgerichtet, leere Tage mit ❌</a></li>
 </ul>
 </div>
 </details>
@@ -3501,6 +3502,27 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Konstellation" formuliert wird, ist genau deshalb sofort zu backtesten -- die Formulierung
   suggeriert einen Vorsprung, den die Zahlen hier nicht hergeben. Zwei Tage spaeter waere sie
   als bekannte Wahrheit weitergetragen worden.</li>
+</ul>
+<h2 id="2026-08-16-setup-news-block-nach-tagen-gruppiert-ausgerichtet-leere-tage-mit">[2026-08-16] setup | News-Block: nach Tagen gruppiert, ausgerichtet, leere Tage mit ❌</h2>
+<ul>
+<li>Nutzerwunsch: ForexFactory-Termine optisch besser einordnen, untereinander mit Abstand;
+  Tage ohne Termine zusaetzlich mit rotem Kreuz markieren.</li>
+<li>Neu: <code>bias_levels.py::news_block()</code>. Erzeugt den fertigen Monospace-Block -- nach Tagen
+  gruppiert, Leerzeile zwischen den Tagen, Spalten (NY/DE/Impact/Event/Forecast/Previous)
+  ausgerichtet, <strong>alle fuenf Handelstage aufgefuehrt</strong>, leere mit <code>❌ keine USD-Termine</code>.
+  Haengt als <code>news.block</code> an jedem Abruf; beide Commands uebernehmen ihn <strong>unveraendert</strong>.</li>
+<li>Bewusst in Python statt als Anweisung im Command: eine von Hand gesetzte Spaltenbreite
+  verrutscht beim naechsten laengeren Eventnamen, und genau der schiefe Block war der Anlass.
+  So ist die Ausrichtung deterministisch statt vom Modell abhaengig.</li>
+<li>Dass leere Tage <strong>mitgefuehrt</strong> werden, ist inhaltlich gemeint: "Montag hat keine Termine"
+  ist eine Aussage fuer die Wochenplanung, kein Nichts. Vorher standen sie nur als Prosa-Satz
+  unter der Tabelle und gingen unter.</li>
+<li>Zwei Encoding-Fallen unterwegs behoben: der urspruengliche Unicode-Trennstrich (<code>─</code>) und das
+  Emoji brechen auf einer cp1252-Konsole mit <code>UnicodeEncodeError</code> ab -- und damit der
+  headless-Lauf, der ueber <code>tools/bias-cron.cmd</code> nach <code>algo/live/bias-cron.log</code> schreibt.
+  Trennlinie jetzt ASCII, und <code>main()</code> schaltet stdout auf UTF-8 mit <code>errors="replace"</code>.
+  In der Markdown-Datei selbst (UTF-8) erscheint das Kreuz korrekt.</li>
+<li><code>Weekly Bias KW34 2026.md</code> auf das neue Format umgestellt.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
