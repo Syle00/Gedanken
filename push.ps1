@@ -7,7 +7,8 @@
     committen -- schlaegt der Build fehl, entsteht kein Commit mit kaputter Website.
 
 .PARAMETER Message
-    Commit-Nachricht. Ohne Angabe: "wiki update <Datum>".
+    Commit-Nachricht. Pflicht, sobald es etwas zu committen gibt -- ohne Angabe bricht
+    das Skript ab, statt eine Message zu erraten.
 
 .PARAMETER NoPush
     Nur lokal committen, nicht pushen.
@@ -90,7 +91,14 @@ if ($nothingToCommit) {
     Write-Host "`n[3/4] Commit uebersprungen." -ForegroundColor Cyan
 } else {
     Write-Host "  $(git diff --cached --shortstat)"
-    if (-not $Message) { $Message = "wiki update $(Get-Date -Format 'yyyy-MM-dd')" }
+    if (-not $Message) {
+        # Bewusst ein Abbruch statt einer generierten Message: eine geratene Message ist
+        # genauso wertlos wie "wiki update" und verdeckt nur, dass niemand hingesehen hat.
+        Write-Host "`nKeine Commit-Message angegeben." -ForegroundColor Yellow
+        Write-Host "  Geaendert: $(git diff --cached --shortstat)"
+        Write-Host "  Bereiche:  $((git diff --cached --name-only | ForEach-Object { ($_ -split '/')[0] } | Sort-Object -Unique) -join ', ')"
+        Fail "Bitte mit -Message '<typ> | <worum ging es>' erneut aufrufen. Es wurde nichts committet."
+    }
     Write-Host "`n[3/4] Commit: $Message" -ForegroundColor Cyan
     git commit -q -m $Message
     if ($LASTEXITCODE -ne 0) { Fail "'git commit' fehlgeschlagen." }

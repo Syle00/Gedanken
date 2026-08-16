@@ -153,9 +153,10 @@ bisher. Das deckt sich mit der Layer-0-Entscheidung vom 2026-08-15 (NQ/ES statt 
 der IBKR-1s-Abdeckung, die für NQ vorliegt.
 
 > Begriffsklärung: „Mini NQ" ist hier der **E-mini** (`NQ`, $20/Punkt), nicht der Micro E-mini
-> (`MNQ`, $2/Punkt). Die Kurse beider Kontrakte sind identisch — unterschieden sich nur
-> Punktwert und Kontraktgröße. Sollte doch der Micro gemeint sein, ändern sich ausschließlich
-> Symbolname und `pnl.py`-Eintrag, nicht der Datenpfad.
+> (`MNQ`, $2/Punkt). Beide folgen demselben Index, sind aber getrennte Kontrakte mit eigenem
+> Orderbuch — nah beieinander, nicht tickgleich. Micro und Mini werden im Vault strikt
+> getrennt gehalten; sie zu vermengen hat schon einmal ein ES-Signal umgekehrt. Sollte doch
+> der Micro gemeint sein, ändern sich Symbolname und `pnl.py`-Eintrag, nicht der Datenpfad.
 
 **Mitzuziehen:** `.claude/commands/algo-live-status.md` beschreibt den Zyklus in Titel und
 Rumpf als „fuer MNQ". Die Beschreibung wird auf NQ/ES angepasst — sonst beschreibt der Skill

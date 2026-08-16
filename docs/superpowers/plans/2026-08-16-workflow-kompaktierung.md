@@ -762,10 +762,15 @@ for b in fuenf[:3]: print(b.t, b.o, b.h, b.l, b.c)
 head -4 "raw/marktdaten/2026/08/14.08.2026/MNQ 2026-08-14 5m.csv"
 ```
 
-Erwartet: Die Zeitstempel der resampelten NQ-5m-Kerzen stimmen mit denen des
-MNQ-TradingView-Exports **auf die Minute** überein. Die Preise unterscheiden sich nicht (NQ und
-MNQ notieren identisch) — weicht ein Zeitstempel ab, ist der Resample-Anker falsch und Task 5
-Step 3 muss korrigiert werden, bevor es weitergeht.
+Erwartet: Die **Zeitstempel** der resampelten NQ-5m-Kerzen stimmen mit denen des
+MNQ-TradingView-Exports auf die Minute überein. Weicht ein Zeitstempel ab, ist der
+Resample-Anker falsch und Task 5 Step 3 muss korrigiert werden, bevor es weitergeht.
+
+> ⚠️ **Nur Zeitstempel vergleichen, keine Preise.** NQ und MNQ sind getrennte Kontrakte mit
+> eigenem Orderbuch. Sie folgen demselben Index und laufen nah beieinander, aber sie sind
+> nicht tickgleich, und im Vault gilt die Regel, Micro und Mini strikt zu trennen — ein
+> Substring-Filter, der beide vermengte, hat schon einmal ein ES-Signal umgekehrt. Der
+> MNQ-Export dient hier ausschließlich als unabhängige **Zeitachse**, nicht als Preisreferenz.
 
 - [ ] **Step 9: Commit**
 
