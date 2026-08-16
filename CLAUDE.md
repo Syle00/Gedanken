@@ -303,6 +303,11 @@ damit er mit einfachen Tools grep-bar bleibt:
 Mögliche Typen: `ingest`, `query`, `lint`, `synthesis`, `setup` (auch für autonome
 Wiki-Erweiterungen außerhalb eines formalen Ingest, siehe "Kontinuierliches Wachstum" oben).
 
+Seit 2026-08-16 trägt die Git-Historie den chronologischen Verlauf. Hänge an `wiki/log.md`
+nur noch an, was keine Commit-Message ausdrückt: offene Fragen, bewusste Abweichungen von den
+Konventionen, Widerspruchsmarker. Alles Übrige gehört in die Commit-Message, die `push.ps1`
+seither erzwingt.
+
 ## Domänenkontext: trading-ict
 
 `raw/trading-ict/` enthält ICT-(Inner-Circle-Trader-)Konzepte zu Market Structure, Liquidity,
