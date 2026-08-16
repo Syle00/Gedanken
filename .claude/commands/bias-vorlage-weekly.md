@@ -12,11 +12,12 @@ Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoch
    Die JSON-Ausgabe liefert `target_week` (`monday`, `kw`, `year` -- daraus `<NN>`/`<JAHR>`
    fuer den Dateinamen), `letzte_woche` (High/Low/Tage der auslaufenden Woche als Referenz)
    und `news` (alle Red-/Orange-Folder-Events Mo-Fr der Zielwoche, NY- und DE-Zeit fertig).
+   **Nur USD** -- `bias_levels.py` filtert das bereits, gehandelt werden NQ/ES.
    Kein WebFetch auf forexfactory.com -- HTTP 403 fuer Bots.
 
 2. **News-Abschnitt.** Tabelle
-   `| Tag | NY | DE | Waehrung | Event | Impact | Forecast | Previous |`, Red-Folder-Termine
-   (NFP, CPI, FOMC) hervorheben.
+   `| Tag | NY | DE | Event | Impact | Forecast | Previous |`, Red-Folder-Termine
+   (NFP, CPI, FOMC) hervorheben. Keine Waehrungsspalte -- es ist durchgaengig USD.
 
    `news.source` **immer mit ausgeben** (eine Zeile unter der Tabelle). Freitags abends kennt
    ForexFactory die kommende Woche noch nicht, dann steht dort `tradingview` plus ein
@@ -24,9 +25,13 @@ Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoch
    dich beim Lesen: TradingView stuft mehr Events als Red ein als ForexFactory (z.B. Retail
    Sales, Michigan Sentiment); die *Uhrzeiten* beider Quellen sind deckungsgleich geprueft.
 
-   Ist `news.error` gesetzt (beide Quellen tot) oder `news.events` leer:
+   Ist `news.error` gesetzt (beide Quellen tot):
    `⚠️ News-Abruf fehlgeschlagen (<news.error>), manuell auf forexfactory.com pruefen`
    eintragen und weitermachen -- nie abbrechen, nie Events erfinden.
+
+   Sind `news.events` **leer, aber `news.error` ist `null`**: `Keine USD-Termine mit Red-/
+   Orange-Impact in dieser Woche.` Das ist **kein Fehler**, sondern eine newsarme Woche --
+   seit dem USD-Filter ein realistischer Fall. Nie als Abruf-Fehler ausgeben.
 
 3. **NWOG-Levels.** `python algo/live_status.py` ausfuehren (frischer Lauf). `nwog_today`
    (Open/Close) und `nwog_open_history` (noch offene NWOG-Level der letzten 5 Wochen als

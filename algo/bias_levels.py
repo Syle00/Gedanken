@@ -55,6 +55,10 @@ BERLIN = ZoneInfo("Europe/Berlin")
 NEWYORK = ZoneInfo("America/New_York")
 IMPACT_FARBE = {"High": "Red", "Medium": "Orange"}  # Low/Holiday bewusst raus
 TV_IMPACT = {1: "Red", 0: "Orange"}                 # -1 (Low) bewusst raus
+# Nur USD (Nutzerentscheid 2026-08-16): gehandelt werden NQ/ES, CAD-CPI oder GBP-Jobs
+# bewegen die US-Indizes nicht. TradingView filtert das serverseitig (countries=US),
+# ForexFactory liefert alle Waehrungen -- dort wird beim Parsen gefiltert.
+WAEHRUNG = "USD"
 
 
 # --------------------------------------------------------------------------- Levels
@@ -135,7 +139,8 @@ def _ff_news(von: date, bis: date) -> dict:
            "feed_span": [min(days).isoformat(), max(days).isoformat()] if days else None,
            "events": sorted((_event(t, e["title"], e["country"], IMPACT_FARBE[e["impact"]], e)
                              for t, e in parsed
-                             if e["impact"] in IMPACT_FARBE and von <= t.date() <= bis),
+                             if e["impact"] in IMPACT_FARBE and von <= t.date() <= bis
+                             and e["country"] == WAEHRUNG),
                             key=lambda x: x["ny"])}
     if not days:
         out["error"] = "Feed leer"
@@ -250,6 +255,23 @@ def demo() -> None:
                  "impact": "High", "forecast": "", "previous": ""}]
         globals()["_fetch_feed"] = lambda *a, **k: feed
         assert news(date(2026, 8, 12))["source"] == "forexfactory", "Tag in der FF-Woche"
+
+        # Nur USD: FF liefert alle Waehrungen, CAD/GBP/EUR duerfen nicht durchrutschen.
+        # Ohne diesen Filter standen am 17.08. drei CAD-CPI-Termine in der NQ-Bias-Datei.
+        gemischt = feed + [
+            {"date": "2026-08-12T08:30:00-04:00", "country": "CAD", "title": "CPI m/m",
+             "impact": "High", "forecast": "", "previous": ""},
+            {"date": "2026-08-12T02:00:00-04:00", "country": "GBP", "title": "Claimant Count",
+             "impact": "High", "forecast": "", "previous": ""},
+        ]
+        globals()["_fetch_feed"] = lambda *a, **k: gemischt
+        nur_usd = news(date(2026, 8, 12))
+        assert [e["country"] for e in nur_usd["events"]] == ["USD"], nur_usd
+        # Leeres Ergebnis ohne Fehler ist ein newsarmer Tag, KEIN Abruf-Fehler --
+        # die Commands unterscheiden das, sonst steht faelschlich eine Warnung in der Datei.
+        globals()["_fetch_feed"] = lambda *a, **k: [gemischt[1]]  # nur CAD im Feed
+        leer = news(date(2026, 8, 12))
+        assert leer["events"] == [] and leer.get("error") is None, leer
         globals()["_tv_news"] = lambda von, bis: {"source": "tradingview", "events": [
             _event(datetime.fromisoformat("2026-08-19T14:00:00-04:00"), "FOMC Minutes",
                    "USD", "Red", {})]}

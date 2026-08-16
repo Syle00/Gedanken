@@ -12,13 +12,18 @@ Erzeuge `raw/journal/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.
    liefert alles auf einmal: `day` (= `<ZIEL>`, Sa/So sind schon auf Montag geschoben),
    `weekday`, `weekly_range`, `yesterday_range` und `news` (Red-/Orange-Folder-Events aus dem
    offiziellen ForexFactory-JSON-Feed, NY- und DE-Zeit bereits umgerechnet).
+   **Nur USD** -- `bias_levels.py` filtert das bereits, gehandelt werden NQ/ES.
    Kein WebFetch auf forexfactory.com -- die HTML-Seite antwortet Bots mit HTTP 403.
 
-2. **News-Abschnitt.** Ist `news.error` gesetzt oder `news.events` leer, im News-Abschnitt
-   `⚠️ News-Abruf fehlgeschlagen (<news.error>), manuell auf forexfactory.com pruefen`
-   eintragen und weitermachen -- nie abbrechen, nie Events erfinden. Sonst Tabelle:
-   `| NY | DE | Waehrung | Event | Impact | Forecast | Previous |`, Red-Folder-Events (USD
-   zuerst) hervorheben.
+2. **News-Abschnitt.** Drei Faelle, sauber auseinanderhalten:
+
+   - `news.error` **gesetzt** -> `⚠️ News-Abruf fehlgeschlagen (<news.error>), manuell auf
+     forexfactory.com pruefen`. Weitermachen, nie abbrechen, nie Events erfinden.
+   - `news.events` **leer, aber `news.error` ist `null`** -> `Keine USD-Termine mit Red-/
+     Orange-Impact.` Das ist **kein Fehler**, sondern ein newsarmer Tag und eine verwertbare
+     Aussage. Nie als Abruf-Fehler ausgeben.
+   - sonst Tabelle: `| NY | DE | Event | Impact | Forecast | Previous |`, Red-Folder-Events
+     hervorheben. Keine Waehrungsspalte -- es ist ohnehin durchgaengig USD.
 
    `news.source` mit ausgeben: normalerweise `forexfactory`, bei einem Zieltag ausserhalb der
    laufenden FF-Woche (Sonntagslauf fuer Montag) `tradingview` plus `news.hinweis` -- kein

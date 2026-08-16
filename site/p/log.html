@@ -213,6 +213,7 @@
 <li><a href="#2026-08-16-setup-journal-bias-dateien-nach-rawjournalbiasdailyweekly-sortiert">[2026-08-16] setup | Journal-Bias-Dateien nach raw/journal/bias/{daily,weekly}/ sortiert</a></li>
 <li><a href="#2026-08-16-setup-tape-reading-trade-execution-ebenfalls-in-eigene-ordner">[2026-08-16] setup | Tape Reading + Trade Execution ebenfalls in eigene Ordner</a></li>
 <li><a href="#2026-08-16-setup-bias-ablage-auf-inbox-prinzip-umgestellt">[2026-08-16] setup | Bias-Ablage auf Inbox-Prinzip umgestellt</a></li>
+<li><a href="#2026-08-16-setup-bias-news-auf-usd-gefiltert">[2026-08-16] setup | Bias-News auf USD gefiltert</a></li>
 </ul>
 </div>
 </details>
@@ -3208,6 +3209,30 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Zurueckgeholt nach flach, weil noch aktuell: <code>Daily Bias 2026-08-17.md</code> (morgen),
   <code>Weekly Bias KW34 2026.md</code> (kommende Woche). Probelauf <code>--dry-run</code> bestaetigt: beide bleiben
   liegen, nichts sonst einzusortieren.</li>
+</ul>
+<h2 id="2026-08-16-setup-bias-news-auf-usd-gefiltert">[2026-08-16] setup | Bias-News auf USD gefiltert</h2>
+<ul>
+<li>Nutzerentscheid: In Daily-/Weekly-Bias nur noch USD-Termine -- gehandelt werden NQ/ES,
+  CAD-CPI oder GBP-Jobs bewegen die US-Indizes nicht.</li>
+<li>Ursache der Vermischung gefunden: <code>_tv_news()</code> filterte laengst serverseitig
+  (<code>countries=US</code>), <code>_ff_news()</code> gar nicht. Beide Quellen lieferten also unterschiedliche
+  Grundgesamtheiten -- ein Quellenwechsel (FF &lt;-&gt; TradingView) veraenderte damit still den
+  Umfang der Newsliste, nicht nur die Einstufung. Jetzt filtert <code>_ff_news()</code> auf
+  <code>WAEHRUNG = "USD"</code>, beide Quellen sind gleichgezogen.</li>
+<li>Wirkung auf KW34: 21 Events -&gt; 3 (FOMC Minutes Mi 14:00 NY Red, Philly Fed + Unemployment
+  Claims Do 08:30 NY Orange). Fuer Mo 17.08. bleiben <strong>0</strong> Events.</li>
+<li><strong>Folgefehler mitbehoben, der sonst still falsch geworden waere:</strong> Beide Commands werteten
+  <code>events == []</code> als "News-Abruf fehlgeschlagen". Mit dem USD-Filter ist eine leere Liste aber
+  der Normalfall eines newsarmen Tages -- am 17.08. haette faelschlich
+  "⚠️ News-Abruf fehlgeschlagen (None)" in der Datei gestanden. Die Commands unterscheiden
+  jetzt drei Faelle: <code>error</code> gesetzt (Abruf tot), <code>events</code> leer bei <code>error: null</code>
+  (newsarmer Tag, verwertbare Aussage), sonst Tabelle. Waehrungsspalte entfaellt.</li>
+<li>Selbstcheck erweitert: gemischter Feed (USD+CAD+GBP) muss genau USD durchlassen; Feed ohne
+  USD-Event muss <code>events == []</code> <strong>und</strong> <code>error is None</code> liefern. <code>selfcheck.py</code>: 27/27 gruen.</li>
+<li>Methodische Lehre, uebertragbar: Wenn zwei Quellen hinter einer Fallback-Kette liegen,
+  muessen sie dieselbe Filterung haben -- sonst aendert ein Quellenwechsel unbemerkt den
+  Inhalt, nicht nur die Herkunft. Und: ein Filter macht "leer" zu einem gueltigen Ergebnis;
+  jede Stelle, die "leer" vorher als Fehler las, muss mitgezogen werden.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

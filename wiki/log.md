@@ -2831,3 +2831,26 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Zurueckgeholt nach flach, weil noch aktuell: `Daily Bias 2026-08-17.md` (morgen),
   `Weekly Bias KW34 2026.md` (kommende Woche). Probelauf `--dry-run` bestaetigt: beide bleiben
   liegen, nichts sonst einzusortieren.
+
+## [2026-08-16] setup | Bias-News auf USD gefiltert
+- Nutzerentscheid: In Daily-/Weekly-Bias nur noch USD-Termine -- gehandelt werden NQ/ES,
+  CAD-CPI oder GBP-Jobs bewegen die US-Indizes nicht.
+- Ursache der Vermischung gefunden: `_tv_news()` filterte laengst serverseitig
+  (`countries=US`), `_ff_news()` gar nicht. Beide Quellen lieferten also unterschiedliche
+  Grundgesamtheiten -- ein Quellenwechsel (FF <-> TradingView) veraenderte damit still den
+  Umfang der Newsliste, nicht nur die Einstufung. Jetzt filtert `_ff_news()` auf
+  `WAEHRUNG = "USD"`, beide Quellen sind gleichgezogen.
+- Wirkung auf KW34: 21 Events -> 3 (FOMC Minutes Mi 14:00 NY Red, Philly Fed + Unemployment
+  Claims Do 08:30 NY Orange). Fuer Mo 17.08. bleiben **0** Events.
+- **Folgefehler mitbehoben, der sonst still falsch geworden waere:** Beide Commands werteten
+  `events == []` als "News-Abruf fehlgeschlagen". Mit dem USD-Filter ist eine leere Liste aber
+  der Normalfall eines newsarmen Tages -- am 17.08. haette faelschlich
+  "⚠️ News-Abruf fehlgeschlagen (None)" in der Datei gestanden. Die Commands unterscheiden
+  jetzt drei Faelle: `error` gesetzt (Abruf tot), `events` leer bei `error: null`
+  (newsarmer Tag, verwertbare Aussage), sonst Tabelle. Waehrungsspalte entfaellt.
+- Selbstcheck erweitert: gemischter Feed (USD+CAD+GBP) muss genau USD durchlassen; Feed ohne
+  USD-Event muss `events == []` **und** `error is None` liefern. `selfcheck.py`: 27/27 gruen.
+- Methodische Lehre, uebertragbar: Wenn zwei Quellen hinter einer Fallback-Kette liegen,
+  muessen sie dieselbe Filterung haben -- sonst aendert ein Quellenwechsel unbemerkt den
+  Inhalt, nicht nur die Herkunft. Und: ein Filter macht "leer" zu einem gueltigen Ergebnis;
+  jede Stelle, die "leer" vorher als Fehler las, muss mitgezogen werden.
