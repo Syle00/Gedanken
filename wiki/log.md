@@ -2793,3 +2793,22 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Methodische Lehre, uebertragbar: Bevor ein fehlender Mechanismus als "existiert nicht"
   diagnostiziert wird, `algo/PLAN.md` lesen -- das Projektlog kennt Infrastruktur, die kein
   lokales Tool sichtbar macht.
+
+## [2026-08-16] setup | Tape Reading + Trade Execution ebenfalls in eigene Ordner
+- Verschoben: 30 Dateien nach `raw/journal/tape-reading/`, 19 nach `raw/journal/trade-execution/`.
+  `raw/journal/` enthaelt jetzt nur noch `Journal.md`, `assets/`, `bias/`, `tape-reading/`,
+  `trade-execution/` -- von urspruenglich 172 Eintraegen auf 5 heruntergeraeumt.
+- Wieder **nicht umbenannt**: `Journal.md` verlinkt die Eintraege per Wikilink
+  (`[[Trade Execution Journal 3]]` usw.); Verschieben laesst diese Links intakt, Umbenennen
+  nicht.
+- **Stillen Bruch gefunden und behoben:** `tools/journal_wiki.py` globbte flach
+  (`JOURNAL.glob("*.md")`) und haette nach der Umsortierung **0 Eintraege** gefunden --
+  die generierte Seite `wiki/synthesis/Journal-Auswertung.md` waere kommentarlos leer
+  geworden, ohne Fehlermeldung. Gegenprobe vor dem Fix: flach 0 Dateien / 0 mit Checkliste,
+  rekursiv 171 / 24. Fix: `rglob` statt `glob` (eine Zeile). Lauf danach verifiziert,
+  21 Eintraege ausgewertet, Seite wieder korrekt erzeugt.
+- Pfadangaben nachgezogen in `~/.claude/skills/trading-journal/SKILL.md` (Layout-Referenz auf
+  `Tape Reading 17.md` / `Trade Execution Journal 3.md`) und `algo/README.md`.
+- Methodische Lehre, uebertragbar: Ordner umsortieren ist nie folgenlos, solange Skripte die
+  alte Struktur globben. Nach jedem Verschieben in `raw/` pruefen, **wer** dort liest -- ein
+  flacher `glob` faellt nicht mit einem Fehler auf, sondern mit einem stillen Null-Ergebnis.

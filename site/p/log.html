@@ -211,6 +211,7 @@
 <li><a href="#2026-08-16-setup-fetch_ibkrpy-pacing-rate-korrigiert-statusmeldungen-entluegt">[2026-08-16] setup | fetch_ibkr.py -- Pacing-Rate korrigiert, Statusmeldungen entluegt</a></li>
 <li><a href="#2026-08-16-setup-bias-vorlagen-laufen-jetzt-ueber-den-windows-task-scheduler">[2026-08-16] setup | Bias-Vorlagen laufen jetzt ueber den Windows Task Scheduler</a></li>
 <li><a href="#2026-08-16-setup-journal-bias-dateien-nach-rawjournalbiasdailyweekly-sortiert">[2026-08-16] setup | Journal-Bias-Dateien nach raw/journal/bias/{daily,weekly}/ sortiert</a></li>
+<li><a href="#2026-08-16-setup-tape-reading-trade-execution-ebenfalls-in-eigene-ordner">[2026-08-16] setup | Tape Reading + Trade Execution ebenfalls in eigene Ordner</a></li>
 </ul>
 </div>
 </details>
@@ -3166,6 +3167,26 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Methodische Lehre, uebertragbar: Bevor ein fehlender Mechanismus als "existiert nicht"
   diagnostiziert wird, <code>algo/PLAN.md</code> lesen -- das Projektlog kennt Infrastruktur, die kein
   lokales Tool sichtbar macht.</li>
+</ul>
+<h2 id="2026-08-16-setup-tape-reading-trade-execution-ebenfalls-in-eigene-ordner">[2026-08-16] setup | Tape Reading + Trade Execution ebenfalls in eigene Ordner</h2>
+<ul>
+<li>Verschoben: 30 Dateien nach <code>raw/journal/tape-reading/</code>, 19 nach <code>raw/journal/trade-execution/</code>.
+  <code>raw/journal/</code> enthaelt jetzt nur noch <code>Journal.md</code>, <code>assets/</code>, <code>bias/</code>, <code>tape-reading/</code>,
+  <code>trade-execution/</code> -- von urspruenglich 172 Eintraegen auf 5 heruntergeraeumt.</li>
+<li>Wieder <strong>nicht umbenannt</strong>: <code>Journal.md</code> verlinkt die Eintraege per Wikilink
+  (<code>&lt;span class="broken" title="Seite existiert noch nicht"&gt;Trade Execution Journal 3&lt;/span&gt;</code> usw.); Verschieben laesst diese Links intakt, Umbenennen
+  nicht.</li>
+<li><strong>Stillen Bruch gefunden und behoben:</strong> <code>tools/journal_wiki.py</code> globbte flach
+  (<code>JOURNAL.glob("*.md")</code>) und haette nach der Umsortierung <strong>0 Eintraege</strong> gefunden --
+  die generierte Seite <code>wiki/synthesis/Journal-Auswertung.md</code> waere kommentarlos leer
+  geworden, ohne Fehlermeldung. Gegenprobe vor dem Fix: flach 0 Dateien / 0 mit Checkliste,
+  rekursiv 171 / 24. Fix: <code>rglob</code> statt <code>glob</code> (eine Zeile). Lauf danach verifiziert,
+  21 Eintraege ausgewertet, Seite wieder korrekt erzeugt.</li>
+<li>Pfadangaben nachgezogen in <code>~/.claude/skills/trading-journal/SKILL.md</code> (Layout-Referenz auf
+  <code>Tape Reading 17.md</code> / <code>Trade Execution Journal 3.md</code>) und <code>algo/README.md</code>.</li>
+<li>Methodische Lehre, uebertragbar: Ordner umsortieren ist nie folgenlos, solange Skripte die
+  alte Struktur globben. Nach jedem Verschieben in <code>raw/</code> pruefen, <strong>wer</strong> dort liest -- ein
+  flacher <code>glob</code> faellt nicht mit einem Fehler auf, sondern mit einem stillen Null-Ergebnis.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
