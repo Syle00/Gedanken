@@ -51,7 +51,8 @@ def list_playlist_entries(playlist_url: str) -> tuple[str, str, list[tuple[str, 
     out = subprocess.run(
         [sys.executable, "-m", "yt_dlp", "--flat-playlist", "--print",
          "%(playlist_id)s\t%(playlist_title)s\t%(id)s\t%(title)s", playlist_url],
-        capture_output=True, text=True, check=True,
+        capture_output=True, check=True,
+        encoding="utf-8", errors="replace",  # yt-dlp gibt UTF-8, nicht die Windows-ANSI-Locale
     ).stdout
     return _parse_playlist_entries(out)
 

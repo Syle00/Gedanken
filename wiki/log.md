@@ -2692,3 +2692,15 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Kein neuer Backtest-Kandidat: Der Inhalt ist ueberwiegend Trade-Management, Positionsgroesse und
   Psychologie. Die einzige quantitative Aussage ("zweites Bein in weniger Kerzen als das erste")
   entwertet ICT selbst als nicht-mechanisch.
+
+## [2026-08-16] setup | Bugfix fetch_ibkr-Fortschrittsfenster (Codepage)
+- Seiten aktualisiert: algo/PLAN.md (Log-Eintrag), algo/README.md (Abschnitt `fetch_ibkr.py`,
+  Fortschrittsfenster)
+- Code: algo/fetch_ibkr.py (`_fenster_laeuft_schon` wertet `tasklist` als Bytes aus statt
+  `text=True`; `_demo()` um den fehlenden Fall "numerische, nicht mehr laufende PID" ergaenzt),
+  tools/fetch_yt_transcript.py + tools/fetch_yt_playlist.py (`encoding="utf-8"` explizit).
+- Erkenntnis fuer kuenftige Aufrufe externer Windows-Tools: `subprocess.run(..., text=True)`
+  dekodiert mit der ANSI-Locale (cp1252), Konsolentools schreiben aber OEM (cp850). Der
+  UnicodeDecodeError faellt im Reader-Thread an, wird verschluckt, und `.stdout` ist danach
+  still `None` -- ein `except subprocess.SubprocessError` faengt das **nicht**. Entweder Bytes
+  vergleichen oder `encoding=` explizit setzen.

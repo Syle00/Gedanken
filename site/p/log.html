@@ -206,6 +206,7 @@
 <li><a href="#2026-08-16-ingest-youtube-how-to-probe-low-probability-rth-opening-ranges-teil-12">[2026-08-16] ingest | YouTube: How To Probe Low Probability RTH Opening Ranges, Teil 1+2</a></li>
 <li><a href="#2026-08-16-ingest-youtube-weekend-us-holiday-volume-protocol-cdjxtt4-o-q">[2026-08-16] ingest | YouTube: Weekend US Holiday Volume Protocol (cDjxtT4-O-Q)</a></li>
 <li><a href="#2026-08-16-ingest-youtube-turning-loss-into-gain-market-alchemy-d8du4fmvoqu">[2026-08-16] ingest | YouTube: Turning Loss Into Gain - Market Alchemy (d8du4fMvOQU)</a></li>
+<li><a href="#2026-08-16-setup-bugfix-fetch_ibkr-fortschrittsfenster-codepage">[2026-08-16] setup | Bugfix fetch_ibkr-Fortschrittsfenster (Codepage)</a></li>
 </ul>
 </div>
 </details>
@@ -3055,6 +3056,19 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Kein neuer Backtest-Kandidat: Der Inhalt ist ueberwiegend Trade-Management, Positionsgroesse und
   Psychologie. Die einzige quantitative Aussage ("zweites Bein in weniger Kerzen als das erste")
   entwertet ICT selbst als nicht-mechanisch.</li>
+</ul>
+<h2 id="2026-08-16-setup-bugfix-fetch_ibkr-fortschrittsfenster-codepage">[2026-08-16] setup | Bugfix fetch_ibkr-Fortschrittsfenster (Codepage)</h2>
+<ul>
+<li>Seiten aktualisiert: algo/PLAN.md (Log-Eintrag), algo/README.md (Abschnitt <code>fetch_ibkr.py</code>,
+  Fortschrittsfenster)</li>
+<li>Code: algo/fetch_ibkr.py (<code>_fenster_laeuft_schon</code> wertet <code>tasklist</code> als Bytes aus statt
+  <code>text=True</code>; <code>_demo()</code> um den fehlenden Fall "numerische, nicht mehr laufende PID" ergaenzt),
+  tools/fetch_yt_transcript.py + tools/fetch_yt_playlist.py (<code>encoding="utf-8"</code> explizit).</li>
+<li>Erkenntnis fuer kuenftige Aufrufe externer Windows-Tools: <code>subprocess.run(..., text=True)</code>
+  dekodiert mit der ANSI-Locale (cp1252), Konsolentools schreiben aber OEM (cp850). Der
+  UnicodeDecodeError faellt im Reader-Thread an, wird verschluckt, und <code>.stdout</code> ist danach
+  still <code>None</code> -- ein <code>except subprocess.SubprocessError</code> faengt das <strong>nicht</strong>. Entweder Bytes
+  vergleichen oder <code>encoding=</code> explizit setzen.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

@@ -1276,6 +1276,15 @@ ab -- fuer den spaeteren unbeaufsichtigten Tages-Task. Schlaegt das Oeffnen fehl
 Download unveraendert weiter; die Anzeige ist Beiwerk, der Datenlauf zaehlt. Log und PID-Datei
 sind gitignored.
 
+Die `tasklist`-Ausgabe wird bewusst als **Bytes** ausgewertet, nicht mit `text=True` (Bugfix
+2026-08-16): Windows-Konsolentools schreiben in der OEM-Codepage (cp850), `text=True` dekodiert
+aber mit der ANSI-Locale (cp1252) -- das deutsche "ausgefuehrt" in der Leermeldung enthaelt
+Byte 0x81, in cp1252 undefiniert. Der `UnicodeDecodeError` faellt in subprocess' Reader-Thread
+an und wird dort verschluckt, `.stdout` ist danach still `None`: jeder Lauf mit einer bereits
+beendeten Fenster-PID starb mit `AttributeError: 'NoneType' object has no attribute 'lower'`,
+bevor ueberhaupt ein Fenster aufgehen konnte. Merke fuer kuenftige Aufrufe externer
+Windows-Tools: entweder Bytes vergleichen oder `encoding=` explizit setzen.
+
 **Warum:** IBKR ist dieselbe Quelle wie die spaetere Order-Ausfuehrung -- keine Quellen-Drift
 zwischen Backtest und Live-Betrieb (E1). NQ/ES statt MNQ, weil beide vom gebuchten
 CME-L1-Paket abgedeckt sind und deutlich liquider (E2); MNQ-Backtests bleiben unveraendert

@@ -90,11 +90,15 @@ def _fenster_laeuft_schon(pid_datei: Path) -> bool:
     except (OSError, ValueError):
         return False
     try:
+        # Bewusst Bytes statt text=True: `tasklist` schreibt in der OEM-Codepage (cp850),
+        # dekodiert wuerde aber mit der ANSI-Locale (cp1252) -- das deutsche "ausgefuehrt"
+        # enthaelt 0x81, in cp1252 undefiniert. Der UnicodeDecodeError faellt in subprocess'
+        # Reader-Thread an, wird dort verschluckt, und .stdout ist danach still None.
         out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/NH"],
-                             capture_output=True, text=True, timeout=10).stdout
+                             capture_output=True, timeout=10).stdout or b""
     except (OSError, subprocess.SubprocessError):
         return False
-    return "powershell" in out.lower()
+    return b"powershell" in out.lower()
 
 
 def _fortschrittsfenster_oeffnen():
@@ -559,6 +563,11 @@ def _demo() -> None:
         pid_datei.write_text(str(os.getpid()), encoding="utf-8")
         assert not _fenster_laeuft_schon(pid_datei), \
             "die eigene python.exe ist kein Fortschrittsfenster (Namensprüfung muss greifen)"
+        # Laengst beendete PID: hier meldet `tasklist` "keine Aufgaben ... ausgefuehrt" in der
+        # OEM-Codepage -- der Fall, an dem die fruehere text=True-Dekodierung still None ergab.
+        pid_datei.write_text("999998", encoding="utf-8")
+        assert not _fenster_laeuft_schon(pid_datei), \
+            "eine nicht mehr laufende PID darf False ergeben, nicht crashen"
 
     # Pacing-Limiter: 61 Requests duerfen mit einer simulierten Uhr nicht in unter 600s
     # durchgehen -- der 61. Request muss auf das Verlassen des 60er-Fensters warten.
