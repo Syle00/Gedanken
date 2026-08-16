@@ -1241,6 +1241,16 @@ injizierbarer Uhr fuer Tests. `raw/marktdaten/1s-abdeckung.csv` (append-only) lo
 Probleme: "kein Trade" vs. "nicht geholt" unterscheidbar machen, Backfill wiederaufnehmbar
 machen, Nachlad zustandslos machen.
 
+`register_append()` schreibt den kompletten Block als **einen** `write()`-Aufruf (Umweg ueber
+`io.StringIO`), statt `csv.writer` feldweise in den gepufferten Stream schreiben zu lassen.
+Grund: Laufen zwei `fetch_ibkr`-Prozesse gleichzeitig (Backfill + Nachlad), verschraenken sich
+sonst deren Teilschreibvorgaenge und zerreissen einen Datensatz mitten im Feld -- genau so
+entstand am 2026-08-16 eine kaputte Zeile in der Registerdatei. `register_load()` ueberspringt
+defekte Zeilen mit Warnung, statt mit `ValueError` abzubrechen: Das Register ist ein
+Buchhaltungs-Index, kein Datenbestand -- ein unlesbares Fenster gilt als "noch nicht geholt"
+und wird beim naechsten Lauf schlicht neu gezogen. Vorher legte **eine** defekte Zeile das
+ganze Skript lahm.
+
 **Warum:** IBKR ist dieselbe Quelle wie die spaetere Order-Ausfuehrung -- keine Quellen-Drift
 zwischen Backtest und Live-Betrieb (E1). NQ/ES statt MNQ, weil beide vom gebuchten
 CME-L1-Paket abgedeckt sind und deutlich liquider (E2); MNQ-Backtests bleiben unveraendert

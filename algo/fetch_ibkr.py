@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import io
 import os
 import socket
 import sys
@@ -164,22 +165,46 @@ def day_windows(day: date) -> list[tuple[datetime, datetime]]:
 
 
 def register_load(path: Path = REGISTER) -> set[tuple[str, int, int]]:
-    """(symbol, von, bis) aller bereits erfolgreich geholten Fenster, als UNIX-Sekunden."""
+    """(symbol, von, bis) aller bereits erfolgreich geholten Fenster, als UNIX-Sekunden.
+
+    Defekte Zeilen werden uebersprungen statt zu crashen: das Register ist ein
+    Buchhaltungs-Index, kein Datenbestand -- ein nicht lesbares Fenster gilt als
+    "noch nicht geholt" und wird beim naechsten Lauf einfach neu gezogen.
+    """
     if not path.exists():
         return set()
+    fenster, defekt = set(), 0
     with path.open(newline="", encoding="utf-8") as fh:
-        return {(r["symbol"], int(r["von"]), int(r["bis"])) for r in csv.DictReader(fh)}
+        for r in csv.DictReader(fh):
+            try:
+                fenster.add((r["symbol"], int(r["von"]), int(r["bis"])))
+            except (TypeError, ValueError):
+                defekt += 1
+    if defekt:
+        print(f"  ! {path.name} -- {defekt} defekte Zeile(n) uebersprungen, "
+              f"betroffene Fenster werden neu geholt")
+    return fenster
 
 
 def register_append(rows: list[dict], path: Path = REGISTER) -> None:
-    """Haengt Zeilen an -- schreibt den Header nur, wenn die Datei neu angelegt wird."""
+    """Haengt Zeilen an -- schreibt den Header nur, wenn die Datei neu angelegt wird.
+
+    Der komplette Block geht als *ein* write()-Aufruf raus. csv.writer schreibt sonst
+    pro Feld einzeln in den gepufferten Stream; laufen zwei fetch_ibkr-Prozesse
+    gleichzeitig (Backfill + Nachlad), koennen sich diese Teilschreibvorgaenge
+    verschraenken und einen Datensatz mitten im Feld zerreissen -- genau so entstand
+    am 2026-08-16 die kaputte Zeile in 1s-abdeckung.csv.
+    """
     neu = not path.exists()
     path.parent.mkdir(parents=True, exist_ok=True)
+    puffer = io.StringIO()
+    w = csv.DictWriter(puffer, fieldnames=REGISTER_HEADER, lineterminator="\n")
+    if neu:
+        w.writeheader()
+    w.writerows(rows)
     with path.open("a", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=REGISTER_HEADER)
-        if neu:
-            w.writeheader()
-        w.writerows(rows)
+        fh.write(puffer.getvalue())
+        fh.flush()
 
 
 def write_day_1s(symbol: str, day: date, rows: pd.DataFrame, contract: str) -> Path | None:
