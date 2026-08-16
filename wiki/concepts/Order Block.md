@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-14
-sources: ["[[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]", "[[Kurz Notizen (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Orderblocks (Source)]]", "[[ICT Mentorship Core Content - Month 03 - The Next Setup - Anticipatory Skill Development (Source)]]", "[[2022-02-25 - 2022 ICT Mentorship Episode 12 (Source)]]"]
+updated: 2026-08-16
+sources: ["[[Reeinforced Orderblock Theory Selecting & Avoiding (Source)]]", "[[Kurz Notizen (Source)]]", "[[ICT 2022 - Episode 13 Market Structure for Precision (Source)]]", "[[ICT 2022 - Episode 17 FX Anwendung (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Orderblocks (Source)]]", "[[ICT Mentorship Core Content - Month 03 - The Next Setup - Anticipatory Skill Development (Source)]]", "[[2022-02-25 - 2022 ICT Mentorship Episode 12 (Source)]]", "[[2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)|Missed Entry How To Navigate The Same Trade Idea (Source, Video)]]"]
 ---
 
 # Order Block
@@ -112,6 +112,28 @@ Aus [[ICT Mentorship Core Content - Month 04 - Orderblocks (Source)]]:
   hier durch ein zweites, unabhängiges Beispiel bestätigt.
 - Entry/Exit-Rahmen: Order Block = [[External vs. Internal Range Liquidity|Internal Range
   Liquidity]] (Kauf-/Verkaufspunkt), altes High/Low = External Range Liquidity (Ziel).
+
+## Rücklauf in den arbeitenden OB = Nachlade-Zone (2026-Ergänzung)
+
+Aus [[2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)|Missed Entry How To Navigate The Same Trade Idea (Source, Video)]]:
+
+> *„Whenever there's an order block that is being implemented and it starts to sell off, and then
+> it goes right back to it again, it's allowing smart money to **accumulate more shorts** in this
+> case, since it's a bearish order block."*
+
+Der zweite Anlauf an einen bereits „arbeitenden" OB (er hat schon einen Move ausgelöst) ist damit
+**kein Schwächezeichen**, sondern die Gelegenheit zum Positionsausbau in dieselbe Richtung —
+Smart Money kann seine Größe nicht in einer Transaktion unterbringen. Im dokumentierten Fall
+folgte darauf die Beschleunigung durch das nächste Low.
+
+Abgrenzung: Der [[Propulsion Block]] beschreibt eine verwandte, aber strukturell andere zweite
+Rücklauf-Bewegung; die 1:1-Zuordnung von Blöcken zwischen den Kurvenhälften steht in
+[[Reclaimed Order Block]].
+
+**Entry-Hälfte bei Missed Entry**: Ist der optimale Fill verpasst, nutzt ICT die **untere Hälfte**
+eines bearishen OB — dessen **Premium-Sensitivity**-Portion (spiegelbildlich die obere Hälfte eines
+bullishen OB als Discount-Portion). Siehe [[Missed Entry Trade Management Playbook]] und
+[[Equilibrium Vs. Discount]].
 
 ## Verwandt
 

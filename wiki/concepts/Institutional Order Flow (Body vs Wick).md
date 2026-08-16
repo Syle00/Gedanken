@@ -2,7 +2,7 @@
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
 updated: 2026-08-16
-sources: ["[[Institutional Order Flow (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]"]
+sources: ["[[Institutional Order Flow (Source)]]", "[[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]]", "[[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-07 - Case Study With NonFarm Payroll & NQ Futures (Source)|Case Study With NonFarm Payroll & NQ Futures (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]", "[[2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)|Missed Entry How To Navigate The Same Trade Idea (Source, Video)]]"]
 ---
 
 # Institutional Order Flow (Body vs Wick)
@@ -63,6 +63,40 @@ Gaps starten, bestätigen den Order Flow. Details und Fallbeispiel: [[Gladhandin
 Ergänzend aus derselben Quelle: Ein **Wick oberhalb des Marktes** wird wie ein Gap behandelt
 („premium wick") und über seine C.E. gegradet — dieselbe Body-Grenzen-Logik wie im Abschnitt oben,
 nur auf einen Wick statt auf ein FVG angewandt.
+
+## Wick-C.E.-Close als Follow-Through-Test — und sein Ausbleiben als Warnsignal
+
+Aus [[2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)|Missed Entry How To Navigate The Same Trade Idea (Source, Video)]].
+Dieselbe Wick-C.E.-Regel wie oben, hier aber als **gerichteter Test mit Frist** — und beide
+Ausgänge sind aussagekräftig:
+
+- **Bestätigung**: *„Close below this wick's consequent encroachment is a confirmation of
+  follow-through is likely."*
+- **Ausbleiben = Warnsignal**: *„We didn't get closed below that. So that's a warning sign. … This
+  tells you **real order flow is in jeopardy** if you're looking for it to go lower. This is a
+  warning sign it's going to change directions."*
+- **Mit Frist**: ICT erwartet den Close **auf der laufenden Kerze** (*„Needs to happen on this
+  candle, though"*) — bleibt er aus, ist die Erwartung nicht nur „noch nicht erfüllt", sondern
+  aktiv beschädigt, und ein Lauf zur Gegenseite wird wahrscheinlicher.
+
+Ergänzt die Kaskade oben um die **Zeitkomponente**: Dort ging es darum, *wo* Bodies schließen
+dürfen, hier zusätzlich darum, *wann* der bestätigende Close fällig ist.
+
+### „Block of price action" — glatte Bodies werden aufgelöst
+
+Eine Zone dicht beieinanderliegender Kerzenkörper **ohne** nennenswerte Dochte liest ICT als
+geschlossenen Block, der zwangsläufig durchhandelt wird:
+
+> *„See how it's smooth as you zoom in here? See the bodies? It's like a big block. … That big
+> square area is going to get disrupted."*
+
+Dieselbe Beobachtung wie in
+[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]
+(*„this is too smooth … so they want to make it jagged"*), dort auf eine Kerzenflanke unter einem
+alten Hoch bezogen, hier auf einen Body-Cluster. Gemeinsamer Kern: **Glattheit ist instabil** — der
+Algorithmus zerlegt sie, bevor das dahinterliegende Ziel erreicht wird. Praktische Konsequenz für
+die Zielsetzung: Ein Ziel hinter einem solchen Block wird nicht direkt angelaufen; der Block wird
+zuerst durchgearbeitet.
 
 ## Wick-Counting: Reentry vs. Sellside/Buyside-Liquidity (Kurz Notizen)
 

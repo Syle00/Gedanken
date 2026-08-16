@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">143</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">349</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">350</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -202,6 +202,7 @@
 <li><a href="#2026-08-15-query-dst-zeitversatz-im-forex-bestand-root-cause-eingrenzung-fix">[2026-08-15] query | DST-Zeitversatz im Forex-Bestand — Root Cause, Eingrenzung, Fix</a></li>
 <li><a href="#2026-08-15-setup-ibkr-1s-datenanbindung-nqes">[2026-08-15] setup | IBKR 1s-Datenanbindung NQ/ES</a></li>
 <li><a href="#2026-08-16-ingest-youtube-the-week-in-the-life-cycle-of-price-dmhswlms9iy">[2026-08-16] ingest | YouTube: The Week In The Life Cycle Of Price (dmHSwlmS9iY)</a></li>
+<li><a href="#2026-08-16-ingest-youtube-missed-entry-how-to-navigate-the-same-trade-idea-ezb4vbufdhw">[2026-08-16] ingest | YouTube: Missed Entry How To Navigate The Same Trade Idea (EZB4vBUFdHw)</a></li>
 </ul>
 </div>
 </details>
@@ -2899,6 +2900,42 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
     dort als Live-Fallstudie ergaenzt statt neu angelegt.</li>
 <li>Zwei neue, noch ungeprüfte Backtest-Kandidaten nach <code>algo/PLAN.md</code> uebertragen
   (Gladhanding-Regel, TGIF-40-%-Trennkriterium).</li>
+</ul>
+<h2 id="2026-08-16-ingest-youtube-missed-entry-how-to-navigate-the-same-trade-idea-ezb4vbufdhw">[2026-08-16] ingest | YouTube: Missed Entry How To Navigate The Same Trade Idea (EZB4vBUFdHw)</h2>
+<ul>
+<li>Scan-Fenster: Einzelvideo per URL angefragt (kein Kanal-Scan). Video 2026-07-02, 19:11.
+  Kein Transkript im Vault, kein Log-Eintrag → nicht ingested.</li>
+<li>Transkript: <code>raw/trading-ict/2026/yt-EZB4vBUFdHw-transcript.md</code>, 2.120 Woerter.
+  Inhaltlich vollstaendig (Schlusswort vorhanden), <strong>letzte Teilzeile verstuemmelt</strong>
+  ("But, I've been alone.") — Auto-Caption-Artefakt, keine inhaltliche Luecke. Niedrige
+  Wortdichte (~110 W/Min) ist formatbedingt (Live-Ausfuehrung mit stillen Phasen).</li>
+<li><strong>Doppelquelle festgestellt</strong>: Zu genau diesem Video existierte bereits die Notiz-Fassung
+  <code>wiki/sources/Missed Entry How To Navigate The Same Trade Idea (Source).md</code> (Jannes' eigene
+  Mitschrift, ingested 2026-08-01, Rohquelle
+  <code>raw/trading-ict/2026/Missed Entry How To Navigate The Same Trade Idea.md</code>). Entscheidung:
+  <strong>zweite Source-Seite angelegt statt gemergt</strong> — Vault-Konvention ist eine Source-Seite pro
+  Rohquelle, und es sind zwei verschiedene Rohdateien. Beide Seiten sind gegenseitig verlinkt
+  und speisen dasselbe Modell.</li>
+<li>Seiten erstellt:</li>
+<li>wiki/sources/youtube/2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source).md</li>
+<li>Seiten erweitert: wiki/models/Missed Entry Trade Management Playbook.md (Kern-Erweiterung),
+  wiki/concepts/Event Horizon.md, wiki/concepts/Order Block.md,
+  wiki/concepts/Institutional Order Flow (Body vs Wick).md, wiki/concepts/Volume Imbalance (VII).md,
+  wiki/sources/Missed Entry How To Navigate The Same Trade Idea (Source).md, wiki/index.md</li>
+<li><strong>⚠️ → ✅ Offene Nutzerfrage geklaert</strong>: In der Notiz-Fassung stand seit dem Erst-Ingest
+  "SL zieht ICT auf den vorherigen gewollten Fill (<strong>verstehe ich noch nicht</strong>)". Das
+  Originaltranskript loest das auf — es sind <strong>drei Stufen</strong>: (1) initial ueber der Volume
+  Imbalance ueber dem FVG (nicht ueber dem gewollten Fill; beide lagen nur in derselben Zone,
+  daher die Verwechslung), (2) auf den Rejection Block als bewusste Risikoreduktion, (3) danach
+  ueber die laufenden Hochs nachgezogen. Risiko bleibt zwischen (2) und dem ersten Partial
+  unveraendert. Dokumentiert auf <a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a>, Marker auf beiden
+  Seiten gesetzt.</li>
+<li>Querverbindung ueber Videos hinweg: ICTs "block of price action"-Beobachtung (glatte Bodies
+  werden aufgeloest) ist dieselbe Idee wie "too smooth → they want to make it jagged" aus
+  <a href="../p/2026-08-15-the-week-in-the-life-cycle-of-price-source.html">2026-08-15 - The Week In The Life Cycle Of Price (Source)</a> (heute frueher ingested) —
+  auf <a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a> zusammengefuehrt.</li>
+<li>Kein neuer Backtest-Kandidat: Der Inhalt ist Ausfuehrungs-/Money-Management-Logik
+  (Stop-Kaskade, Partial-Timing, Re-Entry-Sperre), keine falsifizierbare Preis-These.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

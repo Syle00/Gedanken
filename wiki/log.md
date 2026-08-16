@@ -2544,3 +2544,38 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
     dort als Live-Fallstudie ergaenzt statt neu angelegt.
 - Zwei neue, noch ungeprüfte Backtest-Kandidaten nach `algo/PLAN.md` uebertragen
   (Gladhanding-Regel, TGIF-40-%-Trennkriterium).
+
+## [2026-08-16] ingest | YouTube: Missed Entry How To Navigate The Same Trade Idea (EZB4vBUFdHw)
+- Scan-Fenster: Einzelvideo per URL angefragt (kein Kanal-Scan). Video 2026-07-02, 19:11.
+  Kein Transkript im Vault, kein Log-Eintrag → nicht ingested.
+- Transkript: `raw/trading-ict/2026/yt-EZB4vBUFdHw-transcript.md`, 2.120 Woerter.
+  Inhaltlich vollstaendig (Schlusswort vorhanden), **letzte Teilzeile verstuemmelt**
+  ("But, I've been alone.") — Auto-Caption-Artefakt, keine inhaltliche Luecke. Niedrige
+  Wortdichte (~110 W/Min) ist formatbedingt (Live-Ausfuehrung mit stillen Phasen).
+- **Doppelquelle festgestellt**: Zu genau diesem Video existierte bereits die Notiz-Fassung
+  `wiki/sources/Missed Entry How To Navigate The Same Trade Idea (Source).md` (Jannes' eigene
+  Mitschrift, ingested 2026-08-01, Rohquelle
+  `raw/trading-ict/2026/Missed Entry How To Navigate The Same Trade Idea.md`). Entscheidung:
+  **zweite Source-Seite angelegt statt gemergt** — Vault-Konvention ist eine Source-Seite pro
+  Rohquelle, und es sind zwei verschiedene Rohdateien. Beide Seiten sind gegenseitig verlinkt
+  und speisen dasselbe Modell.
+- Seiten erstellt:
+  - wiki/sources/youtube/2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source).md
+- Seiten erweitert: wiki/models/Missed Entry Trade Management Playbook.md (Kern-Erweiterung),
+  wiki/concepts/Event Horizon.md, wiki/concepts/Order Block.md,
+  wiki/concepts/Institutional Order Flow (Body vs Wick).md, wiki/concepts/Volume Imbalance (VII).md,
+  wiki/sources/Missed Entry How To Navigate The Same Trade Idea (Source).md, wiki/index.md
+- **⚠️ → ✅ Offene Nutzerfrage geklaert**: In der Notiz-Fassung stand seit dem Erst-Ingest
+  "SL zieht ICT auf den vorherigen gewollten Fill (**verstehe ich noch nicht**)". Das
+  Originaltranskript loest das auf — es sind **drei Stufen**: (1) initial ueber der Volume
+  Imbalance ueber dem FVG (nicht ueber dem gewollten Fill; beide lagen nur in derselben Zone,
+  daher die Verwechslung), (2) auf den Rejection Block als bewusste Risikoreduktion, (3) danach
+  ueber die laufenden Hochs nachgezogen. Risiko bleibt zwischen (2) und dem ersten Partial
+  unveraendert. Dokumentiert auf [[Missed Entry Trade Management Playbook]], Marker auf beiden
+  Seiten gesetzt.
+- Querverbindung ueber Videos hinweg: ICTs "block of price action"-Beobachtung (glatte Bodies
+  werden aufgeloest) ist dieselbe Idee wie "too smooth → they want to make it jagged" aus
+  [[2026-08-15 - The Week In The Life Cycle Of Price (Source)]] (heute frueher ingested) —
+  auf [[Institutional Order Flow (Body vs Wick)]] zusammengefuehrt.
+- Kein neuer Backtest-Kandidat: Der Inhalt ist Ausfuehrungs-/Money-Management-Logik
+  (Stop-Kaskade, Partial-Timing, Re-Entry-Sperre), keine falsifizierbare Preis-These.
