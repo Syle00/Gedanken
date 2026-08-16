@@ -30,42 +30,56 @@ Erzeuge `raw/journal/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.
    Fehler, nur eine andere Quelle. TradingView stuft mehr Events als Red ein als
    ForexFactory; die Uhrzeiten beider Quellen sind deckungsgleich geprueft.
 
-3. **NDOG/NWOG/ORG-Levels.** `python algo/live_status.py` ausfuehren (frischer Lauf --
-   niemals einen aelteren Lauf aus diesem oder einem frueheren Gespraech wiederverwenden,
-   siehe CLAUDE.md "Frische Live-Daten"). `ndog_today`, `nwog_today` (nur montags gesetzt)
-   und `org_ce` entnehmen. Ist `market_data: false`, statt Zahlen
-   `⚠️ Live-Daten nicht verfuegbar (Markt geschlossen oder Datenfehler)` eintragen.
+3. **NDOG/NWOG aus den Marktdaten.** Stehen bereits in `gaps` aus Schritt 1 -- gerechnet aus
+   `raw/marktdaten/` (1s wo vorhanden, sonst 1m), nicht aus dem Live-Feed. Deshalb am
+   Wochenende genauso belastbar wie unter der Woche. Je Eintrag: `close`/`close_t` (letzter
+   Print vor 17:00 NY), `open`/`open_t` (erster ab 18:00 NY), `gap`, `ce`, `filled`, `quelle`.
 
-4. **Levels-Tabelle bauen** (immer Tabelle, nie Fliesstext):
+   `gaps.offen` sind die **noch ungefuellten** Gaps -- handelbare PD Arrays und DOL-Kandidaten,
+   die wichtigsten Level des Abschnitts. `gaps.symbol` und ein evtl. `gaps.hinweis` mit
+   ausgeben (faellt NQ mangels Historie auf MNQ zurueck, muss das dranstehen).
 
-   | Level | Open | Close |
-   |---|---|---|
-   | NWOG | ... | ... |
-   | NDOG | ... | ... |
+   **Nie erwaehnen, dass das kommende NWOG-Open noch nicht feststeht.** Es wird das
+   hinterlegt, was in den Daten steht; ueber noch nicht gehandelte Opens wird nicht spekuliert
+   und auch nicht darauf hingewiesen, dass sie fehlen.
 
-   Darunter Weekly Range (High/Low aus Schritt 1), gestrige Daily Range H/L/C (Schritt 1),
-   ORG-C.E. (Schritt 3). Fehlende Werte (`null`): Zeile weglassen statt Zahl erfinden.
-   Alle Preise aufs 0,25-Tickraster (MNQ).
+4. **ORG-C.E. + aktueller Preis.** `python algo/live_status.py` ausfuehren (frischer Lauf --
+   niemals einen aelteren Lauf wiederverwenden, siehe CLAUDE.md "Frische Live-Daten").
+   Nur noch `org_ce` und `price` entnehmen; NDOG/NWOG kommen aus Schritt 3.
+   Bei `market_data: false` die ORG-Zeile schlicht weglassen -- keine Warnung, kein Platzhalter.
 
-5. **Weekly-Bias-Rueckverlinkung.** ISO-KW von `<ZIEL>` bestimmen, nach
+5. **Levels-Tabelle bauen** (immer Tabelle, nie Fliesstext):
+
+   | Level | Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Status |
+   |---|---|---|---|---|---|---|
+   | NWOG | ... | ... | ... | ... | ... | offen / gefuellt |
+   | NDOG | ... | ... | ... | ... | ... | offen / gefuellt |
+
+   Reihenfolge: **offene Gaps zuerst** (`gaps.offen`, neueste oben), danach die NDOGs der
+   vergangenen Handelswoche. Darunter Weekly Range (High/Low aus Schritt 1), gestrige Daily
+   Range H/L/C (Schritt 1) und ORG-C.E. (Schritt 4).
+   Fehlende Werte (`null`): Zeile weglassen statt Zahl erfinden.
+   Alle Preise aufs 0,25-Tickraster.
+
+6. **Weekly-Bias-Rueckverlinkung.** ISO-KW von `<ZIEL>` bestimmen, nach
    `Weekly Bias KW<NN> <JAHR>.md` globben -- erst in `raw/journal/`, dann in
    `raw/journal/bias/weekly/` (schon einsortiert). Existiert sie: Wikilink
    `[[Weekly Bias KW<NN> <JAHR>]]`. Sonst `_(noch kein Weekly Bias fuer diese Woche)_` --
    keinen toten Link setzen.
 
-6. **Wiki-Bezug.** Immer [[Weekly Range Trading Model]], plus die zum Wochentag passenden
+7. **Wiki-Bezug.** Immer [[Weekly Range Trading Model]], plus die zum Wochentag passenden
    Daily-Range-Seiten aus `wiki/concepts/` (z.B. [[ICT Daily Range Session Timing]],
    [[Midnight Opening Range]], [[ORG (Opening Range Gap) & 1st Presented FVG]]) -- eigenes
    fachliches Urteil, montags zusaetzlich NWOG-Seiten.
 
-7. **Einschaetzung (Claude).** Eigener Abschnitt mit kurzer Richtungs-/Wahrscheinlichkeits-
+8. **Einschaetzung (Claude).** Eigener Abschnitt mit kurzer Richtungs-/Wahrscheinlichkeits-
    aussage, gestuetzt auf `algo/seasonal_tendency.json` (Wochentag-Kennzahl), laufende
    `wiki/synthesis/*(laufend)*`-Seiten und -- bei Red-Folder-Events -- `algo/backtest_fred_events.py`.
    Ist `org_ce` gesetzt, die ORG-C.E.-70%-These als *laufend beobachtete* Hypothese erwaehnen
    (empirisch bislang 35-43%, laut Nutzerentscheid nicht als widerlegt abhaken).
    Klar getrennt vom Nutzerbereich.
 
-8. **Datei schreiben** nach `raw/journal/Daily Bias <ZIEL>.md`:
+9. **Datei schreiben** nach `raw/journal/Daily Bias <ZIEL>.md`:
 
    ```markdown
    # Daily Bias <ZIEL>
@@ -81,4 +95,4 @@ Erzeuge `raw/journal/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.
 
    Existiert die Datei schon: fragen statt ueberschreiben (koennte Nutzertext enthalten).
 
-9. Kurz bestaetigen: Pfad + je eine Zeile zu News-Abruf und Live-Daten. Kein `push.ps1`.
+10. Kurz bestaetigen: Pfad + je eine Zeile zu News-Abruf und Live-Daten. Kein `push.ps1`.

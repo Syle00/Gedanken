@@ -214,6 +214,7 @@
 <li><a href="#2026-08-16-setup-tape-reading-trade-execution-ebenfalls-in-eigene-ordner">[2026-08-16] setup | Tape Reading + Trade Execution ebenfalls in eigene Ordner</a></li>
 <li><a href="#2026-08-16-setup-bias-ablage-auf-inbox-prinzip-umgestellt">[2026-08-16] setup | Bias-Ablage auf Inbox-Prinzip umgestellt</a></li>
 <li><a href="#2026-08-16-setup-bias-news-auf-usd-gefiltert">[2026-08-16] setup | Bias-News auf USD gefiltert</a></li>
+<li><a href="#2026-08-16-setup-ndognwog-im-levels-abschnitt-aus-den-marktdaten-statt-aus-dem-live-feed">[2026-08-16] setup | NDOG/NWOG im Levels-Abschnitt aus den Marktdaten statt aus dem Live-Feed</a></li>
 </ul>
 </div>
 </details>
@@ -3233,6 +3234,39 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   muessen sie dieselbe Filterung haben -- sonst aendert ein Quellenwechsel unbemerkt den
   Inhalt, nicht nur die Herkunft. Und: ein Filter macht "leer" zu einem gueltigen Ergebnis;
   jede Stelle, die "leer" vorher als Fehler las, muss mitgezogen werden.</li>
+</ul>
+<h2 id="2026-08-16-setup-ndognwog-im-levels-abschnitt-aus-den-marktdaten-statt-aus-dem-live-feed">[2026-08-16] setup | NDOG/NWOG im Levels-Abschnitt aus den Marktdaten statt aus dem Live-Feed</h2>
+<ul>
+<li>Auftrag: Levels-Bereich soll die Marktdaten der vergangenen Woche (1s) durchgehen und die
+  relevanten NDOGs/NWOGs hinterlegen; <strong>kein Hinweis mehr darauf, dass das kommende
+  NWOG-Open noch nicht feststeht</strong>.</li>
+<li>Neu in <code>algo/bias_levels.py</code>: <code>gaps()</code> / <code>gaps_auto()</code> / <code>_gaps_aus_bars()</code>. Liest
+  <code>raw/marktdaten/</code> offline -- 1s-Parquet wo vorhanden, sonst 1m-CSV, Quelle je Tag
+  ausgewiesen. Damit sind die Gaps am Wochenende genauso bestimmbar wie unter der Woche;
+  <code>live_status.py</code> liefert nur noch ORG-C.E. und Preis.</li>
+<li><strong>Korrektheitsfehler gefunden und umgangen:</strong> <code>analyze_ohlc.ndog_gap()</code> nimmt erste/letzte
+  Kerze des <em>Kalendertags</em>. Auf session-geschnittenen Tagesdateien stimmt das, auf 1s/1m-Daten
+  nicht -- die laufen durchgehend 00:00:00..23:59:59, der Detektor mass dort den Sprung ueber
+  <strong>Mitternacht</strong> statt ueber die Handelspause. Konkret 13.08.: ndog_gap() lieferte -0.25
+  (23:59:59 -&gt; 00:00:00), der echte Session-Gap war +19.25 (16:59 -&gt; 18:00). Gegenprobe, die
+  das aufklaerte: Bars je Stunde am 13.08. -- 16h und 18h je 3600, <strong>17h exakt 0</strong>, die Pause
+  steht also sauber in den Daten. <code>bias_levels</code> erkennt Gaps deshalb datengetrieben ueber die
+  Pausenlaenge (~1 h = NDOG, 40-56 h = NWOG) und benutzt <code>ndog_gap()</code> bewusst nicht.</li>
+<li>Datenluecken sind ausdruecklich <strong>kein</strong> Gap: eine Pause von 2-40 h (fehlender Tag im
+  Bestand) wird verworfen, sonst stuende eine erfundene Grossbewegung als PD Array in der
+  Bias-Datei. Im Selbstcheck abgesichert.</li>
+<li>Symbol-Fallback mit Ausweisung: NQ hat erst ab 12.08.2026 Intraday-Historie (3 Tage im
+  35-Tage-Fenster), MNQ 25 Tage. <code>gaps_auto()</code> faellt auf MNQ zurueck und setzt <code>hinweis</code> --
+  NQ- und MNQ-Prints koennen um Ticks abweichen, das darf nicht still als NQ-Level durchgehen.</li>
+<li>Ergebnis fuer KW34: <strong>zwei offene Gaps</strong> als DOL-Kandidaten -- NWOG 02.08. (28284.00 -&gt;
+  28602.75, C.E. <strong>28443.38</strong>) und NDOG 29.07. (27259.75 -&gt; 27208.00, C.E. <strong>27233.88</strong>).
+  Die vier NDOGs der vergangenen Woche (10.-13.08.) sind alle gefuellt.</li>
+<li>Selbstcheck erweitert (Mitternacht erzeugt keinen Gap, Wochenende wird NWOG, Datenluecke
+  wird verworfen, Fill-Erkennung, C.E.-Berechnung). <code>selfcheck.py</code>: 27/27 gruen.</li>
+<li>Methodische Lehre, uebertragbar: Ein Detektor traegt die Annahmen seines urspruenglichen
+  Datenformats mit. Vor der Wiederverwendung auf einer neuen Aufloesung pruefen, ob die
+  Annahme noch gilt -- hier "erste Kerze des Tages == Session-Open", was ab 1s-Daten falsch
+  ist. Der Fehler war klein genug (-0.25 statt +19.25), um als plausibler Wert durchzugehen.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

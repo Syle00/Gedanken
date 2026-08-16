@@ -33,19 +33,31 @@ Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoch
    Orange-Impact in dieser Woche.` Das ist **kein Fehler**, sondern eine newsarme Woche --
    seit dem USD-Filter ein realistischer Fall. Nie als Abruf-Fehler ausgeben.
 
-3. **NWOG-Levels.** `python algo/live_status.py` ausfuehren (frischer Lauf). `nwog_today`
-   (Open/Close) und `nwog_open_history` (noch offene NWOG-Level der letzten 5 Wochen als
-   DOL-Kandidaten) entnehmen. Bei `market_data: false`:
-   `⚠️ Live-Daten nicht verfuegbar (Wochenende/Datenfehler)` statt Zahlen.
+3. **NDOG/NWOG aus den Marktdaten.** Stehen bereits in `gaps` aus Schritt 1 -- gerechnet aus
+   `raw/marktdaten/` (1s wo vorhanden, sonst 1m), nicht aus dem Live-Feed. Deshalb am
+   Wochenende, wenn dieser Command laeuft, genauso belastbar wie unter der Woche.
+   Je Eintrag: `close`/`close_t` (letzter Print vor 17:00 NY), `open`/`open_t` (erster ab
+   18:00 NY), `gap`, `ce`, `filled`, `quelle`.
+
+   `gaps.offen` sind die **noch ungefuellten** Gaps -- die DOL-Kandidaten fuer die kommende
+   Woche und damit der wichtigste Teil des Abschnitts. `gaps.symbol` und ein evtl.
+   `gaps.hinweis` mit ausgeben (faellt NQ mangels Historie auf MNQ zurueck, muss dranstehen).
+
+   **Nie erwaehnen, dass das kommende NWOG-Open noch nicht feststeht.** Es wird hinterlegt,
+   was in den Daten steht; ueber noch nicht gehandelte Opens wird nicht spekuliert und auch
+   nicht darauf hingewiesen, dass sie fehlen.
 
 4. **Levels-Tabelle bauen** (immer Tabelle):
 
-   | Level | Open | Close |
-   |---|---|---|
-   | NWOG (aktuell) | ... | ... |
+   | Level | Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Status |
+   |---|---|---|---|---|---|---|
+   | NWOG | ... | ... | ... | ... | ... | offen / gefuellt |
+   | NDOG | ... | ... | ... | ... | ... | offen / gefuellt |
 
-   Darunter Range der auslaufenden Woche (aus `letzte_woche`) und die offenen NWOG-Level
-   (Datum + Level) aus Schritt 3, falls nicht leer. Preise aufs 0,25-Tickraster.
+   Reihenfolge: **offene Gaps zuerst** (`gaps.offen`, neueste oben) -- das sind die DOL-
+   Kandidaten --, darunter die NWOGs der letzten Wochen und die NDOGs der auslaufenden Woche.
+   Danach die Range der auslaufenden Woche (aus `letzte_woche`).
+   Preise aufs 0,25-Tickraster.
 
 5. **Wiki-Bezug.** Immer [[Weekly Range Trading Model]] und [[IPDA Data Ranges]], plus nach
    eigenem Urteil z.B. [[Using Monthly & Weekly Ranges (Source)]] (Monatswechsel, NFP-Woche).

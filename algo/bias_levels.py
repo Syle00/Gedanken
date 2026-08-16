@@ -59,6 +59,13 @@ TV_IMPACT = {1: "Red", 0: "Orange"}                 # -1 (Low) bewusst raus
 # bewegen die US-Indizes nicht. TradingView filtert das serverseitig (countries=US),
 # ForexFactory liefert alle Waehrungen -- dort wird beim Parsen gefiltert.
 WAEHRUNG = "USD"
+# NQ ist das Leitsymbol (CLAUDE.md seit 2026-08-15), hat aber erst ab 12.08.2026 Intraday-
+# Historie. MNQ traegt denselben Index und reicht Wochen zurueck -- deshalb Fallback, aber
+# mit ausgewiesenem Symbol: NQ- und MNQ-Prints koennen um Ticks abweichen, das darf nicht
+# stillschweigend als "NQ-Level" durchgehen.
+GAP_SYMBOLE = ["NQ", "MNQ"]
+GAP_MIN_TAGE = 6        # weniger Tage -> naechstes Symbol probieren
+GAP_RUECKBLICK = 35     # Tage: deckt die vergangene Woche + offene NWOG der letzten ~5 Wochen
 
 
 # --------------------------------------------------------------------------- Levels
@@ -124,6 +131,137 @@ def _event(t: datetime, titel: str, land: str, impact: str, e: dict) -> dict:
             "impact": impact,
             "forecast": e.get("forecast") or "",
             "previous": e.get("previous") or ""}
+
+
+def _gap_bars(symbol: str, von: date, bis: date) -> tuple[list, dict[date, str]]:
+    """Bars fuer den Gap-Zeitraum, pro Tag in der besten verfuegbaren Aufloesung.
+
+    1s (IBKR-Parquet) schlaegt 1m: der NDOG-Level ist der *letzte Print* vor 17:00 NY und der
+    *erste* ab 18:00 NY -- auf 1m-Kerzen ist das der Close/Open einer 60s-Aggregation, auf 1s
+    der tatsaechliche Tick. Fuer Levels, die spaeter als Entry/Ziel dienen, ist das der
+    Unterschied zwischen "ungefaehr" und "auf dem Tickraster" (CLAUDE.md: Marktdaten wie Gold).
+    Rueckgabe zusaetzlich: je Tag die tatsaechlich benutzte Quelle, damit der Bericht sie
+    ausweisen kann statt 1s vorzutaeuschen.
+    """
+    import marktdaten
+    from analyze_ohlc import load
+
+    bars: list = []
+    quelle: dict[date, str] = {}
+    for day_dir in sorted(marktdaten.DATA_DIR.glob("*/*/*")):
+        if not day_dir.is_dir():
+            continue
+        try:
+            tag = datetime.strptime(day_dir.name, "%d.%m.%Y").date()
+        except ValueError:
+            continue
+        if not (von <= tag <= bis):
+            continue
+        p1s = sorted(day_dir.glob(f"{symbol} * 1s.parquet"))
+        if p1s:
+            bars.extend(marktdaten._load_1s_parquet(p1s[0]))
+            quelle[tag] = "1s"
+            continue
+        p1m = sorted(f for f in day_dir.glob(f"{symbol} * 1m.csv") if "RTH" not in f.name)
+        if p1m:
+            bars.extend(load(p1m[0]))
+            quelle[tag] = "1m"
+    bars.sort(key=lambda b: b.t)
+    return bars, quelle
+
+
+def _gaps_aus_bars(bars: list, quelle: dict | None = None) -> tuple[list, list]:
+    """(ndog, nwog) aus einer Bar-Folge -- reine Rechnung, kein Dateizugriff, damit testbar.
+
+    Ein Gap ist der Sprung ueber eine **echte Handelspause**, nicht ueber jede Luecke:
+      * taeglich  17:00 -> 18:00 NY  (~1 h)          -> NDOG
+      * Wochenende Fr 17:00 -> So 18:00 (~49 h)      -> NWOG
+    Alles dazwischen (2 h .. 40 h) ist eine Luecke im Datenbestand -- ein fehlender Tag darf
+    nicht als 300-Punkte-Gap in der Bias-Datei landen.
+    """
+    quelle = quelle or {}
+    ndog, nwog = [], []
+    for vorher, nachher in zip(bars, bars[1:]):
+        pause = nachher.t - vorher.t
+        if pause < timedelta(minutes=30):       # normale Bar-Folge, keine Session-Pause
+            continue
+        ist_wochenende = pause > timedelta(hours=24)
+        if not ist_wochenende and pause > timedelta(hours=2):
+            continue                            # zu lang fuer eine Tagespause -> Datenluecke
+        if ist_wochenende and not (timedelta(hours=40) < pause < timedelta(hours=56)):
+            continue                            # zu lang/kurz fuer ein Wochenende
+        gap = nachher.o - vorher.c
+        if gap == 0:                            # luecklos, kein PD Array
+            continue
+        tag = nachher.t.date()                  # Tag, an dem die neue Session eroeffnet
+        # Gefuellt, sobald der Preis den alten Close spaeter wieder erreicht
+        fill = next((x.t for x in bars if x.t > nachher.t and x.l <= vorher.c <= x.h), None)
+        e = {"tag": tag.isoformat(),
+             "weekday": tag.strftime("%a"),
+             "close": round(vorher.c, 2),
+             "close_t": vorher.t.strftime("%Y-%m-%d %H:%M:%S"),
+             "open": round(nachher.o, 2),
+             "open_t": nachher.t.strftime("%Y-%m-%d %H:%M:%S"),
+             "gap": round(gap, 2),
+             "ce": round((vorher.c + nachher.o) / 2, 2),
+             "filled": fill is not None,
+             "quelle": quelle.get(vorher.t.date(), "?")}
+        (nwog if ist_wochenende else ndog).append(e)
+    return ndog, nwog
+
+
+def gaps_auto(heute: date | None = None) -> dict:
+    """`gaps()` fuer das erste Symbol aus GAP_SYMBOLE mit brauchbarer Historie.
+
+    Faellt auf MNQ zurueck, solange NQ nur wenige Tage Intraday-Daten hat. Das Ergebnis
+    traegt `symbol` und (bei Fallback) `hinweis` -- der Bericht muss ausweisen, woher die
+    Level stammen, statt MNQ-Prints als NQ-Level auszugeben.
+    """
+    letzter = None
+    for i, sym in enumerate(GAP_SYMBOLE):
+        g = gaps(sym, heute)
+        letzter = letzter or g
+        if len(g.get("quellen", {})) >= GAP_MIN_TAGE:
+            if i:
+                g["hinweis"] = (f"{GAP_SYMBOLE[0]} hat im Fenster zu wenig Intraday-Historie, "
+                                f"Level stammen aus {sym} (gleicher Index, Ticks koennen "
+                                f"minimal abweichen)")
+            return g
+    return letzter or {"symbol": GAP_SYMBOLE[0], "error": "keine Daten",
+                       "ndog": [], "nwog": [], "offen": []}
+
+
+def gaps(symbol: str = "NQ", heute: date | None = None) -> dict:
+    """NDOG/NWOG aus `raw/marktdaten/` -- offline, unabhaengig vom Live-Feed.
+
+    Bewusst nicht aus `live_status.py`: das braucht einen offenen Markt und liefert am
+    Wochenende `market_data: false`. Genau dann werden die Bias-Dateien aber geschrieben.
+    Die Gaps der zurueckliegenden Tage stehen in den Rohdaten und sind am Sonntag genauso
+    bestimmbar wie am Mittwoch.
+
+    `offen` = Vortages-Close wurde am Gap-Tag nicht mehr erreicht -> weiter handelbares
+    PD Array und DOL-Kandidat.
+    """
+    heute = heute or date.today()
+    von = heute - timedelta(days=GAP_RUECKBLICK)
+    bars, quelle = _gap_bars(symbol, von, heute)
+    if not bars:
+        return {"symbol": symbol, "error": f"keine {symbol}-Daten in {von}..{heute}",
+                "ndog": [], "nwog": [], "offen": []}
+
+    # Bewusst NICHT analyze_ohlc.ndog_gap(): der nimmt erste/letzte Kerze des *Kalendertags*.
+    # Das passt auf session-geschnittene Tagesdateien, aber nicht auf 1s/1m-Daten, die
+    # durchgehend von 00:00:00 bis 23:59:59 laufen -- dort misst er den Sprung ueber
+    # Mitternacht (typisch 0.00-0.25 Punkte) statt den echten Gap ueber die Handelspause.
+    # Geprueft am 13.08.2026: 17h enthaelt 0 Bars, 16h und 18h je 3600 -- die Pause steht
+    # sauber in den Daten. Deshalb datengetrieben: Gap = Sprung ueber jede Handelspause.
+    ndog, nwog = _gaps_aus_bars(bars, quelle)
+
+    offen = [e for e in ndog + nwog if not e["filled"]]
+    offen.sort(key=lambda e: e["tag"], reverse=True)
+    return {"symbol": symbol, "von": von.isoformat(), "bis": heute.isoformat(),
+            "ndog": ndog, "nwog": nwog, "offen": offen,
+            "quellen": {t.isoformat(): q for t, q in sorted(quelle.items())}}
 
 
 def _ff_news(von: date, bis: date) -> dict:
@@ -205,11 +343,13 @@ def compute(target_day: date, weekly: bool) -> dict:
         iso = mon.isocalendar()
         return {"target_week": {"monday": mon.isoformat(), "kw": iso[1], "year": iso[0]},
                 "letzte_woche": week_range(rows, target_day),
+                "gaps": gaps_auto(heute=target_day),
                 "news": news(mon, weekly=True)}
     return {"day": target_day.isoformat(),
             "weekday": target_day.strftime("%A"),
             "weekly_range": week_range(rows, target_day),
             "yesterday_range": yesterday_range(rows, target_day),
+            "gaps": gaps_auto(heute=target_day),
             "news": news(target_day)}
 
 
@@ -229,6 +369,43 @@ def demo() -> None:
     assert next_trading_day(date(2026, 8, 17)) == date(2026, 8, 18), "Mo -> Di"
     assert next_monday(date(2026, 8, 14)) == date(2026, 8, 17)
     assert next_monday(date(2026, 8, 16)) == date(2026, 8, 17), "So -> Montag darauf"
+
+    # Gap-Erkennung ueber Handelspausen. Synthetische Bars, kein Dateizugriff.
+    # Regressionsschutz gegen den Fehler vom 16.08.2026: analyze_ohlc.ndog_gap() nahm
+    # erste/letzte Kerze des Kalendertags und mass damit auf 1s-Daten den Sprung ueber
+    # Mitternacht (-0.25) statt den echten Session-Gap ueber die 17:00-18:00-Pause (+19.25).
+    class _B:
+        def __init__(s, t, o, h, l, c): s.t, s.o, s.h, s.l, s.c = t, o, h, l, c
+
+    ny = NEWYORK
+    def _bar(tag, hh, mm, preis, hoch=None, tief=None):
+        return _B(datetime(2026, 8, tag, hh, mm, tzinfo=ny), preis,
+                  hoch if hoch is not None else preis, tief if tief is not None else preis, preis)
+
+    # Mi: 16:59 -> 18:00 = NDOG +20, ungefuellt (Preis kehrt nie auf 100 zurueck).
+    # Durchgehende Bars ueber Mitternacht -- dort darf KEIN Gap entstehen (der eigentliche Bug).
+    reihe = [_bar(12, 16, 58, 100.0), _bar(12, 16, 59, 100.0),
+             _bar(12, 18, 0, 120.0), _bar(12, 23, 59, 121.0), _bar(13, 0, 0, 121.0)]
+    nd, nw = _gaps_aus_bars(reihe)
+    assert [(e["tag"], e["gap"], e["filled"]) for e in nd] == [("2026-08-12", 20.0, False)], nd
+    assert nw == [], nw
+
+    # Fill-Erkennung: Do 16:59 (130) -> 18:00 (125), spaeter Ruecklauf auf 130 -> gefuellt
+    reihe2 = [_bar(13, 16, 59, 130.0), _bar(13, 18, 0, 125.0),
+              _bar(13, 18, 1, 129.0, hoch=131.0, tief=124.0)]
+    nd2, _ = _gaps_aus_bars(reihe2)
+    assert [(e["gap"], e["filled"], e["ce"]) for e in nd2] == [(-5.0, True, 127.5)], nd2
+
+    # Wochenende Fr 17:00 -> So 18:00 (49 h) ist ein NWOG, kein NDOG
+    wochenende = [_B(datetime(2026, 8, 14, 16, 59, tzinfo=ny), 200.0, 200.0, 200.0, 200.0),
+                  _B(datetime(2026, 8, 16, 18, 0, tzinfo=ny), 210.0, 210.0, 210.0, 210.0)]
+    nd3, nw3 = _gaps_aus_bars(wochenende)
+    assert nd3 == [] and [(e["tag"], e["gap"]) for e in nw3] == [("2026-08-16", 10.0)], (nd3, nw3)
+
+    # Fehlender Tag im Bestand (23 h Luecke) darf NIE als Gap zaehlen -- sonst stuende eine
+    # erfundene Grossbewegung als PD Array in der Bias-Datei.
+    luecke = [_bar(12, 18, 1, 121.0), _bar(13, 16, 59, 130.0)]
+    assert _gaps_aus_bars(luecke) == ([], []), _gaps_aus_bars(luecke)
 
     # Zeit vor Preis: NY-Zeit unveraendert, DE-Zeit korrekt +6h im Sommer / +6h im Winter
     ev = _event(datetime.fromisoformat("2026-08-12T08:30:00-04:00"), "CPI m/m", "USD", "Red", {})

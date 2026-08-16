@@ -2854,3 +2854,35 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   muessen sie dieselbe Filterung haben -- sonst aendert ein Quellenwechsel unbemerkt den
   Inhalt, nicht nur die Herkunft. Und: ein Filter macht "leer" zu einem gueltigen Ergebnis;
   jede Stelle, die "leer" vorher als Fehler las, muss mitgezogen werden.
+
+## [2026-08-16] setup | NDOG/NWOG im Levels-Abschnitt aus den Marktdaten statt aus dem Live-Feed
+- Auftrag: Levels-Bereich soll die Marktdaten der vergangenen Woche (1s) durchgehen und die
+  relevanten NDOGs/NWOGs hinterlegen; **kein Hinweis mehr darauf, dass das kommende
+  NWOG-Open noch nicht feststeht**.
+- Neu in `algo/bias_levels.py`: `gaps()` / `gaps_auto()` / `_gaps_aus_bars()`. Liest
+  `raw/marktdaten/` offline -- 1s-Parquet wo vorhanden, sonst 1m-CSV, Quelle je Tag
+  ausgewiesen. Damit sind die Gaps am Wochenende genauso bestimmbar wie unter der Woche;
+  `live_status.py` liefert nur noch ORG-C.E. und Preis.
+- **Korrektheitsfehler gefunden und umgangen:** `analyze_ohlc.ndog_gap()` nimmt erste/letzte
+  Kerze des *Kalendertags*. Auf session-geschnittenen Tagesdateien stimmt das, auf 1s/1m-Daten
+  nicht -- die laufen durchgehend 00:00:00..23:59:59, der Detektor mass dort den Sprung ueber
+  **Mitternacht** statt ueber die Handelspause. Konkret 13.08.: ndog_gap() lieferte -0.25
+  (23:59:59 -> 00:00:00), der echte Session-Gap war +19.25 (16:59 -> 18:00). Gegenprobe, die
+  das aufklaerte: Bars je Stunde am 13.08. -- 16h und 18h je 3600, **17h exakt 0**, die Pause
+  steht also sauber in den Daten. `bias_levels` erkennt Gaps deshalb datengetrieben ueber die
+  Pausenlaenge (~1 h = NDOG, 40-56 h = NWOG) und benutzt `ndog_gap()` bewusst nicht.
+- Datenluecken sind ausdruecklich **kein** Gap: eine Pause von 2-40 h (fehlender Tag im
+  Bestand) wird verworfen, sonst stuende eine erfundene Grossbewegung als PD Array in der
+  Bias-Datei. Im Selbstcheck abgesichert.
+- Symbol-Fallback mit Ausweisung: NQ hat erst ab 12.08.2026 Intraday-Historie (3 Tage im
+  35-Tage-Fenster), MNQ 25 Tage. `gaps_auto()` faellt auf MNQ zurueck und setzt `hinweis` --
+  NQ- und MNQ-Prints koennen um Ticks abweichen, das darf nicht still als NQ-Level durchgehen.
+- Ergebnis fuer KW34: **zwei offene Gaps** als DOL-Kandidaten -- NWOG 02.08. (28284.00 ->
+  28602.75, C.E. **28443.38**) und NDOG 29.07. (27259.75 -> 27208.00, C.E. **27233.88**).
+  Die vier NDOGs der vergangenen Woche (10.-13.08.) sind alle gefuellt.
+- Selbstcheck erweitert (Mitternacht erzeugt keinen Gap, Wochenende wird NWOG, Datenluecke
+  wird verworfen, Fill-Erkennung, C.E.-Berechnung). `selfcheck.py`: 27/27 gruen.
+- Methodische Lehre, uebertragbar: Ein Detektor traegt die Annahmen seines urspruenglichen
+  Datenformats mit. Vor der Wiederverwendung auf einer neuen Aufloesung pruefen, ob die
+  Annahme noch gilt -- hier "erste Kerze des Tages == Session-Open", was ab 1s-Daten falsch
+  ist. Der Fehler war klein genug (-0.25 statt +19.25), um als plausibler Wert durchzugehen.
