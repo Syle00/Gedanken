@@ -1264,6 +1264,18 @@ erkennung, 2026-08-15) und `StartGateway.bat` (`IBC_PATH`/`CONFIG`/`TWS_SETTINGS
 `%~dp0` statt `%USERPROFILE%\IBC`, 2026-08-16). Voraussetzung ausserdem: `ib_async` aus
 `algo/requirements.txt` in genau der Python-Installation, mit der das Skript laeuft.
 
+**Fortschrittsfenster (2026-08-16):** Jeder Lauf spiegelt seine Ausgabe zusaetzlich nach
+`algo/live/fetch_ibkr-<jjjj-mm-tt>.log` (`_Tee`, nach jedem `write()` geflusht) und oeffnet ein
+zweites Konsolenfenster, das dieses Log live mitliest (`Get-Content -Wait`) -- damit ein
+stundenlanger Backfill sichtbar mitlaeuft, ohne die aufrufende Konsole zu blockieren. Die
+Fenster-Fortschrittszeilen tragen einen Balken (`_balken()`, z.B. `[####------] 18/46`), beim
+Backfill zusaetzlich der Tages-/Symbol-Gesamtfortschritt. Alle Laeufe eines Tages schreiben in
+dieselbe Logdatei; ein noch offenes Fenster (PID in `algo/live/.fetch_ibkr-fenster.pid`, per
+`tasklist` geprueft) wird wiederverwendet statt gestapelt. `--kein-fenster` schaltet die Anzeige
+ab -- fuer den spaeteren unbeaufsichtigten Tages-Task. Schlaegt das Oeffnen fehl, laeuft der
+Download unveraendert weiter; die Anzeige ist Beiwerk, der Datenlauf zaehlt. Log und PID-Datei
+sind gitignored.
+
 **Warum:** IBKR ist dieselbe Quelle wie die spaetere Order-Ausfuehrung -- keine Quellen-Drift
 zwischen Backtest und Live-Betrieb (E1). NQ/ES statt MNQ, weil beide vom gebuchten
 CME-L1-Paket abgedeckt sind und deutlich liquider (E2); MNQ-Backtests bleiben unveraendert

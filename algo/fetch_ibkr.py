@@ -47,6 +47,95 @@ GATEWAY_BAT = Path(os.environ["IBC_GATEWAY_BAT"]) if os.environ.get("IBC_GATEWAY
     next((p for p in GATEWAY_BAT_KANDIDATEN if p.exists()), GATEWAY_BAT_KANDIDATEN[0])
 
 
+FORTSCHRITT_LOG_DIR = Path(__file__).resolve().parent / "live"
+
+
+def _balken(i: int, n: int, breite: int = 10) -> str:
+    """Textfortschrittsbalken, z.B. '[####------]' bei 18 von 46."""
+    voll = round(breite * i / n) if n else 0
+    return f"[{'#' * voll}{'-' * (breite - voll)}]"
+
+
+class _Tee:
+    """Schreibt in mehrere Streams gleichzeitig (hier: echtes stdout + Fortschrittslog).
+
+    Nach jedem write() geflusht, weil das Fortschrittsfenster ein zweiter Prozess ist, der
+    die Datei mitliest -- gepufferte Ausgabe kaeme dort erst blockweise oder gar nicht an.
+    """
+
+    def __init__(self, *ziele):
+        self._ziele = ziele
+
+    def write(self, text: str) -> int:
+        for ziel in self._ziele:
+            ziel.write(text)
+            ziel.flush()
+        return len(text)
+
+    def flush(self) -> None:
+        for ziel in self._ziele:
+            ziel.flush()
+
+
+def _fenster_laeuft_schon(pid_datei: Path) -> bool:
+    """True, wenn das Fortschrittsfenster aus einem frueheren Lauf noch offen ist.
+
+    Ueber `tasklist` statt psutil (Stdlib reicht) und ueber eine PID-Datei statt einer
+    Kommandozeilen-Suche (`tasklist` zeigt keine Argumente). Ein recyceltes PID kann
+    hoechstens dazu fuehren, dass kein neues Fenster aufgeht -- Anzeige ist Beiwerk.
+    """
+    import subprocess
+    try:
+        pid = int(pid_datei.read_text(encoding="utf-8").strip())
+    except (OSError, ValueError):
+        return False
+    try:
+        out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/NH"],
+                             capture_output=True, text=True, timeout=10).stdout
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return "powershell" in out.lower()
+
+
+def _fortschrittsfenster_oeffnen():
+    """Spiegelt stdout in ein Tageslog und oeffnet ein zweites Konsolenfenster, das dieses
+    Log live mitliest (`Get-Content -Wait`) -- damit ein langer Backfill sichtbar mitlaeuft,
+    ohne dass die aufrufende Konsole blockiert ist. Gibt das offene Log-Handle zurueck.
+
+    Bewusst ein zweiter Prozess statt eines eigenen GUI-Fensters: keine zusaetzliche
+    Abhaengigkeit, kein zweiter Thread im Datenpfad, und das Fenster ueberlebt das Ende des
+    Laufs (`-NoExit`), sodass das Ergebnis lesbar bleibt. Alle Laeufe eines Tages schreiben
+    in dieselbe Logdatei, ein noch offenes Fenster zeigt den neuen Lauf also von selbst --
+    darum wird es wiederverwendet statt gestapelt (sonst steht nach fuenf Laeufen ein
+    Fensterwald offen). Schlaegt das Oeffnen fehl, laeuft der Download normal weiter -- eine
+    fehlende Anzeige darf keinen Datenlauf abbrechen.
+    """
+    FORTSCHRITT_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    log_pfad = FORTSCHRITT_LOG_DIR / f"fetch_ibkr-{date.today():%Y-%m-%d}.log"
+    log = log_pfad.open("a", encoding="utf-8")
+    log.write(f"\n=== Lauf gestartet {datetime.now():%Y-%m-%d %H:%M:%S} "
+              f"({' '.join(sys.argv[1:]) or 'Nachlad'}) ===\n")
+    log.flush()
+    sys.stdout = _Tee(sys.stdout, log)
+    pid_datei = FORTSCHRITT_LOG_DIR / ".fetch_ibkr-fenster.pid"
+    if _fenster_laeuft_schon(pid_datei):
+        print("Fortschrittsfenster aus einem frueheren Lauf ist noch offen, "
+              "es zeigt diesen Lauf mit.", flush=True)
+        return log
+    try:
+        import subprocess
+        proc = subprocess.Popen(
+            ["powershell", "-NoExit", "-Command",
+             f"$host.UI.RawUI.WindowTitle='IBKR-Download'; "
+             f"Get-Content -Wait -Tail 40 -Encoding UTF8 -LiteralPath '{log_pfad}'"],
+            creationflags=subprocess.CREATE_NEW_CONSOLE)
+        pid_datei.write_text(str(proc.pid), encoding="utf-8")
+    except Exception as exc:  # Anzeige ist Beiwerk, der Download zaehlt
+        print(f"! Fortschrittsfenster liess sich nicht oeffnen ({exc}) -- "
+              f"Ausgabe steht in {log_pfad}", flush=True)
+    return log
+
+
 def _gateway_erreichbar(timeout: float = 1.0) -> bool:
     try:
         with socket.create_connection((GATEWAY_HOST, GATEWAY_PORT), timeout=timeout):
@@ -296,7 +385,7 @@ def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
     for i, (start_utc, end_utc) in enumerate(alle_fenster, start=1):
         key = (int(start_utc.timestamp()), int(end_utc.timestamp()))
         if key in vorhanden:
-            print(f"    Fenster {i}/{len(alle_fenster)} {symbol} {day} "
+            print(f"    {_balken(i, len(alle_fenster))} {i}/{len(alle_fenster)} {symbol} {day} "
                   f"{end_utc:%H:%M} UTC: schon vorhanden, uebersprungen", flush=True)
             continue
         df = fetch_window(ib, contract, symbol, end_utc, pacing)
@@ -304,10 +393,10 @@ def fetch_symbol_day(ib, symbol: str, day: date, pacing: PacingLimiter,
             # Fehlgeschlagen (z.B. Pacing-Violation nach 3 Versuchen) -- KEINE Registerzeile,
             # sonst gilt das Fenster faelschlich als "geprueft, kein Trade" statt "offen"
             # (Realfall 2026-08-15, siehe fetch_window()-Docstring).
-            print(f"    Fenster {i}/{len(alle_fenster)} {symbol} {day} "
+            print(f"    {_balken(i, len(alle_fenster))} {i}/{len(alle_fenster)} {symbol} {day} "
                   f"{end_utc:%H:%M} UTC: fehlgeschlagen, wird spaeter erneut versucht", flush=True)
             continue
-        print(f"    Fenster {i}/{len(alle_fenster)} {symbol} {day} "
+        print(f"    {_balken(i, len(alle_fenster))} {i}/{len(alle_fenster)} {symbol} {day} "
               f"{end_utc:%H:%M} UTC: {len(df)} Kerzen geholt", flush=True)
         if not df.empty:
             frames.append(df)
@@ -363,11 +452,17 @@ def main(argv=None) -> int:
     ap.add_argument("--verify", action="store_true")
     ap.add_argument("--backfill", nargs=2, metavar=("VON", "BIS"))
     ap.add_argument("--symbol", help="Komma-Liste, z.B. NQ oder NQ,ES (Default: beide)")
+    ap.add_argument("--kein-fenster", dest="kein_fenster", action="store_true",
+                    help="kein zweites Fortschrittsfenster oeffnen (fuer unbeaufsichtigte "
+                         "Laeufe wie den taeglichen Task)")
     a = ap.parse_args(argv)
     symbols = [s.strip().upper() for s in a.symbol.split(",")] if a.symbol else SYMBOLS
     unbekannt = [s for s in symbols if s not in SYMBOLS]
     if unbekannt:
         ap.error(f"unbekannte Symbole: {', '.join(unbekannt)} -- bekannt: {', '.join(SYMBOLS)}")
+
+    if not a.kein_fenster:
+        _fortschrittsfenster_oeffnen()
 
     _gateway_sicherstellen()
 
@@ -398,7 +493,8 @@ def main(argv=None) -> int:
                     erledigt += 1
                     dest = fetch_symbol_day(ib, symbol, tag, pacing)
                     status = f"geschrieben ({dest.name})" if dest else "uebersprungen (schon vorhanden/keine Daten)"
-                    print(f"[{erledigt}/{gesamt}] {symbol} {tag}: {status}", flush=True)
+                    print(f"{_balken(erledigt, gesamt)} {erledigt}/{gesamt} "
+                          f"{symbol} {tag}: {status}", flush=True)
         else:
             # Nachlad: pro Symbol vom Tag nach dem juengsten Registereintrag bis gestern
             # auffuellen (resumable, stateless). Ohne jeden Registereintrag (kalter Start)
@@ -420,6 +516,9 @@ def main(argv=None) -> int:
                     tag += timedelta(days=1)
     finally:
         ib.disconnect()
+        # Schlusszeile, damit im Fortschrittsfenster (das per -NoExit offen bleibt) sichtbar
+        # ist, dass der Lauf durch ist und nicht bloss haengt.
+        print(f"=== Lauf beendet {datetime.now():%H:%M:%S} ===", flush=True)
     return 0
 
 
@@ -440,6 +539,26 @@ def _demo() -> None:
     roll_dez = verfall_dez_2026 - timedelta(days=8)
     assert front_month(roll_dez - timedelta(days=1), "NQ") == "NQZ2026"
     assert front_month(roll_dez, "NQ") == "NQH2027"
+
+    # Fortschrittsanzeige: Balken-Randfaelle und die stdout-Spiegelung ins Fortschrittslog.
+    assert _balken(0, 46) == "[----------]"
+    assert _balken(46, 46) == "[##########]"
+    assert _balken(23, 46) == "[#####-----]"
+    assert _balken(0, 0) == "[----------]", "n=0 darf nicht durch Null teilen"
+    puffer_a, puffer_b = io.StringIO(), io.StringIO()
+    _Tee(puffer_a, puffer_b).write("hallo\n")
+    assert puffer_a.getvalue() == puffer_b.getvalue() == "hallo\n", \
+        "Tee muss identisch in alle Ziele schreiben"
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        pid_datei = Path(tmp) / "fenster.pid"
+        assert not _fenster_laeuft_schon(pid_datei), "ohne PID-Datei darf kein Fenster gelten"
+        pid_datei.write_text("kaputt", encoding="utf-8")
+        assert not _fenster_laeuft_schon(pid_datei), "unlesbare PID darf nicht crashen"
+        pid_datei.write_text(str(os.getpid()), encoding="utf-8")
+        assert not _fenster_laeuft_schon(pid_datei), \
+            "die eigene python.exe ist kein Fortschrittsfenster (Namensprüfung muss greifen)"
 
     # Pacing-Limiter: 61 Requests duerfen mit einer simulierten Uhr nicht in unter 600s
     # durchgehen -- der 61. Request muss auf das Verlassen des 60er-Fensters warten.

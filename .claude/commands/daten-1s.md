@@ -19,7 +19,10 @@ Kombinierbar, z.B. `verify ES` oder `backfill 2026-02-17 2026-08-14 NQ`.
    [--symbol SYM]` und starte ihn. Bei `backfill`: im Hintergrund, weil die Laufzeit in
    Stunden liegt (siehe Design SS3.4) -- nicht auf den Abschluss warten, sondern das Anlaufen
    bestaetigen und mitteilen, wie der Fortschritt spaeter geprueft werden kann (Registerzeilen
-   in `raw/marktdaten/1s-abdeckung.csv`).
+   in `raw/marktdaten/1s-abdeckung.csv`). Das Skript oeffnet dabei selbst ein zweites
+   Konsolenfenster, das jeden Fenster-Download live mitschreibt (Log:
+   `algo/live/fetch_ibkr-<datum>.log`) -- weise darauf hin, statt eine eigene
+   Fortschrittsanzeige zu bauen. `--kein-fenster` unterdrueckt es fuer unbeaufsichtigte Laeufe.
 3. Verdichte die Konsolenausgabe zu einem Bericht statt sie durchzureichen: geholte Fenster
    je Symbol, geschriebene Tagesdateien, Kerzenzahl, Quote handelsloser Sekunden je Session
    (falls ausgegeben), alle Hinweise aus `pruefe_kerzen()`, fehlgeschlagene Fenster,
