@@ -264,3 +264,4 @@ Daily Chart bin ich gespanntt ob alte FVG genutzt werden als IFVG oder reclaimed
 Im 1H Chart sind sind es bessere Sellside Pools 12.08 18:00 uhr bei 29,780,50 unterhalb des Daily Bisi das gefällt mir als DOL gut.
 Sollte der Longterm Bias weiterhin Bullish sein sehe ich ungern einen close unterhalb. Allgemein wenn wir weiter Bullish sind muss Price mir das zeigen aber da wir Montag keine News haben und keine NFP am Freitag ist wird die Priceaction wohl etwas schwierig.
 S&P Chart sieht ähnlich aus. Ich werde schauen was der Montag bringt
+Aufgrund der wenigen News erwarte ich das wir keine große Priceaction iérhalten es sei denn wir bekommen Geopolitische News oder andere unvorhersebare sachen. Am Mittwoch und DOnnerstag gehe davon aus das wir dort die beste Priceaction erhalten.

@@ -227,6 +227,7 @@
 <li><a href="#2026-08-16-setup-news-block-auf-zeilen-layout-farbsymbole-nyde-beschriftet">[2026-08-16] setup | News-Block auf Zeilen-Layout: Farbsymbole, NY/DE beschriftet</a></li>
 <li><a href="#2026-08-16-setup-news-zeilen-zusaetzlich-in-impact-farbe">[2026-08-16] setup | News-Zeilen zusaetzlich in Impact-Farbe</a></li>
 <li><a href="#2026-08-16-revert-schriftfarbe-in-news-zeilen-wieder-entfernt">[2026-08-16] revert | Schriftfarbe in News-Zeilen wieder entfernt</a></li>
+<li><a href="#2026-08-16-backtest-zwei-thesen-aus-jannes-kw34-bias-geprueft-beide-bestaetigt">[2026-08-16] backtest | Zwei Thesen aus Jannes' KW34-Bias geprueft -- beide bestaetigt</a></li>
 </ul>
 </div>
 </details>
@@ -3568,6 +3569,33 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>In beiden Commands als <strong>ausdrueckliches Nicht-Feature</strong> vermerkt ("keine Schriftfarbe --
   am 2026-08-16 eingebaut und auf Nutzerwunsch entfernt, nicht erneut hinzufuegen"), damit es
   bei der naechsten Formatierungsrunde nicht versehentlich zurueckkommt.</li>
+</ul>
+<h2 id="2026-08-16-backtest-zwei-thesen-aus-jannes-kw34-bias-geprueft-beide-bestaetigt">[2026-08-16] backtest | Zwei Thesen aus Jannes' KW34-Bias geprueft -- beide bestaetigt</h2>
+<ul>
+<li>Aus dem Nutzer-Bias in <code>Weekly Bias KW34 2026.md</code> zwei falsifizierbare Aussagen gezogen und
+  geprueft (<code>algo/backtest_news_dichte.py</code>, NQ, 753 Handelstage seit 2023-08):
+  1. <em>"Aufgrund der wenigen News erwarte ich keine grosse Priceaction."</em> -&gt; <strong>bestaetigt.</strong>
+     Median-Tagesrange: 0 Termine <strong>266,9</strong> (n=42), 1-2 Termine <strong>303,1</strong> (n=116),
+     3+ Termine <strong>330,8</strong> (n=595). Monoton steigend, newsreiche Tage <strong>+23,9 %</strong> groesser.
+     Zusatzbefund: mit mindestens einem Red-Termin 342,0 gegen 297,2 ohne (<strong>+15 %</strong>).
+  2. <em>"Mittwoch und Donnerstag bringen die beste Priceaction."</em> -&gt; <strong>bestaetigt.</strong>
+     Median-Range Mo 301,1 | Di 315,8 | <strong>Mi 330,5</strong> | <strong>Do 342,0</strong> | Fr 316,8.
+     Mi und Do sind exakt die beiden staerksten Tage, Montag der schwaechste.</li>
+<li>Termine-Historie ueber den <strong>TradingView</strong>-Kalender (<code>_tv_news</code>, quartalsweise) -- ForexFactory
+  liefert nur die laufende Woche. Gefiltert auf USD + Red/Orange wie in der Bias-Vorlage.
+  Preisseite NQ, nicht MNQ (Micro/Mini strikt getrennt).</li>
+<li>Einschraenkung offen ausgewiesen: n=42 fuer newsarme Tage ist duenn. Die Richtung ist aber
+  ueber alle drei Dichtestufen monoton, was gegen Zufall spricht. Median statt Mittelwert
+  gewaehlt, weil einzelne 1d-Tage im Bestand zu frueh gezogene Snapshots sind.</li>
+<li>Nutzer-Level gegengeprueft: der von ihm genannte Sellside-Pool <strong>29.780,50 (12.08. 18:00)</strong>
+  ist <strong>exakt bestaetigt</strong> -- Tief der Abendsession, erreicht um 18:31.</li>
+<li><strong>Offene Diskrepanz, gemeldet:</strong> seine Juni-Level (30.599,75 / 30.975,50) und sein ATH
+  (31.100,00) finden sich so nicht im Bestand -- dort steht als hoechster Punkt 30.968,00 am
+  22.06., und der 29.06. hat ein High von 30.069,50. Verdacht: verschiedene Kontraktreihen
+  (Chart NQ1! continuous gegen Bestand NQU2026), beim Rollover entstehen Spruenge dieser
+  Groessenordnung. Nicht abschliessend geklaert.</li>
+<li>Nebenbefund: <code>algo/backtest_fred_events.py</code> rechnet weiterhin auf <strong>MNQ</strong> -- widerspricht der
+  Micro/Mini-Trennung von heute und sollte auf NQ umgestellt werden. Backlog.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

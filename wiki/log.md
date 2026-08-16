@@ -3163,3 +3163,29 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - In beiden Commands als **ausdrueckliches Nicht-Feature** vermerkt ("keine Schriftfarbe --
   am 2026-08-16 eingebaut und auf Nutzerwunsch entfernt, nicht erneut hinzufuegen"), damit es
   bei der naechsten Formatierungsrunde nicht versehentlich zurueckkommt.
+
+## [2026-08-16] backtest | Zwei Thesen aus Jannes' KW34-Bias geprueft -- beide bestaetigt
+- Aus dem Nutzer-Bias in `Weekly Bias KW34 2026.md` zwei falsifizierbare Aussagen gezogen und
+  geprueft (`algo/backtest_news_dichte.py`, NQ, 753 Handelstage seit 2023-08):
+  1. *"Aufgrund der wenigen News erwarte ich keine grosse Priceaction."* -> **bestaetigt.**
+     Median-Tagesrange: 0 Termine **266,9** (n=42), 1-2 Termine **303,1** (n=116),
+     3+ Termine **330,8** (n=595). Monoton steigend, newsreiche Tage **+23,9 %** groesser.
+     Zusatzbefund: mit mindestens einem Red-Termin 342,0 gegen 297,2 ohne (**+15 %**).
+  2. *"Mittwoch und Donnerstag bringen die beste Priceaction."* -> **bestaetigt.**
+     Median-Range Mo 301,1 | Di 315,8 | **Mi 330,5** | **Do 342,0** | Fr 316,8.
+     Mi und Do sind exakt die beiden staerksten Tage, Montag der schwaechste.
+- Termine-Historie ueber den **TradingView**-Kalender (`_tv_news`, quartalsweise) -- ForexFactory
+  liefert nur die laufende Woche. Gefiltert auf USD + Red/Orange wie in der Bias-Vorlage.
+  Preisseite NQ, nicht MNQ (Micro/Mini strikt getrennt).
+- Einschraenkung offen ausgewiesen: n=42 fuer newsarme Tage ist duenn. Die Richtung ist aber
+  ueber alle drei Dichtestufen monoton, was gegen Zufall spricht. Median statt Mittelwert
+  gewaehlt, weil einzelne 1d-Tage im Bestand zu frueh gezogene Snapshots sind.
+- Nutzer-Level gegengeprueft: der von ihm genannte Sellside-Pool **29.780,50 (12.08. 18:00)**
+  ist **exakt bestaetigt** -- Tief der Abendsession, erreicht um 18:31.
+- **Offene Diskrepanz, gemeldet:** seine Juni-Level (30.599,75 / 30.975,50) und sein ATH
+  (31.100,00) finden sich so nicht im Bestand -- dort steht als hoechster Punkt 30.968,00 am
+  22.06., und der 29.06. hat ein High von 30.069,50. Verdacht: verschiedene Kontraktreihen
+  (Chart NQ1! continuous gegen Bestand NQU2026), beim Rollover entstehen Spruenge dieser
+  Groessenordnung. Nicht abschliessend geklaert.
+- Nebenbefund: `algo/backtest_fred_events.py` rechnet weiterhin auf **MNQ** -- widerspricht der
+  Micro/Mini-Trennung von heute und sollte auf NQ umgestellt werden. Backlog.
