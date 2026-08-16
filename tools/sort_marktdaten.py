@@ -128,8 +128,14 @@ def plan(files: list[Path], forced_symbol: str | None):
     return out
 
 
+# Coverage-Index von algo/fetch_ibkr.py, liegt bewusst direkt in raw/marktdaten/ -- kein
+# OHLC-Export zum Einsortieren, hat keine time-Spalte. Nicht "reparieren".
+KEIN_EXPORT = {"1s-abdeckung.csv"}
+
+
 def loose_files() -> list[Path]:
-    return sorted(p for p in DATA_DIR.glob("*.csv") if p.is_file())
+    return sorted(p for p in DATA_DIR.glob("*.csv")
+                  if p.is_file() and p.name not in KEIN_EXPORT)
 
 
 def run(dry_run=False, forced_symbol=None, quiet=False) -> int:
