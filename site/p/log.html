@@ -216,6 +216,7 @@
 <li><a href="#2026-08-16-setup-bias-news-auf-usd-gefiltert">[2026-08-16] setup | Bias-News auf USD gefiltert</a></li>
 <li><a href="#2026-08-16-setup-ndognwog-im-levels-abschnitt-aus-den-marktdaten-statt-aus-dem-live-feed">[2026-08-16] setup | NDOG/NWOG im Levels-Abschnitt aus den Marktdaten statt aus dem Live-Feed</a></li>
 <li><a href="#2026-08-16-setup-gap-definition-praezisiert-qsoshs-je-ndognwog">[2026-08-16] setup | Gap-Definition praezisiert + Qs/Os/Hs je NDOG/NWOG</a></li>
+<li><a href="#2026-08-16-setup-einsortierung-loser-tradingview-exporte-datenquellen-gegenprobe">[2026-08-16] setup | Einsortierung loser TradingView-Exporte + Datenquellen-Gegenprobe</a></li>
 </ul>
 </div>
 </details>
@@ -3293,6 +3294,34 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Pause. Fehlt sie, ist der Fehler nicht sichtbar -- der Wert wirkt plausibel, weil er ein
   echter Preis ist, nur zehn Minuten zu spaet. Bei Gap-Levels deshalb immer pruefen, ob der
   erste Bar wirklich auf der Session-Oeffnung liegt (18:00 NY), nicht bloss "kurz danach".</li>
+</ul>
+<h2 id="2026-08-16-setup-einsortierung-loser-tradingview-exporte-datenquellen-gegenprobe">[2026-08-16] setup | Einsortierung loser TradingView-Exporte + Datenquellen-Gegenprobe</h2>
+<ul>
+<li>Neu: <code>tools/sortiere_marktdaten.py</code>. Deutet TradingView-Exportnamen
+  ("CME_MINI_NQU2026, 1_98a6b.csv" -&gt; NQ/1m), schneidet <strong>an der Session-Grenze</strong> und legt
+  <code>raw/marktdaten/&lt;jahr&gt;/&lt;monat&gt;/&lt;TT.MM.JJJJ&gt;/&lt;SYM&gt; &lt;YYYY-MM-DD&gt; &lt;tf&gt;.csv</code> an.
+  <code>--dry-run</code>, <code>--demo</code>, ueberschreibt nie, Originale bleiben in <code>raw/</code> liegen.</li>
+<li>Session-Grenze ist der Kern: eine Tagesdatei laeuft <strong>Vortag 18:00 -&gt; Handelstag 16:59 NY</strong>
+  (1380 1m-Kerzen). Nach Kalendertag zu schneiden haette genau den Fehler reproduziert, der
+  heute frueh die NDOG-Rechnung verfaelscht hat. Im Selbstcheck festgehalten: Mitternacht
+  trennt <strong>nicht</strong>, 17:00-18:00 trennt; Fr 18:00 und So 18:00 gehoeren beide zum Montag.</li>
+<li>Schutz gegen Verschlechterung: existiert fuer Tag/TF bereits ein IBKR-<code>1s.parquet</code>
+  (82800 Bars, voller Tag), wird ein TradingView-1s-Export (2716 Zeilen ~ 45 min) <strong>nicht</strong>
+  danebengelegt. Unvollstaendige Handelstage werden je TF gegen den Sollwert gemeldet
+  (1m 1380, 5m 276, 15m 92, 1s 82800) statt als voller Tag durchzugehen.</li>
+<li><strong>Datenquellen-Gegenprobe (Nutzerfrage "liegt es an den Datenfehlern?"): nein.</strong>
+  Nutzer-Export <code>NQ 1m</code> gegen IBKR-1s ueber 2580 gemeinsame Minuten: <strong>2574 exakt gleich</strong>,
+  Ø-Abweichung 0,001, max 0,50. Beide Quellen sind gut und gegenseitig bestaetigt.
+  Der Session-Uebergang im Nutzer-Export steht korrekt auf <strong>18:00</strong> (Pause exakt 1:01:00).
+  Die 37,75 Punkte stammten allein aus der aelteren <code>MNQ 2026-08-03 1m.csv</code> (Start 18:10).
+  Die 3 Punkte im Freitag-Close sind <strong>kein Fehler</strong>, sondern NQ-gegen-MNQ-Spread: ueber 1200
+  gemeinsame Minuten schwankt NQ minus MNQ zwischen -2,75 und +7,75 bei Mittelwert +0,01.</li>
+<li>Aktueller Lauf: <strong>nichts einzusortieren</strong> -- alle losen Exporte liegen bereits im Bestand.
+  Der Nutzen greift ab dem naechsten Export; in <code>bias-cron.cmd</code> vor den Bias-Lauf gehaengt.</li>
+<li>Methodische Lehre, uebertragbar: Zwei Datenquellen, die im Mittel uebereinstimmen, koennen
+  minutenweise deutlich auseinanderlaufen. Ein Einzelwert-Vergleich (ein Close, ein Level)
+  taugt deshalb nicht als Beleg fuer "Datenfehler" -- erst die Verteilung ueber viele
+  gemeinsame Punkte trennt Rauschen (NQ/MNQ-Spread) von echtem Mangel (fehlende 18:00-Kerze).</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

@@ -2910,3 +2910,30 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Pause. Fehlt sie, ist der Fehler nicht sichtbar -- der Wert wirkt plausibel, weil er ein
   echter Preis ist, nur zehn Minuten zu spaet. Bei Gap-Levels deshalb immer pruefen, ob der
   erste Bar wirklich auf der Session-Oeffnung liegt (18:00 NY), nicht bloss "kurz danach".
+
+## [2026-08-16] setup | Einsortierung loser TradingView-Exporte + Datenquellen-Gegenprobe
+- Neu: `tools/sortiere_marktdaten.py`. Deutet TradingView-Exportnamen
+  ("CME_MINI_NQU2026, 1_98a6b.csv" -> NQ/1m), schneidet **an der Session-Grenze** und legt
+  `raw/marktdaten/<jahr>/<monat>/<TT.MM.JJJJ>/<SYM> <YYYY-MM-DD> <tf>.csv` an.
+  `--dry-run`, `--demo`, ueberschreibt nie, Originale bleiben in `raw/` liegen.
+- Session-Grenze ist der Kern: eine Tagesdatei laeuft **Vortag 18:00 -> Handelstag 16:59 NY**
+  (1380 1m-Kerzen). Nach Kalendertag zu schneiden haette genau den Fehler reproduziert, der
+  heute frueh die NDOG-Rechnung verfaelscht hat. Im Selbstcheck festgehalten: Mitternacht
+  trennt **nicht**, 17:00-18:00 trennt; Fr 18:00 und So 18:00 gehoeren beide zum Montag.
+- Schutz gegen Verschlechterung: existiert fuer Tag/TF bereits ein IBKR-`1s.parquet`
+  (82800 Bars, voller Tag), wird ein TradingView-1s-Export (2716 Zeilen ~ 45 min) **nicht**
+  danebengelegt. Unvollstaendige Handelstage werden je TF gegen den Sollwert gemeldet
+  (1m 1380, 5m 276, 15m 92, 1s 82800) statt als voller Tag durchzugehen.
+- **Datenquellen-Gegenprobe (Nutzerfrage "liegt es an den Datenfehlern?"): nein.**
+  Nutzer-Export `NQ 1m` gegen IBKR-1s ueber 2580 gemeinsame Minuten: **2574 exakt gleich**,
+  Ø-Abweichung 0,001, max 0,50. Beide Quellen sind gut und gegenseitig bestaetigt.
+  Der Session-Uebergang im Nutzer-Export steht korrekt auf **18:00** (Pause exakt 1:01:00).
+  Die 37,75 Punkte stammten allein aus der aelteren `MNQ 2026-08-03 1m.csv` (Start 18:10).
+  Die 3 Punkte im Freitag-Close sind **kein Fehler**, sondern NQ-gegen-MNQ-Spread: ueber 1200
+  gemeinsame Minuten schwankt NQ minus MNQ zwischen -2,75 und +7,75 bei Mittelwert +0,01.
+- Aktueller Lauf: **nichts einzusortieren** -- alle losen Exporte liegen bereits im Bestand.
+  Der Nutzen greift ab dem naechsten Export; in `bias-cron.cmd` vor den Bias-Lauf gehaengt.
+- Methodische Lehre, uebertragbar: Zwei Datenquellen, die im Mittel uebereinstimmen, koennen
+  minutenweise deutlich auseinanderlaufen. Ein Einzelwert-Vergleich (ein Close, ein Level)
+  taugt deshalb nicht als Beleg fuer "Datenfehler" -- erst die Verteilung ueber viele
+  gemeinsame Punkte trennt Rauschen (NQ/MNQ-Spread) von echtem Mangel (fehlende 18:00-Kerze).

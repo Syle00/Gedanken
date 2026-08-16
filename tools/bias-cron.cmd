@@ -12,4 +12,8 @@ REM Erst abgelaufene Bias-Dateien wegraeumen, dann die neue erzeugen. Frische Da
 REM bleiben flach in raw/journal/, solange sie aktuell sind (Nutzer-Workflow 2026-08-16).
 python tools\sortiere_bias.py >> "%LOG%" 2>&1
 
+REM Lose TradingView-Exporte aus raw/ ins Tagesschema holen -- sonst findet bias_levels.py
+REM sie nicht und rechnet die Level aus dem aelteren Bestand.
+python tools\sortiere_marktdaten.py >> "%LOG%" 2>&1
+
 "%USERPROFILE%\.local\bin\claude.exe" -p "/bias-vorlage-%1" --allowedTools Bash Read Write Glob Grep >> "%LOG%" 2>&1
