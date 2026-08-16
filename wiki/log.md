@@ -2961,3 +2961,23 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Fremdformate (histdata-Forex, TVC_DXY, preview.csv) werden weiter uebersprungen statt geraten.
 - 11 NQ-Tagesdateien neu angelegt (28.07.-11.08.), nichts ueberschrieben. Der 28.07. ist mit
   566/1380 Kerzen angeschnitten und als solcher gemeldet.
+
+## [2026-08-16] setup | raw/-Inbox geleert, Ablage-Konvention festgehalten
+- Nutzer stellt klar: er legt **alle** neuen Dokumente lose in `raw/` ab (nicht nur
+  TradingView-CSVs) und erwartet das Einsortieren von Claude -- das ist die bereits in
+  CLAUDE.md stehende Regel "Automatische Einsortierung", jetzt ausdruecklich bestaetigt.
+- Bestandsaufnahme ueber beide Clones ergab: **dieser Vault war bereits aufgeraeumt.** Alle
+  sieben losen ZIPs aus `Gedanken/raw` liegen hier schon unter `_notion-exports/`, das Buch
+  unter `testing-and-tuning/`. Der Gedanken-Clone ist die Inbox, dieses Repo der gepflegte
+  Stand -- nicht umgekehrt.
+- Die sechs bereits verarbeiteten TradingView-Exporte nach `raw/_tv-exporte/` verschoben
+  (gleiches Muster wie `_notion-exports/`) und in `.gitignore` aufgenommen: ihr Inhalt liegt
+  seit dem Einsortieren als Tagesdatei in `raw/marktdaten/`, das Original ist ab da redundant.
+  `raw/` enthaelt jetzt genau eine lose Datei.
+- **Liegen geblieben und gemeldet statt geraten:** `preview.csv` (3 Zeilen Databento-Sample,
+  Format `ts_event,rtype,publisher_id,...`, Symbol ESZ2 von 2022 -- weder Marktdaten-Export
+  noch Dokument). Im Gedanken-Clone zusaetzlich: vier histdata-Forex-CSVs (EUR-USD/GBP-USD),
+  `TVC_DXY, 1.csv` und `Claude Setup.exe` -- letztere gehoert nicht ins Vault.
+- Methodische Lehre, uebertragbar: Bevor Dateien zwischen zwei Clones kopiert werden, pruefen
+  ob das Ziel sie laengst hat. Hier haette ein unbesehenes "Inbox nach Vault schieben" sieben
+  ZIPs verdoppelt, die bereits eingeordnet waren.

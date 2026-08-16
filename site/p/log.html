@@ -218,6 +218,7 @@
 <li><a href="#2026-08-16-setup-gap-definition-praezisiert-qsoshs-je-ndognwog">[2026-08-16] setup | Gap-Definition praezisiert + Qs/Os/Hs je NDOG/NWOG</a></li>
 <li><a href="#2026-08-16-setup-einsortierung-loser-tradingview-exporte-datenquellen-gegenprobe">[2026-08-16] setup | Einsortierung loser TradingView-Exporte + Datenquellen-Gegenprobe</a></li>
 <li><a href="#2026-08-16-setup-nq-historie-eingesortiert-nwog-31070208-stimmt-jetzt-exakt">[2026-08-16] setup | NQ-Historie eingesortiert -- NWOG 31.07./02.08. stimmt jetzt exakt</a></li>
+<li><a href="#2026-08-16-setup-raw-inbox-geleert-ablage-konvention-festgehalten">[2026-08-16] setup | raw/-Inbox geleert, Ablage-Konvention festgehalten</a></li>
 </ul>
 </div>
 </details>
@@ -3348,6 +3349,27 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   Fremdformate (histdata-Forex, TVC_DXY, preview.csv) werden weiter uebersprungen statt geraten.</li>
 <li>11 NQ-Tagesdateien neu angelegt (28.07.-11.08.), nichts ueberschrieben. Der 28.07. ist mit
   566/1380 Kerzen angeschnitten und als solcher gemeldet.</li>
+</ul>
+<h2 id="2026-08-16-setup-raw-inbox-geleert-ablage-konvention-festgehalten">[2026-08-16] setup | raw/-Inbox geleert, Ablage-Konvention festgehalten</h2>
+<ul>
+<li>Nutzer stellt klar: er legt <strong>alle</strong> neuen Dokumente lose in <code>raw/</code> ab (nicht nur
+  TradingView-CSVs) und erwartet das Einsortieren von Claude -- das ist die bereits in
+  CLAUDE.md stehende Regel "Automatische Einsortierung", jetzt ausdruecklich bestaetigt.</li>
+<li>Bestandsaufnahme ueber beide Clones ergab: <strong>dieser Vault war bereits aufgeraeumt.</strong> Alle
+  sieben losen ZIPs aus <code>Gedanken/raw</code> liegen hier schon unter <code>_notion-exports/</code>, das Buch
+  unter <code>testing-and-tuning/</code>. Der Gedanken-Clone ist die Inbox, dieses Repo der gepflegte
+  Stand -- nicht umgekehrt.</li>
+<li>Die sechs bereits verarbeiteten TradingView-Exporte nach <code>raw/_tv-exporte/</code> verschoben
+  (gleiches Muster wie <code>_notion-exports/</code>) und in <code>.gitignore</code> aufgenommen: ihr Inhalt liegt
+  seit dem Einsortieren als Tagesdatei in <code>raw/marktdaten/</code>, das Original ist ab da redundant.
+  <code>raw/</code> enthaelt jetzt genau eine lose Datei.</li>
+<li><strong>Liegen geblieben und gemeldet statt geraten:</strong> <code>preview.csv</code> (3 Zeilen Databento-Sample,
+  Format <code>ts_event,rtype,publisher_id,...</code>, Symbol ESZ2 von 2022 -- weder Marktdaten-Export
+  noch Dokument). Im Gedanken-Clone zusaetzlich: vier histdata-Forex-CSVs (EUR-USD/GBP-USD),
+  <code>TVC_DXY, 1.csv</code> und <code>Claude Setup.exe</code> -- letztere gehoert nicht ins Vault.</li>
+<li>Methodische Lehre, uebertragbar: Bevor Dateien zwischen zwei Clones kopiert werden, pruefen
+  ob das Ziel sie laengst hat. Hier haette ein unbesehenes "Inbox nach Vault schieben" sieben
+  ZIPs verdoppelt, die bereits eingeordnet waren.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

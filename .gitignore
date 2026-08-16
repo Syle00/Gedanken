@@ -9,6 +9,12 @@ wiki/graphify-out/
 # Der Notion-Export ist bereits nach raw/ entpackt.
 *.zip
 
+# Roh-Exporte aus TradingView: der Inhalt liegt nach tools/sortiere_marktdaten.py
+# als Tagesdatei in raw/marktdaten/. Das Original ist ab da redundant -- aufbewahrt,
+# aber nicht versioniert (gleiche Logik wie beim Notion-Export-ZIP oben).
+raw/_tv-exporte/
+
+
 # --- Obsidian ---
 # Aendert sich bei jedem Fensterwechsel; die uebrige .obsidian/-Config bleibt versioniert.
 .obsidian/workspace.json
