@@ -243,6 +243,77 @@ def _gaps_aus_bars(bars: list, quelle: dict | None = None) -> tuple[list, list]:
     return ndog, nwog
 
 
+def _register_tage(symbol: str) -> set:
+    """Handelstage, fuer die `raw/marktdaten/1s-abdeckung.csv` einen 1s-Abruf protokolliert.
+
+    Das Register ist das Fetch-Protokoll von `fetch_ibkr.py` -- es sagt, was **geholt wurde**,
+    nicht was **auf der Platte liegt**. Beides auseinanderzuhalten ist der Sinn dieser
+    Funktion: ein registrierter Tag ohne Parquet-Datei ist ein stiller Datenverlust.
+    """
+    import csv as _csv
+
+    reg = Path(__file__).resolve().parent.parent / "raw" / "marktdaten" / "1s-abdeckung.csv"
+    tage: set = set()
+    if not reg.exists():
+        return tage
+    with reg.open(newline="", encoding="utf-8-sig") as fh:
+        for r in _csv.DictReader(fh):
+            if r.get("symbol") != symbol or not (r.get("von") or "").strip().isdigit():
+                continue          # kaputte/fremde Zeile -- ueberspringen statt abbrechen
+            t = datetime.fromtimestamp(int(r["von"]), tz=ZoneInfo("UTC")).astimezone(NEWYORK)
+            # Ein Abruffenster ab 18:00 gehoert zur Session des naechsten Handelstages
+            tage.add(t.date() + timedelta(days=1) if t.hour >= 18 else t.date())
+    return tage
+
+
+def datenlage(symbol: str, von: date, bis: date) -> dict:
+    """Welche Aufloesung deckt den Zeitraum tatsaechlich ab -- und deckt sie sich mit 1m?
+
+    Drei Fragen, die vor jeder Level-Rechnung beantwortet sein muessen:
+      1. Welche Tage liegen als 1s vor (die gewuenschte Quelle), welche nur als 1m?
+      2. Verspricht `1s-abdeckung.csv` Tage, zu denen keine Datei existiert?
+      3. Wo beides vorliegt: weichen 1s und der TradingView-1m-Export voneinander ab?
+    Frage 3 ist der vom Nutzer gewuenschte Abgleich -- eine Abweichung heisst, dass eine der
+    beiden Quellen nicht stimmt, und dann darf kein Level daraus gebaut werden.
+    """
+    import marktdaten
+    from analyze_ohlc import load
+
+    hat_1s, hat_1m, abweichung = set(), set(), []
+    for day_dir in sorted(marktdaten.DATA_DIR.glob("*/*/*")):
+        if not day_dir.is_dir():
+            continue
+        try:
+            tag = datetime.strptime(day_dir.name, "%d.%m.%Y").date()
+        except ValueError:
+            continue
+        if not (von <= tag <= bis):
+            continue
+        p1s = sorted(day_dir.glob(f"{symbol} * 1s.parquet"))
+        p1m = [f for f in day_dir.glob(f"{symbol} * 1m*.csv") if "RTH" not in f.name]
+        if p1s:
+            hat_1s.add(tag)
+        if p1m:
+            hat_1m.add(tag)
+        if p1s and p1m:
+            # Beide da -> gegenpruefen. 1s auf Minutenschluss verdichten und mit dem
+            # 1m-Close vergleichen; verglichen wird nur, wo beide dieselbe Minute kennen.
+            s = {b.t.replace(second=0): b.c for b in marktdaten._load_1s_parquet(p1s[0])}
+            beste = max(p1m, key=lambda f: sum(1 for _ in f.open(encoding="utf-8-sig")))
+            diffs = [abs(b.c - s[b.t]) for b in load(beste) if b.t in s]
+            if diffs:
+                abweichung.append({"tag": tag.isoformat(), "minuten": len(diffs),
+                                   "max": round(max(diffs), 2),
+                                   "ungleich": sum(1 for d in diffs if d > 0)})
+
+    registriert = {t for t in _register_tage(symbol) if von <= t <= bis}
+    return {"symbol": symbol,
+            "tage_1s": sorted(t.isoformat() for t in hat_1s),
+            "tage_nur_1m": sorted(t.isoformat() for t in hat_1m - hat_1s),
+            "registriert_ohne_datei": sorted(t.isoformat() for t in registriert - hat_1s),
+            "abgleich_1s_vs_1m": abweichung}
+
+
 def gaps_auto(heute: date | None = None) -> dict:
     """`gaps()` fuer das erste Symbol aus GAP_SYMBOLE mit brauchbarer Historie.
 
@@ -294,7 +365,8 @@ def gaps(symbol: str = "NQ", heute: date | None = None) -> dict:
     offen.sort(key=lambda e: e["tag"], reverse=True)
     return {"symbol": symbol, "von": von.isoformat(), "bis": heute.isoformat(),
             "ndog": ndog, "nwog": nwog, "offen": offen,
-            "quellen": {t.isoformat(): q for t, q in sorted(quelle.items())}}
+            "quellen": {t.isoformat(): q for t, q in sorted(quelle.items())},
+            "datenlage": datenlage(symbol, von, heute)}
 
 
 def _ff_news(von: date, bis: date) -> dict:
@@ -402,6 +474,19 @@ def demo() -> None:
     assert next_trading_day(date(2026, 8, 17)) == date(2026, 8, 18), "Mo -> Di"
     assert next_monday(date(2026, 8, 14)) == date(2026, 8, 17)
     assert next_monday(date(2026, 8, 16)) == date(2026, 8, 17), "So -> Montag darauf"
+
+    # Register-Fenster ab 18:00 NY gehoert zur Session des naechsten Handelstages -- sonst
+    # meldet die Datenlage-Pruefung reihenweise "registriert, aber keine Datei" fuer Tage,
+    # deren Parquet unter dem Folgetag liegt.
+    def _reg_tag(t: datetime) -> date:
+        return t.date() + timedelta(days=1) if t.hour >= 18 else t.date()
+
+    assert _reg_tag(datetime(2026, 8, 12, 18, 30, tzinfo=NEWYORK)) == date(2026, 8, 13)
+    assert _reg_tag(datetime(2026, 8, 13, 9, 30, tzinfo=NEWYORK)) == date(2026, 8, 13)
+    assert _reg_tag(datetime(2026, 8, 13, 16, 59, tzinfo=NEWYORK)) == date(2026, 8, 13)
+    # Das echte Register muss lesbar sein und darf an kaputten Zeilen nicht abbrechen
+    # (am 2026-08-16 hat ein paralleler fetch_ibkr-Lauf eine Zeile zerrissen).
+    assert isinstance(_register_tage("NQ"), set), "Register lesbar, kaputte Zeilen toleriert"
 
     # Tickraster + Hs/Qs/Os. Futures handeln nur in 0,25-Schritten (CLAUDE.md/Nutzervorgabe).
     assert tick(28443.375) == 28443.5 and tick(28443.1) == 28443.0, tick(28443.375)

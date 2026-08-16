@@ -31,9 +31,16 @@ Erzeuge `raw/journal/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.
    ForexFactory; die Uhrzeiten beider Quellen sind deckungsgleich geprueft.
 
 3. **NDOG/NWOG aus den Marktdaten.** Stehen bereits in `gaps` aus Schritt 1 -- gerechnet aus
-   `raw/marktdaten/` (1s wo vorhanden, sonst 1m), nicht aus dem Live-Feed. Deshalb am
-   Wochenende genauso belastbar wie unter der Woche. Je Eintrag: `close`/`close_t` (letzter
-   Print vor 17:00 NY), `open`/`open_t` (erster ab 18:00 NY), `gap`, `ce`, `filled`, `quelle`.
+   `raw/marktdaten/`, **1s bevorzugt** (Nutzervorgabe), 1m nur wo kein 1s vorliegt. Nicht aus
+   dem Live-Feed, deshalb am Wochenende genauso belastbar wie unter der Woche. Je Eintrag:
+   `close`/`close_t` (letzter Print vor 17:00 NY), `open`/`open_t` (erster ab 18:00 NY),
+   `gap`, `ce`, `filled`, `quelle`.
+
+   `gaps.datenlage` **immer auswerten und in einer Zeile ausweisen**: `tage_1s`/`tage_nur_1m`
+   (nicht "1s-Daten" behaupten, wenn die Mehrheit 1m ist), `registriert_ohne_datei` (in
+   `1s-abdeckung.csv` protokolliert, aber keine Parquet-Datei -- stiller Datenverlust, **aktiv
+   melden**) und `abgleich_1s_vs_1m` (1s gegen TradingView-1m gegengerechnet; grosse
+   Abweichung = eine Quelle stimmt nicht, dann kein Level daraus bauen).
 
    `gaps.offen` sind die **noch ungefuellten** Gaps -- handelbare PD Arrays und DOL-Kandidaten,
    die wichtigsten Level des Abschnitts. `gaps.symbol` und ein evtl. `gaps.hinweis` mit

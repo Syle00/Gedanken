@@ -2981,3 +2981,31 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 - Methodische Lehre, uebertragbar: Bevor Dateien zwischen zwei Clones kopiert werden, pruefen
   ob das Ziel sie laengst hat. Hier haette ein unbesehenes "Inbox nach Vault schieben" sieben
   ZIPs verdoppelt, die bereits eingeordnet waren.
+
+## [2026-08-16] setup | 1s als Vorzugsquelle + Datenlage-Pruefung gegen 1s-abdeckung.csv
+- Nutzervorgabe: hauptsaechlich 1s-Daten verwenden, `raw/marktdaten/1s-abdeckung.csv`
+  auswerten, bei Unstimmigkeiten gegen den TradingView-Export abgleichen.
+- Neu in `bias_levels.py`: `datenlage(symbol, von, bis)` und `_register_tage()`. Beantwortet
+  drei Fragen, die vor jeder Level-Rechnung geklaert sein muessen: (1) welche Tage liegen als
+  1s vor, welche nur als 1m, (2) verspricht das Register Tage, zu denen **keine Parquet-Datei**
+  existiert -- stiller Datenverlust, (3) wo beide Quellen denselben Tag abdecken: wie weit
+  weichen 1s und der TradingView-1m-Export voneinander ab. Ergebnis haengt an jedem
+  `gaps()`-Aufruf unter `datenlage`; beide Commands muessen es ausweisen.
+- Wichtige Unterscheidung, die die Funktion ueberhaupt erst noetig macht: `1s-abdeckung.csv`
+  ist das **Fetch-Protokoll** von `fetch_ibkr.py` -- es sagt, was geholt *wurde*, nicht was auf
+  der Platte *liegt*. Register-Fenster ab 18:00 NY gehoeren zur Session des Folgetages; ohne
+  diese Zuordnung meldet die Pruefung reihenweise falsche Fehlstaende (im Selbstcheck fixiert).
+  Kaputte Registerzeilen (ein paralleler fetch_ibkr-Lauf zerriss am 2026-08-16 eine) werden
+  uebersprungen statt abzubrechen.
+- **Befund Bestand:** 42 1s-Parquet-Dateien, NQ 22 Tage / ES 20 Tage -- aber geballt in
+  Feb/Maerz 2026 plus 12.-14.08. Dazwischen (Maerz bis August) **keine 1s-Historie**.
+  Im 35-Tage-Fenster der laufenden Bias-Rechnung liegen daher nur **2 von 14 Tagen** als 1s vor.
+  `registriert_ohne_datei` ist leer -- Register und Dateibestand decken sich, kein Verlust.
+- **Gegenprobe 1s vs. TradingView-1m** (der vom Nutzer gewuenschte Abgleich), automatisiert:
+  13.08. 3 von 1380 Minuten ungleich (max 0,25), 14.08. 4 von 1380 (max 0,50). Beide Quellen
+  bestaetigen sich zu ueber 99,7 % -- die 1m-Fallback-Level sind damit belastbar.
+- `Weekly Bias KW34 2026.md` um genau diese Datenlage-Zeile ergaenzt: 2/14 Tage 1s, Rest 1m,
+  NWOG 02.08. stammt aus 1m. Kein "1s-Daten" behaupten, wo 1m gerechnet wurde.
+- Methodische Lehre, uebertragbar: Ein Abdeckungsregister ist eine Absichtserklaerung, kein
+  Bestandsnachweis. Es muss gegen den tatsaechlichen Dateibestand gepruefen werden, sonst
+  meldet die Pipeline "1s vorhanden" fuer Tage, deren Datei nie ankam oder geloescht wurde.

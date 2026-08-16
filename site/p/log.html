@@ -219,6 +219,7 @@
 <li><a href="#2026-08-16-setup-einsortierung-loser-tradingview-exporte-datenquellen-gegenprobe">[2026-08-16] setup | Einsortierung loser TradingView-Exporte + Datenquellen-Gegenprobe</a></li>
 <li><a href="#2026-08-16-setup-nq-historie-eingesortiert-nwog-31070208-stimmt-jetzt-exakt">[2026-08-16] setup | NQ-Historie eingesortiert -- NWOG 31.07./02.08. stimmt jetzt exakt</a></li>
 <li><a href="#2026-08-16-setup-raw-inbox-geleert-ablage-konvention-festgehalten">[2026-08-16] setup | raw/-Inbox geleert, Ablage-Konvention festgehalten</a></li>
+<li><a href="#2026-08-16-setup-1s-als-vorzugsquelle-datenlage-pruefung-gegen-1s-abdeckungcsv">[2026-08-16] setup | 1s als Vorzugsquelle + Datenlage-Pruefung gegen 1s-abdeckung.csv</a></li>
 </ul>
 </div>
 </details>
@@ -3370,6 +3371,35 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
 <li>Methodische Lehre, uebertragbar: Bevor Dateien zwischen zwei Clones kopiert werden, pruefen
   ob das Ziel sie laengst hat. Hier haette ein unbesehenes "Inbox nach Vault schieben" sieben
   ZIPs verdoppelt, die bereits eingeordnet waren.</li>
+</ul>
+<h2 id="2026-08-16-setup-1s-als-vorzugsquelle-datenlage-pruefung-gegen-1s-abdeckungcsv">[2026-08-16] setup | 1s als Vorzugsquelle + Datenlage-Pruefung gegen 1s-abdeckung.csv</h2>
+<ul>
+<li>Nutzervorgabe: hauptsaechlich 1s-Daten verwenden, <code>raw/marktdaten/1s-abdeckung.csv</code>
+  auswerten, bei Unstimmigkeiten gegen den TradingView-Export abgleichen.</li>
+<li>Neu in <code>bias_levels.py</code>: <code>datenlage(symbol, von, bis)</code> und <code>_register_tage()</code>. Beantwortet
+  drei Fragen, die vor jeder Level-Rechnung geklaert sein muessen: (1) welche Tage liegen als
+  1s vor, welche nur als 1m, (2) verspricht das Register Tage, zu denen <strong>keine Parquet-Datei</strong>
+  existiert -- stiller Datenverlust, (3) wo beide Quellen denselben Tag abdecken: wie weit
+  weichen 1s und der TradingView-1m-Export voneinander ab. Ergebnis haengt an jedem
+  <code>gaps()</code>-Aufruf unter <code>datenlage</code>; beide Commands muessen es ausweisen.</li>
+<li>Wichtige Unterscheidung, die die Funktion ueberhaupt erst noetig macht: <code>1s-abdeckung.csv</code>
+  ist das <strong>Fetch-Protokoll</strong> von <code>fetch_ibkr.py</code> -- es sagt, was geholt <em>wurde</em>, nicht was auf
+  der Platte <em>liegt</em>. Register-Fenster ab 18:00 NY gehoeren zur Session des Folgetages; ohne
+  diese Zuordnung meldet die Pruefung reihenweise falsche Fehlstaende (im Selbstcheck fixiert).
+  Kaputte Registerzeilen (ein paralleler fetch_ibkr-Lauf zerriss am 2026-08-16 eine) werden
+  uebersprungen statt abzubrechen.</li>
+<li><strong>Befund Bestand:</strong> 42 1s-Parquet-Dateien, NQ 22 Tage / ES 20 Tage -- aber geballt in
+  Feb/Maerz 2026 plus 12.-14.08. Dazwischen (Maerz bis August) <strong>keine 1s-Historie</strong>.
+  Im 35-Tage-Fenster der laufenden Bias-Rechnung liegen daher nur <strong>2 von 14 Tagen</strong> als 1s vor.
+  <code>registriert_ohne_datei</code> ist leer -- Register und Dateibestand decken sich, kein Verlust.</li>
+<li><strong>Gegenprobe 1s vs. TradingView-1m</strong> (der vom Nutzer gewuenschte Abgleich), automatisiert:
+  13.08. 3 von 1380 Minuten ungleich (max 0,25), 14.08. 4 von 1380 (max 0,50). Beide Quellen
+  bestaetigen sich zu ueber 99,7 % -- die 1m-Fallback-Level sind damit belastbar.</li>
+<li><code>Weekly Bias KW34 2026.md</code> um genau diese Datenlage-Zeile ergaenzt: 2/14 Tage 1s, Rest 1m,
+  NWOG 02.08. stammt aus 1m. Kein "1s-Daten" behaupten, wo 1m gerechnet wurde.</li>
+<li>Methodische Lehre, uebertragbar: Ein Abdeckungsregister ist eine Absichtserklaerung, kein
+  Bestandsnachweis. Es muss gegen den tatsaechlichen Dateibestand gepruefen werden, sonst
+  meldet die Pipeline "1s vorhanden" fuer Tage, deren Datei nie ankam oder geloescht wurde.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

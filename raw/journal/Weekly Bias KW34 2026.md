@@ -23,9 +23,22 @@ Bewegung.
 
 ## Levels
 
-Gerechnet aus `raw/marktdaten/` (**NQ**, 14 Handelstage im Fenster; 1s wo vorhanden, sonst 1m).
-Kein MNQ-Rückfall nötig — die Level stammen aus dem tatsächlich gehandelten Symbol.
-Alle Preise auf dem 0,25-Tickraster.
+Gerechnet aus `raw/marktdaten/` (**NQ**, 14 Handelstage im Fenster). Kein MNQ-Rückfall nötig —
+die Level stammen aus dem tatsächlich gehandelten Symbol. Alle Preise auf dem 0,25-Tickraster.
+
+**Datenlage (1s bevorzugt):** Nur **2 der 14 Tage** liegen als 1s vor (13.08., 14.08.), die
+übrigen **12 Tage nur als 1m**. `1s-abdeckung.csv` protokolliert für dieses Fenster keinen Tag,
+zu dem die Parquet-Datei fehlt — Register und Bestand decken sich.
+Wo beide Quellen denselben Tag abdecken, wurde gegengerechnet:
+
+| Tag | verglichene Minuten | ungleich | max. Abweichung |
+|---|---|---|---|
+| 13.08. | 1380 | 3 | 0.25 |
+| 14.08. | 1380 | 4 | 0.50 |
+
+IBKR-1s und der TradingView-1m-Export bestätigen sich also gegenseitig (>99,7 % identisch).
+Die Level oben sind damit belastbar — **die 1s-Historie für Juli/August fehlt aber weitgehend**,
+der NWOG vom 02.08. stammt aus 1m-Daten.
 
 ### Offene Gaps — die DOL-Kandidaten
 

@@ -34,8 +34,19 @@ Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoch
    seit dem USD-Filter ein realistischer Fall. Nie als Abruf-Fehler ausgeben.
 
 3. **NDOG/NWOG aus den Marktdaten.** Stehen bereits in `gaps` aus Schritt 1 -- gerechnet aus
-   `raw/marktdaten/` (1s wo vorhanden, sonst 1m), nicht aus dem Live-Feed. Deshalb am
-   Wochenende, wenn dieser Command laeuft, genauso belastbar wie unter der Woche.
+   `raw/marktdaten/`, **1s bevorzugt** (Nutzervorgabe), 1m nur wo kein 1s vorliegt. Nicht aus
+   dem Live-Feed, deshalb am Wochenende genauso belastbar wie unter der Woche.
+
+   `gaps.datenlage` **immer auswerten und im Levels-Abschnitt in einer Zeile ausweisen**:
+   - `tage_1s` / `tage_nur_1m` -- wie viele Tage tatsaechlich in 1s vorlagen. Steht die
+     Mehrheit auf 1m, das offen sagen statt "1s-Daten" zu behaupten.
+   - `registriert_ohne_datei` -- Tage, die `raw/marktdaten/1s-abdeckung.csv` als geholt
+     protokolliert, zu denen aber **keine Parquet-Datei existiert**. Nicht leer? Das ist ein
+     stiller Datenverlust und gehoert **aktiv gemeldet** (CLAUDE.md: Marktdaten wie Gold).
+   - `abgleich_1s_vs_1m` -- wo beide Quellen denselben Tag abdecken, wurde 1s gegen den
+     TradingView-1m-Export gegengerechnet. `ungleich`/`minuten` nahe 0 = beide Quellen
+     bestaetigen sich. Grosse `max`-Werte heissen: eine der beiden stimmt nicht, dann **kein
+     Level daraus bauen**, sondern den Konflikt melden.
    Je Eintrag: `close`/`close_t` (letzter Print vor 17:00 NY), `open`/`open_t` (erster ab
    18:00 NY), `gap`, `ce`, `filled`, `quelle`.
 
