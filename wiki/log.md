@@ -2579,3 +2579,46 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   auf [[Institutional Order Flow (Body vs Wick)]] zusammengefuehrt.
 - Kein neuer Backtest-Kandidat: Der Inhalt ist Ausfuehrungs-/Money-Management-Logik
   (Stop-Kaskade, Partial-Timing, Re-Entry-Sperre), keine falsifizierbare Preis-These.
+
+## [2026-08-16] ingest | YouTube: How To Probe Low Probability RTH Opening Ranges, Teil 1+2
+- Auftrag: `/yt-ict-ingest` fuer `rtIcbG6twrI`. **Nachholung eines abgebrochenen Ingests**: Beide
+  Videos standen seit dem Eintrag [2026-08-06] als offen ("IP-Block"), damals ohne Transkript.
+  Der Block ist nicht mehr aktiv — beide Fetches liefen heute problemlos durch (serielle
+  Ausfuehrung mit 50s Pause, insgesamt 4 Fetches diese Session, kein `IpBlocked`).
+- **Teil 2 unaufgefordert mitgezogen**: `bz4QNPcpmWE` (14.07.2026) war Teil desselben offenen
+  Auftrags vom 06.08. und ist die direkte Nachbesprechung desselben Handelstags. Als Zweiteiler
+  gemeinsam ingested und gegenseitig verlinkt.
+- Transkripte:
+  - `raw/trading-ict/2026/yt-rtIcbG6twrI-transcript.md` (13.07., 51:25), 8.061 Woerter
+    (~157 W/Min). Der gehandelte Teil der Session ist vollstaendig; das Transkript **endet abrupt
+    mitten in einem Exkurs ohne Verabschiedung** — ICT kuendigt bei ~10:10 an, den Rest nur noch
+    aufzuzeichnen. Ob danach inhaltlich noch etwas kam, ist aus dem Transkript nicht feststellbar;
+    im Bericht und auf der Source-Seite so vermerkt statt Vollstaendigkeit zu behaupten.
+  - `raw/trading-ict/2026/yt-bz4QNPcpmWE-transcript.md` (14.07., 15:04), 1.905 Woerter,
+    **volle Abdeckung** (ordentliche Verabschiedung).
+- Seiten erstellt:
+  - wiki/sources/youtube/2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source).md
+  - wiki/sources/youtube/2026-07-14 - Part 2 - How To Probe Low Probability RTH Opening Ranges (Source).md
+  - wiki/models/Low Probability Day Probing.md
+  - wiki/concepts/Kerzenzahl in einer Ineffizienz.md
+- Seiten erweitert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md,
+  wiki/concepts/Liquidity Void.md, wiki/concepts/Breaker Block.md, wiki/index.md
+- **ORG-C.E.-70-%-These (steht laut CLAUDE.md unter Dauerbeobachtung)**: Dieses Video ist eine
+  **zweite, chronologisch fruehere Primaerquelle** fuer die Zahl — ICT woertlich: *"70 % likely
+  it's going to go up here about 10:00. That's usually the statistics."* Zwei unabhaengige
+  Nennungen, aber in **keiner** eine Herleitung (kein Zeitraum, Symbol, Stichprobe). Eigener
+  Backtest bleibt bei 35-43 %; These bleibt aktiv, nicht geloescht. **Neu**: zwei bisher
+  ungemessene Erklaerungen fuer die Luecke identifiziert — ICT spricht ueber **NQ**, der Backtest
+  laeuft auf **MNQ**; und "zum C.E. zuruecklaufen" ist nicht als Beruehrung vs. Close definiert.
+  Beides nach `algo/PLAN.md` uebertragen.
+- Selbst getroffene Entscheidungen (statt Rueckfrage):
+  - **Montags-Regel** ("neue Trader nicht montags handeln, Ausnahme NFP-Montag") bekam **keine
+    eigene Seite**, sondern einen Abschnitt in [[Low Probability Day Probing]] — sie ist dort der
+    Anwendungsfall, nicht ein eigenstaendiges Konzept.
+  - **"Unicorn"** (Breaker + FVG am selben Ort, neuer Begriff im Vault) als Abschnitt auf
+    [[Breaker Block]] statt eigener Seite — strukturell eine Breaker-Variante.
+  - **Kerzenzahl-Regel bekam eine eigene Seite** (statt Abschnitt auf [[Fair Value Gap (FVG)]]),
+    weil sie quantifiziert, eigenstaendig backtestbar und von mehreren Seiten verlinkbar ist.
+- Neuer Backtest-Kandidat in `algo/PLAN.md`: Kerzenzahl/Verweildauer in FVGs. Beruehrt sich mit
+  dem Gladhanding-Kandidaten von heute frueh — Empfehlung dort vermerkt, beide in **einem**
+  Script `algo/backtest_gap_verweildauer.py` zu messen statt getrennt.

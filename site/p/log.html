@@ -21,9 +21,9 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">143</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">350</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">28</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">352</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
 </ul></div>
@@ -203,6 +203,7 @@
 <li><a href="#2026-08-15-setup-ibkr-1s-datenanbindung-nqes">[2026-08-15] setup | IBKR 1s-Datenanbindung NQ/ES</a></li>
 <li><a href="#2026-08-16-ingest-youtube-the-week-in-the-life-cycle-of-price-dmhswlms9iy">[2026-08-16] ingest | YouTube: The Week In The Life Cycle Of Price (dmHSwlmS9iY)</a></li>
 <li><a href="#2026-08-16-ingest-youtube-missed-entry-how-to-navigate-the-same-trade-idea-ezb4vbufdhw">[2026-08-16] ingest | YouTube: Missed Entry How To Navigate The Same Trade Idea (EZB4vBUFdHw)</a></li>
+<li><a href="#2026-08-16-ingest-youtube-how-to-probe-low-probability-rth-opening-ranges-teil-12">[2026-08-16] ingest | YouTube: How To Probe Low Probability RTH Opening Ranges, Teil 1+2</a></li>
 </ul>
 </div>
 </details>
@@ -2936,6 +2937,50 @@ stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite 
   auf <a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a> zusammengefuehrt.</li>
 <li>Kein neuer Backtest-Kandidat: Der Inhalt ist Ausfuehrungs-/Money-Management-Logik
   (Stop-Kaskade, Partial-Timing, Re-Entry-Sperre), keine falsifizierbare Preis-These.</li>
+</ul>
+<h2 id="2026-08-16-ingest-youtube-how-to-probe-low-probability-rth-opening-ranges-teil-12">[2026-08-16] ingest | YouTube: How To Probe Low Probability RTH Opening Ranges, Teil 1+2</h2>
+<ul>
+<li>Auftrag: <code>/yt-ict-ingest</code> fuer <code>rtIcbG6twrI</code>. <strong>Nachholung eines abgebrochenen Ingests</strong>: Beide
+  Videos standen seit dem Eintrag [2026-08-06] als offen ("IP-Block"), damals ohne Transkript.
+  Der Block ist nicht mehr aktiv — beide Fetches liefen heute problemlos durch (serielle
+  Ausfuehrung mit 50s Pause, insgesamt 4 Fetches diese Session, kein <code>IpBlocked</code>).</li>
+<li><strong>Teil 2 unaufgefordert mitgezogen</strong>: <code>bz4QNPcpmWE</code> (14.07.2026) war Teil desselben offenen
+  Auftrags vom 06.08. und ist die direkte Nachbesprechung desselben Handelstags. Als Zweiteiler
+  gemeinsam ingested und gegenseitig verlinkt.</li>
+<li>Transkripte:</li>
+<li><code>raw/trading-ict/2026/yt-rtIcbG6twrI-transcript.md</code> (13.07., 51:25), 8.061 Woerter
+    (~157 W/Min). Der gehandelte Teil der Session ist vollstaendig; das Transkript <strong>endet abrupt
+    mitten in einem Exkurs ohne Verabschiedung</strong> — ICT kuendigt bei ~10:10 an, den Rest nur noch
+    aufzuzeichnen. Ob danach inhaltlich noch etwas kam, ist aus dem Transkript nicht feststellbar;
+    im Bericht und auf der Source-Seite so vermerkt statt Vollstaendigkeit zu behaupten.</li>
+<li><code>raw/trading-ict/2026/yt-bz4QNPcpmWE-transcript.md</code> (14.07., 15:04), 1.905 Woerter,
+    <strong>volle Abdeckung</strong> (ordentliche Verabschiedung).</li>
+<li>Seiten erstellt:</li>
+<li>wiki/sources/youtube/2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source).md</li>
+<li>wiki/sources/youtube/2026-07-14 - Part 2 - How To Probe Low Probability RTH Opening Ranges (Source).md</li>
+<li>wiki/models/Low Probability Day Probing.md</li>
+<li>wiki/concepts/Kerzenzahl in einer Ineffizienz.md</li>
+<li>Seiten erweitert: wiki/concepts/ORG (Opening Range Gap) &amp; 1st Presented FVG.md,
+  wiki/concepts/Liquidity Void.md, wiki/concepts/Breaker Block.md, wiki/index.md</li>
+<li><strong>ORG-C.E.-70-%-These (steht laut CLAUDE.md unter Dauerbeobachtung)</strong>: Dieses Video ist eine
+  <strong>zweite, chronologisch fruehere Primaerquelle</strong> fuer die Zahl — ICT woertlich: <em>"70 % likely
+  it's going to go up here about 10:00. That's usually the statistics."</em> Zwei unabhaengige
+  Nennungen, aber in <strong>keiner</strong> eine Herleitung (kein Zeitraum, Symbol, Stichprobe). Eigener
+  Backtest bleibt bei 35-43 %; These bleibt aktiv, nicht geloescht. <strong>Neu</strong>: zwei bisher
+  ungemessene Erklaerungen fuer die Luecke identifiziert — ICT spricht ueber <strong>NQ</strong>, der Backtest
+  laeuft auf <strong>MNQ</strong>; und "zum C.E. zuruecklaufen" ist nicht als Beruehrung vs. Close definiert.
+  Beides nach <code>algo/PLAN.md</code> uebertragen.</li>
+<li>Selbst getroffene Entscheidungen (statt Rueckfrage):</li>
+<li><strong>Montags-Regel</strong> ("neue Trader nicht montags handeln, Ausnahme NFP-Montag") bekam <strong>keine
+    eigene Seite</strong>, sondern einen Abschnitt in <a href="../p/low-probability-day-probing.html">Low Probability Day Probing</a> — sie ist dort der
+    Anwendungsfall, nicht ein eigenstaendiges Konzept.</li>
+<li><strong>"Unicorn"</strong> (Breaker + FVG am selben Ort, neuer Begriff im Vault) als Abschnitt auf
+    <a href="../p/breaker-block.html">Breaker Block</a> statt eigener Seite — strukturell eine Breaker-Variante.</li>
+<li><strong>Kerzenzahl-Regel bekam eine eigene Seite</strong> (statt Abschnitt auf <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>),
+    weil sie quantifiziert, eigenstaendig backtestbar und von mehreren Seiten verlinkbar ist.</li>
+<li>Neuer Backtest-Kandidat in <code>algo/PLAN.md</code>: Kerzenzahl/Verweildauer in FVGs. Beruehrt sich mit
+  dem Gladhanding-Kandidaten von heute frueh — Empfehlung dort vermerkt, beide in <strong>einem</strong>
+  Script <code>algo/backtest_gap_verweildauer.py</code> zu messen statt getrennt.</li>
 </ul></div>
   
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>

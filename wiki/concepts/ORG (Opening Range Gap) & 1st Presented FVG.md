@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-14
-sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source)|How To Disqualify 1st Presented FVGs (Video, Source)]]"]
+updated: 2026-08-16
+sources: ["[[ICT Chain Of Custody Of Price (Source)]]", "[[ICT Gems - Algorithmic Timings With Opening Ranges (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[Advanced ICT Liquidity Concepts (Source)]]", "[[Trading Premarket and Regular Session Liquidity (Source)]]", "[[SMC Opening Range Gaps (Source)]]", "[[How To Disqualify 1st Presented FVGs (Source)]]", "[[SMC Midnight Opening Range (Source)]]", "[[SMC Trading Opening Range Gaps (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]]", "[[2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source)|How To Disqualify 1st Presented FVGs (Video, Source)]]", "[[2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)|How To Probe Low Probability RTH Opening Ranges (Source)]]", "[[2026-07-14 - Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)|Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)]]"]
 ---
 
 # ORG (Opening Range Gap) & 1st Presented FVG
@@ -49,8 +49,26 @@ Hours** umgestellt wird. Darüber ein **Fib 0–1** für die Key Level. Pre Mark
   als wiederverwendbare Targets dienen, solange sie offen sind.
 
 - **70-%-Regel (2026-Ergänzung)**: bis **10:00 Uhr NY** (also innerhalb der ersten 30 Minuten nach
-  9:30-Opening) ist es zu **70 %** wahrscheinlich, dass Preis zum C.E. des ORG zurückläuft — Quelle:
-  [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]].
+  9:30-Opening) ist es zu **70 %** wahrscheinlich, dass Preis zum C.E. des ORG zurückläuft — Quellen:
+  [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]
+  und, chronologisch früher,
+  [[2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)|How To Probe Low Probability RTH Opening Ranges (Source)]].
+
+  > **Zwei unabhängige Nennungen (Stand 2026-08-16).** Im Video vom 13.07. sagt ICT wörtlich:
+  > *„70 % likely it's going to go up here about 10:00. **That's usually the statistics.**"* Damit
+  > liegen zwei getrennte Primärquellen für dieselbe Zahl vor — die Behauptung ist also stabil
+  > formuliert und kein einmaliger Versprecher. **Eine Herleitung nennt ICT in keiner der beiden
+  > Quellen**; „the statistics" bleibt unbelegt (kein Zeitraum, kein Symbol, keine Stichprobe).
+  >
+  > **Gegenstand: eigener Backtest liegt bei 35–43 %** (siehe
+  > [[Statistische Muster jenseits der ICT-Konzepte (laufend)]]). Die These bleibt auf ausdrücklichen
+  > Wunsch des Nutzers **aktiv in Beobachtung** und wird nicht nach dem sonst geltenden
+  > Lösch-Verfahren entfernt. Die zweite Quelle ändert an den eigenen Zahlen nichts — sie erhöht nur
+  > die Sicherheit darüber, *was* ICT behauptet, nicht darüber, ob es zutrifft. Offener Punkt für
+  > die Prüfung: Beide Videos beziehen sich auf **NQ**, der eigene Backtest auf **MNQ** — und ICT
+  > macht keine Angabe, ob „zum C.E. zurücklaufen" Berührung oder Close meint. Beide
+  > Definitionsfragen können die Lücke zwischen 43 % und 70 % teilweise erklären und sind noch nicht
+  > durchgemessen (`algo/PLAN.md`).
 - Das Premium/Discount-Konzept mit C.E-Respekt gilt genauso für die ORG.
 - Bei bearishem Bias + starkem Close unterhalb des C.E + Premium-Sensitivität am C.E der ORG wird
   erwartet, dass dieses Verhalten anhält, bis ein [[AMD Cycle (Accumulation – Manipulation – Distribution)|DOL]]
@@ -59,6 +77,32 @@ Hours** umgestellt wird. Darüber ein **Fib 0–1** für die Key Level. Pre Mark
   um Premium-/Discount-Sensitivität zu bestimmen.
 - Schafft Preis es **nicht**, über/unter dem C.E der ORG zu closen (kein Durchbruch), ist das ein
   klares Signal in Richtung des bestehenden Bias.
+
+### Konstruktion am Chart — Handgriffe (2026-08-16)
+
+Aus [[2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)|How To Probe Low Probability RTH Opening Ranges (Source)]],
+wo ICT das Einzeichnen erstmals Schritt für Schritt vorführt statt nur das Ergebnis zu zeigen:
+
+1. Chart auf **Regular Trading Hours** stellen — im ETH-Chart ist das Gap unsichtbar.
+2. Fib auf den **Settlement-Close des Vortags** legen (im Beispiel 30.048,50).
+3. Den Fib-Anker bewusst auf **9:32/9:33** setzen, nicht auf 9:30 — so bleibt die 9:30-Kerze beim
+   Entstehen beobachtbar; nach dem Open wird der Fib auf den tatsächlichen Opening Price gezogen.
+4. „Show all levels" aktivieren, C.E. (**Half Gap**) hervorheben und **beschriften**, damit der
+   Level im Verlauf des Tages nicht untergeht.
+
+**Manuell statt automatisiert**: ICT zeichnet bewusst von Hand — ein Skript rechne nur, was es
+bekommt, während er die Plausibilität der Daten selbst prüfen wolle. (Relevant als Gegenposition zu
+`algo/`: die Automatisierung ist erwünscht, aber die Datenprüfung bleibt Pflicht — vgl.
+`CLAUDE.md` → Marktdaten wie Gold behandeln.)
+
+**Oktanten sind auch Umkehrzonen**: Im Fallbeispiel erreichte der Rücklauf nur den **untersten
+Oktanten** des ORG und drehte dort — das Qs/Os/Hs-Raster (siehe
+[[Chain of Custody (Q-Validation)]]) liefert also nicht nur Ziele, sondern auch Wendepunkte.
+
+**ORG als Übernacht-Anker**: Was tagsüber nicht erreicht wurde, bleibt gültig. In
+[[2026-07-14 - Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)|Teil 2]] läuft
+Preis über Nacht (Sweep → [[Modell 22]] → MSS) wieder auf das ORG des **Vortags** zu; ICT erwartet
+die Zielerreichung ausdrücklich notfalls erst am Folgetag mit dem CPI-/PPI-Release.
 
 ## Partial-Leiter jenseits des Gaps (2026-Ergänzung)
 
