@@ -31,7 +31,7 @@ decken sich. Wo beide Quellen denselben Tag abdecken, stimmen sie zu über 99,7 
 ### Vortagesrange (Fr 14.08.)
 
 | | Wert |
-|---|---|
+| --- | --- |
 | High (PDH) | **30283.00** (09:05 NY) |
 | Low (PDL) | **30028.50** |
 | Close | **30154.00** (16:59 NY) |
@@ -44,7 +44,7 @@ decken sich. Wo beide Quellen denselben Tag abdecken, stimmen sie zu über 99,7 
 ### Offene Gaps — DOL-Kandidaten
 
 | Typ | Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Spanne |
-|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- |
 | **NWOG** | Fr 31.07. → So 02.08. | 28287.00 | 28565.00 | +278.00 | **28426.00** | 278.00 |
 | **NDOG** | Mi 29.07. | 27259.25 | 27202.00 | −57.25 | **27230.50** | 57.25 |
 
@@ -54,7 +54,7 @@ einzelnen Handelstag außer Reichweite. Sie bleiben übergeordnete Draw-Kandidat
 **NWOG 02.08. — Qs / Os / Hs**
 
 | | Level |
-|---|---|
+| --- | --- |
 | High (Open So 18:00) | 28565.00 |
 | O7 | 28530.25 |
 | O6 / **Q3** | 28495.50 |
@@ -68,7 +68,7 @@ einzelnen Handelstag außer Reichweite. Sie bleiben übergeordnete Draw-Kandidat
 **NDOG 29.07. — Qs / Os / Hs**
 
 | | Level |
-|---|---|
+| --- | --- |
 | High (Close 16:59) | 27259.25 |
 | O7 | 27252.00 |
 | O6 / **Q3** | 27245.00 |
@@ -82,7 +82,7 @@ einzelnen Handelstag außer Reichweite. Sie bleiben übergeordnete Draw-Kandidat
 ### NDOG der Vorwoche (alle gefüllt)
 
 | Datum | Close (17:00) | Open (18:00) | Gap | C.E. |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Mo 10.08. | 29764.25 | 29764.50 | +0.25 | 29764.50 |
 | Di 11.08. | 29646.75 | 29657.75 | +11.00 | 29652.25 |
 | Mi 12.08. | 29805.75 | 29825.00 | +19.25 | 29815.50 |
@@ -158,3 +158,13 @@ Wochenstruktur (Retracement ins BISI, Sellside 29.780,50 als DOL) gilt unveränd
   **266,9 Punkten** (n=42). Vom Freitagsschluss aus reicht das rechnerisch für den PDH
   (129 Punkte), **nicht** für 30.599,75 (445 Punkte). Zusammen mit dem statistisch starken
   Montag stützt das „PDH als Tagesziel, Buyside-Pool als Wochenziel".
+
+---------------------------------------------------------------------
+
+  NWOG open bei 30,170,00 innerhalb der 1m Candle kurz Baerish und ist bis jetzt unfilled das gefällt mir für spätere Targets der Woche Baerish.
+  momentaner Price um 8.18 DE bei 30,280,00 kurz vor der 1. Buyside bei 30,320,00.
+  Asia hat consolidiert und kaum Bewegung gezeigt auch das passt ins Muster zusätzlich wurde jetzt NY AM Buyside vom Freitag genommen und wir sind über dem C.E des Daily BISI.
+Asia gibt eoine Sellside aller dings ist das Low im 5m Chart tiefer als die linken REL aber nur 0,25 das ist für mich immer noch High prob. die Sellside sollte weiter aktiv sein.
+NWOG und Asia Sellside sind sher gute Targets für die Woche oder als Judas Swing am heutigen Tage um weiter Bullish zu gehen.
+Die Daily Premium Wick qs,hs ausmalen vom 02.06 wird selbst im 1m Chart genutzt und respektiert. Darauf schaue ich weiter da das High gleichzeitig die Buyside pool darstellt.
+Bis jetzt passt alles zum Bias bin aber gesoant was in NY passiert, da London oft die Judas des Tages ist.

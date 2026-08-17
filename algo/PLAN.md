@@ -690,6 +690,42 @@ Kalender -- gerollt wird, wenn der Folgekontrakt den aktuellen im Tagesvolumen u
 `raw/marktdaten/1s-abdeckung.csv` als vollstaendig, obwohl zwei Tage die falsche Serie
 enthalten.
 
+### Backlog: drei Thesen aus der Daily-Bias-Notiz 17.08. (2026-08-17, Nutzeraussage)
+
+Aus Jannes' eigener Bias-Notiz vom Montagmorgen (`raw/journal/Daily Bias 2026-08-17.md`, unterer
+Freitextteil; Journal-Eintrag `journal/entries/2026-08-17 NQ Daily Bias.md`). Alle drei sind
+falsifizierbar und noch nicht implementiert:
+
+1. **London-Judas-These** -- *"London ist oft die Judas des Tages"*. Messbar ohne neuen Detektor:
+   Wie oft liegt das Tagesextrem **gegen** die spaetere Tagesrichtung innerhalb der
+   London-Killzone (02:00-05:00 NY), und wie weit traegt der Gegenlauf danach? Aufsetzen auf
+   `backtest_midnight_range_judas.py` (existiert, misst den Judas gegen die Midnight Opening
+   Range) statt ein zweites Skript zu bauen -- fehlt dort nur die Session-Segmentierung
+   London vs. NY AM. Datenlage gut: 1s fuer NQ/ES ab 12.02.2026 (mit Luecke 05.05.-12.08.).
+2. **REL-Toleranz-These** -- ein 5m-Low, das **0,25 Punkte** unter den linken relativ gleichen
+   Lows liegt, entwertet den Sellside-Pool **nicht**; der Pool bleibt fuer ihn High Probability.
+   Das ist direkt eine Aussage ueber `CFG.min_pen` in `tools/analyze_ohlc.py`: ab welcher
+   Penetration gilt ein Liquiditaetspool als abgeraeumt statt nur angetippt? Test: Reaktionsrate
+   (Rueckkehr in die Range / Fortsetzung) als Funktion der Penetrationstiefe, in Tickstufen
+   0,25/0,50/1,00/2,00+. Ergebnis kalibriert eine Konstante, die heute geraten ist -- hoher
+   Nutzen bei kleinem Aufwand. Kandidat `algo/backtest_sweep_toleranz.py`.
+3. **Daily-Wick-Quadranten-These** -- die Qs/Hs/C.E. eines alten **Daily Premium Wicks** (sein
+   Beispiel: 02.06.2026) werden noch Wochen spaeter *"selbst im 1m Chart genutzt und
+   respektiert"*. Test: Reaktionsrate an C.E./Q1/Q3 historischer Daily-Wicks gegen eine
+   Kontrollmenge zufaelliger Preise derselben Distanzverteilung -- ohne Kontrollgruppe ist die
+   These trivial wahr (jedes Level wird irgendwann beruehrt). Kandidat
+   `algo/backtest_daily_wick_quadranten.py`. **Blockiert** durch den Datenbefund unten.
+
+**Datenbefund dabei gefunden (gehoert zum 1d-Backlog vom 2026-08-14):** Die NQ-1d-Kerze vom
+**02.06.2026** meldet `C 30.712,75`, das MNQ-1h-Aggregat derselben Session dagegen `30.743,00` --
+**30 Punkte Differenz**. `O/H/L` sind sauber (H 30.763,25 / L 30.317,75, gegen MNQ-1h auf 0,25
+bestaetigt). Das ist ein **neunter** Tag mit 1d-Abweichung und faellt beim bisherigen Scan durch,
+weil dieser gegen 5m-Aggregate ab 08.06. lief -- fuer Juni-Anfang existiert **kein** NQ-Intraday
+im Bestand. Direkte Folge: Punkt 3 oben ist nicht messbar, solange der Body-Top der Kerze -- und
+damit der Startpunkt jedes Premium-Wick-Quadranten -- quellenabhaengig ist. Vor dem Backtest muss
+die 1d-Bereinigung fuer Mai/Juni stehen oder die Wick-Basis auf Intraday-Aggregate umgestellt
+werden (wie es `rules.py::daily_hilo_from_bars` fuer H/L bereits tut, fuer den Close aber nicht).
+
 ## Naechster Schritt
 
 **Korrektur (2026-08-03):** Der urspruengliche Plan war, mit dem Backtest zu warten, bis
