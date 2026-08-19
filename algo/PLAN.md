@@ -726,6 +726,76 @@ damit der Startpunkt jedes Premium-Wick-Quadranten -- quellenabhaengig ist. Vor 
 die 1d-Bereinigung fuer Mai/Juni stehen oder die Wick-Basis auf Intraday-Aggregate umgestellt
 werden (wie es `rules.py::daily_hilo_from_bars` fuer H/L bereits tut, fuer den Close aber nicht).
 
+### Backlog: Zukunftsfenster werden als "0 Kerzen" registriert (2026-08-19, beim Bias-Lauf gefunden)
+
+`fetch_ibkr.py` traegt beim Backfill **jedes** angefragte Fenster in
+`raw/marktdaten/1s-abdeckung.csv` ein -- auch Fenster, die zum Abrufzeitpunkt noch in der
+Zukunft liegen und deshalb zwangslaeufig 0 Kerzen liefern. Nachweis am 18.08.2026:
+
+| | NQ | ES |
+|---|---|---|
+| Registrierte Fenster fuer den 18.08. | 46 | 46 |
+| davon mit Kerzen | 31 | 31 |
+| davon 0 Kerzen | 15 | 15 |
+| erstes 0-Kerzen-Fenster | 18.08. 09:30 NY | 18.08. 09:30 NY |
+| geholt am | 18.08. 09:05 NY | 18.08. 09:07 NY |
+| Parquet reicht bis | 18.08. **09:05:39** NY | 18.08. **09:13:19** NY |
+
+Der Lauf startete **waehrend** der Session um ~09:05 NY. Alles ab 09:30 NY war noch nicht
+gehandelt, wurde aber als abgefragt und leer protokolliert. Folgen, alle still:
+
+- Die komplette RTH-Session 09:30-16:00 und der 17:00-Close des 18.08. fehlen (54.340 statt
+  82.800 Kerzen bei NQ, 54.800 bei ES) -- die Datei sieht im Verzeichnis aber normal aus.
+- Der **Nachlad holt den Tag nie nach**: er meldet "bereits aktuell bis 2026-08-18", weil
+  Register und Parquet-Datei existieren. Auch ein `--backfill` ueberspringt den Tag, weil die
+  Datei da ist.
+- Der **NDOG 2026-08-18 fehlt** in `bias_levels.py`, weil kein 17:00-Close vorliegt.
+- Die **Weekly Range der KW34 ist `null`**, weil die Woche unvollstaendig ist.
+- `yesterday_range` fuer den 18.08. meldet High 30121.25 / Low 29680.50 / Close 29707.00 --
+  das ist der Stand um 09:05 NY, **nicht** das Tages-H/L/C. Ein Bias, der darauf aufsetzt,
+  rechnet mit einem falschen Vortag.
+
+**Zu tun:** (1) Fenster, deren `bis` in der Zukunft liegt, gar nicht erst anfragen und **nicht**
+registrieren -- ein nicht existierendes Fenster ist etwas anderes als ein leeres. (2) Beim
+Schreiben der Tagesdatei pruefen, ob die Session vollstaendig ist (82.800 Sekunden von 18:00 bis
+16:59:59 NY, Feiertagsverkuerzungen ausgenommen); ist sie es nicht, den Tag als unvollstaendig
+kennzeichnen statt als erledigt.
+
+**(3) Erledigt 2026-08-19:** der 18.08. wurde fuer NQ und ES neu geholt (Parquets vorher
+geloescht, sonst greift die Skip-Logik), beide jetzt 82.800 Kerzen, 18:00 -> 16:59:59 NY, null
+Zeitspruenge. Die Korrektur verschob echte Zahlen: NQ-Tief **29680.50 -> 29514.00** (-166.50) und
+NQ-Close **29707.00 -> 29559.50** (-147.50). Der 18.08. war damit kein Durchschnittstag, sondern
+ein Abverkauf von -518.75 Pkt gegen den 17.08.-Schluss mit 607 Pkt Range (2,3x Dienstags-Median).
+`raw/journal/Daily Bias 2026-08-19.md` wurde entsprechend neu gerechnet.
+
+**(1) und (2) bleiben offen** -- der Bug kann jederzeit wieder zuschlagen, sobald ein Lauf
+mitten in einer Session startet.
+
+### Audit aller 267 1s-Dateien (2026-08-19, Anlass: der 18.08.-Fund)
+
+Vollstaendigkeitspruefung ueber den gesamten Bestand, vier Klassen von Abweichung -- **nur eine
+davon ist ein Fehler**:
+
+| Klasse | Tage | Bewertung |
+|---|---|---|
+| Feiertagsverkuerzung, Ende 12:59:59 NY (68.400 Kerzen) | 16.02., 25.05., 19.06., 03.07. | **legitim** |
+| Good Friday, Ende 09:14:59 NY (54.900 Kerzen) | 03.04. | **legitim** |
+| 30-Minuten-Loch mitten in der Session (81.000 Kerzen) | ES 26.06. (09:30-09:59:59), NQ 14.07. (11:30-11:59:59) | **Fehler, am 19.08. neu geholt** |
+| Erster Print kommt Sekunden spaet, kein Loch | NQ 12.03. (-37 s), NQ 11.06. (-9 s) | harmlos (12.03. = Kontraktroll-Tag, siehe oben) |
+
+**Der Zukunftsfenster-Bug hat ausser dem 18.08. keinen weiteren Tag getroffen.**
+Unterscheidungsmerkmal: bei einem mitten in der Session abgebrochenen Lauf enden die Dateien
+**je Symbol zu verschiedenen Uhrzeiten** (18.08.: NQ 09:05:39, ES 09:13:19 -- jedes Symbol wurde
+zu einem anderen Wanduhr-Moment geholt), bei einer Feiertagsverkuerzung enden **beide Symbole
+identisch**. Dieses Kriterium taugt als Dauertest.
+
+Die beiden 30-Minuten-Loecher sind eine **zweite, eigene Fehlerklasse**: dort kam ein Fenster
+*leer* zurueck (nicht fehlgeschlagen), und weil `_echter_fehler()` ein leeres Fenster bewusst
+durchlaesst -- damit verkuerzte Handelstage wie Presidents' Day ueberhaupt zustande kommen --
+wurde der Tag trotz Loch geschrieben. Bei ES 26.06. traf es ausgerechnet die **RTH-Eroeffnung
+09:30-10:00 NY**. Die Ausnahme fuer leere Fenster muss auf die bekannten Feiertagsfenster
+begrenzt werden, statt fuer jedes Fenster des Tages zu gelten.
+
 ## Naechster Schritt
 
 **Korrektur (2026-08-03):** Der urspruengliche Plan war, mit dem Backtest zu warten, bis

@@ -63,6 +63,7 @@ algo/live/*/state.json
 # Keine Historie wert, anders als die Text-Statusberichte unten.
 algo/live/*.log
 algo/live/.fetch_ibkr-fenster.pid
+algo/live/.fetch_ibkr-lauf.pid
 
 # Die Intraday-CSVs daneben bleiben ab 04.08.2026 bewusst VERSIONIERT: yfinance liefert
 # 1m-Daten nur ~30 und 5m nur ~60 Tage rueckwirkend, danach sind diese Snapshots nicht
