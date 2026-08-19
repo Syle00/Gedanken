@@ -20,19 +20,28 @@ Parquet-Datei schon existiert, werden ohne einen einzigen Request uebersprungen.
 abgebrochener Lauf wird also einfach neu gestartet -- es braucht keine Datumsangabe, um
 "dort weiterzumachen, wo es aufhoerte".
 
-1. Pruefe, ob Port 4002 (IB Gateway, Paper) erreichbar ist (z.B. per kurzem TCP-Connect-Test).
-   Nicht erreichbar: melde, dass IB Gateway nicht laeuft, und brich ab -- lauf nicht in
-   einen Timeout.
-2. Baue daraus den passenden Aufruf von `python algo/fetch_ibkr.py [--verify|--backfill [VON BIS]]
+1. Pruefe optional per kurzem TCP-Connect-Test, ob Port 4002 (IB Gateway, Paper) schon
+   erreichbar ist -- nur fuer die Statusmeldung ("Gateway laeuft schon" vs. "Gateway startet
+   kalt"), kein Abbruchgrund. `algo/fetch_ibkr.py` startet Gateway bei Bedarf selbst
+   (`_gateway_sicherstellen()`, wartet bis zu 180s auf den IBC-Cold-Start) -- brich hier nicht
+   ab, sonst kommt diese Auto-Start-Logik nie zum Zug.
+2. Prüfe zuerst per `Get-CimInstance Win32_Process -Filter "Name='python.exe'"` (nicht `ps
+   aux` -- das sieht in Git-Bash keine Prozesse aus fremden Bash-Aufrufen, siehe 2026-08-17
+   Vorfall mit zwei kollidierenden Backfill-Laeufen), ob schon ein `fetch_ibkr.py`-Prozess
+   laeuft. Falls ja: nicht erneut starten, sondern den laufenden Prozess und seinen
+   Fortschritt melden (Skript hat seit 2026-08-17 ohnehin einen eigenen Lock und lehnt einen
+   zweiten Lauf sauber ab, das hier ist die schnellere Vorab-Pruefung).
+3. Baue daraus den passenden Aufruf von `python algo/fetch_ibkr.py [--verify|--backfill [VON BIS]]
    [--symbol SYM]` und starte ihn. Bei `backfill`: im Hintergrund, weil die Laufzeit in
    Stunden liegt (siehe Design SS3.4) -- nicht auf den Abschluss warten, sondern das Anlaufen
    bestaetigen und mitteilen, wie der Fortschritt spaeter geprueft werden kann (Registerzeilen
-   in `raw/marktdaten/1s-abdeckung.csv`). Das Skript oeffnet dabei selbst ein zweites
-   Konsolenfenster, das jeden Fenster-Download live mitschreibt (Log:
+   in `raw/marktdaten/1s-abdeckung.csv`). Bei Nachlad/Verify im Vordergrund: Timeout grosszuegig
+   setzen (mind. 240s), falls Gateway kalt startet. Das Skript oeffnet dabei selbst ein
+   zweites Konsolenfenster, das jeden Fenster-Download live mitschreibt (Log:
    `algo/live/fetch_ibkr-<datum>.log`) -- weise darauf hin, statt eine eigene
    Fortschrittsanzeige zu bauen. `--kein-fenster` unterdrueckt es fuer unbeaufsichtigte Laeufe.
-3. Verdichte die Konsolenausgabe zu einem Bericht statt sie durchzureichen: geholte Fenster
+4. Verdichte die Konsolenausgabe zu einem Bericht statt sie durchzureichen: geholte Fenster
    je Symbol, geschriebene Tagesdateien, Kerzenzahl, Quote handelsloser Sekunden je Session
    (falls ausgegeben), alle Hinweise aus `pruefe_kerzen()`, fehlgeschlagene Fenster,
    verbleibende Luecken laut Register.
-4. Kein `push.ps1` -- Veroeffentlichen bleibt manuell (siehe CLAUDE.md, Versionskontrolle).
+5. Kein `push.ps1` -- Veroeffentlichen bleibt manuell (siehe CLAUDE.md, Versionskontrolle).

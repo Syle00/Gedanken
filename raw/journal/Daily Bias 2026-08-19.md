@@ -4,6 +4,7 @@
 
 ## News (Red/Orange Folder)
 
+<<<<<<< Updated upstream
 ⚠️ News-Abruf fehlgeschlagen (`URLError: <urlopen error Tunnel connection failed: 403 Forbidden>`),
 manuell auf forexfactory.com pruefen. Sowohl ForexFactory als auch der TradingView-Fallback
 lieferten denselben 403-Fehler — vermutlich blockiert die Netzwerk-Policy dieser Cloud-Sandbox
@@ -63,6 +64,68 @@ auf 4 von 1380 Minuten) — beide Quellen stimmen praktisch überein, kein Level
 | O2 / Q1 | 27216.25 |
 | O1 | 27209.25 |
 | Low (Open, 07-29 18:00) | 27202.00 |
+=======
+**Mi 19.08.**
+
+🔴 **14:00 NY** / 20:00 DE — FOMC Meeting Minutes
+
+Quelle: **ForexFactory** (`news.source: forexfactory`).
+
+## Levels
+
+Gerechnet aus `raw/marktdaten/` (**NQ**, 1s bevorzugt). Alle Preise auf dem 0,25-Tickraster.
+
+> ⚠️ **Datenlücke:** `raw/marktdaten/2026/08/` enthält aktuell keine Tage nach dem 14.08.
+> Heute ist Di 18.08. — der Handelstag läuft noch, dass er fehlt ist normal, keine Lücke. Der
+> echte Fehlbestand ist **Mo 17.08.** (abgeschlossener Handelstag, keine Datei vorhanden).
+> `yesterday_range` unten ist deshalb der letzte verfügbare Handelstag (Fr 14.08.), nicht der
+> eigentliche Vortag. Wird hier nicht selbst nachgeladen (Autonomie-Regel: Lücken werden
+> gemeldet, nicht repariert) — bitte Nachlad für 17.08. anstoßen, bevor mit aktuellen Levels
+> gehandelt wird.
+
+| Level | Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Status |
+|---|---|---|---|---|---|---|
+| NWOG | So 02.08. | 28287.00 | 28565.00 | +278.00 | 28426.00 | offen |
+| NDOG | Mi 29.07. | 27259.25 | 27202.00 | −57.25 | 27230.50 | offen |
+| NDOG | Mo 10.08. | 29764.25 | 29764.50 | +0.25 | 29764.50 | gefüllt |
+| NDOG | Di 11.08. | 29646.75 | 29657.75 | +11.00 | 29652.25 | gefüllt |
+| NDOG | Mi 12.08. | 29805.75 | 29825.00 | +19.25 | 29815.50 | gefüllt |
+| NDOG | Do 13.08. | 30214.25 | 30210.75 | −3.50 | 30212.50 | gefüllt |
+
+**Letzter verfügbarer Handelstag (Fr 14.08.):** High 30283.00 / Low 30028.50 / Close 30154.00
+(Quelle: intraday).
+
+Kein ORG-C.E. — `live_status.py` meldet `market_data: false` (Marktzugriff beim Lauf nicht
+verfügbar).
+
+**NWOG 02.08. — Qs / Os / Hs**
+
+| | Level |
+|---|---|
+| High (Open So 18:00) | 28565.00 |
+| O7 | 28530.25 |
+| O6 / Q3 | 28495.50 |
+| O5 | 28460.75 |
+| **C.E. (= H1 = Q2 = O4)** | **28426.00** |
+| O3 | 28391.25 |
+| O2 / Q1 | 28356.50 |
+| O1 | 28321.75 |
+| Low (Close Fr 16:59) | 28287.00 |
+
+**NDOG 29.07. — Qs / Os / Hs**
+
+| | Level |
+|---|---|
+| High (Close 16:59) | 27259.25 |
+| O7 | 27252.00 |
+| O6 / Q3 | 27245.00 |
+| O5 | 27237.75 |
+| **C.E. (= H1 = Q2 = O4)** | **27230.50** |
+| O3 | 27223.50 |
+| O2 / Q1 | 27216.25 |
+| O1 | 27209.25 |
+| Low (Open 18:00) | 27202.00 |
+>>>>>>> Stashed changes
 
 ## Wiki-Bezug
 
@@ -70,6 +133,7 @@ auf 4 von 1380 Minuten) — beide Quellen stimmen praktisch überein, kein Level
 - [[ICT Daily Range Session Timing]]
 - [[Midnight Opening Range]]
 - [[ORG (Opening Range Gap) & 1st Presented FVG]]
+<<<<<<< Updated upstream
 
 ## Einschaetzung (Claude)
 
@@ -92,3 +156,34 @@ Red-Folder-Event ansteht — das ist ein zusätzliches, unbeziffertes Risiko geg
 normalen newsarmen Tag und sollte vor dem Handelstag manuell nachgeprüft werden.
 
 ## Mein Bias
+=======
+- [[New Day Opening Gap (NDOG)]]
+- [[New Week Opening Gap (NWOG) Bias]]
+- [[Two Stage News Delivery (FOMC & NFP)]] — einschlägig für den 14:00-Termin
+
+## Einschätzung (Claude)
+
+**Taktgeber des Tages ist FOMC Meeting Minutes, 14:00 NY.** Nach [[Two Stage News Delivery
+(FOMC & NFP)]] ist mit einer ersten Reaktion direkt auf die Veröffentlichung zu rechnen, die
+eigentliche Auflösung eher danach — nicht in einer einzelnen Bewegung. Ein quantifizierter
+Edge für Minutes-Releases fehlt: `algo/backtest_fred_events.py` hat bewusst keinen FOMC-
+Reaktionstest gebaut (im Datenfenster keine FOMC-Zielsatzänderung, n=0) und deckt stattdessen
+nur VIX/DGS10/WALCL-Zusammenhänge ab — für den heutigen Termin also keine eigene Statistik,
+nur das Strukturmodell.
+
+**Saisonalität.** Aus `algo/seasonal_tendency.json` (n=1882 Tage) ist Mittwoch mit **55,3 %
+bullish** (n=376, avg +0,11 %) leicht überdurchschnittlich, aber kein starkes Signal.
+
+**Level-Lage.** Die beiden offenen Gaps (NWOG-C.E. 28426.00, NDOG-C.E. 27230.50) liegen weit
+unter dem zuletzt bekannten Preisbereich (~30150) — sie bleiben Sell-Side-Draw-Kandidaten für
+den übergeordneten Zeitrahmen, keine realistischen Tagesziele für Mittwoch.
+
+Kein ORG-C.E. verfügbar (`market_data: false`), daher keine Aussage zur 70%-These heute möglich.
+
+**Was diese Einschätzung nicht leistet:** kein Kursziel, keine Richtungsprognose — die
+Datenlücke (Mo 17.08. fehlt) und der fehlende ORG-C.E. schränken die Aussagekraft zusätzlich
+ein.
+
+## Mein Bias
+
+>>>>>>> Stashed changes

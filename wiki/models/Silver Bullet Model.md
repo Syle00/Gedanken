@@ -1,8 +1,8 @@
 ---
 tags: [model, ict, trading-ict, daytrade, sessions]
 created: 2026-08-02
-updated: 2026-08-16
-sources: ["[[Kurz Notizen]]", "[[ICT Silver Bullet (Source)]]", "[[2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)]]", "[[2023-06-08 - ICT Executions June 8, 2023 ES Long Silver Bullet (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]", "[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]"]
+updated: 2026-08-17
+sources: ["[[Kurz Notizen]]", "[[ICT Silver Bullet (Source)]]", "[[2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)]]", "[[2023-06-08 - ICT Executions June 8, 2023 ES Long Silver Bullet (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]", "[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]", "Eigenes Journal 17.08.2026"]
 ---
 
 # Silver Bullet Model
@@ -172,6 +172,32 @@ Block außerhalb des Macros wäre ein gültiger Pyramiding-Entry gewesen.
 > erwartete Wochenprofil (siehe [[Market Maker Manipulation Templates]]). Reversal-Modelle fallen
 > in einem Continuation-Umfeld weg. Relevant für `algo/backtest_ensemble.py`: ein Ensemble, das
 > alle Modelle jeden Tag gleich gewichtet, bildet diese Vorauswahl nicht ab.
+
+## Live-Trade 17.08.2026 (NQ Short, London SB, Doppel-Sweep vor MSS)
+
+Eigener Trade (kein ICT-Quellenmaterial), aus dem Journal — genau das Setup, das der Nutzer
+künftig gezielt nehmen will:
+
+- **02:39 ET** — erster Buyside-Sweep über die Relative-Equal-Highs bei ~30.320.
+- Kurze Konsolidierung.
+- **~03:01 ET** — zweiter Buyside-Sweep desselben Levels. Bestätigt die bereits oben dokumentierte
+  Regel: **liegen Relative Equal Highs vor, wird dort gebunkerte Liquidität erst abgeholt**, bevor
+  der eigentliche Move läuft — hier gleich zweifach, statt nur einmal wie im 15.08.-Beispiel.
+- **03:03 ET, [[Market Structure Shift (MSS)]] mit Displacement** — Entry short, noch innerhalb
+  des vorgelagerten Macros vor dem eigentlichen 3–4-Uhr-Fenster (**"Move startet im Macro davor"**,
+  siehe oben).
+- **Target: 0,75-Quadrant des Daily Premium Wick vom 02.07.2026** (~30.262,50) statt eines neuen,
+  beliebigen Levels — der Wick einer zurückliegenden Tageskerze als Zielraster. Der Zusammenhang
+  zwischen Wick-Quadranten und der ORG-C.E.-70-%-These ist im Algo-Backlog als **blockiert**
+  vermerkt (`algo/PLAN.md`, Datenlücke Mai/Juni 2026 für den 1d-Close); dieser Live-Trade ist ein
+  weiterer anekdotischer Beleg, dass Trader diese Quadranten tatsächlich als Ziel nutzen — ersetzt
+  aber nicht den ausstehenden Backtest.
+- Ergebnis laut Nutzer: **"perfekter macro run im Verbund mit SB"** — Move lief sauber vom
+  Displacement bis zum 0,75-Ziel durch.
+
+**Take-away für künftige Trades**: Ein doppelter (statt einfacher) Sweep desselben Levels vor dem
+MSS ist kein Warnsignal, sondern verstärkt die Guarded-Liquidity-These — genau diese Trades will
+der Nutzer wiederholt nehmen.
 
 ## Verwandt
 

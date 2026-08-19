@@ -87,12 +87,16 @@ class _Tee:
             ziel.flush()
 
 
-def _fenster_laeuft_schon(pid_datei: Path) -> bool:
-    """True, wenn das Fortschrittsfenster aus einem frueheren Lauf noch offen ist.
+def _prozess_laeuft_schon(pid_datei: Path, name_teil: bytes) -> bool:
+    """True, wenn die PID aus `pid_datei` noch zu einem laufenden Prozess gehoert, dessen
+    Image-Name `name_teil` enthaelt (z.B. b"powershell" fuers Fortschrittsfenster, b"python"
+    fuer einen weiteren Download-Lauf).
 
     Ueber `tasklist` statt psutil (Stdlib reicht) und ueber eine PID-Datei statt einer
     Kommandozeilen-Suche (`tasklist` zeigt keine Argumente). Ein recyceltes PID kann
-    hoechstens dazu fuehren, dass kein neues Fenster aufgeht -- Anzeige ist Beiwerk.
+    hoechstens zu einem falschen Treffer fuehren -- fuer den Lauf-Lock bewusst in Kauf
+    genommen (seltener Fall, betrifft nur eine Fehlermeldung), fuers Anzeigefenster ohnehin
+    unkritisch (Anzeige ist Beiwerk).
     """
     import subprocess
     try:
@@ -108,7 +112,7 @@ def _fenster_laeuft_schon(pid_datei: Path) -> bool:
                              capture_output=True, timeout=10).stdout or b""
     except (OSError, subprocess.SubprocessError):
         return False
-    return b"powershell" in out.lower()
+    return name_teil in out.lower()
 
 
 def _fortschrittsfenster_oeffnen():
@@ -132,7 +136,7 @@ def _fortschrittsfenster_oeffnen():
     log.flush()
     sys.stdout = _Tee(sys.stdout, log)
     pid_datei = FORTSCHRITT_LOG_DIR / ".fetch_ibkr-fenster.pid"
-    if _fenster_laeuft_schon(pid_datei):
+    if _prozess_laeuft_schon(pid_datei, b"powershell"):
         print("Fortschrittsfenster aus einem frueheren Lauf ist noch offen, "
               "es zeigt diesen Lauf mit.", flush=True)
         return log
@@ -632,6 +636,22 @@ def main(argv=None) -> int:
         except ValueError as exc:
             ap.error(str(exc))
 
+    # Lauf-Lock: verhindert einen zweiten gleichzeitigen fetch_ibkr.py-Prozess. Alle
+    # CLI-Betriebsarten (Nachlad/Backfill/Verify) verbinden sich unten mit demselben
+    # hartkodierten clientId=7 -- ein zweiter Lauf kickt die Verbindung des ersten staendig,
+    # das aeussert sich als wiederholte "Not connected"-Fehler mit Erfolg erst nach 2-3
+    # Retries (2026-08-17 live beobachtet: zwei uebersehene Hintergrundlaeufe kollidierten
+    # stundenlang). `_prozess_laeuft_schon` ist derselbe Tasklist-PID-Datei-Mechanismus wie
+    # beim Fortschrittsfenster, hier auf den Python-Prozess selbst angewandt statt auf die
+    # PowerShell-Anzeige.
+    lauf_pid_datei = FORTSCHRITT_LOG_DIR / ".fetch_ibkr-lauf.pid"
+    FORTSCHRITT_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    if _prozess_laeuft_schon(lauf_pid_datei, b"python"):
+        ap.error(f"ein anderer fetch_ibkr.py-Lauf ist laut {lauf_pid_datei} noch aktiv -- "
+                 f"warte, bis er fertig ist, statt einen zweiten zu starten (gleiche "
+                 f"clientId, kollidiert sonst)")
+    lauf_pid_datei.write_text(str(os.getpid()), encoding="utf-8")
+
     if not a.kein_fenster:
         _fortschrittsfenster_oeffnen()
 
@@ -699,6 +719,7 @@ def main(argv=None) -> int:
                     tag += timedelta(days=1)
     finally:
         ib.disconnect()
+        lauf_pid_datei.unlink(missing_ok=True)
         # Schlusszeile, damit im Fortschrittsfenster (das per -NoExit offen bleibt) sichtbar
         # ist, dass der Lauf durch ist und nicht bloss haengt.
         print(f"=== Lauf beendet {datetime.now():%H:%M:%S} ===", flush=True)
