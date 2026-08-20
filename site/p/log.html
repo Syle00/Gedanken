@@ -39,7 +39,14 @@
     <a href="../index.html#meta">Meta</a></div>
   <h1>Änderungsprotokoll</h1>
   <div class="pagemeta"></div>
-  
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#hinweis-zu-widerspruchsmarkern">Hinweis zu Widerspruchsmarkern</a></li>
+<li><a href="#offene-punkte-nicht-durch-eine-wiki-seite-abgedeckt">Offene Punkte (nicht durch eine Wiki-Seite abgedeckt)</a></li>
+<li><a href="#offen-paper-konto-und-live-konto-laufen-im-journal-in-derselben-geldstatistik">Offen: Paper-Konto und Live-Konto laufen im Journal in derselben Geldstatistik</a></li>
+</ul>
+</div>
+</details>
   <div class="content"><h1 id="wiki-log-laufend">Wiki-Log (laufend)</h1>
 <blockquote>
 <p>Der chronologische Verlauf steht seit 2026-08-16 in der Git-Historie (<code>git log</code>).
@@ -80,7 +87,26 @@ Kürzung, kein Bug — im Zweifel im Archiv nachschlagen.</p>
   Marktdaten-Lücken als nulltoleranzpflichtig und explizit aufzulisten — dieser Punkt war in
   keiner anderen Datei (<code>wiki/</code>, <code>algo/PLAN.md</code>, <code>algo/README.md</code>) auffindbar.</p>
 </li>
-</ul></div>
+</ul>
+<h2 id="offen-paper-konto-und-live-konto-laufen-im-journal-in-derselben-geldstatistik">Offen: Paper-Konto und Live-Konto laufen im Journal in derselben Geldstatistik</h2>
+<p>Der Trade vom 2026-08-19 (siehe <code>journal/entries/2026-08-19 ES 1011 Silver Bullet.md</code>) lief auf
+einem <strong>Paper-Trading-Konto</strong> in ES, während <code>journal/config.yaml</code> das Lucid-Live-Konto (25 000 $,
+MNQ) beschreibt. Das Journal kennt dafür kein Trennmerkmal: <code>modus</code> unterscheidet nur <code>live</code> und
+<code>replay</code>, und <code>replay</code> ist sachlich falsch — die Marktdaten waren echt, nur das Geld nicht.</p>
+<p>Zwei Folgen, beide noch ungelöst:</p>
+<ol>
+<li><strong>Die Geldbilanz vermischt sich.</strong> <code>report.py</code> summiert <code>ergebnis_betrag</code> über alle
+   <code>live</code>-Einträge; die −700 $ Papiergeld stehen damit neben echten Lucid-Ergebnissen.</li>
+<li><strong>R01/R08/R09 rechnen gegen die falschen Grenzen.</strong> Die Flags sind für diesen Trade
+   automatisch gesetzt worden, obwohl kein echtes Risiko-Limit verletzt wurde. Auf der
+   Eintragsseite ist das als ⚠️-Block eingeordnet, aber die CSV-Spalte <code>fehler</code> trägt sie
+   ungefiltert.</li>
+</ol>
+<p>Bewusst <strong>nicht</strong> eigenmächtig gelöst — ob Paper-Trades eine eigene <code>modus</code>-Stufe, ein zweites
+Konto in der Config oder gar keine Sonderbehandlung bekommen, ist eine Entscheidung über die
+Auswertung und gehört Jannes. Bis dahin: Paper-Einträge tragen den Hinweis im Fließtext.</p>
+<p>Verwandt: <a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a> — R09 hat hier zusätzlich nicht
+angeschlagen, weil das Skript Kontrakte instrumentneutral zählt (2 ES = 50 MNQ im Punktwert).</p></div>
   <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/log.md</code></footer>
 </article>

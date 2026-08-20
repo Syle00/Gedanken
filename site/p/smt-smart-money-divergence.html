@@ -179,7 +179,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>SMT (Smart Money Divergence)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-16</div><div class="srcline"><span>Quellen:</span> <a href="../p/bond-mega-trades-source.html">Bond Mega-Trades (Source)</a>, <a href="../p/commodity-mega-trades-source.html">Commodity Mega-Trades (Source)</a>, <a href="../p/institutional-marketstructure-source.html">Institutional Marketstructure (Source)</a>, <a href="../p/macro-economic-to-micro-technical-source.html">Macro Economic To Micro Technical (Source)</a>, <a href="../p/qualifying-trade-conditions-with-10-year-yields-source.html">Qualifying Trade Conditions With 10 Year Yields (Source)</a>, <a href="../p/smt-smart-money-technique-source.html">SMT Smart Money Technique (Source)</a>, <a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">Weekend US Holiday Volume Protocol (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-20</div><div class="srcline"><span>Quellen:</span> <a href="../p/bond-mega-trades-source.html">Bond Mega-Trades (Source)</a>, <a href="../p/commodity-mega-trades-source.html">Commodity Mega-Trades (Source)</a>, <a href="../p/institutional-marketstructure-source.html">Institutional Marketstructure (Source)</a>, <a href="../p/macro-economic-to-micro-technical-source.html">Macro Economic To Micro Technical (Source)</a>, <a href="../p/qualifying-trade-conditions-with-10-year-yields-source.html">Qualifying Trade Conditions With 10 Year Yields (Source)</a>, <a href="../p/smt-smart-money-technique-source.html">SMT Smart Money Technique (Source)</a>, <a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">Weekend US Holiday Volume Protocol (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#beispiele-aus-den-quellen">Beispiele aus den Quellen</a></li>
@@ -189,6 +189,7 @@
 <li><a href="#trade-qualifikation-uber-yields-bondsusdxyields-dreiklang">Trade-Qualifikation über Yields (Bonds/USDX/Yields-Dreiklang)</a></li>
 <li><a href="#warum-bonds-statt-fundamentalreports-2016er-video-erganzung">Warum Bonds statt Fundamentalreports (2016er Video-Ergänzung)</a></li>
 <li><a href="#index-gleichlauf-als-bedingungs-filter-nicht-nur-als-signal-2026-erganzung">Index-Gleichlauf als Bedingungs-Filter, nicht nur als Signal (2026-Ergänzung)</a></li>
+<li><a href="#praxisbeleg-divergenz-ist-kein-entry-das-schwachere-instrument-ist-das-ziel-nicht-das-setup-2026-08-19">Praxisbeleg: Divergenz ist kein Entry — das schwächere Instrument ist das Ziel, nicht das Setup (2026-08-19)</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
@@ -297,6 +298,57 @@ verhindert, eine Schönwetter-Divergenz an einem strukturell kaputten Tag als Se
 <p>Hinweis: ICT verglich hier <strong>Continuous Contracts</strong> und wechselte für die Ausführung bewusst auf
 den Front Month (NQU2026) — siehe <a href="../p/continuous-contract-vs-front-month.html">Continuous Contract vs. Front Month</a>.</p>
 </blockquote>
+<h2 id="praxisbeleg-divergenz-ist-kein-entry-das-schwachere-instrument-ist-das-ziel-nicht-das-setup-2026-08-19">Praxisbeleg: Divergenz ist kein Entry — das schwächere Instrument ist das Ziel, nicht das Setup (2026-08-19)</h2>
+<p>Erster eigener, aus Daten belegter Fall dafür, dass die Unterscheidung im Abschnitt darüber
+in der Ausführung wirklich zählt. Siehe <span class="broken" title="Seite existiert noch nicht">2026-08-19 ES 1011 Silver Bullet</span>.</p>
+<p><strong>Die Beobachtung war richtig.</strong> Im AM-Silver-Bullet-Fenster stand um 10:11 NY korrekt im Chart:
+<em>„ES un NQ laufen nicht gleich ES hat weiterhin Sellside"</em> — NQ hatte seine Sellside bereits
+genommen, die ES-Sellside bei 7713,25 lag noch offen. Eine saubere Entkopplung zweier
+normalerweise gleichlaufender Indizes.</p>
+<p><strong>Die Verwendung war die falsche.</strong> Aus der Divergenz wurde ein Short im ES — also ein Entry in
+genau dem Instrument, in dem der Purge noch <strong>nicht</strong> stattgefunden hatte. Damit fehlte dem
+Setup die Bedingung, auf die es sich berief: der Sweep lag im NQ, gehandelt wurde ES.</p>
+<p><strong>Was die 1s-Daten sagen</strong> (<code>raw/marktdaten/2026/08/19.08.2026/NQ 2026-08-19 1s.parquet</code>):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>NQ, 19.08.2026</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open 10:00 NY</td>
+<td>29496,25</td>
+</tr>
+<tr>
+<td>Tief des Fensters</td>
+<td><strong>29375,75 um 10:15:02</strong></td>
+</tr>
+<tr>
+<td>Close 11:00 NY</td>
+<td>29623,25</td>
+</tr>
+</tbody>
+</table>
+<p>Das Tief fiel auf die Minute in seine Haltedauer, danach lief NQ innerhalb von 45 Minuten
+248 Punkte nach oben. Der ES-Stop wurde um 10:17:06 gefüllt — praktisch am Wendepunkt.</p>
+<p>Im ES selbst (<code>ES 2026-08-19 1s.parquet</code>) ging die These an diesem Tag <strong>gar nicht</strong> auf: die
+Sellside 7713,50 wurde nach dem Stop zu keinem Zeitpunkt erreicht (tiefster Kurs danach
+7721,75 um 15:55:46), stattdessen lief ES bis 7764,75 um 11:01:45. Die offene Liquidität war
+also ein echter Draw — nur einer, der an diesem Tag nicht abgerufen wurde. Genau deshalb
+taugt sie als Ziel und nicht als Einstiegsgrund.</p>
+<p><strong>Die eigentliche Pointe</strong>: fünf Minuten vor dem Entry stand im selben Chart
+<em>„Viel Sellsdie genommen darum warte ich auf das Retracement Bullish das wir auch traden können /
+Noch kein SB FVG"</em>. Diese Erwartung war richtig — das bullische Retracement kam ab 10:15. Der
+Trade lief gegen die eigene, korrekte, fünf Minuten alte Analyse und wurde von genau der
+Bewegung gestoppt, auf die er hätte warten wollen.</p>
+<p><strong>Regel daraus</strong>, konsistent mit dem Abschnitt oben: Bei einer Index-Entkopplung ist die noch
+offene Liquidität im hinterherhinkenden Instrument ein <strong>Draw on Liquidity</strong> — eine Aussage
+darüber, wohin der Preis irgendwann will. Sie ersetzt nicht den Purge, das Displacement und
+den Entry-Trigger, die im gehandelten Instrument selbst vorliegen müssen. Das schwächere
+Instrument ist das Ziel, nicht das Setup. Siehe auch <a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a> und
+<a href="../p/silver-bullet-model.html">Silver Bullet Model</a> (Entry erst nach Rücklauf ins Array, nicht auf die These hin).</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/bond-mega-trades.html">Bond Mega-Trades</a>, <a href="../p/commodity-mega-trades.html">Commodity Mega-Trades</a></li>
@@ -304,7 +356,7 @@ den Front Month (NQU2026) — siehe <a href="../p/continuous-contract-vs-front-m
 <li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a></li>
 <li><a href="../p/quarterly-shift.html">Quarterly Shift</a>, <a href="../p/seasonal-tendency.html">Seasonal Tendency</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">33</span></h2><ul><li><a href="../p/2022-02-09-2022-ict-mentorship-episode-7-source.html">2022-02-09 - 2022 ICT Mentorship Episode 7 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2022-05-14-2022-ict-mentorship-episode-27-source.html">2022-05-14 - 2022 ICT Mentorship Episode 27 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2022-05-17-2022-ict-mentorship-episode-29-source.html">2022-05-17 - 2022 ICT Mentorship Episode 29 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-04-08-2025-lecture-series-how-to-disqualify-1st-presented-fvgs-source.html">2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">2026-07-06 - Weekend US Holiday Volume Protocol (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a><span class="cat">Konzepte</span></li><li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a><span class="cat">Konzepte</span></li><li><a href="../p/commodity-mega-trades.html">Commodity Mega-Trades</a><span class="cat">Modelle</span></li><li><a href="../p/commodity-mega-trades-source.html">Commodity Mega-Trades (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a><span class="cat">Konzepte</span></li><li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a><span class="cat">Konzepte</span></li><li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-2022-episode-07-daily-bias-smt-source.html">ICT 2022 - Episode 07 Daily Bias - SMT (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-04-divergence-phantoms-source.html">ICT Mentorship Core Content - Month 04 - Divergence Phantoms (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-marketstructure-source.html">Institutional Marketstructure (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a><span class="cat">Konzepte</span></li><li><a href="../p/log-archiv-bis-2026-08.html">log-archiv-bis-2026-08</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li><li><a href="../p/macro-economic-to-micro-technical-source.html">Macro Economic To Micro Technical (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/market-maker-primer-course-source.html">Market Maker Primer Course (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a><span class="cat">Konzepte</span></li><li><a href="../p/month-03-source.html">Month 03 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-05-source.html">Month 05 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-11-source.html">Month 11 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/ny-pm-trend.html">NY PM Trend</a><span class="cat">Modelle</span></li><li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a><span class="cat">Konzepte</span></li><li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a><span class="cat">Konzepte</span></li><li><a href="../p/qualifying-trade-conditions-with-10-year-yields-source.html">Qualifying Trade Conditions With 10 Year Yields (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/quarterly-shift.html">Quarterly Shift</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/smt-smart-money-technique-source.html">SMT Smart Money Technique (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">34</span></h2><ul><li><a href="../p/2022-02-09-2022-ict-mentorship-episode-7-source.html">2022-02-09 - 2022 ICT Mentorship Episode 7 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2022-05-14-2022-ict-mentorship-episode-27-source.html">2022-05-14 - 2022 ICT Mentorship Episode 27 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2022-05-17-2022-ict-mentorship-episode-29-source.html">2022-05-17 - 2022 ICT Mentorship Episode 29 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2025-04-08-2025-lecture-series-how-to-disqualify-1st-presented-fvgs-source.html">2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">2026-07-06 - Weekend US Holiday Volume Protocol (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a><span class="cat">Konzepte</span></li><li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a><span class="cat">Konzepte</span></li><li><a href="../p/commodity-mega-trades.html">Commodity Mega-Trades</a><span class="cat">Modelle</span></li><li><a href="../p/commodity-mega-trades-source.html">Commodity Mega-Trades (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a><span class="cat">Konzepte</span></li><li><a href="../p/drei-ebenen-marktperspektive.html">Drei-Ebenen-Marktperspektive</a><span class="cat">Konzepte</span></li><li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-2022-episode-07-daily-bias-smt-source.html">ICT 2022 - Episode 07 Daily Bias - SMT (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-04-divergence-phantoms-source.html">ICT Mentorship Core Content - Month 04 - Divergence Phantoms (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/institutional-marketstructure-source.html">Institutional Marketstructure (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/intermarket-relationships.html">Intermarket Relationships</a><span class="cat">Konzepte</span></li><li><a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a><span class="cat">Konzepte</span></li><li><a href="../p/log-archiv-bis-2026-08.html">log-archiv-bis-2026-08</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li><li><a href="../p/macro-economic-to-micro-technical-source.html">Macro Economic To Micro Technical (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/market-maker-primer-course-source.html">Market Maker Primer Course (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/momentum-divergenz-als-retail-falle-divergence-phantoms.html">Momentum-Divergenz als Retail-Falle (Divergence Phantoms)</a><span class="cat">Konzepte</span></li><li><a href="../p/month-03-source.html">Month 03 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-05-source.html">Month 05 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/month-11-source.html">Month 11 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/ny-pm-trend.html">NY PM Trend</a><span class="cat">Modelle</span></li><li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a><span class="cat">Konzepte</span></li><li><a href="../p/premium-vs-carrying-charge-market.html">Premium vs. Carrying Charge Market</a><span class="cat">Konzepte</span></li><li><a href="../p/qualifying-trade-conditions-with-10-year-yields-source.html">Qualifying Trade Conditions With 10 Year Yields (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/quarterly-shift.html">Quarterly Shift</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/smt-smart-money-technique-source.html">SMT Smart Money Technique (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/SMT (Smart Money Divergence).md</code></footer>
 </article>
 </main>

@@ -12,121 +12,43 @@
 
 _Quelle: forexfactory (laufende FF-Woche), kein Abruf-Fehler._
 
-## Laufende Session (Stand 19.08. 01:45:49 NY / 07:45 DE)
-
-Aus einem Live-Abruf über `live_fenster()` — **rein im Speicher, nicht in `raw/marktdaten/`**.
-Eine Tagesdatei darf für den laufenden Tag nicht entstehen, sonst friert der Teiltag ein (genau
-der Fehler, der den 18.08. beschädigt hatte).
-
-| | Wert | Zeit |
-|---|---|---|
-| Open (18.08. 18:00) | 29566.50 | 18.08. 18:00:00 |
-| Session-High | 29609.50 | 21:22:29 |
-| Session-Low | **29442.00** | 20:01:40 |
-| Letzter Preis | **29470.00** | 01:45:49 |
-| Range bisher | 167.50 Pkt | von 278.4 Pkt Mittwochs-Median |
-
-**Was die Nacht gemacht hat, in drei Schritten:**
-
-1. **19:00:19 NY** — das NDOG 2026-08-06 (29504.25–29514.25) wurde nach unten durchbrochen und
-   damit vollständig durchgehandelt. Die unverbrauchte untere Hälfte, die gestern noch als Level
-   dastand, ist verbraucht.
-2. **20:01:40 NY** — Session-Tief 29442.00. Damit ist das **18.08.-Tagestief 29514.00 genommen**
-   (Sell-Side-Liquidität abgeholt).
-3. **21:22:29 NY** — Erholung auf 29609.50, also *zurück über* das 06.08-Gap, danach erneuter
-   Abverkauf auf jetzt 29470.00. Das Gap wurde von unten angetestet und abgelehnt — es liegt
-   jetzt **über** dem Preis und hat die Rolle gewechselt.
-
-**ORG-C.E.:** noch nicht bestimmbar, RTH-Open 09:30 NY liegt ~7,7 h voraus.
-
 ## Levels
 
-Symbol: NQ. Sortiert nach Abstand zum aktuellen Preis (29470.00).
+Symbol: NQ. Offene Gaps zuerst, danach die NDOGs der vergangenen Handelswoche.
 
-| Level | Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Lage zum Preis |
-|---|---|---|---|---|---|---|
-| NDOG | **2026-08-18** | 29559.50 | 29566.50 | +7.00 | 29563.00 | +93.00 — nach 84 s gefüllt |
-| NDOG | 2026-08-06 | 29504.25 | 29514.25 | +10.00 | 29509.25 | **+34.25 — erster Widerstand** |
-| NDOG | 2026-08-05 | 29600.25 | 29569.50 | -30.75 | 29585.00 | +99.50 |
-| NDOG | 2026-08-11 | 29646.75 | 29657.75 | +11.00 | 29652.25 | +176.75 |
-| NDOG | 2026-07-15 | 29707.50 | 29709.00 | +1.50 | 29708.25 | +237.50 |
-| NDOG | **2026-07-21** | 29289.75 | 29310.75 | +21.00 | 29300.25 | **-169.75 — erster Draw nach unten** |
-| NDOG | 2026-07-16 | 29179.00 | 29191.00 | +12.00 | 29185.00 | -279.00 |
-| NWOG | **2026-08-02** | 28287.00 | 28565.00 | +278.00 | 28426.00 | -1044.00 — **einziges offenes Gap** |
+| Level | Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Status |
+| --- | --- | --- | --- | --- | --- | --- |
+| NWOG | 2026-08-02 | 28287.00 | 28565.00 | +278.00 | 28426.00 | **offen** |
+| NWOG | 2026-08-16 | 30154.00 | 30170.00 | +16.00 | 30162.00 | gefüllt |
+| NDOG | 2026-08-17 | 30078.25 | 30077.00 | -1.25 | 30077.50 | gefüllt |
+| NDOG | 2026-08-13 | 30214.25 | 30210.75 | -3.50 | 30212.50 | gefüllt |
+| NDOG | 2026-08-12 | 29805.75 | 29825.00 | +19.25 | 29815.50 | gefüllt |
+| NDOG | 2026-08-11 | 29646.75 | 29657.75 | +11.00 | 29652.25 | gefüllt |
+| NDOG | 2026-08-10 | 29764.25 | 29764.50 | +0.25 | 29764.50 | gefüllt |
 
-**Weekly Range KW34** (2 von 5 Handelstagen + laufende Nacht): High **30343.00** (17.08.) / Low
-**29442.00** (heute Nacht). Gerechnet aus 1s-Daten — `week_range()` liefert `null`, weil die
-1d-Reihe beim 13.08. endet (`algo/PLAN.md`: „1d-Dateien gegen Intraday-Aggregat gegenprüfen").
+**Weekly Range:** entfällt — für ISO-KW34 liegt keine abgeschlossene Range vor (die Woche
+läuft, und der 18.08. ist in den Daten unvollständig, siehe Datenlage).
 
-**Gestrige Daily Range (2026-08-18, vollständig):** High **30121.25** / Low **29514.00** /
-Close **29559.50**. Range 607.25 Pkt = **2,3-fache** Dienstags-Median-Range (262.88 Pkt).
-Gegenüber dem 17.08.-Close (30078.25) ein Abverkauf von **-518.75 Pkt (-1,72 %)**, Schluss
-45.50 Pkt über dem Tief.
+**Gestrige Daily Range (2026-08-18):** ⚠️ **unvollständig** — die 1s-Daten enden am 18.08. um
+**09:05:39 NY**, die gesamte RTH-Session (09:30–16:00) und der 17:00-Close fehlen. Die Werte
+High 30121.25 / Low 29680.50 / „Close" 29707.00 beschreiben nur das Fenster 17.08. 18:00 NY bis
+18.08. 09:05 NY. **Nicht als Tages-H/L/C verwenden.** Letzter belastbarer Tagesschluss ist der
+17.08. mit 30078.25.
+
+**ORG-C.E.:** entfällt (`live_status.py` meldet `market_data: false`).
 
 **Datenlage:** 24 Tage 1s (2026-07-15 – 2026-08-18), 0 Tage nur 1m, keine
-`registriert_ohne_datei`-Einträge. Der 18.08. wurde am 19.08. neu geholt und ist jetzt mit
-82.800 Kerzen vollständig; ebenso repariert: ES 26.06. (30-Minuten-Loch an der RTH-Eröffnung).
-Offen: NQ 14.07. (30-Minuten-Loch 11:30–12:00 NY) — der Nachlauf wurde für diesen Live-Abruf
-gestoppt und ist nachzuholen. 1s-vs-1m-Abgleich über 14 Tage unauffällig (max. 2.00 Pkt).
+`registriert_ohne_datei`-Einträge. 1s-vs-1m-Abgleich über 14 Tage unauffällig (max. 2.00 Pkt am
+30.07. auf 7 von 1380 Minuten, sonst ≤ 1.75 Pkt) — beide Quellen tragfähig, kein
+Level-Ausschluss. Einschränkung: der 18.08. ist nur bis 09:05 NY abgedeckt, obwohl im Register
+als Tag geführt; deshalb fehlt auch der NDOG 2026-08-18.
 
-### NDOG 2026-08-18 — der Gap dieser Session
-
-Close 18.08. 16:59:59 NY = 29559.50 · Open 18.08. 18:00:00 NY = 29566.50 · Spanne 7.00 Pkt
-
-**Gefüllt um 18:01:24 NY — 84 Sekunden nach dem Open.** Als Level für heute erledigt.
-
-| | Level |
-|---|---|
-| High (Open) | 29566.50 |
-| O7 | 29565.50 |
-| O6 / Q3 | 29564.75 |
-| O5 | 29564.00 |
-| **C.E. (= H1 = Q2 = O4)** | **29563.00** |
-| O3 | 29562.00 |
-| O2 / Q1 | 29561.25 |
-| O1 | 29560.50 |
-| Low (Close) | 29559.50 |
-
-### NDOG 2026-08-06 — erster Widerstand über dem Preis (+34.25)
-
-Close 29504.25 · Open 29514.25 · Spanne 10.00 Pkt. Gestern von oben gehalten, heute Nacht um
-19:00:19 nach unten gebrochen und von unten wieder angetestet.
-
-| | Level |
-|---|---|
-| High (Open) | 29514.25 |
-| O7 | 29513.00 |
-| O6 / Q3 | 29511.75 |
-| O5 | 29510.50 |
-| **C.E. (= H1 = Q2 = O4)** | **29509.25** |
-| O3 | 29508.00 |
-| O2 / Q1 | 29506.75 |
-| O1 | 29505.50 |
-| Low (Close) | 29504.25 |
-
-### NDOG 2026-07-21 — erster Draw nach unten (-169.75)
-
-Close 29289.75 · Open 29310.75 · Spanne 21.00 Pkt. 131.25 Pkt unter dem Session-Tief und damit
-**innerhalb einer Median-Mittwochs-Range** erreichbar.
-
-| | Level |
-|---|---|
-| High (Open) | 29310.75 |
-| O7 | 29308.00 |
-| O6 / Q3 | 29305.50 |
-| O5 | 29303.00 |
-| **C.E. (= H1 = Q2 = O4)** | **29300.25** |
-| O3 | 29297.50 |
-| O2 / Q1 | 29295.00 |
-| O1 | 29292.50 |
-| Low (Close) | 29289.75 |
-
-### NWOG 2026-08-02 — einziges offenes Gap (-1044.00)
+### NWOG 2026-08-02 — offen (einziges offenes Gap)
 
 Close 31.07. 16:59:59 NY = 28287.00 · Open 02.08. 18:00:00 NY = 28565.00 · Spanne 278.00 Pkt
 
 | | Level |
-|---|---|
+| --- | --- |
 | High (Open) | 28565.00 |
 | O7 | 28530.25 |
 | O6 / Q3 | 28495.50 |
@@ -147,50 +69,51 @@ Close 31.07. 16:59:59 NY = 28287.00 · Open 02.08. 18:00:00 NY = 28565.00 · Spa
 - [[New Week Opening Gap (NWOG) Bias]]
 - [[Two Stage News Delivery (FOMC & NFP)]] — einschlägig für den 14:00-Termin
 - [[FOMC (Federal Open Market Committee)]]
-- [[Average Daily Range (5-Tage-ADR)]] — nach der 607-Pkt-Range von gestern
 
 ## Einschaetzung (Claude)
 
-**Die Struktur ist bearish, und zwar über zwei Sessions hinweg konsistent.** Der 18.08. schloss
-45 Pkt über seinem Tief, die Nacht hat dieses Tief dann genommen (29442.00 gegen 29514.00) und
-das 06.08-NDOG dabei durchgehandelt. Der Rückläufer auf 29609.50 ging *über* das gebrochene Gap
-und wurde verkauft — das ist die Sequenz, die man sehen will, wenn Verkäufer die Kontrolle
-behalten: Level brechen, von unten antesten, ablehnen. Aktuell 29470.00, 28 Pkt über dem
-Session-Tief.
+**Taktgeber ist FOMC Meeting Minutes, 14:00 NY**, direkt gefolgt von einem Trump-Auftritt um
+14:30 NY. Nach [[Two Stage News Delivery (FOMC & NFP)]] ist die erste Reaktion auf die
+Veröffentlichung typischerweise nicht die Auflösung — die kommt in einer zweiten Stufe danach.
+Die beiden Termine liegen 30 Minuten auseinander und fallen damit beide in dieselbe
+Nachmittagsphase; das erhöht das Risiko einer Fehlinterpretation der ersten Bewegung zusätzlich.
+Ein quantifizierter Edge fehlt: `algo/backtest_fred_events.py` hat für FOMC-Releases bewusst
+keinen Reaktionstest (im Datenfenster keine Zielsatzänderung, n=0) und deckt nur
+VIX/DGS10/WALCL-Zusammenhänge ab — für heute also nur das Strukturmodell, keine eigene Statistik.
 
-**Die beiden Level, um die es heute geht:**
-
-- **Nach unten: NDOG 2026-07-21, C.E. 29300.25** (-169.75 Pkt). Bei 278 Pkt Median-Range und
-  bereits 167.50 Pkt verbrauchter Range ist das der nächste saubere Draw. Erst dahinter liegt
-  das 07-16-NDOG bei 29185.00 (-279 Pkt), das eine Median-Range voll ausschöpfen würde.
-- **Nach oben: NDOG 2026-08-06, 29504.25–29514.25** (+34.25 Pkt). Solange der Preis darunter
-  bleibt, ist die Nacht-Struktur intakt. Ein Tagesschluss *über* 29514.25 würde sie brechen —
-  das ist das kürzeste Invalidierungskriterium, das die Daten hergeben.
-
-**Der 18.08.-NDOG spielt keine Rolle.** +7.00 Pkt, nach 84 Sekunden gefüllt. Ein Gap dieser
-Größe ist kein PD Array, sondern Rauschen — er steht hier nur, weil du danach gefragt hast, nicht
-weil er handelbar wäre.
-
-**Taktgeber bleibt FOMC Meeting Minutes, 14:00 NY**, mit Trump-Auftritt 14:30 NY. Nach
-[[Two Stage News Delivery (FOMC & NFP)]] ist die erste Reaktion typischerweise nicht die
-Auflösung. Alles, was bis 14:00 passiert, ist damit vorläufig — die Nacht kann eine saubere
-bearische Sequenz gelaufen sein und um 14:01 komplett neu verhandelt werden. Ein quantifizierter
-Edge fehlt: `algo/backtest_fred_events.py` hat für FOMC keinen Reaktionstest (n=0, keine
-Zielsatzänderung im Datenfenster).
-
-**Saisonalität widerspricht** (`algo/seasonal_tendency.json`, MNQ, n=1882): Mittwoch **55,3 %
-bullish** (n=376, avg +0,11 %). Das ist der schwächste Teil der Analyse — 55 gegen 45 ist kein
-Signal, auf das sich ein Gegen-Trade stützen lässt, und es steht der konkreten Struktur der
-letzten zwei Sessions entgegen. Ich gewichte die Struktur höher; vgl.
+**Saisonalität** (`algo/seasonal_tendency.json`, MNQ, n=1882 Tage 2019-05-06 – 2026-08-14):
+Mittwoch **55,3 % bullish** (n=376, avg +0,11 %), Median-Range **278,4 Pkt**. Leicht
+überdurchschnittlich, aber kein tragfähiges Richtungssignal — vgl.
 [[Seasonal Tendency (Eigene Daten, laufend)]].
 
-**ORG-C.E.-These:** heute noch nicht prüfbar, RTH-Open steht aus. Die 70 %-Hypothese bleibt als
-laufend beobachtet stehen (empirisch bislang 35–43 %).
+**Level-Lage.** Der letzte belastbare Bezug ist der 17.08.-Close bei 30078.25; am 18.08. war der
+Markt bis 09:05 NY bereits auf 29707.00 abverkauft (Tief 29680.50). Das einzige offene Gap,
+NWOG 2026-08-02 mit C.E. 28426.00, liegt damit rund **1280 Punkte unter** dem zuletzt bekannten
+Kurs. Es bleibt ein Sell-Side-Draw-Kandidat für den übergeordneten Zeitrahmen, ist aber
+**kein realistisches Tagesziel** für Mittwoch (Median-Tagesrange 278 Pkt). Die relevanten
+Intraday-Referenzen sind stattdessen der NDOG des laufenden Tages und die Midnight Opening
+Range — beide erst nach Sessionbeginn bestimmbar.
 
-**Was diese Einschätzung nicht leistet:** kein Kursziel, kein Entry, kein Stop. Die
-Session-Zahlen sind ein Live-Stand von 01:45 NY und veralten bis zum RTH-Open — London öffnet
-erst in gut einer Stunde, und die Nacht-Range von 167 Pkt ist bislang von einem dünnen
-Asien-Buch gemacht.
+**ORG-C.E.-These:** heute nicht prüfbar, da kein `org_ce` vorliegt. Die 70%-Hypothese bleibt
+als laufend beobachtet stehen (empirisch bislang 35–43 %, nicht als widerlegt abgehakt).
+
+**Was diese Einschätzung nicht leistet:** kein Kursziel, keine Richtungsprognose. Zusätzlich
+eingeschränkt durch die fehlende 18.08.-RTH-Session — Vortages-High/Low und -Close, sonst die
+Basis jeder Daily-Range-Projektion, sind für gestern nicht belastbar.
 
 ## Mein Bias
 
+FOMC und Trump Rede sind High Impact weswegen wir kein NY PM traden werden.
+Gestern haben wir einen stark Baerishen Tag gehabt was für meinen Weekly richtig wäre aber der Move runter schon früh kam anstatt mitte ende der Woche bereits am Dienstag.
+Wir haben am Montag Buyside genommen und das SIBI vom 23.06 wunderbar respektiert immer unter dem C.E geclosed das wir mit den Wicks drüber gehen ist ok da die Wicks den Damage verursachen. (Ich muss rausfinden wiesp gerade die PD repektiert wurde) Liegt ja immer noch in der IPDA 40 Day Range bzw. genau drauf. Die Premium Wick 02.07 wurde ebenfalls genutzt.
+Das Daily BISI vom 13.08 ist zum IFVG geworden bzw (wirklich IFVG?) das C.E oder Low wurde zuvor nicht genutzt also die Frage ob es wirklich ein IFVG ist.
+Wir sind dabei ein Daily SIBI zu bilden wo oben eine VII bereits inkludiert ist wichtig ist wie wir heute closen werden da wir um die 30 Punkte tiefer geöffnet haben als gestern geclosed also wenn wir Baerish schließen erhalten wir ein Suspenblock Baerish
+
+Wir haben ein 1h MMSM Model erhalten wwobei die originale consolidation von Mittwoch NY AM opening bis zur NY AM open Donnerstag open angehalten hat. Diese wurde dan als Target genommen.
+
+Heute haben wir FOMC News znd die Trump rede und gehe davon aus das wir auf die News warten weshalb wir ewas komplziertere Price Action erhalten.
+Nächstes Target wäre das Daily BISI wo wir bereits an dessen High traden c.E und Qs und das Weekly BISI c.E . Daily Low vom 06.08  bei 29,241,25 Sellside Liq.
+Ich gehe also davon aus das wir BAerish sind zwecks News kann es sein das wir recht lange auf den Move warten aber dadurch sollte sich dan das Daily Suspensionblock bilden.
+
+RTH das offene ORG Mittwoch 12.08 wurde gefilled aber wir haben ein großes ORG von gestern was nahezu komplett offen geblieben ist was zu erwarten war da es fast 400 Handle groß ist.
+Das gefällt mir tatsächlich für weiterführende Baerishe Priceaction nicht da es wirklich sehr groß ist und als Zukünftiges Target gillt. Wenn mein Bias also falsch ist wird es daran liegen. Darum wäre es eigentlich optimal wenn wir in London und pre market session nach oben manipulieren wenn wir bereits am Morgen also London und Pre MArket nach unten gehen erwarte ich das wir nach oben gehen in NY AM.

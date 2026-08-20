@@ -37,3 +37,26 @@ Kürzung, kein Bug — im Zweifel im Archiv nachschlagen.
   vollständig) direkt kritisch, aber laut [[Algo-Trading: Arbeitsstandards]] gelten
   Marktdaten-Lücken als nulltoleranzpflichtig und explizit aufzulisten — dieser Punkt war in
   keiner anderen Datei (`wiki/`, `algo/PLAN.md`, `algo/README.md`) auffindbar.
+
+## Offen: Paper-Konto und Live-Konto laufen im Journal in derselben Geldstatistik
+
+Der Trade vom 2026-08-19 (siehe `journal/entries/2026-08-19 ES 1011 Silver Bullet.md`) lief auf
+einem **Paper-Trading-Konto** in ES, während `journal/config.yaml` das Lucid-Live-Konto (25 000 $,
+MNQ) beschreibt. Das Journal kennt dafür kein Trennmerkmal: `modus` unterscheidet nur `live` und
+`replay`, und `replay` ist sachlich falsch — die Marktdaten waren echt, nur das Geld nicht.
+
+Zwei Folgen, beide noch ungelöst:
+
+1. **Die Geldbilanz vermischt sich.** `report.py` summiert `ergebnis_betrag` über alle
+   `live`-Einträge; die −700 $ Papiergeld stehen damit neben echten Lucid-Ergebnissen.
+2. **R01/R08/R09 rechnen gegen die falschen Grenzen.** Die Flags sind für diesen Trade
+   automatisch gesetzt worden, obwohl kein echtes Risiko-Limit verletzt wurde. Auf der
+   Eintragsseite ist das als ⚠️-Block eingeordnet, aber die CSV-Spalte `fehler` trägt sie
+   ungefiltert.
+
+Bewusst **nicht** eigenmächtig gelöst — ob Paper-Trades eine eigene `modus`-Stufe, ein zweites
+Konto in der Config oder gar keine Sonderbehandlung bekommen, ist eine Entscheidung über die
+Auswertung und gehört Jannes. Bis dahin: Paper-Einträge tragen den Hinweis im Fließtext.
+
+Verwandt: [[Kontraktspezifikation MNQ (Tick, Punktwert)]] — R09 hat hier zusätzlich nicht
+angeschlagen, weil das Skript Kontrakte instrumentneutral zählt (2 ES = 50 MNQ im Punktwert).

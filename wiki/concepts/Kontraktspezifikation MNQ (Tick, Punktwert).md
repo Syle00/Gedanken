@@ -1,7 +1,7 @@
 ---
 tags: [concept, algo, marktdaten, mnq]
 created: 2026-08-11
-updated: 2026-08-11
+updated: 2026-08-20
 sources: []
 ---
 
@@ -56,8 +56,31 @@ die Rundung nie zugunsten des Backtests ausfällt:
 
 Also immer so, dass der Entry schwerer zu füllen und Stop wie Ziel weiter entfernt sind.
 
+## Eine Kontraktzahl ohne Instrument ist bedeutungslos (2026-08-20)
+
+Jede Größenregel im Projekt — `max_kontrakte`, `max_kontrakte_pro_tag` in
+`journal/config.yaml`, jede Aussage der Form „bei 6+ Kontrakten wird es schlecht" — ist an
+**MNQ** kalibriert. Auf ein anderes Instrument übertragen ist dieselbe Zahl ein anderes Risiko:
+
+| Position | Punktwert gesamt | entspricht in MNQ |
+|---|---|---|
+| 4 MNQ (Obergrenze) | $8 / Punkt | 4 |
+| 2 MES | $10 / Punkt | 5 |
+| 1 NQ | $20 / Punkt | **10** |
+| **2 ES** | **$100 / Punkt** | **50** |
+
+Erstbeleg 2026-08-19 (siehe [[2026-08-19 ES 1011 Silver Bullet]]): 2 ES-Kontrakte mit
+7,25 Punkten Stop = **725 $** geplantes Risiko. Die automatische R09-Prüfung schlug **nicht**
+an, weil 2 < 4 — das Skript zählt Stückzahl, nicht Punktwert. Die bindende Schranke ist deshalb
+immer das **Risiko in Geld oder Prozent**, nie die Stückzahl; die Kontraktgrenze ist nur eine
+für MNQ vorgerechnete Abkürzung davon.
+
+Dieselbe Falle auf der Datenseite: MNQ ist kein Ersatz für NQ. Ein Substring-Filter auf
+CFTC-Marktnamen hat schon einmal ein ES-Signal umgekehrt, weil er Micro und Mini zusammenwarf.
+
 ## Verwandt
 
 - [[Chain of Custody (Q-Validation)]] — das Qs/Os/Hs-Raster, dessen Level gerundet werden müssen
 - [[ORG (Opening Range Gap) & 1st Presented FVG]]
 - [[Fair Value Gap (FVG)]]
+- [[SMT (Smart Money Divergence)]] — Instrumentwechsel ist auch eine Größenfrage
