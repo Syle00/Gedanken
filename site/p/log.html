@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">28</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">354</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li class="active"><a href="../index.html#meta">Meta<span class="count">3</span></a></li>
 </ul></div>
@@ -86,6 +86,18 @@ Kürzung, kein Bug — im Zweifel im Archiv nachschlagen.</p>
   vollständig) direkt kritisch, aber laut <span class="broken" title="Seite existiert noch nicht">Algo-Trading: Arbeitsstandards</span> gelten
   Marktdaten-Lücken als nulltoleranzpflichtig und explizit aufzulisten — dieser Punkt war in
   keiner anderen Datei (<code>wiki/</code>, <code>algo/PLAN.md</code>, <code>algo/README.md</code>) auffindbar.</p>
+</li>
+<li>
+<p><strong>ICT-Videos mit <code>[Silent]</code> im Titel sind mit dem aktuellen Setup nicht ingestierbar.</strong> Sie
+  haben keine Auto-Captions (<code>Subtitles are disabled for this video</code>), und der einzige Fallback
+  wäre Whisper — dafür fehlt <strong><code>ffmpeg</code> auf diesem Rechner</strong> (<code>where ffmpeg</code> findet nichts).
+  Erster konkreter Fall: <code>ICT Obsidian NQ Short 08/17/2026 \ Silent</code> (<code>UJU7MZzTSM4</code>,
+  2026-08-18, 2:10:30) — 130 Minuten dokumentierte Chartarbeit zum selben NQ-Short, den
+  <a href="../p/2026-08-18-trade-management-removing-the-need-to-be-right-source.html">Trade Management &amp; Removing The Need To Be Right (Source)</a>
+  nur teilweise abdeckt. Kein Einzelfall, sondern eine ganze Videoklasse des Kanals; hier
+  gelistet, weil es keine Wiki-Seite gibt, der die Lücke gehört. Auflösbar durch eine
+  <code>ffmpeg</code>-Installation, dann Whisper-Fallback über
+  <code>.claude/skills/yt-ict-ingest/SKILL.md</code> Schritt 2.</p>
 </li>
 </ul>
 <h2 id="offen-paper-konto-und-live-konto-laufen-im-journal-in-derselben-geldstatistik">Offen: Paper-Konto und Live-Konto laufen im Journal in derselben Geldstatistik</h2>

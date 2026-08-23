@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li class="active"><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
 <li><a href="../index.html#models">Modelle<span class="count">28</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">354</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">3</span></a></li>
 </ul></div>
@@ -179,7 +179,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Asian Range</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">sessions</span> <span class="tag">bias</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-02</div><div class="srcline"><span>Quellen:</span> <a href="../p/implementing-the-asian-range-source.html">Implementing The Asian Range (Source)</a>, <a href="../p/asia-session-source.html">Asia Session (Source)</a>, <a href="../p/understanding-the-ict-judas-swing-source.html">Understanding The ICT Judas Swing (Source)</a>, <a href="../p/trading-the-key-swing-points-source.html">Trading The Key Swing Points (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">sessions</span> <span class="tag">bias</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-02 · aktualisiert 2026-08-23</div><div class="srcline"><span>Quellen:</span> <a href="../p/implementing-the-asian-range-source.html">Implementing The Asian Range (Source)</a>, <a href="../p/asia-session-source.html">Asia Session (Source)</a>, <a href="../p/understanding-the-ict-judas-swing-source.html">Understanding The ICT Judas Swing (Source)</a>, <a href="../p/trading-the-key-swing-points-source.html">Trading The Key Swing Points (Source)</a>, <a href="../p/2026-08-18-trade-management-removing-the-need-to-be-right-source.html">Trade Management &amp; Removing The Need To Be Right (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#ohne-bias-keine-anwendung">Ohne Bias keine Anwendung</a></li>
@@ -188,6 +188,7 @@
 <li><a href="#die-range-bleibt-nach-dem-sweep-relevant">Die Range bleibt nach dem Sweep relevant</a></li>
 <li><a href="#zusammenspiel-mit-dem-judas-swing">Zusammenspiel mit dem Judas Swing</a></li>
 <li><a href="#handelbarkeit-der-session-selbst">Handelbarkeit der Session selbst</a></li>
+<li><a href="#bei-index-futures-19002200-statt-19002400">⚠️ Bei Index-Futures: 19:00–22:00 statt 19:00–24:00</a></li>
 <li><a href="#abgrenzung">Abgrenzung</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -275,6 +276,30 @@ Rückkehr an das Range High ist der Punkt, an dem institutionelles Kaufen erwart
 <h2 id="handelbarkeit-der-session-selbst">Handelbarkeit der Session selbst</h2>
 <p>Der Asian Open kann ein <a href="../p/optimal-trade-entry-ote.html">OTE</a>-Muster aufsetzen (15–20 Pips), ideale
 Paare sind <strong>AUD, NZD, JPY</strong> — siehe <a href="../p/ict-killzones.html">ICT Killzones</a>.</p>
+<h2 id="bei-index-futures-19002200-statt-19002400">⚠️ Bei Index-Futures: 19:00–22:00 statt 19:00–24:00</h2>
+<blockquote>
+<p>⚠️ <strong>Widerspruch zu <a href="../p/implementing-the-asian-range-source.html">Implementing The Asian Range (Source)</a></strong> (und zur Definition oben):
+<a href="../p/2026-08-18-trade-management-removing-the-need-to-be-right-source.html">Trade Management &amp; Removing The Need To Be Right (Source)</a>
+setzt das Fenster für NQ auf <strong>19:00–22:00 ET</strong> und grenzt es ausdrücklich gegen die
+Forex-Definition ab:</p>
+<blockquote>
+<p><em>„…last Thursday's dealing range from </em><em>7:00 p.m. to 10:00 p.m.</em><em> Eastern time. </em><em>Not the Asian
+range like when we're trading forex</em><em> — that's not what I'm referring to. What I'm referring to
+is the time at which the best trading can be done, which is between 7:00 and 10:00 Eastern
+time."</em></p>
+</blockquote>
+<p>Beide Angaben sind gleichwertige ICT-Primärquellen; nicht überschrieben, sondern nebeneinander
+geführt. <strong>Arbeitsannahme</strong>: 19:00–24:00 für Forex (Bias-Rahmen, Judas-Swing-Kontext oben),
+<strong>19:00–22:00 für Index-Futures</strong>, wenn die Range als <em>Dealing Range zur Level-Ableitung</em> genutzt
+wird. Ungeprüft, welche der beiden Spannen an NQ die belastbareren Level liefert — ein
+Kandidat für einen Vergleichslauf gegen <code>raw/marktdaten/</code>.</p>
+</blockquote>
+<p><strong>Verwendung als Dealing Range mit Oktanten.</strong> In derselben Quelle wird die Range <strong>nicht</strong> als
+Sentiment-Rahmen gelesen, sondern als <a href="../p/dealing-range.html">Dealing Range</a>, auf die eine volle Qs/Os/Hs-Skala gelegt
+wird — ICT nennt im Live-Trade den <strong>„0.875 octant"</strong> (= O7) als Zielbereich und legt Partials an
+die <strong>C.E.</strong> der Range. Bemerkenswert daran: die Range stammt vom <strong>Donnerstag der Vorwoche</strong>, wird
+also über mehrere Tage hinweg als Levelquelle weiterverwendet — konsistent mit der
+Verlängerungs-Regel im Abschnitt oben.</p>
 <h2 id="abgrenzung">Abgrenzung</h2>
 <ul>
 <li>Die <a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a> überlappt zeitlich, misst aber einen anderen Zweck
@@ -289,7 +314,7 @@ Paare sind <strong>AUD, NZD, JPY</strong> — siehe <a href="../p/ict-killzones.
 <li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a> — die Range ist die Accumulation-Phase</li>
 <li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">19</span></h2><ul><li><a href="../p/20-pips-per-day.html">20 Pips Per Day</a><span class="cat">Modelle</span></li><li><a href="../p/2022-05-06-2022-ict-mentorship-episode-24-source.html">2022-05-06 - 2022 ICT Mentorship Episode 24 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a><span class="cat">Konzepte</span></li><li><a href="../p/asia-session-source.html">Asia Session (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/bread-butter-setups.html">Bread &amp; Butter Setups</a><span class="cat">Modelle</span></li><li><a href="../p/filling-the-numbers-4-level-pro-tag.html">Filling The Numbers (4 Level pro Tag)</a><span class="cat">Konzepte</span></li><li><a href="../p/flout-15-00-ny-range.html">Flout (15-00 NY Range)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-day-trade-routine.html">ICT Day Trade Routine</a><span class="cat">Modelle</span></li><li><a href="../p/ict-killzones.html">ICT Killzones</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-mentorship-core-content-month-09-20-pips-per-day-source.html">ICT Mentorship Core Content - Month 09 - 20 Pips Per Day (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-09-filling-the-numbers-source.html">ICT Mentorship Core Content - Month 09 - Filling The Numbers (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-09-the-sentiment-effect-source.html">ICT Mentorship Core Content - Month 09 - The Sentiment Effect (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-09-trading-in-consolidations-source.html">ICT Mentorship Core Content - Month 09 - Trading In Consolidations (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/implementing-the-asian-range-source.html">Implementing The Asian Range (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/judas-swing.html">Judas Swing</a><span class="cat">Konzepte</span></li><li><a href="../p/market-maker-primer-course-source.html">Market Maker Primer Course (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/trading-in-consolidations.html">Trading In Consolidations</a><span class="cat">Modelle</span></li><li><a href="../p/understanding-the-ict-judas-swing-source.html">Understanding The ICT Judas Swing (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">20</span></h2><ul><li><a href="../p/20-pips-per-day.html">20 Pips Per Day</a><span class="cat">Modelle</span></li><li><a href="../p/2022-05-06-2022-ict-mentorship-episode-24-source.html">2022-05-06 - 2022 ICT Mentorship Episode 24 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-18-trade-management-removing-the-need-to-be-right-source.html">2026-08-18 - Trade Management &amp; Removing The Need To Be Right (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a><span class="cat">Konzepte</span></li><li><a href="../p/asia-session-source.html">Asia Session (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/bread-butter-setups.html">Bread &amp; Butter Setups</a><span class="cat">Modelle</span></li><li><a href="../p/filling-the-numbers-4-level-pro-tag.html">Filling The Numbers (4 Level pro Tag)</a><span class="cat">Konzepte</span></li><li><a href="../p/flout-15-00-ny-range.html">Flout (15-00 NY Range)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-day-trade-routine.html">ICT Day Trade Routine</a><span class="cat">Modelle</span></li><li><a href="../p/ict-killzones.html">ICT Killzones</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-mentorship-core-content-month-09-20-pips-per-day-source.html">ICT Mentorship Core Content - Month 09 - 20 Pips Per Day (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-09-filling-the-numbers-source.html">ICT Mentorship Core Content - Month 09 - Filling The Numbers (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-09-the-sentiment-effect-source.html">ICT Mentorship Core Content - Month 09 - The Sentiment Effect (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-09-trading-in-consolidations-source.html">ICT Mentorship Core Content - Month 09 - Trading In Consolidations (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/implementing-the-asian-range-source.html">Implementing The Asian Range (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/judas-swing.html">Judas Swing</a><span class="cat">Konzepte</span></li><li><a href="../p/market-maker-primer-course-source.html">Market Maker Primer Course (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/trading-in-consolidations.html">Trading In Consolidations</a><span class="cat">Modelle</span></li><li><a href="../p/understanding-the-ict-judas-swing-source.html">Understanding The ICT Judas Swing (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Asian Range.md</code></footer>
 </article>
 </main>

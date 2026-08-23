@@ -38,6 +38,17 @@ Kürzung, kein Bug — im Zweifel im Archiv nachschlagen.
   Marktdaten-Lücken als nulltoleranzpflichtig und explizit aufzulisten — dieser Punkt war in
   keiner anderen Datei (`wiki/`, `algo/PLAN.md`, `algo/README.md`) auffindbar.
 
+- **ICT-Videos mit `[Silent]` im Titel sind mit dem aktuellen Setup nicht ingestierbar.** Sie
+  haben keine Auto-Captions (`Subtitles are disabled for this video`), und der einzige Fallback
+  wäre Whisper — dafür fehlt **`ffmpeg` auf diesem Rechner** (`where ffmpeg` findet nichts).
+  Erster konkreter Fall: `ICT Obsidian NQ Short 08/17/2026 \ Silent` (`UJU7MZzTSM4`,
+  2026-08-18, 2:10:30) — 130 Minuten dokumentierte Chartarbeit zum selben NQ-Short, den
+  [[2026-08-18 - Trade Management & Removing The Need To Be Right (Source)|Trade Management & Removing The Need To Be Right (Source)]]
+  nur teilweise abdeckt. Kein Einzelfall, sondern eine ganze Videoklasse des Kanals; hier
+  gelistet, weil es keine Wiki-Seite gibt, der die Lücke gehört. Auflösbar durch eine
+  `ffmpeg`-Installation, dann Whisper-Fallback über
+  `.claude/skills/yt-ict-ingest/SKILL.md` Schritt 2.
+
 ## Offen: Paper-Konto und Live-Konto laufen im Journal in derselben Geldstatistik
 
 Der Trade vom 2026-08-19 (siehe `journal/entries/2026-08-19 ES 1011 Silver Bullet.md`) lief auf

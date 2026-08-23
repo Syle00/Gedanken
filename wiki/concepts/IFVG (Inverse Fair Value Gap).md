@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-16
-sources: ["[[From Vision To Execution (Source)]]", "[[ICT 2026 Smart Money Concepts Lecture - January 02, 2026 (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain - Market Alchemy (Source)]]"]
+updated: 2026-08-23
+sources: ["[[2026-08-18 - Trade Management & Removing The Need To Be Right (Source)|Trade Management & Removing The Need To Be Right (Source)]]", "[[From Vision To Execution (Source)]]", "[[ICT 2026 Smart Money Concepts Lecture - January 02, 2026 (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain - Market Alchemy (Source)]]"]
 ---
 
 # IFVG (Inverse Fair Value Gap)
@@ -76,6 +76,28 @@ Verhalten, kein zusätzliches Ereignis. Spiegelbildlich für ein BISI, das nicht
 
 Praxisfolge fürs Stop-Placement: Der Stop gehört **unter die C.E. des Wicks**, nicht unter den Wick
 selbst — *„underneath the midpoint of this wick, allowing for that little Mohawk."*
+
+## Close vor Open — und „give up the ghost" (2026-08-18)
+
+Aus [[2026-08-18 - Trade Management & Removing The Need To Be Right (Source)|Trade Management & Removing The Need To Be Right (Source)]]
+zwei Präzisierungen zur Validierung:
+
+- **Der Body-Close zählt, der Open nicht.** *„It's stronger when it does it on the **close**, not
+  the open. The open is just not as reliable for continuation."* Konkret: Erst ein **Close unter
+  dem Midpoint** des Levels (bei bearisher Inversion) macht die Fortsetzung
+  hochwahrscheinlich — eine Kerze, die auf demselben Niveau nur *eröffnet*, reicht nicht. Ergänzt
+  die Validierungsbedingung ganz oben um das Kriterium *welcher* Preis der Kerze gemeint ist.
+- **„Give up the ghost"** — ICTs Formulierung für den Polaritätswechsel selbst: Das bullishe PD
+  Array muss seine **First Utilization als Buyside-Lieferung scheitern lassen** und darf danach von
+  unten als **Premium Array** respektiert werden. *„I want to see it give up the ghost, go right
+  through it or go through it and then come back up and then respect it as a premium array."* Der
+  Durchhandel allein genügt nicht; die anschließende Zurückweisung von unten ist Teil der
+  Bedingung — dieselbe Zweistufigkeit wie in der Mehrfach-Qualifizierung oben, hier nur kompakter
+  formuliert.
+
+Praxisfolge im dokumentierten Trade: Solange das IFVG nur per **Wick** durchstoßen war und kein
+Body darunter schloss, galt die Short-These als **nicht bestätigt** — ICT hielt die Position, zog
+aber den Stop enger, statt aufzustocken.
 
 ## Verwandt
 

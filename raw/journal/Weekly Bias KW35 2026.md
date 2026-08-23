@@ -1,36 +1,74 @@
 # Weekly Bias KW35 2026
 
-*(Mo 24.08. – Fr 28.08.2026, erzeugt am 21.08.2026 durch `/bias-vorlage-weekly`, Cloud-Session)*
+*(Mo 24.08. – Fr 28.08.2026, erzeugt am 23.08.2026 durch `/bias-vorlage-weekly`. Ersetzt die
+Fassung vom 21.08., die in einer Cloud-Session ohne Netzzugang zu ForexFactory und CFTC
+entstand — News und COT stehen unten jetzt vollständig.)*
 
 ## News (Red/Orange Folder), ganze Woche
 
-⚠️ **News-Abruf komplett fehlgeschlagen** — nicht der übliche Freitagabend-Fall (ForexFactory
-kennt die Zielwoche noch nicht, TradingView springt ein), sondern beide Quellen sind in dieser
-Cloud-Session gar nicht erreichbar: Das Netzwerk-Proxy-Gateway dieser Session lehnt den
-CONNECT-Tunnel zu `nfs.faireconomy.media` (ForexFactory-Feed), `economic-calendar.tradingview.com`
-und `cftc.gov` mit HTTP 403 ab (Policy-Sperre des Sandbox-Proxys, kein Seitenfehler). `bias_levels.py`
-meldet entsprechend `news.source: tradingview` mit `news.error` gesetzt
-(`URLError: <urlopen error Tunnel connection failed: 403 Forbidden>`).
+**Mo 24.08.**
 
-**Keine Termine erfunden.** Bitte KW35 (24.–28.08.) manuell auf forexfactory.com prüfen, bevor
-die Woche gehandelt wird — insbesondere Mittwoch/Donnerstag, wo in den letzten Wochen die
-Taktgeber lagen.
+🟠 **14:00 NY** / 20:00 DE — Treasury Sec Bessent Speaks
 
-**Ein Datum lässt sich aber ohne Kalenderabruf einordnen:** NFP fällt regelmäßig auf den ersten
-Freitag des Monats — im September also auf den 04.09., **nicht** in KW35. Das ist allgemeines
-Kalenderwissen, keine aus dem (fehlgeschlagenen) Feed gezogene Aussage.
+**Di 25.08.**
+
+🟠 **10:00 NY** / 16:00 DE — CB Consumer Confidence  (Forecast 90.3, Previous 90.8)
+
+**Mi 26.08.**
+
+🔴 **08:30 NY** / 14:30 DE — Core PCE Price Index m/m  (Forecast 0.2%, Previous 0.1%)
+
+🔴 **08:30 NY** / 14:30 DE — Prelim GDP q/q  (Forecast 1.5%, Previous 1.5%)
+
+🟠 **08:30 NY** / 14:30 DE — Prelim GDP Price Index q/q  (Forecast 6.2%, Previous 6.2%)
+
+**Do 27.08.**
+
+🟠 **08:30 NY** / 14:30 DE — Unemployment Claims  (Forecast 208K, Previous 206K)
+
+**Fr 28.08.**
+
+🔴 **10:00 NY** / 16:00 DE — Fed Chairman Warsh Speaks
+
+🔴 **10:00 NY** / 16:00 DE — Prelim Benchmark Payrolls Revision  (Previous -911K)
+
+🟠 **10:00 NY** / 16:00 DE — Revised UoM Consumer Sentiment  (Forecast 51.0, Previous 51.0)
+
+🟠 **10:00 NY** / 16:00 DE — Revised UoM Inflation Expectations  (Previous 4.3%)
+
+**Quelle:** `forexfactory` (Feed-Spanne 23.08.–29.08.2026), `news.error: null` — kein Fallback
+auf TradingView nötig, kein Abruf-Fehler.
+
+**Einordnung:** 10 USD-Termine, alle fünf Handelstage belegt, kein leerer Tag. Vier davon sind
+Red Folder und sie ballen sich auf zwei Tage:
+
+- **Mi 26.08., 08:30 NY / 14:30 DE — Core PCE Price Index m/m (🔴)** ist der Taktgeber der
+  Woche. Es ist das Inflationsmaß, auf das die Fed selbst abstellt; Forecast 0,2 % gegen
+  Previous 0,1 %, also eine erwartete Beschleunigung. Zeitgleich läuft **Prelim GDP q/q (🔴)**
+  plus **Prelim GDP Price Index q/q (🟠)** — drei Zahlen in derselben Sekunde, entsprechend
+  breit dürfte der 14:30-Impuls ausfallen.
+- **Fr 28.08., 10:00 NY / 16:00 DE** bringt den zweiten Block: **Fed Chairman Warsh Speaks
+  (🔴)** und **Prelim Benchmark Payrolls Revision (🔴)** — letztere mit Previous −911K, also
+  eine potenziell große Revision der Beschäftigungsbasis. Dazu die beiden UoM-Revisionen (🟠).
+- Mo und Do sind die ruhigen Tage: Mo nur Bessent (🟠, 14:00 NY), Do nur Unemployment Claims
+  (🟠, 08:30 NY). Di bringt CB Consumer Confidence (🟠, 10:00 NY).
+
+**Kein NFP diese Woche** — NFP fällt auf den ersten Freitag des Monats, also den 04.09. Die
+Payrolls-*Revision* am Fr 28.08. ist ein anderer Termin und macht KW35 nicht zur NFP-Woche.
 
 ## Levels
 
-Gerechnet aus `raw/marktdaten/` (**NQ**, kein MNQ-Rückfall nötig). Alle Preise auf dem
-0,25-Tickraster.
+Gerechnet aus `raw/marktdaten/` (**NQ**, kein MNQ-Rückfall nötig — `gaps.symbol: NQ`, kein
+`gaps.hinweis`). Fenster 19.07.–23.08. Alle Preise auf dem 0,25-Tickraster.
 
-**Datenlage (1s bevorzugt):** 23 der 24 Tage im Fenster (17.07.–19.08.) liegen als **1s** vor,
-0 Tage nur als 1m. `1s-abdeckung.csv` protokolliert für dieses Fenster **keinen** Tag, zu dem die
-Parquet-Datei fehlt — Register und Bestand decken sich, kein stiller Datenverlust.
+**Datenlage:** alle **24 Handelstage im Fenster liegen als 1s vor**, `tage_nur_1m` ist leer —
+es steckt kein einziges Level in dieser Datei, das nur aus 1m-Daten stammt.
+`registriert_ohne_datei` ist **leer**: kein Tag, den `1s-abdeckung.csv` als geholt protokolliert
+und zu dem die Parquet-Datei fehlt. Kein stiller Datenverlust.
 
-Wo beide Quellen denselben Tag abdecken (14 Tage), wurde 1s gegen den TradingView-1m-Export
-gegengerechnet — größte Abweichung 2,0 Ticks (30.07.), meist ≤ 1 Tick:
+Wo TradingView-1m denselben Tag abdeckt (14 Tage), wurde 1s dagegen gegengerechnet — bei je
+1380 verglichenen Minuten ≤ 7 ungleiche Minuten, größte Abweichung **2,0 Punkte (30.07.)**,
+sonst ≤ 1,75:
 
 | Tag | verglichene Minuten | ungleich | max. Abweichung |
 |---|---|---|---|
@@ -49,16 +87,16 @@ gegengerechnet — größte Abweichung 2,0 Ticks (30.07.), meist ≤ 1 Tick:
 | 13.08. | 1380 | 3 | 0.25 |
 | 14.08. | 1380 | 4 | 0.50 |
 
-Beide Quellen bestätigen sich weitgehend gegenseitig — die Level unten sind damit belastbar.
+Beide Quellen bestätigen sich — die Level unten sind belastbar.
 
 ### Offene Gaps — die DOL-Kandidaten
 
-| Typ | Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Spanne |
+| Level | Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Status |
 |---|---|---|---|---|---|---|
-| **NWOG** | Fr 31.07. → So 02.08. | 28287.00 | 28565.00 | **+278.00** | **28426.00** | 278.00 |
+| **NWOG** | So 02.08. (Close Fr 31.07.) | 28287.00 | 28565.00 | **+278.00** | **28426.00** | **offen** |
 
-Der einzige noch offene Gap im Fenster ist das NWOG vom 02.08. — alle NDOGs und die übrigen
-NWOGs der letzten Wochen sind bereits gefüllt.
+Genau **ein** offener Gap im ganzen Fenster. Alle 18 NDOGs und die drei übrigen NWOGs sind
+gefüllt.
 
 **NWOG 02.08. — Qs / Os / Hs**
 
@@ -76,99 +114,168 @@ NWOGs der letzten Wochen sind bereits gefüllt.
 
 ### NWOG der letzten Wochen
 
-| Datum | Close (Fr 17:00) | Open (So 18:00) | Gap | C.E. | Status |
-|---|---|---|---|---|---|
-| So 16.08. | 30154.00 | 30170.00 | +16.00 | 30162.00 | gefüllt |
-| So 09.08. | 29839.50 | 29851.25 | +11.75 | 29845.50 | gefüllt |
-| So 26.07. | 28306.50 | 28500.00 | +193.50 | 28403.25 | gefüllt |
-| So 19.07. | 28768.25 | 28747.75 | −20.50 | 28758.00 | gefüllt |
+| Level | Datum | Close (Fr 17:00) | Open (So 18:00) | Gap | C.E. | Status |
+|---|---|---|---|---|---|---|
+| NWOG | So 16.08. | 30154.00 | 30170.00 | +16.00 | 30162.00 | gefüllt |
+| NWOG | So 09.08. | 29839.50 | 29851.25 | +11.75 | 29845.50 | gefüllt |
+| NWOG | So 02.08. | 28287.00 | 28565.00 | +278.00 | 28426.00 | **offen** |
+| NWOG | So 26.07. | 28306.50 | 28500.00 | +193.50 | 28403.25 | gefüllt |
 
 ### NDOG der auslaufenden Woche (KW34)
 
-| Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Status |
-|---|---|---|---|---|---|
-| Mo 17.08. | 30078.25 | 30077.00 | −1.25 | 30077.50 | gefüllt |
-| Di 18.08. | 29559.50 | 29566.50 | +7.00 | 29563.00 | gefüllt |
+| Level | Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Status |
+|---|---|---|---|---|---|---|
+| NDOG | Mo 17.08. | 30078.25 | 30077.00 | −1.25 | 30077.50 | gefüllt |
+| NDOG | Di 18.08. | 29559.50 | 29566.50 | +7.00 | 29563.00 | gefüllt |
+| NDOG | Mi 19.08. | 29561.00 | 29561.50 | +0.50 | 29561.25 | gefüllt |
+| NDOG | Do 20.08. | 29317.25 | 29327.00 | +9.75 | 29322.00 | gefüllt |
 
-Nur zwei NDOG-Einträge für KW34 — die 1s-Daten decken im aktuellen Bestand nur bis
-**19.08.** ab (siehe Datenlage oben), Mi–Fr der auslaufenden Woche fehlen dem Gap-Rechner
-dafür noch die nötigen Randdaten. Kein fehlender Tag ist dabei als „geholt, aber Datei fehlt"
-(`registriert_ohne_datei`) protokolliert — es ist schlicht noch nicht so weit nachgezogen.
+Vier NDOGs, alle im einstelligen bis niedrig zweistelligen Bereich und sämtlich noch am selben
+Tag gefüllt — die auslaufende Woche hat keine offene Tageslücke hinterlassen.
 
 ### Range der auslaufenden Woche (KW34)
 
 `letzte_woche` aus `bias_levels.py` ist **`null`** — die 1d-Reihe für NQ enthält die laufende
-Woche noch nicht (dasselbe bekannte Problem wie im Code-Kommentar zu `intraday_range()`
-dokumentiert: die 1d-Datei hinkt hinterher bzw. fehlt für aktuelle Tage teils ganz).
-
-Aus den **Intraday-1s-Daten** lässt sich die Woche aber immerhin bis Mittwoch nachrechnen
-(Do 20.08. und Fr 21.08. fehlen den Daten noch):
+Woche noch nicht. Die Range ist deshalb direkt aus den **1s-Daten** nachgerechnet
+(Handelstag = 18:00 NY Vortag → 16:59:59 NY), diesmal **vollständig Mo–Fr**:
 
 | Tag | High | Low | Close |
 |---|---|---|---|
 | Mo 17.08. | 30343.00 | 30054.50 | 30078.25 |
 | Di 18.08. | 30121.25 | 29514.00 | 29559.50 |
 | Mi 19.08. | 29757.25 | 29375.75 | 29561.00 |
+| Do 20.08. | 29689.75 | 29202.75 | 29317.25 |
+| Fr 21.08. | 29539.00 | 29220.00 | **29374.00** |
 
-⚠️ **Unvollständig** — High/Low von Do 20.08. und Fr 21.08. fehlen, die echte Wochenrange kann
-also noch tiefer/höher liegen. Bislang (Mo–Mi): High **30343.00** (Mo), Low **29375.75** (Mi).
+**Wochen-High 30343.00 (Mo), Wochen-Low 29202.75 (Do), Wochen-Close 29374.00** — Spanne
+1140.25 Punkte. Das High steht am Montag, das Low am Donnerstag: klassisches
+Bearish-Wochenprofil nach [[Weekly Range Trading Model]], Freitag schließt im unteren Drittel.
+
+**KW34-Range — Qs / Os / Hs**
+
+| | Level |
+|---|---|
+| High (Mo 17.08.) | 30343.00 |
+| O7 | 30200.50 |
+| O6 / **Q3** | 30058.00 |
+| O5 | 29915.50 |
+| **C.E. (= H1 = Q2 = O4)** | **29773.00** |
+| O3 | 29630.25 |
+| O2 / **Q1** | 29487.75 |
+| O1 | 29345.25 |
+| Low (Do 20.08.) | 29202.75 |
+
+Der Freitags-Close 29374.00 liegt zwischen O1 und O2, also tief im Discount der Vorwoche
+(unteres Viertel).
 
 ## COT (Commercials vs. Large Specs)
 
-⚠️ **COT-Abruf fehlgeschlagen** — derselbe Proxy-Grund wie beim News-Abruf: das Sandbox-Gateway
-lehnt den CONNECT-Tunnel zu `cftc.gov` mit HTTP 403 ab
-(`ProxyError: HTTPSConnectionPool(host='cftc.gov', port=443): Max retries exceeded with url:
-/files/dea/history/deacot2022.zip (... Tunnel connection failed: 403 Forbidden)`).
+Stand **18.08.2026** (CFTC-Report, Veröffentlichung Fr 21.08.), Abruf erfolgreich, kein
+`cot.error`. Auswertung nach [[COT (Commitment of Traders) Data]]: **nur Commercials gegen
+Large Speculators**, Small Specs bleiben außen vor. Signal = Position **gegen das EQ der
+jeweiligen Lookback-Range**, nicht gegen die 0-Linie.
 
-Keine Zahlen erfunden. Letzter bekannter Stand ist der Report aus KW34 (siehe
-`raw/journal/Weekly Bias KW34 2026.md`): NQ-Commercials netto long über alle Horizonte, ES
-netto short über alle Horizonte, beide gegenläufig zueinander — dieser Stand ist aber
-**mindestens eine Woche alt** und sollte vor dem Handeln der KW35 manuell nachgezogen werden
-(`cot.gov` oder `algo/cot.py` auf einem Rechner mit freiem Netzzugang).
+| Symbol | Stand | Commercials | Large Specs | 3M | 6M | 12M | 2Y | 4Y |
+|---|---|---|---|---|---|---|---|---|
+| **NQ** | 18.08.2026 | −12.347 | −10.416 | bearish | bearish | **bullish** | **bullish** | bearish |
+| **ES** | 18.08.2026 | −113.553 | −10.560 | bearish | bearish | bearish | bearish | bearish |
+
+**NQ — Horizonte im Detail (`einig: false`):**
+
+| Lookback | Low | EQ | High | Commercials | Signal |
+|---|---|---|---|---|---|
+| 3M (13 Reports) | −14.946 | **+1.264,5** | +17.475 | −12.347 | bearish |
+| 6M (26) | −27.334 | **−4.929,5** | +17.475 | −12.347 | bearish |
+| 12M (52) | −66.754 | **−24.639,5** | +17.475 | −12.347 | bullish |
+| 2Y (104) | −66.754 | **−24.639,5** | +17.475 | −12.347 | bullish |
+| 4Y (209) | −66.754 | **−11.708,5** | +43.337 | −12.347 | bearish |
+
+⚠️ **Die NQ-Horizonte widersprechen sich (`einig: false`) — es gibt hier kein pauschales
+COT-Urteil.** Kurzfristig (3M/6M) sitzen die Commercials unter dem EQ ihrer Range → bearish;
+über 12M/2Y liegen sie deutlich *über* dem EQ → bullish. Der 4Y-Wert ist praktisch neutral:
+−12.347 gegen ein EQ von −11.708,5 sind 638 Kontrakte Abstand in einer Range von 110.091 —
+das ist Rauschen, kein Signal. Wer eine Richtung aus dem NQ-COT ableiten will, muss den
+Lookback ausdrücklich benennen. Für eine einzelne Handelswoche ist der **3M-Lookback** der
+sachnähere: dort stehen die Commercials unter EQ, also **leicht bearish**.
+
+**ES — Horizonte im Detail (`einig: true`):**
+
+| Lookback | Low | EQ | High | Commercials | Signal |
+|---|---|---|---|---|---|
+| 3M (13) | −142.440 | **−16.183,0** | +110.074 | −113.553 | bearish |
+| 6M (26) | −142.440 | **−16.183,0** | +110.074 | −113.553 | bearish |
+| 12M (52) | −142.440 | **−4.210,5** | +134.019 | −113.553 | bearish |
+| 2Y (104) | −233.202 | **−49.591,5** | +134.019 | −113.553 | bearish |
+| 4Y (209) | −233.202 | **+101.178,0** | +435.558 | −113.553 | bearish |
+
+**ES ist über alle fünf Horizonte einig bearish** und dabei nicht knapp: −113.553 liegt im
+3M/6M-Fenster nahe am unteren Extrem (Low −142.440), also im deutlichen Short-Bereich der
+eigenen Range. Das ist das klarere der beiden Bilder.
+
+**`gegenlaeufig: false` in beiden Symbolen.** Commercials und Large Specs stehen jeweils auf
+**derselben Seite** — beide netto short (NQ −12.347 / −10.416, ES −113.553 / −10.560). Die
+Konstellation, auf die ICT eigentlich abstellt (Commercials gegen Large Specs), liegt diese
+Woche also **nicht** vor. Damit fehlt dem COT-Bild sein schärfstes Element; es taugt hier als
+Hintergrundfärbung, nicht als Trigger.
 
 ## Wiki-Bezug
 
-- [[Weekly Range Trading Model]] — Wochenstruktur, welcher Tag High/Low setzt
-- [[IPDA Data Ranges]] — übergeordneter Datenbereich, in dem KW35 liegt
-- [[COT (Commitment of Traders) Data]] — EQ-Lesart der Lookback-Range; diese Woche ohne
-  frischen Report (siehe COT-Abschnitt)
-- [[Seasonal Tendency]] — Wochentags- und Week-of-Month-Muster, siehe Einschätzung unten
-- [[New Day Opening Gap (NDOG)]] — für die NDOG-Tabelle oben
+- [[Weekly Range Trading Model]] — Wochenprofil, welcher Tag High/Low setzt. KW34 hat das High
+  am Montag und das Low am Donnerstag gesetzt; für KW35 ist die Frage, ob sich das wiederholt.
+- [[IPDA Data Ranges]] — übergeordneter Datenbereich, in dem KW35 liegt.
+- [[COT (Commitment of Traders) Data]] — EQ-Lesart der Lookback-Range, siehe COT-Abschnitt.
+- [[Seasonal Tendency]] — Wochentags- und Week-of-Month-Muster, siehe Einschätzung.
+- [[New Week Opening Gap (NWOG) Bias]] — zum offenen NWOG vom 02.08.
+- [[New Day Opening Gap (NDOG)]] — zur NDOG-Tabelle.
+- [[Using Monthly & Weekly Ranges (Source)]] — KW35 ist die letzte volle Augustwoche, der
+  Monatswechsel fällt auf Mo 31.08./Di 01.09.
 
-## Einschätzung (Claude)
+## Einschaetzung (Claude)
 
-**Datenbasis diese Woche schwächer als sonst.** News und COT konnten in dieser Cloud-Session
-gar nicht abgerufen werden (Proxy-Sperre, siehe oben), nicht nur „ForexFactory kennt die Woche
-noch nicht". Diese Einschätzung stützt sich deshalb nur auf Level-Struktur und Saisonalität —
-beide sind aus echten Marktdaten gerechnet, aber ohne News- und COT-Bestätigung ist die
-Aussage schwächer abgesichert als in den Vorwochen.
+**Datenbasis diese Woche vollständig.** News (ForexFactory, 10 Termine), COT (CFTC, Stand
+18.08.) und Level (NQ 1s, 24/24 Tage) liegen alle vor — anders als in der Vorfassung dieser
+Datei, in der News und COT netzwerkbedingt fehlten.
 
-**Saisonalität, ehrlich eingeordnet.** Aus `algo/seasonal_tendency.json` (n=1882 Tage,
-17.05.2019–14.08.2026):
+**Saisonalität** aus `algo/seasonal_tendency.json` (n=1882 Tage, 06.05.2019–14.08.2026, Symbol
+**MNQ** — für die *Richtungs*-Statistik derselbe Index wie NQ, Punktangaben sind 1:1
+übertragbar, nur die Kontraktgröße unterscheidet sich):
 
-- KW35 ist die **vierte Woche des Monats** (Wochen mit Start Mo 22.–28. des Monats):
-  **57,0 % bullish** (n=428, avg +0,079 %) — nach Woche 1 (56,5 %) die zweitstärkste
-  Wochenklasse.
-- **Montag ist mit 61,4 % bullish** (n=376, avg +0,194 %) der stärkste Einzelwochentag im
-  gesamten Datensatz.
-- **Kein Turn-of-Month-Effekt** — das TOM-Fenster liegt um den Monatswechsel (Ende
-  August/Anfang September), KW35 (24.–28.08.) liegt noch davor.
+- **Woche 4 im Monat** (Tage 22.–28., trifft auf KW35 mit 24.–28.08. exakt zu): **57,0 %
+  bullish**, n=428, avg +0,079 % — die stärkste der fünf Wochenklassen.
+- **Montag ist mit 61,4 % bullish** (n=376, avg +0,194 %) der stärkste Einzelwochentag des
+  Datensatzes. Mittwoch folgt mit 55,3 %; **Donnerstag ist der einzige Tag mit negativer
+  Durchschnittsrendite** (52,1 % bullish, avg −0,012 %).
+- **Kein Turn-of-Month-Effekt in KW35.** Das TOM-Fenster ist im Code als „letzter Handelstag
+  des Monats + erste 3 des Folgemonats" definiert; der letzte Augusttag ist Mo **31.08.**,
+  liegt also in KW36. Ohnehin ist der Effekt vernachlässigbar (Fenster 53,6 % vs. Rest
+  54,3 % bullish).
 
-Woche-4-Bias und Montag-Bias zeigen beide leicht bullish — beides sind aber moderate,
-statistische Kanten (n groß, aber Effektgröße unter 0,2 %), kein Handelssignal für sich allein.
+**Wochenrichtung: leicht bullish, mit niedriger Konfidenz.** Die Saisonalität zeigt in beiden
+relevanten Dimensionen (Woche 4, Montag) nach oben, aber die Effektgrößen liegen unter 0,2 %
+Tagesrendite — statistische Kanten, kein Handelssignal für sich. Dagegen steht ein COT-Bild,
+das im ES über alle Horizonte bearish liest und im NQ kurzfristig (3M/6M) ebenfalls, und eine
+auslaufende Woche, die nahe ihrem Tief geschlossen hat (Close 29374.00 im unteren Viertel der
+KW34-Range). **Netto: kein klarer Wochenbias.** Wenn ich mich festlegen muss: frühe
+Wochenstärke (Montag-Statistik, Woche-4-Statistik) in ein Umfeld, das ab Mittwoch von Core PCE
+bestimmt wird — also eher ein Kauf der ersten Tage gegen die KW34-Discount-Level als eine
+durchgehende Wochenrichtung. **Wahrscheinlichkeit ~55 %, also kaum über Münzwurf.**
 
-**NWOG-Einschränkung, unverändert gültig.** `algo/backtest_nwog.py` misst laut Projektstandard
-eine Bias-intakt-Quote von nur **7 %** — das offene NWOG vom 02.08. (C.E. 28426.00) taugt als
-**Level** (DOL-Kandidat, ca. 1650 Punkte unter dem letzten bekannten Print von 29561.00),
-nicht als Richtungsfilter.
+**Die entscheidende Struktur ist nicht die Richtung, sondern der Kalender.** Mi 14:30 DE
+(Core PCE + Prelim GDP gleichzeitig) und Fr 16:00 DE (Warsh + Payrolls-Revision) sind die
+beiden Punkte, an denen die Woche ihre Range macht. Mo/Di sind newsarm — dort ist das
+Wochenprofil formbar, ab Mittwoch bestimmt die Zahl.
 
-**NFP-Woche: nein.** Der erste Freitag im September (NFP-Termin) ist der 04.09. — KW35 ist
-also keine NFP-Woche, `algo/backtest_nfp_week.py` ist damit nicht einschlägig.
+**NWOG-Einschränkung, unverändert gültig.** `algo/backtest_nwog.py` misst eine
+Bias-intakt-Quote von nur **7 %**. Das offene NWOG vom 02.08. (C.E. **28426.00**) ist damit
+ein **Level** — ein DOL-Kandidat —, **kein Richtungsfilter**. Es liegt rund **948 Punkte
+unter** dem Freitags-Close von 29374.00; als Wochenziel für KW35 ist das weit, aber es ist der
+einzige unerledigte Gap im Fenster und bleibt damit der übergeordnete Downside-Magnet.
 
-**Kein Wochenziel ableitbar.** Ohne News- und COT-Bestätigung, mit nur einer moderaten
-saisonalen Kante und einem weit entfernten offenen Gap lässt sich aus den verfügbaren Daten
-kein belastbares KW35-Ziel benennen. Vor dem Handeln der Woche unbedingt News (ForexFactory)
-und COT (aktueller CFTC-Report, Stand Di 18.08., Veröffentlichung Fr 21.08.) manuell
-nachziehen.
+**Näher liegende Level für die Woche:** die KW34-Quadranten oben. C.E. der Vorwoche steht bei
+**29773.00** — solange NQ darunter handelt, bleibt die Vorwoche im Discount und ein Retest der
+29487.75 (Q1) bzw. des Wochen-Lows 29202.75 ist der wahrscheinlichere Weg als ein Ausbruch
+über 30058.00 (Q3).
+
+**Keine NFP-Woche** — `algo/backtest_nfp_week.py` ist nicht einschlägig, NFP ist der 04.09.
 
 ## Mein Bias

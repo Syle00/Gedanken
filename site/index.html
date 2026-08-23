@@ -23,7 +23,7 @@
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="index.html#concepts">Konzepte<span class="count">144</span></a></li>
 <li><a href="index.html#models">Modelle<span class="count">28</span></a></li>
-<li><a href="index.html#sources">Quellen<span class="count">354</span></a></li>
+<li><a href="index.html#sources">Quellen<span class="count">355</span></a></li>
 <li><a href="index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li><a href="index.html#meta">Meta<span class="count">3</span></a></li>
 </ul></div>
@@ -32,14 +32,14 @@
 <article class="home">
   <h1>Gedanken</h1>
   <p class="lead">Persönliches Wissenssystem nach dem LLM-Wiki-Muster.
-     547 Seiten in 5 Kategorien.</p>
+     548 Seiten in 5 Kategorien.</p>
 <section id="concepts" class="catsection"><h2>Konzepte <span class="count">144</span></h2><ul class="cards">
 <li><a href="p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a><span>Low-taken-Expansion vs. Dip-Reentry-Phasen nach einem Sweep</span></li>
 <li><a href="p/algorithmic-order-flow.html">Algorithmic Order Flow</a><span>Fünfstufige Bestätigungs-Hierarchie von Macro Interest Rate bis State of Delivery</span></li>
 <li><a href="p/algorithmic-price-delivery-continuum.html">Algorithmic Price Delivery Continuum</a><span>ICTs Timeframe-Durchlauf bei jedem Candle-Close; erklärt, wann ein FVG offen bleibt</span></li>
 <li><a href="p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a><span>Preis-Achse (Octant/Quadrant) × Zeit-Achse (Macro-Startzeiten); PD Array am Kreuzungspunkt = höchste Bestätigung, fraktale Wiederholung</span></li>
 <li><a href="p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a><span>4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition</span></li>
-<li><a href="p/asian-range.html">Asian Range</a><span>19–24 Uhr NY, Highest High/Lowest Low; Konsolidierung = Trendtag, nur mit Bias nutzbar</span></li>
+<li><a href="p/asian-range.html">Asian Range</a><span>19–24 Uhr NY, Highest High/Lowest Low; Konsolidierung = Trendtag, nur mit Bias nutzbar; ⚠️ bei Index-Futures setzt ICT 19–22 ET an und gradet Oktanten darauf</span></li>
 <li><a href="p/average-daily-range-5-tage-adr.html">Average Daily Range (5-Tage-ADR)</a><span>5-Tage-Durchschnittsrange als Reichweiten- und Exit-Werkzeug; Verdopplungsbedingungen, 15-Pips-vor-ADR-Exit</span></li>
 <li><a href="p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a><span>Vier-Bias-Katalog aus Halls-Moore, systematisiert bestehende Projektregeln; algo-methodology, kein ICT-Konzept</span></li>
 <li><a href="p/balanced-price-range-bpr.html">Balanced Price Range (BPR)</a><span>Verhalten innerhalb eines FVG, eine Timeframe tiefer betrachtet</span></li>
@@ -91,7 +91,7 @@
 <li><a href="p/ict-daily-range-session-timing.html">ICT Daily Range Session Timing</a><span>Session-Ablauf, der die Daily Range formt</span></li>
 <li><a href="p/ict-killzones.html">ICT Killzones</a><span>Die vier Handelsfenster mit idealen Paaren und Pip-Erwartung</span></li>
 <li><a href="p/ict-macros-leading-candles.html">ICT Macros &amp; Leading Candles</a><span>Session-Zeitfenster mit auffälligen Referenz-Candles, auch als Reversal-Check für laufende Positionen nutzbar (2026-08-01, erg. 2026-08-07)</span></li>
-<li><a href="p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a><span>FVG, das nach Durchhandeln die Polarität wechselt</span></li>
+<li><a href="p/ifvg-inverse-fair-value-gap.html">IFVG (Inverse Fair Value Gap)</a><span>FVG, das nach Durchhandeln die Polarität wechselt; Validierung zählt den Body-Close, nicht den Open („give up the ghost“)</span></li>
 <li><a href="p/implementation-shortfall.html">Implementation Shortfall</a><span>Gesamtkosten der Umsetzung einer Handelsidee (Perold); im Buchbeispiel gehen 52 % des Ideenwerts in der Ausführung verloren; algo-methodology</span></li>
 <li><a href="p/implied-dealing-range.html">Implied Dealing Range</a><span>noch nicht abgeschlossene Preisstrecke; Breakaway Gap bei 20–30 %, Measuring Gap bei 50 %</span></li>
 <li><a href="p/indikator-stationaritaet-entropie.html">Indikator-Stationarität &amp; Entropie</a><span>STATN-Gap-Analyse gegen langsames Wandern, relative Entropie ≥ 0,5, monotones Tail-Cleaning; algo-methodology</span></li>
@@ -128,13 +128,13 @@
 <li><a href="p/monte-carlo-permutation-test-mcpt.html">Monte Carlo Permutation Test (MCPT)</a><span>Bar-Permutation zerstört Muster statistik-erhaltend, P-Wert prüft Data-Mining-Bias einer Strategie; algo-methodology, kein ICT-Konzept</span></li>
 <li><a href="p/nested-walkforward.html">Nested Walkforward</a><span>Walk-Forward in Walk-Forward, nötig sobald laufend zwischen Systemen/Kriterien ausgewählt wird; S&amp;P-100-Beispiel 19,12 % p.a. bei p=0,027; algo-methodology</span></li>
 <li><a href="p/new-day-opening-gap-ndog.html">New Day Opening Gap (NDOG)</a><span>tägliches Pendant zum NWOG, min. 5 Handelstage aktiv, danach weiter als DOL nutzbar</span></li>
-<li><a href="p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a><span>Wöchentliche Bias-Regel + Intraweek-Reversal-Muster</span></li>
+<li><a href="p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a><span>Wöchentliche Bias-Regel + Intraweek-Reversal-Muster; neu das Montags-Framework (NWOG als Ziel statt Filter), am 17.08.2026 gegen eigene 1s-Daten bestätigt</span></li>
 <li><a href="p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a><span>Wo liegen die Stops der großen Funds, OI-Bestätigung</span></li>
 <li><a href="p/optimal-trade-entry-ote.html">Optimal Trade Entry (OTE)</a><span>Retracement-Entry 62/70,5/79 % mit Targets und protectetem SL</span></li>
 <li><a href="p/optionen-als-risikomanagement-instrument-yale-econ-252.html">Optionen als Risikomanagement-Instrument (Yale Econ 252)</a><span>Arrow/Ross-Preisfindung, Put-Call-Parität, No-Arbitrage-Binomialmodell, VIX-Historie; Risikomanagement, yale-econ252</span></li>
 <li><a href="p/order-block.html">Order Block</a><span>Basiskonzept + Validierungsregeln für alle OB-Varianten</span></li>
 <li><a href="p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span>C.E-Bias-Bestätigung über Wicks und ORG; Auswahl-/Ausschlusskriterien des 1.p FVG, MOR-vs-ORG-Abgrenzung, Mindestgrößen-Hypothese mit Messung</span></li>
-<li><a href="p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a><span>erstes Partial bei 3:1 sichern, Rest bis 9–15R laufen lassen</span></li>
+<li><a href="p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a><span>erstes Partial bei 3:1 sichern, Rest bis 9–15R laufen lassen; neu „right is not required for profitability“, Ziel als Black Hole, Order-Konflikt-Regel</span></li>
 <li><a href="p/pd-array.html">PD Array</a><span>Premium/Discount-Array, Grundbaustein jedes ICT-Setups</span></li>
 <li><a href="p/performance-kennzahlen-katalog.html">Performance-Kennzahlen-Katalog</a><span>Sharpe/Sortino/Calmar/SQN/Drawdown-Dauer mit Formeln; was ein Backtest-Report ausweisen sollte; algo-methodology</span></li>
 <li><a href="p/portfolio-management-sizing-gain-loss-ratio.html">Portfolio-Management &amp; Sizing (Gain-Loss-Ratio)</a><span>Markowitz-Formeln, Rebalancing-These, Gain-Loss-Ratio, Crowding-/Power-Law-Modell; quant-finance</span></li>
@@ -159,7 +159,7 @@
 <li><a href="p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a><span>Divergenz zwischen korrelierten Märkten, Cross-Asset-Check; das schwächere Instrument ist das Ziel, nicht das Setup</span></li>
 <li><a href="p/stochastische-analysis-it-kalkuel-sdes.html">Stochastische Analysis (Itô-Kalkül &amp; SDEs)</a><span>Itô-Integral, Itô&#x27;s Formel, geometrische Brownsche Bewegung, Ornstein-Uhlenbeck-Prozess; quant-finance</span></li>
 <li><a href="p/stop-loss-bei-mean-reversion-vs-momentum.html">Stop Loss bei Mean Reversion vs. Momentum</a><span>bei Momentum logisch zwingend, bei Mean Reversion nur GRÖSSER als der Backtest-Drawdown ansetzen; Risikomanagement</span></li>
-<li><a href="p/suspension-block.html">Suspension Block</a><span>FVG mit VII auf beiden Seiten, eine der stärksten PD Arrays</span></li>
+<li><a href="p/suspension-block.html">Suspension Block</a><span>FVG mit VII auf beiden Seiten, eine der stärksten PD Arrays; von ICT live an einem SIBI benannt, auch als Warnzone gegen die eigene Position nutzbar</span></li>
 <li><a href="p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a><span>Freitags-Retracement 20–30 % in die Weekly Range als Draw on Liquidity, 3 Voraussetzungen, Weekly Po3; ICTs Arbeitsziel ~25 %, 40 % gilt als Extremfall (2026-08-02, erg. 2026-08-16)</span></li>
 <li><a href="p/trader-s-dilemma-efficient-trading-frontier.html">Trader&#x27;s Dilemma &amp; Efficient Trading Frontier</a><span>Market Impact und Timing Risk sind gegenläufig; dominierte Strategien liefern nie Best Execution; algo-methodology</span></li>
 <li><a href="p/trading-all-time-highs-ath.html">Trading All Time Highs (ATH)</a><span>Continuation-Checkliste am ATH und die 3 Stages, an denen Smart Money oben verkauft</span></li>
@@ -209,7 +209,7 @@
 <li><a href="p/trading-journal-dol-checklist.html">Trading Journal &amp; DOL Checklist</a><span>Journal-Checkliste + Top-Down-Chart-Vorgehen</span></li>
 <li><a href="p/weekly-range-trading-model.html">Weekly Range Trading Model</a><span>Weekly-Range-Modell inkl. Zwei-DOL-Methode &amp; TGIF</span></li>
 </ul></section>
-<section id="sources" class="catsection"><h2>Quellen <span class="count">354</span></h2><ul class="cards">
+<section id="sources" class="catsection"><h2>Quellen <span class="count">355</span></h2><ul class="cards">
 <li><a href="p/20-pips-per-day-source.html">20 Pips Per Day (Source)</a><span>Kurznotiz zum 20 Pips Per Day-Modell (Asia-Paare, London bildet High/Low, Entry bis 10 Uhr NY,</span></li>
 <li><a href="p/2012-04-05-yale-econ-252-lecture-01-introduction-and-what-this-course-will-do-for-you-source.html">2012-04-05 - Yale Econ 252 Lecture 01 - Introduction and What this Course Will Do for You (Source)</a><span>Kursüberblick, Finance als Engineering</span></li>
 <li><a href="p/2012-04-05-yale-econ-252-lecture-02-risk-and-financial-crises-source.html">2012-04-05 - Yale Econ 252 Lecture 02 - Risk and Financial Crises (Source)</a><span>VaR/CoVaR, Unabhängigkeitsannahme, Fat Tails</span></li>
@@ -368,6 +368,7 @@
 <li><a href="p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)</a><span>YouTube 2026-08-10: Live-Long in NQ durch High-Resistance-Bedingungen, IFVG-Doppelqualifizierung, &quot;no bodies buried&quot; am Wick-C.E., Stop-Order als Retracement-Partial</span></li>
 <li><a href="p/2026-08-13-ppi-market-review-august-13-2026-source.html">2026-08-13 - PPI Market Review August 13, 2026 (Source)</a><span>YouTube 2026-08-13: ICTs eigener Trade-Recap des PPI-Tages, Freitags-Daily-High der Vorwoche als Order Block, Ziele 30.600/30.975; Abgleich mit eigenem 2026-08-13 MNQ Daily Bias — Richtung stimmte, eigene Ziele zu konservativ</span></li>
 <li><a href="p/2026-08-15-the-week-in-the-life-cycle-of-price-source.html">2026-08-15 - The Week In The Life Cycle Of Price (Source)</a><span>YouTube 2026-08-15, 85 Min: komplette Woche 11.–15.08. auf NQ von Monthly bis 1-Min-Entry; Continuous Contract zuerst, Bias über Nähe zum Vorwochen-/Vormonats-High, 15-Min als Bellwether, Gladhanding, Guarded Liquidity, TGIF ~25 %, dokumentierter Freitags-Silver-Bullet</span></li>
+<li><a href="p/2026-08-18-trade-management-removing-the-need-to-be-right-source.html">2026-08-18 - Trade Management &amp; Removing The Need To Be Right (Source)</a><span>YouTube 2026-08-18, 55 Min: Live-Management eines NQ-Shorts vom 17.08.; „right is not required for profitability&quot;, Ziel als Black Hole, Montags-NWOG-Framework, Order-Konflikt-Regel, Asian Dealing Range 19–22 ET bei Index-Futures; eigener 1s-Datenabgleich: Ziel 14 Min nach Videoende erreicht</span></li>
 <li><a href="p/accumulation-manipulation-distribution-source.html">Accumulation - Manipulation - Distribution (Source)</a><span>Opening Price als „Initial Value Price&quot;, NDOG ist kein sicherer SL-Schutz</span></li>
 <li><a href="p/advanced-ict-liquidity-concepts-source.html">Advanced ICT Liquidity Concepts (Source)</a><span>Lektion 05: Breakaway Gaps, PD Arrays bis 60 Tage rückwirkend nutzbar, ORG am ATH-Tag, 3 Stages of Accumulation</span></li>
 <li><a href="p/ai-in-finance-and-quantitative-analysis-source.html">AI in Finance and Quantitative Analysis (Source)</a><span>NTPU-Vorlesungsfolien; inhaltlich</span></li>
