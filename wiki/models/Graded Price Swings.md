@@ -1,7 +1,7 @@
 ---
 tags: [model, ict, trading-ict, mentorship-2020, quadranten, cisd]
 created: 2026-08-02
-updated: 2026-08-02
+updated: 2026-08-23
 sources: ["[[CISD Mini Serie - Lecture 2 (Source)]]"]
 ---
 
@@ -46,7 +46,7 @@ Swing Low) — damit switcht das Programm.
 ## Verhältnis zum MMXM
 
 > **Es sind laut Quelle nur zwei Modelle.** Das Graden der Price Swings ist ein **eigenständiges
-> Modell neben dem MMXM** (Market Maker Buy/Sell Model): schaut ICT nicht nach einem MMXM-Setup,
+> Modell neben dem [[MMXM (Market Maker Buy & Sell Model)|MMXM]]** (Market Maker Buy/Sell Model): schaut ICT nicht nach einem MMXM-Setup,
 > schaut er nach diesem. *„Mehr Models gibt es nicht es sind diese beiden!"*
 
 > ⚠️ Diese Aussage steht quer zum übrigen Vault, der unter `wiki/models/` inzwischen über 20 Seiten
@@ -54,8 +54,8 @@ Swing Low) — damit switcht das Programm.
 > Vermutlich ist „Modell" hier enger gemeint — im Sinne eines **übergeordneten Deliverungs-Rahmens**,
 > nicht eines Setups. Nicht aufgelöst, nur markiert.
 >
-> ⚠️ **MMXM hat im Vault bislang keine eigene Seite**, obwohl es hier als eine der beiden Säulen
-> genannt wird. Lücke — Kandidat für den nächsten Ingest.
+> ✅ **Erledigt (2026-08-23)**: MMXM hat jetzt eine eigene Seite — [[MMXM (Market Maker Buy & Sell Model)|MMXM]].
+> Dort sind beide Kurvenhälften, die ITH/ITL-Abgrenzung und die HTF-Reihenfolge belegt.
 
 ## Verwandt
 

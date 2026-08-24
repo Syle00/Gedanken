@@ -1,7 +1,7 @@
 ---
 tags: [concept, ict, trading-ict]
 created: 2026-08-01
-updated: 2026-08-16
+updated: 2026-08-23
 sources: ["[[One Shot One Kill Model (Source)]]"]
 ---
 
@@ -69,6 +69,52 @@ in `cot.py::demo()` festgehalten.
 Ausgewertet werden nach ICT-Lesart **nur Commercials gegen Large Speculators** (Non-Commercials);
 Small Specs bleiben außen vor. `gegenlaeufig` markiert den interessanten Zustand, in dem beide
 Gruppen auf verschiedenen Seiten stehen.
+
+## ⚠️ Bestand vs. Veränderung — `gegenlaeufig` misst nur den Bestand
+
+Aufgefallen bei der Bias-Erstellung für KW35 (2026-08-23), Report-Stand 2026-08-18.
+
+`gegenlaeufig` vergleicht die **Vorzeichen der Netto-Positionen**. Stehen Commercials und Large
+Specs beide netto short, meldet das Feld `false` — auch dann, wenn beide Gruppen in der
+Berichtswoche **gegenläufig gehandelt** haben. Genau dieser Fall lag am 18.08. vor:
+
+| NQ (NASDAQ MINI) | 2026-08-11 | 2026-08-18 | Veränderung |
+|---|---|---|---|
+| Commercials | +17.475 | −12.347 | **−29.822** |
+| Large Specs | −39.302 | −10.416 | **+28.886** |
+
+Die beiden Gruppen bewegen sich fast spiegelbildlich — das ist die Konstellation, auf die ICT
+abstellt. Der Bestand sagt `gegenlaeufig: false`, der **Fluss** sagt das Gegenteil. −29.822 ist
+zugleich die größte bearishe Wochenbewegung der Commercials in der 2026er-NQ-Reihe (zweitgrößte
+Bewegung überhaupt nach +30.388 am 04.08.).
+
+**Und der Fluss kann zwischen NQ und ES auseinanderlaufen, obwohl der Bestand dasselbe sagt:**
+
+| ES (E-MINI S&P 500) | 2026-08-11 | 2026-08-18 | Veränderung |
+|---|---|---|---|
+| Commercials | −142.440 | −113.553 | **+28.887** |
+| Large Specs | +11.280 | −10.560 | −21.840 |
+
+ES-Commercials haben ihren Short in derselben Woche um gut 20 % **abgebaut** — und zwar von
+**−142.440, exakt dem Low der 3M-/6M-Range**, also vom Extrem weg. Im Bestand liest ES über alle
+fünf Horizonte bearish, im Fluss war es die Gegenrichtung zu NQ.
+
+**Praktische Folge:** Bestand und Fluss sind zwei verschiedene Aussagen und dürfen nicht
+vermischt werden. Die auf dieser Seite belegte und nachgerechnete EQ-Lesart betrifft
+ausschließlich den **Bestand**. Eine Aussage wie „die Commercials bauen schnell Shorts auf, also
+fällt der Preis" stützt sich dagegen auf den **Fluss** — der ist bislang **nicht gebacktestet**.
+`algo/backtest_cot_divergenz.py` prüft die *Bestands*-Divergenz zwischen NQ und ES, nicht die
+Fluss-Divergenz.
+
+> **Offen, Kandidat für einen eigenen Lauf:** Sagt die Wochenveränderung der Commercials
+> (allein oder gegen die der Large Specs) etwas über die Folgewoche? Gleiche Zeitachse wie in
+> `backtest_cot_divergenz.py` beachten — Report-Stand Dienstag, Veröffentlichung Freitag, handelbar
+> ab Montag der Folgewoche, sonst Lookahead.
+
+**Kein Wirkmechanismus.** Der COT-Report ist ein Positionierungs-Snapshot vom Dienstag, der
+freitags nach Börsenschluss erscheint. Er **drückt** den Preis nicht — Formulierungen wie „der COT
+drückt Price runter" beschreiben eine Korrelationsthese, keinen Kausalzusammenhang, und schon gar
+keine intraweek wirkende Kraft.
 
 ## Verwandt
 

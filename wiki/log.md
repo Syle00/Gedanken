@@ -21,14 +21,6 @@ Kürzung, kein Bug — im Zweifel im Archiv nachschlagen.
 
 ## Offene Punkte (nicht durch eine Wiki-Seite abgedeckt)
 
-- **MMXM (Market Maker Buy/Sell Model) hat weiterhin keine eigene Wiki-Seite.** Seit dem ersten
-  Ingest (2026-08-02) wiederholt als Lücke notiert (laut Quelle eines von nur zwei "echten"
-  Modellen neben [[Graded Price Swings]]). Der Marker steht bereits einzeln auf
-  [[Graded Price Swings]] und [[CISD Mini Serie - Lecture 2 (Source)]] ("MMXM hat im Vault
-  bislang keine eigene Seite") — hier zusätzlich gelistet, weil `wiki/index.md`s eigene
-  "Offene Punkte"-Liste diesen Punkt nicht führt und die Lücke sonst nur über die Volltextsuche
-  auf einer der beiden Seiten auffindbar wäre. Kandidat für den nächsten ICT-Ingest.
-
 - **Marktdaten-Lücken, nur mit neuem TradingView-Export lösbar** (yfinance-Backfill scheidet
   aus, weil er fremde Vendor-Preise in eine TradingView-Datei mischen würde — Quelle:
   `log-archiv-bis-2026-08.md:2215`, Eintrag 2026-08-13 "Marktdaten-Nachzug"): **ES 12.08.**

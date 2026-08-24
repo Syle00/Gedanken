@@ -44,7 +44,7 @@ Bias-Anker für [[ICT Daily Range Session Timing|Daytrades]].
 - Speed + Magnitude deuten auf Repricing durch große Player hin (Zinsentscheide, Notenbanken, oder
   Spekulation).
 - Beispielmuster: großer bearish Candle am Montag erreicht eine PD, Preis kehrt zur "Balanced Price
-  Range" zurück, um ein **MMBM/MMSM** (Market Maker Buy/Sell Model) zu bilden — ein Lower High am
+  Range" zurück, um ein **[[MMXM (Market Maker Buy & Sell Model)|MMXM]]** (Market Maker Buy/Sell Model) zu bilden — ein Lower High am
   Dienstag verringert die Wahrscheinlichkeit etwas, spricht aber oft trotzdem stark dafür.
 
 ![[image 206.png]]

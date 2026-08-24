@@ -71,7 +71,7 @@ Wo TradingView-1m denselben Tag abdeckt (14 Tage), wurde 1s dagegen gegengerechn
 sonst ≤ 1,75:
 
 | Tag | verglichene Minuten | ungleich | max. Abweichung |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 28.07. | 566 | 1 | 0.25 |
 | 29.07. | 1380 | 3 | 0.50 |
 | 30.07. | 1380 | 7 | 2.00 |
@@ -101,7 +101,7 @@ gefüllt.
 **NWOG 02.08. — Qs / Os / Hs**
 
 | | Level |
-|---|---|
+| --- | --- |
 | High (Open So 18:00) | 28565.00 |
 | O7 | 28530.25 |
 | O6 / **Q3** | 28495.50 |
@@ -115,7 +115,7 @@ gefüllt.
 ### NWOG der letzten Wochen
 
 | Level | Datum | Close (Fr 17:00) | Open (So 18:00) | Gap | C.E. | Status |
-|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- |
 | NWOG | So 16.08. | 30154.00 | 30170.00 | +16.00 | 30162.00 | gefüllt |
 | NWOG | So 09.08. | 29839.50 | 29851.25 | +11.75 | 29845.50 | gefüllt |
 | NWOG | So 02.08. | 28287.00 | 28565.00 | +278.00 | 28426.00 | **offen** |
@@ -124,7 +124,7 @@ gefüllt.
 ### NDOG der auslaufenden Woche (KW34)
 
 | Level | Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Status |
-|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- |
 | NDOG | Mo 17.08. | 30078.25 | 30077.00 | −1.25 | 30077.50 | gefüllt |
 | NDOG | Di 18.08. | 29559.50 | 29566.50 | +7.00 | 29563.00 | gefüllt |
 | NDOG | Mi 19.08. | 29561.00 | 29561.50 | +0.50 | 29561.25 | gefüllt |
@@ -140,7 +140,7 @@ Woche noch nicht. Die Range ist deshalb direkt aus den **1s-Daten** nachgerechne
 (Handelstag = 18:00 NY Vortag → 16:59:59 NY), diesmal **vollständig Mo–Fr**:
 
 | Tag | High | Low | Close |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Mo 17.08. | 30343.00 | 30054.50 | 30078.25 |
 | Di 18.08. | 30121.25 | 29514.00 | 29559.50 |
 | Mi 19.08. | 29757.25 | 29375.75 | 29561.00 |
@@ -154,7 +154,7 @@ Bearish-Wochenprofil nach [[Weekly Range Trading Model]], Freitag schließt im u
 **KW34-Range — Qs / Os / Hs**
 
 | | Level |
-|---|---|
+| --- | --- |
 | High (Mo 17.08.) | 30343.00 |
 | O7 | 30200.50 |
 | O6 / **Q3** | 30058.00 |
@@ -176,14 +176,14 @@ Large Speculators**, Small Specs bleiben außen vor. Signal = Position **gegen d
 jeweiligen Lookback-Range**, nicht gegen die 0-Linie.
 
 | Symbol | Stand | Commercials | Large Specs | 3M | 6M | 12M | 2Y | 4Y |
-|---|---|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | **NQ** | 18.08.2026 | −12.347 | −10.416 | bearish | bearish | **bullish** | **bullish** | bearish |
 | **ES** | 18.08.2026 | −113.553 | −10.560 | bearish | bearish | bearish | bearish | bearish |
 
 **NQ — Horizonte im Detail (`einig: false`):**
 
 | Lookback | Low | EQ | High | Commercials | Signal |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | 3M (13 Reports) | −14.946 | **+1.264,5** | +17.475 | −12.347 | bearish |
 | 6M (26) | −27.334 | **−4.929,5** | +17.475 | −12.347 | bearish |
 | 12M (52) | −66.754 | **−24.639,5** | +17.475 | −12.347 | bullish |
@@ -201,7 +201,7 @@ sachnähere: dort stehen die Commercials unter EQ, also **leicht bearish**.
 **ES — Horizonte im Detail (`einig: true`):**
 
 | Lookback | Low | EQ | High | Commercials | Signal |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | 3M (13) | −142.440 | **−16.183,0** | +110.074 | −113.553 | bearish |
 | 6M (26) | −142.440 | **−16.183,0** | +110.074 | −113.553 | bearish |
 | 12M (52) | −142.440 | **−4.210,5** | +134.019 | −113.553 | bearish |
@@ -279,3 +279,6 @@ einzige unerledigte Gap im Fenster und bleibt damit der übergeordnete Downside-
 **Keine NFP-Woche** — `algo/backtest_nfp_week.py` ist nicht einschlägig, NFP ist der 04.09.
 
 ## Mein Bias
+
+Viele News wird also eine volatile Woche vergangeen WOche waren wir antizipiert Baerish was auch COT Daten nachweisen. Durch den schnellen und enorm starken Aufbau von Baerishen Positionen bin ich auch diese Woche weiterhin Baerish.
+Weekly Chart haben wir das C.E des Daily BISI berührt und drüber geclosed ebenso das Weekly BISI nicht das C.E getroffen aber kurz davor. Montag erwarte ich Bullishes Retracement höchstens bis zum SIBI C.E vom 18.08. VII zwischen 31.07 und 01.08 ist ein gutes Target für diese Woche. Innerhalb der VII ist ein NWOG das nehme ich als DOL. Ich bin BAerish und erwarte ein MMSM Model den COT drückt Price enorm runter. Im ES sieht es genauso aus.

@@ -22,7 +22,7 @@
 <a class="brand" href="index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="index.html#concepts">Konzepte<span class="count">144</span></a></li>
-<li><a href="index.html#models">Modelle<span class="count">28</span></a></li>
+<li><a href="index.html#models">Modelle<span class="count">29</span></a></li>
 <li><a href="index.html#sources">Quellen<span class="count">355</span></a></li>
 <li><a href="index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li><a href="index.html#meta">Meta<span class="count">3</span></a></li>
@@ -32,7 +32,7 @@
 <article class="home">
   <h1>Gedanken</h1>
   <p class="lead">Persönliches Wissenssystem nach dem LLM-Wiki-Muster.
-     548 Seiten in 5 Kategorien.</p>
+     549 Seiten in 5 Kategorien.</p>
 <section id="concepts" class="catsection"><h2>Konzepte <span class="count">144</span></h2><ul class="cards">
 <li><a href="p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a><span>Low-taken-Expansion vs. Dip-Reentry-Phasen nach einem Sweep</span></li>
 <li><a href="p/algorithmic-order-flow.html">Algorithmic Order Flow</a><span>Fünfstufige Bestätigungs-Hierarchie von Macro Interest Rate bis State of Delivery</span></li>
@@ -55,7 +55,7 @@
 <li><a href="p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a><span>Q-Level validieren PD Arrays entlang der antizipierten Dealing Range</span></li>
 <li><a href="p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a><span>Down-/Up-Close-Candles als struktureller Support/Resistance</span></li>
 <li><a href="p/continuous-contract-vs-front-month.html">Continuous Contract vs. Front Month</a><span>ICTs feste Analysereihenfolge: Referenzfeld aus dem Continuous Contract, dann Level-Abgleich gegen den Front Month</span></li>
-<li><a href="p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a><span>Positionierungsdaten großer Player, 12-Monats-Hedging-Methode</span></li>
+<li><a href="p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a><span>Positionierungsdaten großer Player, 12-Monats-Hedging-Methode; neu die Trennung Bestand vs. Fluss — gegenlaeufig misst nur den Bestand, NQ und ES liefen am 18.08. im Fluss auseinander</span></li>
 <li><a href="p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a><span>harte Drawdown-Obergrenze bei praktisch unveränderter Wachstumsrate (0,5 statt 0,9 Drawdown); Risikomanagement</span></li>
 <li><a href="p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a><span>warum CV bei Marktdaten pessimistisch und optimistisch verzerrt ist und nicht empfohlen wird; Ausnahme CV-in-Walk-Forward; algo-methodology</span></li>
 <li><a href="p/cscv-combinatorially-symmetric-cross-validation.html">CSCV (Combinatorially Symmetric Cross Validation)</a><span>Dominanz-Test: schlägt der IS-beste Parametersatz OOS den Median seiner Konkurrenten? algo-methodology</span></li>
@@ -179,7 +179,7 @@
 <li><a href="p/walk-forward-guard-buffer-varianz-inflation.html">Walk-Forward Guard Buffer &amp; Varianz-Inflation</a><span>OMIT = min(Lookahead, Lookback) − 1; ohne Puffer erreicht ein wertloses System auf Random-Walk-Daten t = 74,64; algo-methodology</span></li>
 <li><a href="p/zeitreihenanalyse-fuer-finance.html">Zeitreihenanalyse für Finance</a><span>Stationarität, Autokorrelation/Box-Pierce, Wold-Zerlegung, ARMA(p,q), Yule-Walker; quant-finance</span></li>
 </ul></section>
-<section id="models" class="catsection"><h2>Modelle <span class="count">28</span></h2><ul class="cards">
+<section id="models" class="catsection"><h2>Modelle <span class="count">29</span></h2><ul class="cards">
 <li><a href="p/0-gmt-ipda-true-day-reset-entry.html">0 GMT IPDA True Day Reset Entry</a><span>Entry am IPDA-True-Day-Reset unabhängig von CBDR/London</span></li>
 <li><a href="p/20-pips-per-day.html">20 Pips Per Day</a><span>Tägliches ~20-Pip-Expansion-Leg-Daytrade-Modell</span></li>
 <li><a href="p/bond-mega-trades.html">Bond Mega-Trades</a><span>Saisonales HTF-Swing-Modell für 30Y-Treasuries</span></li>
@@ -195,6 +195,7 @@
 <li><a href="p/market-on-close-moc-macro-model.html">Market on Close (MOC) Macro Model</a><span>15:50–16:00-Macro, zwei Ranges (Daily + Final-Hour), Dealing-Range-Fib bis 16tel, Order-Flow-Entry, SL-/Exit-Philosophie, ES- und NQ-Beispiel je auf wenige Ticks genau</span></li>
 <li><a href="p/meine-strategien-uebersicht.html">Meine Strategien (Übersicht)</a><span>Einstiegspunkt für alle live-getradeten, vollständig geregelten Strategien (aktuell: Silver Bullet)</span></li>
 <li><a href="p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a><span>Wick-Entry, CISD-Reentry-Skalierung, Event-Horizon-Exits; „Präzision erzeugt verpasste Trades&quot;, dreistufige Stop-Kaskade, harte Re-Entry-Sperre (2026-08-01, erg. 2026-08-16)</span></li>
+<li><a href="p/mmxm-market-maker-buy-sell-model.html">MMXM (Market Maker Buy &amp; Sell Model)</a><span>der übergeordnete Auslieferungsrahmen: Kurve aus Sell Side und Buy Side, MMBM (V, im Aufwärtstrend) und MMSM (Λ, im Abwärtstrend); benannt nach dem Ziel, nicht nach der ersten Bewegung; ITH/ITL begrenzen die Kurve, HTF zuerst. Schließt die seit 2026-08-02 offene Vault-Lücke</span></li>
 <li><a href="p/no-bias-engagement-routine.html">No-Bias Engagement Routine</a><span>Vorgehen ohne klaren Bias zu Handelsbeginn</span></li>
 <li><a href="p/ny-lunch-macro-model.html">NY Lunch Macro Model</a><span>10-Uhr-Linie, Target-Liq muss intakt bleiben, Execution im Macro 10:50–11:10</span></li>
 <li><a href="p/ny-pm-trend.html">NY PM Trend</a><span>Regeln für die PM-Session (13–16 Uhr NY) + Index SMT</span></li>

@@ -1,7 +1,7 @@
 ---
 tags: [synthesis, algo, backtest, generiert]
 created: 2026-08-04
-updated: 2026-08-11
+updated: 2026-08-23
 sources: ["[[../../algo/explore_patterns.py]]", "[[../../algo/backtest_daily_patterns.py]]", "[[../../algo/backtest_ndog.py]]", "[[../../algo/backtest_nwog.py]]", "[[../../algo/backtest_tgif.py]]", "[[../../algo/backtest_1m_gaps.py]]", "[[../../algo/backtest_nfp_week.py]]"]
 ---
 
@@ -183,6 +183,42 @@ regelbasierte Trades zeigt — stattdessen zwei Proxy-Metriken:
 lässt sich mit dieser Datenlage nicht auf "mehr Chop" zurückführen — plausibler ist ein größerer
 nötiger Stop-Abstand bei unveränderter Positionsgröße. Bei n=6 ist das **keine belastbare
 Stichprobe** — als offene, laufend zu beobachtende Frage markiert, kein abschließendes Ergebnis.
+
+## 9. Wie weit fällt eine Woche unter den Vorwochen-Close? (Reichweiten-Referenz für DOL-Ziele)
+
+**Anlass** (2026-08-23): Die Frage, ob ein Wochenziel überhaupt in Reichweite liegt, wurde
+bislang nach Gefühl beantwortet. Beim KW35-Bias lag das einzige offene NWOG **809 Punkte
+(−2,75 %)** unter dem Freitags-Close — plausibel oder nicht?
+
+**Methode**: MNQ-1d über `backtest_common.load_rows("MNQ")`, 1.882 Handelstage
+(06.05.2019–14.08.2026), zu ISO-Wochen gruppiert, Wochen mit weniger als drei Handelstagen
+verworfen → **n = 379 Wochen**. Gemessen wird je Woche das **Wochen-Low gegen den Close der
+Vorwoche**, in Prozent (nicht in Punkten — der Index hat sich über den Zeitraum vervielfacht,
+Punktdistanzen sind nicht vergleichbar).
+
+| Kennzahl | Wert |
+|---|---|
+| Median-Drawdown ab Vorwochen-Close | **−1,65 %** |
+| 25. Perzentil | −3,15 % |
+| 10. Perzentil | −5,10 % |
+| Wochen mit Low ≤ **−2,75 %** | 113 von 379 = **29,8 %** |
+| Wochen mit Low ≤ **−3,23 %** | 88 von 379 = **23,2 %** |
+
+**Lesart**: Ein Ziel rund **2,7 % unter dem Freitags-Close wird in nicht ganz jeder dritten Woche
+erreicht**, eines bei 3,2 % in nicht ganz jeder vierten. Ein Ziel dieser Größenordnung ist also
+weder abwegig noch der Normalfall — es beschreibt eine Woche im oberen Viertel der Abwärts-
+Reichweite. Der Median von −1,65 % ist die brauchbarere Erwartung für ein „normales" Wochenziel.
+
+⚠️ **Unkonditioniert.** Gemessen über *alle* Wochen, ohne Filter auf Bias, COT, Wochenprofil oder
+Newslage. Eine Woche mit bearishem Setup dürfte höhere Quoten haben — das ist hier **nicht**
+gemessen und darf aus dieser Tabelle nicht abgelesen werden.
+
+⚠️ **Symbol**: gerechnet auf **MNQ** (1d-Continuous), weil nur diese Reihe über den vollen
+Zeitraum vorliegt. Für *prozentuale* Bewegungen desselben Index ist das unkritisch; für
+Punkt- oder Levelangaben gilt weiterhin die strikte Trennung Micro/Mini — MNQ ersetzt NQ nicht.
+
+**Nutzung**: Reichweiten-Plausibilisierung für DOL-Ziele im Weekly Bias. Ergänzt Punkt 5 (NWOG),
+das misst, *ob* das NWOG erreicht wird; dieser Punkt misst, *wie weit* eine Woche überhaupt trägt.
 
 ## Einordnung
 

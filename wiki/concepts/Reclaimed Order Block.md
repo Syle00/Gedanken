@@ -1,15 +1,14 @@
 ---
 tags: [concept, ict, trading-ict]
 created: 2026-08-01
-updated: 2026-08-06
+updated: 2026-08-23
 sources: ["[[Reclaimed ICT Orderblock (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Reclaimed ICT Orderblock (Source)]]"]
 ---
 
 # Reclaimed Order Block
 
-[[Order Block]]-Variante speziell im **MMXM-Modell** (Market Maker Buy/Sell Model, siehe
-[[New Week Opening Gap (NWOG) Bias]]): wird genutzt, nachdem die Buy- oder Sell-Curve abgeschlossen
-ist, v.a. wenn keine FVG, [[Breaker Block]] oder andere PD Arrays verfügbar sind.
+[[Order Block]]-Variante speziell im **[[MMXM (Market Maker Buy & Sell Model)|MMXM]]**
+(Market Maker Buy/Sell Model): wird genutzt, nachdem die Buy- oder Sell-Curve abgeschlossen ist, v.a. wenn keine FVG, [[Breaker Block]] oder andere PD Arrays verfügbar sind.
 
 ICT nennt das Konzept in der Monthly Mentorship (Dezember 2016) "Reinforcing Orderblock Theory":
 im Uptrend wird ein alter Sell-Block auf der Buy Side der Curve zu einem reclaimed Long, im

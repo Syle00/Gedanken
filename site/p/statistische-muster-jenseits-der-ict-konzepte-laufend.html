@@ -22,7 +22,7 @@
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
 <li><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">28</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
 <li class="active"><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
 <li><a href="../index.html#meta">Meta<span class="count">3</span></a></li>
@@ -53,7 +53,7 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#synthesis">Synthese</a></div>
   <h1>Statistische Muster jenseits der ICT-Konzepte (laufend)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-11</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">explore_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_daily_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_ndog.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_nwog.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_tgif.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_1m_gaps.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_nfp_week.py</span></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">synthesis</span> <span class="tag">algo</span> <span class="tag">backtest</span> <span class="tag">generiert</span></div><div class="dates">erstellt 2026-08-04 · aktualisiert 2026-08-23</div><div class="srcline"><span>Quellen:</span> <span class="broken" title="Seite existiert noch nicht">explore_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_daily_patterns.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_ndog.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_nwog.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_tgif.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_1m_gaps.py</span>, <span class="broken" title="Seite existiert noch nicht">backtest_nfp_week.py</span></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#1-range-autokorrelation-echtes-volatility-clustering">1. Range-Autokorrelation: echtes Volatility Clustering</a></li>
@@ -64,6 +64,7 @@
 <li><a href="#6-tgif-median-trifft-die-zielzone-einzelwochen-kaum">6. TGIF: Median trifft die Zielzone, Einzelwochen kaum</a></li>
 <li><a href="#7-intraday-vakuen-zwischen-zwei-1m-kerzen-extrem-selten-praktisch-immer-randstandig">7. Intraday-Vakuen zwischen zwei 1m-Kerzen: extrem selten, praktisch immer randständig</a></li>
 <li><a href="#8-nfp-freitage-hohere-range-aber-nicht-mehr-whipsaw-n-zu-klein-offen">8. NFP-Freitage: höhere Range, aber nicht mehr Whipsaw (n zu klein, offen)</a></li>
+<li><a href="#9-wie-weit-fallt-eine-woche-unter-den-vorwochen-close-reichweiten-referenz-fur-dol-ziele">9. Wie weit fällt eine Woche unter den Vorwochen-Close? (Reichweiten-Referenz für DOL-Ziele)</a></li>
 <li><a href="#einordnung">Einordnung</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -228,6 +229,57 @@ regelbasierte Trades zeigt — stattdessen zwei Proxy-Metriken:</p>
 lässt sich mit dieser Datenlage nicht auf "mehr Chop" zurückführen — plausibler ist ein größerer
 nötiger Stop-Abstand bei unveränderter Positionsgröße. Bei n=6 ist das <strong>keine belastbare
 Stichprobe</strong> — als offene, laufend zu beobachtende Frage markiert, kein abschließendes Ergebnis.</p>
+<h2 id="9-wie-weit-fallt-eine-woche-unter-den-vorwochen-close-reichweiten-referenz-fur-dol-ziele">9. Wie weit fällt eine Woche unter den Vorwochen-Close? (Reichweiten-Referenz für DOL-Ziele)</h2>
+<p><strong>Anlass</strong> (2026-08-23): Die Frage, ob ein Wochenziel überhaupt in Reichweite liegt, wurde
+bislang nach Gefühl beantwortet. Beim KW35-Bias lag das einzige offene NWOG <strong>809 Punkte
+(−2,75 %)</strong> unter dem Freitags-Close — plausibel oder nicht?</p>
+<p><strong>Methode</strong>: MNQ-1d über <code>backtest_common.load_rows("MNQ")</code>, 1.882 Handelstage
+(06.05.2019–14.08.2026), zu ISO-Wochen gruppiert, Wochen mit weniger als drei Handelstagen
+verworfen → <strong>n = 379 Wochen</strong>. Gemessen wird je Woche das <strong>Wochen-Low gegen den Close der
+Vorwoche</strong>, in Prozent (nicht in Punkten — der Index hat sich über den Zeitraum vervielfacht,
+Punktdistanzen sind nicht vergleichbar).</p>
+<table>
+<thead>
+<tr>
+<th>Kennzahl</th>
+<th>Wert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Median-Drawdown ab Vorwochen-Close</td>
+<td><strong>−1,65 %</strong></td>
+</tr>
+<tr>
+<td>25. Perzentil</td>
+<td>−3,15 %</td>
+</tr>
+<tr>
+<td>10. Perzentil</td>
+<td>−5,10 %</td>
+</tr>
+<tr>
+<td>Wochen mit Low ≤ <strong>−2,75 %</strong></td>
+<td>113 von 379 = <strong>29,8 %</strong></td>
+</tr>
+<tr>
+<td>Wochen mit Low ≤ <strong>−3,23 %</strong></td>
+<td>88 von 379 = <strong>23,2 %</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lesart</strong>: Ein Ziel rund <strong>2,7 % unter dem Freitags-Close wird in nicht ganz jeder dritten Woche
+erreicht</strong>, eines bei 3,2 % in nicht ganz jeder vierten. Ein Ziel dieser Größenordnung ist also
+weder abwegig noch der Normalfall — es beschreibt eine Woche im oberen Viertel der Abwärts-
+Reichweite. Der Median von −1,65 % ist die brauchbarere Erwartung für ein „normales" Wochenziel.</p>
+<p>⚠️ <strong>Unkonditioniert.</strong> Gemessen über <em>alle</em> Wochen, ohne Filter auf Bias, COT, Wochenprofil oder
+Newslage. Eine Woche mit bearishem Setup dürfte höhere Quoten haben — das ist hier <strong>nicht</strong>
+gemessen und darf aus dieser Tabelle nicht abgelesen werden.</p>
+<p>⚠️ <strong>Symbol</strong>: gerechnet auf <strong>MNQ</strong> (1d-Continuous), weil nur diese Reihe über den vollen
+Zeitraum vorliegt. Für <em>prozentuale</em> Bewegungen desselben Index ist das unkritisch; für
+Punkt- oder Levelangaben gilt weiterhin die strikte Trennung Micro/Mini — MNQ ersetzt NQ nicht.</p>
+<p><strong>Nutzung</strong>: Reichweiten-Plausibilisierung für DOL-Ziele im Weekly Bias. Ergänzt Punkt 5 (NWOG),
+das misst, <em>ob</em> das NWOG erreicht wird; dieser Punkt misst, <em>wie weit</em> eine Woche überhaupt trägt.</p>
 <h2 id="einordnung">Einordnung</h2>
 <p>Punkt 1 ist der robusteste Fund hier (großes n, deutlicher Effekt) und Kandidat für eine
 eigene Konzept-Seite, falls er sich mit wachsendem Datenstand hält. Punkt 2 ist schwächer und
