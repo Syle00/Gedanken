@@ -343,6 +343,23 @@ nicht in `selfcheck.py` eingehaengt).
   zum RTH-Open (Tageszeit-Confounder). Kennzahlen je Block: Range, |Netto|, dir = Netto/Range
   und der Tagesrang nach Range. Signifikanz per Mann-Whitney (einseitig, Macro > Kontrolle).
 
+  **Seit 2026-08-16 laeuft es standardmaessig auf 1s** (IBKR-Parquets, NQ/ES) statt auf 1m --
+  `--tf 1m` schaltet auf die alte CSV-Basis zurueck und reproduziert die frueheren
+  MNQ-Zahlen unveraendert (verifiziert: n=593/1271, p=0,0009/0,0001/0,0015/0,0062). Drei
+  Dinge muss man dabei wissen:
+  - Der Luecken-Waechter zaehlt **Minuten mit Kerze**, nicht Kerzen (`MIN_MINUTEN = 15` von
+    20). Auf 1s liefert IBKR fuer jede Sekunde eine Kerze -- eine Kerzenzaehlung waere dort
+    immer erfuellt und der Waechter wirkungslos. Auf 1m ist beides identisch.
+  - Phantomkerzen (`volume == 0`, flach auf dem letzten Kurs) filtert `marktdaten.tage()`
+    weg, bevor gemessen wird. Von 82.800 Rohkerzen eines 23h-Tags bleiben ~46.000-70.000.
+  - Die FVG-Schwelle haengt am Timeframe (`FVG_REL_DEFAULT`): 0,45 auf 1m, **1,50 auf 1s**.
+    Auf 1s ist die lokale Median-Kerzenrange fast immer genau ein Tick, `size_rel` rastet
+    darum auf ein Gitter ein und der Median 1,00 ist ein Massepunkt mit 24 % aller FVG --
+    ">= Median" haelt dort 68 % statt der ~50 %, die die 1m-Regel haelt. Ergebnisse gehen
+    nach `algo/results/macro_<symbol>_<tf>.json` -- **beide** Schluessel sind noetig: das
+    frueher einzige `macro.json` liess einen ES-Lauf den MNQ-Lauf stillschweigend
+    ueberschreiben (beim Umbau aufgefallen, alte Dateien entsprechend umbenannt).
+
 - `backtest_open_drive_vs_sb.py` -- laesst ein starker RTH-Open-Drive (09:30-09:50) die
   Silver-Bullet-Stunde (10:00-11:00) leerlaufen? Anlass: Jannes' Satz nach dem Tapereading vom
   2026-08-11, der Move sei vor seinem Fenster gelaufen. Misst je Tag Range und
@@ -387,7 +404,7 @@ Mittelfristig loest der IBKR-Adapter (PLAN.md Schritt 4) das Problem an der Wurz
 nur ~30 Tage zurueck (yfinance-Grenze), aktuell 22 MNQ-Tage bis einschliesslich 2026-08-10.
 Der laufende Handelstag fehlt immer, weil `fetch_yfinance.py` ihn bewusst nicht schreibt
 (`end` exklusiv, sonst bliebe ein Tagesstumpf liegen). Bloecke desselben Tages sind nicht unabhaengig, der
-p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_BARS = 15` verwirft Bloecke mit
+p-Wert in `backtest_macro.py` ist dadurch optimistisch. `MIN_MINUTEN = 15` verwirft Bloecke mit
 Datenluecken, statt sie als ruhigen Markt zu zaehlen; `backtest_open_drive_vs_sb.py` macht
 dasselbe mit `MIN_BARS_OPEN = 15` / `MIN_BARS_SB = 45` und wirft damit Fragmenttage raus. Bei
 n=21 sind beide Nicht-Befunde dort schwach -- der Test gehoert mit wachsendem Bestand wiederholt.
@@ -572,6 +589,55 @@ exakt passte -- klassisches DST-Muster. `fetch_histdata.py` konvertiert deshalb 
 (`America/New_York`, mit DST) statt per fixer Verschiebung. Nach dem Fix: alle drei Testtage bei
 94-100% `mid >= bid`-Konsistenz, Restabweichung ~0,3-0,4 Pip (plausibler halber Spread).
 
+**⚠️ Nachtrag 2026-08-15 -- die obige Regel gilt nur bis 2018.** Die Verifikation oben testete
+zwei Sommertage und einen Wintertag. An solchen Tagen sind US- und EU-Sommerzeit gleichzeitig
+aktiv bzw. gleichzeitig aus; die US- und die EU-Umstellungsregel sind dort **nicht
+unterscheidbar**. Sie unterscheiden sich nur in den ~4 Wochen pro Jahr zwischen den beiden
+Umstellungsterminen. Messung genau dort, quellenunabhaengig ueber die Wochengrenzen des
+24x5-Marktes (Freitagsschluss 17:00 NY, Sonntagsoeffnung 17:00 NY), alle 10 Paare:
+
+| Woche | 2007-2018 | 2019-2026 |
+|---|---|---|
+| Luecken-Woche (US != EU) | letzte Freitagskerze 16:59 NY ✓ | **15:59 NY** (1h zu frueh) |
+| gewoehnliche Woche | 16:59 NY ✓ | 16:59 NY ✓ |
+
+Der Endpoint hat also **2019 die Umstellungstermine** von der US- auf die EU-Regel gewechselt,
+der Offset (-5/-4) blieb -- typisch fuer eine europaeische Broker-Serveruhr (EET/EEST minus 7h).
+`label_zu_epoch()` bildet das als zwei Regime ab: vor `EU_REGEL_AB` (2019-01-01) echte
+`America/New_York`-Zeit, danach "Europe/Berlin minus 6h". Der Umschalttermin ist nur auf
+2018-11-05..2019-03-09 eingrenzbar -- in diesem Intervall liegt keine Luecken-Woche, die Wahl
+darin wirkt sich also auf kein Datum aus. Sechs Selbstcheck-Faelle inkl. Negativkontrolle.
+**Bereits geladener Bestand ist davon betroffen** (140 Handelstage je Paar, 2,40 % der Kerzen) --
+Reparatur siehe `repair_dst_2019.py` unten.
+
+## `repair_dst_2019.py` -- Umstempeln des DST-Versatzes im vorhandenen Bestand
+
+**Was:** Verschiebt die Zeitstempel der betroffenen Tagesdateien in `raw/marktdaten-tief/` um
++1h und sortiert sie nach NY-Tag neu ein. `--apply` schreibt, ohne Flag Trockenlauf;
+`--stichprobe` listet die Monats-Chunks fuer eine Gegenprobe per frischem Download.
+
+**Wie:** Die Luecken-Fenster werden aus `zoneinfo` berechnet (nicht als Datumsliste gepflegt),
+ab `EU_REGEL_AB`. Alle betroffenen Dateien werden gelesen, +3600 s gerechnet und nach NY-Tag neu
+gebuendelt -- noetig, weil die letzte Stunde eines Tages durch die Verschiebung in die Datei des
+Folgetags wandert. Vor dem Schreiben laeuft `pruefe_kerzen()` wie im Downloader.
+
+**Warum umstempeln statt neu laden:** Der Fehler ist eine reine Beschriftung -- jede Kerze
+existiert, nur ihr Zeitstempel ist 3600 s zu klein, die OHLC-Werte sind unberuehrt. Das
+Umstempeln ist verlustfrei und exakt aequivalent zu einem Neu-Download, holt aber nicht den
+oben dokumentierten Live-Feed-Drift des juengsten Datenrands in den Bestand.
+
+**Tragende Annahme, im Code geprueft statt vorausgesetzt:** alle Sommerzeit-Umstellungen fallen
+auf einen Sonntag, der Forex-Markt oeffnet aber erst Sonntag 17:00 NY -- beide Fenstergrenzen
+liegen damit im Wochenende, es kann keine Kerze ueber den Fensterrand hinauswandern. Das Skript
+zaehlt Grenzueberschreitungen mit und warnt; Trockenlauf ueber alle 10 Paare: **0 Faelle**,
+1 962 205 Kerzen erfasst.
+
+**Bekannte Grenzen:** (1) Nach `--apply` ist `python algo/build_parquet.py` zwingend, sonst
+traegt `algo/cache/` weiter die alte Zeitachse. (2) Das Skript ist **nicht idempotent** -- ein
+zweiter Lauf verschiebt noch einmal um +1h. Vor einem Wiederholungslauf den Bestand pruefen
+(Freitagsschluss muss auf 16:59 NY liegen). (3) Es repariert nur `raw/marktdaten-tief/`, nicht
+`raw/marktdaten/` (Futures, andere Quelle, nicht betroffen).
+
 **Bulk-Import 2026-08-14 abgeschlossen:** alle 10 Paare (EURUSD + GBPUSD/USDJPY/USDCHF/AUDUSD/
 USDCAD/NZDUSD/EURJPY/EURGBP/GBPJPY), 2003-2026, 73.100 Tagesdateien, 0 echte Fehler. Kein 429
 oder IP-Sperr-Hinweis unter diesem Lastprofil (1s Pause zwischen Chunks) -- histdata.com verhaelt
@@ -585,6 +651,40 @@ zwischen zwei Downloads derselben Datei im Abstand von Minuten -- der Live-Feed 
 dort offenbar noch nach. Betrifft alle 10 Paare in unterschiedlicher Staerke (2 bis 119 Faelle je
 Chunk beobachtet). Vor praezisionskritischer Nutzung den juengsten Rand erneut ziehen und gegen
 den aktuellen Stand diffen; aeltere Jahre (2003 bis ca. 2 Monate vor "heute") sind stabil.
+
+## `fill_luecken_dukascopy.py` -- Nachfuellen fehlender Vollstunden aus Dukascopy
+
+**Was:** Sucht Handelstage, an denen mehr als drei erwartete NY-Vollstunden **komplett leer**
+sind, holt genau diese Stunden von Dukascopy und mischt sie in die vorhandene Tagesdatei.
+Trockenlauf ist Standard, `--apply` schreibt. Protokoll je Lauf nach
+`algo/results/fill_dukascopy.json` (welcher Tag, welche Stunden, wie viele Kerzen).
+
+**Warum:** histdata.com hat im Block **Februar bis Juli 2023** einen echten Datenverlust -- an
+fast allen Handelstagen fehlen ganze Stunden im Wechsel, bei allen 10 Paaren an denselben Tagen
+(EURUSD 2023-04-13: die NY-Stunden 6, 8, 10, 12, 14, 16, 18 sind leer). Maerz bis Juni sind zu
+100 % betroffen, Juli zu 95 %, Februar zu 35 %; jedes andere Jahr liegt bei ≤4 %. Das ist kein
+Importfehler: der **Tick**-Monatschunk derselben Quelle traegt exakt dieselben leeren Stunden,
+und M1-Monatschunks gibt es fuer vergangene Jahre nicht -- aus histdata ist der Block nicht
+heilbar. Fuer fensterbasierte Auswertungen ist das gravierender als ein Zeitversatz: fehlt die
+NY-Stunde 10 ganz, ist jede Aussage ueber die NY-Killzone dieses Tages leer.
+
+**Wie -- geprueft, nicht angenommen:** Auf Stunden, die in beiden Quellen vorliegen, stimmen
+Dukascopy-**Bid**-Kerzen mit dem histdata-Bestand **bitgenau** ueberein (EURUSD 2023-04-13 09h NY
+und USDJPY 2023-06-15 13h NY: 60 von 60 Minuten, max |Delta| = 0.000000 auf OHLC, identische
+Zeitstempel). Deshalb bleibt der Bestand durch das Fuellen homogen. Bewusst **Bid**, nicht die
+Mid-Aggregation aus `fetch_dukascopy.py` (die dient dem IBKR-Abgleich) -- Mid waere hier ein
+halber Spread Bruch mitten in der Zeitreihe. Bestehende Kerzen werden nie ueberschrieben, nur
+tatsaechlich leere Minuten gefuellt; Kollisionen werden gezaehlt und gemeldet.
+
+**Bekannte Grenzen:**
+- **Reihenfolge ist zwingend:** `repair_dst_2019.py --apply` muss vorher gelaufen sein, sonst
+  verschiebt die DST-Reparatur die frisch gefuellten (bereits korrekten) Kerzen hinterher um
+  +1h mit. Das Skript prueft das selbst am Freitagsschluss-Marker und bricht ab.
+- Dukascopy rate-limitet (429). `--pause` steuert den Abstand; der Bulk ueber Feb-Jul 2023 x 10
+  Paare laeuft mehrere Stunden.
+- Der Vermerk "Dukascopy ist per IP gesperrt" aus der `fetch_dukascopy.py`-Zeit stimmt nicht
+  mehr -- 503 und Timeouts sind Rate-Limitierung, nach Wiederholung liefert der Endpoint.
+- Nach `--apply` zwingend `python algo/build_parquet.py`.
 
 ## `macro_db.py`
 
@@ -927,6 +1027,16 @@ fuer den in `build_parquet.py` gebauten Forex-Cache, in drei getrennten Checks.
   anfaengt. Wer EURUSD-Statistiken ueber die volle Historie zieht, mischt damit eine echt
   lueckenhafte Fruehphase in den 2003+-Bulk -- fuer Vergleiche zwischen Jahren/Monaten
   entweder auf >=2003 einschraenken oder die kleineren `n` der Fruehjahre explizit mitlesen.
+- **Stunden-Luecken** (neu 2026-08-15): zaehlt je Handelstag die erwarteten NY-Vollstunden, die
+  **komplett leer** sind (`soll_stunden()`: Mo-Do 0-23, Fr 0-16, So 17-23), meldet ab vier
+  leeren Stunden und verdichtet zusaetzlich nach Monat. **Warum als eigene Kennzahl:** der
+  Feb-Jul-2023-Block (histdata-Quellenschaden, siehe `fill_luecken_dukascopy.py`) hat die
+  Kerzenzahl-Pruefung oben zwar getroffen, aber nur als "kurzer Tag" -- dass zwoelf Stunden
+  mitten in London- und NY-Session fehlen, war aus keiner Kennzahl ablesbar, und die 20er-Liste
+  der auffaelligen Tage verbarg einen 5-Monats-Block. Fuer fensterbasierte Auswertungen ist
+  genau das der toedliche Fall: fehlt die NY-Stunde 10 ganz, ist jede Aussage ueber die
+  NY-Killzone dieses Tages leer. Regressionsfall im Selbstcheck (Symbol `LOCH`, nur gerade
+  Stunden belegt, plus Negativkontrolle Feiertag).
 - **Attrappen-Quote** (`open==high==low==close`): aggregiert ueber alle Jahre 1,4-6,7 % je Symbol
   (Spec-Erwartung war <1 %), aber **nicht gleichverteilt ueber die Zeit** -- Beispiel EURUSD je
   Jahr: 2000: 30,0 %, 2003: 11,8 %, 2005: 11,3 %, 2007: 14,7 %, 2008: 6,4 %, 2010: 5,7 %, 2012:
@@ -973,6 +1083,21 @@ jetzt ~12,5 s fuer dieselbe volle 1m-Historie.
 **Warum:** `backtest_common.py::load_rows()` und die Gruppe-A/B-Module brauchen einen Loader, der
 Forex und Futures gleich behandelt, ohne dass jedes Skript selbst zwischen CSV- und
 Parquet-Pfad unterscheiden muss.
+
+**`tage(symbol, tf)` -- das tagesweise Gegenstueck (2026-08-16).** `bars()` liefert einen
+durchgehenden Strom; Auswerter, die je Handelstag messen (`backtest_macro.py`, perspektivisch
+`macro_db.py`), brauchen stattdessen `(session_day, bars)` je Tagesdatei. Genau das liefert
+`tage()`. Zwei Dinge passieren dort zentral, damit sie nicht in jedem Auswerter neu (und
+verschieden) implementiert werden:
+- **Phantomfilter fuer 1s.** IBKR liefert fuer *jede* Sekunde des Fensters eine Kerze, auch
+  fuer Sekunden ohne einen einzigen Trade -- flach auf dem letzten Kurs (`o==h==l==c`,
+  `volume == 0`). `tage()` wirft sie weg; danach entspricht die Reihe dem, was ein 1s-Chart
+  zeigt. Ohne den Filter nimmt ein `open="first"`-Aggregat eine Phantomkerze statt des ersten
+  echten Trades als Open (PLAN.md, 2026-08-15). Groessenordnung: von 82.800 Rohkerzen eines
+  23h-Tags bleiben ~46.000-70.000.
+- **`session_day_from_path()`** liegt jetzt ebenfalls hier (vorher in `backtest_macro.py`,
+  von wo `macro_db.py` sie importierte). Der Handelstag kommt aus dem **Dateinamen**, nicht
+  aus den Bars: eine Tagesdatei enthaelt zwei Kalendertage (18:00 Vorabend .. 17:00).
 **Bekannte Grenzen:** Nur Gruppe-A/B-Module (`backtest_seasonal.py`,
 `backtest_midnight_range_std.py`) sind bislang tatsaechlich umgestellt (siehe `algo/PLAN.md`-
 Backlog fuer die restlichen acht). Gruppe-C-Module (ORG/NDOG-abhaengig) bleiben MNQ-only, siehe
@@ -997,3 +1122,315 @@ Ausfuehrung dieses Plans.
 **Bekannte Grenzen:** Die 90-%-Schwelle ist ein fester Cutoff, keine statistische Herleitung --
 Dateien knapp darunter koennen ebenfalls stark degeneriert sein, wurden hier aber nicht als
 Loeschkandidat gefuehrt.
+
+## `bias_levels.py` -- Levels + News fuer die Bias-Vorlage
+
+**Was.** Liefert als ein JSON alles, was `/bias-vorlage-daily` und `/bias-vorlage-weekly` zum
+Vorbefuellen von `raw/journal/bias/daily/Daily Bias *.md` / `bias/weekly/Weekly Bias KW*.md` brauchen: Wochen-Range,
+Vortages-Range (H/L/C), das Zieldatum (naechster Handelstag bzw. kommender Montag) und die
+Red-/Orange-Folder-News.
+
+**Wie.** Ranges ueber `backtest_common.load_rows("MNQ")` -- kein eigenes CSV-Parsing.
+
+News aus **zwei Quellen mit fester Rangfolge** (beide stdlib `urllib`, kein neues Paket):
+
+1. **ForexFactory-JSON-Feed** `nfs.faireconomy.media/ff_calendar_thisweek.json` -- die
+   Referenzquelle des Nutzers, wird immer zuerst gefragt.
+2. **TradingView-Wirtschaftskalender** `economic-calendar.tradingview.com/events` als
+   Fallback, sobald der angefragte Zeitraum ausserhalb der FF-Woche liegt. Nimmt beliebige
+   `from`/`to`-Datumsbereiche und ist damit die einzige Quelle, die **freitags abends schon
+   die kommende Woche** kennt -- genau das braucht der Weekly-Lauf.
+
+`news["source"]` sagt in jeder Ausgabe, welche der beiden geantwortet hat; beim Fallback
+steht zusaetzlich `news["hinweis"]` mit dem Grund. Die Commands geben beides in der
+erzeugten Datei aus, damit nie unklar bleibt, woher eine Uhrzeit stammt.
+
+**Warum kein Scraping.** `forexfactory.com/calendar` antwortet Bots mit **HTTP 403**
+(Cloudflare, verifiziert 2026-08-15) -- der urspruengliche Plan
+`docs/superpowers/plans/2026-08-13-bias-vorlage.md` sah dort WebFetch vor und haette nie
+funktioniert. Der JSON-Feed ist der von ForexFactory selbst bereitgestellte Weg.
+
+**Zeitpruefung (Zeit vor Preis).** FF liefert ISO-Timestamps mit NY-Offset (-04:00 EDT /
+-05:00 EST), TradingView UTC (`...Z`); beide werden auf NY normalisiert, die DE-Zeit per
+`zoneinfo` daraus abgeleitet -- keine manuelle Stundenrechnung. Zwei unabhaengige
+Gegenproben am 2026-08-15:
+- gegen die **Nutzernotiz**: `raw/journal/Daily Bias 2026-08-13.md` sagt "PPI News um 14.30
+  DE Zeit also 8.30 Ny", der Feed sagt exakt dasselbe.
+- **FF gegen TradingView** auf KW33: CPI 12.08. 08:30 NY und PPI 13.08. 08:30 NY bei beiden,
+  Zeitstempel deckungsgleich.
+
+**Bekannte Grenzen.**
+- **Die beiden Quellen stufen Impact unterschiedlich ein.** TradingView fuehrt zusaetzlich
+  Retail Sales, Existing Home Sales und Michigan Sentiment als Red, ForexFactory stuft sie
+  als Orange ein. Wer die Bias-Datei neben seine ForexFactory-Seite legt, sieht bei einem
+  TradingView-Lauf also mehr rote Zeilen -- die Uhrzeiten stimmen, die Farbe kann abweichen.
+- ForexFactory kennt nur die *laufende* Woche; `ff_calendar_nextweek.json` gibt es nicht mehr
+  (HTTP 404, geprueft 2026-08-15). Deshalb ueberhaupt der TradingView-Fallback.
+- FF antwortet auf mehrere Abrufe kurz nacheinander mit **HTTP 429**. Dagegen ein
+  15-Minuten-Dateicache im Systemtemp (`tempfile.gettempdir()/ff_calendar_thisweek.json`),
+  bewusst nicht im Repo.
+- TradingView wird nur mit `countries=US` gefragt (MNQ-Fokus) -- EUR/GBP/JPY-Termine tauchen
+  im Fallback also nicht auf, im FF-Pfad dagegen schon.
+- `next_trading_day()` kennt nur Sa/So, **keine Feiertage** -- an einem US-Feiertag zeigt die
+  erzeugte Datei auf einen Tag ohne Handel.
+- Jeder Abrufsfehler wird abgefangen und landet als Text in `news["error"]`; `news["events"]`
+  bleibt immer eine Liste. Ein Fehlschlag darf den Bias-Lauf nie abbrechen.
+
+**Selbstcheck.** `python algo/bias_levels.py --demo` (Ranges, Wochentagslogik, NY/DE-Umrechnung
+in Sommer- und Winterzeit, Gleichheit von TradingViews UTC- und FFs NY-Timestamps,
+Netzfehler-Pfad beider Quellen, Fallback-Umschaltung). Kein Netz-/Dateizugriff, laeuft in
+`selfcheck.py` mit.
+
+## `algo/forex/` -- Forex-Zwilling der Regel-, P&L- und Simulationsschicht (Phase 2, 2026-08-15)
+
+**Was.** Eigenes Unterpaket mit `pnl.py`, `rules.py`, `backtest.py`, `selfcheck.py`. Setzt die
+MNQ-Konzepte auf den 23-Jahres-Forex-Bestand um -- Nutzervorgabe: *"die genau gleichen Konzepte
+nutzen, ausser bekannte Sachen die nur fuer Future sind"*. Spec:
+`docs/superpowers/specs/2026-08-15-forex-algo-phase2-design.md`.
+
+**Warum getrennt statt parametrisiert.** Nutzerentscheidung 2026-08-15: die MNQ-Module duerfen
+sich nicht bewegen. `algo/pnl.py`, `algo/rules.py`, `algo/backtest_bt.py`, `algo/signals.py`,
+`algo/backtest_ensemble.py`, `algo/stress_test.py`, `algo/masters.py`, `algo/live_status.py`
+und `algo/selfcheck.py` sind unangetastet; nachgewiesen ueber den Diff gegen
+`algo/results/mnq_baseline_2026-08-15.txt` (26/26 Selbstchecks, bitgleich).
+
+**Geteilt, nicht kopiert:** `tools/analyze_ohlc.py` (Detektoren, KILLZONES, TICK_SIZE,
+PIP_SIZE, SESSION_TYP, 9:30-Guard), `algo/marktdaten.py`, `algo/risk_killswitch.py`,
+`algo/backtest_hp_fvg.py::bias_proxy`. Von `algo/validate.py` sind nur `monte_carlo()` und
+`double_bootstrap_drawdown()` nutzbar -- `run()`/`walk_forward()` haengen an
+`backtesting.Backtest` und damit an einer Strategy-Klasse, die es hier bewusst nicht gibt.
+
+**Welche Konzepte laufen.** Silver Bullet (1st presented FVG *im Fenster*), FVG-Detektion inkl.
+Staerke, Swings/MSS, HP-FVG, Liquiditaets-Level, IPDA-Fenster, Killzones, Midnight OR, Macros,
+NWOG, 1 %-Risiko, Kill-Switch. **Ausgeschlossen** (setzen die 9:30-Eroeffnung als Ereignis
+voraus): ORG, ORG C.E., ORG-Std-Extrema, 1p FVG Tag/Woche, 1p-Mindestgroesse, erstes FVG nach
+9:30, Open Drive, NDOG, alle RTH-Varianten.
+
+**Fenstersatz.** Die drei SB-Fenster (London 3-4, NY AM 10-11, NY PM 14-15) plus die vier
+Killzones, jedes getrennt ausgewiesen. `KZ NY 7-9` und `KZ NY-Forex 7-10` stehen bewusst
+NEBENeinander: `analyze_ohlc.KILLZONES` sagt 7-9, `wiki/concepts/ICT Daily Range Session
+Timing.md` sagt fuer Forex 7-10 -- der Widerspruch wird gemessen statt aufgeloest.
+`active_windows()` liefert deshalb ALLE zutreffenden Fenster, nicht den ersten Treffer.
+
+**`forex/pnl.py` -- die drei Fallgruppen des Pip-Werts.** Der Pip-Wert haengt ausschliesslich
+an der Quote-Waehrung, nie an der Basis; daraus folgt eine Regel statt einer
+Paar-Fallunterscheidung: `pip_wert_quote = PIP_SIZE * 100.000`; Quote == USD -> fertig ($10);
+sonst ueber `<QUOTE>USD` mal Kurs bzw. `USD<QUOTE>` durch Kurs. Der USD/XXX-Fall ist dabei kein
+Sonderfall, sondern faellt mit sich selbst als Referenz in dieselbe Zeile. Fehlt der
+Referenzkurs, gibt es `None` -- der Trade wird verworfen und gezaehlt, nie genaehert.
+`round_to_lot()` rundet auf 0,01 Lot ab, nie auf, und normalisiert vorher gegen das
+Float-Artefakt `5.0 / 0.01 = 499,99999999999994` (ein nacktes `floor` lieferte 4,99).
+
+**Zwei P&L-Konventionen, bewusst getrennt benannt.** `brutto_usd()` rechnet ohne jede
+Kostenannahme -- fuer Fuellpreise, die bereits auf der richtigen Marktseite liegen.
+`real_pnl_usd()` geht von rohen Bid-Preisen aus und zieht den Spread einmal explizit ab. Wer
+sie verwechselt, zaehlt den Spread doppelt oder gar nicht; deshalb stehen sie getrennt statt
+implizit vermischt.
+
+**`forex/backtest.py` -- eigener Bar-Walk statt `backtesting`-Lib.** Die Lib preist wie eine
+Aktie; fuer Forex kaemen drei weitere Brueche dazu (zeitabhaengiger Pip-Wert, Ask/Bid-Trennung,
+Lot-Granularitaet), die sich nur ueber Preis-Hacks nachbauen liessen, welche dann die
+P&L-Rechnung der Lib verfaelschen. Fill-Konvention: jede Seite wird dort gefuellt, wo ein
+Broker fuellen wuerde (Long kauft zum Ask, Short verkauft zum Bid) -- dadurch faellt der Spread
+automatisch genau einmal an, und die Short-Stop-Asymmetrie ergibt sich von selbst statt als
+Zuschlag. Positionen werden vor dem 17:00-Rollover glattgestellt, statt ein Swap-Modell zu
+raten.
+
+**Drei Pflichtangaben in jedem Report:** `dubious_pct`, Break-even-Spread (`--breakeven`,
+numerisch per Bisektion, rechnet den Backtest ~12x) und die Flat-Quote des Fensters.
+
+**Bekannte Grenzen.**
+- **Spread ist gesetzt, nicht gemessen** (`SPREAD_PIPS`, Bid-only-Bestand). Deshalb ist der
+  Break-even-Spread die belastbare Kennzahl, nicht der $-P&L.
+- **1h und groeber sind fuer die SB-Fenster unbrauchbar:** ein Fenster ist eine Stunde, auf
+  1h-Kerzen passt dort keine 3-Kerzen-Formation hinein (gemessen: 0 Trades).
+- **`min_stop_pips` (Default 3,0) ist ein Forex-Zusatz ohne MNQ-Entsprechung.** Ohne ihn liegt
+  die mediane Stop-Distanz bei 1,2 Pips, also unter dem Spread.
+- Kein Ensemble, kein Stress-Test, kein Walk-Forward -- Schritte 7-9 der Spec, noch offen.
+
+**Selbstcheck.** `python algo/forex/selfcheck.py` buendelt die drei Modul-Demos und den
+**Drift-Waechter**: er hasht die normalisierten Rumpfe von `sb_entry_signal`, `plan_trade` und
+`plan_trade_hp_fvg` in `algo/rules.py` und meldet, wenn das MNQ-Original sich bewegt hat. Er
+verhindert die Drift nicht -- er macht sie sichtbar, was bei bewusst duplizierter Logik der
+einzige ehrliche Umgang ist. Nach einer bewussten Uebernahme:
+`python algo/forex/selfcheck.py --hashes` und die Wache aktualisieren.
+
+## `fetch_ibkr.py` -- Sekundengenaue NQ/ES-Daten ueber IBKR
+
+**Was:** Laedt 1s-OHLC-Bars fuer NQ und ES ueber die IBKR-TWS/Gateway-API und legt sie als
+Tages-Parquet in `raw/marktdaten/<jjjj>/<mm>/<tt.mm.jjjj>/<SYM> <jjjj-mm-tt> 1s.parquet` ab
+-- gleiche Ordnerstruktur wie die TradingView-/yfinance-CSVs, nur Parquet statt CSV wegen
+Volumen (~5x kleiner, siehe Design SS4). Drei Betriebsarten: `--verify` (ein Fenster, schreibt
+nichts), `--backfill [VON BIS]`, ohne Argumente = Nachlad seit dem letzten Registereintrag.
+Siehe `docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md` fuer die volle
+Entscheidungshistorie (E1-E11).
+
+**`--backfill` ohne Datumsangabe holt die gesamte verfuegbare 1s-Historie** (`HISTORIE_TAGE`
+= 183 Tage zurueck bis zum letzten Handelstag; weiter reicht IBKRs 1s-Vorhaltung nicht). Der
+Aufruf ist beliebig oft wiederholbar und setzt von selbst fort, weil **die Tagesdatei die
+Resume-Autoritaet ist, nicht das Register**: existiert
+`raw/marktdaten/.../<SYM> <tag> 1s.parquet`, ueberspringt `fetch_symbol_day()` den Tag ohne
+einen einzigen Request. Vorher wurden auch fuer laengst fertige Tage alle 46 Fenster
+angefragt und das Ergebnis anschliessend von `write_day_1s()` verworfen -- bei einem
+6-Monats-Lauf ueber einen halb gefuellten Bestand Stunden Laufzeit fuer nichts.
+
+**Wie:** `front_month()` bestimmt den aktiven Quartalskontrakt deterministisch und netzfrei
+(Roll = Verfall - 8 Tage). `day_windows()` zerlegt einen Handelstag in 46 Fenster a 30 Minuten
+(18:00 NY Vortag - 17:00 NY), DST-sicher ueber tz-awares NY-Datetime-Arithmetik.
+`PacingLimiter` haelt die IBKR-Grenze (60 Requests je 600s) ein, mit injizierbarer Uhr fuer
+Tests. **Die Bremse ist `min_gap`, und es wird aus `window / max_requests` abgeleitet (= 10s),
+nicht handgesetzt.** Die deque-Pruefung allein greift erst beim 61. Request -- ein voller
+Handelstag hat nur 46 Fenster und lief damit komplett an der Grenze vorbei: gemessen 41
+Requests in 60s = **41 Req/Min gegen erlaubte 6**. IBKR nahm am 2026-08-16 reproduzierbar 41
+Requests an und wies ab Fenster 42 mit Error 162 ab; weil jeder Wiederholversuch selbst ein
+Request ist, riss danach der Rest des Tages ab. Die beiden frueheren `min_gap`-Werte (0,5s,
+dann 1,5s) kurierten nur das Symptom -- sie streckten den Burst, blieben aber weit ueber der
+Rate. Mit 10s liegt der Durchsatz bei den 6 Req/Min aus Design SS3.3 und trifft die
+Laufzeittabelle SS3.4 (46 Fenster ~ 7,7 Min je Symbol und Tag, 6-Monats-Backfill ~31h) --
+diese Tabelle war immer schon auf 10s gerechnet, nur der Code nicht. Bekannte Grenze: der
+Zustand lebt im Prozess, zwei gleichzeitige `fetch_ibkr`-Laeufe teilen sich IBKRs
+serverseitiges Kontingent, ohne voneinander zu wissen.
+
+**Statusmeldungen (`fetch_symbol_day` gibt `(pfad, status)` zurueck).** Frueher war die
+Rueckgabe nur `Path | None` fuer drei verschiedene Ausgaenge, und beide `main()`-Schleifen
+machten daraus `uebersprungen (schon vorhanden/keine Daten)` -- diese Zeile erschien auch
+fuer einen Tag, der gerade an 5 Pacing-Violations gescheitert war. Jetzt sind die Texte
+unterscheidbar (`geschrieben (N Kerzen, M Fenster)`, `schon vorhanden (0 Requests)`,
+`FEHLGESCHLAGEN (x/46 Fenster)`, `alle Fenster leer`), und jeder Backfill endet mit einer
+Bilanz, die offen gebliebene Tage namentlich auflistet -- bei 264 Tagesdateien verschwaende
+ein Fehlschlag sonst im Scrollback. `raw/marktdaten/1s-abdeckung.csv` (append-only) loest drei
+Probleme: "kein Trade" vs. "nicht geholt" unterscheidbar machen, Backfill wiederaufnehmbar
+machen, Nachlad zustandslos machen.
+
+`register_append()` schreibt den kompletten Block als **einen** `write()`-Aufruf (Umweg ueber
+`io.StringIO`), statt `csv.writer` feldweise in den gepufferten Stream schreiben zu lassen.
+Grund: Laufen zwei `fetch_ibkr`-Prozesse gleichzeitig (Backfill + Nachlad), verschraenken sich
+sonst deren Teilschreibvorgaenge und zerreissen einen Datensatz mitten im Feld -- genau so
+entstand am 2026-08-16 eine kaputte Zeile in der Registerdatei. `register_load()` ueberspringt
+defekte Zeilen mit Warnung, statt mit `ValueError` abzubrechen: Das Register ist ein
+Buchhaltungs-Index, kein Datenbestand -- ein unlesbares Fenster gilt als "noch nicht geholt"
+und wird beim naechsten Lauf schlicht neu gezogen. Vorher legte **eine** defekte Zeile das
+ganze Skript lahm.
+
+**Alles-oder-nichts je Handelstag (2026-08-16).** `fetch_symbol_day()` schreibt einen Tag nur,
+wenn **kein** Fenster fehlgeschlagen ist; sonst entsteht weder Datei noch Registerzeile und
+der ganze Tag wird beim naechsten Lauf neu geholt. Anlass ist ein realer, stiller
+Datenverlust: frueher wurde der Tag aus den Fenstern zusammengesetzt, die ankamen, und weil
+`write_day_1s()` nie ueberschreibt, war das Loch danach dauerhaft eingefroren --
+`ES 2026-02-19 1s.parquet` endete so bei 11:29 NY statt 17:00 (35 von 46 Fenstern, 63.000
+statt 82.800 Kerzen) und sah dabei aus wie ein fertiger Handelstag. Verschaerfend wirkte der
+frueher hier stehende Register-Filter: er uebersprang beim naechsten Lauf genau die Fenster,
+deren Daten nur im Speicher des abgebrochenen Laufs existiert hatten -- ein zweiter Lauf
+konnte das Loch also nicht fuellen, sondern zementierte es. Dieser Filter ist entfernt; das
+Register ist jetzt reine Dokumentation ("kein Trade" vs. "nicht geholt") und der Nachlad-
+Startpunkt, nicht mehr die Resume-Instanz. Preis der Regel: nach einem Abbruch mitten im Tag
+bis zu 46 wiederholte Requests (~70s) -- gegen einen 34-Stunden-Backfill vernachlaessigbar,
+gegen eine unsichtbare Datenluecke ohnehin.
+
+**Fehler vs. leeres Fenster (`_echter_fehler()`).** `reqHistoricalData` liefert bei jedem
+Fehlschlag eine ganz normale leere Liste; ob "kein Handel" oder "Request abgewiesen" steht
+ausschliesslich in `errorEvent`. Zwei Faelle gelten deshalb ausdruecklich **nicht** als
+Fehlschlag: Codes 2100-2199 (IBKRs Verbindungsmeldungen wie "Market data farm connection is
+OK", die im Normalbetrieb staendig kommen) und **162 mit "no data" im Text** -- IBKRs Antwort
+fuer ein Fenster ohne jeden Handel, also Feiertag oder Early Close. Ohne diese Unterscheidung
+kaeme ein verkuerzter Handelstag unter der Alles-oder-nichts-Regel nie zustande (Realfall:
+Presidents' Day 2026-02-16, CME schliesst 13:00 NY, die letzten 8 Fenster sind leer -- die
+vorhandene Datei mit 68.400 statt 82.800 Kerzen ist **korrekt**, kein Defekt). Unterschieden
+wird bewusst ueber den *Text*, nicht ueber den Code: die Pacing-Violation traegt dieselbe
+Nummer 162, und sie als "Markt zu" zu verbuchen wuerde eine echte Datenluecke als geschlossen
+ausweisen.
+
+**Gateway-Autostart / Zwei-Rechner-Betrieb (2026-08-16):** Ist Port 4002 nicht erreichbar,
+startet `_gateway_sicherstellen()` IBC selbst per `os.startfile()` (nicht `subprocess.Popen`,
+siehe Kommentar im Code) und wartet bis zu 180s auf den Login. Der Pfad zu `StartGateway.bat`
+ist **nicht** hart verdrahtet: `GATEWAY_BAT` probiert `C:\IBC\StartGateway.bat` und
+`%USERPROFILE%\IBC\StartGateway.bat` in dieser Reihenfolge durch (erster existierender
+gewinnt), weil IBC auf den beiden genutzten Rechnern an unterschiedlichen Orten liegt. Die
+Umgebungsvariable `IBC_GATEWAY_BAT` sticht beides, fuer einen dritten Ort ohne Code-Aenderung.
+Zwei zugehoerige Patches liegen **ausserhalb des Repos** in der IBC-Installation und ueberleben
+kein IBC-Update (bei einem Upgrade erneut anwenden): `scripts/StartIBC.bat` (Java-Versions-
+erkennung, 2026-08-15) und `StartGateway.bat` (`IBC_PATH`/`CONFIG`/`TWS_SETTINGS_PATH` ueber
+`%~dp0` statt `%USERPROFILE%\IBC`, 2026-08-16). Voraussetzung ausserdem: `ib_async` aus
+`algo/requirements.txt` in genau der Python-Installation, mit der das Skript laeuft.
+
+**Fortschrittsfenster (2026-08-16):** Jeder Lauf spiegelt seine Ausgabe zusaetzlich nach
+`algo/live/fetch_ibkr-<jjjj-mm-tt>.log` (`_Tee`, nach jedem `write()` geflusht) und oeffnet ein
+zweites Konsolenfenster, das dieses Log live mitliest (`Get-Content -Wait`) -- damit ein
+stundenlanger Backfill sichtbar mitlaeuft, ohne die aufrufende Konsole zu blockieren. Die
+Fenster-Fortschrittszeilen tragen einen Balken (`_balken()`, z.B. `[####------] 18/46`), beim
+Backfill zusaetzlich der Tages-/Symbol-Gesamtfortschritt. Alle Laeufe eines Tages schreiben in
+dieselbe Logdatei; ein noch offenes Fenster (PID in `algo/live/.fetch_ibkr-fenster.pid`, per
+`tasklist` geprueft) wird wiederverwendet statt gestapelt. `--kein-fenster` schaltet die Anzeige
+ab -- fuer den spaeteren unbeaufsichtigten Tages-Task. Schlaegt das Oeffnen fehl, laeuft der
+Download unveraendert weiter; die Anzeige ist Beiwerk, der Datenlauf zaehlt. Log und PID-Datei
+sind gitignored.
+
+Die `tasklist`-Ausgabe wird bewusst als **Bytes** ausgewertet, nicht mit `text=True` (Bugfix
+2026-08-16): Windows-Konsolentools schreiben in der OEM-Codepage (cp850), `text=True` dekodiert
+aber mit der ANSI-Locale (cp1252) -- das deutsche "ausgefuehrt" in der Leermeldung enthaelt
+Byte 0x81, in cp1252 undefiniert. Der `UnicodeDecodeError` faellt in subprocess' Reader-Thread
+an und wird dort verschluckt, `.stdout` ist danach still `None`: jeder Lauf mit einer bereits
+beendeten Fenster-PID starb mit `AttributeError: 'NoneType' object has no attribute 'lower'`,
+bevor ueberhaupt ein Fenster aufgehen konnte. Merke fuer kuenftige Aufrufe externer
+Windows-Tools: entweder Bytes vergleichen oder `encoding=` explizit setzen.
+
+**Warum:** IBKR ist dieselbe Quelle wie die spaetere Order-Ausfuehrung -- keine Quellen-Drift
+zwischen Backtest und Live-Betrieb (E1). NQ/ES statt MNQ, weil beide vom gebuchten
+CME-L1-Paket abgedeckt sind und deutlich liquider (E2); MNQ-Backtests bleiben unveraendert
+gueltig, MNQ ist derselbe Index mit derselben Tickgroesse.
+
+**Bekannte Grenzen:** `main()`/die echte `ib_async.IB()`-Verbindung ist NICHT durch
+`selfcheck.py` abgedeckt -- das braucht ein laufendes IB Gateway und wird ausschliesslich
+manuell auf dem Windows-Rechner des Nutzers verifiziert (`--verify` vor jedem Backfill).
+Verbindet sich ausschliesslich readonly gegen Port 4002 (Paper) -- siehe Design SS9 fuer die
+beiden Absicherungen gegen einen Live-Order-Pfad. R1 (verfallene Kontrakte) verifiziert
+2026-08-15: `includeExpired=True` liefert 1s-Bars auch fuer laengst verfallene Kontrakte,
+siehe `algo/PLAN.md`.
+
+**⚠️ Volumen-0-Phantomkerzen (verifiziert 2026-08-15, widerspricht Design E4):** Anders als
+in E4 angenommen ("handelslose Sekunden bleiben schlicht leer") liefert IBKR fuer TRADES-Bars
+auf 1s-Aufloesung tatsaechlich fuer *jede* Sekunde des angefragten Fensters eine Kerze --
+Sekunden ohne echten Trade werden mit `volume=0` und `open==high==low==close` (Preis vom
+letzten echten Trade fortgeschrieben) aufgefuellt, nicht als Luecke ausgelassen. Gemessen am
+14.08.2026: 45,8 % aller NQ- und 58,6 % aller ES-1s-Kerzen sind solche Phantomkerzen. Jede
+Aggregation, die `open="first"` ueber ein 1s-Fenster bildet (z.B. Resampling auf 1m), kann
+dadurch eine Phantomkerze statt des ersten echten Trades als Open erwischen -- das erklaerte
+beim Gegencheck gegen die TradingView-1m-Referenz praktisch alle Open-Abweichungen (High/Low
+blieben fast immer exakt gleich, weil `max`/`min` von Phantomkerzen unberuehrt bleiben).
+**Bewusste Entscheidung:** `raw/marktdaten/` wird NICHT bereinigt -- die Rohdaten bleiben
+1:1 wie von IBKR geliefert (Nulltoleranz-Prinzip, nichts wegwerfen). Jeder Verbraucher von
+1s-Daten (Backtests, Resampling), der "echte Trades" statt Preisfortschreibung braucht, muss
+selbst nach `volume > 0` filtern -- die Spalte steht dafuer im Parquet-Schema bereit.
+
+## `live_status.py` -- NQ ueber IBKR-1s statt MNQ ueber yfinance (2026-08-16)
+
+**Was:** Der Live-Zyklus laeuft auf `DISPLAY_SYMBOL = "NQ"` und bezieht seine Kerzen aus den
+IBKR-1s-Tagesdateien (`marktdaten.bars(symbol, "1s")`), nicht mehr aus yfinance (`MNQ=F`).
+`yfinance`, `pandas` und `fetch_yfinance` sind aus dem Modul verschwunden.
+
+**Wie:** `_download_1s(day)` liest die 1s-Tagesdatei aus `raw/marktdaten/`; fehlt sie fuer
+einen abgeschlossenen Tag, holt `fetch_ibkr.main(["--backfill", tag, tag, "--symbol", "NQ",
+"--kein-fenster"])` sie nach (derselbe Weg wie `/daten-1s`, Gateway-Start inklusive) und sie
+wird danach gelesen -- Live-Betrieb und Backtest sehen so garantiert dieselben Bytes.
+`fetch_today()` verdichtet den 1s-Strom per `marktdaten.resample_bars()` auf 1m/5m/15m/1h/4h
+und liefert zusaetzlich `5m_weit` (Vortage + heute, fuer `org_gap()`, das die
+~16:14-Schlusskerze des Vortags braucht) sowie `1d` (70 Kalendertage fuer die NDOG/NWOG-
+Historie). `write_live_day()` schreibt die Timeframes weiterhin nach `algo/live/<tag>/`,
+jetzt ohne pandas. Die 1d-Historie waechst durch den Symbolwechsel von 1885 (MNQ) auf 6540
+(NQ) Tagesdateien.
+
+**Warum NQ:** Layer-0-Ziel ist die Ausfuehrung ueber IBKR; historische Daten und spaetere
+Orders kommen damit vom selben Broker (keine Datenquellen-Drift Backtest/Live). Tickgroesse
+0,25 wie MNQ, `SYMBOL_TICK` bleibt an `DISPLAY_SYMBOL` gekoppelt.
+
+**Bekannte Grenzen:**
+- **Der laufende Handelstag wird nicht geholt** (klare Fehlermeldung statt eingefrorener
+  Zahlen) -- Begruendung und noetiger Folge-Umbau stehen in `algo/PLAN.md`, Backlog
+  "laufender Handelstag fuer live_status.py". Der Live-Pfad ist damit bis dahin nur nutzbar,
+  wenn die 1s-Tagesdatei bereits vorliegt.
+- Eine vorhandene Tagesdatei, deren letzte Kerze am laufenden Tag mehr als 20 Minuten
+  zurueckliegt, gilt als kein Live-Stand und wird verworfen (statt als aktuell ausgegeben).
+- Die aus 1s abgeleiteten Opens koennen eine Volumen-0-Phantomkerze treffen (siehe
+  `fetch_ibkr.py`-Abschnitt oben); High/Low sind davon unberuehrt.
+- `liquidity_report.py` teilt sich `fetch_today()` und akzeptiert deshalb nur noch `NQ` --
+  historische MNQ-Dateien mit NQ-Livekerzen zu mischen waere Micro/Mini-Vermengung.

@@ -21,11 +21,11 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">141</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">348</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">17</span></a></li>
-<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">16</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
 <li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
@@ -48,6 +48,7 @@
 <li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
 <li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
 <li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/continuous-contract-vs-front-month.html">Continuous Contract vs. Front Month</a></li>
 <li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
 <li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
 <li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
@@ -77,6 +78,7 @@
 <li><a href="../p/forward-futures-maerkte-contango-backwardation-yale-econ-252.html">Forward- &amp; Futures-Märkte (Contango, Backwardation, Yale Econ 252)</a></li>
 <li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
 <li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a></li>
+<li><a href="../p/gladhanding.html">Gladhanding</a></li>
 <li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
 <li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
 <li><a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a></li>
@@ -95,6 +97,7 @@
 <li><a href="../p/judas-swing.html">Judas Swing</a></li>
 <li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
 <li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/kerzenzahl-in-einer-ineffizienz.html">Kerzenzahl in einer Ineffizienz</a></li>
 <li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
 <li class="here"><a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a></li>
 <li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
@@ -176,13 +179,14 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Kontraktspezifikation MNQ (Tick, Punktwert)</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo</span> <span class="tag">marktdaten</span> <span class="tag">mnq</span></div><div class="dates">erstellt 2026-08-11 · aktualisiert 2026-08-11</div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">algo</span> <span class="tag">marktdaten</span> <span class="tag">mnq</span></div><div class="dates">erstellt 2026-08-11 · aktualisiert 2026-08-20</div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#tick-groe-025-punkte">Tick-Größe: 0,25 Punkte</a></li>
 <li><a href="#wo-im-code-das-lebt">Wo im Code das lebt</a></li>
 <li><a href="#welche-werte-betroffen-sind">Welche Werte betroffen sind</a></li>
 <li><a href="#rundungsrichtung-bei-order-preisen">Rundungsrichtung bei Order-Preisen</a></li>
+<li><a href="#eine-kontraktzahl-ohne-instrument-ist-bedeutungslos-2026-08-20">Eine Kontraktzahl ohne Instrument ist bedeutungslos (2026-08-20)</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
 </div>
@@ -278,13 +282,56 @@ die Rundung nie zugunsten des Backtests ausfällt:</p>
 </tbody>
 </table>
 <p>Also immer so, dass der Entry schwerer zu füllen und Stop wie Ziel weiter entfernt sind.</p>
+<h2 id="eine-kontraktzahl-ohne-instrument-ist-bedeutungslos-2026-08-20">Eine Kontraktzahl ohne Instrument ist bedeutungslos (2026-08-20)</h2>
+<p>Jede Größenregel im Projekt — <code>max_kontrakte</code>, <code>max_kontrakte_pro_tag</code> in
+<code>journal/config.yaml</code>, jede Aussage der Form „bei 6+ Kontrakten wird es schlecht" — ist an
+<strong>MNQ</strong> kalibriert. Auf ein anderes Instrument übertragen ist dieselbe Zahl ein anderes Risiko:</p>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Punktwert gesamt</th>
+<th>entspricht in MNQ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4 MNQ (Obergrenze)</td>
+<td>$8 / Punkt</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2 MES</td>
+<td>$10 / Punkt</td>
+<td>5</td>
+</tr>
+<tr>
+<td>1 NQ</td>
+<td>$20 / Punkt</td>
+<td><strong>10</strong></td>
+</tr>
+<tr>
+<td><strong>2 ES</strong></td>
+<td><strong>$100 / Punkt</strong></td>
+<td><strong>50</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Erstbeleg 2026-08-19 (siehe <span class="broken" title="Seite existiert noch nicht">2026-08-19 ES 1011 Silver Bullet</span>): 2 ES-Kontrakte mit
+7,25 Punkten Stop = <strong>725 $</strong> geplantes Risiko. Die automatische R09-Prüfung schlug <strong>nicht</strong>
+an, weil 2 &lt; 4 — das Skript zählt Stückzahl, nicht Punktwert. Die bindende Schranke ist deshalb
+immer das <strong>Risiko in Geld oder Prozent</strong>, nie die Stückzahl; die Kontraktgrenze ist nur eine
+für MNQ vorgerechnete Abkürzung davon.</p>
+<p>Dieselbe Falle auf der Datenseite: MNQ ist kein Ersatz für NQ. Ein Substring-Filter auf
+CFTC-Marktnamen hat schon einmal ein ES-Signal umgekehrt, weil er Micro und Mini zusammenwarf.</p>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a> — das Qs/Os/Hs-Raster, dessen Level gerundet werden müssen</li>
 <li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
 <li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a></li>
+<li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a> — Instrumentwechsel ist auch eine Größenfrage</li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">5</span></h2><ul><li><a href="../p/2022-01-22-2022-ict-mentorship-episode-2-source.html">2022-01-22 - 2022 ICT Mentorship Episode 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/forward-futures-maerkte-contango-backwardation-yale-econ-252.html">Forward- &amp; Futures-Märkte (Contango, Backwardation, Yale Econ 252)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">7</span></h2><ul><li><a href="../p/2022-01-22-2022-ict-mentorship-episode-2-source.html">2022-01-22 - 2022 ICT Mentorship Episode 2 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/continuous-contract-vs-front-month.html">Continuous Contract vs. Front Month</a><span class="cat">Konzepte</span></li><li><a href="../p/forward-futures-maerkte-contango-backwardation-yale-econ-252.html">Forward- &amp; Futures-Märkte (Contango, Backwardation, Yale Econ 252)</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Kontraktspezifikation MNQ (Tick, Punktwert).md</code></footer>
 </article>
 </main>

@@ -21,11 +21,11 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">141</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">348</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">17</span></a></li>
-<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">16</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
 <li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
@@ -48,6 +48,7 @@
 <li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
 <li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
 <li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/continuous-contract-vs-front-month.html">Continuous Contract vs. Front Month</a></li>
 <li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
 <li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
 <li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
@@ -77,6 +78,7 @@
 <li><a href="../p/forward-futures-maerkte-contango-backwardation-yale-econ-252.html">Forward- &amp; Futures-Märkte (Contango, Backwardation, Yale Econ 252)</a></li>
 <li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
 <li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a></li>
+<li><a href="../p/gladhanding.html">Gladhanding</a></li>
 <li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
 <li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
 <li><a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a></li>
@@ -95,6 +97,7 @@
 <li><a href="../p/judas-swing.html">Judas Swing</a></li>
 <li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
 <li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/kerzenzahl-in-einer-ineffizienz.html">Kerzenzahl in einer Ineffizienz</a></li>
 <li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
 <li><a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a></li>
 <li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
@@ -176,12 +179,13 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Liquidity Void</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-06 · aktualisiert 2026-08-06</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-mentorship-core-content-month-04-liquidity-voids-source.html">ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span></div><div class="dates">erstellt 2026-08-06 · aktualisiert 2026-08-16</div><div class="srcline"><span>Quellen:</span> <a href="../p/ict-mentorship-core-content-month-04-liquidity-voids-source.html">ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)</a>, <a href="../p/2026-07-13-how-to-probe-low-probability-rth-opening-ranges-source.html">How To Probe Low Probability RTH Opening Ranges (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#entstehung">Entstehung</a></li>
 <li><a href="#warum-die-void-spater-geschlossen-wird">Warum die Void später geschlossen wird</a></li>
 <li><a href="#prazisions-entry-der-common-gap-am-rand-der-void">Präzisions-Entry: der "Common Gap" am Rand der Void</a></li>
+<li><a href="#rth-schlagt-eth-eine-void-kann-sessionspezifisch-sein-2026-erganzung">RTH schlägt ETH — eine Void kann sessionspezifisch sein (2026-Ergänzung)</a></li>
 <li><a href="#zusammenspiel-mit-anderen-pd-arrays">Zusammenspiel mit anderen PD Arrays</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
 </ul>
@@ -220,6 +224,28 @@ Limit-Preis:</p>
   bereits ausgeglichenen Zone reagiert — danach läuft der Preis zügig in Richtung der nächsten
   Liquidität weiter.</li>
 </ul>
+<h2 id="rth-schlagt-eth-eine-void-kann-sessionspezifisch-sein-2026-erganzung">RTH schlägt ETH — eine Void kann sessionspezifisch sein (2026-Ergänzung)</h2>
+<p>Aus <a href="../p/2026-07-13-how-to-probe-low-probability-rth-opening-ranges-source.html">How To Probe Low Probability RTH Opening Ranges (Source)</a> —
+die schärfste Formulierung dazu im Vault:</p>
+<blockquote>
+<p><em>„There's no print at all in </em><em>regular trading hours</em><em> delivery. It doesn't matter if electronic
+trading hours posted through that. Because </em><em>regular trading hours has to balance out electronic
+trading hours</em><em> to be an efficiently delivered price."</em></p>
+</blockquote>
+<p>Kernaussage: Eine Zone kann über Nacht (ETH) vollständig durchhandelt worden sein und <strong>in RTH
+trotzdem eine echte Void</strong> darstellen. Beide Sessions werden getrennt bewertet.</p>
+<ul>
+<li><strong>Gewichtung</strong>: ICT legt mehr Gewicht auf RTH, weil RTH die Level nachliefert, die ETH über Nacht
+  bereits gesehen hat — <em>„regular trading hours tends to overlap and redeliver to levels that
+  electronic trading has already delivered overnight."</em></li>
+<li><strong>Praktisch</strong>: Der Chart muss auf <strong>RTH</strong> umgestellt werden, um diese Voids überhaupt zu sehen.
+  Im ETH-Chart verschwinden sie, weil der Übernachthandel sie optisch füllt.</li>
+<li>Ineffizienzen, die nur in <strong>einer</strong> der beiden Sessions existieren, sind ausdrücklich vorgesehen
+  (<em>„it can, and that creates imbalances that are only seen in one session"</em>) — sie sind kein
+  Darstellungsartefakt.</li>
+</ul>
+<p>Vgl. <a href="../p/eroeffnungsauktion-vs-24x5-markt.html">Eröffnungsauktion vs. 24x5-Markt</a> für dieselbe Session-Abgrenzung im Forex-Kontext und
+<a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a>, das auf derselben RTH-Umstellung beruht.</p>
 <h2 id="zusammenspiel-mit-anderen-pd-arrays">Zusammenspiel mit anderen PD Arrays</h2>
 <p>Void, <a href="../p/fair-value-gap-fvg.html">FVG</a>, <a href="../p/open-float-liquidity-pools.html">Liquidity Pool</a> und
 <a href="../p/order-block.html">Order Block</a> überlappen sich häufig an derselben Preiszone — ICT nennt das ausdrücklich einen
@@ -233,7 +259,7 @@ Bestätigungen am selben Level stapelt, ist stärker als jede einzelne für sich
 <li><a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a>, <a href="../p/order-block.html">Order Block</a>, <a href="../p/turtle-soup.html">Turtle Soup</a></li>
 <li><a href="../p/ict-mentorship-core-content-month-04-liquidity-voids-source.html">ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">8</span></h2><ul><li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-mentorship-core-content-month-04-ict-fair-value-gaps-fvg-source.html">ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-04-liquidity-pools-source.html">ICT Mentorship Core Content - Month 04 - Liquidity Pools (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-04-liquidity-voids-source.html">ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/month-04-source.html">Month 04 (Source)</a><span class="cat">Quellen</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">11</span></h2><ul><li><a href="../p/2026-07-13-how-to-probe-low-probability-rth-opening-ranges-source.html">2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/breaker-block.html">Breaker Block</a><span class="cat">Konzepte</span></li><li><a href="../p/double-top-bottom-algorithmische-range-projektion.html">Double Top &amp; Bottom (Algorithmische Range-Projektion)</a><span class="cat">Konzepte</span></li><li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a><span class="cat">Konzepte</span></li><li><a href="../p/ict-mentorship-core-content-month-04-ict-fair-value-gaps-fvg-source.html">ICT Mentorship Core Content - Month 04 - ICT Fair Value Gaps FVG (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-04-liquidity-pools-source.html">ICT Mentorship Core Content - Month 04 - Liquidity Pools (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/ict-mentorship-core-content-month-04-liquidity-voids-source.html">ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kerzenzahl-in-einer-ineffizienz.html">Kerzenzahl in einer Ineffizienz</a><span class="cat">Konzepte</span></li><li><a href="../p/log-archiv-bis-2026-08.html">log-archiv-bis-2026-08</a><span class="cat">Meta</span></li><li><a href="../p/month-04-source.html">Month 04 (Source)</a><span class="cat">Quellen</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Liquidity Void.md</code></footer>
 </article>
 </main>

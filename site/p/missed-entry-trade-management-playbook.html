@@ -21,11 +21,11 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li><a href="../index.html#concepts">Konzepte<span class="count">141</span></a></li>
-<li class="active"><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">348</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">17</span></a></li>
-<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+<li><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
+<li class="active"><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">16</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Modelle</div><ul class="pagelist">
 <li><a href="../p/0-gmt-ipda-true-day-reset-entry.html">0 GMT IPDA True Day Reset Entry</a></li>
@@ -38,10 +38,12 @@
 <li><a href="../p/high-probability-daytrade-setups.html">High Probability Daytrade Setups</a></li>
 <li><a href="../p/ict-day-trade-routine.html">ICT Day Trade Routine</a></li>
 <li><a href="../p/london-session-profiles.html">London Session Profiles</a></li>
+<li><a href="../p/low-probability-day-probing.html">Low Probability Day Probing</a></li>
 <li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a></li>
 <li><a href="../p/market-on-close-moc-macro-model.html">Market on Close (MOC) Macro Model</a></li>
 <li><a href="../p/meine-strategien-uebersicht.html">Meine Strategien (Übersicht)</a></li>
 <li class="here"><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a></li>
+<li><a href="../p/mmxm-market-maker-buy-sell-model.html">MMXM (Market Maker Buy &amp; Sell Model)</a></li>
 <li><a href="../p/no-bias-engagement-routine.html">No-Bias Engagement Routine</a></li>
 <li><a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a></li>
 <li><a href="../p/ny-pm-trend.html">NY PM Trend</a></li>
@@ -62,13 +64,20 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#models">Modelle</a></div>
   <h1>Missed Entry Trade Management Playbook</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2026</span> <span class="tag">execution</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-05</div><div class="srcline"><span>Quellen:</span> <a href="../p/missed-entry-how-to-navigate-the-same-trade-idea-source.html">Missed Entry How To Navigate The Same Trade Idea (Source)</a>, <a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">ICT Price Action Chronicles - Market On Close Macro (Source)</a>, <a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">Part 2 High Precision Secrets To Intraday Price Action (Source)</a></div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">2026</span> <span class="tag">execution</span></div><div class="dates">erstellt 2026-08-01 · aktualisiert 2026-08-16</div><div class="srcline"><span>Quellen:</span> <a href="../p/missed-entry-how-to-navigate-the-same-trade-idea-source.html">Missed Entry How To Navigate The Same Trade Idea (Source)</a>, <a href="../p/2026-07-02-missed-entry-how-to-navigate-the-same-trade-idea-source.html">Missed Entry How To Navigate The Same Trade Idea (Source, Video)</a>, <a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">ICT Price Action Chronicles - Market On Close Macro (Source)</a>, <a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">Part 2 High Precision Secrets To Intraday Price Action (Source)</a>, <a href="../p/2026-05-13-turning-loss-into-gain-market-alchemy-source.html">Turning Loss Into Gain - Market Alchemy (Source)</a></div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
+<li><a href="#warum-es-uberhaupt-zum-missed-entry-kommt">Warum es überhaupt zum Missed Entry kommt</a></li>
+<li><a href="#vor-dem-fill-limit-order-disziplin">Vor dem Fill: Limit-Order-Disziplin</a></li>
 <li><a href="#entry">Entry</a></li>
 <li><a href="#sl-placement">SL-Placement</a></li>
 <li><a href="#reentry-skalierung">Reentry / Skalierung</a></li>
-<li><a href="#target-exit">Target &amp; Exit</a></li>
+<li><a href="#target-exit">Target &amp; Exit</a><ul>
+<li><a href="#skalierungs-details-und-die-re-entry-sperre-videofassung">Skalierungs-Details und die Re-Entry-Sperre (Videofassung)</a></li>
+<li><a href="#wann-ein-wiedereinstieg-nach-dem-stop-out-doch-erlaubt-ist">Wann ein Wiedereinstieg nach dem Stop-out doch erlaubt ist</a></li>
+<li><a href="#kontext-filter-feiertagsvolumen">Kontext-Filter: Feiertagsvolumen</a></li>
+</ul>
+</li>
 <li><a href="#exit-prazision-vs-entry-prazision-2026-erganzung-moc-video">Exit-Präzision vs. Entry-Präzision (2026-Ergänzung, MOC-Video)</a></li>
 <li><a href="#single-contract-probe-pyramiding-in-drawdown-2026-erganzung">Single-Contract-Probe + Pyramiding in Drawdown (2026-Ergänzung)</a></li>
 <li><a href="#verwandt">Verwandt</a></li>
@@ -77,14 +86,59 @@
 </details>
   <div class="content"><h1 id="missed-entry-trade-management-playbook">Missed Entry / Trade Management Playbook</h1>
 <p>Ablauf, wenn eine Limit-Order nicht gefüllt wird, plus generelles Skalierungs-/Exit-Schema.</p>
+<h2 id="warum-es-uberhaupt-zum-missed-entry-kommt">Warum es überhaupt zum Missed Entry kommt</h2>
+<blockquote>
+<p><em>„When your analysis is perfect, your executions could not execute. So </em><em>perfection will yield
+missed trades</em><em>. That's the oxymoron there."</em>
+— <a href="../p/2026-07-02-missed-entry-how-to-navigate-the-same-trade-idea-source.html">Videofassung</a></p>
+</blockquote>
+<p>Der Missed Entry ist hier <strong>kein Fehler</strong>, sondern die systematische Nebenwirkung einer präzisen
+Limit-Order: Sie liegt am bestmöglichen Punkt, und genau deshalb wird sie oft nicht erreicht. Im
+dokumentierten Fall lag das Limit knapp über der C.E. des FVG, Preis lief bis exakt zum <strong>Low des
+FVG</strong> — der <strong>Spread</strong> verhinderte den Fill. Daraus folgt die Grundhaltung des Playbooks: Der Plan
+für den nicht erfolgten Fill wird <strong>vorher</strong> gefasst, nicht improvisiert.</p>
+<h2 id="vor-dem-fill-limit-order-disziplin">Vor dem Fill: Limit-Order-Disziplin</h2>
+<ul>
+<li><strong>Nicht nachjagen.</strong> <em>„Let it come to you. Don't chase it."</em> Auch bei feststehender Richtung wird
+  nicht früher eingestiegen — ein zu früher Short kostet <strong>needless drawdown</strong>, wenn Preis noch
+  einmal retraced.</li>
+<li><strong>Kein Fill-Zwang.</strong> <em>„It's real important that you don't get crazy and think that you have to
+  have the fill."</em> Der ausgebliebene Fill ist ein normaler Ausgang, kein Anlass zur Panik-Order.</li>
+</ul>
 <h2 id="entry">Entry</h2>
 <p>Bei verpasster Limit-Order: die <strong>Wick als Entry</strong> nutzen (bei einer Short-Idee die Premium-Wick).
 Genutzt wird konkret das <strong>Opening der Wick</strong>.</p>
+<p><strong>Alternative aus der Videofassung — Entry im Order Block</strong>: Statt der Wick nutzte ICT die
+<strong>untere Hälfte des bearishen <a href="../p/order-block.html">Order Blocks</a></strong>, also dessen
+<strong>Premium-Sensitivity-Hälfte</strong> (<em>„notice my entries in the lower half of the order block on this
+fill"</em>). Auslöser war ein <a href="../p/cisd-change-in-state-of-delivery.html">CISD</a>: <em>„We have change in state
+delivery right here. So I can do a short if it touches that."</em> Beide Wege sind derselbe Gedanke —
+statt des perfekten Levels wird die nächstbeste PD Array in Richtung der Idee genommen.</p>
 <h2 id="sl-placement">SL-Placement</h2>
 <p>SL zunächst auf den vorherigen gewollten Fill-Punkt, danach angepasst, sobald die bullishe Candle
 als <a href="../p/cisd-change-in-state-of-delivery.html">CISD</a>/<a href="../p/rejection-block.html">Rejection Block</a> identifiziert wird.</p>
 <figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/image 28.png" alt="image 28" loading="lazy"><figcaption>SL-Anpassung nachdem die bullishe Candle als CISD/Rejection Block bestätigt wurde.</figcaption></figure>
 
+<blockquote>
+<p>✅ <strong>Offene Frage geklärt (2026-08-16).</strong> In der Notiz-Fassung
+<a href="../p/missed-entry-how-to-navigate-the-same-trade-idea-source.html">Missed Entry How To Navigate The Same Trade Idea (Source)</a> stand an dieser Stelle
+<em>„SL zieht ICT auf den vorherigen gewollten Fill (</em><em>verstehe ich noch nicht</em><em>)"</em>. Die
+<a href="../p/2026-07-02-missed-entry-how-to-navigate-the-same-trade-idea-source.html">Videofassung</a> löst das
+auf — es sind <strong>drei Stufen</strong>, nicht eine:</p>
+<ol>
+<li><strong>Initial über der <a href="../p/volume-imbalance-vii.html">Volume Imbalance</a></strong>, die über dem FVG liegt —
+   <em>„Stop loss above the volume balance."</em> Nicht „über dem gewollten Fill", sondern über der
+   nächsten PD Array darüber; der gewollte Fill lag lediglich in derselben Zone, daher die
+   Verwechslung in der Mitschrift.</li>
+<li><strong>Auf den <a href="../p/rejection-block.html">Rejection Block</a></strong>, sobald dieser sich gebildet hat — ausdrücklich als
+   Risikoreduktion: <em>„I'll use a rejection block on this. </em><em>Reduce some of the stop risk</em><em>."</em></li>
+<li><strong>Weiter nachgezogen</strong> über das jeweils neue Hoch: <em>„I'll lower the stop down just above this
+   high."</em></li>
+</ol>
+<p>Das Risiko bleibt zwischen Stufe 2 und dem ersten Partial <strong>unverändert</strong> (<em>„I'll hold the risk
+at 1920 till I get first partial"</em>) — erst der Teilgewinn löst das weitere Nachziehen aus, nicht
+die reine Preisbewegung.</p>
+</blockquote>
 <h2 id="reentry-skalierung">Reentry / Skalierung</h2>
 <ul>
 <li><strong>1. Reentry</strong>: den CISD-Rejection-Block nutzen, um die Position zu vergrößern (z.B. um die
@@ -103,6 +157,80 @@ als <a href="../p/cisd-change-in-state-of-delivery.html">CISD</a>/<a href="../p/
 <li><strong>Last Exit</strong>: fällt das anschließende Retracement zu stark aus (subjektive Einschätzung), wird
   die gesamte Position geschlossen.</li>
 </ul>
+<h3 id="skalierungs-details-und-die-re-entry-sperre-videofassung">Skalierungs-Details und die Re-Entry-Sperre (Videofassung)</h3>
+<ul>
+<li><strong>Staffelung</strong>: dreimal 3 Kontrakte abgebaut, 6 als Runner gehalten, zum Schluss einzelne
+  Kontrakte. Die Partials hängen an den Ziel-Leveln, nicht an R-Vielfachen — vgl.
+  <a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a>.</li>
+<li><strong>Ziel-Staffel</strong>: Relative Equal Lows als Best Case, davor zwei Zwischen-Lows als
+  Zwischenstationen (siehe <a href="../p/open-float-liquidity-pools.html">Open Float &amp; Liquidity Pools</a>).</li>
+<li><strong>Partial <em>vor</em> dem <a href="../p/event-horizon.html">Event Horizon</a></strong>, wenn dieser knapp unter einem alten Low liegt —
+  Begründung auf der Event-Horizon-Seite.</li>
+<li><strong>Harte Re-Entry-Sperre nach dem Ausstieg.</strong> Die wichtigste Disziplinregel des Videos: Ist die
+  Position geschlossen, wird <strong>nicht</strong> wieder eingestiegen, auch wenn die Bewegung sichtbar
+  weiterläuft:<blockquote>
+<p><em>„I can't reenter it. Even if this thing drops down into 29,230s. I can't do it. </em><em>There has to
+be rules.</em><em>"</em>
+  Begründung: Die Idee war „long in the tooth" — zeitlich und strukturell ausgereizt. Ein Re-Entry
+  wäre ein <em>neuer</em> Trade ohne eigenes Setup, nur getrieben davon, den Rest der Bewegung nicht zu
+  verpassen.</p>
+</blockquote>
+</li>
+<li><strong>Vorzeitiger Komplettausstieg</strong> ist explizit erlaubt und wurde hier genutzt: <em>„Too much of a
+  retracement on my part for the trade I was in."</em> — deckt sich mit „Last Exit" oben.</li>
+</ul>
+<h3 id="wann-ein-wiedereinstieg-nach-dem-stop-out-doch-erlaubt-ist">Wann ein Wiedereinstieg nach dem Stop-out doch erlaubt ist</h3>
+<p>Die Re-Entry-Sperre oben stammt aus dem 02.07.-Video. In
+<a href="../p/2026-05-13-turning-loss-into-gain-market-alchemy-source.html">Turning Loss Into Gain — Market Alchemy (Source)</a>
+macht ICT das <strong>Gegenteil</strong>: Stop-out, danach Wiedereinstieg am nächsten IFVG mit identischem Ziel.
+Kein Widerspruch — beide Male entscheidet <strong>dasselbe Kriterium</strong>:</p>
+<blockquote>
+<p><em>„</em><em>None of these things that caused me to get stopped out change the underlying narrative</em><em> of
+where price is going to go."</em> (13.05., Wiedereinstieg)</p>
+<p><em>„I can't reenter it… I'm </em><em>long in the tooth</em><em> on this sell."</em> (02.07., Sperre)</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Wiedereinstieg erlaubt</th>
+<th>Sperre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Narrativ</strong></td>
+<td>unverändert gültig, Ziel noch offen</td>
+<td>erfüllt oder überholt</td>
+</tr>
+<tr>
+<td><strong>Lage in der Bewegung</strong></td>
+<td>strukturell <strong>früh</strong></td>
+<td>ausgereizt</td>
+</tr>
+<tr>
+<td>ICTs eigene Formulierung</td>
+<td><em>„everything is indicating that it still could potentially go where I think it should go"</em></td>
+<td><em>„too far up on the curve"</em></td>
+</tr>
+</tbody>
+</table>
+<p>Bemerkenswert: ICT nennt das Curve-Kriterium <strong>in beiden</strong> Videos. Auch im Mai-Video sagt er
+vorsorglich: <em>„This is a day where if I get stopped out, I wouldn't want to add in or try to
+re-enter, </em><em>cuz we're too far up on the curve</em><em>"</em> — für den späteren Verlauf desselben Tages. Die
+Sperre ist also nicht an den Verlust gekoppelt, sondern an die <strong>Position innerhalb der
+Marktmaker-Kurve</strong> (siehe <a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a> zur Kurven-Terminologie).</p>
+<blockquote>
+<p>⚠️ <strong>Für Anfänger gilt die Sperre unabhängig davon.</strong> <em>„Are you allowed to take another trade if
+you get stopped out? </em><em>In the beginning, you shouldn't.</em><em> I promise you if you do that in your
+first year, you won't blow out. You won't go on tilt."</em> Die Unterscheidung oben setzt die
+Erfahrung voraus, das Narrativ überhaupt zuverlässig beurteilen zu können.</p>
+</blockquote>
+<h3 id="kontext-filter-feiertagsvolumen">Kontext-Filter: Feiertagsvolumen</h3>
+<p>ICT weist während der laufenden Ausführung ungefragt darauf hin, dass der 2. Juli (vor dem 4. Juli)
+<strong>Feiertagsvolumen</strong> hat: <em>„It's holiday volume, by the way. So yeah, things can get squirrely."</em>
+Erwartungsmanagement statt Setup-Kriterium — die Regeln bleiben gleich, die Erwartung an sauberes
+Verhalten sinkt.</p>
 <h2 id="exit-prazision-vs-entry-prazision-2026-erganzung-moc-video">Exit-Präzision vs. Entry-Präzision (2026-Ergänzung, MOC-Video)</h2>
 <ul>
 <li><strong>Exit-Präzision ist unwichtiger als Entry-Präzision</strong>: Teilgewinne bereits <strong>über</strong> 50 % der
@@ -137,7 +265,7 @@ als <a href="../p/cisd-change-in-state-of-delivery.html">CISD</a>/<a href="../p/
 <li><a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a>, <a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a></li>
 <li><a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">Part 2 High Precision Secrets To Intraday Price Action (Source)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">11</span></h2><ul><li><a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log.html">Änderungsprotokoll</a><span class="cat">Meta</span></li><li><a href="../p/market-on-close-moc-macro-model.html">Market on Close (MOC) Macro Model</a><span class="cat">Modelle</span></li><li><a href="../p/missed-entry-how-to-navigate-the-same-trade-idea-source.html">Missed Entry How To Navigate The Same Trade Idea (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a><span class="cat">Konzepte</span></li><li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/trading-complex-opening-ranges.html">Trading Complex Opening Ranges</a><span class="cat">Modelle</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">18</span></h2><ul><li><a href="../p/2026-05-13-turning-loss-into-gain-market-alchemy-source.html">2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-02-missed-entry-how-to-navigate-the-same-trade-idea-source.html">2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">2026-07-06 - Weekend US Holiday Volume Protocol (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-01-part-2-high-precision-secrets-to-intraday-price-action-source.html">2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-04-ict-price-action-chronicles-market-on-close-macro-source.html">2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-10-navigating-high-resistance-liquidity-run-conditions-source.html">2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/event-horizon.html">Event Horizon</a><span class="cat">Konzepte</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log-archiv-bis-2026-08.html">log-archiv-bis-2026-08</a><span class="cat">Meta</span></li><li><a href="../p/low-probability-day-probing.html">Low Probability Day Probing</a><span class="cat">Modelle</span></li><li><a href="../p/market-on-close-moc-macro-model.html">Market on Close (MOC) Macro Model</a><span class="cat">Modelle</span></li><li><a href="../p/missed-entry-how-to-navigate-the-same-trade-idea-source.html">Missed Entry How To Navigate The Same Trade Idea (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/order-block.html">Order Block</a><span class="cat">Konzepte</span></li><li><a href="../p/partial-profit-taking-r-multiple-skalierung.html">Partial Profit-Taking &amp; R-Multiple-Skalierung</a><span class="cat">Konzepte</span></li><li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a><span class="cat">Konzepte</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/trading-complex-opening-ranges.html">Trading Complex Opening Ranges</a><span class="cat">Modelle</span></li><li><a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a><span class="cat">Konzepte</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/models/Missed Entry Trade Management Playbook.md</code></footer>
 </article>
 </main>

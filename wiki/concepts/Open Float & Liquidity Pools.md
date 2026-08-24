@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-14
-sources: ["[[Defining Open Float Liquidity Pools (Source)]]", "[[Defining Open Float Liquidity Pools 2 (Source)]]", "[[Open Float (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Liquidity Pools (Source)]]"]
+updated: 2026-08-16
+sources: ["[[Defining Open Float Liquidity Pools (Source)]]", "[[Defining Open Float Liquidity Pools 2 (Source)]]", "[[Open Float (Source)]]", "[[ICT Mentorship Core Content - Month 04 - Liquidity Pools (Source)]]", "[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]"]
 ---
 
 # Open Float & Liquidity Pools
@@ -154,6 +154,52 @@ jede Rally scheitert daran, ein neues Hoch zu etablieren, jeder Sell-off unterbi
 Tief. Vertiefung erwartet in [[Institutional Swing Point]] (Begleitvideo „Defining Institutional
 Swing Points" zu Month 05 — YouTube-Fetch aktuell blockiert, siehe `wiki/log.md`).
 
+## Session-Level-Katalog & Guarded Liquidity (2026-08-15)
+
+Aus [[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]].
+
+### Die vollständige Level-Liste, die ICT am Wochenende notiert
+
+Nicht nur Tages-Highs/-Lows, sondern **jede Session-Range plus deren Mittelpunkt**:
+
+| Ebene | Level |
+|---|---|
+| Intraday (Sessions) | Asia H/L, London H/L, NY AM H/L, **NY Lunch H/L** (2-Stunden-Fenster) |
+| Täglich | Vortages-H/L |
+| Dynamisch | **Last-3-Days-H/L** — wandert mit, im Gegensatz zu allen anderen |
+| Wöchentlich/Monatlich | Vorwochen-H/L, Vormonats-H/L |
+
+Zu **jeder** dieser Ranges wird zusätzlich der **Mittelpunkt (Equilibrium)** notiert — siehe
+[[Equilibrium Vs. Discount]]. Die Liste entsteht Freitag nach Close bzw. Samstag früh auf Papier
+und bildet die Level-Basis der Folgewoche.
+
+**Static vs. dynamic**: Session- und Vortages-/Vorwochen-Level sind statisch (einmal gebildet,
+fest); das Last-3-Days-Fenster ist die einzige mitwandernde Range.
+
+**Gewichtung**: Je höher der Timeframe des Levels, desto stärker der Draw — weil zwischen
+aktuellem Preis und einem Daily-/Weekly-Level mehr [[Institutional Sponsorship]] liegt
+(*„rocket fuel behind the likelihood of it moving in your favor"*). Deckt sich mit der
+Hierarchie oben.
+
+### Guarded Liquidity — wann REH/REL *nicht* genommen werden
+
+Ergänzt die REH/REL-Regeln oben um den Fall, dass ein Pool bewusst **verteidigt** wird und
+deshalb als Ziel ausfällt:
+
+- **Ausgangslage**: Preis läuft auf ein REH-Cluster zu. Ob es gerissen wird, ist offen —
+  ein Sweep mit anschließender Umkehr ist genauso möglich wie ein Durchbruch.
+- **Der Test**: das [[ICT Macros & Leading Candles|Macro 9:50–10:10]] als Entscheidungsfenster.
+  Wird die Buyside **innerhalb dieser 20 Minuten** nicht genommen, gilt sie als *guarded* — der
+  Algorithmus verteidigt sie aktiv, und die Gegenrichtung wird zum Setup.
+- **Konsequenz für den Entry**: In unmittelbarer Nähe zu guarded Liquidity ist kein guter Fill zu
+  bekommen (*„you're not going to get the best fill"*). ICT wartet in diesem Fall auf zusätzliche
+  Bestätigung statt in die REH hinein zu handeln — im Fallbeispiel auf einen Body-Close unter dem
+  9:30-Opening-Price und danach auf die Kette Rejection Block → IFVG (siehe
+  [[Silver Bullet Model]]).
+
+Praxisfall 15.08.2026: REH über dem Freitags-Vormittagshoch wurden im Macro **nicht** genommen →
+guarded → ICT handelte short in Richtung [[TGIF (Thank God its Friday)|TGIF]]-Zone.
+
 ## Timeframe-Wahl zur Pool-Erkennung (Nutzer-Arbeitsweise, 2026-08-14)
 
 Eigene Praxisregel des Nutzers, nicht aus einer ICT-Quelle zitiert:
@@ -161,6 +207,20 @@ Eigene Praxisregel des Nutzers, nicht aus einer ICT-Quelle zitiert:
 - **15-Min-Chart als "Bellwether Chart"** für Intraday-Modelle (z.B. [[Silver Bullet Model]] und
   künftige Intraday-Modelle) — der bevorzugte Referenz-Timeframe, um relevante Liquidity Pools
   einzuordnen, bevor auf eine niedrigere Auflösung für den Entry gewechselt wird.
+
+  > ✅ **Von ICT bestätigt (2026-08-15).** Bis dahin war dies eine reine Nutzer-Arbeitsweise ohne
+  > Quellenbeleg. In
+  > [[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]
+  > verwendet ICT wörtlich denselben Begriff — *„Why 15 minutes? Because it's a bellwether time
+  > frame"* — mit exakt derselben Begründung: Der 15-Min-Chart zeigt die **volle Wochenrange und
+  > alle Session-Highs/-Lows gleichzeitig**, was ihn zur Referenzebene für die Pool-Einordnung
+  > macht (*„It's all laid out here perfectly for you"*). Für TGIF-Referenzpunkte hält er
+  > ausdrücklich fest: *„You don't need to go any higher than this."*
+  >
+  > **Achtung, betrifft nur die Pool-*Erkennung*.** Der Backtest unten testete etwas anderes —
+  > die Auswahl des **Ziel**-Levels für den Silver Bullet — und fiel dort negativ aus. Beide
+  > Aussagen widersprechen sich nicht: ICT nutzt 15M zum *Einordnen* der Landschaft und wechselt
+  > für Entry und Zielwahl auf 1M/5M herunter.
 - **Kein Timeframe ist exklusiv** — Liquidität wird grundsätzlich auf jedem Timeframe gesucht.
 - **1-Min-Chart eignet sich besonders gut, um große/gute Liquidity Pools zu erkennen** — auf dieser
   Auflösung treten die größeren, klarer abgegrenzten Pools deutlicher hervor als auf höheren

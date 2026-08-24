@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Low Probability Day Probing — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
+<li class="active"><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">16</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Modelle</div><ul class="pagelist">
+<li><a href="../p/0-gmt-ipda-true-day-reset-entry.html">0 GMT IPDA True Day Reset Entry</a></li>
+<li><a href="../p/20-pips-per-day.html">20 Pips Per Day</a></li>
+<li><a href="../p/bond-mega-trades.html">Bond Mega-Trades</a></li>
+<li><a href="../p/bread-butter-setups.html">Bread &amp; Butter Setups</a></li>
+<li><a href="../p/classic-swing-trading-approach.html">Classic Swing Trading Approach</a></li>
+<li><a href="../p/commodity-mega-trades.html">Commodity Mega-Trades</a></li>
+<li><a href="../p/graded-price-swings.html">Graded Price Swings</a></li>
+<li><a href="../p/high-probability-daytrade-setups.html">High Probability Daytrade Setups</a></li>
+<li><a href="../p/ict-day-trade-routine.html">ICT Day Trade Routine</a></li>
+<li><a href="../p/london-session-profiles.html">London Session Profiles</a></li>
+<li class="here"><a href="../p/low-probability-day-probing.html">Low Probability Day Probing</a></li>
+<li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a></li>
+<li><a href="../p/market-on-close-moc-macro-model.html">Market on Close (MOC) Macro Model</a></li>
+<li><a href="../p/meine-strategien-uebersicht.html">Meine Strategien (Übersicht)</a></li>
+<li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a></li>
+<li><a href="../p/mmxm-market-maker-buy-sell-model.html">MMXM (Market Maker Buy &amp; Sell Model)</a></li>
+<li><a href="../p/no-bias-engagement-routine.html">No-Bias Engagement Routine</a></li>
+<li><a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a></li>
+<li><a href="../p/ny-pm-trend.html">NY PM Trend</a></li>
+<li><a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a></li>
+<li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a></li>
+<li><a href="../p/silver-bullet-model.html">Silver Bullet Model</a></li>
+<li><a href="../p/stock-mega-trades.html">Stock Mega-Trades</a></li>
+<li><a href="../p/the-sentiment-effect.html">The Sentiment Effect</a></li>
+<li><a href="../p/three-timeframe-framing.html">Three Timeframe Framing</a></li>
+<li><a href="../p/trading-complex-opening-ranges.html">Trading Complex Opening Ranges</a></li>
+<li><a href="../p/trading-in-consolidations.html">Trading In Consolidations</a></li>
+<li><a href="../p/trading-journal-dol-checklist.html">Trading Journal &amp; DOL Checklist</a></li>
+<li><a href="../p/weekly-range-trading-model.html">Weekly Range Trading Model</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#models">Modelle</a></div>
+  <h1>Low Probability Day Probing</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">execution</span> <span class="tag">risk</span> <span class="tag">2026</span></div><div class="dates">erstellt 2026-08-16 · aktualisiert 2026-08-16</div><div class="srcline"><span>Quellen:</span> <a href="../p/2026-07-13-how-to-probe-low-probability-rth-opening-ranges-source.html">How To Probe Low Probability RTH Opening Ranges (Source)</a>, <a href="../p/2026-07-14-part-2-how-to-probe-low-probability-rth-opening-ranges-source.html">Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)</a>, <a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">Weekend US Holiday Volume Protocol (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#wann-ein-tag-als-low-probability-gilt">Wann ein Tag als low probability gilt</a></li>
+<li><a href="#erst-die-vorfrage-probing-oder-gar-nicht">Erst die Vorfrage: probing oder gar nicht?</a></li>
+<li><a href="#die-montags-regel">Die Montags-Regel</a></li>
+<li><a href="#der-ablauf">Der Ablauf</a></li>
+<li><a href="#der-gescheiterte-probe-als-information">Der gescheiterte Probe als Information</a></li>
+<li><a href="#vorzeitiger-ausstieg-statt-stop-abwarten">Vorzeitiger Ausstieg statt Stop abwarten</a></li>
+<li><a href="#abgrenzung-probing-ist-kein-rechtfertigungsgrund">Abgrenzung: Probing ist kein Rechtfertigungsgrund</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="low-probability-day-probing">Low Probability Day Probing</h1>
+<p>Vorgehen an einem Tag, den man <strong>vorab als schlecht handelbar eingestuft</strong> hat — nicht Aussitzen,
+sondern mit minimaler Größe <strong>Informationen kaufen</strong>. Das Ziel ist nicht der Gewinn, sondern
+herauszufinden, was der Markt will, bevor die eigentlich handelbaren Tage kommen.</p>
+<blockquote>
+<p><em>„What we're doing is we're trying to explore what the market wants to do, what it's not willing
+to do, and then get out of its way."</em></p>
+</blockquote>
+<h2 id="wann-ein-tag-als-low-probability-gilt">Wann ein Tag als low probability gilt</h2>
+<ul>
+<li><strong>Kein News-Treiber heute, aber schwere News in den nächsten Tagen.</strong> Der Markt steht beiseite und
+  wartet — <em>„it's a 50/50 whether we're going to have a nice price run this morning or everybody's
+  going to just stand aside and let the volatility come in."</em></li>
+<li><strong>Montag allgemein</strong> (siehe unten).</li>
+<li><strong>Der erste Handelstag nach einem US-Feiertagswochenende</strong> — der schärfste Fall, siehe
+  <a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a> (High-Resistance-Abschnitt).</li>
+<li>Kein klarer eigener Bias aus der Preisstruktur — ICT: <em>„I don't know where the entry is yet."</em></li>
+</ul>
+<h2 id="erst-die-vorfrage-probing-oder-gar-nicht">Erst die Vorfrage: probing oder gar nicht?</h2>
+<p>Wichtige Abstufung aus
+<a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">Weekend US Holiday Volume Protocol (Source)</a> —
+nicht jeder schlechte Tag rechtfertigt einen Probe-Trade. Am Tag nach einem Feiertagswochenende
+lautet ICTs Antwort ausdrücklich <strong>gar nicht handeln</strong>:</p>
+<blockquote>
+<p><em>„</em><em>Enough is not trading at all on a day like today.</em><em> That's the right answer."</em>
+<em>„I've lost more money trading after holidays like this than in any other thing."</em></p>
+</blockquote>
+<p>Der Unterschied zum Probing-Fall (Montag ohne News vor einer News-Woche) liegt im Grund für die
+schlechten Bedingungen:</p>
+<table>
+<thead>
+<tr>
+<th>Bedingung</th>
+<th>Ursache</th>
+<th>Vorgehen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Montag vor News-Woche</td>
+<td>Marktteilnehmer <strong>warten ab</strong> — Interesse ist da, nur vertagt</td>
+<td>Probing sinnvoll: die Frage „was will der Markt?" hat eine Antwort</td>
+</tr>
+<tr>
+<td>Tag nach Feiertagswochenende</td>
+<td><strong>Partizipationsvakuum</strong> — das Interesse fehlt schlicht</td>
+<td>Kein Probing: es gibt niemanden, dessen Absicht man abfragen könnte</td>
+</tr>
+</tbody>
+</table>
+<p>Im Feiertags-Video handelt ICT trotzdem — ausdrücklich zu Demonstrationszwecken und mit
+offengelegtem Ergebnis (−1.800 $, danach +220 $ und +1.000 $ nach Umkehr). Das ist ein
+Lehrbeispiel, keine Empfehlung: <em>„You shouldn't be trading today with live funds."</em></p>
+<h2 id="die-montags-regel">Die Montags-Regel</h2>
+<blockquote>
+<p><strong>Neue Trader sollen montags nicht handeln</strong> — Montag ist der Manipulations- und
+Akkumulationsteil der Woche.</p>
+</blockquote>
+<ul>
+<li><strong>Ausnahme, ausnahmslos</strong>: der <strong>Montag einer Non-Farm-Payroll-Woche</strong> ist <em>immer</em> handelbar
+  (<em>„that's an always trading Monday"</em>). Begründung: Der Rest dieser Woche ist rein event-getrieben
+  und damit unvorhersehbar — der NFP-Montag hat die sauberste Preisaktion der Woche.</li>
+<li>Für erfahrene Trader gilt die Sperre nicht; ICT sagt ausdrücklich, dass er sie langjährigen
+  Studenten nie gegeben hat. Der Grund für die Sperre ist fehlende Erfahrung, nicht der Wochentag
+  an sich.</li>
+<li>Empfehlung für Anfänger: Montags <strong>nur beobachten</strong> und aushalten, einen Move zu verpassen.</li>
+</ul>
+<p>Passt zum Wochenprofil-Katalog in <a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a>, wo Montag/Dienstag
+durchgängig die Manipulationsphase tragen.</p>
+<h2 id="der-ablauf">Der Ablauf</h2>
+<ol>
+<li><strong>Wochenfahrplan aus dem Wirtschaftskalender.</strong> Im Fallbeispiel: CPI Di, PPI Mi, Fed-Chair
+   jeweils 10:00 → AM-Session Di/Mi meiden, PM-Session bevorzugen, sauberste Preisaktion <strong>ab
+   Mittwoch PM bis Freitag Close</strong>.</li>
+<li><strong>Chart leerräumen.</strong> ICT sieht sich Freitags-Preisaktion bewusst <strong>nicht</strong> übers Wochenende an:
+   <em>„I just want to have a very clean slate, so my perspective is not bringing in a preconceived
+   idea."</em></li>
+<li><strong>Level setzen, nicht Richtung.</strong> Zonen zunächst <strong>grau</strong> einfärben, um keine Richtung zu
+   implizieren, solange die Idee nicht steht.</li>
+<li><strong>Erste 30 Minuten abwarten.</strong> <em>„I'm wanting more information from the opening range first 30
+   minutes."</em></li>
+<li><strong>Mit einem Kontrakt sondieren</strong> (Anfänger: Micro statt Mini). Bei einem Kontrakt gibt es keine
+   Partials — die Position wird ausschließlich über den Stop gesteuert.</li>
+<li><strong>Zeitlimit setzen.</strong> <em>„If it can't do it by 10:10, then I'll bail."</em> Ein Probe-Trade bekommt ein
+   Ablaufdatum, kein offenes Ende.</li>
+</ol>
+<h2 id="der-gescheiterte-probe-als-information">Der gescheiterte Probe als Information</h2>
+<p>Der Kern des Modells: Der <strong>fehlgeschlagene</strong> Long lieferte die Grundlage für den anschließenden
+Short.</p>
+<blockquote>
+<p><em>„I did the probe of one contract, see if it can get that run up towards gap closure. And then
+</em><em>when it failed, I knew what I was looking for as the opposite side</em><em>."</em></p>
+<p>⚠️ <strong>Wichtige Einschränkung, die ICT selbst nachschiebt</strong>: <em>„That doesn't mean if you take a loss
+going long, it's always a sell short. It doesn't mean that at all."</em> Die Umkehr war hier durch die
+Preisstruktur gedeckt (Failure to launch nach dem Versuch nach unten), nicht durch den Verlust
+als solchen. Ein Stop-out ist <strong>kein</strong> Signal für die Gegenrichtung.</p>
+</blockquote>
+<p>Erwartungshaltung entsprechend: <em>„Chances are I'm probably going to be wrong today. Pretty high
+I'm going to be wrong today because of the volatility."</em> Ergebnis des Tages waren <strong>zwei
+Ausführungen, ein Scratch</strong> — für ICT ein positives Resultat, weil das Tagestief anschließend
+korrekt antizipiert war (siehe
+<a href="../p/2026-07-14-part-2-how-to-probe-low-probability-rth-opening-ranges-source.html">Teil 2</a>).</p>
+<h2 id="vorzeitiger-ausstieg-statt-stop-abwarten">Vorzeitiger Ausstieg statt Stop abwarten</h2>
+<p>Ergänzung aus dem Feiertags-Video: Wer unter schlechten Bedingungen doch positioniert ist, wartet
+den Stop <strong>nicht ab</strong>, sobald die Struktur gegen die These spricht.</p>
+<blockquote>
+<p><em>„While I'm talking to you, it's failing to go lower. … Because of that, </em><em>I know I'm possibly
+wrong</em><em>, so I'm going to close the trade, save the stop loss, reverse."</em></p>
+</blockquote>
+<ul>
+<li><strong>Auslöser war ein konkretes Kriterium</strong>, keine Bauchentscheidung: Das SIBI schloss <strong>nicht unter
+  seiner C.E.</strong> — damit war die bearishe Lesart hinfällig (siehe
+  <a href="../p/institutional-order-flow-body-vs-wick.html">Institutional Order Flow (Body vs Wick)</a>).</li>
+<li><strong>Ergebnis</strong>: Der bewusste Ausstieg ersparte den deutlich größeren Stop-out — <em>„protected the
+  stop loss that would have clearly gotten a larger stop out."</em></li>
+<li>Der anschließende Reverse war durch dieselbe Struktur gedeckt, nicht durch den Verlust — es gilt
+  weiterhin die Einschränkung oben, dass ein Stop-out kein Signal für die Gegenrichtung ist.</li>
+</ul>
+<h2 id="abgrenzung-probing-ist-kein-rechtfertigungsgrund">Abgrenzung: Probing ist kein Rechtfertigungsgrund</h2>
+<ul>
+<li><strong>Nicht</strong> in eine Position hineinskalieren, weil man „testen" will — die Größe bleibt minimal.</li>
+<li><strong>Kein Gegenmodell zum Nichtstun</strong>: Wer keinen Plan hat, soll den Tag auslassen. Das Probing
+  setzt voraus, dass man weiß, <em>welche</em> Frage man dem Markt stellt.</li>
+<li><em>„Death by a thousand paper cuts"</em> — viele kleine Verluste ohne Modell und Disziplin sind die
+  typische Retail-Todesart. Das Probing ist nur deshalb kein Beitrag dazu, weil Größe und Zeitraum
+  vorab begrenzt sind.</li>
+</ul>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/kerzenzahl-in-einer-ineffizienz.html">Kerzenzahl in einer Ineffizienz</a> — das Abbruchkriterium, das ICT an diesem Tag anwandte</li>
+<li><a href="../p/org-opening-range-gap-1st-presented-fvg.html">ORG (Opening Range Gap) &amp; 1st Presented FVG</a> — der Referenz-Level des Tages</li>
+<li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a> — Montag als Manipulationsphase im Wochenprofil</li>
+<li><a href="../p/risikomanagement-1-pro-trade.html">Risikomanagement (1% pro Trade)</a>, <a href="../p/two-stage-news-delivery-fomc-nfp.html">Two Stage News Delivery (FOMC &amp; NFP)</a></li>
+<li><a href="../p/no-bias-engagement-routine.html">No-Bias Engagement Routine</a> — verwandtes Vorgehen ohne festen Bias</li>
+<li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a> — was zu tun ist, wenn der geplante Fill ausbleibt</li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">8</span></h2><ul><li><a href="../p/2026-07-06-weekend-us-holiday-volume-protocol-source.html">2026-07-06 - Weekend US Holiday Volume Protocol (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-13-how-to-probe-low-probability-rth-opening-ranges-source.html">2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-14-part-2-how-to-probe-low-probability-rth-opening-ranges-source.html">2026-07-14 - Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/kerzenzahl-in-einer-ineffizienz.html">Kerzenzahl in einer Ineffizienz</a><span class="cat">Konzepte</span></li><li><a href="../p/log-archiv-bis-2026-08.html">log-archiv-bis-2026-08</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li><li><a href="../p/smt-smart-money-divergence.html">SMT (Smart Money Divergence)</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/models/Low Probability Day Probing.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

@@ -37,8 +37,8 @@ from analyze_ohlc import Bar, at, load, untouched_levels  # noqa: E402
 from backtest_1p_fvg_woche import find_days  # noqa: E402
 from rules import (session_extrema, ipda_windows, rel_pair, level_untouched,  # noqa: E402
                     daily_hilo_from_bars, prev_day_level, prev_week_level)
-from live_status import fetch_today, _bars_from_df  # noqa: E402
-from fetch_yfinance import trading_day  # noqa: E402
+from live_status import fetch_today, DISPLAY_SYMBOL as LIVE_SYMBOL  # noqa: E402
+from marktdaten import trading_day  # noqa: E402
 
 import pandas as pd
 
@@ -151,8 +151,8 @@ def _classify(pool: dict, last_price: float, confluence: int) -> tuple[str, str]
     return label, ", ".join(gruende)
 
 
-def build_report(symbol: str, today: date, dfs: dict) -> list[dict]:
-    live_by_tf = {tf: (_bars_from_df(dfs[tf]) if not dfs[tf].empty else []) for tf in INTRADAY_TFS}
+def build_report(symbol: str, today: date, live: dict[str, list[Bar]]) -> list[dict]:
+    live_by_tf = {tf: live[tf] for tf in INTRADAY_TFS}
     last_price = None
     for tf in ("1m", "5m", "15m"):
         if live_by_tf[tf]:
@@ -220,9 +220,29 @@ def build_report(symbol: str, today: date, dfs: dict) -> list[dict]:
     return pools
 
 
-def report(pools: list[dict], symbol: str, last_price: float, max_rows: int = MAX_ROWS) -> list[str]:
-    L = [f"=== Liquiditaet {symbol}, Preis {last_price:g} ===", "",
-         f"  {'Label':<8}{'Level':>12}{'Seite':>10}{'TF':>6}{'Typ':>14}  Begruendung"]
+def historie_umfang(symbol: str, today: date) -> dict[str, int]:
+    """Tatsaechlich verwendete Handelstage je Timeframe (vor `today`, gedeckelt auf
+    LOOKBACK_DAYS) -- dieselbe Auswahl wie in combined_bars()."""
+    return {tf: len(sorted(d for d in find_days(symbol, tf) if d < today)[-LOOKBACK_DAYS[tf]:])
+            for tf in INTRADAY_TFS}
+
+
+def report(pools: list[dict], symbol: str, last_price: float, max_rows: int = MAX_ROWS,
+            umfang: dict[str, int] | None = None) -> list[str]:
+    L = [f"=== Liquiditaet {symbol}, Preis {last_price:g} ===", ""]
+    if umfang is not None:
+        # Sichtbar machen, worauf der Report beruht: NQ hat in raw/marktdaten/ deutlich
+        # weniger Intraday-Tage als MNQ (gemessen 2026-08-16: 5m 2, 15m 2, 1m 14 gegen
+        # Sollwerte 20/40/5). Ohne diese Zeile druckt der Report aus zwei Tagen Historie
+        # eine Tabelle, die aussieht wie aus vierzig.
+        teile = [f"{tf} {umfang[tf]}/{LOOKBACK_DAYS[tf]}" for tf in INTRADAY_TFS]
+        L.append(f"  Historie (verwendete Handelstage/Sollwert): {', '.join(teile)}")
+        duenn = [tf for tf in INTRADAY_TFS if umfang[tf] < LOOKBACK_DAYS[tf]]
+        if duenn:
+            L.append(f"  !! ZU WENIG HISTORIE fuer {', '.join(duenn)} -- Level aus diesen "
+                     f"Timeframes sind duenn belegt, der Report ist dort unvollstaendig.")
+        L.append("")
+    L.append(f"  {'Label':<8}{'Level':>12}{'Seite':>10}{'TF':>6}{'Typ':>14}  Begruendung")
     for p in pools[:max_rows]:
         seite = p["side"] or "-"
         L.append(f"  {p['label']:<8}{p['level']:>12g}{seite:>10}{p['tf']:>6}{p['kind']:>14}  {p['reason']}")
@@ -263,33 +283,51 @@ def selfcheck() -> None:
     label2, _ = _classify(weit, last_price=100.0, confluence=0)
     assert label2 == "Niedrig", label2
 
+    # report(): die tatsaechlich verwendete Historie steht im Ausdruck, und zu duenne
+    # Timeframes werden dort gewarnt -- nicht nur in einem Docstring.
+    duenn = report([], "NQ", 100.0, umfang={"1m": 14, "5m": 2, "15m": 2})
+    assert any("5m 2/20" in z for z in duenn), duenn
+    assert any("ZU WENIG HISTORIE" in z and "5m" in z for z in duenn), duenn
+    voll = report([], "NQ", 100.0, umfang={tf: LOOKBACK_DAYS[tf] for tf in INTRADAY_TFS})
+    assert not any("ZU WENIG HISTORIE" in z for z in voll), voll
+
     print("selfcheck ok")
 
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("symbol", nargs="?", default="MNQ")
+    # Default = das Symbol der Live-Quelle (seit 2026-08-16 NQ). Ein anderer Default liefe
+    # garantiert in den Micro/Mini-Guard unten.
+    ap.add_argument("symbol", nargs="?", default=LIVE_SYMBOL)
     ap.add_argument("--selfcheck", action="store_true")
     a = ap.parse_args(argv)
     if a.selfcheck:
         selfcheck()
         return 0
 
+    if a.symbol != LIVE_SYMBOL:
+        # combined_bars() mischt historische <symbol>-Dateien mit den Live-Kerzen aus
+        # live_status.fetch_today(). Die kommen seit 2026-08-16 von NQ -- ein anderes Symbol
+        # hier wuerde Micro und Mini in einer Kerzenreihe vermengen (im Vault verboten).
+        print(f"Live-Daten kommen von {LIVE_SYMBOL}, angefragt ist {a.symbol} -- Micro und "
+              f"Mini nicht vermengen. Aufruf mit {LIVE_SYMBOL} wiederholen.")
+        return 1
     now = datetime.now(NY)
     today = trading_day(pd.Timestamp(now))
-    dfs = fetch_today(today)
-    if dfs["5m"].empty:
-        print("Keine Live-Daten (Markt geschlossen oder yfinance-Fehler).")
+    live = fetch_today(today)
+    if not live["5m"]:
+        print("Keine Live-Daten (Markt geschlossen oder IBKR-Gateway nicht erreichbar).")
         return 1
 
-    live5 = _bars_from_df(dfs["5m"]) or _bars_from_df(dfs["1m"])
+    live5 = live["5m"] or live["1m"]
     if not live5:
         print("Kein aktueller Preis ermittelbar.")
         return 1
     last_price = live5[-1].c
 
-    pools = build_report(a.symbol, today, dfs)
-    print("\n".join(report(pools, a.symbol, last_price)))
+    pools = build_report(a.symbol, today, live)
+    print("\n".join(report(pools, a.symbol, last_price,
+                           umfang=historie_umfang(a.symbol, today))))
     return 0
 
 

@@ -1,7 +1,7 @@
 ---
 tags: [synthesis, journal, ict, trading-ict, auswertung, generiert]
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-16
+updated: 2026-08-16
 ---
 
 # Journal-Auswertung
@@ -11,7 +11,7 @@ updated: 2026-08-11
 > `raw/` ist unveränderlich, deshalb entsteht die Verbindung Journal→Wiki hier
 > statt als Wikilinks in den Journaldateien.
 
-Grundlage: **21 Journaleinträge mit ausgefüllter Setup-Checkliste**.
+Grundlage: **24 Journaleinträge mit ausgefüllter Setup-Checkliste**.
 
 ## Wie oft jeder Checklistenpunkt erfüllt war
 
@@ -54,6 +54,9 @@ Sortiert nach erfüllten Punkten. Das sind die konkreten Beispiele, an denen sic
 | 2026-05-26 | `Tape Reading 27` | 3/8 | Baerish | — | Liq Sweep, Displacement, MS Break, Entry, Target Liquidität |
 | 2026-06-04 | `Tape Reading 29` | 3/8 | Baerish | Loss | Displacement, Richtige Zeitfenster, Entry, Macro Expansion, Target Liquidität |
 | 2026-03-10 | `Tape Reading 16` | 1/8 | Baerish | Win | Liq Sweep, Displacement, Richtige Zeitfenster, MS Break, Entry, Macro Expansion, Target Liquidität |
+| ? | `Daily Bias 2026-08-14` | 0/0 | — | — | — |
+| ? | `Daily Bias 2026-08-17` | 0/0 | — | — | — |
+| ? | `Weekly Bias KW34 2026` | 0/0 | — | — | — |
 | ? | `Tape Reading 30` | 0/8 | — | — | Liq Sweep, Displacement, Anhaltende Consolidation, Richtige Zeitfenster, MS Break, Entry, Macro Expansion, Target Liquidität |
 | 2026-05-18 | `Tape Reading 23` | 0/8 | — | — | Liq Sweep, Displacement, Anhaltende Consolidation, Richtige Zeitfenster, MS Break, Entry, Macro Expansion, Target Liquidität |
 | 2026-05-18 | `Tape Reading 24` | 0/8 | — | — | Liq Sweep, Displacement, Anhaltende Consolidation, Richtige Zeitfenster, MS Break, Entry, Macro Expansion, Target Liquidität |
@@ -63,7 +66,7 @@ Sortiert nach erfüllten Punkten. Das sind die konkreten Beispiele, an denen sic
 
 ## Was sich noch nicht rechnen lässt
 
-Von den 21 Einträgen mit Checkliste tragen nur **9** ein eindeutiges Resultat (Win oder Loss). Damit ist die eigentlich interessante Frage — *welcher fehlende Haken kostet Geld?* — **nicht beantwortbar**.
+Von den 24 Einträgen mit Checkliste tragen nur **9** ein eindeutiges Resultat (Win oder Loss). Damit ist die eigentlich interessante Frage — *welcher fehlende Haken kostet Geld?* — **nicht beantwortbar**.
 
 | Checklistenpunkt | erfüllt bei Win | erfüllt bei Loss |
 |---|---|---|

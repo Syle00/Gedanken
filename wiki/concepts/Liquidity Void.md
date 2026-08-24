@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict]
 created: 2026-08-06
-updated: 2026-08-06
-sources: ["[[ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)]]"]
+updated: 2026-08-16
+sources: ["[[ICT Mentorship Core Content - Month 04 - Liquidity Voids (Source)]]", "[[2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)|How To Probe Low Probability RTH Opening Ranges (Source)]]"]
 ---
 
 # Liquidity Void
@@ -42,6 +42,30 @@ Limit-Preis:
 - Reaktion ist typischen minimal (wenige Pips Drawdown), weil der Preis exakt an der Kante der
   bereits ausgeglichenen Zone reagiert — danach läuft der Preis zügig in Richtung der nächsten
   Liquidität weiter.
+
+## RTH schlägt ETH — eine Void kann sessionspezifisch sein (2026-Ergänzung)
+
+Aus [[2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)|How To Probe Low Probability RTH Opening Ranges (Source)]] —
+die schärfste Formulierung dazu im Vault:
+
+> *„There's no print at all in **regular trading hours** delivery. It doesn't matter if electronic
+> trading hours posted through that. Because **regular trading hours has to balance out electronic
+> trading hours** to be an efficiently delivered price."*
+
+Kernaussage: Eine Zone kann über Nacht (ETH) vollständig durchhandelt worden sein und **in RTH
+trotzdem eine echte Void** darstellen. Beide Sessions werden getrennt bewertet.
+
+- **Gewichtung**: ICT legt mehr Gewicht auf RTH, weil RTH die Level nachliefert, die ETH über Nacht
+  bereits gesehen hat — *„regular trading hours tends to overlap and redeliver to levels that
+  electronic trading has already delivered overnight."*
+- **Praktisch**: Der Chart muss auf **RTH** umgestellt werden, um diese Voids überhaupt zu sehen.
+  Im ETH-Chart verschwinden sie, weil der Übernachthandel sie optisch füllt.
+- Ineffizienzen, die nur in **einer** der beiden Sessions existieren, sind ausdrücklich vorgesehen
+  (*„it can, and that creates imbalances that are only seen in one session"*) — sie sind kein
+  Darstellungsartefakt.
+
+Vgl. [[Eröffnungsauktion vs. 24x5-Markt]] für dieselbe Session-Abgrenzung im Forex-Kontext und
+[[ORG (Opening Range Gap) & 1st Presented FVG]], das auf derselben RTH-Umstellung beruht.
 
 ## Zusammenspiel mit anderen PD Arrays
 

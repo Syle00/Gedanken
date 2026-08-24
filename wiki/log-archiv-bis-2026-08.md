@@ -1,0 +1,3280 @@
+﻿# Wiki-Log — Archiv bis 2026-08
+
+> **Archiv.** Chronologische Einträge bis einschließlich 2026-08-16. Ab diesem Datum trägt
+> die Git-Historie den Verlauf (`git log`); hier wird nichts mehr angehängt. Diese Datei
+> bleibt erhalten, weil sie Entstehungsgründe festhält, die in keiner Commit-Message stehen.
+
+Chronologisches, append-only Protokoll. Neueste Einträge unten. Format siehe [[../CLAUDE.md]].
+
+## [2026-08-01] setup | LLM-Wiki-Struktur initialisiert
+- Bestehenden Vault-Inhalt (Core Content/, 2026/, 432 PNGs) nach raw/trading-ict/ verschoben
+- CLAUDE.md, wiki/index.md, wiki/log.md angelegt
+
+## [2026-08-01] ingest | Essentials To ICT Daytrading
+- Quelle: raw/trading-ict/Core Content/Essentials To ICT Daytrading.md
+- Seiten erstellt: wiki/sources/Essentials To ICT Daytrading (Source).md, wiki/concepts/ICT Daily Range Session Timing.md, wiki/concepts/New Week Opening Gap (NWOG) Bias.md
+- Seiten aktualisiert: wiki/index.md
+- Offene Anschlussfrage notiert: PD Array / Discount PD Array noch ohne eigene Konzept-Seite
+
+## [2026-08-01] ingest | Batch: raw/trading-ict/ komplett (71 Core-Content-Dateien + 11 2026er-Dateien + FOMC)
+- Auf explizite Anweisung ("injeziere den raw Ordner ins wiki") ohne Rückfragen pro Datei verarbeitet.
+- Quellen: alle Dateien in raw/trading-ict/Core Content/ (71, inkl. der bereits ingesteten Essentials To ICT Daytrading), alle Dateien in raw/trading-ict/2026/ (11), sowie raw/Federal Open Market Committee.md.
+- Übersprungen: raw/Where teams and agents work together.md (fehlgeschlagener Notion-Clip, kein Inhalt); raw/trading-ict/Core Content/Reeinforced Liquidity Pools -      When to anticipate Raids.md ist leer (0 Byte).
+- Seiten erstellt: 36 neue wiki/concepts/-Seiten (u.a. PD Array, IPDA Data Ranges, Equilibrium Vs. Discount, Fair Value Gap (FVG), Order Block + Breaker/Rejection/Reclaimed/Mitigation-Varianten, AMD Cycle, SMT, Judas Swing, Turtle Soup, CISD, Quarterly Shift, COT Data, Seasonal Tendency, Market Reversal Types, Intermarket Relationships, Institutional Order Flow, Institutional Sponsorship, Open Float & Liquidity Pools, Low Resistance Liquidity Run, Central Bank Dealers Range (CBDR), Trendline Phantoms, Premium vs. Carrying Charge Market, sowie 2026er-Konzepte: BISI & SIBI, IFVG, Modell 22, Enigma FVG Projection, Chain of Custody, ICT Macros & Leading Candles, ORG & 1st Presented FVG, Event Horizon, FOMC).
+- 20 neue wiki/models/-Seiten (u.a. One Shot One Kill Model, Market Maker Manipulation Templates, Classic Swing Trading Approach, Bread & Butter Setups, Weekly Range Trading Model, London Session Profiles, ICT Day Trade Routine, Bond/Commodity/Stock Mega-Trades, sowie 2026er-Modelle: No-Bias Engagement Routine, Missed Entry Trade Management Playbook, Trading Complex Opening Ranges, The Sentiment Effect, Trading Journal & DOL Checklist).
+- 82 neue wiki/sources/-Seiten (eine pro Rohquelle, Month-1–11-Dateien als reine Curriculum-Sprunglisten markiert).
+- Seiten aktualisiert: wiki/index.md (vollständig neu strukturiert mit allen Kategorien).
+- Offene Punkte für nächsten Durchgang: unklare 2026er-Begriffe (VII, Suspensionblock, REH/REL, MSS) noch nicht vollständig definiert; Basics & Opening Range Concept nur Bild-Embeds ohne Text — siehe wiki/index.md "Offene Punkte" für Details.
+
+## [2026-08-02] setup | Root-Aufräumung nach Obsidian-Vault-Integration
+- Vault-Root (C:\Users\Jannes\Desktop\Gedanken) ist bereits der Obsidian-Vault (`.obsidian/` liegt dort) — keine Verschiebung nach `.obsidian/` nötig, das ist nur Obsidians Config-Ordner.
+- 4 lose Screenshots im Root (image.png, image 1-3.png; ICT Monthly Mentorship Dezember 2016, "Reinforcing Orderblock Theory / Reclaimed Block", bisher nirgends im raw/-Bestand — kein "Month 12" in Core Content 2016.md) nach raw/trading-ict/assets/ verschoben und umbenannt (Namenskollision mit gleichnamigen, aber inhaltlich anderen Dateien im Zielordner vermieden): "ICT Mentorship Dez2016 - Reclaimed Block Market Maker Buy Model.png", "... Chart Example (Uptrend).png", "... Market Maker Sell Model.png", "... Chart Example (Downtrend).png".
+- 2 leere Stub-Dateien im Root gelöscht (0 Byte, kein Inhalt): image 19.png.md, Reeinforced Liquidity Pools - When to anticipate Raids.md (Duplikat-Stub der bereits bekannten leeren Datei raw/trading-ict/Core Content/Reeinforced Liquidity Pools -      When to anticipate Raids.md, siehe Batch-Ingest-Eintrag oben).
+- Zip 737cb9f5-...-ExportBlock-....zip (9.7MB, vermutlich Notion-Export) auf Nutzerwunsch unangetastet gelassen — noch nicht ausgepackt/gesichtet.
+- Offener Punkt: Die 4 neuen Reclaimed-Block-Bilder sind reines raw-Material, noch nicht ins Wiki ingestet. Passende Konzept-Seite wäre vermutlich [[Reclaimed Block]] (bereits als Order-Block-Variante erwähnt, aber ohne eigene Vertiefung zu "Reinforcing"-Theorie) oder eine neue wiki/sources/-Seite für "ICT Monthly Mentorship Dezember 2016".
+
+## [2026-08-02] lint | Curriculum-Zuordnung Monat 4 (Breaker Block)
+- Nutzerhinweis: `Reeinforced Orderblock Theory    BreakerBlock` gehört ins Core Content, Monat 4.
+- Seiten aktualisiert: wiki/sources/Reeinforced Orderblock Theory BreakerBlock (Source).md (Curriculum-Zeile → [[Month 04 (Source)]]), wiki/sources/Month 04 (Source).md (veralteter Stand "Breaker/Rejection/Reclaimed noch offen" korrigiert; jetzt vollständige Liste aller 6 Monat-4-Quellen mit ihren Konzept-Seiten).
+- Offener Punkt: Die anderen 5 Monat-4-Quellen tragen noch keine eigene Curriculum-Rückverlinkung (nur die Sammelliste in Month 04).
+
+## [2026-08-02] synthesis | Smart Money Concepts (SMC) als Wurzelseite + raw/-Wiki-Verlinkung
+- Nutzerhinweis: Alle ICT-Study-Notes gehören zusammen und bauen aufeinander auf; Oberbegriff des gesamten Konzepts ist **Smart Money Concepts (SMC)**. Die Ordnertrennung (Core Content 2016 / 2026 / lose Rohnotizen) ist Herkunft des Materials, keine inhaltliche Trennung.
+- Seite erstellt: wiki/concepts/Smart Money Concepts (SMC).md — Wurzel-/Einstiegsseite: gemeinsame Grundannahme (algorithmische Price Delivery), 5 Bausteingruppen (Rahmen, Liquidität, PD Arrays, Struktur, Kontext), Verweis auf die Modelle, Lernpfad Core Content 2016 → 2026 → Kurz Notizen, Einordnung des Verhältnisses der Jahrgänge (2026 präzisiert, ersetzt nicht).
+- Frontmatter-Migration in allen 83 wiki/sources/-Seiten: das Feld `raw` enthält jetzt einen Obsidian-Wikilink auf den Dateinamen der Rohquelle statt eines Pfad-Strings; der Pfad bleibt verlustfrei im neuen Feld `raw_path` erhalten. Grund: der Pfad-String erzeugte in Obsidian keine Graph-Kante, dadurch hingen raw/ und wiki/ als getrennte Inseln im Graphen (Nutzerfrage "warum ist der core content und 2026 study nicht mit index verbunden?"). tools/build_site.py liest nur tags/created/updated/sources — die Website bleibt unverändert.
+
+## [2026-08-05] ingest | YouTube: ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth
+- Neuer Kanal für automatischen YouTube-Ingest eingerichtet: `yt-video-text-md` (pip) zieht Transkripte;
+  das Paket selbst ist auf diesem Windows-Rechner defekt (PyPI-Namenskollision bei seiner
+  `whisper`-Abhängigkeit — die *echte* `openai-whisper` heißt anders, das installierte `whisper` bricht
+  beim Import via `ctypes.CDLL`). Umgangen, indem direkt gegen die darunterliegende
+  `youtube-transcript-api` gescriptet wurde (kein Whisper-Fallback nötig, da YouTube-Auto-Captions
+  vorhanden waren).
+- Quelle: https://www.youtube.com/watch?v=HFWqQelvrJw (Kanal The Inner Circle Trader, veröffentlicht
+  2026-08-05). Transkript gespeichert unter `raw/trading-ict/2026/yt-HFWqQelvrJw-transcript.md`.
+- ⚠️ Auto-Captions decken nur **~39 von 52 Minuten** ab (brechen nach der Reversal-Bestätigung ab,
+  vor der wiederholten Trade-Recording-Passage) — als Limitation auf der Source-Seite vermerkt statt
+  stillschweigend als vollständig behandelt.
+- Nutzeranweisung befolgt: nur **trading-relevantes Wissen** verdichtet, Meta-/Persönlichkeits-Content
+  (Kritiker-Bashing, CFTC-Anekdote, Community-Historie) bewusst ausgefiltert.
+- Seiten erstellt: wiki/sources/ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source).md, wiki/models/Market on Close (MOC) Macro Model.md, wiki/concepts/Signal-Following & Crowd Liquidity Risk.md
+- Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (16tel-Raster ergänzt), wiki/concepts/Institutional Order Flow (Body vs Wick).md (MOC-Order-Flow-Bestätigungsregel), wiki/models/Trading Journal & DOL Checklist.md (Journaling-Haltung), wiki/models/NY PM Trend.md (Verlinkung), wiki/index.md
+- Offener Punkt: falls die fehlenden ~13 Minuten (Trade-Recording) inhaltlich doch neue Regeln
+  enthalten (aktuell nur vermutet, dass es eine Wiederholung ist), bei Gelegenheit per Whisper
+  (echtes `openai-whisper`, nicht das kollidierende PyPI-Paket `whisper`) nachziehen.
+- Nachtrag 2026-08-05: `whisper`-Paket neu installiert (`pip uninstall whisper` → `pip install
+  openai-whisper`), dazu `ffmpeg` per `winget install Gyan.FFmpeg` nachgerüstet — beides zusammen
+  ermöglicht jetzt vollständige Audio-Transkription als Fallback, wenn YouTube-Auto-Captions
+  abbrechen. Whisper-Volltranskription des obigen Videos läuft als Hintergrund-Job.
+
+## [2026-08-05] ingest | YouTube: ICT Price Action Chronicles - Market On Close Macro (Grundlagen-Lecture)
+- Zweites, vom Nutzer verlinktes Video: https://www.youtube.com/watch?v=PP1-i0ti_tQ (Kanal The Inner
+  Circle Trader, veröffentlicht 2026-08-04). Stellt sich als die **Grundlagen-Lecture** heraus, auf
+  die das zuvor ingestete Video mehrfach verweist ("gestrige MOC-Lecture") — Review der PM-Session
+  vom Montag, 2026-08-03 (NQ).
+- Transkript gespeichert unter `raw/trading-ict/2026/yt-PP1-i0ti_tQ-transcript.md` (Auto-Captions,
+  ~32 von 37:49 Minuten, endet aber an einer runden Stelle — ICTs übliche Verabschiedung ist noch
+  enthalten).
+- Seiten erstellt: wiki/sources/ICT Price Action Chronicles - Market On Close Macro (Source).md
+- Seiten substanziell erweitert: wiki/models/Market on Close (MOC) Macro Model.md (Abschnitt "Zwei
+  Ranges, nicht eine", präzises Relative-Equal-Lows/Highs-Kriterium, Wick-vs-FVG-Vorrangregel,
+  Stop-Loss-Philosophie/Drawdown-Toleranz, zweites Zahlenbeispiel NQ 2026-08-03), wiki/concepts/Fair
+  Value Gap (FVG).md (Präzisierung der Wick-schlägt-FVG-Regel), wiki/models/Missed Entry Trade
+  Management Playbook.md (Exit-Präzision-vs-Entry-Präzision-Abschnitt), wiki/index.md.
+- Übersprungen: wiki/sources/Kurz Notizen (Source).md (hat kein `raw:`-Feld, verweist bereits per `sources:`-Wikilinks direkt auf die Rohnotizen).
+- Seiten aktualisiert: wiki/index.md (Einstiegs-Hinweis auf die SMC-Wurzelseite, SMC in Concepts eingetragen, 5 fehlende Katalogeinträge nachgetragen: [[Kurz Notizen (Source)]] unter neuer Rubrik "Notizen", sowie [[Balanced Price Range (BPR)]], [[Breakaway Gap]], [[DXY Correlation (Risk On_Off)]], [[Silver Bullet Model]] — vom Build als Index-Drift gemeldet).
+
+## [2026-08-02] setup | Trading-Journal-Export einsortiert nach raw/journal/
+- Nutzeranweisung: Alle Journal-Dateien (Daily Bias Journal, Weekly Bias Journal, Trade Execution Journal, Tape Reading) sollen unter "journal" laufen.
+- 159 Notizen aus dem raw/-Wurzelverzeichnis nach raw/journal/ verschoben: 82 Daily Bias Journal, 27 Weekly Bias Journal, 19 Trade Execution Journal, 30 Tape Reading, dazu Journal.md (die Notion-Datenbanktabelle mit Datum/Bias/Tags aller Einträge, Juni 2025 – 2026).
+- 695 lose Screenshots aus dem Vault-Root nach raw/journal/assets/ verschoben; 9 Screenshot_2025-01-20_*.png gehören zu ICT Silver Bullet.md und gingen stattdessen nach raw/trading-ict/assets/.
+- **Fehler behoben, der vorher unbemerkt war**: 382 der Journal-Screenshots trugen exakt dieselben Namen wie Bilder in raw/trading-ict/assets/ (image 1.png … image 383.png), inhaltlich aber verschiedene Bilder (per Hash geprüft, keine echten Duplikate). Da Obsidian und tools/build_site.py Embeds allein über den Dateinamen auflösen und Root-Dateien zuerst gewinnen, zeigten die ICT-Wiki-Seiten seit dem Upload die Journal-Screenshots statt der ICT-Charts (Beispiel: wiki/concepts/PD Array.md → site/p/pd-array.html verwies auf den Journal-Screenshot image 183.png). Die 382 kollidierenden Dateien tragen jetzt das Präfix "journal-"; die Embeds in den Journal-Notizen wurden entsprechend nachgezogen.
+- Nebenbei bereinigt: Die Notion-Embeds der Journal-Notizen nutzten die Form `![[/image 1.png|image 1.png]]` (wurzel-relativ, mit redundantem Alias). 321 Embeds auf die reine Namensform normalisiert, damit sie ordnerunabhängig auflösen.
+- Kontrolle nach der Migration: 0 Bilder im Vault-Root, 0 verbleibende Namenskollisionen vault-weit, 0 unauflösbare Bild-Embeds in raw/journal/, Site-Build 149 Seiten / 1157 Bilder (vorher 775 — die Differenz waren genau die verdeckten ICT-Assets).
+- CLAUDE.md aktualisiert: raw/journal/ dokumentiert, plus Warnhinweis zur vault-weiten Eindeutigkeit von Bildnamen bei künftigen Notion-Exporten.
+- Noch nicht ingestet: Das Journal ist bislang reines Rohmaterial, es gibt noch keine wiki/-Seiten dazu. 223 der Screenshots werden von keiner Notiz referenziert (Notion-Exportreste).
+
+## [2026-08-02] ingest | Opening Range Theory - 1st Presented FVG Logic (MentorShip 2025, Lektion 06)
+- Rohquelle lag als Notion-Export-ZIP im Vault-Root (`raw/Opening Range Theory - 1st Presented FVG Logic.zip`, HTML + 2 PNGs). Entpackt und nach Markdown konvertiert: neuer Ordner `raw/trading-ict/MentorShip 2025/` — erste Quelle dieser Reihe im Vault.
+- Assets: die beiden PNGs hießen im Export generisch `image.png` / `image 1.png` und hätten vault-weit kollidiert. Umbenannt in `MentorShip 2025 - London ORG 1st Presented FVG.png` und `MentorShip 2025 - London ORG IFVG Delivery.png` (raw/trading-ict/assets/).
+- Seite erstellt: wiki/sources/Opening Range Theory - 1st Presented FVG Logic (Source).md
+- Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (neue Abschnitte "NY Pre Session Opening Range" 7:00–7:30 und "Sequenz: Sweep → Displacement → Shift → 1. Presented FVG", London-ORG-Zeit korrigiert, beide Charts eingebunden), wiki/concepts/IFVG (Inverse Fair Value Gap).md (90-%-Regel: das 1. Presented FVG einer Session ist meist ein IFVG), wiki/index.md (neue Rubrik "MentorShip 2025" unter Sources, mit Hinweis auf die noch nicht ingesteten Lektionen 01–05).
+- ⚠️ Widerspruch markiert (nicht stillschweigend überschrieben): [[Kurz Notizen (Source)]] gibt die London Opening Range mit **0–0:30 Uhr** an, diese Quelle mit **1:30–2:00 Uhr NY-Zeit**. Die Chartmarker der neuen Quelle ("London Opening Range Start/End" auf NQ 1min) stützen 1:30–2:00; offen bleibt, ob die 0–0:30 aus einer London-lokalen Zeitangabe stammt.
+- Noch nicht ausgeführt: publish.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-02] ingest | MentorShip 2025, Lektionen 01/03/04/05
+- Nutzeranweisung: neue Dateien aus raw/ ebenfalls importieren. Betroffen: `01 Trading All Time Market Highs.md`, `03 Trading Premarket and Regular Session Liquidity.md`, `04 Alltime Highs und TGIF.md`, `05 Advanced ICT Liquidity Concepts.md` (lagen im raw/-Wurzelverzeichnis). Alle vier nach `raw/trading-ict/MentorShip 2025/` verschoben; die zuvor ingestete Lektion 06 dort zu `06 Opening Range Theory - 1st Presented FVG Logic.md` umbenannt, damit die Reihe durchnummeriert bleibt (raw/raw_path der Source-Seite nachgezogen).
+- **Fehler behoben, der sonst still gewirkt hätte**: Die vier Exporte enthielten 22 Embeds der Form `![[/image.png|image.png]]` … `![[/image 8.png]]`, ohne dass Bilder mitgeliefert wurden. Dateien mit exakt diesen Namen liegen bereits in `raw/trading-ict/assets/` und gehören zu anderen ICT-Notizen — Obsidian und tools/build_site.py hätten stillschweigend die falschen Charts angezeigt (dasselbe Muster wie bei der Journal-Migration).
+- Die 22 Original-Charts stattdessen aus den Notion-Quellseiten nachgeladen (MCP-Fetch → presigned S3-URLs) und unter sprechenden, vault-weit eindeutigen Namen abgelegt: `MentorShip 2025 - 01/03/04/05 <Beschreibung>.png`. Alle Embeds in den vier Rohdateien entsprechend umgeschrieben (1 + 9 + 3 + 9 = 22, per Assertion gegen die vorhandenen Dateien geprüft).
+- Seiten erstellt: wiki/concepts/Trading All Time Highs (ATH).md (neu; trägt Lektion 01 + 05: Continuation-Checkliste mit 7 Key Reference Points, dann die 3 Stages of Accumulation, in denen Smart Money nach dem Candle Body Close über dem ATH heavy Shorts aufbaut, plus die verallgemeinerte Orderflow-Regel "kein Close über dem C.E einer PD Array → short"), wiki/sources/Trading All Time Market Highs (Source).md, wiki/sources/Trading Premarket and Regular Session Liquidity (Source).md, wiki/sources/Alltime Highs und TGIF (Source).md, wiki/sources/Advanced ICT Liquidity Concepts (Source).md
+- Seiten aktualisiert: wiki/concepts/ICT Daily Range Session Timing.md (neuer Intraday-Fahrplan 7:00–11:30 als Tabelle: Premarket-Run, 8:30 News Driver, 9:30 Fake Drop, Lunch Macro nach 10 Uhr und ab 11:30), wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (9:30-Fake-Drop, 4-ORG-Regel = letzte 3 Tage + laufender Tag, ORG am ATH-Tag mit Candle-Body-Close-Bedingung), wiki/concepts/Breakaway Gap.md (Auswahlregel bei zwei Displacements: das zuerst entstandene Gap zählt; Inversion-Varianten jeder PD Array; Frontmatter-Quelle von `[[Kurz Notizen]]` auf die Source-Seite korrigiert), wiki/concepts/IPDA Data Ranges.md (PD Arrays sind bis zu 60 Tage rückwirkend nutzbar — das 20/40/60-Fenster begrenzt nicht nur die High/Low-Suche), wiki/models/Weekly Range Trading Model.md (TGIF-Fallbeispiel), wiki/index.md (4 Quellen unter "MentorShip 2025", neue Konzeptseite unter Concepts).
+- ⚠️ Abweichung markiert: [[Alltime Highs und TGIF (Source)]] nennt „20% der **Daily** Range", [[Weekly Range Trading Model]] „20–30 % der **Weekly** Range". Da TGIF ein Wochenkonzept ist, vermutlich ein Verschreiber in der Rohnotiz — nicht korrigiert, an beiden Stellen markiert.
+- Offen: Lektion 02 (Trading FOMC Two Stage Delivery) liegt noch nicht in raw/. Begriffe ohne eigene Seite, die diese Quellen neu einbringen: "Immediate Rebalance", "Bear Trap", "Reclaimed FVG" (bislang nur "Reclaimed Order Block"); "VII" bleibt undefiniert.
+- Noch nicht ausgeführt: publish.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-02] synthesis | Überknotenpunkt MentorShip 2025
+- Nutzerwunsch: einen Überknotenpunkt für die neu importierten Daten anlegen.
+- Seite erstellt: wiki/synthesis/MentorShip 2025.md — erste Seite überhaupt in wiki/synthesis/. Kein reiner Linkkasten: Lektionstabelle (inkl. der fehlenden 02), die These, dass die fünf Lektionen denselben Ablauf auf verschiedenen Zeitebenen beschreiben (Referenzzone → Liquidity Sweep → erstes Displacement mit Shift → Close relativ zum C.E entscheidet), drei Stellen an denen sich zwei Lektionen unabhängig bestätigen (1. Presented FVG → IFVG in 03 und 06; Premium-Wick-Quadranten als wiederkehrendes Target in 03/04/05; Zeitqualifikation über Opening Range in 06 vs. Wochentag in 03), Liste der neu ins Wiki gebrachten Inhalte und die offenen Punkte der Reihe.
+- Einordnung: Die MentorShip-Reihe ist die Anwendungsschicht über Core Content 2016 / 2026 Study / Kurz Notizen — mitgeschriebene Live-Analysen echter Handelstage statt Definitionen.
+- Seiten aktualisiert: wiki/concepts/Smart Money Concepts (SMC).md (Lernpfad-Tabelle um Stufe 4 erweitert, Absatz zur Abgrenzung gegenüber den Jahrgängen 1–3), wiki/index.md (Synthesis-Rubrik ist nicht mehr leer, Hinweis auf den Überknotenpunkt über der MentorShip-Quellenliste), die 5 MentorShip-Quellseiten (Rückverweis unter "Verwandt").
+- Noch nicht ausgeführt: publish.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-02] ingest | ICT 2023 Mentorship (TGIF + One Trading Setup For Life)
+- Rohquelle war der neueste Notion-Export im Vault-Root: `raw/a437109c-...-ExportBlock-...zip` (verschachteltes ZIP, HTML statt Markdown, 3 Seiten + 10 PNGs). Entpackt, nach Markdown konvertiert, neuer Ordner `raw/trading-ict/ICT 2023 Mentorship/` — damit liegt ein **vierter ICT-Jahrgang** neben Core Content 2016, 2026 Study und MentorShip 2025 im Vault.
+- Assets: alle 10 PNGs hießen im Export generisch `image.png` / `image 1..9.png` und hätten vault-weit mit bestehenden Dateien kollidiert (dasselbe Muster wie bei der MentorShip-2025- und der Journal-Migration). Umbenannt mit Domänen-Präfix `ICT 2023 Mentorship - <Beschreibung>.png` in `raw/trading-ict/assets/`; alle Embeds in den Rohdateien entsprechend geschrieben.
+- Seiten erstellt: wiki/concepts/TGIF (Thank God its Friday).md (neu — das Setup war bisher über [[Weekly Range Trading Model]], [[Kurz Notizen (Source)]], [[NQ Futures Weekly Range Market Wizardry (Source)]] und [[Alltime Highs und TGIF (Source)]] verstreut, ohne eigene Seite), wiki/sources/TGIF - Thank God its Friday (Source).md, wiki/sources/One Trading Setup For Life (Source).md, wiki/sources/ICT 2023 Mentorship (Source).md
+- Seiten aktualisiert: wiki/models/Weekly Range Trading Model.md (TGIF-Abschnitt verweist auf die Konzeptseite, Widerspruch aufgelöst, neue Quelle im Frontmatter), wiki/sources/Alltime Highs und TGIF (Source).md, wiki/synthesis/MentorShip 2025.md (offener Punkt abgehakt), wiki/index.md (neue Rubrik "ICT 2023 Mentorship" unter Sources, neue Konzeptseite unter Concepts).
+- ✅ **Offener Widerspruch geklärt**: Die seit dem 2025er-Ingest an drei Stellen markierte Frage „TGIF = 20 % der **Daily** oder 20–30 % der **Weekly** Range?" ist entschieden. Die 2023er Quelle nutzt in ihrer Einleitung dieselbe „Daily"-Formulierung, definiert das Setup dann aber operativ über einen Fib auf die **Weekly Range** und beschriftet ihre Charts mit „20% / 30% Weekly Range". Es ist also eine wiederkehrende lose Sprechweise in den Notizen, kein einmaliger Verschreiber — maßgeblich ist die Weekly Range. Marker an allen drei Stellen von ⚠️ auf ✅ umgestellt, statt sie stillschweigend zu entfernen.
+- Neu ins Wiki gebracht: die 3 TGIF Building Requirements (HTF-PD erreicht / Freitag / Afternoon Session), TGIF als **Draw on Liquidity** statt Entry-Signal, die Weekly-Po3-Zuordnung (Wick Mo–Mi, Wochen-High meist Donnerstag, HTF-PD als Wick-Target), der Zusammenhang Freitag-PM-Silver-Bullet ↔ TGIF, sowie "Time Distortion" (nach bearishem MSS darf das High nicht genommen werden, Verweilen im SIBI = Zeitverzögerung in der Lunch-Stunde).
+- ⚠️ Neue Abweichung markiert: [[One Trading Setup For Life (Source)]] gibt die PM-Session mit **13:30–16:00** an, [[NY PM Trend]] mit **13–16 Uhr**. Nicht auflösbar, da die Folie ohne Mitschrift vorliegt (als Stub gekennzeichnet).
+- Offen: Ob die 2023er Mentorship im Original mehr als diese zwei Unterseiten enthält. "MSS" bleibt weiterhin ohne eigene Seite (deckungsgleich mit [[CISD (Change in State of Delivery)]]).
+- Noch nicht ausgeführt: publish.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-02] ingest | ICT 2025 Lecture Series (Week 1-4, 8 Inhaltsseiten)
+- Rohquelle: neuester Notion-Export im Vault-Root, `raw/0d04eb09-...-ExportBlock-2078fff1-....zip` (verschachteltes ZIP, HTML statt Markdown, 15 Seiten + 54 PNGs, 10,8 MB). Entpackt, nach Markdown konvertiert, neuer Ordner `raw/trading-ict/ICT 2025 Lecture Series/` — damit liegt ein **fuenfter ICT-Jahrgang** im Vault (neben Core Content 2016, 2026 Study, MentorShip 2025, ICT 2023 Mentorship).
+- Nutzeranweisung: Batch ohne Rueckfragen ("importiere").
+- Struktur: Week 1 (3 Seiten), Week 2 (1 Seite + Chartstrecke), Week 4 (1 Seite), dazu 3 Seiten ohne Wochenzuordnung. **Week 3 und "When 9:30 a.m. ET is presented for the first time" sind im Export leer**, ebenso der Abschnitt "RTH Final Hour Of Trading" (nur Ueberschrift). Die reinen Container-Seiten Week 1-4 wurden nicht als eigene Rohdateien angelegt, sondern in die Index-Datei gefaltet.
+- Assets: alle 54 PNGs trugen kollisionsgefaehrdete Namen (`image.png`, `image 1..22.png`, `1.png`-`4.png`, `1 1.png`, `Unbenannt.png`, diverse `Screenshot_*.png`) und haetten vault-weit auf bestehende Dateien aufgeloest — dasselbe Muster wie bei jedem bisherigen Notion-Ingest. Kopiert als `ICT 2025 - <Seitenkuerzel> <NN>.png`. Abweichung von der bisherigen Praxis: bei 54 Bildern wurde **auf durchgehend sprechende Dateinamen verzichtet** und stattdessen seiten- und positionsbezogen nummeriert; die Beschreibung steht in den Bildunterschriften der Wiki-Seiten. Zuordnung per Skript gegen die Exportliste geprueft (54/54, keine unzugeordnete Datei).
+- Seiten erstellt (Konzepte/Modelle): wiki/concepts/Algorithmic Price Delivery Continuum.md, wiki/concepts/Midnight Opening Range.md, wiki/models/NY Lunch Macro Model.md
+- Seiten erstellt (Quellen): wiki/sources/ICT 2025 Lecture Series (Source).md, Making Money With SMC Concepts (Source).md, SMC Opening Range Gaps (Source).md, SMC Trading Opening Range Gaps (Source).md, Algorithmic Price Delivery Continuum (Source).md, Balanced Price Chart Bsp (Source).md, How To Disqualify 1st Presented FVGs (Source).md, SMC Midnight Opening Range (Source).md, London Opening Range +1p FVG (Source).md, NY Lunch Macro Rules & PM Session & Final RTH Hour (Source).md
+- Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (ORG-Definition 16:14->9:30 samt Abgrenzung, Gap-Groessen-Tabelle, "1. presented Displacement", Ausschlusskriterien), wiki/concepts/Balanced Price Range (BPR).md (Mechanismus + Antizipation, ob ein FVG offen bleibt), wiki/concepts/ICT Daily Range Session Timing.md (Lunch-Fenster praezisiert, PM Opening Range ergaenzt), wiki/models/NY PM Trend.md, wiki/sources/One Trading Setup For Life (Source).md, wiki/index.md
+- **Praezisierung statt Korrektur beim 1. presented FVG**: Die Quelle sagt dreimal, man nehme nicht das erste, sondern das **groesste und offensichtlichste Displacement** ("nicht 1 presented FVG sondern 1. presented Displacement des Tages"). Das Wiki hatte diese Regel bereits fuer die PM-Session-ORG und implizit in der Sequenz-Regel aus Lektion 06 ("erstes *starkes* Displacement"). Die neue Quelle verallgemeinert sie auf alle Opening Ranges und benennt den Namen selbst als irrefuehrend — daher eingearbeitet, nicht als Widerspruch markiert.
+- **Offener Punkt London Opening Range aufgewertet**: Die 2025er Reihe ist eine zweite unabhaengige Quelle fuer **0:00-0:30** und liefert erstmals die Begruendung fuer den Namen (in dieser halben Stunde wird das High/Low festgelegt, das meist die London Session bringt). Damit spricht viel dafuer, dass 0:00-0:30 und 1:30-2:00 **zwei verschiedene Ranges** sind statt einer widerspruechlichen Zeitangabe; die bisherige Zeitzonen-Vermutung ist hinfaellig. Der Marker bleibt offen, ist aber neu begruendet.
+- ✅ **PM-Session-Frage aus dem vorigen Ingest geklaert**: 13:30 ist kein abweichender Sessionbeginn, sondern der Start der **PM Opening Range (13:30-14:00)**. Kein Widerspruch zu [[NY PM Trend]] (13-16 Uhr), nur ein anderer Bezugspunkt.
+- ⚠️ **Begriffsvermischung in der Quelle markiert**: [[Making Money With SMC Concepts (Source)]] nennt die Range 0:00-0:30 durchgehend "Opening Range Gap"; die spaetere Seite [[SMC Opening Range Gaps (Source)]] stellt ausdruecklich klar, dass das ORG etwas anderes ist (16:14-Close -> 9:30-Open) und weder das New Day Opening Gap noch die Midnight Opening Range. Nicht stillschweigend korrigiert, an beiden Stellen markiert.
+- **Latenter Fehler behoben**: wiki/concepts/Balanced Price Range (BPR).md verwies im Frontmatter auf `[[Kurz Notizen]]` (die Rohquelle) statt auf `[[Kurz Notizen (Source)]]` — derselbe Fehler, der beim MentorShip-Ingest schon fuer [[Breakaway Gap]] korrigiert wurde. Als Graph-Kante war das wirkungslos.
+- Neu ins Wiki gebracht: Price Delivery Continuum Theory als benannte Routine, der Mechanismus hinter der Balanced Price Range (verbrachte Zeit statt Beruehrung), FVG-Bildungsfenster 10:00-11:00 in Viertelstunden, Gap-Groessen-Regeln (120 Punkte / 0.25 statt C.E / Session-Wahl ueber die Gap-Groesse), STD-Manipulationsgrenze -1 STD als Algo-Grenze, die vier NY-Lunch-Regeln mit Execution 10:50-11:10, sowie die Ausschlusskriterien fuer ein Schein-FVG.
+- Offen: Der Autor notiert in [[SMC Trading Opening Range Gaps (Source)]] ein **eigenes Modell** (1.p FVG + ORG + NWOG/NDOG) — bislang ohne eigene Modellseite, da die Quelle es nur ankuendigt ("was ich weiter verfolgen werde"). Kandidat fuer wiki/models/, sobald mehr dazu vorliegt.
+- Noch nicht ausgefuehrt: publish.ps1 (wird bewusst vom Nutzer ausgeloest).
+
+## [2026-08-02] ingest | CISD Mini Serie (ICT Monthly Mentorship 2020)
+- Rohquelle: neuester Notion-Export im Vault-Root, `raw/858fcb95-...-ExportBlock-7891d2ec-....zip` (verschachteltes ZIP, HTML, 3 Seiten + 7 PNGs). Entpackt, nach Markdown konvertiert, neuer Ordner `raw/trading-ict/CISD Mini Serie/`.
+- **Jahrgang bestimmt**: Die Folien tragen "TheInnerCircleTrader.com - Not For Public Distribution - All Rights Reserved 2020" und die TradingView-Charts sind vom 23.12.2020 (EURUSD). Das Material stammt also aus der **Monthly Mentorship 2020** und schliesst die Luecke zwischen Core Content (2016) und den 2023er Seiten — sechster Jahrgang im Vault.
+- Assets: die 7 PNGs hiessen wieder generisch `image.png` / `image 1..6.png`. Bei dieser Menge waren sprechende Namen machbar, daher `CISD Mini Serie - <Beschreibung>.png` (statt der Nummerierung, die beim 54-Bilder-Export noetig war).
+- **Rohdateien bewusst umbenannt**: die Unterseiten hiessen im Export schlicht `Lecture 1` / `Lecture 2`. Da Obsidian, graphify und tools/build_site.py Wikilinks vault-weit ueber den Dateinamen aufloesen, waeren das Kollisions-Kandidaten fuer jeden kuenftigen Export. Abgelegt als `CISD Mini Serie - Lecture 1.md` / `- Lecture 2.md` (gleiche Praxis wie bei der MentorShip-2025-Nummerierung).
+- Seiten erstellt: wiki/concepts/Algorithmic Order Flow.md (fuenfstufige Hierarchie), wiki/concepts/Buy & Sell Program.md (die zwei Erkennungskriterien), wiki/models/Graded Price Swings.md, wiki/sources/CISD Mini Serie (Source).md, wiki/sources/CISD Mini Serie - Lecture 1 (Source).md, wiki/sources/CISD Mini Serie - Lecture 2 (Source).md
+- Seiten aktualisiert: wiki/concepts/CISD (Change in State of Delivery).md (von 22 auf ~70 Zeilen: State of Delivery als erster richtungsgebender Liquiditaets-Run, der Bias-Test ueber den Gegenzug, Trigger per Close ueber dem Swing Point, Einordnung als Stufe 5), wiki/concepts/Breakaway Gap.md (zweiter Entstehungsweg ueber das 50-%-Level), wiki/concepts/Seasonal Tendency.md (Lesart: Aussage ueber Widerstand, nicht ueber Richtung), wiki/index.md
+- Inhaltlich am wichtigsten: **ein Gegenzug widerlegt den Bias nicht**. Nach Erreichen der Buyside wechselt der State of Delivery zur Sellside; stimmt der Bias, wird dabei Liquiditaet gezogen oder eine Imbalance rebalanced, und das Buy Program laeuft weiter. Das fehlte im Wiki bislang komplett — CISD stand dort nur als Candle-Regel ("Down-Close wird Support").
+- Ausserdem neu: die Orderflow-Hierarchie ist **universal**, ICT wendet sie ausdruecklich bis in den 1M-Chart an (nicht nur HTF); Seasonal Tendency ist eine Aussage ueber Widerstand statt ueber Richtung; die Imbalance kurz unter dem 50-%-Level wird meist zum Breakaway Gap, sonst wird das naechstliegende Short Term Low genommen.
+- ⚠️ **Starke Aussage markiert**: "Mehr Models gibt es nicht es sind diese beiden!" (Graded Price Swings + MMXM). Das steht quer zu den ueber 20 Seiten unter wiki/models/. Vermutlich ist "Modell" hier enger gemeint — uebergeordneter Deliverungs-Rahmen statt Setup. Nicht aufgeloest, an beiden Stellen markiert.
+- ⚠️ **Neue Luecke**: **MMXM** (Market Maker Buy/Sell Model) wird hier als eine von zwei Saeulen genannt, hat im Vault aber keine eigene Seite. Kandidat fuer den naechsten Ingest.
+- ✅ Erledigt: der Lueckenhinweis auf der CISD-Seite ("COT und Seasonal Tendency nur erwaehnt, noch keine eigene Konzept-Seite") — beide Seiten existieren inzwischen.
+
+## [2026-08-02] ingest | ICT MentorShip 2022 (13 Episoden)
+- Rohquelle: `raw/2022.zip` (verschachteltes Notion-ZIP, HTML, 14 Seiten + 47 PNGs, 9,6 MB). Entpackt, nach Markdown konvertiert, neuer Ordner `raw/trading-ict/ICT MentorShip 2022/` — **siebter ICT-Jahrgang** im Vault.
+- Nutzeranweisung: "injeziere 2022" — Batch ohne Rueckfragen.
+- Enthalten sind die Episoden 3-8, 11, 13-18. **Die Episoden 1, 2, 9, 10 und 12 fehlen im Export**; Episode 1/2 duerften die Grundlagen enthalten, auf denen Episode 3 bereits aufsetzt.
+- Assets: die 47 PNGs hiessen wieder `image.png` / `image 1..46.png`. Bei dieser Menge episoden- und positionsbezogen nummeriert: `ICT 2022 - EpNN MM.png`. Zuordnung per Skript gegen die Dokumentreihenfolge geprueft (47/47, keine unzugeordnete Datei).
+- **Rohdateien mit Reihen-Praefix abgelegt**: die Unterseiten hiessen "Episode 14 - Live Trade" usw. — bei vault-weiter Namensaufloesung Kollisionskandidaten, zumal sich zwei nur durch die Nummer unterscheiden. Abgelegt als `ICT 2022 - Episode NN ...md`, gleiche Praxis wie zuvor bei der CISD Mini Serie.
+- ✅ **Dauerhaft offener Link geschlossen**: **MSS (Market Structure Shift)** war seit dem ersten Ingest einer von sechs unaufloesbaren Wikilinks — vorausgesetzt in [[Modell 22]], nirgends definiert. Episode 3 liefert die Definition **und** die Abgrenzung: ein **MSS** ist ein kurzzeitiger Break bis moeglicherweise zum naechsten H/L, ein **MSB** der grosse Break, der die Longterm Market Structure geshiftet hat. Dazu die Pflichtbedingung: es MUSS zuerst Liquiditaet genommen werden, danach das erste Swing High/Low — sonst kein bestaetigter MSS.
+- Damit ist auch die alte Anmerkung auf [[Modell 22]] praezisiert: MSS ist **nicht** deckungsgleich mit CISD, sondern die strukturelle Sicht auf denselben Vorgang. Ergaenzend aus Episode 18: ein **CISD ist valide, wenn eine Imbalance darin liegt**.
+- **Modell 22 ist aelter als angenommen**: Es laeuft in dieser Reihe bereits 2022 unter genau diesem Namen (Liq Sweep + Displacement + FVG). Die 2026er Fassung ist eine Praezisierung, keine Neuerfindung — auf der Konzeptseite entsprechend eingeordnet.
+- Seiten erstellt: wiki/concepts/Market Structure Shift (MSS).md, wiki/concepts/Dealing Range.md, dazu 14 Quellseiten (Navigationsknoten + 13 Episoden).
+- Seiten aktualisiert: wiki/concepts/Modell 22.md (2022er Ausfuehrung: Timeframe-Abstieg 15M -> 5M -> 4M/3M/2M bis FVG, "kein FVG = kein Trade", 1M als unprofitabelster Chart, Displacement muss unter das ganze Manipulation Leg, HTF-Trend schlaegt Setup), wiki/concepts/Order Block.md (OB ist erst bestaetigt, wenn danach ein Displacement folgt; zwei Up-Closing Candles koennen zusammen ein OB sein; High-Prob-OB braucht Imbalance UND eindeutiges Liq-Target), wiki/concepts/CISD (Change in State of Delivery).md, wiki/concepts/Trendline Phantoms (3 Drives Pattern).md (die 3-Drives-Ausnahme von der Sweep-Pflicht), wiki/concepts/ICT Daily Range Session Timing.md (0:00 fuer den Tag / 8:30 nur NY AM, bei abweichenden Opens fuer Shorts den tieferen und fuer Longs den hoeheren Preis, Lunch als No-Trading-Time, Forex-Killzone 7-10, News um 10 Uhr verlaengert bis 11/11:30), wiki/index.md
+- Weitere neue Inhalte: die ITL-Regel ("immer wenn Price eine Imbalance gefillt hat, ist es automatisch ein ITL, das protected ist"), der erste NY-Open-Run als Turtle Soup bis zum 50 % der ORG, Fib-Messung ausschliesslich auf Candle Bodies fuer Retracement-Targets, und die Disziplin-Saetze aus Episode 18 (Bias halten bis eindeutig widerlegt; RR schlaegt Trefferquote).
+- Noch offen: **MMXM** hat weiterhin keine eigene Seite (aus dem vorigen Ingest). Die fehlenden Episoden 1, 2, 9, 10, 12.
+
+## [2026-08-02] ingest | Market Maker Primer (ICT YouTube Forex Library 2017)
+- Rohquelle: `raw/market maker primer.zip` (verschachteltes Notion-ZIP, HTML, 16 Seiten + 77 PNGs, 28 MB). Entpackt, nach Markdown konvertiert, neuer Ordner `raw/trading-ict/Market Maker Primer/`.
+- Nutzeranweisung: "injeziere market maker primer" — Batch ohne Rueckfragen.
+- **Jahrgang bestimmt**: Die Folien tragen "TheInnerCircleTrader.com - YouTube.com/InnerCircleTrader - All Rights Reserved 2017", die MT4-Charts sind von Nov/Dez 2017. Damit ist es der **aelteste vollstaendige Jahrgang im Vault** (nach Core Content 2016) und die achte ICT-Reihe. Der Kurs mischt Originalfolien der ICT YouTube Forex Library mit Jannes' deutschen Mitschriften.
+- Assets: die 77 PNGs hiessen wieder generisch `image.png` / `image 1..76.png`. Bei dieser Menge lektions- und positionsbezogen nummeriert: `MMP - <Kuerzel> NN.png` (z.B. `MMP - LDNKZ 01.png`). Zuordnung per Skript gegen die Dokumentreihenfolge geprueft (77/77, keine unzugeordnete Datei).
+- **Container-Seite eingefaltet**: "Market Maker Primer Course" enthielt im Export nur Links auf die 15 Lektionen und keinen Text — als Reihen-Index `Market Maker Primer Course.md` abgelegt und entsprechend gekennzeichnet, statt sie als leere Rohdatei zu fuehren.
+- **Inhalt liegt ueberwiegend in den Bildern.** Mehrere Mitschriften bestehen fast nur aus Wikilinks (Trading The Key Swing Points: 15 Zeichen Text bei 5 Charts). Die Folien wurden deshalb direkt ausgelesen; die harten Zahlen unten stammen aus den Folien, nicht aus der Mitschrift.
+- Seiten erstellt: wiki/concepts/ICT Killzones.md, wiki/concepts/Optimal Trade Entry (OTE).md, wiki/concepts/Asian Range.md, wiki/models/Three Timeframe Framing.md, dazu 16 Quellseiten (Navigationsknoten + 15 Lektionen).
+- Seiten aktualisiert: wiki/concepts/Judas Swing.md (von 24 auf ~70 Zeilen), wiki/concepts/AMD Cycle (Accumulation - Manipulation - Distribution).md, wiki/concepts/SMT (Smart Money Divergence).md, wiki/concepts/Intermarket Relationships.md, wiki/concepts/ICT Daily Range Session Timing.md, wiki/index.md
+- Inhaltlich am wichtigsten: **die Killzones sind erstmals quantifiziert** — London 2-5 Uhr (EUR/GBP, 25-50 Pips), NY 7-9 Uhr (Majors, 20-30), London Close 10-12 Uhr (Majors, 10-20), Asia ab 19/20 Uhr (AUD/NZD/JPY, 15-20). Dazu die Abgrenzung Killzone vs. Session (Asia reicht ueber Mitternacht, London bis 7, NY bis 14 Uhr).
+- Ebenfalls neu: **der OTE bekommt konkrete Zahlen** — Entry-Zone 0,618 / 0,705 / 0,79, First Profit bei 0, Target 1 bei -0,27, Target 2 bei -0,62, Symmetrical Swing bei -1, SL unter dem initialen Low. Das Muster ist der gemeinsame Nenner aller vier Killzones; im Vault gab es dazu bislang keine Seite.
+- Und: **die Asian Range bekommt eine harte Definition** (7:00 PM - 12:00 AM NY, Highest High / Lowest Low) samt der Regel "Consolidation Asia Range = Trending Tag" und der Grundbedingung, dass die gesamte Theorie ohne vorhandenen Bias nicht anwendbar ist.
+- ⚠️ **Widerspruch markiert und aufgeloest**: [[Judas Swing]] fuehrte den Judas bislang als "klassisch CME Open, 08:20 NY" (aus den Bread-&-Butter-Quellen). Die Originalfolie definiert **0:00 - 5:00 Uhr NY**. Auf der Konzeptseite als Praezisierung markiert: 08:20 ist ein zweiter Manipulationszeitpunkt zum US-Sessionstart, aber nicht der Judas Swing im Sinne der Definition.
+- ⚠️ **Abweichung markiert**: [[ICT Daily Range Session Timing]] fuehrt den London Close nach `Essentials To ICT Daytrading` als "praktisch nicht relevant"; hier hat er ein eigenes Modul mit klarer Funktion. An beiden Stellen als Doppelrolle eingeordnet — als Trendsession schwach, als Zeitmarke fuer das Ende der Tagesmanipulation aussagekraeftig.
+- ⚠️ **Einschraenkung des NDOG-Schutzes**: Bei bullishem Bias kann ueber das NDOG hinaus und dann erneut darunter manipuliert werden, bevor die Expansion kommt — "Das NDOG ist also kein 100 % Schutz SL!!!!". Auf [[AMD Cycle (Accumulation – Manipulation – Distribution)]] vermerkt.
+- ⚠️ **Drei Mitschriften sind unvollstaendig** ("Weiter bei min 12", "Weiter bei min 30", "Weiter bei 4.30") — Cross Currency Relationships, OTE Primier und Trading The Key Swing Points. Auf den jeweiligen Quellseiten und im Navigationsknoten markiert; die Folien liegen vollstaendig vor, der Kommentar nicht.
+- Hinweis zum Ablauf: Die **MentorShip 2022 wurde parallel in einer zweiten Sitzung ingested** (eigener Log-Eintrag oben). Ueberschneidungen wurden geprueft — die 2022er Quellseiten waren bereits angelegt und blieben unangetastet; dieser Ingest hat nur die Verweise darauf gesetzt (Killzone 7-10 fuer Forex, Timeframe-Abstieg auf [[Three Timeframe Framing]]).
+- Noch offen: **MMXM** hat weiterhin keine eigene Seite. Die Folien nennen ausserdem "Market Making & Pairing Of Orders" und "Neutralizing Liquidity" als Modulthemen — beides ist in der Mitschrift nur gestreift und waere ein Kandidat, sobald weiteres Material dazu vorliegt.
+
+## [2026-08-02] ingest | Market Maker Primer — Nachtrag: die restlichen 60 Charts ausgewertet
+- Anlass: Nutzerfrage "kannst du fortfahren wo du aufgehoert hast". Beim ersten Durchgang waren nur **17 der 77 MMP-Charts** im Wiki referenziert — der Rest lag unausgewertet in `raw/`. Da der Inhalt dieser Quelle ueberwiegend in den Bildern steckt, war das die eigentliche offene Stelle.
+- Alle 77 Charts sind jetzt ausgewertet und mit Bildunterschrift eingebunden.
+- **Die groesste Nachlieferung: die vollstaendige Anatomie der Po3-Candle.** Die Folien benennen jedes Bauteil einzeln — Opening Price = "Initial Value Price, Prior To Imbalance", Closing Price = "Ending Value Price, Post Price Imbalance", Range Expansion = "Dynamic Price Imbalance", Accumulation = "Long Positions Built Up".
+- Damit ist auch der **offene Punkt aus dem ersten Durchgang geschlossen**: "Market Making & Pairing Of Orders" und "Neutralizing Liquidity" waren als Modulthemen genannt, aber unklar geblieben. Aufloesung: Die Manipulation leistet **drei Dinge gleichzeitig** — sie *engineered* Short Liquidity, *neutralisiert* die bestehende Long Liquidity und *paart* die entstandenen Sell Stops mit dem institutionellen Kaufinteresse ("Sell Stops Paired With Buy Interest"). Die Distribution verrechnet spiegelbildlich Long-Ausstiege gegen offenes Kaufinteresse. Das ist der Mechanismus hinter dem Wort "Market Making".
+- **Zweite grosse Nachlieferung: die dreistufige Bias-Hierarchie** aus Time & Price Theory — Monthly = **Macro** Institutional Bias, Weekly = **Intermediate**, Daily = **Short Term**, jeweils mit derselben Regel (bullish at or below Open kaufen, bearish at or above verkaufen). Begruendung auf der Folie: grosse Institutionen fahren algorithmische Systeme, die auf die Monthly- und Weekly-Opening-Preise ausgerichtet sind. Hoechste Wahrscheinlichkeit auf dem Daily nur, wenn Monthly **und** Weekly die Idee stuetzen. Einschraenkung ebenfalls dort: "Not Every Week Will Move In The Macro Directional Bias".
+- **Time & Price Theory als Bruecke**: Die Killzone ist die senkrechte Zeitlinie, das Key S&R Level die waagerechte Preislinie — gehandelt wird der Schnittpunkt. Das verbindet [[ICT Killzones]] mit der Regel "alle Trades werden ueber Key S&R Levels geframed" aus [[Three Timeframe Framing]].
+- Weitere neue Fakten aus den Folien: **London hat das hoechste Order-Execution-Volumen aller Sessions** und die hoechste Wahrscheinlichkeit fuer einen grossen gerichteten Move im 24-Stunden-Tag (Session bis 7 Uhr NY); **die Asia Session gehoert den Crosses** — der USD konsolidiert bis Mitternacht und *befreit* AudJpy/GbpAud, laut Folie die ergiebigste Zeit fuer OTE-Setups in Cross-Paaren; **der London Close ist entweder Continuation-Punkt oder Reversal-Punkt**, und im Reversal-Fall kann sich die Richtung des Tages **oder der Woche** drehen; in NY gilt "Reversals require more insights".
+- **Asian Range praezisiert**: Die Folie trennt **Hoehe** (Highest High bis Lowest Low) von **Breite** (die Dauer 19–24 Uhr). Und wichtiger: Die Range wird **als Level in die Zukunft verlaengert** — die Rueckkehr an das Asian Range High ist der Punkt, an dem institutionelles Kaufen erwartet wird. Das war zuvor unscharf als "Rueckkehr in die Range" notiert.
+- **Neue Haltungsfolie aufgenommen** ("Avoid The Over-Complicating"): Ein Directional Bias garantiert weder Profitabilitaet noch Genauigkeit; zwei Trader mit gegensaetzlichem Bias koennen beide recht behalten; "There is no black & white", der Trader muss "The Grey" aushalten. Das ist die Begruendung dafuer, warum die Timeframe-Wahl **vor** der Bias-Frage steht — auf [[Three Timeframe Framing]] eingeordnet.
+- ⚠️ **Fremdquelle markiert**: Die Schemafolie "Correlated Pairs — Bullish SMT" (`MMP - SMT 03.png`) traegt das Wasserzeichen **TTrades_edu** und stammt damit **nicht** aus dem ICT-Originalkurs, sondern wurde von Jannes ergaenzt. Inhaltlich deckungsgleich, aber auf der Quellseite als Fremdmaterial gekennzeichnet.
+- Seiten aktualisiert: wiki/sources/Accumulation - Manipulation - Distribution (Source).md (vollstaendig neu geschrieben), wiki/sources/Time and Price (Source).md (vollstaendig neu geschrieben), wiki/sources/Asia Session (Source).md, London Killzone (Source).md, New York Killzone (Source).md, London Close Killzone (Source).md, The ICT Judas Swing (Source).md, Implementing The Asian Range (Source).md, Essentials To ICT Market Structure (Source).md, Essentials To Trading The Daily Bias (Source).md, ICTCross Currency Relationships und HTF Institutional Order Flow (Source).md, OTE Primier - ICT optimal Trade Entry (Source).md, SMT Smart Money Technique (Source).md, Trading The Key Swing Points (Source).md, wiki/concepts/AMD Cycle (Accumulation – Manipulation – Distribution).md, wiki/concepts/ICT Killzones.md, wiki/concepts/Asian Range.md, wiki/models/Three Timeframe Framing.md
+- Noch offen: **MMXM** hat weiterhin keine eigene Seite — inzwischen der am haeufigsten offen gebliebene Punkt (CISD Mini Serie, Market Maker Primer, Essentials To ICT Market Structure verweisen alle darauf).
+
+## [2026-08-02] query | VII geklaert = Volume Imbalance
+- Frage: "weisst du was VII ist?" — der Begriff stand seit dem ersten Ingest an vier Stellen als offener Punkt und war im Vault nirgends definiert.
+- Vault-Befund vorab: VII kommt nur in zwei Kontexten vor — als Fib-Anker in [[Enigma FVG Projection]] ("mit VII" 101,805 vs. "ohne VII" 101,795 am DXY) und als "Daily VII" in [[Alltime Highs und TGIF (Source)]], dort als Draw, nach dessen Erreichen eine explosive Reaktion folgte. Auffaellig: "Volume Imbalance" kam im gesamten Vault (raw/ wie wiki/) **kein einziges Mal** vor, obwohl es eine der ICT-Kern-PD-Arrays ist.
+- **Vom Nutzer bestaetigt**: VII = **Volume Imbalance**, die Luecke zwischen dem Close einer Candle und dem Open der naechsten. Zwei Rollen: Hilfsmittel zum korrekten Einzeichnen eines FVG **und** eigenstaendige PD Array.
+- **Die neue Regel**, die bislang komplett fehlte: *"Eine VII wird immer mit eingezeichnet, wenn sie vorhanden ist. Ist keine da, nutzen wir die Wicks."* Beim FVG also immer auf **Open und Close** achten, nicht nur auf die Wick-Extrema — sonst stimmen C.E, Quadranten und jeder darauf aufbauende Entry nicht.
+- Seite erstellt: wiki/concepts/Volume Imbalance (VII).md (inkl. Zahlenbeispiel mit zwei VII: Close C1 28.450,25 -> Open C2 28.450,50 = 0,25; Close C2 28.274,50 -> Open C3 28.275,00 = 0,50).
+- Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (neuer Abschnitt "Einzeichnen: Open und Close, nicht die Wicks"), wiki/concepts/Enigma FVG Projection.md, wiki/concepts/PD Array.md (VII in die Aufzaehlung der Arrays), wiki/concepts/Smart Money Concepts (SMC).md, wiki/sources/Alltime Highs und TGIF (Source).md, wiki/models/Weekly Range Trading Model.md, wiki/synthesis/MentorShip 2025.md, wiki/index.md
+- ✅ Damit sind **beide** grossen offenen Begriffe des 2026er-Materials erledigt: MSS (heute frueher aus der MentorShip 2022) und VII. Offen bleiben nur noch "Suspensionblock" und "REH"/"REL".
+- ⚠️ Markiert: Die muendliche Erlaeuterung bezeichnete das Zahlenbeispiel als **BISI**, die Sequenz beschreibt aber eine Abwaertsbewegung (Candle 2 faellt von 28.450,50 auf 28.274,50, Candle 3 eroeffnet darunter) — nach der Vault-Definition also ein **SIBI**. Die Einzeichnungsregel ist richtungsunabhaengig und davon nicht betroffen; nur das Label ist zu pruefen.
+
+## [2026-08-02] synthesis | Marktdaten-Pipeline: OHLC-CSV als Korrektiv zum Screenshot
+- Frage: "kannst du die tradingcharts in png erkennen ... oder ist es besser wenn ich OHLC des ganzen Tages als .csv hochlade?"
+- Antwort in Kuerze: beides, aber fuer verschiedene Jobs. PNG belegt *was er gesehen und markiert hat*, CSV liefert die exakten Zahlen zum Gegenpruefen. Aus einem Bild sind Preise, Kerzenzahlen und Distanzen nur geschaetzt — genau die Groessen, auf denen seine Checkliste steht.
+- Auf seine Freigabe hin gebaut: `tools/analyze_ohlc.py` (nur Standardbibliothek) + Dateikonvention `raw/marktdaten/<SYMBOL> <YYYY-MM-DD> <TF>.csv`.
+- Seine sechs TradingView-Exporte (1m/5m/15m/1h/4h/1d, alle Freitag 31.07.2026, MNQU2026) aus `raw/` nach `raw/marktdaten/` verschoben und nach der Konvention umbenannt — die Originalnamen (`CME_MINI_MNQU2026, 1_f6229.csv`) waren weder sprechend noch sortierbar.
+- Seiten erstellt: wiki/models/OHLC-Datenanalyse (Workflow).md, wiki/synthesis/MNQ 2026-07-31 — Datenbasierter Tagesrückblick.md
+- Seiten aktualisiert: wiki/index.md
+
+### Entscheidungen ohne Rueckfrage (nach Vault-Konvention)
+- **Zeitzone**: alle Timestamps werden hart nach New York gerechnet, auch wenn der Export UTC liefert. Sein gesamtes Vokabular haengt daran; ein Report in UTC waere unbrauchbar.
+- **Rauschfilter statt Vollstaendigkeit**: ohne Mindestalter meldet der 1m-Chart eines Tages 105 "Sweeps" und 153 "Structure Breaks" — unbrauchbar. Ein Level, das drei Kerzen alt ist, ist keine Liquiditaet. Defaults: Mindestalter 15 Kerzen (skaliert mit dem Timeframe), Mindestdurchstich 0,75x Median-Kerzenrange. Per CLI ueberschreibbar, damit die Konvention nicht als Wahrheit auftritt.
+- **Sweep-Definition korrigiert**: die naive Regel "Docht nimmt das Level, dieselbe Kerze schliesst zurueck" hat am 31.07. den entscheidenden Sweep um 09:31 **nicht gefunden**, weil der Preis vier Kerzen ueber dem Level blieb, bevor er kippte. Genau das ist ein Judas Swing. Deshalb ein Bestaetigungsfenster (default 5 Kerzen auf 1m) statt der Ein-Kerzen-Regel.
+- **Checklistenpunkt 8 ohne Lookahead**: "Target Liquiditaet min. 2 H/L 1m" wird nur mit dem Wissensstand zum Setup-Zeitpunkt gerechnet. Levels, die *im Nachhinein* unangetastet blieben, waren zum Entry kein sichtbares Ziel — die erste Fassung hat das falsch gezaehlt.
+- **Punkt 6 "Entry" bleibt leer**: das ist keine Eigenschaft des Marktes, sondern seine Entscheidung. Das Skript prueft daher 7 von 8 Punkten und sagt das auch so.
+
+### Befund aus dem ersten ausgewerteten Tag (Fr, 31.07.2026)
+- Tages-High 28.725,75 um 09:35, Tages-Low 28.079,75 um 10:16 — **die komplette Tagesrange von 646 Pkt entstand in 41 Minuten**.
+- Um 09:31 Sweep eines Buyside-Levels, das seit 05:19 stand (252 Kerzen), 98 Pkt Durchstich, sofortige Rueckeroberung — Judas Swing zum RTH-Open. Danach fuenf Sellside-Sweeps in acht Minuten, darunter Levels vom Vorabend (19:38, 849 Kerzen alt).
+- Macro 09:50–10:10 mit 293,25 Pkt = 4,6x Tagesmedian. Das Lunch-Macro 10:50–11:10 lag mit 92 Pkt **unter** der Expansionsschwelle — wer auf das Lunch-Setup gewartet hat, hat auf das falsche Fenster gewartet.
+- Checkliste `--at 09:50`: 6/7 pruefbare Punkte. Der fehlende ist "Target Liquiditaet" — die Sellside war zu dem Zeitpunkt schon abgeraeumt, der Move lief trotzdem noch 281 Pkt tiefer.
+- ⚠️ Markiert: High *und* Low des Tages fielen ins Fenster 09:30–10:16, nicht nach London. Das laeuft der Faustregel in [[ICT Daily Range Session Timing]] entgegen (Manipulation 0–5 Uhr, High/Low meist in London). Als **einzelner Datenpunkt notiert, nicht als Korrektur** — ein Tag widerlegt keine Statistik. Passt besser zum Seek-&-Destroy-Freitag aus [[Market Maker Manipulation Templates]].
+
+## [2026-08-02] tooling | Marktdaten: automatische Tagesordner (dd.mm.jjjj)
+- Wunsch: "nachdem .csv dateien im marktdaten ordner sind ordne sie automatisch am tagesende in einen unterordner ein benannt mit dem datum im format dd.mm.jjjj"
+- Neu: `tools/sort_marktdaten.py` (nur Standardbibliothek) + `tools/register_marktdaten_task.ps1` (optionale Windows-Aufgabe).
+- Bestand verschoben: die sechs Freitags-CSVs liegen jetzt in `raw/marktdaten/31.07.2026/`.
+- Seiten aktualisiert: wiki/models/OHLC-Datenanalyse (Workflow).md (neue Abschnitte "Dateikonvention" und "Einsortieren passiert von selbst"), wiki/synthesis/MNQ 2026-07-31 — Datenbasierter Tagesrückblick.md (Pfadangabe), publish.ps1, tools/analyze_ohlc.py
+
+### Entscheidungen ohne Rueckfrage (nach Vault-Konvention)
+- **Ordner dd.mm.jjjj, Dateiname weiter ISO.** Nur der Ordner bekommt das deutsche Format wie gewuenscht; im Dateinamen bleibt `MNQ 2026-07-31 1m.csv`. Grund: ISO sortiert korrekt, und `analyze_ohlc.py` setzt darauf auf. Die Datei bleibt so auch ausserhalb ihres Ordners selbsterklaerend.
+- **Der Handelstag kommt aus der letzten Kerze, nicht aus dem Dateinamen.** Sonst muesste er die TradingView-Exporte vorher von Hand umbenennen — genau die Arbeit, die wegfallen soll. Kerzen ab 18:00 NY zaehlen auf den Folgetag, weil dann bereits die naechste CME-Session laeuft. Ohne diese Regel waere der 1D-Export (letzte Kerze 30.07. 18:00) im Ordner 30.07.2026 gelandet statt in 31.07.2026.
+- **Timeframe aus dem Median-Timestamp-Abstand**, nicht aus dem Dateinamen — der TradingView-Name (`, 1_f6229`) ist mehrdeutig, der Abstand nicht. Symbol aus dem Namen mit abgestreiftem Kontraktcode (`CME_MINI_MNQU2026` -> `MNQ`), per `--symbol` ueberschreibbar.
+- **"Am Tagesende" auf drei Wegen umgesetzt**, weil die Formulierung offen laesst, ob ein Scheduler gemeint war: automatisch in `publish.ps1` und in `analyze_ohlc.py` (greift in seinem realen Arbeitsablauf ohne jede Einrichtung), plus eine **opt-in** Windows-Aufgabe fuer echte Zeitsteuerung um 23:15 (CME-Close 17:00 NY = 23:00 Berlin). Die Aufgabe wurde **nicht** registriert — das ist eine Aenderung an seinem System und bleibt seine Entscheidung, ein Aufruf genuegt.
+- **Sortierfehler blockieren keinen Publish**: eine Datei mit unerkennbarem Timeframe bleibt liegen und wird gemeldet, statt den Build abzubrechen.
+- **Keine stillen Ueberschreibungen**: inhaltsgleiche Duplikate werden geloescht, gleichnamige mit abweichendem Inhalt bekommen `(2)`.
+
+### Geprueft
+- Alle sechs Bestandsdateien korrekt einsortiert, inkl. der 1D-Datei ueber die 18-Uhr-Regel.
+- Roh-Export `CME_MINI_MNQU2026, 5_zztest.csv` in `raw/marktdaten/` abgelegt -> `analyze_ohlc.py` hat ihn selbst eingeraeumt, als Duplikat erkannt, entfernt und danach normal analysiert.
+- Synthetischer Export eines anderen Tages -> neuer Ordner `04.08.2026` samt korrektem Dateinamen angelegt (Testartefakt wieder entfernt).
+- Symbolerkennung gegen sechs Namensmuster geprueft: MNQU2026/NQ1!/YMZ25/MNQ1!/EURUSD/bereits-konform.
+
+## [2026-08-02] synthesis | Journal-Datenbank mit dem Wiki verbunden
+- Nutzerwunsch: "verbinde meine journal datenbank mit dem wiki um beispiele fuer zukuenftige fehler zu finden". Maszgabe aus derselben Sitzung: **SMC ist algorithmisch, kein Schaetzen, nur klare Zahlen.**
+- **Randbedingung**: `raw/` ist laut CLAUDE.md unveraenderlich — es koennen also keine Wikilinks in die Journaldateien geschrieben werden. Die Verbindung entsteht deshalb generiert in `wiki/`, analog zu `site/`.
+- Werkzeug erstellt: `tools/journal_wiki.py` (nur Standardbibliothek). Liest `raw/journal/` lesend, parst die achtteilige Setup-Checkliste aus den Markdown-Checkboxen (`- [x]` / `- [ ]`) samt Zeitstempeln, joint ueber `raw/journal/Journal.md` Datum, Bias und Resultat, und mappt jeden Checklistenpunkt auf seine Fehler-ID aus dem Fehlerkatalog des trading-journal-Skills sowie auf die zustaendigen Wiki-Seiten.
+- Seite erstellt (generiert): `wiki/synthesis/Journal-Auswertung.md`. Sie ist als generiert gekennzeichnet und wird bei jedem Lauf neu geschrieben.
+- **Befund, ausgezaehlt ueber 21 Eintraege mit Checkliste**: Liq Sweep 57 %, MS Break 52 %, Macro Expansion 52 %, Displacement 48 %, Richtige Zeitfenster 48 %, Target Liquiditaet 43 %, Anhaltende Consolidation 38 % — und **Entry 5/21 = 24 %**. Der Punkt "Entry" ist rund halb so oft erfuellt wie der naechstschwaechste. Der Fehlerkatalog hatte S12 unabhaengig davon als "den schwersten der acht Punkte" und als Geduldsproblem beschrieben; die Auszaehlung bestaetigt das mit einer Zahl.
+- **Ehrlich ausgewiesen, was NICHT geht**: Nur 9 der 21 Eintraege tragen ein eindeutiges Resultat (5 Win, 4 Loss). Die Korrelation "welcher fehlende Haken kostet Geld" ist damit **nicht** beantwortbar — die Verteilung ist flach (bei fast jedem Punkt dasselbe Verhaeltnis auf beiden Seiten), zwei Eintraege mit 7/8 wurden gewonnen, zwei mit 7/8 verloren. Steht so auf der Seite, statt eine Scheinkorrelation zu behaupten. Zusaetzlich als Datenluecke markiert: Eintraege mit 0/8 und 1/8 Haken sind mit hoher Wahrscheinlichkeit Faelle, in denen die Liste gar nicht gefuehrt wurde.
+- Seiten aktualisiert: wiki/models/Trading Journal & DOL Checklist.md (Abschnitt zur tatsaechlichen Erfuellungsquote + Querverweis), wiki/index.md
+- Verifiziert: Stichprobe `Tape Reading 17` von Hand gegen die Rohdatei geprueft — 6/8, fehlend "Anhaltende Consolidation" und "Entry", Datum 2026-03-16, Bias Baerish, Resultat Win. Stimmt mit der generierten Zeile ueberein.
+- Naechster Schritt fuer belastbare Korrelationen: bei jedem Eintrag mit Checkliste auch `Resultat` setzen. Ab rund 30 Eintraegen mit beidem wird die Win/Loss-Tabelle aussagekraeftig.
+
+## [2026-08-02] tooling | Marktdaten: Ordner bleibt, nur CSVs wandern
+- Praezisierung des Nutzers: "der marktdaten folder soll bleiben ... alles andere bleibt". Verhalten war bereits so, jetzt belegt statt behauptet.
+- Verifiziert: mit `notizen.md`, `screenshot.png` und einem eigenen Unterordner (samt CSV darin) in `raw/marktdaten/` einen Sortierlauf gefahren — nur die lose CSV in der Wurzel wanderte, alles andere blieb unangetastet. `loose_files()` greift per `DATA_DIR.glob("*.csv")` bewusst nicht rekursiv.
+- `raw/marktdaten/.gitkeep` angelegt: der Ordner ueberlebt damit auch dann in git, wenn irgendwann kein Tagesordner darin liegt. Enthaelt die Ablagekonvention in drei Zeilen.
+- Toter Code entfernt: `DAY_DIR`-Regex in `tools/sort_marktdaten.py` war ungenutzt.
+
+## [2026-08-03] journal | Weekly Bias 2026-W32 (MNQ) — ingest + Korrektur gegen das Wiki
+- Quelle: `raw/Weekly Bias KW 31.md` plus 7 Bilder (5 TradingView W/D/4H/1H/15m, Forex-Kalender, COT). Eintrag: `journal/entries/2026-08-03 MNQ Weekly Bias.md`, id `2026-08-03-01`, Bias **Bullish**, DOL Buyside Liquidity 29.363,50.
+- Bilder mit eindeutigen Namen nach `journal/screenshots/` kopiert (`2026-08-03-01..05`, `-newskalender`, `-cot`). `raw/` unangetastet.
+- **Vom Wiki bestaetigt**: "Montag in der NFP-Woche liefert gute Price Action" ist woertlich in `wiki/models/ICT Day Trade Routine.md` gedeckt. News-Kalender exakt richtig gelesen (Mo ISM PMI, Fr NFP + Unemployment Rate + AHE, alle red). Bullish oberhalb des NWOG entspricht `wiki/concepts/New Week Opening Gap (NWOG) Bias.md`.
+- **Vom Wiki korrigiert**: (1) Woche ist ISO-**KW 32**, nicht KW 31 — die Chart-Labels "NWOG 31" sind Datums-, keine Wochennummern. (2) Bullish-Bias ohne Invalidierung, obwohl das eigene Wiki den NWOG-Bruch ausdruecklich als Bias-Kipp-Punkt fuehrt → Grenze auf **28.284,00** gesetzt, Ruecklauf bis C.E. 28.425,75 bleibt Long-Bereich. (3) `wiki/models/ICT Day Trade Routine.md` verbietet Handel an Do/Fr der NFP-Woche — im Wochenplan nicht beruecksichtigt, damit ist die Woche faktisch Mo–Mi. (4) COT-Lesart "Smart Money hat verkauft" steht im Widerspruch zum Screenshot (gruene Linie +4.914 und steigend); als `vermutet` markiert, Rueckfrage offen. (5) ORG vs. NDOG 23.07 begrifflich vermischt, kein RTH-Chart unter den Bildern. (6) Preis-Tippfehler 28.567,60 → 28.567,50.
+- Entscheidung ohne Rueckfrage: **keine** eigene `wiki/sources/`-Seite angelegt. Ein Weekly Bias ist ein Journal-Eintrag, keine Lehrquelle — eine Source-Seite waere eine Kopie des Eintrags. Das Wiki war hier reines Korrektiv und musste inhaltlich nicht ergaenzt werden.
+- Fuer den Freitag-Rueckblick: 8-zeilige Pruefliste im Eintrag, jede Zeile mit einem Preis beantwortbar (`bias_korrekt` steht bewusst leer, P09).
+- Lint-Befund nebenbei: `raw/image.png` kollidiert vault-weit mit `raw/trading-ict/assets/image.png`. Obsidian und `tools/build_site.py` loesen Bilder allein ueber den Dateinamen auf — eines der beiden wird still falsch angezeigt. Nicht angefasst, weil ausserhalb dieses Ingests.
+- **Nachtrag 2026-08-03 (Rueckfrage beantwortet):** rot = Commercials, gruen = Large Speculators. Der COT-Verdacht aus Punkt (4) oben ist damit **widerlegt** — seine Lesart "Smart Money hat verkauft" war korrekt. Der Befund kehrt sich aber um und wird groesser: Commercials stehen bei −14.946 unter der 0-Linie, nach `wiki/concepts/COT (Commitment of Traders) Data.md` also **bearish**. Der COT ist damit das einzige Signal im ganzen Wochenbias, das gegen Bullish spricht, und wurde als Randnotiz behandelt statt aufgeloest. Eintrag entsprechend korrigiert (⚠️ → ✅ mit Begruendung, Pruefliste um Zeile 9 erweitert). Zusaetzliche Datenluecke: Screenshot zeigt 6 Monate, die Methode verlangt 12.
+- **Nachtrag 2 (2026-08-03), 12-Monats-COT + RTH-Daten nachgeliefert — zwei eigene Aussagen korrigiert:**
+  - **COT:** meine Ableitung "Commercials unter null = bearish" war falsch. `raw/COT 12 monate.PNG` zeigt, dass der Indikator die Trennlinie beim **EQ der 12-Monats-Range (~ −27 K)** zieht, nicht bei null; −14,95 K liegt darueber und der Indikator gibt fuer 12M **BUY** aus. Der COT **stuetzt** seinen Bullish-Bias. `wiki/concepts/COT (Commitment of Traders) Data.md` war an dieser Stelle selbst unscharf (Punkt 1 nennt das EQ, Punkt 2 die 0-Linie) — Seite mit einem ⚠️-Praezisierungsblock ergaenzt, alte Formulierung stehen gelassen. Neu dokumentiert: der Indikator liefert mehrere Horizonte gleichzeitig, die sich widersprechen (03.08.: 3M SELL, 6M SELL, 12M BUY, 2Y BUY, 4Y SELL) — ein COT-Urteil ohne Horizontangabe ist nicht pruefbar.
+  - **ORG:** Verdacht "ORG mit NDOG verwechselt" (S08) **verworfen**. RTH-15m-Export abgelegt unter `raw/marktdaten/31.07.2026/MNQ 2026-07-31 15m RTH.csv` (14.07.–31.07., 359 Bars) und alle ORGs des Zeitraums nachgerechnet. ORG 23.07 = **29.249,75 → 28.718,00**, 531,75 P Gap down, C.E. 28.983,88. Es ist **nicht "komplett offen"**: 150,25 P (28 %) sind von unten abgearbeitet, offener Rest **28.868,25–29.249,75** — und der liegt tatsaechlich unterhalb seines DOL 29.363,50, sein struktureller Punkt haelt also. Nebenbefund: **ORG 30.07 (27.299,25–27.876,75, 577,50 P) ist das einzige voellig unberuehrte ORG des Zeitraums** und liegt als Magnet unterhalb des Preises — im Wochenplan nicht erwaehnt.
+  - **S09 verworfen:** er ist Scalper (Minuten-/Sekundenchart), der Weekly Bias ist Richtungsrahmen und kein Entry-Plan. Premium/Discount gehoert auf Trade-Ebene geprueft. Heute nur NY PM Silver Bullet 14:00–15:00 NY.
+  - Pruefliste im Eintrag von 9 auf 12 Zeilen erweitert (COT-Horizonte, ORG-Reste oben und unten, Entry-Zeiten).
+
+## [2026-08-03] journal | Daily Bias 03.08. (MNQ) — ingest + Nachrechnung aus den Marktdaten
+- Quelle: `raw/Daily Bias 03.08.md` + 3 neue Screenshots (02:28 4H, 02:32 15m RTH, 02:33 Daily+COT) und sein Daily-Markup. Eintrag: `journal/entries/2026-08-03 MNQ Daily Bias.md`, id `2026-08-03-02`, Bias **Bullish**, Modell **NY PM Silver Bullet**.
+- **Aus den Daten bestaetigt**: (a) Seine VII-Einordnung des NWOG ist nach `wiki/concepts/Volume Imbalance (VII).md` exakt korrekt — Koerperluecke Freitag-Close 28.284,00 → Sonntag-Open 28.567,50 = 283,5 P, Wicks ueberlappen (Freitag H 28.725,75 / L 28.079,75). Beide Bedingungen erfuellt, und die Seite fuehrt die VII selbst als eigenstaendigen Draw. (b) Sein Target **28.763,75** ist auf den Tick das ETH-Tageshigh von Montag 27.07 (05:45 NY). (c) Das von ihm genannte Freitags-High ist **28.725,75** (31.07, 09:30 RTH-Open; ETH- und RTH-High identisch) — beide Highs nur 38 P auseinander, also ein Buyside-Cluster mit **zwei** H/L, was seinen Checklistenpunkt S05 erfuellt. (d) Die rote 0,5-Linie bei 28.984,00 auf seinem 15m-RTH-Chart ist das ORG-23.07-C.E. und deckt sich mit meiner Rechnung (28.983,88).
+- **Korrigiert**: **Widerspruch zum eigenen Weekly Bias 33 Minuten vorher** — 01:55 "Montag sollte gute Price Action liefern" (NFP-Woche-Ausnahme), 02:28 "am Montag schwierig" (Grundregel). `wiki/models/ICT Day Trade Routine.md` fuehrt beides als Regel *und* Ausnahme; heute greift die Ausnahme. Weiter: Judas-Swing-Zeitfenster (Wiki: 0–5 Uhr NY, der US-Open-Move ist laut ausdruecklicher Praezisierung *nicht* die Judas) als `vermutet`; fehlende Invalidierung fuer "Judas Richtung Sellside" (Vorschlag: Sweep 28.284,00 → max. 28.210,25 mit Reclaim) als S08 `belegt`; Timing-Konflikt ISM-PMI 10:00 verlaengert die AM-Killzone bis 11:00/11:30, gehandelt wird aber erst 14:00–15:00.
+- Neuer Begriff ohne Wiki-Seite: **"Bellweather Chart"** (sein 15m als DOL-Finder). Noch nicht angelegt — Konvention: ab dem dritten Auftreten.
+- Belegdaten: `raw/marktdaten/31.07.2026/MNQ 2026-07-31 15m.csv` (ETH) und `... 15m RTH.csv`.
+
+## [2026-08-03] ingest | Chain Of Custody Of Price With Daily Inefficiencies
+- Quelle lag zunächst lose im Vault-Root (`raw/Chain Of Custody Of Price With Daily Inefficiencies.md` + 5 Screenshots image-4.png–image-8.png). Nutzerhinweis: gehört inhaltlich zum 2026er-Jahrgang (wie das bereits ingestete `ICT Chain Of Custody Of Price.md`) — nach `raw/trading-ict/2026/Chain Of Custody Of Price With Daily Inefficiencies.md` verschoben, Bilder nach `raw/trading-ict/assets/` (Namenskollision vorab geprüft: keine). Anderes Video als `ICT Chain Of Custody Of Price.md` — beide teilen nur den Titel-Begriff, unterschiedliche YouTube-IDs und Kernaussagen.
+- Seite erstellt: wiki/sources/Chain Of Custody Of Price With Daily Inefficiencies (Source).md
+- Seite erstellt: wiki/concepts/Suspension Block.md — FVG mit VII auf beiden Seiten, laut Quelle eine der stärksten PD Arrays.
+- Seiten aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (neuer Abschnitt "Oktanten (Os) und VII-Einschluss bei BISI/SIBI": Q/O-Raster direkt auf BISI/SIBI angewendet, Partials-Regel an Key-Leveln, No-Trade-Regel bei Konsolidierung zwischen Qs/Os), wiki/concepts/BISI & SIBI (Buyside-Sellside Imbalance).md (VII zählt zum vollen Rand des BISI/SIBI, Verweis auf Suspension Block), wiki/index.md
+- ✅ **Offenen Punkt aus dem ersten Batch-Ingest geklärt**: "Suspensionblock" war seit dem ersten Ingest (2026-08-01) als unklarer 2026er-Begriff markiert. Definition jetzt vorhanden: ein FVG mit VII auf beiden Seiten. Marker in wiki/index.md von ⚠️ auf ✅ umgestellt; "REH"/"REL" bleiben weiterhin offen (von dieser Quelle nicht berührt).
+- Nicht neu angelegt: keine eigene Seite für "Partials" — bestehender Verweis auf [[Event Horizon]] als verwandten Partial-Marker genügt, da die Quelle das Konzept nur an bestehende Key-Level anhängt statt eigenständig zu definieren.
+- Site neu gebaut (`PYTHONIOENCODING=utf-8 python tools/build_site.py`), publish.ps1 ausgeführt.
+
+## [2026-08-03] setup | Multi-Rechner-Workflow: /update-Befehl + Auto-Push-Hook
+- Nutzer arbeitet auf 2 Rechnern (unterschiedliche Windows-User: `janne` hier, `Jannes` laut Pfad im bestehenden PreToolUse-Hook für `graphify.EXE hook-guard` — dieser Hook-Pfad existiert auf diesem Rechner nicht und läuft hier ins Leere; nicht angefasst, da außerhalb des aktuellen Auftrags).
+- `.claude/commands/update.md` angelegt: Slash-Command `/update`, holt `origin/main` (Stash bei uncommitteten Änderungen, `git pull`, Stash-Pop, Zusammenfassung). Liegt im Repo (versioniert), zieht also auf beiden Rechnern automatisch mit.
+- `.claude/settings.json` um einen `Stop`-Hook erweitert: prüft bei jedem Gesprächsende `git status --porcelain -- wiki raw`; gibt es Änderungen, wird `push.ps1` automatisch ausgeführt (Nutzerwunsch: "wenn ich neue Sachen ins Wiki einfüge, führst du push.ps1 automatisch aus" — nicht mehr nur die bestehende Ingest-Konvention aus CLAUDE.md, sondern hart über einen Hook erzwungen, damit es rechnerunabhängig zuverlässig greift). Getestet: Trigger-Logik (grep auf git-status-Diff) feuert korrekt bei geänderten wiki/raw-Dateien und bleibt still bei sauberem Stand.
+- `.claude/settings.json` ist bereits laut `.gitignore`-Kommentar bewusst versioniert (nur `settings.local.json` ist maschinenlokal) — der Hook zieht also ebenfalls automatisch auf den zweiten Rechner mit.
+- **Nachtrag (auf Nutzerwunsch behoben)**: Der `graphify.EXE hook-guard`-Pfad war hart auf `C:/Users/Jannes/.local/bin/graphify.EXE` codiert. Auf diesem Rechner (`janne`) liegt graphify stattdessen unter `AppData/Local/Python/pythoncore-3.14-64/Scripts/graphify.exe` (Pip-Install statt der `.local/bin`-Variante des anderen Rechners) — beide Installationsarten unterscheiden sich, nicht nur der Nutzername. Beide `PreToolUse`-Hooks (Bash|Grep, Read|Glob) auf ein rechnerunabhängiges Kommando umgestellt: prüft `$USERPROFILE/.local/bin/graphify.EXE`, sonst `$USERPROFILE/AppData/Local/Python/pythoncore-3.14-64/Scripts/graphify.exe`, sonst stiller No-op. Live im Gespräch bestätigt: Grep- und Read-Hook feuern jetzt korrekt.
+
+## [2026-08-03] ingest | MNQ 2026-08-03 (Marktdaten-Update, Start Algo-Trading-Projekt)
+- Nutzerauftrag: taegliche Chart-Daten-Pipeline fortsetzen ("ab jetzt werden jeden Tag neue Chart-Daten folgen") und ein neues Projekt fuer einen eigenen Handelsalgorithmus anlegen, Musteranalyse anhand Key-Zeiten (Midnight, London/NY ORG, Silver Bullet, Liquiditaet, Killzones, Macros).
+- 7 TradingView-Exporte (`CME_MINI_MNQU2026, {1D,1,5,15,60,240}...csv`) lagen in `Downloads/`, nicht in `raw/marktdaten/` — nach Rueckfrage vom Nutzer lokalisiert, nach `raw/marktdaten/` kopiert, mit `tools/sort_marktdaten.py` eingeraeumt. Zwei `1D`-Dateien waren Near-Duplikate (identisch bis auf die letzte, noch offene Tageskerze) — Duplikat geloescht.
+- Seite erstellt: wiki/synthesis/MNQ 2026-08-03 — Datenbasierter Tagesrückblick.md (Handelstag in den Daten noch nicht beendet, Stand 16:18 NY). Kernbefund: Sweep + 166-Pkt-Displacement (5,5x Median) exakt am RTH-Open 09:30, danach Rally bis 28965 um 14:10. Zweiter Tag in Folge, an dem die eigentliche Macro-Expansion (09:50-10:10) vor dem offiziellen NY-Lunch-Fenster (10:50-11:10) lief — erste Kandidaten-Beobachtung fuer das Algo-Projekt (n=2).
+- **Bug in `tools/analyze_ohlc.py` gefunden und behoben**: Der HTF-Kontext-Block (`day_report`) filterte Tageskerzen nur ueber `b.t.date() < day`, ohne zu beruecksichtigen, dass eine Tageskerze um 18:00 NY oeffnet und damit zum **naechsten** Handelstag gehoert (dieselbe Konvention wie in `sort_marktdaten.py`s `trading_day()`). Dadurch wurde die zuletzt geschriebene, noch laufende Tageskerze faelschlich als "Vortag" ausgegeben (Beispiel: der 08-03-Report zeigte vor dem Fix H 28965/L 28313 als "Vortag" — exakt die heutigen RTH-Extremwerte). Fix: dieselbe 18-Uhr-Verschiebung wie in `sort_marktdaten.py` angewendet. Regressionsgeprueft gegen den 07-31-Report (jetzt korrekt Vortag = 27208/28410/27204.75/28333.50 statt der vorherigen falschen Werte).
+- Neuer Ordner `algo/` angelegt (`algo/PLAN.md`): Planungsdokument fuer den eigenen Handelsalgorithmus. Haelt fest, was aus `tools/analyze_ohlc.py` bereits als Fundament existiert (Sweeps, Structure Breaks, Displacement, FVGs, Macro-Expansion, Checkliste) und was fuer einen echten Algorithmus noch fehlt (Backtesting-Harness, harte Entry/Exit-Regeln, ausreichende Stichprobengroesse, Risk-Management). Bewusst kein Code — Nutzerwunsch war "als erstes planen wir erst".
+- Seiten aktualisiert: wiki/index.md (neuer Synthesis-Eintrag).
+- Datenlimitierung markiert: der 1m-Export deckte am 03.08. nur 11:19-16:18 NY ab (TradingView-300-Kerzen-Limit); fuer Sessions/Opening Prices wurde deshalb der 5m-Chart als Basis verwendet. Checkliste-Punkt 8 (Target Liquiditaet 1m) war fuer die AM-Session dadurch nicht auswertbar — als Datenluecke markiert, nicht als "nein" gewertet.
+- push.ps1 auf Nutzerwunsch am Ende ausgefuehrt.
+
+## [2026-08-03] setup | Jahr/Monat-Verschachtelung fuer raw/marktdaten/ + Uebergeordnetes Ziel im Algo-Projekt
+- Nutzerauftrag: Marktdaten sollen sich bei Monats-/Jahreswechsel automatisch in Unterordner
+  einsortieren (statt flach unter dem Hauptordner mit einem Ordner pro Tag). Ausserdem: das
+  eigentliche, uebergeordnete Ziel des gesamten Wiki-Projekts als "Schicht 1" festhalten —
+  ein Algorithmus, der selbststaendig und allein ueber Interactive Brokers handelt.
+- `tools/sort_marktdaten.py`: Zielpfad von `raw/marktdaten/<dd.mm.jjjj>/...` auf
+  `raw/marktdaten/<jjjj>/<mm>/<dd.mm.jjjj>/...` umgestellt; Konsolenausgabe zeigt jetzt den
+  vollen relativen Pfad statt nur des Tagesordner-Namens.
+- `tools/analyze_ohlc.py` (`find_files`) sucht jetzt zuerst im neuen verschachtelten Pfad,
+  faellt auf den alten flachen Tagesordner und zuletzt auf `raw/marktdaten/` selbst zurueck
+  (Abwaertskompatibilitaet fuer Daten, die noch nicht migriert sind).
+- Bestehende Tagesordner migriert: `raw/marktdaten/31.07.2026/` → `raw/marktdaten/2026/07/31.07.2026/`,
+  `raw/marktdaten/03.08.2026/` → `raw/marktdaten/2026/08/03.08.2026/`. Beide Reports
+  (`analyze_ohlc.py MNQ 2026-07-31` / `... 2026-08-03`) nach der Migration erfolgreich gegen-
+  geprueft — finden die Dateien weiterhin.
+- Seiten aktualisiert: wiki/models/OHLC-Datenanalyse (Workflow).md (Dateikonvention-Abschnitt),
+  wiki/synthesis/MNQ 2026-07-31 — Datenbasierter Tagesrückblick.md und
+  wiki/synthesis/MNQ 2026-08-03 — Datenbasierter Tagesrückblick.md (Pfadangaben im Frontmatter
+  und im Fliesstext), raw/marktdaten/.gitkeep (Hinweistext).
+- `algo/PLAN.md`: neuer Abschnitt "Schicht 1 — Übergeordnetes Ziel" ganz oben im Dokument —
+  auf Nutzerwunsch ausdruecklich als das Ziel von allem markiert (Wiki, Marktdaten, Tools,
+  Algo-Projekt sind Unterbau dafuer), nicht nur ein Punkt unter vielen. Neuer Abschnitt
+  "Code-Ideen (Backlog)" mit vier ersten Eintraegen: Backtest-Harness auf Basis der
+  bestehenden Detektoren, eine Regel-Schicht (Entry/Stop/Target statt Ja/Nein-Checkliste),
+  ein duenner IBKR-Broker-Adapter (erst nach Regel-Schicht, erst gegen Paper-Trading), sowie
+  ein Backtest-Ergebnis-Artefakt als Datenformat.
+
+## [2026-08-03] synthesis | Muster-Validierung (laufend) — erste Version, ICT-Behauptungen gegen echte Daten
+- Nutzerfrage: "wird das C.E eines ORG zu 70% gefuellt? stimmt das?" — dazu ausdruecklich: alle
+  Daten (CISD, ORG, "alle PD Arrays", "das gesamte Wiki") sollen jetzt schon und laufend gegen
+  echte und kuenftige Daten geprueft werden, nicht erst ab einer willkuerlichen Tagesanzahl.
+- Recherche zur 70%-Zahl: im gesamten ingesteten Wiki-Material nicht auffindbar (gezielt
+  gesucht — einzige Treffer waren die unabhaengige "70%-Wednesday-Regel" aus
+  [[One Shot One Kill Model]], thematisch unverwandt). Vermutlich allgemeines ICT-Wissen des
+  Nutzers von ausserhalb des hier vorliegenden Materials, keine dokumentierte Vault-Aussage.
+- `algo/backtest_ohlc.py` gebaut: erste Version des in `algo/PLAN.md` geplanten
+  Backtest-Harness. Laeuft ueber alle Tagesordner in `raw/marktdaten/`, importiert
+  bestehende Detektoren aus `tools/analyze_ohlc.py` (`fvgs`, `sweeps`, `structure_breaks`,
+  `macro_windows`, neu: `viis`) statt sie neu zu schreiben, schreibt die Aggregation nach
+  `wiki/synthesis/Muster-Validierung (laufend).md`.
+- **Bug im ersten Entwurf gefunden und noch am selben Tag gefixt**: `tools/analyze_ohlc.py`
+  skaliert `min_age`/`confirm` mit dem Timeframe nur innerhalb seiner CLI (`main()`); der
+  direkte Import in `backtest_ohlc.py` uebernahm das nicht und lief mit den unskalierten
+  Rohwerten (`min_age=15` statt `3` bei 5m) — dadurch waren Structure-Break-Zahlen vor dem
+  Fix ca. 5x zu niedrig (4 statt 37 ueber beide Tage). Nach dem Fix regressionsgeprueft: die
+  08-03-Tageszahlen (18 Structure Breaks) decken sich exakt mit dem zuvor manuell erstellten
+  Tagesreport.
+- Neuer Detektor `viis()` in `tools/analyze_ohlc.py`: Volume Imbalance (2-Kerzen-Luecke
+  Close->Open, siehe [[Volume Imbalance (VII)]]) — erster Schritt, um "alle PD Arrays"
+  abzudecken statt nur FVG/Sweeps/Struktur/Macro.
+- Ergebnis bei n=2 Tagen (**ausdruecklich als nicht belastbar markiert**, nur Statuswert):
+  C.E erreicht bei grossen FVGs 78%, komplett gefuellt 67%, VII zu 97% gefuellt, 38% der
+  Structure Breaks waren CHoCH, nur 14% der Macro-Fenster zeigten Expansion. Die 78%
+  liegen in der Naehe der kursierenden 70%, aber bei 2 Tagen ist das noch reiner Zufall
+  moeglich — die Seite warnt davor, das schon als bestaetigt zu lesen.
+- Seiten erstellt: wiki/synthesis/Muster-Validierung (laufend).md (generiert, wird bei jedem
+  neuen Handelstag neu geschrieben, nicht von Hand gepflegt).
+- Seiten aktualisiert: wiki/index.md (neuer Synthesis-Eintrag), wiki/models/OHLC-Datenanalyse
+  (Workflow).md (neuer Abschnitt: Muster-Validierung laeuft ab jetzt bei jedem neuen
+  Handelstag automatisch mit), algo/PLAN.md (Code-Idee 1 als erledigt markiert, Abdeckungs-
+  Backlog fuer die noch fehlenden PD Arrays — Order-Block-Varianten, IFVG, BPR, CBDR,
+  NWOG/NDOG, OTE, Breakaway Gap, Suspension Block, Judas-Zeitfenster, SMT).
+- Offen: die meisten PD Arrays haben noch keinen Detektor (siehe Abdeckungs-Tabelle in der
+  generierten Seite). Wird schrittweise ausgebaut, nicht in einem Schritt geraten.
+
+## [2026-08-04] ingest | MNQ Marktdaten-Update + erster Bias-Accuracy-Backtest
+- Nutzerauftrag: neue Daten in `raw/` verarbeiten und pruefen, wie sich der Bias geschlagen hat; neue Erkenntnisse im Projekt hinterlegen.
+- 6 lose TradingView-Exporte (`raw/CME_MINI_MNQU2026, {1,5,15,60,240,1D}_*.csv`) lagen im Vault-Root statt in `raw/marktdaten/` — dorthin verschoben, mit `tools/sort_marktdaten.py` eingeraeumt. Ergebnis: `raw/marktdaten/2026/08/04.08.2026/`. Die 1m/5m/15m/1h-Dateien decken aber **nur den Nacht-/Vormarktbereich bis 04.08. 01:50 NY** ab (Export offenbar frueh am Morgen gezogen, vor RTH-Open) — kein vollstaendiger Handelstag, deshalb **keine eigene "Tagesrueckblick"-Seite** fuer den 04.08. angelegt (waere auf duennen Daten spekulativ).
+- **Erster echter Bias-Accuracy-Backtest, bislang eine Luecke.** Bisher gab es zwar Marktdaten-Tagesreports und die generierte `Muster-Validierung`, aber keine Auswertung, ob ein *geaeusserter Bias* tatsaechlich eingetroffen ist. Die beiden 03.08.-Journal-Eintraege (`journal/entries/2026-08-03 MNQ Daily Bias.md`, `... Weekly Bias.md`) enthalten bereits eine preisbasierte Pruefliste mit leerem `bias_korrekt`-Feld genau fuer diesen Zweck — jetzt erstmals ausgefuellt, keine neue Tooling-Schicht noetig.
+- **Daily Bias 03.08. ausgewertet** (Datenbasis: kompletter Handelstag in `raw/marktdaten/.../03.08.2026/`): `bias_korrekt: true` gesetzt. Bullish-These voll bestaetigt — Close +361,75 P ueber Open, DOL 28.725,75–28.763,75 um 201 P ueberschossen, NWOG haelt. Die im Plan angenommene tiefe Judas-Sequenz (Sweep bis 28.210,25–28.284,00) traf **nicht** ein — Tages-Low blieb bei 28.313,00, innerhalb des NWOG. Kostete nichts (kein Invalidierungslevel gerissen), zeigt aber: die Tiefe eines erwarteten Sweeps war vorab nicht zuverlaessig einschaetzbar. Auffaelligster Fund: das Tages-High (= DOL-Treffer) entstand um **14:10**, exakt im geplanten NY-PM-Silver-Bullet-Fenster 14:00–15:00 — die Zeitwahl war treffsicher, auch wenn kein Entry geloggt ist und die Trefferquote des tatsaechlichen Trades damit unbekannt bleibt.
+- **Weekly Bias 03.08. — Zwischenstand, kein `bias_korrekt`** (Woche laeuft bis Freitag): NWOG haelt bislang, ORG-23.07-C.E. bereits ueberschritten, ORG 30.07 weiterhin unberuehrt, Montag-Range 652 P liegt im Rahmen der letzten 4 Montage (Ø 690,5 P). **Neuer Bruch mit der eigenen Erwartung:** die NWOG-Regel "Weekly High/Low bildet sich am Montag" haelt bislang nur fuers Low (Montag 09:30) — das Wochen-High lief bis in die Dienstagfrueh-Session (01:35 NY) weiter. Ob sich das noch dreht, zeigt erst der Rest der Woche.
+- `algo/backtest_ohlc.py` neu ausgefuehrt: `wiki/synthesis/Muster-Validierung (laufend).md` jetzt mit 3 Handelstagen (07-31, 08-03, 08-04) statt 2. Der duenne 08-04-Vormarkt-Tag taucht in der Pro-Tag-Tabelle transparent mit fast leeren Zahlen auf (0 grosse FVGs, 1 Sweep) statt die Gesamtstatistik unbemerkt zu verwaessern.
+- Seiten aktualisiert: `journal/entries/2026-08-03 MNQ Daily Bias.md`, `journal/entries/2026-08-03 MNQ Weekly Bias.md`, `wiki/synthesis/Muster-Validierung (laufend).md`, `wiki/index.md` (Tage-Zahl aktualisiert).
+- Offen: Weekly-Bias-`bias_korrekt` erst nach Donnerstag/Freitag entscheidbar (Punkte 7/8/9/12 der Pruefliste). "Bellweather Chart" (User-Begriff aus dem Daily Bias) hat weiterhin keine Wiki-Seite — dritter Auftreten-Schwelle noch nicht erreicht.
+
+## [2026-08-04] lint | Root-Aufräumung geprüft: 5 von 6 Dateien bereits ingested, 1 neu (ICT Silver Bullet)
+- Nutzerauftrag: 6 lose Dateien im Vault-Root aufräumen/einsortieren und ins Wiki bringen, falls noch nicht vorhanden — ohne anzunehmen, dass alle neu sind.
+- Geprüft gegen `wiki/index.md`, `wiki/log.md` und die referenzierenden Wiki-Seiten:
+  - `raw/Daily Bias 03.08.md` — bereits ingested (`journal/entries/2026-08-03 MNQ Daily Bias.md`, Log-Eintrag 2026-08-03/2026-08-04). Keine Aktion.
+  - `raw/Weekly Bias KW 32.md` — bereits ingested (`journal/entries/2026-08-03 MNQ Weekly Bias.md`; Rohdatei war zum Ingest-Zeitpunkt noch als "KW 31" benannt, Inhalt und Zahlen decken sich exakt mit dem Log-Eintrag vom 2026-08-03). Keine Aktion.
+  - `raw/Federal Open Market Committee.md` — bereits ingested im ersten Batch-Ingest (2026-08-01), `wiki/sources/Federal Open Market Committee (Source).md` existiert. Keine Aktion.
+  - `raw/Kurz Notizen.md` und `raw/2025 MentorShip Notiz.md` — beide bereits als Teil von `wiki/sources/Kurz Notizen (Source).md` ingested (2026-08-02). Stichprobe geprüft: die RTH-High/Low- und Macro-8:30-Inhalte aus `2025 MentorShip Notiz.md` stehen wörtlich im Abschnitt "RTH vs. PM High/Low & Manipulationsfenster" auf `wiki/concepts/ICT Daily Range Session Timing.md`. Keine Aktion.
+  - `raw/ICT Silver Bullet.md` — **neu, noch nicht ingested.** Die 9 zugehörigen Screenshots (`Screenshot_2025-01-20_*.png`) lagen bereits seit der Journal-Migration (2026-08-02) korrekt in `raw/trading-ict/assets/`, nur die Notiz selbst war noch nicht verarbeitet.
+- Datei-Organisation: `raw/ICT Silver Bullet.md` bleibt bewusst im Vault-Root liegen — analog zu `Kurz Notizen.md` und `Federal Open Market Committee.md` ist das die etablierte Ablage für lose persönliche Notizen, die nicht zu einem bestimmten Kursjahrgang gehören.
+- Seite erstellt: `wiki/sources/ICT Silver Bullet (Source).md` — die drei Silver-Bullet-Zeitfenster (London 3–4, NY AM 10–11, NY PM 14–15 Uhr NY), Entry-Logik (5-Min-Chart + PD Arrays aus 15M/1H, Fenster nur für den Einstieg relevant, Confluenz-Pflicht).
+- Seite aktualisiert: `wiki/models/Silver Bullet Model.md` — neue Tabelle mit den drei Fenstern, Bezug zu [[NY Lunch Macro Model]] (AM-Fenster überlappt den Vorlauf) und [[NY PM Trend]] (bestätigt dessen "~2 Uhr"-Angabe).
+- ✅ **Offenen Punkt geklärt**: Silver Bullet Model notierte bisher nur das PM-Fenster fest, AM/Lunch-Fenster waren "noch nicht vollständig als eigene Zeiten belegt". Jetzt durch alle drei Fenster ersetzt.
+- Geprüft, kein Widerspruch: Die London-SB-Zeit (3–4 Uhr) liegt innerhalb der breiteren London Killzone (2–5 Uhr) aus `wiki/concepts/ICT Killzones.md` — Teilfenster, keine abweichende Angabe. Die Zahlen "3–4 Uhr" fallen zufällig mit der "True Day High/Low"-Angabe auf `wiki/models/NY PM Trend.md` zusammen — verschiedene Konzepte, nicht verwechselt.
+- Seiten aktualisiert: `wiki/index.md` (Silver Bullet Model-Zeile präzisiert, neuer Sources-Eintrag unter "Notizen").
+
+## [2026-08-04] lint | raw/ aufgeräumt: Namenskollision in raw/bilder/ behoben
+- Nutzerauftrag: "sortiere die Dateien im raw Ordner ein, sodass es aufgeräumt und clean ist".
+- Bestandsaufnahme `raw/`: Root enthält nur noch 6 lose `.md`-Notizen (bewusst dort, siehe Konvention oben) plus die vier einsortierten Ordner `bilder/`, `journal/`, `marktdaten/`, `trading-ict/`. Keine Zip-/Tmp-/Thumbs-Reste, kein zweites leeres Stub außer dem bereits bekannten (`Reeinforced Liquidity Pools -...`, siehe „Offene Punkte" in wiki/index.md).
+- **Echte Namenskollision gefunden**: `raw/bilder/image.png` sowie `image 1.png`…`image 8.png` (9 Dateien, automatisch von `tools/sort_bilder.py` aus dem Vault-Root dorthin verschoben) trugen exakt dieselben Namen wie aktiv verlinkte Bilder in `raw/trading-ict/assets/` — per Hash geprüft: inhaltlich **unterschiedliche** Bilder. `raw/trading-ict/assets/image*.png` wird u.a. von `raw/trading-ict/2026/From Vision To Execution.md` und 6 Wiki-Seiten (`Turtle Soup`, `ICT Macros & Leading Candles`, `BISI & SIBI`, `IFVG`, `AMD Cycle`, `Trading Journal & DOL Checklist`) referenziert — dasselbe Bug-Muster, das beim Journal-Import 2026-08-02 bereits einmal zu falsch angezeigten Charts führte.
+- Die 9 Dateien in `raw/bilder/` waren selbst **nirgends referenziert** (weder in raw/ noch in wiki/) — reines Kollisionsrisiko ohne aktuellen Schaden, aber eine Falle für jede künftige Notiz, die `![[image.png]]` schreibt.
+- Behoben: alle 9 Dateien in `raw/bilder/` mit Präfix versehen (`bilder - image.png`, `bilder - image 1.png`, … `bilder - image 8.png`). Herkunft/Domäne unbekannt (keine Notiz referenziert sie), daher der neutrale Ordner-Präfix statt eines inhaltlichen. Kollisionscheck über alle drei Asset-Ordner (`raw/bilder`, `raw/trading-ict/assets`, `raw/journal/assets`) danach: 0 Kollisionen vault-weit.
+- Offener Punkt: die 9 umbenannten Bilder bleiben unzugeordnetes Rohmaterial (Herkunft/Kontext unklar) — falls der Nutzer weiß, wozu sie gehören, können sie beim nächsten Ingest sprechend benannt und einer Notiz zugeordnet werden.
+
+## [2026-08-04] synthesis | Statistische Muster jenseits der ICT-Konzepte (Backtest)
+- Nutzerauftrag (`/goal`): rein datengetrieben nach algorithmischen Mustern suchen, die noch nicht im Wiki stehen, und backtesten.
+- Zwei neue Skripte: `algo/explore_patterns.py` (n≈34, 1m/5m) und `algo/backtest_daily_patterns.py` (n=147, 1d-Bars ab 2026-01-02 — 1d hat bei yfinance kein Lookback-Limit, deshalb deutlich groessere Stichprobe).
+- Funde (n=147 zaehlt, kleine Stichprobe war teils widerspruechlich, siehe Seite): Montag groesste Range + 78,6% bullish (n=28) — keine Wiederholung bestehender Wochentags-Konzepte ([[One Shot One Kill Model]], [[Market Maker Manipulation Templates]] behaupten etwas anderes); Range-Autokorrelation r=0,305 (n=146, echtes Volatility Clustering); schwaches Richtungs-Momentum nach bullishen Tagen (58,8% vs. 51,5%); kein Rundzahl-Magnetismus (12,25 vs. 12,5 Pkt. Erwartungswert, Nullresultat).
+- Seite erstellt: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md (als "(laufend)" angelegt, analog Muster-Validierung — Nutzerwunsch: staendig gegenpruefen, aktualisieren, falsifizierte Funde loeschen statt nur markieren)
+- Seiten aktualisiert: wiki/index.md
+- Nachtrag selber Tag: Monats-/Wochen-Ebene ergaenzt (Turn-of-Month-Effekt, Woche-im-Monat, Monatszahlen 2026 gegen externe Nasdaq-Seasonality-Quellen aus Web-Recherche) — neues Skript algo/backtest_seasonal.py, Quellenlinks direkt auf der Seite. Turn-of-Month bestaetigt sich sowohl extern als auch in den eigenen Daten, bislang der robusteste Fund auf dieser Seite.
+- Zweiter Nachtrag selber Tag: Nutzerwunsch nach eigener "Seasonal Tendency"-Datenbank zur Gegenpruefung. algo/backtest_seasonal.py erweitert (Wochentag-Tabelle ergaenzt, schreibt jetzt zusaetzlich algo/seasonal_tendency.json als maschinenlesbare Datenbank). Neue Seite wiki/synthesis/Seasonal Tendency (Eigene Daten, laufend).md angelegt: buendelt alle kalendarischen Funde (Wochentag, Turn-of-Month, Woche-im-Monat, Monat) an einem Ort, Gegenstueck zur ICT-Quellenseite wiki/concepts/Seasonal Tendency.md (dort verlinkt). Kalendarische Abschnitte aus "Statistische Muster jenseits der ICT-Konzepte (laufend).md" dorthin verschoben (nicht dupliziert) -- die verbleibt fuer nicht-kalendarische Funde (Range-/Richtungs-Autokorrelation, Rundzahl-Magnetismus).
+- Seiten aktualisiert: wiki/index.md, wiki/concepts/Seasonal Tendency.md, wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md
+
+## [2026-08-04] synthesis | Montag-Gegenprobe + NDOG-Detektor
+- Nutzerauftrag ("was sind deine Gedanken, erkennst du weitere Muster?"): proaktive Gegenpruefung des Montags-Funds plus neue Musterfindung, unaufgefordert.
+- Montags-Effekt gegen Turn-of-Month-Ueberschneidung gegengeprueft: haelt unabhaengig (21 "reine" Montage 76,2% bullish vs. 7 TOM-Montage 85,7% -- kein TOM-Artefakt). Ergaenzt auf wiki/synthesis/Seasonal Tendency (Eigene Daten, laufend).md.
+- Neuer Detektor ndog_gap() in tools/analyze_ohlc.py + algo/backtest_ndog.py: NDOG-Fill-Quote 86,3% (98,6% kleine / 74,0% grosse Gaps), Korrelation |Gap| vs. Range r=0,264, Gap-Richtung setzt sich nur zu 43,2% fort. algo/live_status.py liefert jetzt ein ndog-Feld, .claude/commands/algo-live-status.md aktualisiert.
+- Seiten aktualisiert: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md (neuer Abschnitt 4), wiki/synthesis/Seasonal Tendency (Eigene Daten, laufend).md (Montag-Gegenprobe)
+
+## [2026-08-04] synthesis | NWOG-Backtest gegen die bestehende Wiki-Regel
+- Nutzerauftrag: NWOG-Pendant zu NDOG bauen ("gleiche Machart"), dann pushen.
+- nwog_gap() in tools/analyze_ohlc.py (Wrapper um ndog_gap(), nur montags), algo/backtest_nwog.py prueft direkt die Bias-Regel + beide Timing-Behauptungen aus wiki/concepts/New Week Opening Gap (NWOG) Bias.md.
+- Ergebnis (n=28 Wochen): Bias-intakt-Quote nur 7,1% -- die "saubere" NWOG-Situation ist die Ausnahme, nicht der Normalfall. Wochen-Low bevorzugt Montag (teilweise bestaetigt), Wochen-High nicht. Donnerstag-Reversal-These klar widerlegt (Donnerstag unwahrscheinlichster Tag fuer beide Extreme).
+- algo/live_status.py liefert montags ein nwog-Feld, .claude/commands/algo-live-status.md aktualisiert.
+- Seiten aktualisiert: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md (neuer Abschnitt 5), wiki/concepts/New Week Opening Gap (NWOG) Bias.md (Backtest-Abschnitt ergaenzt)
+
+## [2026-08-04] synthesis | TGIF-Backtest: Median trifft, Einzelwochen kaum
+- Nutzerauftrag: TGIF-Setup fuer Freitag mit einberechnen.
+- algo/backtest_tgif.py prueft die 20-30%-Weekly-Range-Retracement-These aus wiki/concepts/TGIF (Thank God its Friday).md gegen n=27 Wochen.
+- Ergebnis: exakte Trefferquote nur 3,7%, Median trifft mit 22,1% fast genau -- aber die Verteilung ist bimodal (37% kaum Retracement, 48% deutlich mehr als erwartet), kein echtes Clustering um 20-30%.
+- Seiten aktualisiert: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md (neuer Abschnitt 6), wiki/concepts/TGIF (Thank God its Friday).md (Backtest-Abschnitt ergaenzt)
+
+## [2026-08-05] synthesis | FRED-Wirtschaftsdaten angebunden + Makro-Backtest
+- Nutzerauftrag: FRED-API-Key verbinden und Wirtschaftsdaten nutzen; danach "NQ-Reaktion an CPI-/FOMC-Tagen" backtesten.
+- algo/fetch_fred.py neu: laedt FRED-Serien nach raw/marktdaten/fred/<series_id>.csv (date,value), Key liegt in algo/.secrets.yaml (gitignored, gleiches Muster wie journal/.secrets.yaml fuer den Imgur-Key). Starter-Set gezogen: DFF, CPIAUCSL, UNRATE, VIXCLS, DGS10, WALCL.
+- **Bewusst NICHT gebaut**: der urspruenglich gewuenschte CPI-/FOMC-Reaktionstag-Test. Grund: FREDs `date`-Feld bei CPIAUCSL ist der Referenzmonat, nicht das Veroeffentlichungsdatum; DFF schwankt taeglich ohne FOMC-Bezug (reines Marktzins-Rauschen); DFEDTARU (sauberer Zielsatz-Indikator) zeigt im MNQ-Datenfenster (02.01.-04.08.2026) **keine einzige** Aenderung, also n=0. Ein echter FOMC-Terminkalender (auch Hold-Meetings sind Events) haette aus Trainingswissen geraten werden muessen -- bewusst nicht getan, um keine falsch datierten Ereignisse als Backtest-Ergebnis auszugeben.
+- Stattdessen algo/backtest_fred_events.py: VIX-Niveau-Regime (Sanity-Check), VIX-Aenderung vs. MNQ-Rendite (Korrelation -0,743), DGS10-Aenderung vs. MNQ-Rendite (-0,281), WALCL-Trend vs. MNQ-Wochenrendite (n=21 vs. 6, kein klarer Unterschied).
+- Seite erstellt: wiki/synthesis/Makro-FRED-Zusammenhaenge (Eigene Daten, laufend).md
+- Seiten aktualisiert: wiki/index.md, .gitignore (algo/.secrets.yaml ergaenzt)
+- Offener Punkt fuer spaeter: verifizierte FOMC-Terminliste als eigene raw/-Quelle ablegen, dann ist der urspruengliche Test sauber baubar.
+
+## [2026-08-05] ingest | 5 neue YouTube-Videos, Kanal The Inner Circle Trader (letzte 7 Tage)
+- Nutzerauftrag: "importiere alle videos der letzten woche mit meinen regeln" — Kanal
+  https://www.youtube.com/@InnerCircleTrader per `yt-dlp` (`--flat-playlist`, `sort=dd`) nach
+  Upload-Datum durchsucht. Fenster 2026-07-29 bis 2026-08-05: 8 Videos gefunden, 2 davon
+  (HFWqQelvrJw, PP1-i0ti_tQ) bereits am selben Tag ingested (siehe Eintrag weiter oben), 2 weitere
+  (V5crdCw0AsY, XKjdVwBUs2E) außerhalb des 7-Tage-Fensters (2026-07-28) und daher nicht Teil dieses
+  Batches.
+- **Übersprungen**: `gXyoGuaOUgs` ("Full Trade Entry To Premature Close Due To Family Emergency
+  [Silent]", 2026-07-29) — YouTube meldet "Subtitles are disabled for this video" (erwartbar bei
+  einem als "[Silent]" gekennzeichneten Screen-Recording ohne Sprachspur). Kein Whisper-Fallback
+  versucht, da ffmpeg auf diesem Rechner trotz früherem Log-Eintrag nicht auffindbar ist (`ffmpeg`/
+  `where ffmpeg` liefert nichts) — offener Punkt, siehe unten.
+- Neues Skript `tools/fetch_yt_transcript.py`: zieht Metadaten via `yt-dlp` und Auto-Captions via
+  `youtube_transcript_api`, schreibt `raw/trading-ict/2026/yt-<id>-transcript.md` im Format der
+  ersten beiden manuellen Ingests. Für 5 Videos gelaufen (42–61k Zeichen Transkript je Video).
+- **5 Quellenseiten erstellt**: [[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]],
+  [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]], [[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]],
+  [[2026-08-01 - Part 1 High Precision Secrets To Intraday Price Action (Source)|Part 1 High Precision Secrets To Intraday Price Action (Source)]],
+  [[2026-08-01 - Part 2 High Precision Secrets To Intraday Price Action (Source)|Part 2 High Precision Secrets To Intraday Price Action (Source)]] — jeweils mit Abschnitt
+  "Bewusst ausgefiltert" (Familienanekdoten, Kritiker-Abwehr, Motivations-/Persona-Rhetorik).
+- **2 neue Konzeptseiten**: [[Algorithmic Time & Price Grid]] (Preis×Zeit-Raster, fraktale
+  Wiederholung, IFVG-Rückkehr zur First Utilization), [[Daily High & Low Projektion (Konvergenz)]]
+  (Fib-0,5-Extension + 3-Tage-Wick-Projektion + Fulcrum Point).
+- **Bestehende Konzeptseiten erweitert**: [[Institutional Order Flow (Body vs Wick)]] ("Mohawk"-Wick
+  am IFVG, Order-Flow-Testeinsatz), [[ICT Macros & Leading Candles]] (8:30 als algorithmischer
+  Fixzeitpunkt), [[Volume Imbalance (VII)]] (Candle-Auswahl bei Level-Test),
+  [[ORG (Opening Range Gap) & 1st Presented FVG]] (70-%-Regel, vollständige Partial-Leiter bis
+  −1,0 STD), [[Low Resistance Liquidity Run]] (leere Zone zwischen zwei Daily-PD-Arrays),
+  [[Buy & Sell Program]] (visuelle Signatur), [[IPDA Data Ranges]] (3-Tage-Intraday-Lookback),
+  [[Fair Value Gap (FVG)]] (Immediate Rebalance), [[Missed Entry Trade Management Playbook]]
+  (Single-Contract-Probe + Pyramiding in Drawdown, gestuftes SL-Nachziehen).
+- Seiten aktualisiert: wiki/index.md (5 Sources, 2 Concepts eingetragen).
+- Neuer Skill `.claude/skills/yt-ict-ingest/SKILL.md`: dokumentiert den wiederholbaren Ablauf
+  (Kanal-Scan → Transkript-Fetch → Trading-relevant-Filter → Wiki-Schreibstil) für künftige
+  "importiere neue Videos"-Aufträge.
+- **Offener Punkt**: ffmpeg fehlt auf diesem Rechner (frühere Installation laut Log-Eintrag
+  2026-08-05 nicht wirksam/nicht im PATH) — ohne ffmpeg kein Whisper-Fallback für Videos ohne
+  Auto-Captions (z.B. `gXyoGuaOUgs`). Bei Bedarf `ffmpeg` erneut installieren und PATH prüfen.
+
+## [2026-08-05] synthesis | Silver-Bullet-Trade-Management-Regel (Mindestziel + Partial + Breakeven)
+- Nutzerregel (kein ICT-Quellenzitat): Silver-Bullet-Setup nur nehmen, wenn Entry->Target mindestens 10 Handle/Punkte Potenzial bietet; Partial am ersten Swing-Hoch (long) bzw. Swing-Tief (short) nach dem Entry; danach Stop auf Breakeven, um Drawdown auf den gelaufenen Gewinn zu verhindern.
+- algo/rules.py::plan_trade neuer Parameter `min_target_points` (Default 10.0): Setup wird verworfen, wenn `abs(target-entry)` darunter liegt.
+- algo/backtest_ensemble.py::EnsembleStrategy neue Methode `_manage_partial` (nutzt `analyze_ohlc.swings()` auf die bis-jetzt bekannten Bars, kein Lookahead): sobald der erste Swing-Punkt in Traderichtung nach Entry vom Preis erreicht wird, `trade.close(portion=partial_portion)` (Default 50%, Split war nicht vorgegeben) + `trade.sl = entry` (Breakeven).
+- Seite aktualisiert: wiki/models/Silver Bullet Model.md (neuer Abschnitt "Trade Management", ausdruecklich als eigene Ausfuehrungsregel markiert, keine ICT-Quellenaussage).
+- Verifiziert: algo/rules.py-Demo (Entry/Target-Abstand 11,5 >= 10, unveraendert bestanden), algo/backtest_ensemble.py-Demo, sowie ein voller Backtest-Lauf ueber die komplette MNQ-Historie ohne Fehler (Positionsgroessen ~65-75 Kontrakte, Partial-Portion rundungssicher).
+- Dashboard (algo/dashboard.py::simulate) bewusst NICHT angepasst: die Intraday-Simulation dort ist laut eigenem Docstring ohnehin nur eine Sofort-Fill-Naeherung fuer die Anschauung, nicht die offizielle Kennzahlenquelle (das bleibt algo/validate_ensemble.py ueber EnsembleStrategy) -- die neue Regel wirkt dort nur indirekt ueber den ohnehin geteilten `plan_trade`-Mindestziel-Filter.
+
+## [2026-08-05] setup | wiki/models/Meine Strategien (Übersicht) angelegt + Positionsgrößen-Regel (1% Tagesrisiko)
+- Nutzerauftrag: eine Übersichtsseite für die eigenen (live-getradeten, vollständig geregelten) Strategien anlegen, dazu je Strategie eine eigene Wiki-Seite, damit der Algo-Backtest beim Backtesten verbindlich darauf zugreifen kann. Zusaetzlich: Positionsgroesse haengt vom Kontoguthaben ab, feste Regel "nie mehr als 1% pro Tag".
+- Seite erstellt: wiki/models/Meine Strategien (Übersicht).md — Abgrenzung zur allgemeinen ICT-Konzeptbibliothek, Tabelle der vollstaendig geregelten Strategien (aktuell nur [[Silver Bullet Model]]), Liste der noch unfertigen Backtest-Explorationen (TGIF, NDOG/NWOG, ORG-C.E., Midnight Range, saisonale Muster) als Kandidaten fuer spaetere eigene Seiten.
+- Seite erstellt: wiki/concepts/Risikomanagement (1% Tagesrisiko).md — Regel gilt PRO TAG (kumulativ ueber alle Trades desselben Tages), nicht pro Trade; Formel + Implementierungsverweis.
+- algo/backtest_ensemble.py: neue reine Funktion `_risk_size(equity, max_pct, risk_used, entry, stop)` (mit Selfcheck in `_demo()`), `EnsembleStrategy.max_daily_risk_pct = 0.01`, `_risk_used`/`_risk_day`-Tracking (Reset bei Tageswechsel), Positionsgroesse beim Entry jetzt `_risk_size(...)` statt Backtesting.py-Default-Fraktionierung; Trade wird uebersprungen, wenn das Tagesbudget bereits ausgeschoepft ist.
+- Seiten aktualisiert: wiki/models/Silver Bullet Model.md (Trade-Management-Abschnitt um Positionsgroessen-Verweis ergaenzt, Verwandt-Liste), wiki/index.md (neue Eintraege Concepts + Models).
+- Verifiziert: algo/backtest_ensemble.py-Demo bestanden (_risk_size-Testfaelle: volles Budget -> 100 Einheiten, 90% verbraucht -> 10 Einheiten, Budget aufgebraucht -> 0); voller Backtest-Lauf ueber die komplette MNQ-Historie bestaetigte bereits vorher das Partial/Breakeven-Verhalten (z.B. Trade-Paar Entry 29473.75: Teil 1 profitabel geschlossen, Rest exakt am Entry-Preis mit nur Commission-Verlust gestoppt).
+- **Nachtrag im Backtest entdeckt (kein Nutzerfehler)**: bei sehr engem Stop verlangte die 1%-Regel rechnerisch mehr Kontrakte, als das Konto-Margin (20x Hebel) hergibt -- der Broker cancelte die Order dann stillschweigend (Trade faellt komplett weg statt kleiner). Fix: `EnsembleStrategy.leverage = 20` kappt die Groesse zusaetzlich.
+
+## [2026-08-05] setup | Korrektur: Risiko-Regel gilt PRO TRADE, nicht pro Tag
+- Nutzerkorrektur: "korigiere nivht 1% pro tag sondern pro trade!" -- die zuvor implementierte kumulative Tagesbudget-Logik war falsch verstanden.
+- algo/backtest_ensemble.py: `_risk_size()` verliert den `risk_used`-Parameter (kein Tages-Tracking mehr noetig, da jeder Trade unabhaengig bemessen wird), `EnsembleStrategy.max_daily_risk_pct` -> `max_risk_pct`, `_risk_day`/`_risk_used`-State aus `init()`/`next()` entfernt (ponytail: Loeschen statt Flag behalten, da die Semantik jetzt trivial pro-Trade ist). Demo-Assertions entsprechend angepasst und bestanden.
+- Seite umbenannt: wiki/concepts/Risikomanagement (1% Tagesrisiko).md -> wiki/concepts/Risikomanagement (1% pro Trade).md (alte Datei geloescht, alle Wikilinks in wiki/index.md, wiki/models/Meine Strategien (Übersicht).md, wiki/models/Silver Bullet Model.md nachgezogen). Korrektur-Hinweis auf der neuen Seite selbst vermerkt (kein stillschweigendes Ueberschreiben).
+- Nutzerauftrag Teil 2: "lese dir den core content nochmal durch dort sind bestimmte regeln hinterlegt ... money managemnnt alles im corecontent hinterlegt diese regeln übernimmst du 1zu1". Durchsucht: gesamtes raw/trading-ict/ (Core Content + alle Jahrgaenge/Mentorships) per Volltextsuche (mehrere Begriffsvarianten: %, risk, drawdown, money management, position size, Konto, Verlust, Kapital, R:R) sowie graphify-Query "money management risk management drawdown prevention position sizing per trade" -- **keine explizite Prozent-/Money-Management-Regel im Text gefunden**. Naechstliegende Treffer: raw/2026/Chain Of Custody Of Price With Daily Inefficiencies.md ("Partials an Key-Leveln um Risiko zu minimieren", deckt sich mit dem bereits umgesetzten Partial-Teil) und wiki/models/Missed Entry Trade Management Playbook.md (Skalierungs-/Exit-Schema, aber ohne %-Bezug zum Konto).
+- **Nicht "1:1 uebernommen"**, weil textuell nichts Konkretes zum Uebernehmen gefunden wurde -- auf wiki/concepts/Risikomanagement (1% pro Trade).md als offener Punkt vermerkt (moeglich, dass die Regel nur in einem der vielen Screenshots steht, nicht im Fließtext). Rueckfrage an den Nutzer noetig, wo genau im Core Content die Drawdown-/Money-Management-Regeln stehen.
+
+## [2026-08-05] synthesis | Ensemble-Backtest ausgewertet: Commission-Modell frisst den Edge
+- Nutzerfrage: "hast du ideen wie ich profitabel werde?" -- voller In-Sample-Lauf von EnsembleStrategy (48 Handelstage MNQ, alle heutigen Regeln) ausgefuehrt statt nur allgemein zu antworten.
+- Ergebnis: Return -0,89%, Profit Factor 1,48 (>1!), Win Rate 32,4%, Sharpe 0,13, Kelly Criterion -0,01 (negativ), SQN -0,07, Commissions $19.757, Max Drawdown -15,7%, n=34 Trades.
+- **Hauptbefund**: Netto-Verlust (-885,67$) + Commissions (19.757$) = brutto ca. +18.870$ (+18,9%) -- die Kommissionen fressen praktisch den gesamten Edge auf. `BT_KWARGS = dict(commission=0.0002)` (backtest_walkforward.py, validate_ensemble.py, stress_test.py, backtest_bt.py) rechnet Prozent-vom-Notional statt Futures-Fixbetrag/Kontrakt (real MNQ ca. 0,50-1,50$ Roundtrip) -- bei 12-70 Kontrakten Positionsgroesse und dem neuen Partial-Taking (3 statt 2 Commission-Events/Trade) verzerrt das massiv.
+- Seite erstellt: wiki/synthesis/Ensemble-Strategie — Backtest-Ergebnis & Commission-Verzerrung (laufend).md -- inkl. Warnung vor Ueberinterpretation (n=34, reiner In-Sample-Lauf, kein Walk-Forward), Liste bereits widerlegter Ansaetze (Basis-Silver-Bullet, TGIF, NWOG, Rundzahl-Magnetismus) und bereits im Bias-Modell enthaltener Signale (Montags-Effekt, Range-Autokorrelation -- nicht doppelt vorschlagen), sowie priorisierte naechste Schritte (Commission-Fix zuerst, dann Walk-Forward fuer die aktuelle Regelmenge, Stress-Test-Ergebnisse auswerten, Partial-Portion/Mindestziel sensitivitaetstesten).
+- Seiten aktualisiert: wiki/index.md.
+
+## [2026-08-05] ingest | Whisper-Nachtrag zu ICT Price Action Chronicles - MOC Crushing (HFWqQelvrJw)
+- Nutzerauftrag: die im vorherigen Batch entdeckte, bereits fertige Whisper-Volltranskription
+  (raw/trading-ict/2026/yt-HFWqQelvrJw-audio.txt, Hintergrund-Job aus einer frueheren Session)
+  einarbeiten, um die dort vermerkte Luecke im Quellenmaterial zu schliessen.
+- Ergebnis der Pruefung: die Whisper-Transkription deckt inhaltlich dieselbe Analyse ab, die bereits
+  ueber die Auto-Captions dokumentiert war (identische Zahlen 7.786,00/7.761,75/7.761,25), und geht
+  danach in Halluzinations-Text ("You" x25) ueber -- ein typisches Whisper-Artefakt bei Stille auf
+  der Tonspur. Das bestaetigt (statt nur zu vermuten) ICTs eigene Aussage, der fehlende Rest sei die
+  stumme Trade-Recording-Wiederholung ohne neue Regeln. Luecke auf der Source-Seite von "nicht
+  verifiziert" auf "verifiziert geschlossen" umgestellt.
+- 2 genuin neue Inhalte in der Whisper-Spur gefunden (in den Auto-Captions nicht enthalten, da diese
+  schon vorher abbrachen):
+  1. Konkrete Mechanik hinter dem Signal-Following-Risiko (Spread-Widening, gezielte Mini-Runs auf
+     bekannte Level, "schon 0,25% der Reichweite reicht") und der regulatorische Hintergrund
+     (CFTC-Kontakt in den 1990ern wegen unlizenzierter Trade-Empfehlungen -- Grund, warum ICT
+     grundsaetzlich keine direkten Signale gibt). Eingearbeitet in
+     wiki/concepts/Signal-Following & Crowd Liquidity Risk.md.
+  2. Praezisierung zur PD-Array-Wiederverwendbarkeit: ein blosser Stop-out (ohne dass Preis
+     tatsaechlich reagiert) verbraucht eine PD Array nicht -- Reentry am selben Level bleibt gueltig.
+     Ergaenzung auf wiki/concepts/PD Array.md.
+- Seiten aktualisiert: wiki/sources/ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source).md, wiki/concepts/Signal-Following & Crowd Liquidity Risk.md, wiki/concepts/PD Array.md, wiki/index.md.
+
+## [2026-08-05] lint | Korrektur: PD Array las sich selbstwidersprüchlich
+- Nutzerhinweis: der Stop-out-Reentry-Zusatz von oben stand als separater "Ausnahme"-Blockquote
+  zwischen der Kernregel-Zeile und ihrer Bildunterschrift auf wiki/concepts/PD Array.md -- las sich
+  dadurch wie ein Widerspruch zur eingangs fett gesetzten Regel "einmalig nutzbar", obwohl beide
+  Aussagen inhaltlich vereinbar sind (Verbrauchsbedingung war immer schon "reagiert hat", nicht
+  bloss "hineingetradet").
+- Kein echter Quellen-Widerspruch (beide Fakten stammen letztlich aus derselben Videoserie), daher
+  keine ⚠️-Markierung noetig -- stattdessen zu einer einzigen zusammenhaengenden Regel
+  zusammengezogen, Bildunterschrift ergaenzt statt separatem Blockquote.
+- Seite aktualisiert: wiki/concepts/PD Array.md.
+
+## [2026-08-06] ingest | ICT Mentorship Core Content Month 02 (8 YouTube-Videos)
+- Auftrag: `/yt-ict-ingest` mit direktem Playlist-Link (PLVgHx4Z63paZvjqerfbn320myZ06L1MOB,
+  "corecontent month 2") statt des ueblichen Channel-Scan-Fensters -- alle 8 Videos der Playlist
+  per `yt-dlp --flat-playlist` aufgelistet, gegen `raw/trading-ict/2026/yt-*-transcript.md` und
+  `wiki/log.md` abgeglichen: keines der 8 war bereits ingested.
+- **Fund**: die Playlist ist exakt "Core Content Month 02" -- ein Monat, der laut
+  [[Core Content 2016 (Source)]] im Notion-Export komplett fehlt (Sprungliste ging bisher direkt
+  von Monat 1 zu Monat 3). Schliesst damit eine seit dem Erst-Ingest (2026-08-01) offen notierte
+  Luecke. Hub-Seite entsprechend von ⚠️ auf ✅ aktualisiert.
+- Alle 8 Auto-Caption-Transkripte per `tools/fetch_yt_transcript.py` geholt, volle Abdeckung
+  (780-940 Zeichen/Minute je Video, keine Abbruchstelle wie beim fruehreren MOC-Video).
+- 8 Source-Seiten erstellt (je `wiki/sources/ICT Mentorship Core Content - Month 02 - <Titel>
+  (Source).md`): Growing Small Accounts, Framing Low Risk Trade Setups, How Traders Make 10% Per
+  Month, No Fear Of Losing, How To Mitigate Losing Trades Effectively, The Secrets To Selecting
+  High Reward Setups, Market Maker Trap False Flag, Market Maker Trap False Breakouts.
+- 7 neue Konzept-Seiten erstellt: wiki/concepts/Erwartungswert & Reward-to-Risk-Modell.md,
+  wiki/concepts/Risiko-Verfeinerung ueber Timeframes.md, wiki/concepts/Partial Profit-Taking & R-
+  Multiple-Skalierung.md, wiki/concepts/Verlust-Mitigation durch reduzierte Re-Entry-Size.md,
+  wiki/concepts/Drei-Ebenen-Marktperspektive.md, wiki/concepts/Market Maker Trap - False Flag.md,
+  wiki/concepts/Market Maker Trap - False Breakout.md.
+- **Wichtigster Fund**: [[Risikomanagement (1% pro Trade)]] hatte seit 2026-08-05 einen offenen
+  Punkt ("keine explizite Prozent-Regel im ICT-Quellenmaterial gefunden") -- dieser Batch liefert
+  die Quelle explizit ("No Fear Of Losing": 1% Risiko/Trade bei 50% Trefferquote + 5:1 RR als
+  "optimal trading goal"; "Growing Small Accounts": max. 2% fuer neue Trader). Seite von offenem
+  Punkt auf ✅ bestaetigt umgestellt, ohne die bestehende Regel inhaltlich zu aendern (Zahl deckt
+  sich exakt).
+- Seiten aktualisiert: wiki/index.md (7 neue Concepts + 8 neue Sources), wiki/sources/Core
+  Content 2016 (Source).md (Luecken-Hinweis auf ✅ umgestellt), wiki/concepts/Risikomanagement
+  (1% pro Trade).md (offener Punkt geschlossen).
+- Bewusst ausgefiltert je Video: Meta-Kommentar/Kritiker-Verteidigung (v.a. im 64-Minuten-Video
+  "Secrets To Selecting High Reward Setups"), Wiederholungen bereits erfasster Rhetorik,
+  generische Google-Bildquellen ohne eigene Chart-Analyse. Details je Source-Seite unter
+  "Bewusst ausgefiltert".
+
+## [2026-08-06] setup | Month 02 als Curriculum-Sprungseite eingeordnet
+- Nutzerauftrag: die 8 neuen Month-02-Videos wie die uebrigen Core-Content-Monate ueber eine
+  eigene "Month NN (Source)"-Sprungseite einordnen statt nur als lose 2026er-YouTube-Quellen.
+- wiki/sources/Month 02 (Source).md neu angelegt nach demselben Muster wie Month 1/03/04/...:
+  Tabellen-Zeile in wiki/sources/Core Content 2016 (Source).md ergaenzt, alle 8 Lecture-Seiten um
+  `curriculum: "[[Month 02 (Source)]]"`-Frontmatter-Feld und einen Verweis in ihrer
+  Verwandt-Sektion ergaenzt (analog zu z.B. wiki/sources/Institutional Order Flow (Source).md ->
+  Month 03).
+- wiki/index.md: [[Month 02 (Source)]] in die bestehende Month-1..11-Aufzaehlung eingereiht; der
+  zuvor separate 2026er-Sammel-Bullet mit allen 8 Einzelverweisen auf einen einzelnen Verweis auf
+  die neue Sprungseite reduziert (Redundanz vermieden, Navigationsmuster jetzt konsistent mit den
+  uebrigen Monaten).
+
+## [2026-08-06] ingest | Core Content Month 01 & Month 04 (YouTube-Playlists, 16 von 22 Videos)
+- Nutzerauftrag: "hole dir auch month 1 & 4" -- Analog zu Month 02 recherchiert, ob es fuer weitere
+  Core-Content-Monate YouTube-Playlists gibt. Kanal-Playlist-Liste durchsucht: "2016 ICT Private
+  Mentorship Core Content Month 01" (PLVgHx4Z63paYzh3KwUFX0UHQUf31CAEXk, 8 Videos) und "...Month 04"
+  (PLVgHx4Z63pabb9rl1nyG58TG8PG8yzuao, 14 Videos) gefunden.
+- Month 01: alle 8 Videos erfolgreich geholt und verarbeitet. Anders als bei Month 02 (komplette
+  Luecke) hat Month 01 bereits 5 Notion-Lectures -- die 8 Videos sind teils Vollversionen
+  derselben 5 Themen (deutlich ausfuehrlicher, u.a. die zuvor "sehr knappe"
+  How-Market-Makers-Condition-The-Market-Quelle), teils komplett neue Themen (Elements Of A Trade
+  Setup, Equilibrium Vs. Premium, Liquidity Runs, Impulse Price Swings & Market Protraction).
+- Month 04: von 14 Videos wurden 8 erfolgreich geholt, **6 scheiterten an einem YouTube-IP-Rate-Limit**
+  (`IpBlocked` von `youtube_transcript_api` nach ca. 16 Requests in dieser Session) -- betroffen:
+  ICT Vacuum Block, Liquidity Voids, Liquidity Pools, ICT Fair Value Gaps FVG, Divergence Phantoms,
+  Double Bottom Double Top. Kein inhaltliches Problem, offen fuer spaeteren Retry (Video-IDs und
+  Retry-Befehl auf wiki/sources/Month 04 (Source).md notiert).
+- **Wichtigster Einzelfund**: die Notion-Rohdatei `Reeinforced Liquidity Pools - When to anticipate
+  Raids` war leer (0 Byte, seit 2026-08-02 als Luecke vermerkt) -- das YouTube-Video "Reinforcing
+  Liquidity Concepts & Price Delivery" fuellt exakt diese Luecke und fuehrt das bislang fehlende
+  Konzept External/Internal Range Liquidity ein.
+- 16 neue Source-Seiten erstellt (8x `Month 1 - ...`, 8x `Month 04 - ...`, volles Namensschema wie
+  bei Month 02, da mehrere Titel mit bereits ingesteten Notion-Quellen kollidieren wuerden).
+- 4 neue Konzept-Seiten: wiki/concepts/Elemente eines Trade-Setups (4 Preis-Zustaende).md (die 4
+  Preiszustaende Expansion/Retracement/Reversal/Consolidation, je einem ICT-Tool zugeordnet, mit
+  strikter Uebergangsregel: aus Consolidation folgt immer zuerst Expansion), wiki/concepts/Market
+  Protraction.md (3 zeitgetaktete taegliche Fake-Ausschlaege, Judas Swing als eine Auspraegung
+  davon), wiki/concepts/External vs. Internal Range Liquidity.md, wiki/concepts/Propulsion Block.md
+  (weitere Order-Block-Variante).
+- 11 bestehende Seiten angereichert (jeweils mit neuem Abschnitt, keine Ueberschreibung): AMD
+  Cycle, Trading Journal & DOL Checklist, Equilibrium Vs. Discount (inkl. neuem
+  Premium-Spiegelbild-Abschnitt), Fair Value Gap (FVG), Low Resistance Liquidity Run (High-
+  Resistance-Mechanik), Order Block, Mitigation Block (M/W-Pattern, A-B-C-Punkte), Breaker Block,
+  Rejection Block, Reclaimed Order Block, Intermarket Relationships (Interest Rate Triad als
+  Order-Block-Validierung).
+- wiki/sources/Month 1 (Source).md und wiki/sources/Month 04 (Source).md um "YouTube-Ergaenzung"-
+  Abschnitte erweitert (gleiches Format wie die urspruengliche Lecture-Liste, mit Verweis, welches
+  Video welche Notion-Lecture vervollstaendigt vs. komplett neu ist).
+- Seiten aktualisiert: wiki/index.md (4 neue Concepts, 16 neue Sources in die Core-Content-Liste
+  eingereiht).
+
+## [2026-08-06] ingest | Daily Bias 06.08. (Journal, live)
+- Nutzer: "ich habe meinen heutigen bias gemacht" -- `raw/Daily Bias 06.08.md` nach
+  `raw/journal/Daily Bias 2026-08-06.md` verschoben (Konvention analog 08-03/08-04), verarbeitet
+  zu `journal/entries/2026-08-06 MNQ Daily Bias.md` + Zeile in `journal/journal.csv`.
+- Frische Marktdaten gezogen (`algo/fetch_yfinance.py 2026-08-05 2026-08-07`, da fuer 06.08. noch
+  nichts vorlag) statt den bekanntermassen fehlerhaften 1d/4h/1h-Cache zu nutzen. Fuer die Daily-
+  FVG-Rekonstruktion (IFVG/BISI) zusaetzlich eigene 1m-Aggregation mit der Handelstag-Grenze
+  (18:00 NY) gebaut, weil die pro-Tag benannten 1d-Dateien Fremd-Historie enthalten.
+- **Bestaetigt**: NDOG-Open 29.576,00 exakt; Unemployment/Jobless-Claims heute + NFP morgen (per
+  TradingEconomics-Kalender); Montag 03.08. weiterhin Wochentief (28.723,25); Daily-IFVG-C.E. vom
+  16.07 (rekonstruiert: 29.220,00-29.396,75, C.E. 29.308,38) am 05.08. mit Close 29.904,00 klar
+  respektiert.
+- **Korrektur**: der genannte DOL "High vom 26 Juli 30.094,00" -- der Level 30.094,00 stimmt exakt,
+  aber er stammt vom Doppel-Top **02.07./05.07.**, nicht vom 26.07. (dessen echter Handelstag-High
+  liegt bei 28.763,75, zufaellig identisch mit dem bereits bekannten "Montags-High 27.07" aus dem
+  03.08.-Eintrag -- vermutlich daher die Verwechslung). Level als fernes DOL weiterhin gueltig,
+  nur das Datum war falsch; im Journal-Eintrag als ⚠️ vermerkt statt still korrigiert.
+- Tag laeuft zum Zeitpunkt des Eintrags erst bis 02:05 NY (Asia-Ende) -- `bias_korrekt` und die
+  volle Session-Auswertung bleiben offen fuer einen Nachtrag morgen (Muster wie beim 08.03.-Eintrag,
+  der am 08.04. nachgetragen wurde). Kein Trade geplant: eigene Regel verbietet Handel an Tagen mit
+  Jobless-Claims + NFP am Folgetag.
+
+## [2026-08-06] ingest | Core Content Month 04 -- die 6 zuvor an IpBlocked gescheiterten Videos
+- Nutzerauftrag (`/yt-ict-ingest`): "core content montth 4 beschädifte datein auch updaten" -- die
+  am selben Tag zuvor an `IpBlocked` gescheiterten 6 Videos (siehe Log-Eintrag "Core Content Month
+  01 & Month 04") erneut versuchen. Rate-Limit war in der neuen Session nicht mehr aktiv, alle 6
+  Transkripte sofort erfolgreich geholt (`python tools/fetch_yt_transcript.py <id>`), volle
+  Abdeckung, keine Abbrueche.
+- Betroffene Videos: ICT Vacuum Block (`shPGUz9pU-A`), Liquidity Voids (`HTQgH11W37o`), Liquidity
+  Pools (`Gnw54f9v6SA`), ICT Fair Value Gaps FVG (`FgacYSN9QEo`), Divergence Phantoms
+  (`Xae0VrbkyFk`), Double Bottom Double Top (`owq30ATPU5s`) -- damit ist die Playlist "2016 ICT
+  Private Mentorship Core Content Month 04" jetzt vollstaendig (14 von 14).
+- 6 neue Source-Seiten erstellt (`wiki/sources/ICT Mentorship Core Content - Month 04 - <Titel>
+  (Source).md`, #9-14 der YouTube-Ergaenzung).
+- **3 neue Konzeptseiten**: [[Liquidity Void]] (LTF-Erscheinung eines FVG, einseitige
+  Preislieferung, Common-Gap-Praezisions-Entry), [[Momentum-Divergenz als Retail-Falle (Divergence
+  Phantoms)]] (Typ-1- vs. Typ-2-/Hidden-Divergenz, korrekt Nick van Nice statt George Lane
+  zugeschrieben, explizite Abgrenzung zu [[SMT (Smart Money Divergence)]] als Cross-Asset- statt
+  Cross-Indicator-Konzept), [[Double Top & Bottom (Algorithmische Range-Projektion)]]
+  (Measured-Move-Projektion ueber Doppel-Extreme hinaus, Extreme-vs.-Mitte-Wahrscheinlichkeitsregel).
+- **3 bestehende Konzeptseiten vertieft**: [[Breakaway Gap]] (neuer Abschnitt "Vacuum Block" --
+  ICT ordnet den Vacuum Block selbst ausdruecklich als Breakaway-Gap-Sonderfall ein, inkl.
+  synthetischer Candle-Behandlung, Teilfuellung am Order Block, Tageszeit-Abhaengigkeit),
+  [[Open Float & Liquidity Pools]] (konkrete Sweep-Groessen 10-20 Pips, Stop-Weite 30-50 Pips,
+  25-Pip-Invalidierungsschwelle, Pairing-Logik Sellside-Stops↔Kaeufe), [[Fair Value Gap (FVG)]]
+  (neuer Abschnitt zur Ueberlappung FVG × Liquidity Void × Turtle Soup).
+- `wiki/sources/Month 04 (Source).md` aktualisiert: Warnhinweis zu den 6 offenen Videos durch die
+  vollstaendige 14-Punkte-Liste ersetzt (Status von "8 von 14" auf "vollstaendig" gestellt).
+- Seiten aktualisiert: wiki/index.md (6 neue Sources, 3 neue Concepts eingetragen).
+- Bewusst ausgefiltert je Video: Feiertagswoche-Ankuendigung (Dezember 2016, 2x wiederholt), lange
+  persoenliche Herkunftsgeschichte im Divergence-Phantoms-Video (eigener Handelsbeginn 1992) --
+  nur die daraus abgeleitete Regel uebernommen, nicht die Anekdote.
+
+## [2026-08-06] lint | Veraltete Offene-Punkte-Markierungen bereinigt + REH/REL definiert
+- Nutzerauftrag: "prüfe gegen ob fehlerhafte seiten bestehen und ergänze und erneuere diese durch
+  yt ict, sodass alles aktuell ist" -- systematischer Durchgang durch `wiki/index.md`
+  "Offene Punkte", alle ⚠️-Marker in `wiki/concepts` und `wiki/sources`, und den Build-Report
+  (`python tools/build_site.py`) auf unaufgeloeste Links / Index-Drift.
+- **4 Seiten trugen veraltete ⚠️-Hinweise auf laengst erledigte Luecken** (verweisen auf Seiten, die
+  inzwischen existieren, aber nie zurueckgemeldet wurden):
+  - [[PD Array]]: behauptete, Order Block/FVG/Liquidity-Pool-Seiten fehlten -- alle drei existieren
+    seit 2026-08-01/06. Korrigiert zu ✅ mit Links.
+  - [[New Week Opening Gap (NWOG) Bias]]: behauptete, "PD Array" habe keine eigene Seite -- hat sie
+    seit 2026-08-01 ([[PD Array]]). Korrigiert zu ✅.
+  - [[Smart Money Concepts (SMC)]]: fuehrte Suspensionblock (geloest seit 2026-08-03) weiterhin als
+    offen. Korrigiert, REH/REL-Link ergaenzt.
+  - `wiki/sources/NQ Futures Weekly Range Market Wizardry (Source).md`: identischer veralteter
+    Suspensionblock/REH-REL-Hinweis, korrigiert.
+- **REH/REL erstmals definiert** (tauchte in 3 bereits ingesteten 2026er-Rohdateien unerklaert auf:
+  `Enigma FVG Projections.md`, `Midnight ET Principles In Relationship To PreMarket Session.md`,
+  `NQ Futures Weekly Range Market Wizardry.md`). Versuch, ein passendes YouTube-Video auf dem
+  echten Kanal zu finden: `yt-dlp`-Suche ergab ein exakt passendes Video ("How To Identify ICT
+  Relative Equal Highs And Lows For The Draw On Liquidity"), aber auf einem **anderen** Kanal
+  ("The Inner Circle Trader AKA The ALGO Trader", Channel-ID `UCh5...`, nicht die verifizierte
+  `UCtjxa77NqamhVC8atV85Rog` von @InnerCircleTrader) -- bewusst **nicht genutzt**, um keine
+  Fremdkanal-Inhalte als Original-ICT-Quelle auszugeben. Stattdessen Definition (Relative Equal
+  High/Low = nahezu, aber nicht exakt gleiche Hochs/Tiefs als Liquidity-Pool-Cluster) direkt aus
+  den drei konsistenten Belegstellen abgeleitet und als neuer Abschnitt auf
+  [[Open Float & Liquidity Pools]] ergaenzt.
+- **2 weitere Offene-Punkte-Zeilen in `wiki/index.md` waren ebenfalls veraltet**: "Reeinforced
+  Liquidity Pools" (leere Rohdatei) war bereits am selben Tag frueher ueber das YouTube-Video
+  [[ICT Mentorship Core Content - Month 04 - Reinforcing Liquidity Concepts & Price Delivery (Source)]]
+  geschlossen worden, aber nie als ✅ zurueckgemeldet; "Basics & Opening Range Concept" (nur
+  Bild-Embeds) war laut `wiki/sources/Basics & Opening Range Concept (Source).md` bereits am
+  2026-08-01/02 visuell geprueft und korrekt dokumentiert -- beide Zeilen jetzt auf ✅ gestellt.
+- Build-Report vor/nach verglichen: keine neuen unaufgeloesten Links durch die Aenderungen; ein
+  Index-Drift-Fehler durch einen `#Anchor`-Link in `wiki/index.md` selbst verursacht und behoben
+  (Anchor-Links sind fuer Konzeptseiten-Querverweise gedacht, nicht fuer die Index-Zeilen).
+- Keine echten Quellen-Widersprueche gefunden -- alle Korrekturen waren stale Status-Marker, keine
+  inhaltlichen Fehler.
+- Seiten aktualisiert: wiki/index.md, wiki/concepts/PD Array.md, wiki/concepts/New Week Opening Gap
+  (NWOG) Bias.md, wiki/concepts/Smart Money Concepts (SMC).md, wiki/concepts/Open Float & Liquidity
+  Pools.md, wiki/sources/NQ Futures Weekly Range Market Wizardry (Source).md.
+
+## [2026-08-06] query | Bias-Gegenprobe mit den neuen Month-04-Konzepten (REH/REL, Vacuum Block)
+- Nutzerfrage: "aufgrund der neuen Infos was hältst du von meinem Bias für heute? bist du anderer
+  Meinung, habe ich Liq oder PD arrays übersehen?" -- die frisch ingesteten Month-04-Konzepte
+  ([[Open Float & Liquidity Pools#REH / REL (Relative Equal Highs / Lows)]],
+  [[Breakaway Gap#Vacuum Block = Breakaway Gap durch ein Volatilitäts-Event]]) direkt auf den
+  laufenden 06.08.-Bias angewendet statt nur allgemein zu antworten.
+- **Wichtige Selbstkorrektur:** die im 06.08.-Journal-Eintrag zuvor notierte "Doppel-Top
+  02.07.+05.07."-Lesart von 30.094,00 war selbst ein Datenfehler (Artefakt der bekannten
+  1d-Datei-Duplizierung, siehe 2026-08-04-Eintrag oben) -- gegen eine saubere 1m/15m-Aggregation
+  neu geprüft: 30.094,00 ist ein **einzelner** Treffer vom 06.07., kein Doppel-Top.
+- **Übersehene Liquidität gefunden**: eine echte **REH-Zone 30.062,50-30.094,00** (drei Hochs
+  06.07./10.07./15.07. innerhalb 32 Punkten, seit dem 15.07. komplett unangetastet) -- die
+  eigentlich bessere Buyside-Liquidität gegenüber dem einzelnen, falsch datierten "26.-Juli-High".
+- **Übersehenes PD Array gefunden**: der Übernachtgap 04.08.-Close (29.044,00) → 05.08.-Open
+  (29.781,25), 737 Punkte ohne einen einzigen Trade dazwischen -- ein Lehrbuch-Vacuum-Block. War
+  bereits als "NDOG 05.08" notiert, aber nie mit der Vacuum-Block-Logik durchgerechnet. Deckt sich
+  fast exakt mit der bereits gefundenen Daily-BISI-Range (28.965,00-29.775,50, C.E. 29.370,25) --
+  zwei unabhängige Methoden treffen sich auf derselben Zone. Liefert außerdem die bislang fehlende
+  **Invalidierungszahl**: Bias bullish intakt, solange kein Close unter C.E. 29.370,25.
+- Bias-Verdikt: weiterhin Bullish, keine Änderung -- die neuen Funde bestätigen/verfeinern die
+  bestehende Struktur, widersprechen ihr nicht.
+- Seite aktualisiert: journal/entries/2026-08-06 MNQ Daily Bias.md (Korrektur + neuer Abschnitt
+  "Nachtrag 2026-08-06"), journal/journal.csv (liquidity_ziel, pd_arrays).
+
+## [2026-08-06] lint | Core Content Month 05 -- Widerspruchspruefung (`/yt-ict-ingest`)
+- Nutzerauftrag: "ziehe den corecontent month 5, aktualisiere das wiki, sodass kein Widerspruch
+  offen ist". Beide Kandidaten fuer "Month 5" im Vault geprueft:
+  - **Core Content 2016, Month 05** (`raw/trading-ict/Core Content/Month 05.md`, 9 Lectures: IPDA/
+    Quarterly Shift, Open Float, Intermarket-Analyse) -- bereits am 2026-08-01/02 vollstaendig
+    ingested, alle 9/9 Sub-Seiten unter `wiki/sources/` vorhanden, `wiki/sources/Month 05
+    (Source).md` verlinkt alle neun korrekt.
+  - **MentorShip 2025, Lektion 05** (`raw/trading-ict/MentorShip 2025/05 Advanced ICT Liquidity
+    Concepts.md`) -- ebenfalls bereits am 2026-08-02 ingested als
+    [[Advanced ICT Liquidity Concepts (Source)]], Inhalte bereits in [[IPDA Data Ranges]],
+    [[Breakaway Gap]] und [[ORG (Opening Range Gap) & 1st Presented FVG]] eingearbeitet
+    (60-Tage-PD-Gueltigkeit, 4-ORG-Regel, ATH-Body-Close-Regel).
+  - Kein neues Rohmaterial zu ziehen -- beide Quellen waren vollstaendig.
+- **Widerspruchspruefung**: alle Konzeptseiten im Themenumfeld von Month 05 durchsucht ([[IPDA
+  Data Ranges]], [[PD Array]], [[Breakaway Gap]], [[Open Float & Liquidity Pools]], [[Quarterly
+  Shift]], [[Intermarket Relationships]], [[ORG (Opening Range Gap) & 1st Presented FVG]], [[SMT
+  (Smart Money Divergence)]]) sowie vault-weiter Grep nach `⚠️`/"Widerspruch". Keine offenen
+  Widersprueche zu Month-05-Inhalten gefunden -- die einzigen bestehenden ⚠️-Marker im Vault
+  betreffen andere, unabhaengige Themen ([[ICT Killzones]] AM-Session-Zeitfenster, die bereits
+  aufgeloeste London-Opening-Range-Doppelbedeutung auf der ORG-Seite, [[TGIF (Thank God its
+  Friday)]] quelleninterner Widerspruch, [[Judas Swing]]).
+- `python tools/build_site.py` zur Bestaetigung gelaufen: 286 Seiten, keine neuen unaufgeloesten
+  Links, kein Index-Drift im Month-05-Umfeld.
+- Ergebnis: kein Handlungsbedarf, Wiki zu Month 05 bereits konsistent und vollstaendig.
+
+## [2026-08-06] ingest | YouTube: ICT Price Action Chronicles - The Science Of Anticipation In Price Action
+- Nutzer verlinkte direkt ein neues, ~4h altes Video: https://www.youtube.com/watch?v=tByaPnk3fc4
+  (Kanal The Inner Circle Trader, veroeffentlicht 2026-08-06, 51:20). Transkript unter
+  `raw/trading-ict/2026/yt-tByaPnk3fc4-transcript.md`, vollstaendige Auto-Caption-Abdeckung.
+- Live-Long-Execution in NQ waehrend NFP-Woche direkt nach dem FOMC-Rally, aufgebaut auf drei
+  zusammenfallenden PD Arrays (Daily-IFVG, oberer Bereich eines Buyside-FVGs, C.E. eines
+  Daily-Wicks).
+- Seiten erstellt: wiki/sources/ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source).md
+- Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (neuer Abschnitt "Offener Rest =
+  Staerke-Signal" — ungeschlossener Gap-Rest bei erwarteter Gegenbewegung gilt als Unwilligkeits-
+  Signal), wiki/models/ICT Day Trade Routine.md (NFP-Woche-Feinregel fuer Anfaenger: sauberste
+  Preisaktion Montag-Mittwoch bis ca. 11 Uhr NY-Zeit), wiki/index.md
+- Bewusst ausgefiltert: Fundamentalanalyse-Kritik/NFP-Datenqualitaet, Chris-Lori-Abgrenzung
+  (Plagiatsvorwuerfe), private Anekdoten (Rehfuetterung, Hunde, Backen), allgemeine
+  Motivations-Rhetorik ohne neue konkrete Regel.
+
+## [2026-08-06] setup | YouTube-Quellenseiten in eigenen Ordner ausgelagert
+- Nutzerwunsch: YouTube-Ingest-Seiten sollen nicht mehr flach zwischen allen anderen
+  `wiki/sources/`-Quellen (Notion-Exporte etc.) liegen, sondern in einem eigenen, nach Datum
+  sortierten Ordner.
+- `.claude/skills/yt-ict-ingest/SKILL.md` angepasst: kuenftige Ingests schreiben nach
+  `wiki/sources/youtube/<upload_date> - <Title> (Source).md` statt `wiki/sources/<Title> (Source).md`.
+  `build_site.py` kategorisiert weiterhin per erstem Pfadsegment unter `wiki/` (= `sources`), eine
+  Ordnerebene mehr aendert daran nichts.
+- Alle 8 bereits bestehenden YouTube-Quellenseiten dorthin verschoben und umbenannt (Datum aus dem
+  "veroeffentlicht **YYYY-MM-DD**"-Textmuster extrahiert): ICT Algorithmic Time & Price Grids,
+  Market Review NQ July 31 2026, Part 1 + Part 2 High Precision Secrets To Intraday Price Action,
+  Predicting Session Low & High With Executions, die drei ICT Price Action Chronicles-Folgen.
+  Alle referenzierenden `[[...]]`-Wikilinks vault-weit (index.md, log.md, betroffene
+  concepts-/models-Seiten) auf `[[<neuer Dateiname>|<alter Anzeigename>]]` umgestellt, damit der
+  sichtbare Linktext gleich bleibt. Build zur Verifikation gelaufen: keine neuen unaufgeloesten
+  Links.
+- Abgrenzung: die 31 "ICT Mentorship Core Content - Month..."-Seiten, die ebenfalls einen
+  `yt-*-transcript`-Pfad im Text erwaehnen, sind Notion-Core-Content-Seiten mit einem
+  Querverweis auf ein Begleitvideo, keine eigenstaendigen YouTube-Ingests — unangetastet gelassen.
+- Seiten aktualisiert: wiki/index.md (8 Sources-Zeilen umverlinkt)
+- Keine Core-Content-Playlist-Batchaktion durchgefuehrt: Nutzer hat den urspruenglich gestarteten
+  12-Playlist-Batch (2016/2017 Core Content Month 01-12 YouTube-Videos, ~115 Videos) abgebrochen
+  und stattdessen dieses Einzelvideo angefragt.
+
+## [2026-08-06] ingest | Core-Content-Playlist-Batch (Month 01-12, ~115 Videos) — zweiter Anlauf, erneut abgebrochen
+
+- Nutzerauftrag: `/yt-ict-ingest lade alle core content videos und playlisten` — der oben
+  vermerkte 12-Playlist-Batch wurde erneut gestartet, diesmal per parallelen Sub-Agenten (einer
+  pro Monat). Alle 12 Core-Content-Playlists identifiziert (2016: Month 01-04, 2017: Month 05-12,
+  115 Videos total, Playlist-IDs siehe YouTube-Kanal "Playlists"-Tab).
+- **Wichtiger Fund**: Month 01, 02 und 04 (30 Videos) waren bereits **vollstaendig aus einer
+  frueheren Session** ingested (siehe eigene Log-Eintraege "ingest | ICT Mentorship Core Content
+  Month 02" und "ingest | Core Content Month 01 & Month 04") — jeweils durch den zugewiesenen
+  Sub-Agenten verifiziert statt blind uebernommen, keine Duplikate erzeugt.
+- **Month 03 (8/8 Videos) neu vollstaendig ingested**: 3 neue Source-Seiten (Timeframe Selection &
+  Defining Setups, The Next Setup - Anticipatory Skill Development, Market Maker Trap Head
+  Shoulders Pattern), 5 bestehende Source-Seiten angereichert (Institutional Order Flow,
+  Institutional Sponsorship, Institutional Marketstructure, Macro Economic To Micro Technical,
+  Market Maker Trap Trendline Phantoms), 1 neue Konzeptseite ([[Market Maker Trap - Head &
+  Shoulders]]), 8 weitere Konzept-/Modellseiten aktualisiert (u.a. [[Institutional Sponsorship]],
+  [[AMD Cycle (Accumulation – Manipulation – Distribution)]], [[SMT (Smart Money Divergence)]],
+  [[Quarterly Shift]], [[Order Block]], [[Three Timeframe Framing]]).
+- **Month 05 (2/18 Videos) teilweise ingested**, dann abgebrochen: [[Quarterly Shifts & IPDA Data
+  Ranges (Source)]] und [[Open Float (Source)]] angereichert, dazu [[Quarterly Shift]] (Cast-
+  Forward-Mechanik), [[Buy & Sell Program]] (Underlying/Benchmark-SMT-Methode) und [[Open Float &
+  Liquidity Pools]] (Stop-Level-Hierarchie, Intermediate-Term High/Low) aktualisiert. Die
+  restlichen 16 Videos sind unbearbeitet.
+- **Month 06-12 (0/62 Videos)**: nicht begonnen.
+- **Abbruchgrund**: YouTube hat die IP-Adresse dieser Maschine auf dem Caption-/Subtitle-Endpunkt
+  block­iert (`IpBlocked`/HTTP 429), ausgeloest durch 6+ parallele Sub-Agenten, die gleichzeitig
+  `yt-dlp`/`youtube_transcript_api` aufgerufen haben. Drei Cooldown-Runden (20+15+15 Minuten) haben
+  den Block nicht aufgehoben; ein laengerer Cooldown-Versuch (90 Minuten) wurde gestartet, dann auf
+  Nutzerwunsch ("fertig" → Batch abbrechen) gestoppt, bevor er greifen konnte.
+- **Für den naechsten Anlauf**: Fetches strikt seriell (ein Video nach dem anderen, mit Pause)
+  statt parallel ueber mehrere Sub-Agenten durchfuehren, um den IP-Block gar nicht erst
+  auszuloesen. Offene Video-Listen (Month 05 Rest + Month 06-12 komplett) liegen als TSV im
+  Scratchpad dieser Session, muessten fuer einen Folgeauftrag neu aus den Playlists gezogen werden.
+- Seiten erstellt: wiki/sources/ICT Mentorship Core Content - Month 03 - Timeframe Selection &
+  Defining Setups (Source).md, wiki/sources/ICT Mentorship Core Content - Month 03 - The Next Setup
+  - Anticipatory Skill Development (Source).md, wiki/sources/ICT Mentorship Core Content - Month 03
+  - Market Maker Trap Head Shoulders Pattern (Source).md, wiki/concepts/Market Maker Trap - Head &
+  Shoulders.md
+- Seiten aktualisiert: wiki/index.md, wiki/sources/Institutional Order Flow (Source).md, wiki/sources/Institutional
+  Sponsorship (Source).md, wiki/sources/Institutional Marketstructure (Source).md, wiki/sources/Macro
+  Economic To Micro Technical (Source).md, wiki/sources/Market Maker Trap Trendline Phantoms (Source).md,
+  wiki/sources/Month 03 (Source).md, wiki/sources/Quarterly Shifts & IPDA Data Ranges (Source).md,
+  wiki/sources/Open Float (Source).md, wiki/concepts/Institutional Sponsorship.md, wiki/concepts/AMD
+  Cycle (Accumulation – Manipulation – Distribution).md, wiki/concepts/Institutional Order Flow (Body
+  vs Wick).md, wiki/concepts/SMT (Smart Money Divergence).md, wiki/concepts/Quarterly Shift.md,
+  wiki/concepts/Trendline Phantoms (3 Drives Pattern).md, wiki/concepts/Order Block.md,
+  wiki/concepts/Buy & Sell Program.md, wiki/concepts/Open Float & Liquidity Pools.md,
+  wiki/models/Three Timeframe Framing.md
+
+## [2026-08-06] ingest | rtIcbG6twrI + bz4QNPcpmWE (offen, IP-Block)
+- Auftrag: `/yt-ict-ingest` fuer zwei konkret genannte Videos — `rtIcbG6twrI` (13.07.2026, "How To
+  Probe Low Probability RTH Opening Ranges", ~51 Min) und `bz4QNPcpmWE` (14.07.2026, "Part 2 - How
+  To Probe Low Probability RTH Opening Ranges", ~15 Min, selber Trading-Tag, Teil 2). Beide noch
+  nicht ingested, Metadaten via `yt-dlp` geprueft.
+- **Abbruchgrund**: `youtube_transcript_api._errors.IpBlocked` bei beiden Videos — derselbe
+  IP-Block auf dem lokalen Rechner wie beim Month-05-Abbruch oben, weiterhin aktiv. Keine
+  raw/wiki-Dateien angelegt (kein Content vorhanden, nichts erfunden).
+- **Skill erweitert**: `.claude/skills/yt-ict-ingest/SKILL.md` bekommt einen expliziten
+  `IpBlocked`-Abschnitt — bei diesem Fehler den Batch sofort abbrechen (nicht pro Video retryen,
+  das verlaengert den Block nur), verbleibende Videos im Bericht als "nicht versucht" auflisten.
+- **Automatischer Check-Versuch gescheitert**: eine einmalige Cloud-Routine (fuer 2026-08-07,
+  07:00 UTC) sollte pruefen, ob wenigstens die Cloud-Sandbox-IP frei ist, und bei Erfolg den
+  kompletten Ingest inkl. manuellem Publish-Ersatz fuer `push.ps1` (das Skript ist PowerShell-only,
+  laeuft nicht in der Linux-Sandbox) durchziehen. Anlage schlug fehl: claude.ai hat keinen
+  verbundenen GitHub-Account fuer Cloud-Routinen ("Connect your GitHub account before saving a
+  routine..."). Nutzer muesste `/web-setup` ausfuehren, danach kann die Routine nachtraeglich
+  angelegt werden.
+- **Fuer den naechsten Anlauf**: lokal `python tools/fetch_yt_transcript.py rtIcbG6twrI` erneut
+  versuchen, sobald der Block vermutlich abgelaufen ist; bei Erfolg regulaerem `/yt-ict-ingest`-Skill
+  folgen (inkl. `push.ps1`). Alternativ nach `/web-setup` die Cloud-Routine wie oben beschrieben
+  neu anlegen.
+
+## [2026-08-07] ingest | Daily Bias 07.08. (Journal, live) -- ORG-30.06.-Korrektur + TGIF-Zahlen
+- Nutzer: "neuer bias fuer heute in raw" -- `raw/Daily Bias 07.08.md` nach
+  `raw/journal/Daily Bias 2026-08-07.md` verschoben (Konvention analog 08-03/08-04/08-06), verarbeitet
+  zu `journal/entries/2026-08-07 MNQ Daily Bias.md` + Zeile in `journal/journal.csv`
+  (id `2026-08-07-01`, Bias **Neutral/kein Bias**, explizit wegen NFP).
+- **Marktdaten waren beim ersten Zugriff veraltet**: die zuvor gecachten 05.08./06.08.-Dateien
+  brachen bei 02:05 bzw. 08:05 NY ab, obwohl beide Tage laengst vorbei sind -- `write_day()` in
+  `algo/fetch_yfinance.py` ueberschreibt nie bestehende Dateien, ein mitten im Handelstag gezogener
+  Stand bleibt also dauerhaft stehen. Ebenso die 04.08.-Datei (nur 23 Kerzen bis 01:50 NY). Alle drei
+  vor der Pruefung geloescht und neu gezogen (`algo/fetch_yfinance.py`), sonst waeren mehrere
+  Aussagen unten gegen unvollstaendige Handelstage geprueft worden. **Fuer kuenftige Live-Eintraege
+  festgehalten**: bei "gestern"/"vorgestern"-Bezuegen auf einen mittlerweile abgeschlossenen Tag
+  immer pruefen, ob die lokale Datei den vollen Tag abdeckt (Spanne bis ca. 17:00 NY), nicht
+  ungeprueft dem Cache vertrauen.
+- **Bestaetigt**: Close 06.08. (29.504,50) ueber IFVG-C.E. (29.308,38) und BISI-C.E. (29.370,25);
+  Retracement in London/Premarket (Tagestief 29.241,00 um 09:30 NY); NWOG KW29 (29.956,75) am 05.08.
+  um 28,25 Punkte ueberschossen (Hoch 29.985,00); ORG 06.08. (29.335,25-29.572,25) vollstaendig
+  gefuellt (Hoch 06.08. 29.686,25 > Gap-Oberkante); ORG 04.08. (28.927,25-29.234,25, C.E. 29.080,75)
+  seit dem 05.08. unberuehrt, weiterhin gueltiger DOL-Kandidat.
+- **Korrektur**: die Behauptung "ORG vom Donnerstag 30.06. ist offen" stimmt nicht -- `org_gap()`
+  gegen die 5m-Serie zeigt das ORG 30.06. (30.020,00-30.047,00, nur 27 Punkte) bereits am
+  **01.07. um 16:00 NY** vollstaendig gefuellt, seit ueber fuenf Wochen erledigt. Gegenprobe bewusst
+  zusaetzlich gegen die 5m-Serie statt nur gegen die 1h-Cache-Datei gemacht, da Letztere laut
+  Log-Eintrag [2026-08-04] fuer Fremd-Historie bekannt ist.
+- **Praezisiert**: der im 06.08.-Eintrag gesetzte Invalidierungslevel ("Close unter BISI-C.E.
+  29.370,25") war als Handelstag-Close gemeint -- intraday schlossen am 06.08. zwischen 09:05-09:30 NY
+  fuenf 5m-Kerzen knapp darunter (tiefster Close 29.334,75), auf Handelstag-Basis aber unverletzt
+  (Close 29.504,50). Als Praezisierung im neuen Eintrag vermerkt, keine Aenderung am Bias.
+- **TGIF-Frage des Nutzers mit Zahlen beantwortet**: Weekly-Range KW32 High 30.073,25 (05.08.)
+  / Low 28.313,00 (03.08.), Range 1.760,25 Punkte. [[TGIF (Thank God its Friday)]]-Zielzone
+  (20-30 % Retracement vom Hoch) liegt bei 29.545,17-29.721,20 -- letzter Preis (07.08., 06:20 NY)
+  29.603,75 liegt **bereits darin**, obwohl der Freitag gerade erst begonnen hat. Seine Beobachtung
+  ("Retracement schon ueber die letzten beiden Tage bekommen") ist damit zahlenmaessig gedeckt.
+- Offene Frage ohne Antwort: "2 Drives Pattern?" -- keine Wiki-Seite zu dem Begriff, aus den
+  vorliegenden Daten nicht rekonstruierbar. Vorgemerkt fuer eine Seite beim dritten Auftreten
+  (Konvention wie bei "Bellweather Chart").
+- Keine eigene `wiki/sources/`-Seite angelegt (gleiche Begruendung wie beim 08-03.-Eintrag: ein
+  Daily Bias ist Journal, keine Lehrquelle).
+- Seiten aktualisiert: `journal/entries/2026-08-07 MNQ Daily Bias.md`, `journal/journal.csv`.
+
+## [2026-08-07] synthesis | KW32 2026 — Weekly Review
+- Nutzerfrage: Einschätzung zu Bias der Woche (Weekly + alle Daily Bias) + wo Fehler gemacht wurden.
+- Erste Fassung fälschlich aus `raw/journal/` (rohe Notion-Notizen) und eigener 1m-CSV-Nachrechnung
+  gebaut — dabei nicht bemerkt, dass ein bereits bestehendes, präziseres System existiert:
+  `journal/entries/` (`trading-journal`-Skill), das jeden Bias-Eintrag schon einzeln gegen frisch
+  gezogene Marktdaten geprüft hat (`bias_korrekt`-Feld, benannte Fehlercodes). Nach Fund komplett
+  neu geschrieben auf Basis dieser vier bereits verifizierten Einträge:
+  `journal/entries/2026-08-03 MNQ Weekly Bias.md`, `2026-08-03 MNQ Daily Bias.md`,
+  `2026-08-06 MNQ Daily Bias.md`, `2026-08-07 MNQ Daily Bias.md`.
+- Seite erstellt: wiki/synthesis/KW32 2026 — Weekly Review.md — zieht den wochenübergreifenden
+  roten Faden, den es einzeln pro Tag zwar schon gibt, aber noch nicht zusammengefasst
+  (`journal/index.md` → Berichte war für diese Woche leer).
+- Kernbefund: Weekly Bias (bullish, DOL 29.363,50) und Montag beide `bias_korrekt: true`, DOL um
+  201–710 Punkte überschossen; Donnerstag laut Journal fehlerfrei (`fehler: []`). Echte Fehler
+  waren kleiner als "Bias falsch": Bias-Inkonsistenz am Montag (Weekly sagt "gute PA", Daily 33 Min.
+  später "schwierig" — beides wiki-gedeckt, der Wechsel selbst ist der Fehler), fehlende
+  Invalidierungslevel im Erstentwurf (nachträglich ergänzt), und am Freitag ein veraltetes
+  ORG-Level (30.06., tatsächlich seit 01.07. gefüllt) als Sorge stehengelassen.
+- Für Dienstag/Mittwoch existiert kein Daily-Bias-Eintrag in `journal/entries/` (nur ein
+  Trade-Log bzw. ein Tape-Reading-Eintrag) — auf der neuen Seite als Datenlücke vermerkt, nicht als
+  Fehler gewertet, da unklar ist, ob an diesen Tagen bewusst kein Daily-Bias-Format genutzt wurde.
+- Seiten aktualisiert: wiki/index.md.
+
+## [2026-08-07] synthesis | Two Stage News Delivery (FOMC & NFP) — neue Hypothese aus Live-Beobachtung
+- Nutzerbeobachtung während des NFP-Termins 07.08.2026: Preis nahm zuerst Sellside (Pre-Market-Tief),
+  dann an der 8:30-News Buyside, um dann in einer "2. Stage" gegen 10:12 erneut massiv Sellside zu
+  nehmen — Frage, ob das dasselbe Zwei-Stufen-Muster ist, das sonst FOMC zugeschrieben wird.
+- Gegen `raw/marktdaten/2026/08/07.08.2026/MNQ 2026-08-07 1m.csv` verifiziert statt ungeprüft
+  übernommen: Pre-Market-Sellside-Pool 29.596–29.612 (04:00–08:00), Sweep auf
+  29.596,00 um 08:29, Stage 1 = Rally auf 29.854,50 bis 08:49, Stage 2 = zweiter, tieferer Sweep auf
+  29.564,25 um 10:12 (unterbietet Stage 1). Nutzerangabe "5:53 Low 29.600,50" strukturell bestätigt
+  (Preiszone exakt getroffen um 04:05 sowie mehrfach retestet), Zeitstempel weicht vom CSV-Feed ab —
+  als Diskrepanz vermerkt statt stillschweigend übernommen.
+- Anlass: [[MentorShip 2025]] listet seit dem ersten Ingest **Lektion 02 "Trading FOMC Two Stage
+  Delivery"** als fehlende Rohquelle — bislang nur der Titel bekannt, kein Inhalt. Diese Beobachtung
+  ist die erste konkrete, datengeprüfte Instanz des Musters im Wiki, allerdings an einem NFP- statt
+  FOMC-Termin.
+- Seite erstellt: wiki/concepts/Two Stage News Delivery (FOMC & NFP).md — als offene Hypothese
+  (n=1) markiert, mit Beobachtungstabelle, generalisiertem 4-Schritt-Muster (Pool → Stage 1 an der
+  News → Pause → Stage 2 im Silver-Bullet/Lunch-Macro-Fenster) und der Anweisung, das Muster bei
+  jedem künftigen NFP/FOMC-Termin gegenzuprüfen und hier nachzutragen.
+- Seiten aktualisiert: wiki/concepts/FOMC (Federal Open Market Committee).md (Verweis unter
+  Relevanz + Verwandt), wiki/synthesis/MentorShip 2025.md (offener Punkt zu Lektion 02 um den
+  Verweis auf die neue Hypothesenseite ergänzt, weiterhin offen da Primärquelle fehlt),
+  wiki/index.md.
+- Offen: Backtest-Kandidat, sobald ≥3 Instanzen vorliegen und eine NFP-/FOMC-Terminliste im Repo
+  existiert (aktuell nicht vorhanden) — `algo/backtest_fred_events.py` deckt reguläre FRED-Serien
+  ab, aber keine Event-Zeitstempel auf Minutenbasis.
+- Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-07] ingest | YouTube: Case Study With NonFarm Payroll & NQ Futures
+- Einzelvideo per `/yt-ict-ingest <URL>`: https://www.youtube.com/watch?v=hIusATccCcM (Kanal The
+  Inner Circle Trader, veröffentlicht 2026-08-07, Länge 57:47). Noch nicht ingestet (geprüft gegen
+  `raw/trading-ict/2026/` und dieses Log).
+- Transkript gespeichert unter `raw/trading-ict/2026/yt-hIusATccCcM-transcript.md`. ⚠️ Deckt nur
+  ~2.200 Wörter gesprochenen Text ab, deutlich weniger als für 57:47 zu erwarten — laut ICTs
+  eigener Aussage im Video liegt das an echten stillen Passagen (Screen-Recording ohne Narration
+  während der Autofahrt, spätere Annotation zu Hause), nicht an einer Auto-Caption-Lücke.
+- **Dieselbe NFP-Instanz wie im selben Log bereits dokumentiert** ([[Two Stage News Delivery (FOMC
+  & NFP)]], Eintrag weiter oben mit Datenanalyse aus `raw/marktdaten/`): ICT erzählt hier live
+  denselben Handelstag aus Primärquellensicht nach — als Bestätigung verlinkt, nicht als 2. Instanz
+  gezählt.
+- **Bestehende Definition erweitert statt Duplikat angelegt**: der Begriff "Mohawk" tauchte im
+  Wiki bereits auf (`wiki/concepts/Institutional Order Flow (Body vs Wick).md`, aus dem
+  2026-07-29-Ingest, dort nur für Wicks an einem IFVG). Dieses Video nutzt denselben Begriff
+  generalisiert für jede Wick-Toleranz an einer PD-Array-/Range-Grenze — die bestehende Sektion
+  erweitert statt einer neuen Konzeptseite (ursprünglich fälschlich als eigene Seite
+  `Mohawk (Range Tolerance).md` angelegt, nach Fund der bestehenden Definition wieder gelöscht und
+  zusammengeführt).
+- Seiten erstellt: `wiki/sources/youtube/2026-08-07 - Case Study With NonFarm Payroll & NQ Futures
+  (Source).md`
+- Seiten aktualisiert: `wiki/concepts/Institutional Order Flow (Body vs Wick).md` (Mohawk-Regel
+  generalisiert), `wiki/concepts/Two Stage News Delivery (FOMC & NFP).md` (Primärquellenbestätigung
+  durch ICT selbst, Verweis auf STD-Projektion), `wiki/concepts/ICT Macros & Leading Candles.md`
+  (Macro-Zeit als Reversal-Check für laufende Positionen), `wiki/concepts/Central Bank Dealers
+  Range (CBDR).md` (STD-Projektionstechnik verallgemeinert auf Pre-News-Ranges, nicht nur
+  CBDR/Asia), `wiki/index.md`.
+- Bewusst ausgefiltert: Geburtstag/Familienanekdote, Meta-Kommentare gegen X-Kritiker,
+  Selbstpromotion des eigenen X-Feeds.
+- Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-08] ingest | How I Develop Trading Strategies (Permutation Tests, neurotrader)
+- Quelle: `raw/How I Develop Trading Strategies  Permutation Tests and Trading Strategy
+  Development with Python.md` (YouTube-Transkript, kein ICT/SMC-Material — algo-methodology-
+  Domäne). Inhaltsgleiches Scratch-Duplikat ohne Metadaten liegt bereits laenger unter
+  `raw/md.md`, war Quelle fuer `docs/superpowers/specs/2026-08-08-algo-permutation-test-design.md`
+  (Design fuer `algo/permutation_test.py`, dort explizit als offener Folge-Schritt vermerkt) — mit
+  diesem Ingest nachgeholt.
+- Seiten erstellt: `wiki/sources/How I Develop Trading Strategies (Source).md`,
+  `wiki/concepts/Monte Carlo Permutation Test (MCPT).md`,
+  `wiki/concepts/Vier-Stufen-Strategieentwicklung (Masters).md`.
+- Seiten aktualisiert: `wiki/index.md` (neue Sources-Unterrubrik "Algo-Methodik", zwei neue
+  Concepts-Einträge).
+- Terminologie bewusst abgegrenzt: der neue Bar-Permutationstest heißt konsequent "MCPT", nicht
+  "Monte Carlo" — `algo/validate.py` nutzt diesen Begriff bereits fuer Trade-Order-Resampling,
+  ein anderes Verfahren.
+- Code-Implementierung (`algo/permutation_test.py`) bleibt offener Backlog-Punkt, nicht Teil
+  dieses Ingests — Design steht, siehe Spec.
+- Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-08] ingest | Zwei weitere algo-methodology-Quellen (kein Trading-Content)
+- Quellen: `raw/Claude Opus 5 + MCP = New King of Algo Trading!.md` (YouTube, Algo-trading with
+  Saleh) und `raw/Quantifying Market Structure at Multiple Scales for Algorithmic Trading with
+  Python.md` (YouTube, neurotrader). Beide kein ICT/SMC-Material — algo-methodology-Domäne, wie
+  bereits [[How I Develop Trading Strategies (Source)]].
+- Seiten erstellt: `wiki/sources/Claude Opus 5 + MCP = New King of Algo Trading! (Source).md`,
+  `wiki/sources/Quantifying Market Structure at Multiple Scales for Algorithmic Trading with
+  Python (Source).md`, `wiki/concepts/Rule Significance Test (RST).md`,
+  `wiki/concepts/Directional Change & Hierarchische Marktstruktur.md`.
+- Seiten aktualisiert: `wiki/index.md` (zwei neue Concepts-Einträge alphabetisch einsortiert,
+  zwei neue Sources unter der bestehenden "Algo-Methodik"-Unterrubrik).
+- Kernfunde: (1) RST — Entry-Regel isoliert auf Signifikanz testen, BEVOR Sizing/Stop/Ziel
+  entworfen werden; in `algo/rules.py`/`backtest_bt.py` bisher kein eigener Zwischenschritt,
+  dort wird direkt die vollständige Regel gebacktestet. (2) Directional-Change-Hierarchie —
+  ATR-adaptive, timeframe-unabhängige Alternative zur aktuellen `min_age`/`confirm`-Skalierung
+  je Timeframe in `tools/analyze_ohlc.py`, anschlussfähig an [[Market Structure Shift (MSS)]].
+  Beide bewusst nicht als akuter Backlog-Punkt in `algo/PLAN.md` aufgenommen (keine konkrete
+  Regel/kein konkreter Refactor beauftragt), nur als Wiki-Wissen für künftige Entscheidungen
+  festgehalten.
+- Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-08] ingest | Successful Algorithmic Trading (Halls-Moore, PDF, kein Trading-Content)
+- Quelle: `raw/Successful Algorithmic Trading.pdf` (208 Seiten, LaTeX/QuantStart-Eigenverlag,
+  Michael Halls-Moore). Ursprünglich vom Nutzer unter `Dropbox\VS Folder 1\raw\` abgelegt (nicht
+  im aktiven Projektverzeichnis) — nach `raw/` dieses Repos kopiert, bevor ingestet wurde.
+  Textextraktion per `pypdf` (LaTeX-generierte PDF, sauberer Text, kein Bild-Ingest nötig — anders
+  als Notion-Export-Screenshots). Kein ICT/SMC-Material — algo-methodology-Domäne, wie die drei
+  zuvor am selben Tag ingesteten YouTube-Quellen.
+- Seiten erstellt: `wiki/sources/Successful Algorithmic Trading (Source).md`,
+  `wiki/concepts/Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive).md`,
+  `wiki/concepts/Mean-Reversion-Tests (ADF, Hurst-Exponent, Kointegration).md`,
+  `wiki/concepts/Kelly-Criterion & Value-at-Risk (Money Management).md`.
+- Seiten aktualisiert: `wiki/index.md` (drei neue Concepts alphabetisch, eine neue Source unter
+  "Algo-Methodik"), `wiki/concepts/Risikomanagement (1% pro Trade).md` (Querverweis auf die neue
+  Kelly/VaR-Seite ergänzt — bestehende feste 1%-Regel bleibt unverändert die aktive Projektregel).
+- Kernfunde: (1) Backtesting-Bias-Katalog (Optimisation/Look-Ahead/Survivorship/Cognitive) —
+  Survivorship- und Cognitive-Bias waren bisher nirgends im Vault dokumentiert, obwohl
+  Optimisation-/Look-Ahead-Bias bereits implizit über Walk-Forward/MCPT/`bars[t<=when]` abgedeckt
+  sind. (2) Mean-Reversion-Statistik (ADF/Hurst/Kointegration) — bisher kein Pairs-/Reversion-
+  Ansatz im Vault, MNQ läuft als Single-Instrument. (3) Kelly-Criterion/VaR als quantitative,
+  aber datenhungrigere Alternative zur bestehenden festen 1%-Risikoregel. Bewusst kein Backlog-
+  Punkt in `algo/PLAN.md` — reines Wiki-Wissen, kein konkreter Umsetzungsauftrag.
+- Nicht ingestet aus dem Buch: Kapitel zu MySQL-Securities-Master-Setup, Event-Driven-Engine-
+  Implementierungsdetails (Event/DataHandler/Portfolio-Klassen im Detail) und Software-Installation
+  — dieses Projekt löst Datenhaltung (`raw/marktdaten/`-Dateien) und Backtesting (PyPI-Bibliothek
+  `backtesting`) bereits anders, Reuse-first statt Eigenbau nach Buchvorlage.
+- Noch nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-08] ingest | Testing and Tuning Market Trading Systems (Masters, EPUB)
+- Quelle: `raw/testing-and-tuning/Testing and Tuning Market Trading Systems.md` (663 KB, 9.434
+  Zeilen) + `raw/testing-and-tuning/assets/` (78 Bilder). Vom Nutzer als EPUB abgelegt
+  (`dokumen.pub_testing-and-tuning-...epub`); `markitdown` konnte das EPUB nicht (fiel auf den
+  ZIP-Konverter zurueck und lieferte nur CSS + Dateinamen, null Kapiteltext), deshalb ueber die
+  OPF-Spine mit stdlib `zipfile` + `markdownify` konvertiert. Kein ICT/SMC-Material —
+  algo-methodology, und zwar die **Primaerquelle** hinter den beiden bereits am selben Tag aus
+  einem YouTube-Transkript angelegten Seiten [[Vier-Stufen-Strategieentwicklung (Masters)]] und
+  [[Monte Carlo Permutation Test (MCPT)]].
+- Seiten erstellt: `wiki/sources/Testing and Tuning Market Trading Systems (Source).md`,
+  `wiki/concepts/Training Bias & Selection Bias.md`,
+  `wiki/concepts/Walk-Forward Guard Buffer & Varianz-Inflation.md`,
+  `wiki/concepts/Cross Validation vs. Walk-Forward (Masters).md`,
+  `wiki/concepts/Nested Walkforward.md`,
+  `wiki/concepts/CSCV (Combinatorially Symmetric Cross Validation).md`,
+  `wiki/concepts/Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa).md`,
+  `wiki/concepts/Grenzen für Einzelrenditen & Drawdown.md`,
+  `wiki/concepts/Return-Partitionierung (Skill, Trend, Training Bias).md`,
+  `wiki/concepts/Profit pro Bar vs. pro Trade.md`,
+  `wiki/concepts/Indikator-Stationarität & Entropie.md`,
+  `wiki/concepts/Regularisiertes lineares Modell (Ridge, Lasso, Elastic Net).md`,
+  `wiki/concepts/Differential Evolution & Parameter-Sensitivität.md`.
+- Seiten aktualisiert: `wiki/index.md` (11 neue Concepts alphabetisch, eine neue Source unter
+  "Algo-Methodik"), `wiki/concepts/Monte Carlo Permutation Test (MCPT).md` (Primaerquelle
+  nachgetragen; Multi-Market-Permutation, OOS-only-Permutation, korrekte Bar-Permutation inkl.
+  Inter-Bar-Gap-Falle, `preserve_OO`), `wiki/concepts/Vier-Stufen-Strategieentwicklung (Masters).md`
+  (Guard-Buffer-Pflicht in Stufe 3, Verweise auf die neuen Werkzeuge),
+  `wiki/concepts/Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive).md`
+  (Halls-Moores Vierer-Liste hat eine Luecke: Selection Bias fehlt dort).
+- Kernfunde, die den Vault inhaltlich korrigieren oder erweitern:
+  (1) **Selection Bias** war nirgends dokumentiert — ein zurueckgehaltener OOS-Zeitraum reicht
+  nicht, sobald aus mehreren Kandidaten der beste gewaehlt wird; es braucht einen zweiten.
+  (2) **Guard Buffer**: ohne `OMIT = min(Lookahead, Lookback) − 1` erreicht ein wertloses System
+  auf reinen Random-Walk-Daten einen Median-t-Score von 74,64; ein einziger fehlender Puffer-Bar
+  (8 statt 9) laesst immer noch t=1,88 uebrig.
+  (3) **Trade-basierte Kennzahlen sind fuer Statistik untauglich** — Profit Factor kann auf
+  Trade-Basis unendlich sein, wo er auf Bar-Basis 1,01 betraegt. Betrifft direkt die bisherigen
+  `algo/`-Reports, die ueber die `backtesting`-Lib auf Trade-Basis rechnen.
+  (4) **Der naive Drawdown-Bootstrap unterschaetzt Katastrophen-Drawdowns um Faktor 13,65** bei
+  kleiner OOS-Stichprobe — genau das Verfahren, das `algo/validate.py` heute nutzt.
+  (5) **Cross Validation ist fuer Marktdaten nicht empfohlen** — bestaetigt nachtraeglich, dass
+  `algo/validate.py` richtig auf Walk-Forward setzt, was bisher nirgends begruendet war.
+  (6) **Return-Partitionierung** (TotalReturn = Skill + Trend + TrainingBias) und die
+  **Selection-Bias-Erweiterung des MCPT** (Solo-P-Wert vs. unbiased P-Wert) ergaenzen den bereits
+  geplanten `algo/permutation_test.py` um zwei fast gratis mitlaufende Auswertungen.
+- Bewusst nicht ingestet: der vollstaendige C++-Code (CDMODEL, DIFF_EV, SVDCMP, BOOT_CONF,
+  CSCV_CORE u.a.) — die Algorithmen stehen als Prosa/Pseudocode auf den Konzeptseiten, die
+  Zeile-fuer-Zeile-Implementierung nicht; ebenso die Herleitungen zu Coordinate Descent und BCa,
+  die im Buch selbst nur referenziert sind. TeX-Formelbilder bleiben in `raw/.../assets/`.
+- Vier Backlog-Punkte in `algo/PLAN.md` ergaenzt (Bar-Renditen, Guard Buffer, Konfidenz-/
+  Drawdown-Grenzen, Return-Partitionierung).
+
+## [2026-08-08] ingest | Testing and Tuning Market Trading Systems — Nachtrag: vollstaendig gelesen, Seiten zu Referenzseiten ausgebaut
+- Anlass: Nutzerkritik, die zutraf. Der erste Durchgang oben hatte (a) nur ~7.000 der 9.115
+  Inhaltszeilen gelesen — die code-lastigen Abschnitte (Differential-Evolution-Interna, DEV_MA-
+  Handelssystem, CHOOSER-Kernschleife, drawdown()/drawdown_quantiles(), Multi-Markt-Datenabgleich)
+  waren uebersprungen — und (b) reine Prosa-Zusammenfassungen erzeugt: keine Formeln, keine
+  exakten Algorithmen, keine Parameterwerte. Fuer ein Nachschlagewerk, auf das Nutzer und Assistent
+  gemeinsam zugreifen, unbrauchbar.
+- Nachgeholt: die fehlenden ~800 Zeilen gelesen (Buch damit vollstaendig), und **alle 40
+  nummerierten Gleichungen** rekonstruiert — im konvertierten Markdown liegen sie als
+  TeX-Grafiken vor, aber der Bild-Alt-Text enthaelt das LaTeX (`![$$ ... $$](assets/...)`).
+- Darstellungsentscheidung: Formeln als **Unicode-Mathematik in Codebloecken**, nicht als
+  `$$...$$`. Grund: `tools/build_site.py` laedt `markdown` ohne Math-Extension, LaTeX wuerde auf
+  der HTML-Site als Rohtext erscheinen. Codebloecke rendern in Obsidian *und* auf der Site
+  identisch und sind copy-paste-faehig.
+- Alle 13 Seiten (12 Konzepte + Source) neu geschrieben: **1.100 → 3.713 Zeilen**. Neu enthalten
+  sind jetzt durchgaengig: exakte Formeln mit Buchnummerierung, vollstaendige Algorithmen als
+  Python-nahes Pseudocode (StocBias, Fisher-Yates, Bar-/Multi-Markt-Permutation, CSCV-Kern,
+  Nested-Walkforward-Indexlogik, comp_return mit allen drei Renditearten, entropy, clean_tails,
+  gap_analyze, drawdown, drawdown_quantiles, BCa, Coordinate Descent, Lambda-Pfad, PARAMCOR,
+  ensure_legal), alle numerischen Tabellen des Buches und die Parameter-Defaults aus den
+  Beispielprogrammen.
+- `wiki/sources/Testing and Tuning Market Trading Systems (Source).md` ist jetzt der
+  Einstiegsknoten: Kapitel-zu-Seite-Zuordnung, **Formelverzeichnis aller 40 Gleichungen** mit
+  Zielseite, **Programmverzeichnis** aller 25 Beispielprogramme mit CLI-Signatur, sowie eine
+  Konstanten-/Default-Tabelle (Bootstrap-Replikationen, MCPT-Schwellen, Entropie-Grenzwerte,
+  DE-Parameter, CSCV-Bloecke, Annualisierungsfaktor 25200 …).
+- Inhaltlich neu gegenueber dem ersten Durchgang (Beispiele): die vier Bedingungen korrekter
+  Bar-Permutation samt Inter-Bar-Gap-Falle und `preserve_OO`; die fuenf Methoden fuer die
+  Trainings-/Test-Grenze bei unbestimmtem Lookahead inkl. Masters' Begruendung fuer seinen
+  Favoriten; die Falle des unbeschraenkten Lookbacks bei zustandsabhaengigen Handelsregeln;
+  `orderstat_tail`/`quantile_conf` als Beta-Verteilungs-Formeln; die Log-Transformation beim
+  Profit-Factor-Bootstrap; die Kommensurabilitaets-Anforderung von PARAMCOR; der
+  `ElasticNet`-Namensfallstrick (sklearns `alpha`/`l1_ratio` sind gegenueber Masters' λ/α
+  vertauscht).
+- Keine Aussage des ersten Durchgangs musste zurueckgenommen werden — die Kernfunde waren richtig,
+  nur zu duenn belegt.
+- Noch nicht ausgefuehrt: push.ps1 (folgt unmittelbar).
+
+## [2026-08-08] setup | Masters-Verfahren als lauffaehiger Code (`algo/masters.py`)
+- Anlass: Nutzerfrage, ob die Code-Beispiele des Buches lesbar und nutzbar sind.
+- Befund: Das Buch druckt seinen C++-Code nur in **Fragmenten** -- die vollstaendigen .CPP-Dateien
+  liegen nicht im EPUB, Masters verweist auf seine Website. Gelesen sind alle abgedruckten
+  Fragmente; sie decken die algorithmische Substanz vollstaendig ab. Alles, was nur *referenziert*
+  wird (STATS.CPP, SVDCMP.CPP, QSORTD.CPP, GLOB_MAX.CPP, BRENTMAX.CPP, EVER_RS.CPP), ist
+  Standardnumerik mit exakten scipy/numpy-Entsprechungen -- nutzbar ist also alles.
+- Neu: `algo/masters.py` (Bibliothek, kein CLI, keine Marktdaten) mit 20 Funktionen plus
+  Selbstcheck; eingehaengt in `algo/selfcheck.py` (jetzt 7 Checks, alle gruen).
+  `algo/README.md` um einen Modulabschnitt ergaenzt, `algo/requirements.txt` um `scipy>=1.10`.
+- Seiten aktualisiert: alle 13 Masters-Seiten haben jetzt einen Abschnitt **Implementierung** mit
+  der zustaendigen Funktion -- bzw. der Begruendung, warum bewusst nicht portiert wurde
+  (Elastic Net -> sklearn, Differential Evolution -> scipy, PARAMCOR -> braucht eine
+  DE-Endpopulation).
+- Der Selbstcheck prueft Eigenschaften statt nur Durchlauf: permutierte Bars erfuellen alle vier
+  Struktur-Bedingungen aus Kap. 7, die Multi-Markt-Permutation erhaelt die Korrelation,
+  CSCV trennt einen echten Edge (0,00) von reinem Rauschen (0,86), der Doppel-Bootstrap ist
+  konservativer als der naive (Faktor 1,34), StocBias zeigt an 400 reinen Rausch-Kandidaten
+  IS +0,2467 gegen OOS -0,0298, und die Identitaet TotalReturn = Skill + Trend + TrainingBias
+  geht exakt auf.
+- Nebenbefund: `scikit-learn` stand in `algo/requirements.txt`, war in der Umgebung aber nicht
+  installiert -- `algo/selfcheck.py` lief dadurch gar nicht durch. Nachinstalliert.
+
+## [2026-08-08] ingest | Algorithmic Trading: Winning Strategies and Their Rationale (Ernest Chan)
+- Quelle: `raw/Winning strategies and ther rationale.md` (6.741 Zeilen, aus dem gleichnamigen PDF
+  extrahiert; Wiley 2013). Vollstaendig gelesen. Formeln liegen hier als **Text** vor (nicht als
+  Bilder wie beim Masters-Buch), allerdings mit OCR-Artefakten -- siehe unten.
+- Schwerpunkt dieses Ingests laut Nutzervorgabe: **Risikomanagement**, mit Formeln und
+  nachrechenbaren Beispielen. Kapitel 8 hat deshalb vier eigene Seiten bekommen.
+- Seiten erstellt:
+  `wiki/sources/Algorithmic Trading - Winning Strategies and Their Rationale (Source).md`,
+  `wiki/concepts/Kelly-Formel & optimales Leverage (Chan).md`,
+  `wiki/concepts/CPPI (Constant Proportion Portfolio Insurance).md`,
+  `wiki/concepts/Stop Loss bei Mean Reversion vs. Momentum.md`,
+  `wiki/concepts/Leading Risk Indicators.md`,
+  `wiki/concepts/Futures-Datenaufbereitung & Backtesting-Fallstricke (Chan).md`,
+  `wiki/concepts/Roll Return, Contango & Backwardation.md`,
+  `wiki/concepts/Momentum-Ursachen & Opening-Gap-Strategie.md`,
+  `wiki/concepts/Halbwertszeit der Mean Reversion & Kointegration (Chan).md`,
+  `wiki/concepts/Bollinger-Bänder, Scaling-in & Kalman-Filter.md`.
+- Seiten aktualisiert: `wiki/index.md` (9 neue Concepts alphabetisch, eine neue Source unter
+  "Algo-Methodik").
+- **OCR-Korrektur, mathematisch verifiziert:** Der Rohtext gibt die Gauss-Wachstumsrate als
+  `g(f) = fm − f 2m2/2` wieder. Korrekt ist `g(f) = f·m − f²·s²/2`. Nachweis: `dg/df = m − f·s² = 0`
+  ⟹ `f = m/s²`, also exakt Kelly (Gleichung 8.1). Mit `m²` im zweiten Term kaeme `f = 1/m` heraus.
+  Auf der Kelly-Seite als Hinweis dokumentiert, damit die Rohquelle nicht falsch zitiert wird.
+- Kernfunde Risikomanagement:
+  (1) **Kelly ist eine Obergrenze, kein Sollwert** -- ueberschaetztes `f` fuehrt zum Ruin,
+  unterschaetztes nur zu weniger Wachstum; daher Half-Kelly. Dazu die modellfreie Ruin-Grenze
+  `f_ruin = 1/|schlechteste Einzelrendite|` (Buchbeispiel: 30,2).
+  (2) **Die Drawdown-Nebenbedingung ist nicht linear**: um den Drawdown zu halbieren, musste das
+  Leverage durch **7** geteilt werden (19,2 → 2,7), nicht durch 2.
+  (3) **CPPI** liefert praktisch dieselbe Wachstumsrate wie ein pauschal gesenktes Leverage
+  (0,002484 vs 0,002525/Tag), aber Drawdown 0,5 statt 0,9 -- und ist ein geordneter Weg, eine
+  verlierende Strategie stillzulegen.
+  (4) **Stop Loss bei Mean Reversion**: die verbreitete Aussage "schadet immer" ist selbst ein
+  Survivorship-Bias-Artefakt (Reihen, die vom Regimewechsel getroffen wurden, stehen in keinem
+  Katalog profitabler MR-Strategien). Praktikable Regel: Stop GROESSER als der maximale
+  Intraday-Drawdown des Backtests -- kostenlos im Backtest, schuetzt aber gegen Black Swans.
+  (5) **Risikoindikatoren sind strategiespezifisch, nicht universell**: VIX > 35 hebt die Rendite
+  der einen Strategie von 8,7 % auf 17,2 % und senkt die der anderen von 13 % auf 2,6 %.
+- Weitere Kernfunde: die **Halbwertszeit** `−log(2)/λ` setzt alle Lookbacks ohne Optimierung (und
+  sagt vorab, ob Mean-Reversion-Handel ueberhaupt lohnt); **Scaling-in ist in-sample beweisbar nie
+  optimal** (Schoenberg & Corwin), kann out-of-sample aber gewinnen; der **Kalman-Filter** liefert
+  Hedge Ratio, Mittelwert und Standardabweichung in einem Verfahren ohne willkuerlichen Lookback
+  (EWA-EWC: Sharpe 2,4); **Futures-Momentum kommt aus der Persistenz des Roll-Return-Vorzeichens**;
+  beim Back-Adjustment von Continuous Contracts kann man **entweder P&L oder Rendite** korrekt
+  haben, nie beides.
+- Direkt fuer dieses Projekt relevant und noch offen: die **Opening-Gap-Regel** (Einstieg am Open
+  jenseits des Vortagesextrems, Ausstieg zum Close, ein einziger Parameter, kein Lookahead) ist mit
+  `raw/marktdaten/` sofort backtestbar -- und sagt fuer Futures **Fortsetzung** voraus, wo die
+  ICT-Konzepte des Vaults ([[ORG (Opening Range Gap) & 1st Presented FVG]], [[Judas Swing]])
+  ueberwiegend **Manipulation mit Umkehr** beschreiben. Sauber falsifizierbarer Gegensatz.
+- Bewusst nicht ingestet: der MATLAB-Code als solcher (jplv7, Econometrics Toolbox -- fuer Python
+  decken `statsmodels`/`scipy`/`filterpy` dasselbe ab), die Aktien-/ETF-Strategien im
+  Implementierungsdetail (dieses Projekt handelt ein einzelnes Futures-Instrument), der
+  Plattformvergleich von 2013 und die HFT-Ausfuehrungstaktiken (setzen Kolokation voraus).
+
+## [2026-08-08] ingest | AI in Finance (NTPU) + Kissell: Science of Algorithmic Trading
+Zwei Quellen in einem Durchgang, weil beide deutlich weniger hergeben als ihre Zeilenzahl
+suggeriert -- aus jeweils unterschiedlichen Gruenden. Beides ist unten offengelegt.
+
+### AI in Finance and Quantitative Analysis (Min-Yuh Day, NTPU, 10.175 Zeilen)
+- **Rund 7.600 der 10.175 Zeilen sind ein eingebetteter Literatur-Survey** (Ozbayoglu/Gudelek/
+  Sezer 2020), abgedruckt als Tabellen "Datensatz / Zeitraum / Feature Set / Methode /
+  Performance-Kriterium / Referenz". Das ist eine Bibliografie von ~200 Papern -- keine Formeln,
+  keine Herleitungen, nichts Nachvollziehbares. Nicht ingestet.
+- Das Folien-Outline kuendigt "Algorithmic Trading, **Risk Management**, Trading Bot,
+  Event-Based Backtesting" an (Quelle: Hilpisch 2020). **Drei der vier Themen fehlen im
+  Foliensatz vollstaendig**; "Risk Management" kommt nur als Kategorielabel im Survey vor. Fuer
+  den Risikoschwerpunkt dieses Ingests traegt die Quelle also nichts bei.
+- Verwertbar war der `ffn.calc_stats()`-Kennzahlenkatalog -> neue Seite
+  `wiki/concepts/Performance-Kennzahlen-Katalog.md` (Sharpe/Sortino/Calmar/SQN/MDD/
+  Drawdown-DAUER mit Formeln, plus was ein Report zusaetzlich ausweisen sollte).
+- Lehrreicher Nebenbefund aus der Demo: der SMA-Crossover auf BTC-USD liefert 4.137 % Rendite --
+  **Buy & Hold im selben Zeitraum 10.879 %**. Die Folien kommentieren das nicht. Es ist ein
+  Musterbeispiel fuer Chans Regel, immer gegen den richtigen Benchmark zu messen.
+- Seiten: `wiki/sources/AI in Finance and Quantitative Analysis (Source).md`,
+  `wiki/concepts/Performance-Kennzahlen-Katalog.md`.
+
+### The Science of Algorithmic Trading and Portfolio Management (Kissell, 42.871 Zeilen)
+- **Qualitaetsproblem der Rohquelle:** Das Quell-PDF hat eine defekte Font-Kodierung. In Formeln
+  stehen Ziffern fuer Operatoren (`2`=−, `1`=+, `5`==, `:`=., `,`=<, `.`=>, `½`=[). Gegen
+  `pdftotext` gegengeprueft -- steckt im PDF, nicht in unserer Pipeline. Fliesstext, Struktur und
+  Tabellenbeschriftungen sind korrekt.
+- **Vorgehen:** Jede uebernommene Formel wurde dekodiert UND arithmetisch verifiziert, wo das Buch
+  ein Rechenbeispiel mitliefert. Verifiziert u.a.:
+  `$55,000 2 $52,500 2 $100 5 $2400` → `55.000 − 52.500 − 100 = 2.400` ✓ und
+  `IS 5 $5000 2 $2400 5 $2600` → `5.000 − 2.400 = 2.600` ✓.
+  **Formeln ohne mitgeliefertes Rechenbeispiel wurden bewusst NICHT uebernommen** -- das betrifft
+  vor allem das I-Star-Market-Impact-Modell samt kalibrierten Parametern.
+- Ingestet wurden gezielt die fuer ein Ein-Instrument-Futures-Projekt anwendbaren Teile:
+  `wiki/sources/The Science of Algorithmic Trading and Portfolio Management (Source).md`,
+  `wiki/concepts/Transaktionskosten-Taxonomie (Kissell).md`,
+  `wiki/concepts/Implementation Shortfall.md`,
+  `wiki/concepts/Trader's Dilemma & Efficient Trading Frontier.md`.
+- Kernfunde:
+  (1) **Zehn getrennte Kostenkomponenten** statt "Kommission und Spread", klassifiziert nach
+  fix/variabel und sichtbar/verborgen. Die verborgenen machen den groessten Anteil aus und bieten
+  das groesste Verbesserungspotenzial.
+  (2) **Was eine Kostenkennzahl ist und was nicht:** VWAP-Vergleich ist ein *Performance*-Proxy,
+  Schlusskurs-Vergleich ein *Tracking-Error*-Proxy -- nur der Vergleich mit dem Preis bei
+  Ordereingang ist eine echte Kostenkennzahl.
+  (3) **Implementation Shortfall**: im Buchbeispiel gehen bei nur 5 % Ausfuehrungsnachteil
+  **52 % des Ideenwerts** verloren ($2.600 von $5.000) -- weil sich die Kennzahl am erwarteten
+  Gewinn misst, nicht am Ordervolumen.
+  (4) **Trader's Dilemma**: Market Impact und Timing Risk sind gegenlaeufig, es gibt kein
+  gemeinsames Minimum. Strategien unterhalb der Efficient Trading Frontier sind dominiert und
+  liefern nie Best Execution.
+- **Direkter Bezug zu einem offenen Backlog-Punkt:** `algo/PLAN.md` haelt seit 2026-08-07 fest,
+  dass `commission=0.0002` ein Notional-Prozentmodell (Aktienlogik) statt $/Kontrakt
+  (Futures-Realitaet) ist und dadurch $46.065 Gebuehren im MNQ-Lauf erzeugt. Kissells Kapitel 3
+  ist genau die fehlende Systematik zur Korrektur.
+- Bewusst nicht ingestet: Market-Impact-Modelle im Formeldetail (Chiffre + bei einstelligen
+  MNQ-Kontraktzahlen ohnehin ~0), Portfolio-Optimierung und Multi-Asset-Risikomodelle
+  (Ein-Instrument-Projekt), nichtparametrische Broker-Vergleichstests (im Vault durch MCPT und
+  Training/Selection Bias abgedeckt), US-Aktienmikrostruktur (Rebates/Dark Pools/Reg NMS), HFT.
+- Seiten aktualisiert: `wiki/index.md` (4 neue Concepts, 2 neue Sources).
+
+## [2026-08-08] ingest | Machine Learning im Handel — zwei Videoquellen + Bewertung
+
+- Auslöser: Nutzerfrage „Macht es Sinn, Machine Learning zu integrieren?" mit zwei
+  YouTube-Quellen. Neue Rohdomäne `raw/algo-ml/` angelegt (kein ICT-Material, deshalb nicht unter
+  `raw/trading-ict/`).
+- Quellen: `raw/algo-ml/yt-2bE2iyRBK1E-transcript.md` (Two Sigma, Justin Sirignano —
+  Two Sigma Securities und Associate Professor Oxford, 2022-07-05, 60 Min) und
+  `raw/algo-ml/yt-c0gpgCyjTM8-transcript.md` (Quantopian, Dr. Tom Starke, 2019-09-05, 43 Min).
+  Beide auto-generierte Untertitel, volle Abdeckung.
+- **Werkzeugproblem behoben:** `yt_dlp` fehlte in der neu installierten Python-3.14-Umgebung, was
+  auch das bestehende `yt-ict-ingest`-Skill unbrauchbar gemacht hätte (`tools/fetch_yt_transcript.py`
+  bricht ohne yt-dlp mit CalledProcessError ab). Per `pip install yt-dlp` wiederhergestellt.
+  `youtube_transcript_api` war vorhanden.
+- Seiten erstellt: `wiki/sources/youtube/2022-07-05 - Two Sigma - Machine Learning Models of
+  Financial Data (Source).md`, `wiki/sources/youtube/2019-09-05 - Reinforcement Learning for
+  Trading (Tom Starke) (Source).md`, `wiki/concepts/Universal Model & Instrument-Pooling.md`,
+  `wiki/concepts/Meta-Labeling (López de Prado).md`,
+  `wiki/concepts/Reinforcement Learning für Handel — Grenzen (Starke).md`,
+  `wiki/synthesis/Machine Learning für den Algo — Bewertung (laufend).md`.
+- Seiten aktualisiert: `wiki/index.md` (drei Concepts, zwei Sources unter „Algo-Methodik", eine
+  Synthesis).
+- **Kernbefund und praktische Konsequenz:** Der wertvollste Fund braucht gar kein Machine Learning.
+  Sirignano & Cont (Quantitative Finance 2019) zeigen, dass ein gemeinsames Modell über viele
+  Instrumente die instrumentspezifische Anpassung schlägt — *„most strongly … on stocks with less
+  data"*. Übertragen auf gewöhnliche Regelvalidierung: einen gemeinsamen Parametersatz über alle
+  Instrumente validieren statt je Instrument anzupassen. Das ist sofort anwendbar und trifft genau
+  die als „noch nicht belastbar" markierte Stichprobenlage in `algo/PLAN.md`.
+- Urteil zur Ausgangsfrage: ML **nicht** als Signalgeber (Two Sigma trainiert auf hunderten
+  Milliarden Datenpunkten über 25 GPUs, hier liegen 394 Handelstage vor; Starke dokumentiert
+  Scheitern an Rauschen und lokalen Optima). **Ja** für Pooling (sofort) und perspektivisch
+  Meta-Labeling als Filter über dem ICT-Regelwerk, nach Regelregister und Validierungs-Gate.
+- Eigener Einwand gegen eine Quellenaussage festgehalten statt übernommen: Starkes Erfolg auf einer
+  geglätteten Kursreihe ist teilweise ein Artefakt — ein gleitender Durchschnitt ist
+  konstruktionsbedingt autokorreliert, gehandelt wird aber zum echten Kurs. Auf
+  [[Reinforcement Learning für Handel — Grenzen (Starke)]] als ⚠️ markiert.
+- Nicht ausgeführt: push.ps1 (wird bewusst vom Nutzer ausgelöst).
+
+## [2026-08-08] synthesis | Prop-Firmen-Kompatibilität als Anforderung
+
+- Auslöser: Nutzerentscheidung, dass der Algo auch Prop-Firmen-Challenges handeln können soll.
+- Seite erstellt: `wiki/concepts/Prop-Firmen-Regeln & Challenge-Mathematik.md`.
+- Seiten aktualisiert: `wiki/index.md`.
+- Spec erweitert (Revision 5, Abschnitt 13): Kontoprofil statt Sonderzweig im Code, Entscheidung 26.
+- **Zwei Befunde mit echter Wirkung:** (1) Bei mitlaufendem **Intraday**-Drawdown hebt schon ein
+  unrealisiertes Zwischenhoch den Verlustboden dauerhaft — damit bricht das ICT-Skalierungsmodell
+  aus [[Partial Profit-Taking & R-Multiple-Skalierung]] (zweite Hälfte bis 9R–15R laufen lassen),
+  weil ein zurückkommender Runner permanent Puffer verbrennt. Unter End-of-Day-Trailing oder
+  statischem Drawdown besteht der Konflikt nicht. (2) Eine Challenge ist mathematisch ein
+  Erstüberschreitungs-Problem, kein Wachstumsproblem — nach Dubins & Savage (1965) ist „bold play"
+  nur im **unfairen** Spiel optimal. Bei echtem Vorteil maximieren **kleine** Einsätze die
+  Bestehenswahrscheinlichkeit. Daraus die Selbstprüfung: Wenn große Positionen die Bestehenschance
+  erhöhen, hat die Strategie keinen Vorteil.
+- Erfreulicher Nebenbefund: Sechs bereits getroffene Entscheidungen (Intraday flat, News gesperrt,
+  kein Nachlegen in Verluste, echter Stop beim Broker, CPPI-Hochwasserstand, keine
+  Latenz-Strategien) decken sich mit verbreiteten Prop-Anforderungen. Der Algo ist weitgehend
+  prop-tauglich, ohne dafür entworfen worden zu sein.
+- Zahlen bewusst als Größenordnungen markiert, nicht als verbindliche Werte — Prop-Firmen ändern
+  ihre Regeln häufig, die Bedingungen der gewählten Firma sind vor jeder Challenge selbst zu lesen.
+
+## [2026-08-08] synthesis | Datenbeschaffung — Optionen, Grenzen und eine geaenderte Entscheidung
+
+- Auslöser: Nutzerfrage „Wie komme ich an ähnlich viele Daten wie Two Sigma, um meine Ideen ähnlich
+  oft zu backtesten?"
+- Seite erstellt: `wiki/concepts/Datenbeschaffung für Backtests (Optionen & Grenzen).md`.
+- Seiten aktualisiert: `wiki/index.md`. Spec Revision 6, Abschnitt 4.5.
+- **Kernkorrektur an der Fragestellung:** Two Sigmas hunderte Milliarden Datenpunkte sind
+  Orderbuch-Ereignisse (tausendfach pro Sekunde). Ein ICT-Setup tritt höchstens einmal pro Tag und
+  Instrument auf. Die knappe Ressource ist deshalb nicht die Datenmenge, sondern die Zahl
+  **unabhängiger Vorkommen des eigenen Musters** — und die wächst nur mit Handelstagen mal
+  Instrumenten, nicht mit Auflösung.
+- **Warnung zur Doppeldeutigkeit von „öfter backtesten"**: Eine feste Regel gegen viele synthetische
+  Historien (Permutation/Bootstrap) ist ein Signifikanztest und beliebig oft erlaubt. Viele
+  Regelvarianten gegen eine Historie ist Data Mining und erhöht den nötigen Abschlag — Sullivan/
+  Timmermann/White (1999) haben genau diesen Fall geprüft und out-of-sample scheitern sehen.
+- **Entscheidung 7 geändert**: von „IBKR als einzige Quelle" auf **zweistufig** — tiefe
+  Fremdhistorie (Dukascopy kostenlos ab ~2003, FirstRate ab 2007) für Erkundung und
+  Strukturstatistik, IBKR ausschließlich für endgültige Validierung und Kostenkalibrierung. Der
+  ursprüngliche Grundsatz (keine Feed-Drift bei pip-genauen Größen) bleibt damit gewahrt.
+  Nebeneffekt: Starke Abweichung zwischen den Feeds ist selbst ein Robustheitstest.
+- Rechnerische Wirkung: 394 Instrumententage heute → rund 30.000 gepoolt. Faktor ~75.
+- Recherchierter Befund zu Orderbuchdaten: bei Databento sind CME-Daten 16+ Jahre tief verfügbar,
+  **die Orderbuch-Schemata aber nur einen Tag** im nutzungsbasierten Tarif — tiefe Orderbuchhistorie
+  beginnt bei rund $1.750/Monat. Genau der Teil, der den Fonds-Datenberg ausmacht, ist der teure.
+- Preise und Tiefen als Rechercheergebnis markiert, nicht getestet.
+
+## [2026-08-10] synthesis | Hs (Hexadezimant, 1/16) benannt + Qs/Os/Hs-Terminologietabelle
+- Nutzeranweisung: Das bereits dokumentierte 16tel-Raster (siehe MOC-Ingest 2026-08-05) heißt ab
+  jetzt kurz **Hs** (Hexadezimant), analog zu Qs (Quadranten) und Os (Oktanten).
+- Seite aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md — neuer Abschnitt
+  "Terminologie: Qs / Os / Hs" mit Übersichtstabelle (Range/4, Range/8, Range/16) plus Klarstellung
+  „Mean Threshold = C.E des OB/CISD" (das 0,5-Level einer Range ist identisch mit dem C.E des
+  zugrundeliegenden Order Blocks bzw. CISD).
+- Standardverfahren festgelegt: Fragt der Nutzer künftig nach den Qs/Os/Hs einer Range (z.B.
+  Premium Wick, ORG), wird immer eine vollständige tabellarische Übersicht aller Level dieser
+  Stufe berechnet und ausgegeben, nicht nur das angefragte Einzellevel.
+- Anlass: Live-Check am 2026-08-10 (Montag) ergab `org_ce: null` im `live_status.py`-Lauf — Freitag-
+  Close 29.820,00 vs. Montag-Open 29.805,50 (14,5 Punkte) ist praktisch kein ORG, daher an dem Tag
+  kein Q/O/H-Raster darauf anwendbar.
+- **Nachtrag selben Tags**: Standardverfahren erweitert — sobald der Nutzer in einem Bias von
+  Wicks oder FVGs spricht (auch ohne explizite Qs/Os/Hs-Nachfrage), automatisch die Level-Tabelle
+  für die relevante Range erstellen und prüfen, welche Level Preis bereits respektiert hat,
+  Schwerpunkt C.E (Mean Threshold).
+- **Zweiter Nachtrag selben Tags**: Standardverfahren gilt jetzt für **alle** ORGs dieser Seite
+  (NY-AM/PM/Midnight-London/London/NY-Pre-Session), nicht nur das RTH-9:30-Gap — ergänzt auf
+  wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md. Zusätzlich neue offene Hypothese
+  auf wiki/concepts/ICT Macros & Leading Candles.md: Preis baut am Start eines Macro-Fensters
+  (Anlass: 10:50 Lunch Macro) sichtbar Kraft/Energie auf ("Spooling"), noch ohne konkrete
+  Operationalisierung — als offene Hypothese markiert, nicht als bestätigte Regel.
+- **Dritter Nachtrag selben Tags**: erstes konkretes Beispiel per Chart-Screenshot geliefert
+  (MNQU2026 1min, 2026-08-10) — Preis konsolidiert in kleinen Candles genau während 10:50–11:10 in
+  einer ~29.790–29.810-Zone, löst sich danach in eine Expansion Richtung NWOG-33-Level
+  (29.841/29.851,50) auf. Auf wiki/concepts/ICT Macros & Leading Candles.md als Einzelbeispiel
+  dokumentiert (Abschnitt "Erstes Beispiel"), weiterhin nur eine Hypothese, kein Beleg.
+- Screenshot lag lose im raw/-Root (generischer Dateiname `10.08.2026.06.10.01.326.PM.png`,
+  Kollisionsgefahr) — nach raw/trading-ict/assets/ verschoben und in
+  `MNQ 2026-08-10 - 10-50 Macro Spooling.png` umbenannt, dann per `![[...]]` in obiges Beispiel
+  eingebunden.
+
+## [2026-08-10] query | MNQ 1m-Vakuum 12:31/12:32 NY — Anzeigefehler ausgeschlossen
+- Anlass: Jannes meldete einen "unnatuerlich grossen offenen Bereich" im MNQ-1m-Chart um
+  12:30/12:31 NY und vermutete einen TradingView-Anzeigefehler. Pruefung sofort statt erst
+  morgen (Marktdaten-Nulltoleranz, CLAUDE.md).
+- Befund: **kein Anzeigefehler.** yfinance als unabhaengige Quelle zeigt dieselbe Luecke.
+  19,00 Punkte ohne Print zwischen 12:31 Low (29.806,25) und 12:32 High (29.787,25),
+  Volumenspitze 3,2x, kein Bar-Ausfall (0 fehlende Minuten 09:30-13:30). Um 13:10 NY
+  komplett durchgehandelt. Zeitlage eine Minute spaeter als per Auge geschaetzt.
+- Seiten aktualisiert: wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md
+  (neuer Punkt 7: Haeufigkeitsbasis fuer 1m-Vakuen + Unterscheidungsregel Anzeigefehler
+  vs. echtes Vakuum)
+- Neu: algo/backtest_1m_gaps.py (Vakuen nur zwischen benachbarten Minuten, --selfcheck).
+  MNQ 23 Tage: 16 Vakuen (0,055 %), genau eines >= 10 Pkt. ES 18 Tage: 139 Vakuen, ebenfalls
+  eines >= 10 Pkt. Beide Vergleichsfaelle in duennen Randzeiten -> Jannes' "so noch nie
+  gesehen" ist quantitativ bestaetigt.
+- Erinnerung fuer den Bias am 2026-08-11 als Memory hinterlegt (Nutzerwunsch).
+
+## [2026-08-10] synthesis | Macro-Fenster (:50-:10) gebacktestet + Spooling-Beispiel korrigiert
+- Anlass: Jannes markiert im MNQ-Chart (2026-08-10, 1min/5min) das Macro 09:50-10:10.
+- Neu: algo/backtest_macro.py — jeder Tag in 72 lueckenlose 20min-Bloecke, Macro `:50-:10`
+  gegen die beiden Kontrollbloecke derselben Stunde (schaltet den Tageszeit-Confounder aus).
+  --selfcheck mit 5 Asserts. Basis: MNQ 23 Tage, 1091 Bloecke.
+- Befund: Macros liefern nicht mehr Volatilitaet, sondern gerichtetere — median Range +9 %,
+  median Netto +32 % (31,50 vs 23,88), dir 0,52 vs 0,46 (Mann-Whitney Netto p<0,0001).
+  Gegen die These: 09:50-10:10 ist nur Median-Rang 3 von 49, der RTH-Open-Block 09:30-09:50
+  ist groesser (medRange 199,12 vs 152,38).
+- Seiten aktualisiert: wiki/concepts/ICT Macros & Leading Candles.md — neuer Backtest-Abschnitt,
+  neues Beispiel 09:50-10:10 mit Screenshot, **und Korrektur des heute frueh angelegten
+  Spooling-Beispiels**: 10:50-11:10 war entgegen der Chart-Lesart der staerkste gerichtete Block
+  des Tages (netto -87,25, dir 0,82); die Kompression lag 11:10-11:50, die Aufloesung im naechsten
+  Macro 11:50-12:10. Spooling beschreibt damit die Phase *zwischen* zwei Macros.
+- Neues Asset: raw/trading-ict/assets/MNQ 2026-08-10 - 09-50 Macro.png
+
+## [2026-08-10] synthesis | FVG-Haeufigkeit in Macro-Fenstern + Chart-Konvention "lila = SB FVG"
+- Anlass: Jannes' SB FVG (SIBI) um 14:12 NY, lila markiert, mit der Aussage "genau das will ich
+  optimalerweise im Macro sehen". Dazu die Dauerkonvention: lila FVG-Flaeche = immer SB FVG.
+- algo/backtest_macro.py um FVG-Zaehlung je Block erweitert (reuse tools.analyze_ohlc.fvgs,
+  neue CLI-Option --min-fvg).
+- Befund: FVGs haeufen sich in Macros, und der Effekt waechst mit der Groesse — >=2 Pkt +9 %,
+  >=5 Pkt +13 %, >=10 Pkt +27 % (p=0,0001), >=15 Pkt +20 %. Aber: 96 % aller Macro-Bloecke
+  enthalten ohnehin ein FVG >=2 Pkt (fast drei pro 20 min), "ein FVG im Macro" filtert also
+  nichts. Erst ab ~10 Punkten wird es selektiv (53 % der Macros vs 40 % der Kontrollbloecke).
+- Seiten aktualisiert: wiki/concepts/ICT Macros & Leading Candles.md (neuer Abschnitt zur
+  FVG-Haeufigkeit + Abschnitt "Chart-Konvention (Nutzer)").
+- Journal: journal/entries/2026-08-10 MNQ Tape Reading.md um den 14:12-Eintrag ergaenzt, inkl.
+  Hinweis, dass 14:12 zwei Minuten nach dem markierten Macro 13:50-14:10 liegt.
+
+## [2026-08-10] synthesis | Macro-Datenbank — Design + Datenqualitaetsbefunde
+- Brainstorming-Session zu einem Skill, der jedes Macro-Fenster des Handelstags erfasst
+  (Vorgeschichte, Verlauf, Startminute, getroffene Level) und daraus Wahrscheinlichkeiten
+  mit Diagrammen rechnet. Spec: docs/superpowers/specs/2026-08-10-macro-datenbank-design.md
+- **Sessionfehler gefunden**: algo/backtest_macro.py zerlegt den *Kalendertag* ab 00:10, der
+  MNQ-Handelstag beginnt aber 18:00 am Vorabend. Dadurch fehlen 6 der 23 Macro-Fenster
+  (Abend-/fruehe Asia-Session). Die publizierten Zahlen auf der Konzeptseite (351/740/1091
+  Bloecke, drei p-Werte, "Median-Rang 3 von 49") beruhen auf diesem verkuerzten Tag.
+  Noch nicht behoben — Warnblock auf der Seite gesetzt, Fix vor dem Datenbank-Bau.
+- **Der Handelstag hat 23 Macro-Fenster, nicht 24** — 17:50 liegt in der Globex-Pause.
+- **Datenqualitaet vermessen**: kein Volumen in den TradingView-Exporten (schliesst
+  volumenbasierte Spooling-Definitionen aus); systematische Exportluecke 23:59-00:08 an
+  15 von 19 Tagen (macht Fenster 23:50 unbrauchbar); vier Fragmenttage; bei strikter
+  Vollstaendigkeit 440 von 529 Fenstern nutzbar (21 Fenster, +21 je Handelstag).
+- **Nebenbefund Datenquellen**: Dukascopy liefert kostenlos Nasdaq-CFD-Tickdaten
+  (USATECHIDXUSD, per Ladetest bis 2012 bestaetigt). Bewusst nicht genutzt — Nutzerentscheidung
+  zugunsten ausschliesslich echter MNQ-Daten, Datenbank waechst stattdessen taeglich mit.
+- Seiten aktualisiert: wiki/concepts/ICT Macros & Leading Candles.md (Warnblock + Abschnitt
+  "Datenqualitaet"), algo/PLAN.md (drei Log-Eintraege).
+
+## [2026-08-10] ingest | YouTube: Navigating High Resistance Liquidity Run Conditions
+- Scan-Fenster: gezielter Einzel-Ingest auf Nutzerwunsch (heute hochgeladen), kein Kanal-Scan.
+  Kandidat: O217xQsEUgI, Upload 2026-08-10, 26:50, noch nicht ingested.
+- Transkript geholt: raw/trading-ict/2026/yt-O217xQsEUgI-transcript.md (~3.900 Woerter,
+  Auto-Captions praktisch vollstaendig, letzter Satz bricht mitten im Wort ab).
+- Seiten erstellt: wiki/sources/youtube/2026-08-10 - Navigating High Resistance Liquidity Run
+  Conditions (Source).md
+- Seiten erweitert:
+  - concepts/IFVG (Inverse Fair Value Gap).md — Abschnitt "Mehrfach-Qualifizierung vor dem
+    Entry": zwei Closes ueber dem Gap noetig, Entries ueber das ganze Gap verteilt (4 -> 12
+    Kontrakte, Durchschnitt = Gap-High, Stop auf Gap-Low - 1 Tick).
+  - concepts/Institutional Order Flow (Body vs Wick).md — Abschnitt "Wick-C.E. als Body-Grenze
+    ('no bodies buried')" inkl. Verteidigungs-Kaskade Wick-C.E. #1 -> #2 -> Swing Low.
+  - concepts/Low Resistance Liquidity Run.md — HRLR-Unterabschnitt "Navigieren statt Aussitzen".
+  - concepts/Partial Profit-Taking & R-Multiple-Skalierung.md — "Stop-Order auf Teilposition als
+    Retracement-Partial" (2 von 7 Kontrakten unter den verteidigten Wick).
+  - concepts/Fair Value Gap (FVG).md — teilweise offen gelassenes FVG als Continuation-Signatur.
+  - concepts/Midnight Opening Range.md — MOP als Magnet und Widerstand zugleich, erstes
+    Partial-Ziel (5 von 12 Kontrakten knapp darunter).
+  - wiki/index.md — neue Quelle eingetragen.
+- Entscheidung offengelegt: Die HRLR-Ergaenzung steht in scheinbarer Spannung zur bestehenden
+  Regel "kein FVG in 15M/5M -> nicht handeln". Bewusst **nicht** als Widerspruch markiert,
+  sondern als Praezisierung formuliert (Entry-Filter vs. Management einer laufenden Position) —
+  selber Autor, keine zwei gleichwertigen Lehrmeinungen.
+- Ausgefiltert: Market-Replay-/Konkurrenz-Polemik, Paper-Account-Begruendung (Lizenzrecht),
+  "predict statt react"-Rhetorik — kein neuer Regelinhalt.
+
+## [2026-08-10] ingest | Core Content Month 09 (8 YouTube-Lektionen, Playlist)
+- Auftrag: Playlist PLVgHx4Z63paZfDRSk94aEMoYKUBqQgj0b ("ICT Mentorship Core Content - Month 09",
+  8 Videos, hochgeladen 2022-10-09 bis 2022-10-15, Inhalt Mai-2017-Mentorship). Nutzervorgabe:
+  arbeiten bis kurz vor die IP-Sperre, vorher aufhoeren.
+- **Rate-Limit-Strategie**: streng seriell, 45s Abstand fuer die ersten 6, danach 90s fuer die
+  letzten 2. Bekannte Grenze laut frueheren Log-Eintraegen: `IpBlocked` nach ca. 16
+  Transkript-Fetches pro Session, ausgeloest durch Parallelitaet. Diese Session: **9 Fetches
+  gesamt** (1 aus dem vorherigen Ingest + 8), **kein Block**. Alle 8 Videos vollstaendig geholt.
+- Stolperstein festgehalten: Video-ID `-oMtfDvc18Y` beginnt mit einem Bindestrich, argparse liest
+  sie als Flag. Loesung: `python tools/fetch_yt_transcript.py -- "-oMtfDvc18Y"`.
+- Alle 8 Lektionen existierten bereits als Notion-Export im Vault. Die Videos sind durchweg die
+  **ausfuehrlicheren Vollfassungen** — bei "Filling The Numbers" und "20 Pips Per Day" weicht der
+  Videoinhalt sogar substanziell von der Notion-Notiz ab.
+- Seiten erstellt (8 Quellseiten + 3 Konzeptseiten):
+  - wiki/sources/ICT Mentorship Core Content - Month 09 - {The Sentiment Effect, Filling The
+    Numbers, 20 Pips Per Day, Trading In Consolidations, Trading Market Reversals, Bread & Butter
+    Buy Setups, Bread & Butter Sell Setups, ICT Day Trade Routine} (Source).md
+  - wiki/concepts/Filling The Numbers (4 Level pro Tag).md — IPDA faellt vier Level pro Tag,
+    gemessen ueber vier austauschbare Messlatten, kombiniert per Konfluenz.
+  - wiki/concepts/Flout (15-00 NY Range).md — **im Vault bislang komplett unbekannt**: Range
+    15:00–00:00 NY, halbiert; die halbe Range ist die Projektionseinheit.
+  - wiki/concepts/Average Daily Range (5-Tage-ADR).md — ADR als Reichweiten- und Exit-Werkzeug,
+    inkl. ICTs "15 Pips vor der ADR"-Exit (begruendet mit Datenanbieter-Streuung).
+- Seiten erweitert: wiki/models/{The Sentiment Effect, 20 Pips Per Day, Trading In Consolidations,
+  Bread & Butter Setups, ICT Day Trade Routine}.md, wiki/concepts/Market Reversal Types.md,
+  wiki/index.md.
+- **Offene Frage geschlossen**: Auf wiki/concepts/Market Reversal Types.md stand seit 2026-08-02
+  ein ⚠️-Marker, welche Reversal-Typen 6–8 seien. Die Video-Fassung zaehlt High und Low getrennt →
+  Marker auf ✅ umgestellt mit Begruendung (PDH, PDL, Intraweek High, Intraweek Low, ITH, ITL,
+  NY Session, London Close).
+- **Widerspruch markiert statt aufgeloest**: ICT nennt fuer denselben London-Close-Scalp innerhalb
+  desselben Monats zwei Parametersaetze (10:00–12:00 NY / ~20 % / ADR 1,25–1,33× vs. 10:30–13:00
+  NY / 20–30 % / kein Faktor). Beide auf der ADR-Seite nebeneinander stehengelassen, da gleichwertige
+  Aussagen desselben Autors; fuer den Backtest sind beide zu pruefen.
+- Drei backtestbare Regeln nach algo/PLAN.md uebertragen (London-Close-Retracement,
+  33-Pip-Protraction, Filling-The-Numbers) — als Backlog, noch kein Backtest gelaufen.
+- Ausgefiltert: Market-Replay-/Konkurrenz-Polemik, Forum-/Indikator-Downloadverweise,
+  Demo-vs-Live-Disclaimer, persoenliche Anekdoten, die mehrfach wiederholte
+  Retail-vs-Smart-Money-Gegenueberstellung.
+
+## [2026-08-10] ingest | ICT Gems — Macro-Reihe (6 von 11 Videos, Playlist)
+- Auftrag: Playlist PLEch7yirIOV8YDCIeG_8XhzkCa_OGcCpr vom Drittkanal **ICT Gems**, der Ausschnitte
+  aus ICT-Originalvideos hochlaedt (11 Videos, 2024). Nutzervorgabe: Downloads vor der IP-Sperre
+  beenden. Kein technisches Umgehen der Sperre — nur Taktung, damit sie nicht auftritt.
+- **Rate-Limit-Bilanz**: Diese Session hatte vor dem Batch bereits 9 Fetches (zwei vorherige
+  Ingests). Bekannte Grenze ~16 pro Session. Daher **bewusst nur 6 der 11 Videos** geholt, streng
+  seriell mit 60s Abstand → **15 Fetches gesamt, kein Block**. Danach gestoppt.
+- **Priorisiert nach Macro-Relevanz.** Geholt: The Functions of a Macro, How Price Behaves At
+  Specific Times, When To Anticipate Price Spooling, How to Trade the Final Hour Macro, Blending
+  Silver Bullets and Macros, ICT Teaches how to Scalp Every 1 Hour Candle.
+- **Bewusst nicht geholt (5, fuer eine spaetere Session)**: syPT2OUwmBs (London Opening Range +
+  Macros, 3:30), mLPJxXUGF1k (Non-Farm Payroll Profile + Macros, 14:01), 7lqIrzLKyZ0 (Turtle Soup
+  Entries Using ICT Gauntlet, 5:29), ifBZ_fxyKFs (Algorithmic Timings With Opening Ranges, 24:21),
+  Eyp_XiYpB4A (Balanced Price Ranges Inside Fair Value Gaps, 15:39). Die letzten drei sind nicht
+  Macro-Thema, die ersten beiden schon — sie sind die naechsten Kandidaten.
+- Seiten erstellt: 6x wiki/sources/youtube/ICT Gems - ... (Source).md sowie
+  wiki/concepts/Institutional Order Flow Entry Drill (IOFED).md (neues, benanntes ICT-Entry-Modell:
+  Teil-Entry an der Oberkante eines FVG, das nicht fuellen soll).
+- Seiten erweitert: wiki/concepts/{ICT Macros & Leading Candles, Fair Value Gap (FVG), Breakaway
+  Gap, CISD (Change in State of Delivery)}.md, wiki/models/{NY Lunch Macro Model, Market on Close
+  (MOC) Macro Model, Silver Bullet Model}.md, wiki/index.md.
+- **Offene Hypothese aufgeloest — gegen die urspruengliche Lesart**: Die seit heute frueh als
+  "(laufend)" markierte Spooling-Hypothese verstand Spooling als Kraft-/Energieaufbau (Kompression)
+  vor dem Move. ICT definiert es explizit als das Gegenteil: *"the market will spool — it means it
+  jumps and runs"* zu Sellside, Buyside **oder** in eine Ineffizienz. Marker auf ✅ umgestellt, die
+  beobachtete Kompression zwischen zwei Macros bleibt als reale, aber anders benannte Preisaktion
+  stehen.
+- **Folgenreichste Einzelaussage**: *"the move **begins** in those 20 minutes, it's not the entirety
+  of the move"* — ICT korrigiert damit ausdruecklich die Lesart, der Move laufe *im* Macro ab. Das
+  trifft die Messmethodik von `algo/backtest_macro.py` direkt; als Backlog-Punkt uebertragen.
+- **Zwei Widersprueche markiert statt aufgeloest** (beide ICT gegen ICT, beide zu backtesten):
+  MOC-Fenster 15:50-16:00 (2026) vs. 15:45-16:00 (2024, *"it's not 10 minutes, it's 15 minutes"*);
+  Lunch-Macro-Start 10:50 (Lecture 2025) vs. 11:30 (Gems 2024).
+- **Erstmals definiert**: Measuring Gap (halbe Strecke zwischen Inception und Terminus, fuellt
+  nicht) auf wiki/concepts/Breakaway Gap.md — der Begriff war zuvor nur beilaeufig erwaehnt.
+- Ausgefiltert: Polemik gegen andere Lehrer (ueber den sachlichen Korrekturkern hinaus),
+  Begeisterungsausrufe beim Chart-Durchgang, "das gehoert in eure Notizen"-Einschuebe,
+  Kursnotierungs-Vorlesen ohne Regelinhalt.
+## [2026-08-10] setup | Macro-Datenbank + Skill macro-db
+- algo/macro_db.py neu: build/stats/plot, eine Zeile je Macro-Fenster je Handelstag.
+- Skill .claude/skills/macro-db/SKILL.md: Antwortdisziplin (n nennen, Wilson-Intervall
+  statt Punktschaetzung, Basisrate danebenstellen, unter n=20 keine Prozentzahl).
+- Seiten erstellt: wiki/synthesis/Macro-Datenbank (laufend).md
+- Seiten aktualisiert: wiki/index.md, algo/README.md, algo/PLAN.md
+
+## [2026-08-10] ingest | ICT Gems — restliche 5 Videos (Playlist jetzt 11/11)
+- Nutzerwunsch: die beim vorherigen Batch bewusst ausgelassenen 5 Videos nachziehen.
+- **Rate-Limit**: Session lag bereits bei 15 Fetches (Grenze ~16). Deshalb 180s Abstand, seriell,
+  mit Abbruchpruefung auf `IpBlocked` nach jedem Video, wertvollste zuerst. Ergebnis: **alle 5
+  geholt, 20 Fetches gesamt, kein Block**. Die ~16er-Grenze aus frueheren Logs gilt offenbar nur
+  bei paralleler Ausfuehrung — seriell mit Pausen liegt die Schwelle deutlich hoeher. Skill-Notiz
+  dazu bereits vorhanden, Zahl hier aktualisiert.
+- Seiten erstellt: 5x wiki/sources/youtube/ICT Gems - ... (Source).md sowie zwei Konzeptseiten:
+  - wiki/concepts/Gauntlet (PD Array).md — benannte, im Vault unbekannte PD Array: das erste SIBI
+    im Liquiditaets-Bein eines Breakers, als Turtle-Soup-Entry.
+  - wiki/concepts/Implied Dealing Range.md — noch nicht abgeschlossene Preisstrecke; **Breakaway
+    Gap bei 20-30 %, Measuring Gap bei 50 %**, plus Fib-Verifikationsverfahren.
+- Seiten erweitert: wiki/concepts/{ICT Macros & Leading Candles, Balanced Price Range (BPR),
+  Algorithmic Price Delivery Continuum, ORG (Opening Range Gap) & 1st Presented FVG,
+  Institutional Order Flow Entry Drill (IOFED), Midnight Opening Range, ICT Killzones,
+  Two Stage News Delivery (FOMC & NFP), Propulsion Block}.md,
+  wiki/models/Market on Close (MOC) Macro Model.md, wiki/index.md.
+- **Spooling endgueltig geklaert**: *"All a macro is, is the beginning of a spooling event...
+  it is not going to give you a direction."* Damit ist die heute frueh aufgeloeste Hypothese
+  zusaetzlich aus einer zweiten Quelle bestaetigt — Macro = Timing, nicht Richtung.
+- **MOC-Widerspruch praezisiert statt aufgeloest**: Eine dritte ICT-Quelle nennt wieder **15:50**
+  (Stand damit 2:1 gegen 15:45) und beschreibt 15:15-15:45 als **vorgelagertes Setup-Fenster**.
+  Moegliche Zusammenfuehrung ("Setup-Fenster, dann Ausfuehrung") auf der MOC-Seite notiert, aber
+  ausdruecklich **nicht** als gesichert markiert.
+- **Grosse inhaltliche Zugewinne**: BPR-innerhalb-FVG vollstaendig (welche Haelfte, warum balanced,
+  Stop in den oberen Quadranten, **Re-Entry mit halber Kontraktzahl**); Price Delivery Continuum
+  als Cycling-Methode statt Top-Down; Opening Range 9:30-10:00 als eigenes Messobjekt mit
+  Quadranten und STD-Projektionen (plus PM-Variante 13:30-14:00); Bedingungen, unter denen das
+  1st Presented FVG **verworfen** wird.
+- Backlog nach algo/PLAN.md: Vier-FVG-pro-Stunde-These (mit ausdruecklicher Warnung, dass sie
+  trivial wahr sein koennte — 95 % der Macro-Fenster enthalten bereits ein FVG >= 2 Punkte).
+- Nebenbefund/Handwerksfehler: Ein Python-Einzeiler zum Frontmatter-Patchen hat die `sources:`-Zeile
+  von "ORG (Opening Range Gap) & 1st Presented FVG.md" zerschossen (`find(']')` traf das schliessende
+  `]]` eines Wikilinks statt das Listenende). Sofort repariert und per YAML-Parse verifiziert.
+- Ausgefiltert: Telegram-Eigenwerbung, Publikumsansprachen, ein im Auto-Transkript verstuemmelter
+  Zahlenvergleich (bewusst **nicht** als Zahlenbeispiel uebernommen), Korrelationsbruch-Exkurs.
+
+## [2026-08-10] setup | macro_db: Startfehler behoben, Exkursion nach ICT-Korrektur ergaenzt
+- Fehler behoben: `python algo/macro_db.py` ohne Subcommand endete mit argparse-Fehler.
+  Laeuft jetzt `stats`, baut vorher neu wenn die CSV fehlt, veraltet ist oder nicht mehr
+  zum Spaltensatz passt (Letzteres verhinderte bisher, dass neue Spalten sichtbar wurden).
+- Neue Wiki-Quellen (ICT Gems Macro-Reihe) eingearbeitet: ICT sagt, der Move **beginne**
+  im Macro und laufe darueber hinaus. Dafuer `mfe_20/40/60` als Zielgroesse erhoben.
+- **Befund: kein Startfenster-Effekt.** Die Auslenkung waechst mit x1,40 / x1,71 exakt so
+  wie ein Random Walk (x1,41 / x1,73). Aus der Uhrzeit allein folgt kein Bewegungsvorteil.
+- **Befund: ICTs Mindestziel von 10 Handles** wird in 100 % der Fenster erreicht (n=440) --
+  als Filter unbrauchbar, nur als Untergrenze fuer die Stopwahl.
+- Terminologie korrigiert: die vier `pre_*`-Spalten sind **Vorlauf-Kandidaten**, nicht
+  Spooling-Kandidaten. Spooling ist laut ICT der gerichtete Lauf selbst.
+- Seiten aktualisiert: wiki/concepts/ICT Macros & Leading Candles.md (Messergebnis zum
+  Startfenster), wiki/synthesis/Macro-Datenbank (laufend).md, .claude/skills/macro-db/SKILL.md,
+  algo/README.md, algo/PLAN.md
+
+## [2026-08-11] synthesis | Masters-Validierung in die Backtest-Reports verdrahtet (Backlog 7/8/9)
+- Neues Modul algo/confidence.py: Bruecke zwischen masters.py-Werkzeugkasten und den Reports
+  (masters.py bleibt dadurch backtesting-Lib-unabhaengig).
+- Backlog 7 (Bar-Renditen): backtest_bt.py weist Profit Factor/Sharpe jetzt auf Bar- neben
+  Trade-Basis aus. Realer Lauf (36/50 Tage MNQ): PF Trade 0,549 vs. Bar 0,872.
+- Backlog 9a (BCa): 95%-Untergrenze der mittleren Bar-Rendite -0,0137 % (<= 0 -> nicht von null
+  unterscheidbar), PF-Untergrenze 0,689 -- Silver-Bullet-Basisregel statistisch nicht von
+  "kein Edge" trennbar.
+- Backlog 9b (Drawdown): validate.py::monte_carlo weist die Max-Drawdown-Zeile jetzt doppelt
+  aus -- alte Perzentil-Zeile als "naiv" markiert, darunter die korrekte
+  double_bootstrap_drawdown() via masters.drawdown_bound.
+- Backlog 8 (Guard Buffer): geprueft, kein Leck (signals.py zustandslos, Lookahead 1 ->
+  guard_buffer=0); walk_forward() um omit-Parameter (Default 0) gehaertet.
+- Backlog 10 (permutation_test.py) bleibt bewusst offen: braucht performante next()-Variante
+  (aktuell O(n²)), siehe algo/PLAN.md.
+- selfcheck.py von 8 auf 10 Checks (confidence, validate), alle gruen.
+- Seiten aktualisiert: wiki/concepts/Profit pro Bar vs. pro Trade.md,
+  wiki/concepts/Walk-Forward Guard Buffer & Varianz-Inflation.md,
+  wiki/concepts/Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa).md,
+  wiki/concepts/Grenzen für Einzelrenditen & Drawdown.md, algo/README.md, algo/PLAN.md
+
+## [2026-08-11] ingest | Daily Bias 11.08. (Journal, live)
+
+- Nutzer: "neuer daily bias für heute" — `raw/daily bias 11.08.md` nach
+  `raw/journal/Daily Bias 2026-08-11.md` verschoben (Konvention analog 08-03/08-06/08-07),
+  verarbeitet zu `journal/entries/2026-08-11 MNQ Daily Bias.md` + Zeile in `journal/journal.csv`
+  (id `2026-08-11-01`).
+- **Bias: Neutral bis Baerish.** Rückblick Montag (10.08.): Buyside nicht genommen, stattdessen
+  konsolidiert und unter dem C.E. der Premium Wick vom 05.08. geschlossen — der bullishe
+  Weekly-Orderflow (siehe `2026-08-10 MNQ Weekly Bias`) hat damit bereits einen Dämpfer bekommen.
+  Kleines Daily BISI vom 07.08. (Relevanz unklar), großes BISI vom 04.08. als Invalidierungslevel
+  (C.E. darf nicht unterschritten werden). Aktuell unterhalb eines kleinen NDOG. Nur Yellow-Folder-News
+  heute, erwartete Konsolidierung bis zum Hauptmove (Red-Folder-News später in der Woche laut
+  Weekly-Roadmap). Plan: Midnight Opening Range ausmessen.
+- Fehler: P07 (kein Chartbild). Datenlücke P09 (`bias_korrekt` offen, Tag beim Erfassen nicht
+  geschlossen) + fehlende Exakt-Preise im Text (NDOG/C.E./BISI nur qualitativ beschrieben).
+- `tools/journal_wiki.py` neu gelaufen — Journal-Auswertung.md unverändert (Checkliste betrifft
+  nur Tape-Reading-Einträge, keine Daily-Bias-Einträge).
+- Kein `wiki/index.md`-Eintrag nötig — einzelne `journal/entries/`-Seiten werden dort nicht
+  katalogisiert (nur aggregierende `wiki/synthesis/`-Reviews wie `KW32 2026 — Weekly Review`).
+- Offen: `bias_korrekt` nachtragen, sobald der Tag geschlossen hat.
+
+## [2026-08-11] synthesis | Letztes-Stunden-Macro: 3 statt 1 Fenster
+- Nutzerkorrektur: `algo/macro_db.py` bildete die letzte Handelsstunde bisher als eine
+  generische Zeile `15:50` (20 Min) ab, die zudem über den RTH-Schluss 16:00 hinauslief.
+- Recherche im Volltext-Transkript `raw/trading-ict/2026/yt-VH7Dh1OONj4-transcript.md`
+  ("ICT Gems - When To Anticipate Price Spooling") bestätigt: "there's four of four macros
+  in that last hour" — mit Zeiten belegt sind zwei/drei: 15:15–15:45 (Final Hour Macro,
+  unstrittig) und Market on Close, dessen Länge selbst zwischen Primärquellen strittig ist
+  (2:1 für 15:50–16:00/10 Min vs. Gems-Quelle 15:45–16:00/15 Min). Ein vierter Teil
+  (16:01/bis 16:15) gilt nur zur Earnings-Saison, aus OHLC allein nicht erkennbar.
+- `LAST_HOUR_WINDOWS` in `algo/macro_db.py`: drei eigene Fenster (15:15/30min, 15:45/15min,
+  15:50/10min) statt der einen generischen Zeile — löst den Primärquellen-Streit nicht
+  einseitig auf, sondern hält beide MOC-Lesarten nebeneinander (Wiki verlangte das bereits).
+- Seiten aktualisiert: `wiki/models/Market on Close (MOC) Macro Model.md`,
+  `.claude/skills/macro-db/SKILL.md`.
+- `algo/results/macro_db.csv` neu gebaut (483 statt 461 Zeilen), `--selfcheck` grün.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 1/61, chart-only ohne Voiceover)
+- Playlist https://www.youtube.com/playlist?list=PLEch7yirIOV8T1ZPGDzi2Ch2aQdjhgPwR: 61 Videos,
+  alle chart-only ohne Voiceover/Untertitel — Analyse per ffmpeg-Frame-Extraktion (alle 3-4s) +
+  visueller Auswertung statt Transkript, auf Nutzerwunsch per `/loop`-Skill in Batches verteilt.
+- Batch 1 (3 Videos, neueste zuerst): c0v2aA0HvcE (Okt 3 2024, NQ Short/Lunch Macro),
+  1dPzqoVvNtY (Sep 23 2024, NQ Long/Macro), ubHLQcaHCUg (Sep 13 2024, NQ Short/Silver Bullet).
+  Alle drei erstmalig ingested, keine Duplikate.
+- Seiten erstellt: `wiki/sources/youtube/2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source).md`,
+  `wiki/sources/youtube/2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source).md`,
+  `wiki/sources/youtube/2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source).md`.
+- Seiten erweitert: `wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md` (neuer Abschnitt
+  "Kontraktbasierte Skalierung statt SL-Nachziehen" mit drei konkreten $-Beispielen).
+- Assets: 5 zugeschnittene Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien (kein Text, nur Metadaten+Verweis) unter
+  `raw/trading-ict/2026/yt-<id>-transcript.md` für die 3 IDs angelegt, damit künftige
+  Loop-Durchläufe sie als bereits verarbeitet erkennen.
+- Offene Beobachtung: Silver-Bullet-Trade zeigt deutlich höhere Kontraktzahl (18) als
+  Macro-Trades (2-7) — noch nicht über mehrere Videos verifiziert, im Auge behalten.
+- Nächste Charge: `/loop`-Wakeup fährt fort mit den nächsten 2-3 Videos aus derselben Playlist
+  (58 verbleibend), gleiche Vorgehensweise.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 2/61, chart-only ohne Voiceover)
+- Fortsetzung des Batch-Ingests (siehe vorheriger Eintrag), Tempo auf Nutzerwunsch erhöht
+  (5 Videos statt 2-3 pro Durchgang) — alle 5 Downloads liefen ohne Drosselungs-Anzeichen.
+- Batch 2 (5 Videos): hI3JEJcRtSs (Sep 11 2024, NQ Long/MOC Macro), rHAWHgfyyHs (Jan 12 2023,
+  ES Long — Chart zeigt tats. NQH2023, vermutlich Begleit-Chart), uByH6V7z9Qw (Jan 12 2023,
+  ES Short/Last Hour Setup), bFVu1XHa2Ls (Jan 17 2023, ES Short), 0Z6EFk2bHfA (Feb 1 2023,
+  ES Short). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-*`/`2024-*.md`-Sourceseiten (siehe
+  `wiki/index.md` → ICT Executions).
+- Seiten erweitert: `wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md` (neuer
+  Abschnitt "Pyramiding als Gegenstück" — Kontrakt-Aufstockung statt nur -Reduzierung, plus
+  FVG-interne und NWOG-nahe Partial-Beispiele).
+- Neue Primärquellen-Bestätigung: MOC-Macro-Fenster 15:15-15:45 ET direkt aus Chart-Annotation
+  (deckt sich mit bestehender `algo/macro_db.py`-Regel).
+- Assets: 7 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt (Skip-Erkennung künftiger Loop-Durchläufe).
+- Stand: 8 von 61 Videos erledigt, 53 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 3/61, chart-only ohne Voiceover)
+- Fortsetzung im vom Nutzer festgelegten Tempo (5 Videos / 5-Minuten-Takt), keine
+  Drosselungs-Anzeichen bei den Downloads.
+- Batch 3 (5 Videos): YDuUzz-QBes (Feb 8 2023, ES Short), gcUE2QntJ8Y (Feb 16 2023, ES Short),
+  eseZaxGw_f0 (Feb 22 2023, ES Short/PM Session), eIucb7ovAUk (Feb 23 2023, ES Short),
+  yY0mcOtv2fc (Feb 28 2023, ES Short). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-02-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/models/Three Timeframe Framing.md` (neuer Abschnitt "Live-Beispiel" mit
+  1H/15M/5M-Panel-Nachweis).
+- Wiederkehrendes Muster bestätigt: CE-Linien (50%) als bevorzugter Entry-Punkt über
+  verschiedene PD-Array-Typen hinweg (FVG, IFVG, Opening-Gap), NWOG/NWOG-High als konkret
+  benanntes Kursziel.
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 13 von 61 Videos erledigt, 48 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 4/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt. Ein Download (KGIHDHTwvpU) lief spürbar langsamer
+  (~15s statt ~1s) als die übrigen, aber ohne Fehler — kein eindeutiges Drosselungssignal,
+  weiter beobachtet, kein Abbruch nötig.
+- Batch 4 (5 Videos): 0r9tpiNMeqI (Mar 2 2023, ES Long/Inversion Breaker), qr2l0r2wvqw (Mar 10
+  2023, ES Short), asz4AKRyvJU (Mar 13 2023, ES Short/Final Hour), KGIHDHTwvpU (Mar 20 2023,
+  ES Long), ifbLJCULf1U (May 26 2023, ES Long/No Secret Weapons). Alle fünf erstmalig
+  ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-03-*`/`2023-05-26*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Breaker Block.md` (neuer Abschnitt "Inversion Breaker" mit
+  Invalidierungsregel), `wiki/concepts/Risiko-Verfeinerung über Timeframes.md` (neuer Abschnitt
+  "Stop unter Wick-C.E. statt volle Range").
+- Neue Muster: Inversion Breaker (Breaker-Pendant zur IFVG) mit expliziter
+  Invalidierungsregel; SL unter Wick-CE statt voller PD-Array-Range; MOC-Macro erneut prädiktiv
+  vor Fensterbeginn angekündigt (zweite Bestätigung nach Batch 2).
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 18 von 61 Videos erledigt, 43 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 5/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt. Ein Download (ciyKAwF1RdI) schlug mit HTTP 403 fehl,
+  Retry mit alternativem Format-Fallback ("best[height<=480]/best") sofort erfolgreich — kein
+  IP-Ban (nachfolgende Downloads liefen normal weiter), sondern transienter Einzelfehler.
+- Batch 5 (5 Videos): un0pXGljqbY (Jun 8 2023, ES Long/Silver Bullet), 9OrQc_RsNHs (Jun 12 2023,
+  ES Long/Lunch Macro), ciyKAwF1RdI (Jun 13 2023, ES Long/Post CPI/Inversion Breaker),
+  tBsCa5wrtx8 (Jun 20 2023, NQ Short/Silver Bullet), rVwERMRB6rs (Jun 21 2023, ES Short). Alle
+  fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-06-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/models/Silver Bullet Model.md` (neuer Abschnitt
+  "Chart-Label-Bestätigung & Positionsgröße" — "ICT AM Silver Bullet" direkt im Chart
+  beschriftet, durchweg zweistellige Kontraktzahlen über 3 Videos), `wiki/models/NY Lunch Macro
+  Model.md` (neuer Abschnitt "Chart-Titel-Bestätigung 'Seek Buyside'").
+- Stärkste bisherige Primärquellen-Bestätigungen: Silver-Bullet-Fenster und Lunch-Macro-These
+  jeweils direkt von ICT selbst im Chart benannt, nicht nur abgeleitet.
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 23 von 61 Videos erledigt, 38 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 6/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt. Erneut ein einzelner HTTP-403-Download-Fehler
+  (UjiUidVS4xI), sofortiger Retry mit Format-Fallback erfolgreich — Muster bestätigt sich als
+  transienter YouTube-Einzelfehler, kein IP-Ban (Downloads davor/danach liefen normal).
+- Batch 6 (5 Videos): kYFFaN3Tz-s (Jun 26 2023, ES+NQ Short/Dual Dealings), 1K59ooyTPrA (Jun 27
+  2023, ES Short/Silver Bullet), UjiUidVS4xI (Jun 29 2023, NQ Long), _fWokebVLsY (Jul 7 2023,
+  NQ Long), U1rkjCXitQA (Jul 7 2023, NQ Short). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-06-2*`/`2023-07-07*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md` (neuer
+  Abschnitt "Cross-Symbol-Bestätigung & 'Repricing Macro'").
+- Neues Muster: **10:50–11:10-ET-Macro-Fenster** zweimal in diesem Batch explizit im Chart
+  benannt — deckt sich mit der generischen `:50–:10`-Stundenregel in `algo/macro_db.py`
+  (kein Code-Änderungsbedarf, zusätzliche Primärquellen-Bestätigung). "Jagged Spike"-Liefermuster
+  für ORG-Ziele explizit beschrieben (abrupter Kerzenspike statt graduelle Bewegung).
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 28 von 61 Videos erledigt, 33 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 7/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt, alle 5 Downloads liefen ohne jeden Fehler.
+- Batch 7 (5 Videos): WzX3oHELDe4 (Aug 18 2023, ES-Trade), mDqePprcXIY (Sep 20 2023, NQ Short),
+  XlHLx2vXUkY (Sep 21 2023, NQ Long), BwPhyu3LTOs (Sep 29 2023, NQ Short), 8NF8vp7LYUc (Oct 10
+  2023, NQ Long). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-08-18*`/`2023-09-2*`/`2023-10-10*.md`-
+  Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Risiko-Verfeinerung über Timeframes.md` (neuer Abschnitt
+  "SL-Breite hängt vom PD-Array-Typ ab" — IFVG-Stop unter ganzer Zone vs. NWOG-Stop unter
+  Wick-CE), `wiki/models/NY Lunch Macro Model.md` (neuer Abschnitt "Post-Lunch-Fortsetzung").
+- Neue Erkenntnis: SL-Platzierungsbreite ist nicht einheitlich, sondern hängt vom
+  PD-Array-Typ ab (volle IFVG-Zone vs. einzelner Wick bei NWOG). Lunch-Macro-These wirkt laut
+  Primärquelle auch noch nach 13:00 ET nach (Post-Lunch-Fortsetzung).
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 33 von 61 Videos erledigt, 28 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 8/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt, alle 5 Downloads liefen fehlerfrei (ein Video,
+  CRE7Pmch5G0, war mit 16 MB/11:34 Min deutlich größer als der Rest, aber ohne Fehler).
+- Batch 8 (5 Videos): ER7V8PoK_nA (Oct 13 2023, NQ Short), RULEloNVbEk (Oct 20 2023, NQ
+  Short/2nd Stage Redistribution), O_NG144r6e8 (Oct 23 2023, NQ Long/Michael Myers Mode),
+  TxKhUPONXk4 (Oct 24 2023, NQ Short/Pre-Opening Bell Antics), CRE7Pmch5G0 (Jun 10 2024, NQ
+  Lunch Macro, 11:34 Min — deutlich länger als üblich, nur stichprobenartig statt vollständig
+  per Frame geprüft). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-10-*`/`2024-06-10*.md`-Sourceseiten.
+- Neue Begriffe (noch nicht als eigene Konzeptseite, nur vermerkt): "2nd Stage Redistribution"
+  (verlinkt zu [[Accumulation & Reaccumulation Model]]), "Volume Imbalance" kombiniert mit IFVG
+  in derselben Zone. Pyramiding-Beispiel (40 Kontrakte) auch außerhalb offizieller RTH-Session
+  (vor Opening Bell) bestätigt.
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 38 von 61 Videos erledigt, 23 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 9/61, chart-only ohne Voiceover)
+- Playlist wechselt ab hier zu deutlich längeren Live-Aufzeichnungen (8-50 Min statt ~2 Min) —
+  ab diesem Batch nur noch Stichprobenauswertung statt vollständiger Frame-Prüfung, in jeder
+  Sourceseite transparent vermerkt. Ein Download (-eFpwS3qU5w) schlug mit HTTP 403 fehl, Retry
+  mit Format-Fallback sofort erfolgreich — weiterhin kein IP-Ban-Muster.
+- Batch 9 (5 Videos): fRS8m-wShIo (May 24 2024, 28:09, Premarket/Friday's Range), _Ts5bpglOdU
+  (May 14 2024, 50:26, PPI-Macro — längstes Video bisher), -eFpwS3qU5w (May 13 2024, 11:01,
+  Premarket Short), HUxK8GN4DHs (May 8 2024, 8:06, Premium Wick Entry), My9wQ8_UtZk (May 6
+  2024, 3:22, Micro-Scalping Without Bias). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2024-05-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Signal-Following & Crowd Liquidity Risk.md` (neuer Abschnitt
+  "'Too Smooth' als Warnsignal").
+- Neue Erkenntnisse: explizite Warnung **"Do NOT Trade 1MIN Levels..." / "Wicks are 'Ugly'"** —
+  1-Minuten-Wicks gelten als zu unpräzise für Level-Ableitung, Volume Imbalance wird bevorzugt
+  (relevant für `algo/rules.py`-Level-Bildung). "Too Smooth"-Kerzenfolgen gelten als
+  Warnsignal, nicht als Bestätigung. PPI-News-Release fällt zeitlich mit generischem
+  `:50-:10`-Stundenmacro zusammen (8:50-9:10 ET).
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 43 von 61 Videos erledigt, 18 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 10/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt, alle 5 Downloads liefen fehlerfrei.
+- Batch 10 (5 Videos): 1vsIPazjfGQ (Apr 8 2024, 13:34, Market Maker Buy Model), 0OIplRTKYOA
+  (Mar 6 2024, 5:50, Short Mitigation/MNQ), 7duYYeLleUA (Feb 12 2024, 1:01, "No Trade"-
+  Beispiel), JJGjP08M7gs (Feb 1 2024, 28:13, Pre-Opening Bell), gxjWD4TC2ew (Jan 30 2024, 7:41,
+  Crude Oil statt NQ/ES). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2024-0[1-4]-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md` (neuer
+  Abschnitt "Terminologie-Bestätigung aus Primärquellen" — "Risk Removed" und "Pyramided" direkt
+  aus ICTs eigener Chart-Beschriftung).
+- Neue Beobachtungen: erstes "No Trade"-Dokumentationsbeispiel (Setup erkennbar, aber bewusst
+  nicht gehandelt — Selektivität über reine Regelerfüllung hinaus); erste Cross-Market-
+  Bestätigung der FVG/IFVG-Methodik auf Light Crude Oil statt NQ/ES/MNQ.
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 48 von 61 Videos erledigt, 13 verbleibend.
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 11/61, chart-only ohne Voiceover)
+- Fortsetzung im 5-Videos/5-Minuten-Takt, alle 5 Downloads liefen fehlerfrei.
+- Batch 11 (5 Videos): VODMCdDnMs8 (Jan 25 2024, 3:04), rn32EntwGCs (Jan 23 2024, 5:01,
+  Final-Hour-Macro 14:50-15:10), FBsrQ0OunuA (Jan 22 2024, 5:01, Breakaway Gap + Turtle Soup),
+  xGn4UxJiz9M (Jan 17 2024, 11:40, MOC Macro), ylzrm3dZGWw (Jan 9 2024, 8:08, 10:50-11:10
+  Macro/Previous Day High). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2024-01-*.md`-Sourceseiten.
+- Keine Konzeptseiten-Erweiterung nötig — alle beobachteten Muster (Fibonacci+FVG, Breakaway
+  Gap+Turtle Soup, MOC/Final-Hour/10:50-11:10-Macro) waren bereits dokumentiert; dieser Batch
+  liefert primär weitere Primärquellen-Bestätigungen (dritte Bestätigung für 10:50-11:10-Fenster).
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 53 von 61 Videos erledigt, 8 verbleibend (letzte Charge).
+
+## [2026-08-11] ingest | ICT Executions Playlist (Batch 12a/61, chart-only ohne Voiceover)
+- Erster Teil der letzten Charge (5 von 9 verbleibenden Videos), aufgeteilt wegen Turn-Länge.
+  Alle 5 Downloads liefen fehlerfrei (leicht langsamer, aber ohne HTTP-Fehler).
+- Batch 12a (5 Videos): rYwsypxkRX4 (Dec 27 2023, 8:09, Turtle Soup), gq2Q2y4ch9k (Dec 15 2023,
+  5:12, Fake Bear Flag), Tbcj6fyDVdo (Dec 14 2023, 8:06, Runner-Kontrakt), _ZOFkSXfvsg (Dec 14
+  2023, 12:18, FOMC/50%-Reentry), hMvyE0qhads (Dec 6 2023, 18:51, NFP-Verlustbeispiel — mit
+  Abstand längstes Video im gesamten Ingest). Alle fünf erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 5 neue `wiki/sources/youtube/2023-12-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md` (Begriffe
+  "Funded" und "Risk & Costs" ergänzt, neuer Abschnitt "Runner statt vollständiger
+  Glattstellung"), `algo/PLAN.md` (neue These geloggt: NFP-Wochen-Vermeidung wegen erhöhter
+  Verlustrate, Primärquelle 2023-12-06-Video, **noch nicht gebacktestet** — Backlog-Punkt,
+  braucht NFP-Releasedaten-Quelle).
+- Wichtigster Fund: seltenes selbstkritisches Video mit dokumentierten Verlust-Trades (2 von 3)
+  in einer NFP-Woche — direkte Primärquelle für eine neue, noch zu prüfende Trading-These.
+- Assets: 5 weitere Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für die 5 IDs angelegt.
+- Stand: 58 von 61 Videos erledigt, 3 verbleibend (letzter Teil-Lauf).
+
+## [2026-08-11] ingest | ICT Executions Playlist ABGESCHLOSSEN (Batch 12b/61 — 61/61)
+- Letzter Teil der letzten Charge (4 verbleibende Videos), damit ist die komplette 61-Video-
+  Playlist ingested. Alle 4 Downloads liefen fehlerfrei.
+- Batch 12b (4 Videos): rZFisy9AILQ (Dec 4 2023, 8:10, SL unverändert nach 3 Partials),
+  7IttD8JmDIo (Nov 30 2023, 6:49, Housing-Sales-News), qW0_Mxfp_Z4 (Nov 28 2023, 8:09,
+  Lunch-Macro), 779jcCqyldY (Nov 28 2023, 4:04, FVG/Silver Bullet — letztes Video der
+  Playlist). Alle vier erstmalig ingested, keine Duplikate.
+- Seiten erstellt: 4 neue `wiki/sources/youtube/2023-1[12]-*.md`-Sourceseiten.
+- Seiten erweitert: `wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md` (neuer
+  Abschnitt "Gegenbeispiel: Stop bewusst unverändert lassen" — Swing-Trade-Kontrast zu den
+  übrigen Breakeven-Beispielen).
+
+### Gesamt-Zusammenfassung des ICT-Executions-Ingests (61 Videos, 12 Batches, 2026-08-11)
+
+**Bestätigte/verstärkte Bestandsmuster** (über mehrere unabhängige Videos hinweg):
+- CE-Linien (50%) als durchgängiger Entry-Punkt über FVG, IFVG, Opening-Gap-Strukturen hinweg.
+- Macro-Fenster 10:50–11:10 ET (3×), MOC/Final-Hour-Fenster (mehrfach), Lunch-Macro
+  "Seek Buyside"/"Sellside Purged→Rally" (mehrfach) — alle mit der bestehenden
+  `algo/macro_db.py`-Logik deckungsgleich, kein Code-Änderungsbedarf.
+- Silver-Bullet-Fenster teils direkt im Chart als "ICT AM Silver Bullet" beschriftet, durchweg
+  mit zweistelligen Kontraktzahlen (10-20) — höher als reine Macro-Trades (2-7).
+- Pyramiding (Kontrakt-Aufstockung in Trendrichtung) als gleichwertige Alternative zu
+  Partial-Reduktion, mit eigener Terminologie ("Pyramided").
+
+**Neue Begriffe/Regeln, erstmals durch diesen Ingest ins Wiki aufgenommen:**
+- Risikofreistellungs-Terminologie: "Risk Removed", "Funded", "Risk & Costs covered" (SL-Move
+  deckt auch Kommissionen/Spread, nicht nur Punkte-Risiko).
+- SL-Breite ist PD-Array-abhängig: volle IFVG-Zone vs. einzelner Wick bei NWOG-CE.
+- Gegenbeispiel: bei Swing-Zielen bleibt der Stop trotz mehrerer Partials bewusst unverändert
+  ("no strangling the trade").
+- Runner-Technik: ein einzelner Kontrakt bleibt nach Hauptexit als "Lottery-Ticket" offen.
+- Warnung vor 1-Minuten-Wick-Leveln ("Wicks are 'Ugly'"), "Too Smooth"-Kerzenfolgen als
+  Warnsignal statt Bestätigung.
+- Cross-Market-Bestätigung (Light Crude Oil neben NQ/ES/MNQ) und Cross-Symbol-Parallelhandel
+  (ES+NQ gleichzeitig, "Dual Dealings").
+- FOMC-Regel: nur Front-Month-Kontrakt, explizite Warnung an unerfahrene Trader; Reentry nach
+  Stop-Out mit halbierter Größe.
+- Neue, noch nicht gebacktestete These geloggt (`algo/PLAN.md`): NFP-Wochen bergen laut ICT
+  selbst erhöhtes Verlustrisiko (2/3 Trades im gezeigten Beispiel verloren).
+- Erstes dokumentiertes "No Trade"-Beispiel (Setup erkannt, bewusst nicht gehandelt).
+- "2nd Stage Redistribution" als neuer, bislang nur einmal beobachteter Begriff.
+- Quadranten-Level (25/50/75% einer Dealing Range) als Referenzsystem neben CE-Linien.
+
+**Methodik-Hinweis**: alle 61 Videos sind chart-only ohne Voiceover — Inhalt wurde durch
+ffmpeg-Frame-Extraktion + visuelle Auswertung rekonstruiert, bei Videos >5 Minuten nur
+stichprobenartig statt lückenlos (transparent in jeder betroffenen Sourceseite vermerkt).
+
+- Seiten erstellt insgesamt: 61 neue `wiki/sources/youtube/`-Sourceseiten, ~15 Concept-/
+  Model-Seiten erweitert, 1 neue These in `algo/PLAN.md` geloggt.
+- Assets: 66 zugeschnittene Chart-Frames unter `raw/trading-ict/assets/ict-exec-*.png`.
+- Platzhalter-Rohdateien für alle 61 IDs unter `raw/trading-ict/2026/yt-<id>-transcript.md`.
+- **Playlist vollständig: 61 von 61 Videos ingested.**
+
+## [2026-08-11] synthesis | NFP-Wochen-These erster Backtest
+- Fortsetzung des offenen Punkts aus dem ICT-Executions-Ingest (siehe vorheriger Log-Eintrag):
+  `algo/backtest_nfp_week.py` neu, testet die im Ingest gefundene NFP-Vermeidungsthese.
+- NFP-Freitag genähert als erster Freitag im Monat (keine echte BLS-Terminliste verfügbar,
+  explizit als Näherung markiert).
+- Ergebnis (n=6 NFP-Freitage, n=23 andere Freitage, n=150 alle Handelstage): Range 56% höher
+  an NFP-Freitagen (749 vs. 480 Pkt Ø), Whipsaw-Ratio aber niedriger statt höher (2,5 vs. 4,33)
+  — bestätigt "volatiler", widerspricht der reinen "choppier"-Lesart. n=6 zu klein für ein
+  belastbares Ergebnis, als offene These markiert.
+- Seiten aktualisiert: `wiki/synthesis/Statistische Muster jenseits der ICT-Konzepte (laufend).md`
+  (neuer Abschnitt 8), `wiki/sources/youtube/2023-12-06 - Why Do I Avoid NFP Weeks NQ 3 Trades 2
+  Losses (Source).md` (Backtest-Ergebnis verlinkt), `algo/PLAN.md`-Log.
+- `algo/results/backtest_nfp_week.json` neu geschrieben.
+
+## [2026-08-11] query | NY Silver Bullet Tapereading + These "Move lief vor meinem Fenster"
+- Journal-Eintrag erstellt: journal/entries/2026-08-11 MNQ Tape Reading.md (tape-reading, MNQ, kein Trade, 4/8 Checks, 39 Screenshots mit Slot/Zeit/Kommentar)
+- Screenshots uebernommen: journal/screenshots/2026-08-11-sb-01..40.png (sb-32 unbrauchbar, 167 Byte)
+- Neu: algo/backtest_open_drive_vs_sb.py — testet Jannes' These, dass ein starker RTH-Open-Drive die SB-Stunde leerlaufen laesst. Ergebnis: kein Signal (p=0,33 / 0,69 bei n=21), These unentschieden statt widerlegt.
+- Aktualisiert: algo/PLAN.md (Log-Eintrag mit Zahlen), algo/README.md (Modulabschnitt 1m-Thesenskripte)
+- Datenlage aktiv gemeldet: MNQ-1m endet 2026-08-07, fuer 10.08./11.08. liegen nur Forex-Dateien in raw/marktdaten/
+- Korrektur 11.08.: Bias war Daily-Bias und ist aufgegangen (Daily Candle −152,25 Pkt baerish, bias_korrekt: ja). Der Move kam im Macro 10:50-11:10, neun Minuten nach dem Ausstieg um 10:56 — 223 Pkt in Bias-Richtung. Neuer Fehlerkatalog-Eintrag P12 „Fenster vor Ablauf verlassen"; Bias-Vokabular (Daily/Weekly statt Session) in references/fields.md verankert.
+
+## [2026-08-11] query | 1st Presented FVG der NY AM Session (11.08.)
+- Frage: wann bildete sich heute das 1.p FVG der NY AM Session
+- Nutzerkorrektur uebernommen: die 3-Kerzen-Formation muss KOMPLETT in der Session liegen, frueheste Position in NY AM ist 09:30/09:31/09:32 (deckt sich mit der bestehenden Wiki-Regel "zaehlt ab 9:31" auf [[ORG (Opening Range Gap) & 1st Presented FVG]], dort bisher nur fuer die 9:30-Session formuliert -- jetzt als sessionuebergreifende Regel praezisiert)
+- Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md
+- Bugfix daraus: algo/rules.py::plan_trade nahm randueberlappende FVGs als "erstes im Fenster" -- 39,4 % der Silver-Bullet-Fenster betroffen, 11 mit Richtungswechsel; Details in algo/PLAN.md
+- Neu: algo/mor_levels.py (MOR-Tagesreadout: Open/Range/Quarters/STD/first presentation). Auswertung 11.08.: weder Tages-High (k=1,72, Trefferabstand schlechter als Zufall) noch Tages-Low (k=14,03) wurden von einem STD-Level festgelegt; MOR mit 18,75 Pkt zu eng, um zu tragen. Wiki-These "-1 STD als Manipulationsgrenze in London" gegengeprueft: reisst an 52,3 % der Tage (n=44), also kein Bias-Signal.
+
+## [2026-08-11] synthesis | 1.p FVG -- Wochenrelevanz des Montags geprueft
+- Nutzerpraezisierung: ein vor Sessionbeginn gebildetes FVG bleibt ein normales FVG, nur kein 1.p FVG
+- Neu: algo/backtest_1p_fvg_woche.py (drei Tests: Folgetag-Vergleich Mo vs. Di/Mi/Do, Montag ueber die Restwoche, 1.p gegen uebrige FVGs derselben Session)
+- Ergebnis: unentschieden -- kein Test signifikant (p=1,00 / 0,58 / 0,40 / 0,32), 9 bzw. 4 Montage zu wenig. Einziger Punkt fuer die These: Montags-FVGs liegen weiter weg und werden trotzdem gleich oft angelaufen.
+- Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md (offene Hypothese), wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md
+- Aktualisiert: algo/README.md (Modulabschnitt), algo/PLAN.md (Log mit Zahlen)
+- DATENFEHLER: yfinance liefert fuer MNQ=F systematisch 00:00-00:08 NY nicht (19/24 Tage, inkl. 0:00-Kerze; 5m ebenso). Gegen den Rohabruf verifiziert — Quelle, nicht fetch_yfinance.py. Jede bisher berichtete Midnight-Range-/STD-Zahl ist dadurch aufgeblaeht; die "-1 STD reisst an 52,3 % der Tage"-Angabe wird zurueckgezogen (Basisrate derzeit unbekannt, n=10 statt 44). Riegel in window_gaps()/session_range(expect_complete)/mor_levels.py eingebaut, betroffene Backtests weisen verworfene Tage aus.
+
+## [2026-08-11] query | ORG 11.08. mit Qs/Os/Hs + STD-These geprueft
+- ORG-Tabelle (Qs/Os/Hs, 17 Level) fuer den 11.08. berechnet, inkl. Respektierung je Level
+- Anker-Konflikt offengelegt: 16:14-Close 29 744,75 (Wiki-Definition, verwendet) vs. 16:00-RTH-Close 29 750,00 vs. yfinance 29 743,75
+- Neue These geprueft: setzen STD-Projektionen Session-/Daily-Extrema? Neues Skript algo/backtest_org_std_extrema.py, beide Basen (ORG-Gap und Opening Range)
+- Ergebnis: nicht gestuetzt -- keine Kennzahl ueber der 20-%-Zufallserwartung (bestes p=0,305), Median-Abstand eher groesser als bei Zufall
+- Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md
+- Aktualisiert: algo/README.md, algo/PLAN.md
+
+## [2026-08-11] query | Korrektur: Opening Range NY AM (9:30-10:00) statt ORG-Gap
+- Qs/Os/Hs-Raster der Opening Range 9:30-10:00 fuer den 11.08. berechnet (Range 206,75 Pkt, C.E. 29 739,38)
+- Befund: -0,5-STD-Projektion 29 532,62 vs. Tagestief 29 533,50 -- 0,88 Pkt Abweichung, waehrend dasselbe Tief aus der Gap-Basis auf keinem Level lag
+- Frueherer Datenpunkt in Muster-Validierung (laufend) entsprechend korrigiert statt stehengelassen
+
+## [2026-08-11] lint | Begriffskorrektur ORG vs. Opening Range
+- Eigene Fehlinterpretation richtiggestellt: "ORG NY AM" meint das Gap 16:14->9:30 (NY-AM-Variante), nicht die Opening Range 9:30-10:00
+- PLAN.md-Eintrag und Muster-Validierung (laufend) entsprechend umgeschrieben; der Opening-Range-Befund bleibt als eigenstaendiger Datenpunkt erhalten
+
+## [2026-08-11] tooling | raw/ sortiert: Vault-Root aufgeraeumt, nichts geloescht
+- Einmalige Freigabe des Nutzers, den `raw/`-Ordner zu ordnen (sortieren, nicht loeschen). 30 lose Dateien
+  im `raw/`-Root in thematische Unterordner einsortiert; `raw/marktdaten/`, `raw/trading-ict/`,
+  `raw/journal/`, `raw/bilder/`, `raw/algo-ml/`, `raw/marktdaten-tief/` blieben unberuehrt.
+- Neue Ordner: `raw/literatur/` (9 Buecher/Papers/Transkripte zum Algo-Trading),
+  `raw/_notion-exports/` (8 bereits ingestete Notion-Export-ZIPs, per `.gitignore` ohnehin unversioniert),
+  `raw/journal/bias/` (Daily/Weekly-Bias-Notizen), `raw/trading-ict/notizen/` (lose ICT-Notizen),
+  `raw/marktdaten/_defekt/` (ein leerer Export, s.u.).
+- `_OceanofPDF...Testing_and_Tuning...pdf` zu seinem bereits vorhandenen Markdown-Zwilling nach
+  `raw/testing-and-tuning/` gelegt.
+- 4 lose OHLC-CSVs (2x TradingView MNQ, 2x IBKR EURUSD) ueber das bestehende
+  `tools/sort_marktdaten.py` in die Tagesordner eingeraeumt statt von Hand verschoben.
+- Entscheidung ohne Rueckfrage: der Log-Eintrag vom 2026-08-04 ("lose Notizen bleiben bewusst im
+  Vault-Root") ist damit ueberholt — die Notizen liegen jetzt unter `raw/trading-ict/notizen/`.
+- Pfadverweise nachgezogen in wiki/index.md, algo/PLAN.md und 6 wiki/sources-Seiten (`raw_path`-
+  Frontmatter + Fliesstext). `wiki/log.md` bleibt als Historie unveraendert, `site/` wird neu gebaut.
+
+## [2026-08-11] setup | Tick-Raster hinterlegt (MNQ 0,25) und projektweit erzwungen
+- Neue Seite: wiki/concepts/Kontraktspezifikation MNQ (Tick, Punktwert).md
+- Anlass: Nutzerkorrektur -- berechnete Preise wie 29 833,34 existieren am Markt nicht
+- Vor dem Fix: 34 % der Entries, 88 % der Stops und 50 % aller FVG-C.E. nicht platzierbar; danach 0 von 6962 geprueften Preisen ungueltig
+- Code: TICK_SIZE/to_tick in tools/analyze_ohlc.py (einzige Quelle), algo/pnl.py reicht durch; fvgs()/org_gap() runden den C.E.
+
+## [2026-08-12] synthesis | Daily-Bias-Notiz 12.08. -- ORG-C.E.-70%-These live angewendet
+- Quelle: raw/daily bias 12.08.md (CPI 8:30 NY, Buyside-Weekly-DOL 30 094,00, ORG-C.E.-70%-Regel vor RTH-Open erwartet)
+- Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md (Nachtrag 2026-08-12), algo/PLAN.md (Log + Backlog: Gap-Groessen-Segmentierung)
+- algo/live_status.py gegengeprueft: 29 800,00 um 05:00 NY, deckt sich mit Jannes Beobachtung 29 804 (11:00 CEST); org_ce vor RTH-Open erwartungsgemaess null
+- Offen: Prognose nach 9:30 NY mit echten Daten nachpruefen
+
+## [2026-08-12] ingest | 13 MIT-15.S08-Quant-Finance-Transkripte (raw/quant-finance/2026/)
+- Quellen: yt-b8u2CQLQBVU, yt-z4p87TPCnQc, yt-NZ3Mva95UsQ, yt-0uimNNIuUyY, yt-mtXTs2U1uMA, yt-wMGEKMHsOKE, yt-yIn8Y_CSwPk, yt-RvXwSoGDYvg, yt-cMF_c2WNPyU, yt-CechARGinR4, yt-VbtXo62ROC4, yt-RruxdEjIvv0, yt-o7OnkMdmjLg
+- Seiten erstellt (wiki/sources/youtube/): 2025-12-03 - MIT 15.S08 Lecture 1 Part I - Introduction of the Class (Source).md, ...Lecture 1 Part II - Introduction of Financial Markets (Source).md, ...Lecture 1 Part III - Bond Mathematics (Source).md, ...Lecture 2 - Linear Algebra (Source).md, ...Lecture 4 - Linear Algebra cont, Probability Theory (Source).md, ...Lecture 5 - Probability Theory cont, Stochastic Processes I (Source).md, ...Lecture 6 - Stochastic Processes I cont, Regression Analysis (Source).md, ...Lecture 7 - Linear Rates, Products, and Models (Source).md, ...Lecture 8 - Regression Analysis cont (Source).md, ...Lecture 9 - Principal Component Analysis in Finance (Source).md, ...Lecture 10 - Counterparty Risk Optimization (Source).md, ...Lecture 11 - Regression Analysis cont (Source).md, ...Lecture 13 - Portfolio Management (Source).md
+- Seiten erstellt (wiki/concepts/): Lineare Algebra für Finance.md, Wahrscheinlichkeitstheorie & Stochastische Prozesse für Finance.md, Regressionsanalyse für Finance.md, Hauptkomponentenanalyse (PCA) in der Finance.md, Bond-Mathematik & Zinskurven.md, Portfolio-Management & Sizing (Gain-Loss-Ratio).md
+- Seite aktualisiert (wiki/concepts/): Kelly-Criterion & Value-at-Risk (Money Management).md (Abschnitt Expected Shortfall/Subadditivität ergänzt)
+- Seite erstellt (wiki/synthesis/): Quant-Finance-Formeln für den MNQ-Algo (laufend).md
+- Seiten aktualisiert: wiki/index.md (neuer Sources-Abschnitt "Quant-Finance (MIT 15.S08)", 6 neue Concepts-Einträge, 1 neuer Synthesis-Eintrag), algo/PLAN.md (neue These: Markov-Ketten für MNQ-Bar-Zustandsfolgen, noch nicht gebacktestet)
+- Bewusste Entscheidung: keine 1:1-Zuordnung Vorlesung↔Konzeptseite, sondern thematische Bündelung (Lecture 2+4 → Lineare Algebra; 4+5+6 → Wahrscheinlichkeit/Stochastik; 6+8+11 → Regression; 5+9 → PCA), wie in CLAUDE.md für dichtes Quellmaterial vorgesehen
+
+## [2026-08-12] ingest | Restliche 9 MIT-15.S08-Quant-Finance-Transkripte (raw/quant-finance/2026/)
+- Quellen: yt-qlytPllimpQ (Lecture 12, Time Series Analysis), yt-VM29JyI1sio (Lecture 14, Stochastic Processes II), yt-_e2nDnV7FQs (Lecture 18, Biomedical AI), yt-zapp8smQKhg (Lecture 19, Volatility Modeling), yt-8XrYjnDHmE4 (Lecture 20, CFTC/Kalshi), yt-2UCHztlWuZg (Lecture 21, Black-Scholes), yt-kTsieIl_YBA (Lecture 23, Introduction to Machine Learning), yt-5cruqmIF6l0 (Lecture 24, Stochastic Calculus), yt-H4V29wkHYb4 (Lecture 25, Stochastic Calculus cont./SDEs)
+- Seiten erstellt (wiki/sources/youtube/): 2025-12-03 - MIT 15.S08 Lecture 12 - Time Series Analysis (Source).md, ...Lecture 14 - Stochastic Processes II (Source).md, ...Lecture 18 - Applying Data Science and AI to Managing Biomedical Portfolios (Source).md, ...Lecture 19 - Volatility Modeling (Source).md, ...Lecture 20 - Building the First Federally (CFTC) Regulated Exchange Dedicated to Trading on Events (Source).md, ...Lecture 21 - Black-Scholes Formula, Risk Neutral Valuation (Source).md, ...Lecture 23 - Introduction to Machine Learning (Source).md, ...Lecture 24 - Stochastic Calculus (Source).md, ...Lecture 25 - Stochastic Calculus cont, Stochastic Differential Equations (Source).md
+- Seiten erstellt (wiki/concepts/): Zeitreihenanalyse für Finance.md, Volatilitätsmodelle (GARCH & Co).md, Black-Scholes & Risikoneutrale Bewertung.md, Machine Learning für Finance (Grundlagen).md, Stochastische Analysis (Itô-Kalkül & SDEs).md
+- Seite aktualisiert (wiki/concepts/): Wahrscheinlichkeitstheorie & Stochastische Prozesse für Finance.md (neuer Abschnitt "Brownsche Bewegung — formale Definition" aus Lecture 14: Reflection Principle, Hitting-Time-Dichte, Brownian Bridge, Laplace-Verbindung, adaptierte Prozesse)
+- Seite aktualisiert (wiki/synthesis/): Quant-Finance-Formeln für den MNQ-Algo (laufend).md (5 neue Abschnitte: GARCH-Sizing, Autokorrelations-These, Black-Scholes als "nicht direkt anwendbar" markiert, Stochastic-Calculus als konzeptuelle Grundlage, ML-Grundlagen als Bestätigung bestehender Methodik)
+- Seiten aktualisiert: wiki/index.md (9 neue Sources-Einträge in "Quant-Finance (MIT 15.S08)", 5 neue Concepts-Einträge), algo/PLAN.md (Backlog-Abschnitt + Log-Eintrag: zwei neue Thesen — Box-Pierce-Autokorrelationstest auf MNQ-Returns, GARCH(1,1)-Sizing-Regel — noch nicht gebacktestet)
+- Bewusste Einordnung ohne Konzept-Seite: Lecture 18 (Biomedical AI/Andrew Lo) ist überwiegend domänenspezifisch ohne finanzrelevante Formeln (einzige Überschneidung: die bereits dokumentierte `σ²/n`-Diversifikationsformel), Lecture 20 (Kalshi/CFTC) ist reine Marktstruktur/Regulatorik ohne Formelinhalt — beide gemäß Ingest-Vorgabe nur als schlanke Source-Seite mit explizitem ⚠️-Vermerk angelegt, kein Formel-Konzept erzwungen.
+- Black-Scholes/risikoneutrale Bewertung explizit als "aktuell nicht direkt anwendbar" markiert (MNQ ist Future, kein Optionsprodukt) statt stillschweigend übergangen; Notiz für falls Optionsstrategien auf NQ-Futures dazukommen.
+
+## [2026-08-12] ingest | Batch: Yale Econ 252 "Financial Markets" (Open Yale Courses, Robert Shiller, 23 YouTube-Vorlesungen)
+- Quelle: 23 Rohtranskripte unter raw/financial-markets-2011-with-robert-shiller/ (Kanal
+  YaleCourses, veröffentlicht 2012-04-05, Yale-Kurs Economics 252, Frühjahr 2011). ⚠️ Auftrag
+  benannte die Quelle als "MIT-Kursreihe"/"MIT Financial Markets 2011" — das ist ein Irrtum: die
+  Transkripte belegen zweifelsfrei Yale (Open Yale Courses, Dozent Robert Shiller, Kanal
+  YaleCourses), nicht MIT. Wiki-Seiten daher korrekt als "Yale Econ 252" benannt und getaggt
+  (yale-econ252), im Bericht an den Hauptagenten explizit korrigiert.
+- Fokus explizit auf Risikomanagement (Nutzeranfrage): 9 neue wiki/concepts/-Seiten mit
+  Risikomanagement-Tiefe — Markowitz-Portfoliotheorie & Diversifikation (inkl. Swensen/
+  Yale-Endowment-Modell), Versicherung als Risikomanagement-Institution (inkl. AIG-Fallstudie aus
+  Lecture 5+14), Value at Risk/CoVaR & Unabhängigkeitsannahme, Efficient Markets Hypothesis &
+  Random Walk, Behavioral Finance (Prospect Theory & kognitive Verzerrungen), Fisher-Zinstheorie &
+  Leverage-Zyklen, Optionen als Risikomanagement-Instrument, Finanzregulierung (Fünf Ebenen &
+  Too-Big-To-Fail), Forward- & Futures-Märkte (Contango/Backwardation — direkt relevant, da MNQ
+  selbst ein Future ist).
+- 23 neue wiki/sources/youtube/-Seiten (eine pro Vorlesung), alle mit Kernpunkten und Verweis auf
+  das Rohtranskript; Themen ohne eigenen Risikomanagement-Schwerpunkt (Corporate Stocks, Real
+  Estate, Banks, Investment Banks, Monetary Policy, Exchanges/Brokers/Dealers, Public/Non-Profit
+  Finance, die drei Gastvorträge sowie Intro-/Abschlussvorlesung) bewusst schlanker gehalten, ohne
+  eigene Concept-Seite, wie in CLAUDE.md vorgesehen.
+- Seiten aktualisiert: wiki/index.md (10 neue Concepts-Einträge, neue Sources-Unterrubrik "Yale
+  Econ 252" mit 23 Einträgen und Abgrenzungshinweis zur MIT-15.S08-Reihe).
+- Kein Push ausgeführt (push.ps1) — laut Auftrag macht das der Hauptagent/Nutzer separat.
+
+## [2026-08-12] setup | Quant-Riskmanagement: austauschbare Risk-Module
+- Seiten erstellt: wiki/synthesis/Risk-Management-Vergleich (laufend).md
+- Seiten aktualisiert: wiki/index.md
+- Vier austauschbare Risk-Sizing-Module (algo/risk_fixed.py, risk_garch.py, risk_kelly.py,
+  risk_killswitch.py) hinter gemeinsamem Interface `risk_pct(base_pct=0.01, **ctx) -> float`,
+  siehe docs/superpowers/specs/2026-08-12-quant-risk-management-design.md und
+  docs/superpowers/plans/2026-08-12-quant-risk-management.md.
+- Aus der finalen Whole-Branch-Review direkt mitgefixt (Zahlen in algo/PLAN.md): der
+  Drawdown-Kill-Switch mass den Drawdown in den Punkteinheiten der `backtesting`-Lib statt in
+  echten Dollar — derselbe Fehlertyp wie der 2026-08-06-Audit-Fund in `pnl.py::risk_size()`.
+  Kelly-Sizing ist jetzt wie GARCH auf 1,5 x base_pct gedeckelt.
+
+## [2026-08-13] ingest | Daily Bias 13.08 + NDOG-Gültigkeitsdauer
+- Quelle: raw/Daily Bias 13.08.md (abweichender Ablageort — liegt direkt in raw/, nicht wie sonst
+  unter raw/journal/Daily Bias YYYY-MM-DD.md; raw/ bleibt unangetastet, nur vermerkt).
+- Seiten erstellt: journal/entries/2026-08-13 MNQ Daily Bias.md (id 2026-08-13-01, Zeile in
+  journal/journal.csv), wiki/concepts/New Day Opening Gap (NDOG).md.
+- Seiten aktualisiert: wiki/index.md (NDOG-Eintrag).
+- Bias: Bullish bis Buyside 29.931,75 (Interimsziel), übergeordnetes Wochenziel bleibt Buyside
+  30.094,00 aus 2026-08-10 MNQ Weekly Bias. Rückblick 12.08. (CPI): trotz News keine große Range,
+  Buyside der letzten 2 Tage genommen, bullish aber ohne Wucht geschlossen.
+- Neue Info übernommen: NDOG bleibt mind. 5 Handelstage aktiv, NWOG mind. 5 Handelswochen,
+  darüber hinaus laut Nutzer weiter als DOL nutzbar — als offene, noch unbacktestete
+  Nutzeraussage in der neuen NDOG-Seite festgehalten (Backtest-Kandidat gemäß
+  Algo-Trading-Arbeitsstandards).
+- Fehler: P07 (kein Chartbild). Datenlücke: `raw/marktdaten/2026/08/12.08.2026/MNQ ... 1m.csv`
+  deckt nur 18:00–03:29 NY ab, CPI-Move und RTH fehlen — der beschriebene 12.08.-Move ist gegen
+  echte OHLC-Daten aktuell nicht verifizierbar. Zusätzlich P09 (`bias_korrekt` offen) und fehlende
+  Exakt-Preise für NWOG/C.E. vom 12.08.
+- Kein Push ausgeführt (push.ps1) — macht der Nutzer selbst.
+
+## [2026-08-13] query | ORG-Q/O/H-Tabelle 11.08.→12.08. + Datenqualitäts-Root-Cause
+- Frage: ORG-Gap vom 12.08. mit Qs/Os/Hs, 1.p FVG und STD-Projektion.
+- Nutzerkorrektur: Open 29.991,25 (nicht 29.991,75 laut CSV), 1.p FVG 29.929,25–29.964,75.
+- Root-Cause per `superpowers:systematic-debugging`: kein Pipeline-Bug, sondern Yahoo-`MNQ=F`-
+  Feed weicht auf Tick-Ebene von Jannes' Chart ab (Zeitstempel verifiziert korrekt, Live-Re-Query
+  reproduziert exakt die abweichenden CSV-Werte). Details + Log-Eintrag: `algo/PLAN.md`
+  (2026-08-13).
+- Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (neue Sektion
+  "Datenqualität: yfinance-Preisversatz"), CLAUDE.md (Arbeitsstandard ergänzt: yfinance-only-Tage
+  vor präzisionskritischen Level-Berechnungen gegenprüfen).
+
+## [2026-08-13] query | MOR-1.p-FVG-Ermittlung korrigiert (größtes Displacement statt chronologisch erstes)
+- Anlass: Nutzer bat um MOR + FVG + STD + Qs/Os/Hs für 13.08.2026, danach zeigte er 7 Screenshots aus `C:\Users\janne\Dropbox\TradingJournal\Screenshots\13-08-2026` als Referenz für korrekte FVG-Deklaration.
+- **Fehler in der vorherigen Antwort**: Als "1st presented FVG" der Midnight Opening Range (00:00-00:30) wurde die chronologisch erste FVG (00:01-00:03, 29.878,00-29.879,00) genannt. Nach Abgleich mit `raw/trading-ict/ICT 2025 Lecture Series/SMC Midnight Opening Range.md` ist das falsch — die Regel ist bereits vollständig in wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md dokumentiert (Abschnitt "1st Presented FVG (1.p FVG)"), fehlte aber auf wiki/concepts/Midnight Opening Range.md.
+- Seiten aktualisiert: wiki/concepts/Midnight Opening Range.md (Abschnitt "First Presentation" korrigiert: größtes/markantestes Displacement statt chronologisch erstes FVG, Verweis auf Open/Close-Regel für FVG-Grenzen ergänzt, konkretes Tagesbeispiel 13.08.2026 eingetragen).
+- Korrekte Antwort für 13.08.2026: größtes Displacement der MOR ist die bearishe FVG 00:12→00:14 (Displacement-Kerze 00:13, Körper 29.887,25→29.877,50 = 10,5 Punkte), Zone 29.879,50-29.887,50 (Range 8,0 Punkte) — nicht die kleine 00:01-00:03-FVG (1,0 Punkt). Deckt sich exakt mit Nutzer-Screenshot 3 (00:12/00:14-Box).
+- Qs/Os/Hs der korrigierten Zone: C.E. (50%) = 29.883,50; Qs 29.879,50/29.881,50/29.883,50/29.885,50/29.887,50.
+- Screenshot-Cross-Check FVG-Grenzen (Open/Close statt Wick, siehe wiki/concepts/Fair Value Gap (FVG).md + Volume Imbalance (VII).md) blieb bei 4 der 7 Beispiele nicht vollständig eindeutig rekonstruierbar (Pixelwerte passten teils zu Open/Close, teils zu Wick, ohne klares durchgängiges Muster) — als offener Punkt vermerkt, nicht weiter verfolgt, da die Kern-Regel bereits textuell in den Wiki-Quellen vorliegt und nicht aus Pixeln neu abgeleitet werden muss.
+
+## [2026-08-13] ingest | MNQ 1m TradingView-Export 13.08.2026 (Nachlauf bis 13:39 NY)
+- Quelle: `CME_MINI_MNQU2026, 1_6f7e6.csv` (TradingView, 3478 Kerzen, 11.08. 01:42 – 13.08. 13:39 NY),
+  via `python algo/ingest_tvexport.py <datei> MNQ`.
+- Ergebnis: `raw/marktdaten/2026/08/13.08.2026/MNQ 2026-08-13 1m.csv` 825 → **1180 Kerzen** (+355),
+  **0 Lücken**, 1 Kerze von TradingView revidiert. Handelstag 12.08. 18:00 → 13.08. 13:39 NY.
+  Es fehlen noch 200 Kerzen (13:40–17:00 NY) — Handelstag war beim Export nicht geschlossen,
+  kein Datenfehler.
+- Higher-Timeframes für 13.08. aus der neuen 1m-Basis neu gebaut (`tools/resample_1m.py`):
+  5m 236 / 15m 79 / 1h 20 / 4h 6 / 1d 1 Kerze.
+- Die restlichen losen Exporte (11./12.08. MNQ, ES, YM, DXY in `Desktop\Gedanken\raw\` und
+  `Desktop\Trading Journaling\`) wurden per Dry-Run gegengeprüft: **alle bringen 0 neue Kerzen**,
+  sind also bereits im Bestand. Bewusst *nicht* erneut eingespielt — die Konfliktregel
+  „neuer Export gewinnt" hätte hier ältere Exportstände über den aktuellen Bestand geschrieben
+  (z.B. 22 abweichende Kerzen im 10.08.-Teil von `..._33e80.csv`).
+- ✅ Erledigt: Die im Daily-Bias-Eintrag 2026-08-13 vermerkte Datenlücke („12.08. nur 18:00–03:29 NY,
+  CPI-Move und RTH fehlen") ist geschlossen — 12.08. hat jetzt 1380/1380 Kerzen ohne Lücke, der
+  12.08.-Move ist gegen echte OHLC-Daten verifizierbar.
+
+## [2026-08-13] ingest | Marktdaten-Nachzug: Tiefhistorie 1d + Reparatur abgebrochener yfinance-Abrufe
+- **Neu: Tiefhistorie 1d für Index-Futures** (yfinance, unbegrenzt zurück, bislang ungenutzt):
+  ES 6.539 Tage (ab 2000), NQ 6.539 (ab 2000), YM 6.130 (ab 2002), RTY 2.289 (ab 2017),
+  MNQ 154 → 1.833 (ab 2019). Stichprobe ES 10.10.2008 (O 913,5 / H 943,0 / L 837,0 / C 891,0)
+  gegen den bekannten Kapitulationstag plausibel. Das verbreitert die Basis für
+  `algo/stress_test.py`, das bisher auf einem dünnen 1d-Bestand lief.
+- **Neu: Forex 12.08. (10 Paare)** — fehlte komplett, jetzt ~1.439/1.440 Kerzen je Paar.
+- **Neu: ES 06./07.08.** — fehlten komplett, jetzt 1.353 bzw. 1.362 Kerzen.
+- **Neu: höhere Timeframes für ES 10./11.08.** aus der TradingView-1m-Basis gerechnet
+  (`tools/resample_1m.py`, 1m-Vorrang nach Spec §3.3) — es gab dort bisher nur die 1m-Datei.
+- **Repariert: abgebrochene yfinance-Abrufe.** Neues Werkzeug `algo/backfill_yfinance.py`
+  (Details in `algo/README.md`). Betroffen und behoben: alle 10 Forex-Paare am 11.08.
+  (~765 → ~1.439 Kerzen, sie brachen seit dem 11.08. bei 06:45 NY ab), MNQ 03.08.
+  (300 → 1.369), MNQ 05.08. (1.006 → 1.365), MNQ 07.08. (617 → 1.361), ES 05.08. (894 → 1.366).
+- ⚠️ **Neuer Datenqualitätsbefund: AUDUSD und NZDUSD sind bei yfinance faktisch 2m-Daten**,
+  liegen aber als „1m" im Vault. Gemessen: 719 statt 1.440 Kerzen/Tag, Abstandsverteilung
+  717×120 s, kein einziger 60-s-Abstand; Gegenprobe EURUSD am selben Tag 1.437×60 s. Erneuter
+  Abruf ändert nichts (382 → 719, nicht → 1.440). Paar-spezifische Yahoo-Grenze, kein
+  Pipeline-Fehler. Dokumentiert in `algo/README.md`; jede minutengenaue Auswertung dieser zwei
+  Paare läuft auf halber Auflösung.
+- ⚠️ **Offen, nur mit neuem TradingView-Export lösbar** (yfinance-Backfill scheidet aus, weil er
+  dort fremde Vendor-Preise in eine TradingView-Datei mischen würde): ES 12.08. 573/1.380,
+  YM 10./11./12.08. 875/1.326/509, DXY 10./11./12.08. 203/1.337/519.
+- `algo/selfcheck.py`: 16/16 grün.
+
+## [2026-08-13] lint | FVG-Grenzen: Koerperkante statt Close/Open (Bugfix nach Nutzer-Referenzboxen)
+- Anlass: Jannes' 14 TradingView-Screenshots (13.08.2026) mit selbst eingezeichneten MNQ-FVG-Boxen,
+  teils mit, teils ohne VII, als Referenz gegen die eigene Auswertung des 12-13-Uhr-NY-Fensters.
+- Befund: `tools/analyze_ohlc.py::fvgs()`/`viis()` leiteten die VII-Kante aus festen OHLC-Feldern ab
+  (`a.c`, `m.o`, `m.c`, `c.o`). Korrekt nur, wenn alle Kerzen in Richtung des Moves schliessen — bei
+  einer Gegenkerze tauschen Open und Close die Rollen. Gefixt auf `max(o,c)`/`min(o,c)`.
+- Verifikation: 13/13 der eingezeichneten Referenzboxen exakt getroffen (vorher 11/13).
+- Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (neuer Abschnitt "Praezisierung:
+  Koerperkante, nicht Close bzw. Open"), wiki/concepts/Volume Imbalance (VII).md (Definition
+  praezisiert), algo/README.md (neuer Modulabschnitt), algo/PLAN.md (Log-Eintrag mit Zahlen).
+- Kein Widerspruchsmarker: das ist keine zweite Lehrmeinung, sondern eine Praezisierung derselben
+  Regel — die Kurzform "Close gegen Open" bleibt fuer trendkonforme Kerzen richtig.
+
+## [2026-08-13] setup | Qs/Os/Hs-Tabelle als Standard fuer jedes Konzept & jeden Timeframe
+- Nutzeranweisung: **Jedes** Konzept, **jeder** Timeframe — immer die vollständige Level-Ausgabe
+  **Qs + Os + Hs inkl. C.E**, ohne Rückfrage. Die Konzepte sind fraktal; gilt für Premium Wick
+  *und* Discount Wick genauso wie für FVG, OB, ORG, NDOG/NWOG, Session-Ranges — es sei denn, der
+  Nutzer sagt ausdrücklich etwas anderes.
+- Range-Definition Wicks: Premium Wick = Body-High → High, Discount Wick = Low → Body-Low.
+  Level auf 0,25 gerundet, plus Vermerk, welche Level Preis bereits respektiert hat.
+- Neu: `tools/qoh_levels.py` — volle 16tel-Tabelle (Qs/Os/Hs markiert) fuer eine beliebige Range,
+  Tick-Rundung ueber `analyze_ohlc.to_tick`, optionaler Beruehrungs-Check gegen eine OHLC-CSV.
+- Seite aktualisiert: wiki/concepts/Chain of Custody (Q-Validation).md (Erweiterung des
+  Standardverfahrens von 2026-08-10 um die feste Auslöserphrase).
+
+## [2026-08-13] lint | Korrektur: "Daily Premium Wick" = die 05.08.-Wick, nicht die letzte Kerze
+- **Nutzerkorrektur.** Auf die Frage nach "der Daily Premium Wick" hatte ich die Wick der zuletzt
+  abgeschlossenen Kerze (12.08.) geliefert. Gemeint ist das **stehende, benannte PD Array**: die
+  Premium Wick der Daily-Kerze vom **05.08.2026** (O 29 781,25 / H 30 073,25 / L 29 530,75 /
+  C 29 615,00). Nutzerzahlen (Start 29 781,25, C.E 29 927,25, High 30 073,25) gegen
+  raw/marktdaten/2026/08/05.08.2026/ geprueft: **exakt deckungsgleich**, kein Datenfehler.
+- **Fehlerursache und Absicherung**: Die Kerze ist **bearish**, damit ist das Body-High das
+  **Open**, nicht der Close. Regel in wiki/concepts/Chain of Custody (Q-Validation).md ergaenzt und
+  als Regressionstest in `tools/qoh_levels.py::_selfcheck` (`--selfcheck`) festgeschrieben.
+- **Inhaltlicher Befund**: Die Wick ist seit dem 13.08. **vollstaendig mitigiert** — Wick-Low
+  07.08. 08:38 NY, C.E 10.08. 01:55, Q 0,75 am 12.08. 09:30 (exakt RTH-Open), Wick-High 13.08.
+  09:46, danach Expansion bis 30 267,00. Graduelle Abarbeitung ueber sechs Sessions.
+- Seiten aktualisiert: wiki/synthesis/Muster-Validierung (laufend).md (Abschnitt "Aufloesung
+  2026-08-13", ersetzt die veraltete Aussage "noch offen"),
+  wiki/concepts/Chain of Custody (Q-Validation).md (Body-Grenze bei bearisher Kerze,
+  Fraktalitaet ausdruecklich bis 1s-Chart, --wick-Aufruf).
+
+## [2026-08-13] lint | FVG-Zeitstempel (Displacement-Kerze) + Einstufung stark/normal
+- Anlass: Jannes' Meldung "die FVG wurden nicht richtig eingezeichnet" plus neue Regel
+  "ein valides starkes FVG muss einen Swing High/Low brechen (MSS/BOS)".
+- Befund: Grenzen-Logik war korrekt (13/13 Referenzboxen), der Fehler lag im Reporting — FVG
+  wurden nach der *dritten* statt der *mittleren* Kerze benannt und gefiltert. Dadurch sass jede
+  Box im Chart eine Kerze zu weit rechts und am Fensterrand fiel ein FVG heraus.
+- Neu: `fvgs()` liefert `t_start`/`t_end` sowie `strong`/`broke`/`swing`/`ms`; nur bestaetigte
+  UND noch intakte Swings zaehlen als Break.
+- Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (zwei neue Abschnitte
+  "Stark (High Probability) vs. normal" und "Zeitstempel: die mittlere Kerze"), algo/README.md,
+  algo/PLAN.md.
+
+## [2026-08-13] lint | MNQ-Tiefhistorie 1d: zwei defekte Sammeldateien aussortiert
+- Befund: `MNQ 2026-07-31 1d.csv` und `MNQ 2026-08-03 1d.csv` (je ~290 Daily-Bars) enthielten
+  71 degenerierte Bars (`open==high`, `low==close`, 2025-06-09 .. 2025-12-18), zusaetzlich einen
+  Datums-Offset von +1 Tag und im 2025er Teil nicht reproduzierbare Preise.
+- **Aktiver Bestand war nicht betroffen**: Vollpruefung aller 1 833 MNQ-1d-Tagesdateien
+  (2019-05 .. 2026-08) gegen frischen yfinance-Abruf — 0 abweichend, 0 degeneriert. Der Defekt
+  lag in einem redundanten Parallel-Strang, nicht in der primaeren Tagesebene.
+- Massnahme: beide Dateien nach `raw/marktdaten/_defekt/tiefhistorie-1d-2026-08/` verschoben
+  (mit README + Beweisfuehrung), 2 fehlende Handelstage per `fetch_yfinance.py` nachgezogen.
+  Lueckenpruefung: 406 Handelstage, 11 fehlende Wochentage = ausschliesslich US-Feiertage.
+- Details und die drei widerlegten Zwischenhypothesen: `algo/PLAN.md`, Eintrag 2026-08-13.
+
+## [2026-08-13] synthesis | FVG-Stärke: Session-Volatilität, Größe, Confluence
+- Anlass: vier neue Thesen von Jannes (Größe session-/volatilitätsabhängig; groß + MSS/MSB =
+  High Probability; Überlappung mit Higher-TF-Qs bzw. NDOG/NWOG hebt die Wahrscheinlichkeit).
+- Neu: `algo/backtest_fvg_strength.py` über 27 MNQ-1m-Tage (7.279 FVG, 6.851 Trades).
+- Seiten erstellt: wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md
+- Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (Abschnitte "Größe: nur relativ zur
+  Session-Volatilität" und "Confluence"), wiki/index.md, algo/README.md, algo/PLAN.md
+- Ergebnis ehrlich gemischt: T1 klar bestätigt, T4 nur für die HTF-Qs (NDOG kein Beleg), T2/T3
+  durch die 1m-Auflösung nicht entscheidbar — der Vorbehalt steht auf der Syntheseseite.
+
+## [2026-08-13] setup | OHLC-Nulltoleranz-Gate vor allen Schreibpfaden nach raw/marktdaten/
+- Nutzeranweisung: "wir muessen immer sicher gehen das die daten korrekt sind das ist IMMER
+  zwangsweise notwendig also zur not doppelt gegen pruefen". Umgesetzt als Code-Gate statt als
+  Vorsatz.
+- `analyze_ohlc.pruefe_kerzen()` prueft vor **jedem** Schreibvorgang: High<Low, Body ausserhalb
+  High/Low, NaN, doppelte/fallende Zeitstempel, Haeufung degenerierter Bars (>5 %). Verdrahtet in
+  allen sechs Schreibpfaden (fetch_yfinance, ingest_tvexport inkl. backfill_yfinance, resample_1m,
+  ingest_histdata_xlsx, fetch_dukascopy) — eine Funktion an der geteilten Basis, nicht sechs Guards.
+- `analyze_ohlc.pruefe_gegen_referenz()` als zweite Ebene gegen eine unabhaengige Quelle. Vergleicht
+  **nur O/H/L, nie den Close** — Settlement vs. letzter Trade weichen zwischen Feeds systematisch
+  ab; ein Vergleich inkl. Close fuehrte heute zu einer falschen Diagnose.
+- Verifiziert: defekte Realdatei abgelehnt, gesunde durchgelassen, einzelne degenerierte 1m-Kerze
+  kein Fehlalarm, E2E ueber write_day legt die kaputte Datei gar nicht erst an. `selfcheck.py`
+  jetzt 18 Selbstchecks (neu: `ohlc_gate`).
+- Doku: algo/README.md (Abschnitt "OHLC-Nulltoleranz-Gate"), algo/PLAN.md (Eintrag 2026-08-13).
+
+## [2026-08-13] lint | Code-Review der FVG-Arbeit: Transaktionskosten fehlten
+- Vier Funde in eigener Tagesarbeit behoben: fehlende Round-Turn-Kosten (1,24 $) im
+  FVG-Backtest, 224-fache Neuberechnung der Higher-TF-Level pro Tag, stilles Wegfallen von
+  426 FVG ohne Entry, doppelter `swings()`-Aufruf.
+- Wichtigste Zahlen-Auswirkung: Gruppe "normal" faellt von 1,26 auf 0,02 $/Trade — nach Kosten
+  wertlos statt schwach profitabel. Die gefilterten Gruppen tragen die Kosten weiterhin.
+- Seiten aktualisiert: wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md
+  (Netto-Tabelle + Kostenhinweis), algo/PLAN.md, algo/README.md
+
+## [2026-08-13] lint | Gegenpruefung des OHLC-Gates: es war zu scharf, korrigiert
+- Nutzerauftrag "pruefe gegen". Ergebnis: **das eigene Gate von heute war fehlerhaft** — es haette
+  2 055 von 101 583 Bestandsdateien abgelehnt und damit kuenftige Forex-Importe blockiert.
+- Zwei Regeln waren gemessen falsch: (1) **Close** ausserhalb High/Low ist real (1 749 von 84 044
+  Daily-Bars, Settlement bzw. anderes Session-Fenster) und jetzt weich — nur **Open** ausserhalb
+  bleibt hart (281 Bars, MNQ mit 0 nicht betroffen). (2) Degenerierte Bars sind intraday real
+  (AUDUSD 5m: 36 %) und nur bei Tagesaufloesung ein Defekt. Danach 281 statt 2 055 Ablehnungen,
+  Realfall weiter gefangen.
+- **Neue Datenluecke gefunden**: 08.07.2026 fehlen 379 MNQ-1m-Kerzen (07.07. 18:00 – 08.07. 00:08).
+  Die 5m/15m/1h desselben Tages enthalten die Abendsession vollstaendig — also Datenverlust, keine
+  Illiquiditaet. Per yfinance nicht mehr nachladbar (30-Tage-Grenze), nur per TradingView-Export.
+- **Zirkelschluss korrigiert**: die gestrige Aussage "1 833 Dateien, 0 abweichend" war gegen
+  yfinance geprueft, obwohl die Dateien daher stammen. Gegen die unabhaengige TradingView-Quelle
+  nachgeprueft — Ergebnis haelt, aber der Beweis stammt jetzt aus einer zweiten Quelle.
+- Details: algo/PLAN.md, Eintrag "Gegenpruefung des eigenen Gates".
+
+## [2026-08-13] setup | FVG-Wissen in die bestehenden Algo-Module integriert
+- `analyze_ohlc.fvgs()` liefert `size_rel` zusaetzlich zu `strong`/`broke`/`swing`/`ms` — eine
+  Quelle, alle Aufrufer bekommen es ohne eigene Rechnung.
+- `rules.py::plan_trade` bekommt `require_strong`/`min_size_rel`, **per Default aus**: gemessen
+  verschlechtern sie das Silver-Bullet-Setup (16 Trades/+2.194 $ gegen 10-13/-6.281 bis -9.790 $).
+- `backtest_macro.py`: absolute 2-Punkte-Schwelle durch relative 0,45 ersetzt; Macro-Befund
+  haelt (p=0,0087).
+- `analyze_ohlc.day_report`: FVG-Tabelle High Probability zuerst, Spalten "x Kerze" und "Stark".
+- Seiten aktualisiert: wiki/synthesis/FVG-Stärke, Session-Volatilität & Confluence (laufend).md
+  (neuer Abschnitt "Gegenprobe am echten Setup"), algo/README.md, algo/PLAN.md
+
+## [2026-08-14] ingest | YouTube: PPI Market Review August 13, 2026
+- Quelle: https://www.youtube.com/watch?v=RVHX56v-gUo (Kanal The Inner Circle Trader, veroeffentlicht 2026-08-13, 11:47 Min). Transkript vollstaendig (Auto-Captions decken das ganze kurze Video ab), gespeichert unter raw/trading-ict/2026/yt-RVHX56v-gUo-transcript.md.
+- Kein Konzept-Lecture-Video, sondern ICTs eigener Trade-Recap des PPI-Tages (13.08.2026) auf NQ/MNQ — direkt vergleichbar mit dem eigenen journal/entries/2026-08-13 MNQ Daily Bias.md (neues Bias-Vorlage-System).
+- Seite erstellt: wiki/sources/youtube/2026-08-13 - PPI Market Review August 13, 2026 (Source).md, inkl. Abgleichstabelle gegen den eigenen Daily-Bias-Eintrag.
+- Keine neuen Konzeptseiten noetig (Order Block, PD Array, FVG, Chain of Custody/C.E. bereits vorhanden) — nur verlinkt.
+- Abgleichsergebnis: Richtung (bullish) stimmte mit dem eigenen Bias ueberein; die eigenen Ziele (29.931,75 Interim, 30.094,00 Weekly) waren beide zu konservativ — ICT haelt am Videoende bereits 30.600/30.975 fuer die naechsten Tage fuer moeglich, und war zu keinem Zeitpunkt am 13.08. an Shorts interessiert (die im eigenen Eintrag offen gehaltene Bearish-Turn-Hypothese hat sich fuer diesen Tag nicht bestaetigt). Eigener Eintrag traegt P07 (kein Chartbild), daher selbst nicht exakt nachverifizierbar; das Video liefert eine zweite, unabhaengige Einschaetzung des Tages, ersetzt aber keinen eigenen Screenshot.
+- Seiten aktualisiert: wiki/index.md
+
+## [2026-08-14] ingest | YouTube: 2025 Lecture Series - How To Disqualify 1st Presented FVGs (y63zsrLCcCw)
+- Scan-Fenster: gezielter Einzel-Ingest auf Nutzer-Link, kein Kanal-Scan. Video 2025-04-08, 11:27, Transkript vollstaendig (Auto-Captions, ~8.150 Zeichen bis zum Schlusssatz).
+- Seiten erstellt: wiki/sources/youtube/2025-04-08 - 2025 Lecture Series - How To Disqualify 1st Presented FVGs (Source).md
+- Seiten aktualisiert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md (Begruendungskette aus dem Video, Abschnitt "Mindestgroesse", Abschnitt "MOR und ORG haben verschiedene Auswahlregeln"), wiki/sources/How To Disqualify 1st Presented FVGs (Source).md (Querverweis auf die Videofassung), wiki/index.md
+- Rohdatei: raw/trading-ict/2026/yt-y63zsrLCcCw-transcript.md
+- Entscheidung ohne Rueckfrage: Das Video ist dieselbe Lecture wie die bereits vorhandene Notion-Folienseite. Statt einer zweiten Volldarstellung haelt die neue Seite nur das Zusaetzliche fest (Marktkontext 07.04.2025, gesprochene Begruendung, konkrete Preise) und verlinkt beide Richtungen -- entspricht der Skill-Regel "gleicher Handelstag aus verschiedenen Blickwinkeln: querverlinken, nicht doppelt dokumentieren".
+- ⚠️ Befund gegen die Nutzer-These: Jannes' Regel "das 1.p FVG des ORG muss mindestens 10 Punkte gross sein" steht **in keiner Quelle des Vaults**. Das Video begruendet die Disqualifikation rein strukturell ("There's no gap there. There's no imbalance here." -- Koerper zu Koerper null Luecke, Kandidat liegt in einer Balanced Price Range). Die These bleibt als offene Hypothese auf der ORG-Seite stehen, mit der eigenen Messung daneben (siehe algo/PLAN.md).
+- Aus den Chartbildern ergaenzt: gueltiges 1.p FVG 16.734,75-16.750,75 (16,00 Pkt), C.E. 16.742,75, Entry-Marker "Buy 2 @ 16.745,25". Die Kanten des *disqualifizierten* Kandidaten sind in Bild 02/03 nicht auf den Tick ablesbar -- explizit als nicht lesbar vermerkt statt geschaetzt.
+
+## [2026-08-14] synthesis | Mindestgroesse des 1.p FVG (NY AM) gemessen
+- Neu: algo/backtest_1p_mindestgroesse.py (Reuse: analyze_ohlc.fvgs, backtest_1p_fvg_woche.find_days, backtest_fvg_strength.simulate) -- 27 MNQ-Handelstage, Fenster 9:30-10:00.
+- Chronologische Lesart: Median 17,50 Pkt, 29,6 % der Tage unter 10 Pkt. Displacement-Lesart: Median 40,00 Pkt, Minimum 16,50 -- Schwelle dort redundant.
+- Kante: <10 Pkt 14,3 % Win / -4,31 $/Trade bei 85,7 % dubious; >=10 Pkt 46,7 % Win / +10,23 $/Trade bei 20,0 % dubious. Die Schwelle wirkt, aber primaer als Ausfuehrbarkeits-, nicht als Wahrscheinlichkeitskriterium.
+- Ergebnis auf wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md dokumentiert.
+
+## [2026-08-14] lint | FVG-Detektion: Body-Test war falsch
+- Ad-hoc-Auswertung der MOR 14.08. meldete 18 FVGs statt 2, weil die *Existenz* ueber die Koerper statt ueber die Wicks geprueft wurde. Jannes hat den Fehler am Chart bemerkt ("0:01 ist kein FVG, das erste ist 0:13").
+- Root Cause: die Wiki-Regel "Grenzen: Open/Close, nicht die Wicks" betrifft nur das *Einzeichnen* (und auch das nur bei einer VII), nicht die Existenz. Zusaetzlich wurde tools/analyze_ohlc.py::fvgs() umgangen, statt es wiederzuverwenden.
+- Kein Repo-Code betroffen -- fvgs() implementiert den Wick-Test korrekt (c.l > a.h / c.h < a.l). Korrigiertes Ergebnis fuer die MOR 14.08.: BISI 00:13 (30153,75-30155,00) und BISI 00:25 (30157,50-30158,25), beide gefuellt.
+
+## [2026-08-14] ingest | YouTube: How To Trade ICT FVGs Correctly (2024) + High Probability FVG's (Masterclass)
+- Scan-Fenster: zwei vom Nutzer verlinkte Videos, kein Kanal-Scan. HhgWGduQZQY (2024-09-16, 2:12:08, ~105k Zeichen) und 4JZrzC7fSQw (2025-01-19, 41:29, ~34,7k Zeichen), beide Transkripte vollstaendig, seriell mit Pause geholt (kein IpBlocked).
+- Seiten erstellt: wiki/sources/youtube/2024-09-16 - ICT 2024 Mentorship - How To Trade ICT FVGs Correctly (Source).md, wiki/sources/youtube/2025-01-19 - ICT Private Mentorship - High Probability FVGs Masterclass (Source).md, wiki/synthesis/High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend).md
+- Seiten aktualisiert: wiki/concepts/Fair Value Gap (FVG).md (zwei neue Abschnitte: "Wo High-Probability-FVGs entstehen" und "Entry, Stop und Quadranten"), wiki/index.md
+- Rohdateien: raw/trading-ict/2026/yt-HhgWGduQZQY-transcript.md, raw/trading-ict/2026/yt-4JZrzC7fSQw-transcript.md
+- Code (Nutzerauftrag "implementiere die Erkenntnisse"): tools/analyze_ohlc.py::fvgs() liefert jetzt entry/stop_c2/stop_c1/q25/q75/near_touches/far_touches/far_half_open/fast; neu killzone_of() und hp_context(); neu algo/backtest_hp_fvg.py; Regressionstests in tools/test_fvg_vii.py (3 neue), selfcheck.py 20/20.
+- ⚠️ Zwei ICT-Behauptungen halten der eigenen Messung nicht stand und stehen so auf den Seiten: die "98% strike rate" (gemessen 36-38% bei 2R) und das sofortige Rebalance als Staerkesignal (gemessen negativ). Die Regel "ferne Haelfte bleibt offen" ist bei einem Stop hinter Kerze 2 fast tautologisch und taugt nur zum Trade-Management, nicht zur Auswahl.
+- Entscheidung ohne Rueckfrage: die Masterclass laeuft unter dem Kanal "StratX" (Repost), Inhalt aber unstrittig ICT-Mentorship von Juni 2019 -- als ICT-Quelle gefuehrt und der Repost-Status in der Kopfzeile vermerkt.
+
+## [2026-08-14] synthesis | Timeframe-Wahl zur Liquidity-Pool-Erkennung (Nutzer-Regel)
+- Jannes' eigene Arbeitsweise (keine ICT-Quelle): 15-Min-Chart als "Bellwether Chart" fuer die Pool-Einordnung bei Intraday-Modellen (Silver Bullet + kuenftige), 1-Min-Chart eignet sich besonders gut, um grosse/gute Liquidity Pools zu erkennen; kein Timeframe ist exklusiv.
+- Seiten aktualisiert: wiki/concepts/Open Float & Liquidity Pools.md (neuer Abschnitt "Timeframe-Wahl zur Pool-Erkennung"), wiki/models/Silver Bullet Model.md (Backlink in Verwandt).
+
+## [2026-08-14] synthesis | Backtest der Bellwether-These -- 1m schwach positiv, 15m negativ
+- algo/rules.py::plan_trade um `levels_bars`-Parameter erweitert (Default None = altes Verhalten, per Assert bit-identisch verifiziert), damit die Ziel-Liquiditaet aus einer anderen Bar-Reihe als dem 5m-Entry stammen kann.
+- Neu algo/backtest_sb_bellwether.py (Reuse: rules.plan_trade fuer Entry+Ziel, Simulation nach backtest_hp_fvg.simulate). 27 Tage mit gleichzeitig 1m+5m+15m-Daten, 63 SB-Fenster.
+- Ergebnis: 5m-Baseline 62 Trades/22,6% Win/+9,71 $/Trade; 15m-Bellwether 42 Trades/9,5% Win/-1,95 $/Trade (schlechter); 1m-grosse-Pools 62 Trades/30,6% Win/+9,83 $/Trade bei hoeherem dubious-Anteil (12,9% vs 4,8%). n=42-62 zu klein fuer eine Entscheidung.
+- Seiten aktualisiert: wiki/concepts/Open Float & Liquidity Pools.md (Ergebnis-Warnbox), algo/PLAN.md.
+
+## [2026-08-14] synthesis | PDH/PDL/PWH/PWL als SB-Ziel-Liquiditaet -- Artefakt in der PWH/PWL-Zahl
+- Jannes' These: previous day/week High/Low sind starke, high-probability DOL (wann sich ein Pool bildet, ist selbst ein Qualitaetsmerkmal).
+- algo/rules.py: `target_candidates`-Parameter fuer plan_trade() (feste Level statt Swing-Erkennung), Entry-Logik in neue `sb_entry_signal()` ausgelagert (reines Refactoring, verifiziert ergebniserhaltend). Neu algo/backtest_sb_session_liq.py.
+- 47 Tage, 118 Fenster: Baseline 112 Trades/17,0% Win; PDH/PDL 75 Trades/2,7% Win/-14,57 $/Trade (klar negativ); PWH/PWL 82 Trades/2,4% Win/+34,35 $/Trade -- aber nur 2 Gewinner, einer davon erreicht sein Ziel erst 4 Handelstage spaeter (kein SB-Zeitrahmen mehr). Methodenartefakt: kein Zeit-Cap in der Simulation, als Backlog-Punkt in algo/PLAN.md vermerkt.
+- Seiten aktualisiert: wiki/concepts/Open Float & Liquidity Pools.md (neuer Abschnitt "Session Liquidity: Previous Day/Week High/Low"), algo/PLAN.md (Fund + Backlog "Haltedauer-Cap fuer SB-Backtests").
+
+## [2026-08-14] lint | 1d-Datei 13.08. stale nach TradingView-Korrektur -- gefixt, 6 weitere Tage gefunden
+- Jannes' manueller Liquiditaets-Check (15m-Chart) korrigierte PDH 13.08. von 30267,0 auf 30273,25 -- Gegenprobe bestaetigte seine Zahl gegen die 5m/15m-Intraday-Bars.
+- Root Cause: TradingView-Korrektur vom 14.08. (16 revidierte Kerzen) aktualisierte die Intraday-Dateien, nicht aber die 1d-Datei -- die blieb auf dem alten yfinance-Stand. raw/marktdaten/2026/08/13.08.2026/MNQ 2026-08-13 1d.csv direkt repariert (H/C korrigiert, O/L stimmten bereits).
+- Systemcheck ueber 1883 1d-Dateien findet 6 weitere betroffene Tage (08.06./15.06./16.06./17.06./18.06./01.07./03.08.), NICHT automatisch repariert (fehlt externe Bestaetigung wie beim 13.08.) -- als Backlog in algo/PLAN.md vermerkt, betrifft moeglicherweise das PDH/PDL-Ergebnis aus dem letzten Session-Liquiditaet-Backtest.
+- Zweiter Fund derselben Session: die Ranking-Antwort hatte an einer Stelle den fraktalen Swing-Punkt (30128,0) statt des tatsaechlichen Session-Extrems (30124,25 Asia-Low, 21:00 NY) gemeldet -- untouched_levels() findet nur fraktale Pivots (n=2 beidseitig), nicht zwingend das echte Session-High/Low. Methodische Lehre: fuer Session Liquidity (Asia/London/NY-Range) direkt Session-Extrema berechnen, nicht nur auf Swing-Erkennung verlassen.
+
+## [2026-08-14] synthesis | REH/REL: welches der zwei Extreme ist noch unberuehrt
+- Jannes' Regel: bei einem REH-Paar muss das LINKE (fruehere) High hoeher sein als das rechte, sonst hat das rechte es schon genommen; bei REL muss das linke Low tiefer sein als das rechte. Praxisbeispiel Daily MNQ: REH-Paar 16.06. (30975,50) und 22.06. (30967,75) -- 16.06. ist links und hoeher -> gueltiger Pool ist 30975,50, nicht 22.06.
+- Seiten aktualisiert: wiki/concepts/Open Float & Liquidity Pools.md (neuer Abschnitt in REH/REL).
+- Zusaetzliche Korrektur: Sellside-Rang-1 vom letzten Report (27200,0, 29.07.) laut Jannes korrekt 27204,75 -- eigene 5m/1m-Daten bestaetigen exakt 27200,0 (kein Pipeline-Fehler), Differenz passt zum bekannten yfinance-Tick-Praezisionslimit (siehe CLAUDE.md). Neuer REL-Punkt uebernommen: 07.08. 29455,0 (00:15 NY), gegen 5m-Daten verifiziert.
+
+## [2026-08-14] setup | Liquiditaets-Wissen kodiert: rules.py + algo/liquidity_report.py
+- Nutzerauftrag (Brainstorming-Session, bounded): das in dieser Session erarbeitete Liquiditaets-Wissen (Session-Extrema, IPDA-Fenster, REH/REL-Regel, PDH/PDL/PWH/PWL) als wiederverwendbare Funktionen in algo/rules.py kodiert, plus neue Datei algo/liquidity_report.py, die aktuelle Liquiditaet ueber 1m/5m/15m/Daily erkennt und qualitativ rankt (Hoch/Mittel/Niedrig, kein numerischer Score -- Nutzerentscheidung).
+- Dabei algo/backtest_sb_session_liq.py auf die neue, korrekte PDH/PDL/PWH/PWL-Quelle (5m-Aggregation statt 1d-Dateien) umgestellt und neu gelaufen: PWH/PWL-Ergebnis kippte von +34,35 $/Trade (Artefakt der stale 1d-Datei + fehlendem Haltedauer-Cap) auf -1,27 $/Trade.
+- Details, Code-Struktur und bekannte Grenzen (v1, Cross-Timeframe-Dedup fehlt noch): algo/README.md, algo/PLAN.md.
+
+## [2026-08-14] ingest | 2022 ICT Mentorship (YouTube, 27 Episoden)
+- Neue Rohquelle `raw/2022-ict-mentorship/` (YouTube-Kanal The Inner Circle Trader, Playlist "2022 ICT Mentorship"): 27 auto-generierte Transkripte (Introduction, Episode 2-21, 23-27, 29 — Episode 22 fehlgeschlagen beim Fetch, 28 ohne Captions, 30-41 ausstehend/IP-Block-Retry). Deckt sich teilweise mit der bereits vorhandenen [[ICT MentorShip 2022 (Source)]]-Reihe (Notion/Slide-Export, dort fehlten Episode 1, 2, 9, 10, 12 komplett) — für die überlappenden Episoden (3-8, 11, 13-18) wurden nur die Differenzen zur bestehenden Slide-Fassung dokumentiert, für die zuvor komplett fehlenden Episoden (Introduction, 2, 9, 10, 12, 19-21, 23-27, 29) volle neue Seiten angelegt.
+- Seiten erstellt (27, alle unter `wiki/sources/youtube/`): 2022-01-19 Introduction, 2022-01-22 Episode 2, 2022-01-26 Episode 3, 2022-01-28 Episode 4, 2022-02-02 Episode 5, 2022-02-04 Episode 6, 2022-02-09 Episode 7, 2022-02-11 Episode 8, 2022-02-16 Episode 9, 2022-02-18 Episode 10, 2022-02-22 Episode 11, 2022-02-25 Episode 12, 2022-02-26 Episode 13, 2022-02-28 Episode 14, 2022-03-17 Episode 15, 2022-04-02 Episode 16, 2022-04-06 Episode 17, 2022-04-08 Episode 18, 2022-04-21 Episode 19, 2022-04-22 Episode 20, 2022-04-27 Episode 21, 2022-05-04 Episode 23, 2022-05-06 Episode 24, 2022-05-11 Episode 25, 2022-05-11 Episode 26, 2022-05-14 Episode 27, 2022-05-17 Episode 29 (alle "2022 ICT Mentorship Episode N (Source)").
+- Seiten aktualisiert: `wiki/sources/ICT MentorShip 2022 (Source).md` (Lücken-Warnung auf ✅ umgestellt, Tabelle der neuen YouTube-Episoden ergänzt), `wiki/index.md` (27 neue Sources-Einträge + Abschnittstext), `wiki/concepts/Risikomanagement (1% pro Trade).md` (ICTs eigene 3-4,5%-Live-Risikoangaben ergänzt, kein Widerspruch zur eigenen Regel), `wiki/concepts/Low Resistance Liquidity Run.md` (neue Terminologie "Running vs. Sweeping" aus Episode 23), `wiki/concepts/ICT Daily Range Session Timing.md` (Feiertags-Handelszeiten 13-18 Uhr NY, max. 4 Trades/Tag), `wiki/concepts/Order Block.md` (⚠️-Widerspruchsmarker ergänzt).
+- ⚠️ Widerspruch markiert (primärquellenübergreifend): Episode 12 lehnt die Einzelkerzen-Definition von [[Order Block]] explizit ab ("that is not my order block") und definiert den OB als die gesamte zusammenhängende Serie gleichfarbiger Candles vor dem Displacement — die Wiki-Seite deckt beide Lesarten bereits über spätere Abschnitte ab, Kopfzeile bewusst als vereinfachte Grunddefinition belassen (mehrere andere Primärquellen nutzen genau diese).
+- Neue, bislang unbelegte Terminologie/Konzepte identifiziert, aber (noch) nicht als eigene Konzeptseite angelegt (YAGNI — erst bei weiterem Beleg): "Purge and Revert" (Episode 19), "Mean Threshold" als expliziter Zielwert (Episode 19), "Rebalancing" (Episode 25, Preisrückkehr zum Low des Vor-Vortages), "Close Proximity Entry" (Episode 29), genestete Larry-Williams-Swing-Klassifikation (Episode 11, teils bereits in Episode 12 abgedeckt), 3-2-1-Entry-Pyramiding (Episode 13).
+
+## [2026-08-15] setup | Forex-Backtesting-Infrastruktur umgesetzt
+- Forex-Backtesting-Infrastruktur nach Spec vom 14.08. (`docs/superpowers/specs/2026-08-14-forex-backtesting-design.md`) umgesetzt: Parquet-Cache für alle 10 Forex-Paare, Verifikation (Zeit/Vollständigkeit/Attrappen), `SESSION_TYP`/`PIP_SIZE`-Guards in `tools/analyze_ohlc.py`, neuer `marktdaten.bars()`-Loader, zwei Gruppe-A/B-Module (`backtest_seasonal.py`, `backtest_midnight_range_std.py`) auf alle 10 Paare parametrisiert. Details, Zahlen und Backlog: `algo/PLAN.md`.
+- Neue Seite: [[Eröffnungsauktion vs. 24x5-Markt]] (warum ORG/NDOG Futures-only sind, Forex behält nur NWOG). Seiten aktualisiert: `wiki/index.md`, [[ORG (Opening Range Gap) & 1st Presented FVG]], [[New Day Opening Gap (NDOG)]] (Rückverweise ergänzt).
+- Keine weiteren primärquellenübergreifenden Widersprüche gefunden. `.\push.ps1` bewusst NICHT ausgeführt (folgt separat mit einem weiteren, noch laufenden Task).
+
+## [2026-08-15] setup | Automatische raw/-Einsortierung (Regel + Erstlauf)
+- Nutzerauftrag (Brainstorming, bounded): CLAUDE.md Layer 1 erweitert — raw/-Ordnerstruktur darf
+  jetzt gepflegt werden (Inhalt bleibt unveraendert), lose auf Root-Ebene abgelegte Dateien werden
+  zu Session-Beginn automatisch in die passende Domaene einsortiert. Domaenenspezifisch verfeinert:
+  OHLC-CSVs -> marktdaten/ (Symbol/TF/Datum aus Dateiname + Inhalt), Chart-Screenshots ->
+  journal/assets/, Algo-Pruefergebnisse -> neue Domaene raw/algo-pruefung/.
+- Erstlauf gegen 8 lose Dateien in raw/: 3 TradingView-1m-Exports (ES, MNQ, NQ) per
+  `algo/ingest_tvexport.py` in den Bestand gemergt (siehe Kerzenzahlen/Luecken/Revisionen in der
+  Skript-Ausgabe); 1 HistData-EURUSD-2000-Zip per `algo/ingest_histdata_xlsx.py` nach
+  marktdaten-tief/ importiert (182 Tage, 143042 1m-Kerzen); 2 Daily-Bias-Notizen (12./13.08.) nach
+  journal/ verschoben und ans bestehende Namensschema angeglichen; 1 fehlplatzierte Wiki-Synthese-
+  Seite (`MNQ 2026-08-13 — MOR & FVG.md`, hatte bereits vollstaendiges Frontmatter) von raw/ nach
+  wiki/synthesis/ verschoben, wo sie inhaltlich hingehoert (bislang nirgends verlinkt).
+- ⚠️ Datenintegritaets-Fund, auf Nutzerauftrag noch in derselben Session aufgeklaert und repariert
+  (Details: algo/PLAN.md, 2026-08-15): Bestandsdatei `MNQ 2026-07-31 15m.csv` enthielt 1301 statt
+  92 Kerzen. Root Cause war kein falsches Datum, sondern derselbe Bulk-Dump-Bug, der am 2026-08-13
+  bereits bei den 1d-Dateien fuer dieselben zwei Tage gefunden und nach
+  `raw/marktdaten/_defekt/tiefhistorie-1d-2026-08/` quarantaeniert wurde (Commit 31d6c31c8,
+  2026-08-02, unverwandter Ingest-Task hat ungesplittete Mehrtages-Exporte abgelegt) — betraf
+  zusaetzlich unbemerkt 5m/1h/4h/15m RTH an denselben zwei Tagen (07-31, 08-03). Alle 8 Dateien
+  aus den sauberen 1m-Bestandsdaten neu erzeugt (`tools/resample_1m.py` + RTH-Filter), danach die
+  zwei losen 15m-Exports sauber nachgezogen. Neuer, kleinerer Fund dabei zurueckgestellt (Nutzer-
+  entscheidung): `MNQ 2026-07-09 15m.csv` hat 93 statt 92 Kerzen (Grenzkerze 17:00 NY), noch
+  ungeklaert, ob Session-Artefakt oder Soll-Anpassung noetig — ein weiterer loser Export wartet
+  deshalb unverarbeitet in raw/.
+
+## [2026-08-15] setup | Forex-Algo Phase 2 — Design-Spec + Konzept-Inventur
+- Spec erstellt: docs/superpowers/specs/2026-08-15-forex-algo-phase2-design.md (Commit 4dc16d6a4)
+- Kern der Nutzervorgabe: "genau die gleichen Konzepte, außer bekannte Sachen die nur für Future sind".
+  Ausschlusskriterium unverändert aus der Vorgänger-Spec (14.08.) übernommen: *setzt das Konzept die
+  9:30-Eröffnung als Ereignis voraus?* — ein 24/5-Markt hat weder Schluss noch Eröffnung.
+- Ausgeschlossen: ORG, ORG C.E., ORG-Std-Extrema, 1p FVG (Tag + Woche), 1p-Mindestgröße,
+  erstes FVG nach 9:30, Open Drive, NDOG, alle RTH-Varianten.
+- Übernommen: Silver Bullet, FVG inkl. Stärke, Swings/MSS, HP-FVG, Liquiditäts-Level, IPDA-Fenster,
+  Killzones, Midnight Opening Range, Macros, NWOG, 1%-Risiko, Kill-Switch, Ensemble-Idee.
+- ⚠️ Widerspruch markiert statt aufgelöst: tools/analyze_ohlc.py::KILLZONES führt die NY-Killzone als
+  07:00–09:00, [[ICT Daily Range Session Timing]] nennt für Forex ausdrücklich 07:00–10:00.
+  Beide Varianten werden künftig als getrennte Fenster gemessen, die Zahlen entscheiden.
+- Seiten aktualisiert: keine (Wiki-Seiten folgen, sobald die ersten Forex-Zahlen vorliegen —
+  eine Konzeptseite zur Eröffnungsauktions-Unterscheidung ist in der Spec als Schritt 10 vorgemerkt)
+- Protokoll: algo/PLAN.md (3 Einträge: Spec-Entscheidungen, Killzone-Diskrepanz, Vorarbeit)
+
+## [2026-08-15] synthesis | Forex-Algo gebaut, erstes Ergebnis auf EURUSD
+- Seiten erstellt: wiki/synthesis/Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend).md
+- Seiten aktualisiert: wiki/index.md
+- Code: algo/forex/{__init__,pnl,rules,backtest,selfcheck}.py — die MNQ-Konzepte auf dem
+  Forex-Bestand, abzüglich der 9:30-gebundenen Futures-Only-Konzepte. Keine MNQ-Datei angefasst
+  (nachgewiesen: 26/26 Selbstchecks bitgleich zur Baseline).
+- Erstes Ergebnis EURUSD 5m 2015–2019: 871 Trades, 18,3 % Treffer, −95.062 USD. Einziges
+  positives Fenster: London Silver Bullet (+3.651 USD, 160 Trades) — als offene Hypothese
+  notiert, nicht als Befund, weil der Abstand zum Rauschen klein ist.
+- ⚠️ Drei Zahlen, ohne die die Tabelle irreführend wäre, stehen auf der Seite: dubious_pct
+  28,6 % (Ergebnis ist eine Untergrenze), 85 % der Setups mit Stop enger als der Spread,
+  Spread gesetzt statt gemessen.
+- Strukturbefund: 1h und gröber sind für fensterbasierte Setups arithmetisch unbrauchbar —
+  ein SB-Fenster ist eine Stunde, darin passt auf 1h-Kerzen keine 3-Kerzen-Formation.
+- Für die ORG-C.E.-70-%-These festgehalten: über Forex nicht absicherbar (fällt unter den
+  Ausschluss), bleibt auf der MNQ-Stichprobe und weiterhin unter Beobachtung.
+- Protokoll: algo/PLAN.md (3 Einträge), algo/README.md (Modulabschnitt algo/forex/)
+
+## [2026-08-15] query | DST-Zeitversatz im Forex-Bestand — Root Cause, Eingrenzung, Fix
+- Der Befund vom selben Tag („~1h-Versatz in den US/EU-Umstellungswochen, über alle 23 Jahre")
+  ist in zwei Punkten korrigiert: der Fehler beginnt **2019**, davor ist der Bestand korrekt.
+- Messweg ohne Fremdquelle: der 24x5-Markt schließt Freitag 17:00 NY und öffnet Sonntag
+  17:00 NY. Die letzte Freitagskerze muss auf 16:59 NY liegen — damit ist jede Woche der
+  23 Jahre prüfbar statt einiger Stichprobentage.
+- Ergebnis über alle 10 Paare und beide Wochengrenzen: Lücken-Woche 2007–2018 = 16:59 NY
+  (korrekt), Lücken-Woche 2019–2026 = 15:59 NY (1h zu früh), gewöhnliche Woche in beiden
+  Ären = 16:59 NY. Der histdata-Endpoint hat 2019 die Umstellungs*termine* von der US- auf
+  die EU-Regel gewechselt; der Offset −5/−4 blieb.
+- Umfang: 15 Fenster, 140 Handelstage je Paar, 1.962.205 von 81.676.600 Kerzen (2,40 %).
+- Methodische Lehre (zweiter Fall binnen zwei Tagen): die ursprüngliche Zeitprüfung testete
+  zwei Sommertage und einen Wintertag — an solchen Tagen sind US- und EU-Sommerzeit
+  gleichzeitig aktiv, die beiden Regeln sind dort **nicht unterscheidbar**. Der Test konnte
+  den Fehler methodisch nicht finden. Eine Zeitprüfung muss künftig die Umstellungswochen
+  ausdrücklich enthalten, sonst prüft sie den einzigen Fall nicht, in dem sie greifen könnte.
+- Fix in `algo/fetch_histdata.py::label_zu_epoch()` (zwei Regime) plus Reparaturskript
+  `algo/repair_dst_2019.py` (Trockenlauf sauber, `--apply` steht aus — `raw/` wird nicht
+  eigenmächtig geändert). Protokoll: `algo/PLAN.md`.
+- Seiten aktualisiert: wiki/synthesis/Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend).md
+
+## [2026-08-15] setup | IBKR 1s-Datenanbindung NQ/ES
+- Seiten aktualisiert: keine (reine Code-/Infrastruktur-Aenderung, siehe algo/PLAN.md)
+- `algo/fetch_ibkr.py` neu; `tools/analyze_ohlc.py`, `algo/marktdaten.py`,
+  `algo/selfcheck.py`, `CLAUDE.md` geaendert; `.claude/commands/daten-1s.md` neu
+- Details: docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md,
+  algo/PLAN.md (Eintrag 2026-08-15)
+
+## [2026-08-16] ingest | YouTube: The Week In The Life Cycle Of Price (dmHSwlmS9iY)
+- Scan-Fenster: Einzelvideo per URL angefragt (kein Kanal-Scan). Video 2026-08-15, 1:25:25,
+  noch nicht ingested (weder in `raw/trading-ict/2026/` noch in diesem Log).
+- Transkript: `raw/trading-ict/2026/yt-dmHSwlmS9iY-transcript.md`, 14.560 Woerter,
+  **volle Abdeckung** (endet mit den Schlussworten, kein Auto-Caption-Cutoff).
+- Seiten erstellt:
+  - wiki/sources/youtube/2026-08-15 - The Week In The Life Cycle Of Price (Source).md
+  - wiki/concepts/Continuous Contract vs. Front Month.md
+  - wiki/concepts/Gladhanding.md
+- Seiten erweitert: wiki/concepts/TGIF (Thank God its Friday).md (25-%-Arbeitsziel, 40-%-Extremfall),
+  wiki/concepts/Open Float & Liquidity Pools.md (Session-Level-Katalog, Guarded Liquidity),
+  wiki/concepts/ICT Macros & Leading Candles.md (Begruendung 9:50-10:10, Entry ausserhalb),
+  wiki/concepts/Institutional Order Flow (Body vs Wick).md, wiki/concepts/Suspension Block.md,
+  wiki/models/Silver Bullet Model.md (vollstaendige Entry-Anatomie Live-Trade 15.08.),
+  wiki/models/Market Maker Manipulation Templates.md (Live-Fallstudie Consolidation Midweek Rally),
+  wiki/models/Weekly Range Trading Model.md (Wochenend-Routine), wiki/index.md
+- Selbst getroffene Entscheidungen (statt Rueckfrage):
+  - **⚠️ → ✅ in [[Open Float & Liquidity Pools]]**: Die 15-Min-"Bellwether"-Regel war als reine
+    Nutzer-Arbeitsweise ohne Quellenbeleg markiert. ICT nutzt in diesem Video woertlich denselben
+    Begriff mit derselben Begruendung → als bestaetigt umgestellt. Der negative Backtest daneben
+    betrifft die **Ziel**-Auswahl, nicht die Pool-Erkennung; beide Aussagen bleiben nebeneinander
+    stehen, der Unterschied ist explizit vermerkt.
+  - **⚠️ → ✅ in [[Weekly Range Trading Model]]**: Der Marker "Suspensionblock ohne klare
+    Definition, bei weiterem 2026-Ingest praezisieren" war seit dem Anlegen von
+    [[Suspension Block]] (2026-08-03) veraltet. Aufgeloest, inkl. Korrektur der urspruenglichen
+    Vermutung (kein Order-Block-Verwandter).
+  - **Kein eigener "Guarded Liquidity"-Konzeptseite**, sondern Abschnitt in
+    [[Open Float & Liquidity Pools]] neben den bestehenden REH/REL-Regeln — dasselbe Thema,
+    keine Doppelung.
+  - **Kein eigener "Weekly Profiles"-Eintrag**: Das im Video gezeigte Profil ist das bereits
+    dokumentierte "Consolidation Midweek Rally" aus [[Market Maker Manipulation Templates]] —
+    dort als Live-Fallstudie ergaenzt statt neu angelegt.
+- Zwei neue, noch ungeprüfte Backtest-Kandidaten nach `algo/PLAN.md` uebertragen
+  (Gladhanding-Regel, TGIF-40-%-Trennkriterium).
+
+## [2026-08-16] ingest | YouTube: Missed Entry How To Navigate The Same Trade Idea (EZB4vBUFdHw)
+- Scan-Fenster: Einzelvideo per URL angefragt (kein Kanal-Scan). Video 2026-07-02, 19:11.
+  Kein Transkript im Vault, kein Log-Eintrag → nicht ingested.
+- Transkript: `raw/trading-ict/2026/yt-EZB4vBUFdHw-transcript.md`, 2.120 Woerter.
+  Inhaltlich vollstaendig (Schlusswort vorhanden), **letzte Teilzeile verstuemmelt**
+  ("But, I've been alone.") — Auto-Caption-Artefakt, keine inhaltliche Luecke. Niedrige
+  Wortdichte (~110 W/Min) ist formatbedingt (Live-Ausfuehrung mit stillen Phasen).
+- **Doppelquelle festgestellt**: Zu genau diesem Video existierte bereits die Notiz-Fassung
+  `wiki/sources/Missed Entry How To Navigate The Same Trade Idea (Source).md` (Jannes' eigene
+  Mitschrift, ingested 2026-08-01, Rohquelle
+  `raw/trading-ict/2026/Missed Entry How To Navigate The Same Trade Idea.md`). Entscheidung:
+  **zweite Source-Seite angelegt statt gemergt** — Vault-Konvention ist eine Source-Seite pro
+  Rohquelle, und es sind zwei verschiedene Rohdateien. Beide Seiten sind gegenseitig verlinkt
+  und speisen dasselbe Modell.
+- Seiten erstellt:
+  - wiki/sources/youtube/2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source).md
+- Seiten erweitert: wiki/models/Missed Entry Trade Management Playbook.md (Kern-Erweiterung),
+  wiki/concepts/Event Horizon.md, wiki/concepts/Order Block.md,
+  wiki/concepts/Institutional Order Flow (Body vs Wick).md, wiki/concepts/Volume Imbalance (VII).md,
+  wiki/sources/Missed Entry How To Navigate The Same Trade Idea (Source).md, wiki/index.md
+- **⚠️ → ✅ Offene Nutzerfrage geklaert**: In der Notiz-Fassung stand seit dem Erst-Ingest
+  "SL zieht ICT auf den vorherigen gewollten Fill (**verstehe ich noch nicht**)". Das
+  Originaltranskript loest das auf — es sind **drei Stufen**: (1) initial ueber der Volume
+  Imbalance ueber dem FVG (nicht ueber dem gewollten Fill; beide lagen nur in derselben Zone,
+  daher die Verwechslung), (2) auf den Rejection Block als bewusste Risikoreduktion, (3) danach
+  ueber die laufenden Hochs nachgezogen. Risiko bleibt zwischen (2) und dem ersten Partial
+  unveraendert. Dokumentiert auf [[Missed Entry Trade Management Playbook]], Marker auf beiden
+  Seiten gesetzt.
+- Querverbindung ueber Videos hinweg: ICTs "block of price action"-Beobachtung (glatte Bodies
+  werden aufgeloest) ist dieselbe Idee wie "too smooth → they want to make it jagged" aus
+  [[2026-08-15 - The Week In The Life Cycle Of Price (Source)]] (heute frueher ingested) —
+  auf [[Institutional Order Flow (Body vs Wick)]] zusammengefuehrt.
+- Kein neuer Backtest-Kandidat: Der Inhalt ist Ausfuehrungs-/Money-Management-Logik
+  (Stop-Kaskade, Partial-Timing, Re-Entry-Sperre), keine falsifizierbare Preis-These.
+
+## [2026-08-16] ingest | YouTube: How To Probe Low Probability RTH Opening Ranges, Teil 1+2
+- Auftrag: `/yt-ict-ingest` fuer `rtIcbG6twrI`. **Nachholung eines abgebrochenen Ingests**: Beide
+  Videos standen seit dem Eintrag [2026-08-06] als offen ("IP-Block"), damals ohne Transkript.
+  Der Block ist nicht mehr aktiv — beide Fetches liefen heute problemlos durch (serielle
+  Ausfuehrung mit 50s Pause, insgesamt 4 Fetches diese Session, kein `IpBlocked`).
+- **Teil 2 unaufgefordert mitgezogen**: `bz4QNPcpmWE` (14.07.2026) war Teil desselben offenen
+  Auftrags vom 06.08. und ist die direkte Nachbesprechung desselben Handelstags. Als Zweiteiler
+  gemeinsam ingested und gegenseitig verlinkt.
+- Transkripte:
+  - `raw/trading-ict/2026/yt-rtIcbG6twrI-transcript.md` (13.07., 51:25), 8.061 Woerter
+    (~157 W/Min). Der gehandelte Teil der Session ist vollstaendig; das Transkript **endet abrupt
+    mitten in einem Exkurs ohne Verabschiedung** — ICT kuendigt bei ~10:10 an, den Rest nur noch
+    aufzuzeichnen. Ob danach inhaltlich noch etwas kam, ist aus dem Transkript nicht feststellbar;
+    im Bericht und auf der Source-Seite so vermerkt statt Vollstaendigkeit zu behaupten.
+  - `raw/trading-ict/2026/yt-bz4QNPcpmWE-transcript.md` (14.07., 15:04), 1.905 Woerter,
+    **volle Abdeckung** (ordentliche Verabschiedung).
+- Seiten erstellt:
+  - wiki/sources/youtube/2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source).md
+  - wiki/sources/youtube/2026-07-14 - Part 2 - How To Probe Low Probability RTH Opening Ranges (Source).md
+  - wiki/models/Low Probability Day Probing.md
+  - wiki/concepts/Kerzenzahl in einer Ineffizienz.md
+- Seiten erweitert: wiki/concepts/ORG (Opening Range Gap) & 1st Presented FVG.md,
+  wiki/concepts/Liquidity Void.md, wiki/concepts/Breaker Block.md, wiki/index.md
+- **ORG-C.E.-70-%-These (steht laut CLAUDE.md unter Dauerbeobachtung)**: Dieses Video ist eine
+  **zweite, chronologisch fruehere Primaerquelle** fuer die Zahl — ICT woertlich: *"70 % likely
+  it's going to go up here about 10:00. That's usually the statistics."* Zwei unabhaengige
+  Nennungen, aber in **keiner** eine Herleitung (kein Zeitraum, Symbol, Stichprobe). Eigener
+  Backtest bleibt bei 35-43 %; These bleibt aktiv, nicht geloescht. **Neu**: zwei bisher
+  ungemessene Erklaerungen fuer die Luecke identifiziert — ICT spricht ueber **NQ**, der Backtest
+  laeuft auf **MNQ**; und "zum C.E. zuruecklaufen" ist nicht als Beruehrung vs. Close definiert.
+  Beides nach `algo/PLAN.md` uebertragen.
+- Selbst getroffene Entscheidungen (statt Rueckfrage):
+  - **Montags-Regel** ("neue Trader nicht montags handeln, Ausnahme NFP-Montag") bekam **keine
+    eigene Seite**, sondern einen Abschnitt in [[Low Probability Day Probing]] — sie ist dort der
+    Anwendungsfall, nicht ein eigenstaendiges Konzept.
+  - **"Unicorn"** (Breaker + FVG am selben Ort, neuer Begriff im Vault) als Abschnitt auf
+    [[Breaker Block]] statt eigener Seite — strukturell eine Breaker-Variante.
+  - **Kerzenzahl-Regel bekam eine eigene Seite** (statt Abschnitt auf [[Fair Value Gap (FVG)]]),
+    weil sie quantifiziert, eigenstaendig backtestbar und von mehreren Seiten verlinkbar ist.
+- Neuer Backtest-Kandidat in `algo/PLAN.md`: Kerzenzahl/Verweildauer in FVGs. Beruehrt sich mit
+  dem Gladhanding-Kandidaten von heute frueh — Empfehlung dort vermerkt, beide in **einem**
+  Script `algo/backtest_gap_verweildauer.py` zu messen statt getrennt.
+
+## [2026-08-16] ingest | YouTube: Weekend US Holiday Volume Protocol (cDjxtT4-O-Q)
+- Scan-Fenster: Einzelvideo per URL. Video 2026-07-06, 28:10, nicht ingested.
+- Transkript: `raw/trading-ict/2026/yt-cDjxtT4-O-Q-transcript.md`, 3.546 Woerter (~126 W/Min),
+  **volle Abdeckung** (ordentliche Verabschiedung). Fuenfter Fetch dieser Session, kein IP-Block.
+- Seiten erstellt:
+  - wiki/sources/youtube/2026-07-06 - Weekend US Holiday Volume Protocol (Source).md
+- Seiten erweitert: wiki/concepts/Low Resistance Liquidity Run.md (Hauptort),
+  wiki/models/Low Probability Day Probing.md, wiki/concepts/Event Horizon.md,
+  wiki/concepts/SMT (Smart Money Divergence).md, wiki/index.md
+- Selbst getroffene Entscheidungen (statt Rueckfrage):
+  - **Keine eigene "Holiday Volume"-Seite angelegt.** [[Low Resistance Liquidity Run]] deckt den
+    Feiertagsfall im High-Resistance-Abschnitt bereits ab und zitiert dafuer die Kurznotiz
+    [[Post US Holiday Monday Followup (Source)]]. Dieses Video ist die ausfuehrliche Fassung
+    derselben Regel — dort als Mechanismus-Abschnitt ergaenzt statt eine dritte Stelle zu
+    eroeffnen. Beide Quellenseiten sind gegenseitig verlinkt.
+  - **Verallgemeinerung [[Event Horizon]]**: Die Seite definierte ihn als Mittelpunkt zwischen
+    **zwei Liquidity Pools**. ICT misst ihn hier zwischen einem **alten Hoch** und der **C.E. eines
+    15-Min-FVG** — also zwischen zwei beliebigen Referenzleveln. Definition entsprechend
+    erweitert, der Zwei-Pools-Fall bleibt als haeufigster Sonderfall stehen.
+  - **Index-Entkopplung nach [[SMT (Smart Money Divergence)]]**, mit expliziter Abgrenzung: Dort
+    ist Divergenz ein *Entry-Signal*, hier ein *Bedingungs-Filter* (handelbar ja/nein). Gleiche
+    Beobachtung, andere Verwendung — Unterschied auf der Seite vermerkt.
+- **Inhaltliche Praezisierung gegenueber dem Ingest von heute frueh**: [[Low Probability Day Probing]]
+  legte nahe, schlechte Tage generell mit einem Probe-Trade anzugehen. Dieses Video widerspricht
+  dem fuer den Feiertagsfall ausdruecklich (*"Enough is not trading at all on a day like today"*).
+  Auf der Modellseite als Vorfrage mit Unterscheidungstabelle ergaenzt: Warten (Interesse vertagt)
+  → Probing sinnvoll; Partizipationsvakuum (Interesse fehlt) → gar nicht handeln.
+- Neuer Backtest-Kandidat in `algo/PLAN.md`: Feiertags-/HRLR-Effekt. Wichtig fuer die Auswertung —
+  ICT behauptet **nicht**, dass die Level versagen (Quadrant und Event Horizon hielten im
+  Live-Beispiel exakt), sondern dass die Praezision *streut*. Ein Test auf reine Trefferquote
+  wuerde die Behauptung verfehlen. Dazu ein Kalender-Fallstrick vermerkt: gefiltert werden muss
+  der **erste regulaere Handelstag nach einem Feiertagswochenende**, nicht der Feiertag selbst.
+
+## [2026-08-16] ingest | YouTube: Turning Loss Into Gain - Market Alchemy (d8du4fMvOQU)
+- Scan-Fenster: Einzelvideo per URL. Video 2026-05-13, 1:34:34, nicht ingested.
+  Nutzerhinweis bestaetigt: alle heute verarbeiteten Videos sind 2026er Jahrgang, Ablage
+  entsprechend in `raw/trading-ict/2026/` (war bereits so).
+- Transkript: `raw/trading-ict/2026/yt-d8du4fMvOQU-transcript.md`, 12.422 Woerter (~131 W/Min),
+  **volle Abdeckung** (ordentliche Verabschiedung). Sechster Fetch dieser Session, kein IP-Block.
+- Seiten erstellt:
+  - wiki/sources/youtube/2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source).md
+- Seiten erweitert: wiki/models/Missed Entry Trade Management Playbook.md,
+  wiki/concepts/Kerzenzahl in einer Ineffizienz.md, wiki/concepts/IFVG (Inverse Fair Value Gap).md,
+  wiki/concepts/Low Resistance Liquidity Run.md, wiki/concepts/Event Horizon.md,
+  wiki/concepts/Partial Profit-Taking & R-Multiple-Skalierung.md,
+  wiki/models/Trading Journal & DOL Checklist.md, wiki/index.md
+- **Scheinbarer Widerspruch aufgeloest (Re-Entry nach Stop-out)**: Der Ingest vom 02.07.-Video
+  (heute frueh) hielt eine **harte Re-Entry-Sperre** fest (*"I can't reenter it ... there has to be
+  rules"*). In diesem Video steigt ICT nach dem Stop-out **wieder ein** — mit identischem Ziel.
+  Kein Widerspruch: Beide Male entscheidet dasselbe Kriterium, naemlich die Lage in der
+  Marktmaker-Kurve. Wiedereinstieg, solange das Narrativ intakt und die Idee strukturell **frueh**
+  ist; Sperre, sobald *"too far up on the curve"* / *"long in the tooth"*. ICT nennt das
+  Curve-Kriterium woertlich in **beiden** Videos. Als Vergleichstabelle auf
+  [[Missed Entry Trade Management Playbook]] dokumentiert, inkl. der Anfaengerregel (im ersten Jahr
+  generell kein Re-Entry nach Stop-out).
+- **Qualifizierung der heute frueh angelegten Seite [[Kerzenzahl in einer Ineffizienz]]**: ICT
+  verwahrt sich in diesem Video ausdruecklich gegen mechanisches Kerzenzaehlen (*"don't turn this
+  into a science ... I don't do those things"*). Zusammen mit dem Zitat der 13.07.-Quelle
+  (*"the only time I'm counting candles is when inside inefficiencies"*) ergibt das: Kerzenzahl ist
+  bei ICT durchgehend eine **qualitative** Aussage ueber Verweildauer/Tempo, nie ein Ausloeser. Die
+  Skala auf der Seite ist entsprechend als Erwartung markiert, nicht als Signalgeber — relevant
+  fuer den bereits eingetragenen Backtest-Kandidaten: zu pruefen ist die **Trennschaerfe** zwischen
+  2 und 3 Kerzen, nicht eine mechanische Regel.
+- Zweite unabhaengige Bestaetigung fuer die Event-Horizon-Regel "Limit knapp **vor** dem Level"
+  (heute frueh aus dem 02.07.-Video uebernommen) — hier mit anderer Begruendung (Spread/Fill-Risiko
+  statt dazwischenliegender Struktur). Als ✅ auf [[Event Horizon]] vermerkt.
+- Kein neuer Backtest-Kandidat: Der Inhalt ist ueberwiegend Trade-Management, Positionsgroesse und
+  Psychologie. Die einzige quantitative Aussage ("zweites Bein in weniger Kerzen als das erste")
+  entwertet ICT selbst als nicht-mechanisch.
+
+## [2026-08-16] setup | Bugfix fetch_ibkr-Fortschrittsfenster (Codepage)
+- Seiten aktualisiert: algo/PLAN.md (Log-Eintrag), algo/README.md (Abschnitt `fetch_ibkr.py`,
+  Fortschrittsfenster)
+- Code: algo/fetch_ibkr.py (`_fenster_laeuft_schon` wertet `tasklist` als Bytes aus statt
+  `text=True`; `_demo()` um den fehlenden Fall "numerische, nicht mehr laufende PID" ergaenzt),
+  tools/fetch_yt_transcript.py + tools/fetch_yt_playlist.py (`encoding="utf-8"` explizit).
+- Erkenntnis fuer kuenftige Aufrufe externer Windows-Tools: `subprocess.run(..., text=True)`
+  dekodiert mit der ANSI-Locale (cp1252), Konsolentools schreiben aber OEM (cp850). Der
+  UnicodeDecodeError faellt im Reader-Thread an, wird verschluckt, und `.stdout` ist danach
+  still `None` -- ein `except subprocess.SubprocessError` faengt das **nicht**. Entweder Bytes
+  vergleichen oder `encoding=` explizit setzen.
+
+## [2026-08-16] setup | fetch_ibkr.py -- stiller Datenverlust behoben, Backfill holt gesamte 1s-Historie
+- Seiten aktualisiert: keine (reine Code-/Doku-Aenderung, siehe algo/PLAN.md fuer die Zahlen)
+- Befund: `fetch_symbol_day()` schrieb eine Tagesdatei auch dann, wenn Fenster fehlgeschlagen
+  waren. Mit der Nie-Ueberschreiben-Regel fror das Loch dauerhaft ein -- `ES 2026-02-19` endet
+  11:29 NY statt 17:00 (35/46 Fenster) und sah trotzdem wie ein fertiger Handelstag aus.
+  Der Register-Filter machte es schlimmer: er uebersprang beim naechsten Lauf genau die
+  Fenster, deren Daten nur im Speicher des abgebrochenen Laufs existiert hatten.
+- Fix: Alles-oder-nichts je Handelstag; Resume laeuft jetzt ueber die Existenz der Tagesdatei
+  statt ueber das Register (fertiger Tag = 0 Requests); `_echter_fehler()` trennt echte
+  Stoerungen von "kein Handel" (Feiertag/Early Close, IBKR-Code 162 mit "no data") --
+  bewusst ueber den Text, weil die Pacing-Violation dieselbe Nummer traegt;
+  `--backfill` ohne Datumsangabe holt die gesamte verfuegbare Historie (183 Tage).
+- Merkposten fuer kuenftige Datenpruefungen: eine Tagesdatei mit "zu wenig" Kerzen ist nicht
+  automatisch defekt. `ES/NQ 2026-02-16` sind mit 68.400 statt 82.800 Kerzen **korrekt** --
+  Presidents' Day, CME schliesst 13:00 NY. Vollstaendigkeit darf deshalb nicht ueber eine
+  Sollkerzenzahl geprueft werden, sondern ueber "kein Fenster fehlgeschlagen".
+
+## [2026-08-16] setup | fetch_ibkr.py -- Pacing-Rate korrigiert, Statusmeldungen entluegt
+- Seiten aktualisiert: keine (Code/Doku, Zahlen in algo/PLAN.md)
+- Befund 1: Der `PacingLimiter` setzte "60 Requests je 600s" als Zaehler-Deckel um, der erst
+  beim 61. Request greift. Ein Handelstag hat nur 46 Fenster und lief damit an der Grenze
+  vorbei -- gemessen 41 Requests in 60s = 41 Req/Min gegen erlaubte 6. IBKR nahm exakt 41 an
+  und wies ab Fenster 42 ab. Beide frueheren Anpassungen (0,5s -> 1,5s) hatten nur den Burst
+  gestreckt, nicht die Rate gesenkt -- klassischer Symptomfix, der den Abbruch verschob.
+- Fix 1: `min_gap` wird aus `window / max_requests` abgeleitet (= 10s) statt handgesetzt.
+  Die Laufzeittabelle des Designs (46 Fenster ~ 8 Min) war immer schon auf 10s gerechnet.
+- Befund 2: `fetch_symbol_day()` gab fuer drei verschiedene Ausgaenge `None` zurueck, und die
+  Aufrufer machten daraus "uebersprungen (schon vorhanden/keine Daten)" -- auch fuer einen
+  Tag, der gerade an 5 Pacing-Violations gescheitert war.
+- Fix 2: Rueckgabe `(pfad, status)` mit unterscheidbaren Texten, plus Schlussbilanz je
+  Backfill, die offen gebliebene Tage namentlich nennt.
+- Methodische Lehre, uebertragbar: Wird eine Grenze als *Rate* formuliert ("N je Zeitfenster"),
+  muss sie auch als Rate durchgesetzt werden. Eine Pruefung, die nur beim Erreichen des
+  Zaehlers anschlaegt, laesst jeden Lauf unterhalb des Zaehlers ungebremst durch -- und genau
+  diese Laeufe sind der Normalfall. Und: eine Statusmeldung, die mehrere Ausgaenge in einen
+  Text zusammenfasst, verwandelt einen Fehlschlag in ein "alles gut".
+
+## [2026-08-16] setup | Bias-Vorlagen laufen jetzt ueber den Windows Task Scheduler
+- Symptommeldung: "beide journal skills funktionieren nicht, Dateien werden nicht automatisch
+  erstellt, ForexFactory-Anbindung funktioniert nicht".
+- Befund 1 (ForexFactory): **nicht defekt**. Direkt gemessen -- `bias_levels.py --next` liefert
+  4 Events (`source: forexfactory`, `error: None`), `--weekly` 21 Events inkl. FOMC Minutes,
+  der TradingView-Fallback fuer den Freitagsfall 30 Events. Beide Quellen und beide Modi intakt.
+- Befund 2 (Root Cause): Es existierte **kein Scheduler**. `CronList` leer, kein Windows-Task,
+  keine Cron-Datei in `~/.claude`. Beide Commands waren laut ihrem eigenen Header "fuer den Cron
+  20:00" geschrieben -- dieser Cron wurde nie angelegt und haette auch nie funktioniert:
+  `CronCreate` ist laut eigener Doku session-only, rein im Speicher, feuert nur solange die REPL
+  offen und idle ist, und laeuft nach 7 Tagen aus. Ein 20:00-Job feuert damit praktisch nie.
+- Belege: `Daily Bias 2026-08-05/-10/-15` und `Weekly Bias KW33` fehlen; die vorhandenen Dateien
+  tragen Zeitstempel 11:30/18:57 -- alle von Hand im Chat erzeugt, keine einzige um 20:00.
+- Fix: `tools/bias-cron.cmd` (headless-Wrapper, `claude -p` mit engem `--allowedTools`-Scope,
+  Log nach `algo/live/bias-cron.log`, bereits von `algo/live/*.log` gitignored) plus
+  `tools/setup-bias-tasks.cmd` (legt beide Tasks an, So-Do bzw. Fr 20:03).
+  Die Setup-Datei ist noetig, weil Git Bash `/create` sonst zu `C:/Program Files/Git/create`
+  umschreibt -- das war der erste Fehlschlag beim manuellen Anlegen.
+- Verifiziert: beide Tasks `State: Ready`, naechste Laeufe 16.08. bzw. 21.08. 20:03; der Daily-Task
+  einmal echt getriggert, `LastTaskResult: 0`, Log zeigt einen vollstaendigen Lauf inkl.
+  ForexFactory-Abruf und korrektem Nicht-Ueberschreiben der bestehenden Datei.
+- Methodische Lehre, uebertragbar: Ein Command, der "fuer den Cron" geschrieben ist, dokumentiert
+  eine *Absicht*, keinen laufenden Mechanismus. Wenn zwei Features gleichzeitig als kaputt gemeldet
+  werden, zuerst pruefen, ob sie einen gemeinsamen Ausloeser haben -- hier war die vermeintlich
+  defekte Datenanbindung nur deshalb unsichtbar, weil sie nie aufgerufen wurde.
+
+## [2026-08-16] setup | Journal-Bias-Dateien nach raw/journal/bias/{daily,weekly}/ sortiert
+- Auftrag: Daily- und Weekly-Bias fuer bessere Uebersicht in den bestehenden `bias/`-Ordner.
+- Verschoben: 92 Dateien nach `bias/daily/` (9 generierte ISO-Vorlagen + 82 Notion-Altbestand
+  "Daily Bias Journal N" + 1 handschriftlicher Eintrag), 30 nach `bias/weekly/`
+  (2 generierte + 27 Notion-Altbestand + 1 handschriftlicher). `raw/journal/` enthaelt jetzt
+  nur noch Tape Reading, Trade Execution, Journal.md, assets/ und bias/.
+- **Bewusst nicht umbenannt.** Drei Namensschemata liegen weiter nebeneinander
+  ("Daily Bias 2026-08-03", "Daily Bias 10.08", "Daily Bias Journal 5"). Grund: der Wikilink
+  `[[Weekly Bias KW 33]]` in `Daily Bias 2026-08-14.md` waere bei einer Umbenennung gebrochen.
+  Verschieben ist unkritisch, weil Obsidian vault-weit nach Dateinamen aufloest.
+- Pfade in beiden Commands nachgezogen (`bias-vorlage-daily.md` 3 Stellen,
+  `bias-vorlage-weekly.md` 2 Stellen) -- ohne das haette der 20:03-Task die naechste Datei
+  wieder ins Hauptverzeichnis gelegt und die Sortierung sofort wieder zerfallen lassen.
+- **Korrektur zum Eintrag von heute frueh:** Die Aussage "es existiert kein Scheduler" war
+  unvollstaendig. `algo/PLAN.md` (2026-08-15) dokumentiert zwei **Cloud-Routinen**
+  (`trig_01RqWifxLRoF1cMSXntn8SDN` Daily So-Do 20:07, `trig_01HuaCqVbDB6MXfqb7tR9hff` Weekly
+  Fr 20:07). `CronList` zeigt sie nicht -- es listet nur Session-Crons, nicht Cloud-Routinen.
+  Der Befund "noch kein automatischer Lauf erfolgt" bleibt trotzdem richtig, aber aus einem
+  anderen Grund: die Routinen wurden erst am 15.08. angelegt, der erste Daily-Lauf faellt auf
+  den 16.08. 20:07, der erste Weekly-Lauf auf den 21.08. Es gab schlicht noch keinen Termin.
+- **Offene Kollision:** Seit heute frueh laufen zusaetzlich zwei Windows-Tasks um 20:03 --
+  vier Minuten vor den Cloud-Routinen. Doppelbelegung, muss vom Nutzer aufgeloest werden.
+- Methodische Lehre, uebertragbar: Bevor ein fehlender Mechanismus als "existiert nicht"
+  diagnostiziert wird, `algo/PLAN.md` lesen -- das Projektlog kennt Infrastruktur, die kein
+  lokales Tool sichtbar macht.
+
+## [2026-08-16] setup | Tape Reading + Trade Execution ebenfalls in eigene Ordner
+- Verschoben: 30 Dateien nach `raw/journal/tape-reading/`, 19 nach `raw/journal/trade-execution/`.
+  `raw/journal/` enthaelt jetzt nur noch `Journal.md`, `assets/`, `bias/`, `tape-reading/`,
+  `trade-execution/` -- von urspruenglich 172 Eintraegen auf 5 heruntergeraeumt.
+- Wieder **nicht umbenannt**: `Journal.md` verlinkt die Eintraege per Wikilink
+  (`[[Trade Execution Journal 3]]` usw.); Verschieben laesst diese Links intakt, Umbenennen
+  nicht.
+- **Stillen Bruch gefunden und behoben:** `tools/journal_wiki.py` globbte flach
+  (`JOURNAL.glob("*.md")`) und haette nach der Umsortierung **0 Eintraege** gefunden --
+  die generierte Seite `wiki/synthesis/Journal-Auswertung.md` waere kommentarlos leer
+  geworden, ohne Fehlermeldung. Gegenprobe vor dem Fix: flach 0 Dateien / 0 mit Checkliste,
+  rekursiv 171 / 24. Fix: `rglob` statt `glob` (eine Zeile). Lauf danach verifiziert,
+  21 Eintraege ausgewertet, Seite wieder korrekt erzeugt.
+- Pfadangaben nachgezogen in `~/.claude/skills/trading-journal/SKILL.md` (Layout-Referenz auf
+  `Tape Reading 17.md` / `Trade Execution Journal 3.md`) und `algo/README.md`.
+- Methodische Lehre, uebertragbar: Ordner umsortieren ist nie folgenlos, solange Skripte die
+  alte Struktur globben. Nach jedem Verschieben in `raw/` pruefen, **wer** dort liest -- ein
+  flacher `glob` faellt nicht mit einem Fehler auf, sondern mit einem stillen Null-Ergebnis.
+
+## [2026-08-16] setup | Bias-Ablage auf Inbox-Prinzip umgestellt
+- Nutzer-Workflow praezisiert: neu erzeugte Daily-/Weekly-Bias-Dateien sollen **flach in
+  `raw/journal/`** liegen (dort traegt er "Mein Bias" ein) und erst nach Ablauf des Tages bzw.
+  der Woche ins Archiv wandern. Meine Command-Aenderung von heute mittag (direkt nach
+  `bias/daily/` schreiben) war damit falsch und ist zurueckgedreht.
+- Neu: `tools/sortiere_bias.py` -- verschiebt `Daily Bias YYYY-MM-DD.md` nach `bias/daily/`,
+  sobald das Datum < heute ist, und `Weekly Bias KWNN JJJJ.md` nach `bias/weekly/`, sobald
+  (Jahr, KW) < laufende ISO-Woche. Uneindeutiger Altbestand ("Daily Bias 10.08",
+  "Daily Bias Journal 5", "Weekly Bias KW 33") wird **nicht geraten**, sondern gemeldet.
+  Bestehende Zieldateien werden nie ueberschrieben, Inhalte nie veraendert.
+  `--demo`-Selbstcheck (Datums-/KW-Logik inkl. Jahreswechsel, Kollision, Fremdreihen
+  unangetastet) und `--dry-run` vorhanden.
+- In `tools/bias-cron.cmd` vorgeschaltet: der 20:03-Task raeumt erst auf, dann erzeugt er die
+  neue Datei. Deckt "am Ende des Tages" ab; der Morgen-Fall folgt automatisch, weil die Datei
+  des Vortages beim naechsten Lauf < heute ist.
+- Zurueckgeholt nach flach, weil noch aktuell: `Daily Bias 2026-08-17.md` (morgen),
+  `Weekly Bias KW34 2026.md` (kommende Woche). Probelauf `--dry-run` bestaetigt: beide bleiben
+  liegen, nichts sonst einzusortieren.
+
+## [2026-08-16] setup | Bias-News auf USD gefiltert
+- Nutzerentscheid: In Daily-/Weekly-Bias nur noch USD-Termine -- gehandelt werden NQ/ES,
+  CAD-CPI oder GBP-Jobs bewegen die US-Indizes nicht.
+- Ursache der Vermischung gefunden: `_tv_news()` filterte laengst serverseitig
+  (`countries=US`), `_ff_news()` gar nicht. Beide Quellen lieferten also unterschiedliche
+  Grundgesamtheiten -- ein Quellenwechsel (FF <-> TradingView) veraenderte damit still den
+  Umfang der Newsliste, nicht nur die Einstufung. Jetzt filtert `_ff_news()` auf
+  `WAEHRUNG = "USD"`, beide Quellen sind gleichgezogen.
+- Wirkung auf KW34: 21 Events -> 3 (FOMC Minutes Mi 14:00 NY Red, Philly Fed + Unemployment
+  Claims Do 08:30 NY Orange). Fuer Mo 17.08. bleiben **0** Events.
+- **Folgefehler mitbehoben, der sonst still falsch geworden waere:** Beide Commands werteten
+  `events == []` als "News-Abruf fehlgeschlagen". Mit dem USD-Filter ist eine leere Liste aber
+  der Normalfall eines newsarmen Tages -- am 17.08. haette faelschlich
+  "⚠️ News-Abruf fehlgeschlagen (None)" in der Datei gestanden. Die Commands unterscheiden
+  jetzt drei Faelle: `error` gesetzt (Abruf tot), `events` leer bei `error: null`
+  (newsarmer Tag, verwertbare Aussage), sonst Tabelle. Waehrungsspalte entfaellt.
+- Selbstcheck erweitert: gemischter Feed (USD+CAD+GBP) muss genau USD durchlassen; Feed ohne
+  USD-Event muss `events == []` **und** `error is None` liefern. `selfcheck.py`: 27/27 gruen.
+- Methodische Lehre, uebertragbar: Wenn zwei Quellen hinter einer Fallback-Kette liegen,
+  muessen sie dieselbe Filterung haben -- sonst aendert ein Quellenwechsel unbemerkt den
+  Inhalt, nicht nur die Herkunft. Und: ein Filter macht "leer" zu einem gueltigen Ergebnis;
+  jede Stelle, die "leer" vorher als Fehler las, muss mitgezogen werden.
+
+## [2026-08-16] setup | NDOG/NWOG im Levels-Abschnitt aus den Marktdaten statt aus dem Live-Feed
+- Auftrag: Levels-Bereich soll die Marktdaten der vergangenen Woche (1s) durchgehen und die
+  relevanten NDOGs/NWOGs hinterlegen; **kein Hinweis mehr darauf, dass das kommende
+  NWOG-Open noch nicht feststeht**.
+- Neu in `algo/bias_levels.py`: `gaps()` / `gaps_auto()` / `_gaps_aus_bars()`. Liest
+  `raw/marktdaten/` offline -- 1s-Parquet wo vorhanden, sonst 1m-CSV, Quelle je Tag
+  ausgewiesen. Damit sind die Gaps am Wochenende genauso bestimmbar wie unter der Woche;
+  `live_status.py` liefert nur noch ORG-C.E. und Preis.
+- **Korrektheitsfehler gefunden und umgangen:** `analyze_ohlc.ndog_gap()` nimmt erste/letzte
+  Kerze des *Kalendertags*. Auf session-geschnittenen Tagesdateien stimmt das, auf 1s/1m-Daten
+  nicht -- die laufen durchgehend 00:00:00..23:59:59, der Detektor mass dort den Sprung ueber
+  **Mitternacht** statt ueber die Handelspause. Konkret 13.08.: ndog_gap() lieferte -0.25
+  (23:59:59 -> 00:00:00), der echte Session-Gap war +19.25 (16:59 -> 18:00). Gegenprobe, die
+  das aufklaerte: Bars je Stunde am 13.08. -- 16h und 18h je 3600, **17h exakt 0**, die Pause
+  steht also sauber in den Daten. `bias_levels` erkennt Gaps deshalb datengetrieben ueber die
+  Pausenlaenge (~1 h = NDOG, 40-56 h = NWOG) und benutzt `ndog_gap()` bewusst nicht.
+- Datenluecken sind ausdruecklich **kein** Gap: eine Pause von 2-40 h (fehlender Tag im
+  Bestand) wird verworfen, sonst stuende eine erfundene Grossbewegung als PD Array in der
+  Bias-Datei. Im Selbstcheck abgesichert.
+- Symbol-Fallback mit Ausweisung: NQ hat erst ab 12.08.2026 Intraday-Historie (3 Tage im
+  35-Tage-Fenster), MNQ 25 Tage. `gaps_auto()` faellt auf MNQ zurueck und setzt `hinweis` --
+  NQ- und MNQ-Prints koennen um Ticks abweichen, das darf nicht still als NQ-Level durchgehen.
+- Ergebnis fuer KW34: **zwei offene Gaps** als DOL-Kandidaten -- NWOG 02.08. (28284.00 ->
+  28602.75, C.E. **28443.38**) und NDOG 29.07. (27259.75 -> 27208.00, C.E. **27233.88**).
+  Die vier NDOGs der vergangenen Woche (10.-13.08.) sind alle gefuellt.
+- Selbstcheck erweitert (Mitternacht erzeugt keinen Gap, Wochenende wird NWOG, Datenluecke
+  wird verworfen, Fill-Erkennung, C.E.-Berechnung). `selfcheck.py`: 27/27 gruen.
+- Methodische Lehre, uebertragbar: Ein Detektor traegt die Annahmen seines urspruenglichen
+  Datenformats mit. Vor der Wiederverwendung auf einer neuen Aufloesung pruefen, ob die
+  Annahme noch gilt -- hier "erste Kerze des Tages == Session-Open", was ab 1s-Daten falsch
+  ist. Der Fehler war klein genug (-0.25 statt +19.25), um als plausibler Wert durchzugehen.
+
+## [2026-08-16] setup | Gap-Definition praezisiert + Qs/Os/Hs je NDOG/NWOG
+- Nutzervorgabe: NWOG/NDOG-**Close** = Close der letzten gehandelten Kerze vor der Pause,
+  **Open** = Open der ersten Kerze danach; dazu je Gap die volle Qs/Os/Hs-Tabelle.
+- Neu in `bias_levels.py`: `tick()` (0,25-Raster, MNQ/NQ/ES handeln nicht dazwischen) und
+  `unterteilung()` -- Hs (50%), Qs (25/50/75%), Os (12,5%-Schritte) plus C.E., alles gerundet.
+  C.E. == H1 == Q2 == O4, im Selbstcheck festgenagelt. Jeder Gap-Eintrag traegt die Werte jetzt
+  mit; die Commands sollen sie uebernehmen statt selbst zu rechnen.
+- **Datenmangel gefunden, nicht behoben (Nutzerkorrektur bestaetigt):** Fuer den NWOG vom
+  02.08. meldet der Bestand Open **28602.75 um 18:10**, der Nutzer-Chart **28565.00 um 18:00**.
+  Ursache: sowohl `MNQ 2026-08-03 1m.csv` als auch `MNQ 2026-08-02 4h.csv` beginnen erst
+  18:10 NY -- die ersten zehn Minuten der Sonntag-Session fehlen im Export ("nur geladene
+  Balken", bekannte TradingView-Falle). Beim Close 28284.00 vs. 28287.00 des Nutzers bleiben
+  3 Punkte offen, vermutlich MNQ1! gegen eine andere Kontraktreihe.
+  Wirkung auf die Levels: mit Bestandsdaten Spanne 318.75 / C.E. 28443.50, mit den korrekten
+  Werten Spanne 278.00 / **C.E. 28426.00** -- 17,5 Punkte Unterschied im meistgenutzten
+  Bezugspunkt. Die Rechnung stimmt in beiden Faellen, die Eingangsdaten nicht.
+- Geprueft und ausgeschlossen: die frischen TradingView-Exporte in `raw/` decken nur
+  12.-14.08. ab (1s sogar nur die letzten ~75 Minuten des 14.08.) und helfen fuer den
+  02.08. nicht.
+- Methodische Lehre, uebertragbar: Ein Gap-Level ist nur so gut wie die *erste* Kerze nach der
+  Pause. Fehlt sie, ist der Fehler nicht sichtbar -- der Wert wirkt plausibel, weil er ein
+  echter Preis ist, nur zehn Minuten zu spaet. Bei Gap-Levels deshalb immer pruefen, ob der
+  erste Bar wirklich auf der Session-Oeffnung liegt (18:00 NY), nicht bloss "kurz danach".
+
+## [2026-08-16] setup | Einsortierung loser TradingView-Exporte + Datenquellen-Gegenprobe
+- Neu: `tools/sortiere_marktdaten.py`. Deutet TradingView-Exportnamen
+  ("CME_MINI_NQU2026, 1_98a6b.csv" -> NQ/1m), schneidet **an der Session-Grenze** und legt
+  `raw/marktdaten/<jahr>/<monat>/<TT.MM.JJJJ>/<SYM> <YYYY-MM-DD> <tf>.csv` an.
+  `--dry-run`, `--demo`, ueberschreibt nie, Originale bleiben in `raw/` liegen.
+- Session-Grenze ist der Kern: eine Tagesdatei laeuft **Vortag 18:00 -> Handelstag 16:59 NY**
+  (1380 1m-Kerzen). Nach Kalendertag zu schneiden haette genau den Fehler reproduziert, der
+  heute frueh die NDOG-Rechnung verfaelscht hat. Im Selbstcheck festgehalten: Mitternacht
+  trennt **nicht**, 17:00-18:00 trennt; Fr 18:00 und So 18:00 gehoeren beide zum Montag.
+- Schutz gegen Verschlechterung: existiert fuer Tag/TF bereits ein IBKR-`1s.parquet`
+  (82800 Bars, voller Tag), wird ein TradingView-1s-Export (2716 Zeilen ~ 45 min) **nicht**
+  danebengelegt. Unvollstaendige Handelstage werden je TF gegen den Sollwert gemeldet
+  (1m 1380, 5m 276, 15m 92, 1s 82800) statt als voller Tag durchzugehen.
+- **Datenquellen-Gegenprobe (Nutzerfrage "liegt es an den Datenfehlern?"): nein.**
+  Nutzer-Export `NQ 1m` gegen IBKR-1s ueber 2580 gemeinsame Minuten: **2574 exakt gleich**,
+  Ø-Abweichung 0,001, max 0,50. Beide Quellen sind gut und gegenseitig bestaetigt.
+  Der Session-Uebergang im Nutzer-Export steht korrekt auf **18:00** (Pause exakt 1:01:00).
+  Die 37,75 Punkte stammten allein aus der aelteren `MNQ 2026-08-03 1m.csv` (Start 18:10).
+  Die 3 Punkte im Freitag-Close sind **kein Fehler**, sondern NQ-gegen-MNQ-Spread: ueber 1200
+  gemeinsame Minuten schwankt NQ minus MNQ zwischen -2,75 und +7,75 bei Mittelwert +0,01.
+- Aktueller Lauf: **nichts einzusortieren** -- alle losen Exporte liegen bereits im Bestand.
+  Der Nutzen greift ab dem naechsten Export; in `bias-cron.cmd` vor den Bias-Lauf gehaengt.
+- Methodische Lehre, uebertragbar: Zwei Datenquellen, die im Mittel uebereinstimmen, koennen
+  minutenweise deutlich auseinanderlaufen. Ein Einzelwert-Vergleich (ein Close, ein Level)
+  taugt deshalb nicht als Beleg fuer "Datenfehler" -- erst die Verteilung ueber viele
+  gemeinsame Punkte trennt Rauschen (NQ/MNQ-Spread) von echtem Mangel (fehlende 18:00-Kerze).
+
+## [2026-08-16] setup | NQ-Historie eingesortiert -- NWOG 31.07./02.08. stimmt jetzt exakt
+- Der Nutzer hatte laengere NQ-1m-Exporte im **Gedanken**-Vault abgelegt (nicht in "VS Folder 1").
+  `sortiere_marktdaten.py` liest deshalb jetzt beide `raw/`-Ablagen; geschrieben wird nur in
+  den Bestand dieses Repos.
+- Gemessen aus `CME_MINI_NQU2026, 1_92659.csv` (28.07.-14.08., 18506 Kerzen): **alle 13
+  Session-Uebergaenge sauber**, Pause exakt 1:01:00 bzw. 2 Tage + 1:01:00, jedes Open auf
+  18:00. Der Export ist vollstaendig -- die fehlende 18:00-Kerze war allein ein Problem der
+  aelteren MNQ-Datei.
+- **NWOG 31.07. -> 02.08. bestaetigt die Nutzermessung exakt:** Close **28287.00** (Fr 16:59)
+  -> Open **28565.00** (So 18:00), Gap **+278.00**, C.E. **28426.00**, weiterhin **offen**.
+  Vorher aus MNQ: 28284.00 -> 28602.75, C.E. 28443.50 -- 17,5 Punkte daneben.
+- NQ traegt jetzt 14 Tage im 35-Tage-Fenster, `gaps_auto()` braucht **keinen MNQ-Fallback mehr**;
+  die Level stammen aus dem tatsaechlich gehandelten Symbol.
+- Zweiter offener Gap neu gerechnet: NDOG 29.07. 27259.25 -> 27202.00, C.E. **27230.50**
+  (aus MNQ vorher 27259.75 -> 27208.00, C.E. 27233.88).
+- Zwei Haerte-Fixes im Sortierer, beide aus dem Dry-Run heraus: (1) Bei mehreren Exporten
+  desselben Tages gewinnt die **vollstaendigste** Fassung, nicht die alphabetisch erste --
+  sonst haette ein angeschnittener 3-Tage-Export einen vollen Tag verdraengt. (2) Namensdeutung
+  um CBOT/COMEX/NYMEX-Praefixe, Kontraktmonate (MNQU2026, YMU2026) und Exporte **ohne**
+  Hash-Suffix erweitert; TradingView haengt den Hash nur beim Wiederholungsexport an.
+  Fremdformate (histdata-Forex, TVC_DXY, preview.csv) werden weiter uebersprungen statt geraten.
+- 11 NQ-Tagesdateien neu angelegt (28.07.-11.08.), nichts ueberschrieben. Der 28.07. ist mit
+  566/1380 Kerzen angeschnitten und als solcher gemeldet.
+
+## [2026-08-16] setup | raw/-Inbox geleert, Ablage-Konvention festgehalten
+- Nutzer stellt klar: er legt **alle** neuen Dokumente lose in `raw/` ab (nicht nur
+  TradingView-CSVs) und erwartet das Einsortieren von Claude -- das ist die bereits in
+  CLAUDE.md stehende Regel "Automatische Einsortierung", jetzt ausdruecklich bestaetigt.
+- Bestandsaufnahme ueber beide Clones ergab: **dieser Vault war bereits aufgeraeumt.** Alle
+  sieben losen ZIPs aus `Gedanken/raw` liegen hier schon unter `_notion-exports/`, das Buch
+  unter `testing-and-tuning/`. Der Gedanken-Clone ist die Inbox, dieses Repo der gepflegte
+  Stand -- nicht umgekehrt.
+- Die sechs bereits verarbeiteten TradingView-Exporte nach `raw/_tv-exporte/` verschoben
+  (gleiches Muster wie `_notion-exports/`) und in `.gitignore` aufgenommen: ihr Inhalt liegt
+  seit dem Einsortieren als Tagesdatei in `raw/marktdaten/`, das Original ist ab da redundant.
+  `raw/` enthaelt jetzt genau eine lose Datei.
+- **Liegen geblieben und gemeldet statt geraten:** `preview.csv` (3 Zeilen Databento-Sample,
+  Format `ts_event,rtype,publisher_id,...`, Symbol ESZ2 von 2022 -- weder Marktdaten-Export
+  noch Dokument). Im Gedanken-Clone zusaetzlich: vier histdata-Forex-CSVs (EUR-USD/GBP-USD),
+  `TVC_DXY, 1.csv` und `Claude Setup.exe` -- letztere gehoert nicht ins Vault.
+- Methodische Lehre, uebertragbar: Bevor Dateien zwischen zwei Clones kopiert werden, pruefen
+  ob das Ziel sie laengst hat. Hier haette ein unbesehenes "Inbox nach Vault schieben" sieben
+  ZIPs verdoppelt, die bereits eingeordnet waren.
+
+## [2026-08-16] setup | 1s als Vorzugsquelle + Datenlage-Pruefung gegen 1s-abdeckung.csv
+- Nutzervorgabe: hauptsaechlich 1s-Daten verwenden, `raw/marktdaten/1s-abdeckung.csv`
+  auswerten, bei Unstimmigkeiten gegen den TradingView-Export abgleichen.
+- Neu in `bias_levels.py`: `datenlage(symbol, von, bis)` und `_register_tage()`. Beantwortet
+  drei Fragen, die vor jeder Level-Rechnung geklaert sein muessen: (1) welche Tage liegen als
+  1s vor, welche nur als 1m, (2) verspricht das Register Tage, zu denen **keine Parquet-Datei**
+  existiert -- stiller Datenverlust, (3) wo beide Quellen denselben Tag abdecken: wie weit
+  weichen 1s und der TradingView-1m-Export voneinander ab. Ergebnis haengt an jedem
+  `gaps()`-Aufruf unter `datenlage`; beide Commands muessen es ausweisen.
+- Wichtige Unterscheidung, die die Funktion ueberhaupt erst noetig macht: `1s-abdeckung.csv`
+  ist das **Fetch-Protokoll** von `fetch_ibkr.py` -- es sagt, was geholt *wurde*, nicht was auf
+  der Platte *liegt*. Register-Fenster ab 18:00 NY gehoeren zur Session des Folgetages; ohne
+  diese Zuordnung meldet die Pruefung reihenweise falsche Fehlstaende (im Selbstcheck fixiert).
+  Kaputte Registerzeilen (ein paralleler fetch_ibkr-Lauf zerriss am 2026-08-16 eine) werden
+  uebersprungen statt abzubrechen.
+- **Befund Bestand:** 42 1s-Parquet-Dateien, NQ 22 Tage / ES 20 Tage -- aber geballt in
+  Feb/Maerz 2026 plus 12.-14.08. Dazwischen (Maerz bis August) **keine 1s-Historie**.
+  Im 35-Tage-Fenster der laufenden Bias-Rechnung liegen daher nur **2 von 14 Tagen** als 1s vor.
+  `registriert_ohne_datei` ist leer -- Register und Dateibestand decken sich, kein Verlust.
+- **Gegenprobe 1s vs. TradingView-1m** (der vom Nutzer gewuenschte Abgleich), automatisiert:
+  13.08. 3 von 1380 Minuten ungleich (max 0,25), 14.08. 4 von 1380 (max 0,50). Beide Quellen
+  bestaetigen sich zu ueber 99,7 % -- die 1m-Fallback-Level sind damit belastbar.
+- `Weekly Bias KW34 2026.md` um genau diese Datenlage-Zeile ergaenzt: 2/14 Tage 1s, Rest 1m,
+  NWOG 02.08. stammt aus 1m. Kein "1s-Daten" behaupten, wo 1m gerechnet wurde.
+- Methodische Lehre, uebertragbar: Ein Abdeckungsregister ist eine Absichtserklaerung, kein
+  Bestandsnachweis. Es muss gegen den tatsaechlichen Dateibestand gepruefen werden, sonst
+  meldet die Pipeline "1s vorhanden" fuer Tage, deren Datei nie ankam oder geloescht wurde.
+
+## [2026-08-16] setup | COT-Daten im Weekly Bias (algo/cot.py)
+- Nutzerwunsch: COT in den Weekly Bias, Quelle https://github.com/NDelventhal/cot_reports,
+  Auswertung wie bei ICT -- **nur Commercials gegen Large Speculators**.
+- Neu: `algo/cot.py` (+ `cot_reports>=0.1.3` in `algo/requirements.txt`, in `selfcheck.py`
+  registriert -> jetzt 28 Checks). Haengt als `cot` an `bias_levels.py --weekly`; im Daily
+  bewusst **nicht**, der CFTC-Report erscheint nur woechentlich.
+- **Marktreihe kalibriert -- der entscheidende Schritt.** Die CFTC fuehrt NQ dreifach mit
+  deutlich verschiedenen Zahlen. Zum Report 2026-07-28: `NASDAQ MINI` -14.946,
+  `NASDAQ-100 Consolidated` -8.044, `MICRO E-MINI` +69.021. Nur die erste trifft die
+  **-14,95 K**, die `wiki/concepts/COT (Commitment of Traders) Data.md` als Wert von Jannes'
+  eigenem Indikator belegt. Ohne diesen Abgleich waere die Automatisierung still an seiner
+  Chart-Quelle vorbeigelaufen. ES analog ueber `E-MINI S&P 500`.
+- **EQ-Lesart validiert, nicht nur uebernommen.** Fuer den Wiki-Stand vom 03.08.2026
+  reproduziert `cot.py` **alle fuenf Horizonte exakt**: 3M SELL, 6M SELL, 12M BUY, 2Y BUY,
+  4Y SELL -- bei 12M-EQ -26.471 (Wiki: "rund -27 K") und 12M-Range -66.754..+13.812
+  (Wiki: "-68 K .. +15 K"). Die Praezisierung "EQ der Lookback-Range statt 0-Linie" ist damit
+  nachgerechnet statt geglaubt; der Fall ist als Regressionscheck in `demo()` fixiert.
+- Aktueller Stand (Report 2026-08-11), in `Weekly Bias KW34 2026.md` eingetragen:
+  NQ Commercials **+17.475** gegen Large Specs **-39.302**, alle fuenf Horizonte bullish
+  (einig). ES **+87.447** gegen **-38.467**, vier von fuenf bullish -- **4Y bearish**, weil
+  die 4Y-Range bis +435.558 reicht und das EQ auf +101.178 hebt. Bei ES muss der Lookback
+  deshalb genannt werden.
+- Bemerkenswert: NQ-Commercials sind in zwei Wochen um **+32.421** gedreht (-14.946 -> +17.475)
+  und haben damit jeden Horizont ins Bullische gekippt. Ein COT-Urteil aus der Vorwoche traegt
+  hier nicht mehr -- und Commercials netto **long** ist bei Index-Futures die Ausnahme, weil
+  sie dort strukturell short sind.
+- Nebenwirkung des Pakets abgefangen: `cot_reports` legt `annual.txt` im *aktuellen*
+  Arbeitsverzeichnis ab. `cot.py` wechselt dafuer in ein Temp-Verzeichnis, sonst landet die
+  Datei im Repo-Root (ist bei den ersten Handversuchen genau so passiert und wurde entfernt).
+- Methodische Lehre, uebertragbar: Bei einer externen Datenquelle ist die Auswahl der richtigen
+  **Serie** genauso fehlertraechtig wie die Rechnung darauf. Drei plausible NQ-Reihen, drei
+  verschiedene Ergebnisse -- ohne einen dokumentierten Referenzwert aus der Nutzerquelle waere
+  nicht entscheidbar gewesen, welche stimmt.
+
+## [2026-08-16] fix | COT: Substring-Falle mischte E-Mini und Micro-Kontrakt (ES-Zahlen falsch)
+- **Nutzerkorrektur, bestaetigt:** Jannes hielt gegen, dass ES im Chart bei Commercials
+  **-142.440** und Large Specs **+11.280** steht -- ausgegeben hatte `cot.py` +87.447/-38.467.
+  Er hatte recht, es war ein Bug im eigenen Code, keine Chart-Abweichung.
+- **Ursache:** `reihe()` filterte per Substring (`markt not in r["markt"]`). "E-MINI S&P 500"
+  steckt woertlich in "MICRO E-MINI S&P 500 INDEX" -- **beide Maerkte landeten in derselben
+  Reihe**, je Reportdatum zwei Zeilen. Welcher Wert dann als "aktuell" galt, entschied die
+  Sortierreihenfolge, nicht die Fachlogik. Fuer ES gewann der Micro-Kontrakt.
+- Warum es NQ nicht traf: "NASDAQ MINI" ist kein Substring von "NASDAQ-100 Consolidated" oder
+  "MICRO E-MINI NASDAQ-100 INDEX". Die NQ-Zahlen waren zufaellig korrekt -- der Fehler war
+  also nur in einem von zwei Symbolen sichtbar, was ihn ohne Gegenprobe schwer auffindbar macht.
+- **Fix:** `marktname()` schneidet den Boersenteil ab (" - CHICAGO MERCANTILE EXCHANGE") und
+  vergleicht **exakt**; sowohl beim Laden als auch in `reihe()`. Selbstcheck ergaenzt: ein
+  gemischter Roh-Datensatz (E-Mini + Micro, gleiches Datum) muss genau **eine** ES-Zeile mit
+  -142.440/+11.280 ergeben, und "NASDAQ-100 Consolidated" darf nicht als "NASDAQ MINI" durchgehen.
+- **Wirkung auf die Aussage -- vollstaendige Umkehr fuer ES:** vorher "4 von 5 Horizonten
+  bullish", jetzt **alle fuenf bearish**. Der korrigierte Wert -142.440 ist zugleich das Tief
+  der 3M-, 6M- und 12M-Range: die Commercials sind so kurz wie seit zwoelf Monaten nicht.
+- Neuer Befund daraus: **NQ und ES stehen gegeneinander.** NQ-Commercials netto long (alle
+  Horizonte bullish, +32.421 in zwei Wochen), ES netto short (alle bearish, -46.511 im selben
+  Zeitraum). Eine Divergenz auf Positionierungsebene, analog zu [[SMT (Smart Money Divergence)]]
+  auf Preisebene. `Weekly Bias KW34 2026.md` entsprechend korrigiert -- die vorherige Aussage
+  "beide Maerkte Commercials long" war schlicht falsch.
+- **Offene These, ausdruecklich ungeprueft:** ob eine COT-Divergenz zwischen NQ und ES etwas
+  ueber die Folgewoche aussagt, ist im Vault nicht untersucht. In der Bias-Datei als
+  Beobachtungsauftrag notiert, nicht als Signal.
+- Methodische Lehre, uebertragbar: Bei Marktnamen aus externen Quellen nie mit `in` filtern.
+  Kontraktfamilien enthalten einander woertlich (Micro <-> E-Mini), und der Fehler ist still --
+  er liefert plausible Zahlen des falschen Instruments. Nur der Abgleich mit der Chart-Quelle
+  des Nutzers hat ihn aufgedeckt; die Selbstchecks liefen vorher gruen durch.
+
+## [2026-08-16] setup | Micro/Mini strikt getrennt + COT-Divergenz-These gebacktestet (widerlegt)
+- **Nutzervorgabe: Micro und Mini in Zukunft streng unterscheiden.** Anlass war der
+  Substring-Bug in `cot.py` (E-Mini/Micro vermischt). Im eigenen Code steckten zwei weitere
+  Vermischungen, beide entfernt:
+  - `bias_levels.py::gaps_auto()` fiel bei duenner NQ-Historie auf **MNQ** zurueck und gab
+    Micro-Preise als NQ-Level aus. `GAP_SYMBOLE` ist jetzt `["NQ"]`, **ohne Rueckfall**;
+    reicht die Historie nicht, wird `hinweis` gesetzt statt ersetzt.
+  - `bias_levels.py::compute()` zog die Wochen-Range aus `load_rows("MNQ")`, waehrend die Gaps
+    aus NQ kamen -- eine Datei mit zwei Instrumenten. Jetzt durchgehend NQ. Nebenbefund: NQ und
+    ES haben mit **6540** 1d-Tagesdateien ohnehin die laengere Historie, MNQ nur 1885 -- der
+    Micro-Rueckfall war nie noetig, nur bequem.
+  - Als Dauerregel im Gedaechtnis abgelegt (`micro-mini-streng-trennen`).
+- **Backtest der gestern notierten Divergenz-These:** `algo/backtest_cot_divergenz.py`.
+  These: zeigen NQ und ES im COT gegeneinander, laeuft in der Folgewoche das bullish
+  signalisierte Symbol besser als das bearishe.
+  **Ergebnis: widerlegt.** n=101 Divergenzfaelle seit 2022, **Trefferquote 46,5 %** --
+  unter Zufall. Ø-Spread -0,068 %, Median -0,104 %, stdev 1,158. Kontrollgruppe Gleichlauf
+  (n=132): 48,5 %, Ø +0,049 %. Kein messbarer Unterschied zwischen beiden Gruppen.
+- Methodik ohne Lookahead: Der CFTC-Report traegt den Stand **Dienstag** und erscheint
+  **Freitag** nach Schluss -- handelbar also fruehestens ab Montag darauf. Gemessen wurde
+  deshalb Signal aus Report der Woche W gegen Return der Woche **W+1** (Montag-Open bis
+  Freitag-Close), nie gegen die Woche, in der der Report erschien.
+  Gerechnet ausschliesslich auf NQ und ES, nie auf MNQ/MES.
+- `Weekly Bias KW34 2026.md` entsprechend korrigiert: die Divergenz steht dort jetzt als
+  **Beschreibung der Lage**, ausdruecklich nicht als Signal, mit den Backtest-Zahlen dabei.
+- Methodische Lehre, uebertragbar: Eine Beobachtung, die als "das ist die eigentlich handelbare
+  Konstellation" formuliert wird, ist genau deshalb sofort zu backtesten -- die Formulierung
+  suggeriert einen Vorsprung, den die Zahlen hier nicht hergeben. Zwei Tage spaeter waere sie
+  als bekannte Wahrheit weitergetragen worden.
+
+## [2026-08-16] setup | News-Block: nach Tagen gruppiert, ausgerichtet, leere Tage mit ❌
+- Nutzerwunsch: ForexFactory-Termine optisch besser einordnen, untereinander mit Abstand;
+  Tage ohne Termine zusaetzlich mit rotem Kreuz markieren.
+- Neu: `bias_levels.py::news_block()`. Erzeugt den fertigen Monospace-Block -- nach Tagen
+  gruppiert, Leerzeile zwischen den Tagen, Spalten (NY/DE/Impact/Event/Forecast/Previous)
+  ausgerichtet, **alle fuenf Handelstage aufgefuehrt**, leere mit `❌ keine USD-Termine`.
+  Haengt als `news.block` an jedem Abruf; beide Commands uebernehmen ihn **unveraendert**.
+- Bewusst in Python statt als Anweisung im Command: eine von Hand gesetzte Spaltenbreite
+  verrutscht beim naechsten laengeren Eventnamen, und genau der schiefe Block war der Anlass.
+  So ist die Ausrichtung deterministisch statt vom Modell abhaengig.
+- Dass leere Tage **mitgefuehrt** werden, ist inhaltlich gemeint: "Montag hat keine Termine"
+  ist eine Aussage fuer die Wochenplanung, kein Nichts. Vorher standen sie nur als Prosa-Satz
+  unter der Tabelle und gingen unter.
+- Zwei Encoding-Fallen unterwegs behoben: der urspruengliche Unicode-Trennstrich (`─`) und das
+  Emoji brechen auf einer cp1252-Konsole mit `UnicodeEncodeError` ab -- und damit der
+  headless-Lauf, der ueber `tools/bias-cron.cmd` nach `algo/live/bias-cron.log` schreibt.
+  Trennlinie jetzt ASCII, und `main()` schaltet stdout auf UTF-8 mit `errors="replace"`.
+  In der Markdown-Datei selbst (UTF-8) erscheint das Kreuz korrekt.
+- `Weekly Bias KW34 2026.md` auf das neue Format umgestellt.
+
+## [2026-08-16] setup | News-Block auf Zeilen-Layout: Farbsymbole, NY/DE beschriftet
+- Nutzervorgabe, praezisiert: Red/Orange als **Farbsymbol**, Uhrzeiten **immer mit NY und DE
+  beschriftet**, je Termin **eine Zeile Text, dann eine Leerzeile**.
+- `news_block()` entsprechend umgebaut -- **weg vom Spaltenlayout**. Grund, der beim Umbau
+  auffiel: Emoji sind nicht monospace-breit, in einer ausgerichteten Tabelle verrutscht damit
+  jede Zeile mit Farbsymbol. Als Fliesstext ist das egal, und Leerzeilen rendern in Obsidian
+  als Absatz -- also genau die gewuenschte Luft.
+- Folge davon: der Block gehoert jetzt **nicht mehr in ```-Zaeune**. In einem Codeblock wuerden
+  weder Symbole noch Fettung rendern und die Leerzeilen keinen Absatz bilden. Beide Commands
+  entsprechend korrigiert (vorher stand dort ausdruecklich "in einen Codeblock uebernehmen").
+- Format je Zeile: `🔴 **14:00 NY** / 20:00 DE — FOMC Meeting Minutes  (Forecast x, Previous y)`.
+  Forecast/Previous nur, wenn die Quelle sie liefert -- FOMC Minutes haben keine, dort entfaellt
+  die Klammer statt zwei Gedankenstriche zu zeigen.
+- `Weekly Bias KW34 2026.md` auf das neue Format umgestellt.
+
+## [2026-08-16] setup | News-Zeilen zusaetzlich in Impact-Farbe
+- Nutzervorgabe: Orange-News in orange, Red-News in rot schreiben; Tage ohne Termine bleiben
+  unveraendert (neutral, nur ❌).
+- Umgesetzt ueber inline-HTML (`<span style="color:...">` um die ganze Terminzeile), weil
+  Markdown keine Schriftfarbe kennt. Farben: Red `#e05252`, Orange `#e08a2e` -- mittlere
+  Saettigung, damit sie auf hellem **und** dunklem Hintergrund lesbar bleiben.
+- **Vor dem Einbau gegengeprueft**, ob der Site-Generator das ueberhaupt durchlaesst:
+  `tools/build_site.py` nutzt python-markdown mit der `extra`-Erweiterung. Testkonvertierung
+  bestaetigt beides -- der `<span>` bleibt unveraendert erhalten **und** die Markdown-Fettung
+  darin wird weiter zu `<strong>` gerendert. Die Farbe funktioniert also in Obsidian und im
+  generierten `site/`-HTML gleichermassen.
+- Symbol bleibt zusaetzlich stehen (🔴/🟠): Farbe allein ist kein verlaessliches
+  Unterscheidungsmerkmal, wenn eine Datei mal als reiner Text oder in einem Viewer ohne
+  HTML-Unterstuetzung gelesen wird.
+
+## [2026-08-16] revert | Schriftfarbe in News-Zeilen wieder entfernt
+- Auf Nutzerwunsch rueckgaengig gemacht: die kurz zuvor eingebaute Impact-Schriftfarbe
+  (`<span style="color:...">` um jede Terminzeile) ist wieder raus, samt `IMPACT_HEX`.
+- Stand jetzt wie davor: Zeilen-Layout mit Farbsymbol 🔴/🟠, Uhrzeiten als
+  `14:00 NY / 20:00 DE`, je Termin eine Zeile plus Leerzeile, leere Tage mit ❌.
+- In beiden Commands als **ausdrueckliches Nicht-Feature** vermerkt ("keine Schriftfarbe --
+  am 2026-08-16 eingebaut und auf Nutzerwunsch entfernt, nicht erneut hinzufuegen"), damit es
+  bei der naechsten Formatierungsrunde nicht versehentlich zurueckkommt.
+
+## [2026-08-16] backtest | Zwei Thesen aus Jannes' KW34-Bias geprueft -- beide bestaetigt
+- Aus dem Nutzer-Bias in `Weekly Bias KW34 2026.md` zwei falsifizierbare Aussagen gezogen und
+  geprueft (`algo/backtest_news_dichte.py`, NQ, 753 Handelstage seit 2023-08):
+  1. *"Aufgrund der wenigen News erwarte ich keine grosse Priceaction."* -> **bestaetigt.**
+     Median-Tagesrange: 0 Termine **266,9** (n=42), 1-2 Termine **303,1** (n=116),
+     3+ Termine **330,8** (n=595). Monoton steigend, newsreiche Tage **+23,9 %** groesser.
+     Zusatzbefund: mit mindestens einem Red-Termin 342,0 gegen 297,2 ohne (**+15 %**).
+  2. *"Mittwoch und Donnerstag bringen die beste Priceaction."* -> **bestaetigt.**
+     Median-Range Mo 301,1 | Di 315,8 | **Mi 330,5** | **Do 342,0** | Fr 316,8.
+     Mi und Do sind exakt die beiden staerksten Tage, Montag der schwaechste.
+- Termine-Historie ueber den **TradingView**-Kalender (`_tv_news`, quartalsweise) -- ForexFactory
+  liefert nur die laufende Woche. Gefiltert auf USD + Red/Orange wie in der Bias-Vorlage.
+  Preisseite NQ, nicht MNQ (Micro/Mini strikt getrennt).
+- Einschraenkung offen ausgewiesen: n=42 fuer newsarme Tage ist duenn. Die Richtung ist aber
+  ueber alle drei Dichtestufen monoton, was gegen Zufall spricht. Median statt Mittelwert
+  gewaehlt, weil einzelne 1d-Tage im Bestand zu frueh gezogene Snapshots sind.
+- Nutzer-Level gegengeprueft: der von ihm genannte Sellside-Pool **29.780,50 (12.08. 18:00)**
+  ist **exakt bestaetigt** -- Tief der Abendsession, erreicht um 18:31.
+- **Offene Diskrepanz, gemeldet:** seine Juni-Level (30.599,75 / 30.975,50) und sein ATH
+  (31.100,00) finden sich so nicht im Bestand -- dort steht als hoechster Punkt 30.968,00 am
+  22.06., und der 29.06. hat ein High von 30.069,50. Verdacht: verschiedene Kontraktreihen
+  (Chart NQ1! continuous gegen Bestand NQU2026), beim Rollover entstehen Spruenge dieser
+  Groessenordnung. Nicht abschliessend geklaert.
+- Nebenbefund: `algo/backtest_fred_events.py` rechnet weiterhin auf **MNQ** -- widerspricht der
+  Micro/Mini-Trennung von heute und sollte auf NQ umgestellt werden. Backlog.
+
+## [2026-08-16] lint | Juni-Level des Nutzers gegen zweite Quelle geprueft -- Verdacht Back-Adjustment
+- Nutzer praezisierte seine Buyside-Pools: 30.599,75 am **29.06.**, 30.975,50 am **16.06.**,
+  ATH am **03.06.** Gegen den Bestand geprueft und zusaetzlich per **yfinance NQ=F** als
+  unabhaengiger Zweitquelle:
+
+  | Datum | Nutzer-Chart | Bestand 1d | yfinance NQ=F | Differenz |
+  |---|---|---|---|---|
+  | 03.06. | 31.100,00 (ATH) | 30.807,75 | **30.807,75** | 292,25 |
+  | 16.06. | 30.975,50 | 30.664,50 | **30.664,50** | 311,00 |
+  | 29.06. | 30.599,75 | 30.069,50 | **30.069,50** | 530,25 |
+
+  Bestand und yfinance sind **auf den Tick identisch** -- die Bestandsdaten stimmen hier also,
+  anders als bei der bekannten 1d-Snapshot-Schwaeche einzelner Tage.
+- Die Differenzen sind **nicht konstant** (292 / 311 / 530), also kein einfacher
+  Kontrakt-Offset zwischen NQM2026 und NQU2026. Das Muster passt auf **Back-Adjustment**:
+  TradingViews Continuous-Reihe (NQ1!) verschiebt historische Preise bei jedem Rollover, damit
+  die Kurve stetig bleibt. Genau die "B-ADJ"-Falle, die im Vault schon als eine der vier
+  TradingView-Fallen notiert ist.
+- **Praktische Folge, falls sich das bestaetigt:** Ein aus dem B-ADJ-Chart abgelesenes
+  Juni-Level liegt im tatsaechlich gehandelten Kontrakt an anderer Stelle. Fuer die
+  Chart-Struktur (wo liegt der Pool relativ zum Preis) bleibt es richtig, als absoluter
+  Orderpreis nicht. Aktuelle Level am rechten Chartrand sind davon **nicht** betroffen --
+  deshalb stimmte der Sellside-Pool 29.780,50 vom 12.08. exakt.
+- Nicht abschliessend geklaert -- haengt an der Chart-Einstellung des Nutzers (NQ1! mit
+  Back-Adjustment gegen NQU2026 unadjustiert). Rueckfrage gestellt.
+- Bestaetigt auf Nutzerwunsch: **COT bleibt aus dem Daily Bias** (nur Weekly, weil der
+  CFTC-Report woechentlich erscheint) -- war bereits so implementiert. Der News-Block laeuft
+  im Daily im **selben Format** wie im Weekly, nur auf den einen Zieltag reduziert.
+
+## [2026-08-16] lint | Korrektur: Back-Adjustment-Verdacht bei den Juni-Leveln geschwaecht
+- Der Nutzer praezisierte erneut: 30.599,75 liegt am **30.06.** (nicht 29.06.), 30.975,50 am
+  16.06., ATH am 03.06. Nachgerechnet:
+  - **30.599,75 am 30.06. ist im Bestand exakt vorhanden** (1d-High dieses Tages).
+    Die erste Nennung war schlicht einen Tag daneben.
+  - 30.975,50: kein Treffer, naechster Wert 30.968,00 am 22.06. (7,5 Punkte).
+  - 31.100,00: kein Treffer, hoechster Punkt Mai-Juli bleibt 30.968,00.
+- **Damit ist der gestern notierte Back-Adjustment-Verdacht deutlich geschwaecht**: ein B-ADJ
+  haette *alle* historischen Level systematisch verschoben, nicht eines exakt getroffen. Der
+  vorherige Log-Eintrag bleibt als Untersuchungsschritt stehen, die Schlussfolgerung darin ist
+  aber nicht mehr tragfaehig -- die Abweichungen sind offenbar teils Datums-, teils
+  Ablesefragen, kein systematischer Reihen-Offset.
+- **Neuer, praktisch wichtiger Fund:** Der PDH fuer Montag ist **30.283,00** (High Fr 14.08.
+  09:05 NY, aus den Intraday-Daten). Die **1d-Reihe enthaelt den 14.08. ueberhaupt nicht** --
+  ihr letzter Eintrag ist der 13.08. mit 30.272,75. Wer den PDH aus der Tagesreihe zieht,
+  bekommt einen 10,25 Punkte zu niedrigen Wert **und** den falschen Tag. Betrifft jede Stelle,
+  die `load_rows()` fuer "gestriges High" nutzt -- `yesterday_range()` in `bias_levels.py`
+  eingeschlossen. Backlog.
+- Nutzer-Ergaenzungen in `Weekly Bias KW34 2026.md` unter "Mein Bias" eingetragen (Target PDH
+  30.283,00, SIBI 23.06., Buyside-Pool 30.599,75) plus eine klar abgesetzte Gegenpruefung --
+  sein Text bleibt unveraendert, meine Anmerkungen stehen darunter als eigener Block.
+
+## [2026-08-16] fix | yesterday_range() zieht den PDH jetzt aus den Intraday-Daten
+- **Fehler, gestern beim Gegenrechnen eines Nutzer-Levels aufgefallen:** `yesterday_range()`
+  las den letzten Handelstag aus der 1d-Reihe. Fuer Montag den 17.08. lieferte sie damit den
+  **13.08. mit High 30272.75** -- falscher Tag *und* 10,25 Punkte zu wenig. Richtig ist der
+  **14.08. mit High 30283.00**. Ursache: die 1d-Reihe enthaelt den 14.08. gar nicht.
+- Betroffen war jede Daily-Bias-Datei ("gestrige Daily Range") und damit auch der PDH, den der
+  Nutzer als Tagesziel benutzt -- ein Level, das direkt in Entry-/Zielentscheidungen eingeht.
+- Neu: `intraday_range(symbol, tag)` (H/L/C eines Handelstags aus 1s/1m) und `handelstag()`
+  (NY-Zeitstempel -> Handelstag, ab 18:00 der naechste Werktag). `yesterday_range()` nimmt bei
+  gesetztem `symbol` zuerst die Intraday-Quelle und faellt erst danach auf 1d zurueck; das
+  Ergebnis traegt jetzt `quelle` ("intraday"/"1d"), damit im Bericht sichtbar ist, woher der
+  Wert stammt.
+- Die Session-Zuordnung ist der Kern: Fr 18:00 gehoert zum **Montag**, nicht zum Samstag.
+  Ohne diese Regel liest die Funktion erneut den falschen Tag. Im Selbstcheck fixiert
+  (Fr->Mo, So->Mo, 16:59 bleibt beim laufenden Tag).
+- Der bestehende `yesterday_range`-Check schlug durch die neue `quelle`-Angabe fehl und wurde
+  nachgezogen -- er hat also genau das getan, wofuer er da ist. `selfcheck.py`: 28/28 gruen.
+- Nutzer-Targets in `Daily Bias 2026-08-17.md` unter "Mein Bias" hinterlegt (PDH 30.283,00,
+  SIBI 23.06., Buyside-Pool 30.599,75) mit abgesetzter Gegenpruefung: PDH liegt 129 Punkte
+  ueber dem Freitagsschluss, der Buyside-Pool 445 Punkte. Die Median-Range newsarmer Tage
+  (266,9) deckt den PDH, nicht den Pool -- Einordnung "PDH Tagesziel, Pool Wochenziel".
+
+## [2026-08-16] setup | Daily-Bias: ausdruecklich nur ein Handelstag voraus
+- Nutzervorgabe: nicht heute schon die Dienstags-Datei anlegen -- ab Montagabend erst Dienstag.
+- **Geprueft statt behauptet:** `next_trading_day()` ueber alle Wochentage durchgerechnet.
+  So 20:03 -> Mo, Mo 20:03 -> Di, Di -> Mi, Do -> Fr, Fr -> Mo. Der Command erzeugt also
+  bereits genau einen Tag voraus, das gewuenschte Verhalten war schon implementiert.
+- Heute Abend laeuft der Task damit ins Leere: die Montags-Datei existiert schon, die Regel
+  "existiert schon -> nicht ueberschreiben" greift. Kein Eingriff noetig.
+- Regel trotzdem ausdruecklich im Command verankert, damit sie nicht durch eine spaetere
+  Formatierungs- oder Feature-Aenderung aufweicht: `<ZIEL>` ist ausschliesslich
+  `next_trading_day(heute)`, nie zwei Tage, nie "gleich die ganze Woche"; bei vorhandener
+  Zieldatei wird auch **keine** fuer den uebernaechsten Tag angelegt.

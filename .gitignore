@@ -9,6 +9,12 @@ wiki/graphify-out/
 # Der Notion-Export ist bereits nach raw/ entpackt.
 *.zip
 
+# Roh-Exporte aus TradingView: der Inhalt liegt nach tools/sortiere_marktdaten.py
+# als Tagesdatei in raw/marktdaten/. Das Original ist ab da redundant -- aufbewahrt,
+# aber nicht versioniert (gleiche Logik wie beim Notion-Export-ZIP oben).
+raw/_tv-exporte/
+
+
 # --- Obsidian ---
 # Aendert sich bei jedem Fensterwechsel; die uebrige .obsidian/-Config bleibt versioniert.
 .obsidian/workspace.json
@@ -29,6 +35,10 @@ err.log
 journal/.secrets.yaml
 # FRED-API-Key (stlouisfed.org). Gehoert nie ins Repo, auch nicht ins private.
 algo/.secrets.yaml
+# IBC-Konfiguration (IB-Gateway-Auto-Login) landet hier NIE direkt -- die eigentliche
+# Config liegt unter %USERPROFILE%\ibc\, dieser Eintrag faengt nur einen versehentlichen
+# Kopiervorgang ins Repo ab (Design SS9).
+algo/ibc/
 
 # --- Python ---
 __pycache__/
@@ -53,6 +63,14 @@ desktop.ini
 # gemeldet wurden) und wird bei jedem Lauf neu geschrieben -- keine Historie wert.
 algo/live/*/state.json
 
+# Fortschrittslogs langlaufender Prozesse (IBKR-Backfill/-Nachlad, siehe fetch_ibkr.py
+# --kein-fenster) -- wachsen waehrend der Prozess laeuft und stehen als offene Datei einem
+# Git-Rebase im Weg (Windows verweigert das Ersetzen einer gerade beschriebenen Datei).
+# Keine Historie wert, anders als die Text-Statusberichte unten.
+algo/live/*.log
+algo/live/.fetch_ibkr-fenster.pid
+algo/live/.fetch_ibkr-lauf.pid
+
 # Die Intraday-CSVs daneben bleiben ab 04.08.2026 bewusst VERSIONIERT: yfinance liefert
 # 1m-Daten nur ~30 und 5m nur ~60 Tage rueckwirkend, danach sind diese Snapshots nicht
 # mehr rekonstruierbar. ~80 KB je Handelstag sind der Preis dafuer, dass die Datenlage
@@ -72,3 +90,21 @@ algo/live/*/state.json
 # raw/ neu baubar (algo/build_parquet.py) -- anders als raw/ selbst gehoert das nicht in
 # die Historie (gleiche Begruendung wie graphify-out/ oben).
 algo/cache/
+
+# --- Macro-Blockrohzeilen (Forex) ---
+# algo/forex/backtest_macro.py schreibt eine Zeile je 20-Minuten-Block: ueber 10 Paare und
+# 24 Jahre sind das 3,98 Mio. Zeilen bzw. ~460 MB. Reines Zwischenergebnis, jederzeit aus
+# raw/ neu baubar -- gehoert aus demselben Grund nicht in die Historie wie algo/cache/.
+#
+# Steht hier, weil push.ps1 mit `git add -A` arbeitet und die Datei am 2026-08-15 genau so
+# in Commit c73c3122f gelandet ist. Ein einmal gepushter 460-MB-Blob bleibt in der Historie,
+# bis sie umgeschrieben wird -- deshalb muss jedes neue Grossartefakt hier eingetragen sein,
+# BEVOR der naechste Cron-Lauf es einsammelt.
+algo/results/forex_macro_blocks.csv
+# Sync-Plugin: Bundle enthaelt fremde OAuth-Credentials -> GitHub Push Protection blockt.
+.obsidian/plugins/remotely-save/
+
+# Plugin-Bundles: minifizierter Fremdcode, installiert Obsidian selbst nach.
+# Blaeht den Push auf und laesst GitHubs Secret-Scanning haengen.
+.obsidian/plugins/*/main.js
+.obsidian/plugins/*/styles.css

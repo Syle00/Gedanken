@@ -1,8 +1,8 @@
 ---
 tags: [model, ict, trading-ict, swing, weekly]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[Market Maker Manipulation Templates (Source)]]"]
+updated: 2026-08-16
+sources: ["[[Market Maker Manipulation Templates (Source)]]", "[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]"]
 ---
 
 # Market Maker Manipulation Templates
@@ -57,6 +57,35 @@ Highs/Lows als Ziel der Manipulation und einer [[PD Array]] als Expansion-Target
   Discount-FVG/OB+), Mittwoch High-Impact-News treibt die Expansion bis Freitag. Entry Mittwoch.
   Fib-Extensions 1,27 / 1,68 auf High/Low für Liquidity-/PD-Targets.
 - **Decline (bearish)**: spiegelbildlich (Down-Close-Montag, Dienstag Rücksetzer in Premium-FVG/OB+).
+
+### Live-Fallstudie NQ, 11.–15.08.2026 (dokumentierte Wochenprognose)
+
+Aus [[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]] —
+die bislang vollständigste Belegkette für dieses Profil, weil ICT die Erwartung **vorab
+öffentlich auf X postete** und die Woche danach Schritt für Schritt rekonstruiert:
+
+| Tag | Erwartet (vorab) | Eingetreten |
+|---|---|---|
+| Mo | Konsolidierung, tradebarer Swing | Open unter Rejection-Block-Close, Konsolidierung |
+| Di | Rücksetzer, aber gehalten | Tageslow erreicht das Daily-BISI-High **nicht** → bullish bestätigt |
+| Mi | **CPI 8:30 ET** — Wendepunkt, wichtiges Tief | Sweep der REL, Umkehr |
+| Do | **PPI 8:30 ET** — Large Range Day, Expansion | Displacement hoch, Vorwochen-/Vormonats-High genommen |
+| Fr | Ziele oben erreicht, dann [[TGIF (Thank God its Friday)|TGIF]] | 9:00 ET Hoch genommen, danach Abverkauf in die 20–30-%-Zone |
+
+**Übertragbare Methode** (das eigentlich Neue gegenüber der Profilbeschreibung oben):
+
+1. **Profil und Wirtschaftskalender vor Wochenbeginn übereinanderlegen.** Der High-Impact-Termin
+   bestimmt, *welcher Wochentag* im Profil den Wendepunkt trägt — hier CPI am Mittwoch, was das
+   „wichtige Tief Mittwoch" des Profils terminlich fixierte. Die Kalendertermine stehen Monate im
+   Voraus fest; das Mapping ist also planbar, nicht reaktiv.
+2. **Erst die Richtung aus der Preisstruktur, dann der Kalender.** ICT leitete den bullishen Bias
+   aus der Nähe zum Vorwochen-/Vormonats-High ab (siehe [[Open Float & Liquidity Pools]]) und
+   nutzte den Kalender ausschließlich für das **Timing**, nicht für die Richtung.
+3. **Wochenrückblick als Pflichtübung**: Jede abgeschlossene Woche einem der Profile hier zuordnen.
+   ICT hält das für den entscheidenden, meist ausgelassenen Schritt — ohne die Klassifikation der
+   Vergangenheit fehlt das Mustergedächtnis für die Zukunft.
+4. **Nur ein Teil der Profile ist bei gegebenem Bias überhaupt möglich** — bei bullishem Bias fällt
+   die bearishe Hälfte des Katalogs weg, die Auswahl ist entsprechend klein.
 
 ## Seek & Destroy Friday (Bullish/Bearish)
 

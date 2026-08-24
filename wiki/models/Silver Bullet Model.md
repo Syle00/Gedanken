@@ -1,8 +1,8 @@
 ---
 tags: [model, ict, trading-ict, daytrade, sessions]
 created: 2026-08-02
-updated: 2026-08-14
-sources: ["[[Kurz Notizen]]", "[[ICT Silver Bullet (Source)]]", "[[2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)]]", "[[2023-06-08 - ICT Executions June 8, 2023 ES Long Silver Bullet (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]"]
+updated: 2026-08-17
+sources: ["[[Kurz Notizen]]", "[[ICT Silver Bullet (Source)]]", "[[2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)]]", "[[2023-06-08 - ICT Executions June 8, 2023 ES Long Silver Bullet (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]", "[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]", "Eigenes Journal 17.08.2026"]
 ---
 
 # Silver Bullet Model
@@ -118,6 +118,86 @@ direkteste bisherige Primärquellen-Bestätigung der Fensterbezeichnung. Drei Ex
 [[2023-06-20 - ICT Executions June 20, 2023 NQ Short Silver Bullet (Source)]] 10 Kontrakte) zeigen
 durchweg zweistellige Kontraktzahlen — konsistent höher als die meisten reinen Macro-Fenster-Trades
 in [[Partial Profit-Taking & R-Multiple-Skalierung]].
+
+## Vollständige Entry-Anatomie (Live-Trade 15.08.2026, NQ Short)
+
+Aus [[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]] —
+der am detailliertesten dokumentierte SB-Entry im Vault, weil ICT jede einzelne Bestätigungsstufe
+benennt statt nur das Ergebnis zu zeigen. **Bearisher SB im AM-Fenster**, obwohl die Woche bullish
+war: Ziel war die [[TGIF (Thank God its Friday)|TGIF]]-Zone.
+
+**Kontext vor dem Fenster** — Preis stand in einem Daily Premium FVG, hatte alle Aufwärtsziele der
+Woche erreicht, und über dem Freitags-Vormittagshoch lagen **guarded** Relative Equal Highs
+(im Macro 9:50–10:10 nicht genommen, siehe [[Open Float & Liquidity Pools]]).
+
+**Die Bestätigungskette, in dieser Reihenfolge:**
+
+1. **Body-Close unter dem 9:30-Opening-Price** — erste Bestätigung, dass die REH nicht angesteuert
+   werden. Danach Struktur High → Lower High → Lower High.
+2. **[[Rejection Block]] wird verletzt**: Preis läuft an ihn heran, kann aber keinen Body darüber
+   schließen → *„check in the box that says okay, now we're starting to see it likely to be failing."*
+3. **BISI wird überhandelt → [[IFVG (Inverse Fair Value Gap)|IFVG]]**: Das darunterliegende
+   Buyside-Balance-Gap wird von oben durchhandelt und kehrt seine Rolle um. Bestätigungskerze:
+   öffnet, läuft hoch, **berührt das High der IFVG nicht**, schließt tiefer und außerhalb — die
+   bearishe Spiegelung der [[Gladhanding]]-Regel.
+4. **Zweite Testkerze** — dieselbe Reaktion nochmal. Erst danach steigt ICT ein, ausdrücklich wegen
+   der guarded Liquidity darüber: *„I just want to have a little bit more behind me."*
+5. **Entry an der C.E. eines [[Suspension Block|Suspension Blocks]]** (kleines FVG) statt am
+   naheliegenden großen FVG, zusätzlich orientiert an der C.E. des längsten Wicks links davon.
+6. **Nach dem Entry**: Der Wick oberhalb wirkt als Body-Grenze — keine Bodies in seiner oberen
+   Hälfte, siehe [[Institutional Order Flow (Body vs Wick)]]. Die Konsolidierung darunter war
+   „errant price action", kein Setup-Bruch.
+
+**Ausführung und Größe:**
+
+- **2 Kontrakte, Ein- und Ausstieg in einem Stück** — die Größe ergab sich **allein aus der nötigen
+  Stop-Weite** (Stop musste bis zur C.E. reichen): *„because the stop, it kind of warrants me only
+  using two contracts."* Bestätigt [[Risikomanagement (1% pro Trade)]]: Stop-Distanz bestimmt
+  Kontraktzahl, nicht umgekehrt — und erklärt die Abweichung zu den zweistelligen Kontraktzahlen
+  der 2023/2024-Beispiele oben.
+- **Ziel ~25 % der Weekly Range** (Mitte der TGIF-Zone), zusammenfallend mit dem Vormonats-High.
+  Das letzte Ziel wurde bewusst liegen gelassen — *„low hanging fruit", „get the big piece of the
+  meat in the middle"* — wegen Headline-Risiko.
+- **Bei größerer Position** hätte ICT gestaffelt: Teilgewinne an 20 %, am Midpoint, unter dem Low
+  und an 30 %. Vgl. [[Partial Profit-Taking & R-Multiple-Skalierung]].
+
+**Zeitfenster-Präzisierung**: Der Entry lag bei **10:11 ET**, also *eine Minute nach* dem Macro
+9:50–10:10. ICT hält das ausdrücklich für unproblematisch — liegt eine PD Array so nah am
+Macro-Ende, ist der Einstieg dort legitim. Ein [[CISD (Change in State of Delivery)|CISD]]/Order
+Block außerhalb des Macros wäre ein gültiger Pyramiding-Entry gewesen.
+
+> **Modell-Auswahl statt Modell-Zwang**: ICT betont, dass nicht jedes Modell an jedem Tag
+> funktioniert — nicht weil es versagt, sondern weil die Marktbedingungen nicht passen
+> („a tool for every procedure"). Welches Modell in Frage kommt, entscheidet er **vorab** über das
+> erwartete Wochenprofil (siehe [[Market Maker Manipulation Templates]]). Reversal-Modelle fallen
+> in einem Continuation-Umfeld weg. Relevant für `algo/backtest_ensemble.py`: ein Ensemble, das
+> alle Modelle jeden Tag gleich gewichtet, bildet diese Vorauswahl nicht ab.
+
+## Live-Trade 17.08.2026 (NQ Short, London SB, Doppel-Sweep vor MSS)
+
+Eigener Trade (kein ICT-Quellenmaterial), aus dem Journal — genau das Setup, das der Nutzer
+künftig gezielt nehmen will:
+
+- **02:39 ET** — erster Buyside-Sweep über die Relative-Equal-Highs bei ~30.320.
+- Kurze Konsolidierung.
+- **~03:01 ET** — zweiter Buyside-Sweep desselben Levels. Bestätigt die bereits oben dokumentierte
+  Regel: **liegen Relative Equal Highs vor, wird dort gebunkerte Liquidität erst abgeholt**, bevor
+  der eigentliche Move läuft — hier gleich zweifach, statt nur einmal wie im 15.08.-Beispiel.
+- **03:03 ET, [[Market Structure Shift (MSS)]] mit Displacement** — Entry short, noch innerhalb
+  des vorgelagerten Macros vor dem eigentlichen 3–4-Uhr-Fenster (**"Move startet im Macro davor"**,
+  siehe oben).
+- **Target: 0,75-Quadrant des Daily Premium Wick vom 02.07.2026** (~30.262,50) statt eines neuen,
+  beliebigen Levels — der Wick einer zurückliegenden Tageskerze als Zielraster. Der Zusammenhang
+  zwischen Wick-Quadranten und der ORG-C.E.-70-%-These ist im Algo-Backlog als **blockiert**
+  vermerkt (`algo/PLAN.md`, Datenlücke Mai/Juni 2026 für den 1d-Close); dieser Live-Trade ist ein
+  weiterer anekdotischer Beleg, dass Trader diese Quadranten tatsächlich als Ziel nutzen — ersetzt
+  aber nicht den ausstehenden Backtest.
+- Ergebnis laut Nutzer: **"perfekter macro run im Verbund mit SB"** — Move lief sauber vom
+  Displacement bis zum 0,75-Ziel durch.
+
+**Take-away für künftige Trades**: Ein doppelter (statt einfacher) Sweep desselben Levels vor dem
+MSS ist kein Warnsignal, sondern verstärkt die Guarded-Liquidity-These — genau diese Trades will
+der Nutzer wiederholt nehmen.
 
 ## Verwandt
 

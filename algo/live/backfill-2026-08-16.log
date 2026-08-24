@@ -1,0 +1,16 @@
+Gateway auf Port 4002 nicht erreichbar, starte C:\Users\janne\IBC\StartGateway.bat ...
+Gateway erreichbar nach 18s.
+Traceback (most recent call last):
+  File "C:\Users\janne\OneDrive\Desktop\Ablage 1\VS Folder 1\algo\fetch_ibkr.py", line 555, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "C:\Users\janne\OneDrive\Desktop\Ablage 1\VS Folder 1\algo\fetch_ibkr.py", line 369, in main
+    dest = fetch_symbol_day(ib, symbol, tag, pacing)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janne\OneDrive\Desktop\Ablage 1\VS Folder 1\algo\fetch_ibkr.py", line 263, in fetch_symbol_day
+    vorhanden = {(v, b) for s, v, b in register_load(register_path) if s == symbol}
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janne\OneDrive\Desktop\Ablage 1\VS Folder 1\algo\fetch_ibkr.py", line 171, in register_load
+    return {(r["symbol"], int(r["von"]), int(r["bis"])) for r in csv.DictReader(fh)}
+                          ^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'NQU2026'

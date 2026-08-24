@@ -9,7 +9,7 @@ Aufruf:
 from __future__ import annotations
 
 import sys
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import pandas as pd
@@ -32,6 +32,48 @@ OHLC = {"open": "first", "high": "max", "low": "min", "close": "last"}
 WANDUHR_TF = {"4h"}
 
 
+def trading_day(ts: pd.Timestamp, daily: bool = False):
+    """Globex-Handelstag: 18:00 NY des Vortages bis 17:00 NY. Uebernommen aus
+    fetch_yfinance.py (dort 2026-08-16 entfallen) -- quellenunabhaengig, gilt fuer
+    IBKR-Daten genauso."""
+    if daily:
+        return ts.date()
+    ts = ts.tz_convert(NY)
+    return ts.date() + timedelta(days=1) if ts.hour >= 18 else ts.date()
+
+
+def flatten(df: pd.DataFrame) -> pd.DataFrame:
+    """MultiIndex-Spalten auf die erste Ebene reduzieren."""
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
+    return df
+
+
+def resample_bars(bars_in: list[Bar], tf: str) -> list[Bar]:
+    """Bar-Liste auf einen groeberen Timeframe verdichten. Anker an NY-Mitternacht ueber
+    origin='start_day' -- der Index ist NY-lokalisiert, ohne den Anker laegen die Buckets an
+    UTC-Mitternacht. Fuer WANDUHR_TF (4h) wird tz-naiv resampled und danach re-lokalisiert."""
+    if not bars_in:
+        return []
+    df = pd.DataFrame(
+        {"open": [b.o for b in bars_in], "high": [b.h for b in bars_in],
+         "low": [b.l for b in bars_in], "close": [b.c for b in bars_in]},
+        index=pd.DatetimeIndex([b.t for b in bars_in]),
+    )
+    if tf in WANDUHR_TF:
+        res = df.tz_localize(None).resample(
+            PANDAS_FREQ[tf], label="left", closed="left").agg(OHLC).dropna()
+        res.index = res.index.tz_localize(NY, ambiguous=True, nonexistent="shift_forward")
+        df = res
+    else:
+        df = df.resample(PANDAS_FREQ[tf], label="left", closed="left",
+                         origin="start_day").agg(OHLC).dropna()
+    idx_py = df.index.to_pydatetime()
+    opens, highs, lows, closes = (df[c].to_numpy() for c in ("open", "high", "low", "close"))
+    return [Bar(t, float(o), float(h), float(l), float(c))
+            for t, o, h, l, c in zip(idx_py, opens, highs, lows, closes)]
+
+
 def bars(symbol: str, tf: str, von: date | None = None, bis: date | None = None) -> list[Bar]:
     if SESSION_TYP.get(symbol) == "24x5":
         return _forex_bars(symbol, tf, von, bis)
@@ -39,8 +81,9 @@ def bars(symbol: str, tf: str, von: date | None = None, bis: date | None = None)
 
 
 def _futures_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> list[Bar]:
-    """Unveraendertes Verhalten gegenueber backtest_common.find_days()/load() -- ein Bar
-    je Tagesordner-Datei, im Bestand bereits im Ziel-Timeframe vorliegend."""
+    """Unveraendertes Verhalten gegenueber backtest_common.find_days()/load() fuer CSV-TFs --
+    ein Bar je Tagesordner-Datei. Fuer tf == '1s' wird stattdessen die Tages-Parquet-Datei
+    aus algo/fetch_ibkr.py gelesen (siehe _load_1s_parquet)."""
     out: list[Bar] = []
     for day_dir in sorted(DATA_DIR.glob("*/*/*")):
         if not day_dir.is_dir():
@@ -53,11 +96,60 @@ def _futures_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> l
             continue
         if bis and day > bis:
             continue
+        if tf == "1s":
+            dateien = sorted(day_dir.glob(f"{symbol} * 1s.parquet"))
+            if dateien:
+                out.extend(_load_1s_parquet(dateien[0]))
+            continue
         dateien = sorted(f for f in day_dir.glob(f"{symbol} * {tf}.csv") if "RTH" not in f.name)
         if dateien:
             out.extend(load(dateien[0]))
     out.sort(key=lambda b: b.t)
     return out
+
+
+def _load_1s_parquet(path: Path) -> list[Bar]:
+    """IBKR-1s-Tagesdatei -> Bar-Liste. `time` ist UNIX-Sekunden UTC (formatDate=2 in
+    fetch_ibkr.py), deshalb direkte tz_convert(NY) ohne Zwischenschritt."""
+    df = pd.read_parquet(path)
+    idx_series = pd.to_datetime(df["time"], unit="s", utc=True).dt.tz_convert(NY)
+    idx_py = pd.DatetimeIndex(idx_series).to_pydatetime()
+    return [Bar(t, float(o), float(h), float(l), float(c), float(v))
+            for t, o, h, l, c, v in zip(idx_py, df["open"], df["high"], df["low"],
+                                        df["close"], df["volume"])]
+
+
+def session_day_from_path(path: Path) -> date:
+    """Handelstag aus dem Dateinamen: 'NQ 2026-03-24 1s.parquet' -> date(2026, 3, 24).
+
+    Bewusst aus dem Namen statt aus den Bars: eine Tagesdatei enthaelt Kerzen von zwei
+    Kalendertagen (18:00 Vorabend .. 17:00), eine Heuristik ueber die Bars waere bei
+    Fragmenttagen mehrdeutig.
+    """
+    return datetime.strptime(path.name.split(" ")[1], "%Y-%m-%d").date()
+
+
+def tage(symbol: str, tf: str):
+    """Iteriert `(session_day, bars)` je Tagesdatei -- das Gegenstueck zu `bars()` fuer
+    Auswerter, die je Handelstag messen (Macro-Backtest, Macro-Datenbank) statt einen
+    durchgehenden Strom zu brauchen.
+
+    `tf == "1s"` liest die IBKR-Tagesparquets aus `fetch_ibkr.py` und wirft dabei
+    **Phantomkerzen weg** (`volume == 0`): IBKR liefert fuer JEDE Sekunde des Fensters
+    eine Kerze, auch fuer Sekunden ohne einen einzigen Trade. Die sind flach auf dem
+    letzten Kurs (o==h==l==c) und damit kein Marktereignis, sondern Fuellmaterial --
+    ein `open="first"`-Aggregat wuerde sonst eine Phantomkerze statt des ersten echten
+    Trades als Open nehmen (algo/PLAN.md, 2026-08-15). Nach dem Filter entspricht die
+    Reihe dem, was ein 1s-Chart zeigt: eine Kerze je gehandelter Sekunde. Gemessen:
+    von 82.800 Rohkerzen eines 23h-Tags bleiben rund 46.000-70.000 uebrig.
+    """
+    endung = "parquet" if tf == "1s" else "csv"
+    for path in sorted(DATA_DIR.rglob(f"{symbol} *-*-* {tf}.{endung}")):
+        if "RTH" in path.name:
+            continue
+        bs = [b for b in _load_1s_parquet(path) if b.v] if tf == "1s" else load(path)
+        if bs:
+            yield session_day_from_path(path), bs
 
 
 def _forex_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> list[Bar]:
@@ -69,29 +161,23 @@ def _forex_bars(symbol: str, tf: str, von: date | None, bis: date | None) -> lis
     idx = pd.to_datetime(df["time"], unit="s", utc=True).dt.tz_convert(NY)
     df = df.set_index(idx).drop(columns="time").sort_index()
 
-    if tf in WANDUHR_TF:
-        res = df.tz_localize(None).resample(
-            PANDAS_FREQ[tf], label="left", closed="left").agg(OHLC).dropna()
-        res.index = res.index.tz_localize(NY, ambiguous=True, nonexistent="shift_forward")
-        df = res
-    elif tf != "1m":
-        df = df.resample(PANDAS_FREQ[tf], label="left", closed="left",
-                         origin="start_day").agg(OHLC).dropna()
-
-    if von:
-        df = df[df.index.date >= von]
-    if bis:
-        df = df[df.index.date <= bis]
-
     idx_py = df.index.to_pydatetime()
     opens, highs, lows, closes = (df[c].to_numpy() for c in ("open", "high", "low", "close"))
-    return [Bar(t, o, h, l, c) for t, o, h, l, c in zip(idx_py, opens, highs, lows, closes)]
+    out = [Bar(t, o, h, l, c) for t, o, h, l, c in zip(idx_py, opens, highs, lows, closes)]
+    if tf != "1m":
+        out = resample_bars(out, tf)
+
+    if von:
+        out = [b for b in out if b.t.date() >= von]
+    if bis:
+        out = [b for b in out if b.t.date() <= bis]
+
+    return out
 
 
 def _demo() -> None:
     """Selbstcheck: winziger Parquet-Cache in ein Tempdir, prueft Resample-Anker (NY-
-    Mitternacht) und von/bis-Filter. Futures-Pfad wird NICHT hier getestet (der laeuft
-    unveraendert ueber tools.analyze_ohlc.load(), bereits durch selfcheck.py abgedeckt)."""
+    Mitternacht) und von/bis-Filter, sowie den 1s-Futures-Pfad (IBKR-Anbindung)."""
     import tempfile
     import build_parquet as bp
 
@@ -127,6 +213,52 @@ def _demo() -> None:
         finally:
             CACHE = orig
             del SESSION_TYP["TEST"]
+
+    # 1s-Parquet-Zweig (IBKR-Anbindung, algo/fetch_ibkr.py): eigenes Tempdir als DATA_DIR,
+    # weil _futures_bars() (anders als der Forex-Pfad oben) direkt gegen das importierte
+    # DATA_DIR aus analyze_ohlc glob't.
+    import analyze_ohlc as ao
+    with tempfile.TemporaryDirectory() as tmp:
+        orig_dd = ao.DATA_DIR
+        global DATA_DIR
+        try:
+            ao.DATA_DIR = DATA_DIR = Path(tmp)
+            tag_dir = DATA_DIR / "2026" / "06" / "15.06.2026"
+            tag_dir.mkdir(parents=True)
+            df = pd.DataFrame({
+                "time": [1781544600, 1781544601, 1781544602],
+                "open": [100.0, 100.25, 100.5], "high": [100.5, 100.5, 100.75],
+                "low": [99.75, 100.0, 100.25], "close": [100.25, 100.5, 100.5],
+                "volume": [3, 5, 2], "contract": ["NQU2026"] * 3,
+            })
+            df.to_parquet(tag_dir / "NQ 2026-06-15 1s.parquet", index=False)
+            b1s = bars("NQ", "1s")
+            assert len(b1s) == 3, len(b1s)
+            assert b1s[0].t == datetime(2026, 6, 15, 13, 30, tzinfo=NY), b1s[0].t
+            assert b1s[0].v == 3.0, b1s[0].v
+        finally:
+            ao.DATA_DIR = DATA_DIR = orig_dd
+
+    # --- trading_day: Globex-Grenze 18:00 NY -------------------------------
+    ts_abend = pd.Timestamp("2026-08-13 18:30", tz=NY)
+    ts_morgen = pd.Timestamp("2026-08-13 09:30", tz=NY)
+    assert trading_day(ts_abend) == date(2026, 8, 14), "18:30 NY gehoert zum Folgetag"
+    assert trading_day(ts_morgen) == date(2026, 8, 13), "09:30 NY gehoert zum selben Tag"
+    assert trading_day(ts_abend, daily=True) == date(2026, 8, 13), "daily=True nimmt das Kalenderdatum"
+
+    # --- flatten: MultiIndex-Spalten plaetten ------------------------------
+    multi = pd.DataFrame([[1.0]], columns=pd.MultiIndex.from_tuples([("close", "NQ")]))
+    assert list(flatten(multi).columns) == ["close"], "flatten muss die zweite Ebene entfernen"
+
+    # --- resample_bars: 1m -> 5m, OHLC-Aggregation korrekt -----------------
+    basis = [Bar(datetime(2026, 8, 13, 9, 30 + i, tzinfo=NY), 100.0 + i, 101.0 + i,
+                 99.0 + i, 100.5 + i) for i in range(5)]
+    fuenf = resample_bars(basis, "5m")
+    assert len(fuenf) == 1, f"5 1m-Kerzen ergeben 1 5m-Kerze, nicht {len(fuenf)}"
+    assert fuenf[0].o == 100.0, "open = erste Kerze"
+    assert fuenf[0].h == 105.0, "high = Maximum"
+    assert fuenf[0].l == 99.0, "low = Minimum"
+    assert fuenf[0].c == 104.5, "close = letzte Kerze"
 
     _demo_dst()
     print("marktdaten: Selbstcheck ok")

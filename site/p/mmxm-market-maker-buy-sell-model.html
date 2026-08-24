@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MMXM (Market Maker Buy &amp; Sell Model) — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
+<li class="active"><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">16</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Modelle</div><ul class="pagelist">
+<li><a href="../p/0-gmt-ipda-true-day-reset-entry.html">0 GMT IPDA True Day Reset Entry</a></li>
+<li><a href="../p/20-pips-per-day.html">20 Pips Per Day</a></li>
+<li><a href="../p/bond-mega-trades.html">Bond Mega-Trades</a></li>
+<li><a href="../p/bread-butter-setups.html">Bread &amp; Butter Setups</a></li>
+<li><a href="../p/classic-swing-trading-approach.html">Classic Swing Trading Approach</a></li>
+<li><a href="../p/commodity-mega-trades.html">Commodity Mega-Trades</a></li>
+<li><a href="../p/graded-price-swings.html">Graded Price Swings</a></li>
+<li><a href="../p/high-probability-daytrade-setups.html">High Probability Daytrade Setups</a></li>
+<li><a href="../p/ict-day-trade-routine.html">ICT Day Trade Routine</a></li>
+<li><a href="../p/london-session-profiles.html">London Session Profiles</a></li>
+<li><a href="../p/low-probability-day-probing.html">Low Probability Day Probing</a></li>
+<li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a></li>
+<li><a href="../p/market-on-close-moc-macro-model.html">Market on Close (MOC) Macro Model</a></li>
+<li><a href="../p/meine-strategien-uebersicht.html">Meine Strategien (Übersicht)</a></li>
+<li><a href="../p/missed-entry-trade-management-playbook.html">Missed Entry Trade Management Playbook</a></li>
+<li class="here"><a href="../p/mmxm-market-maker-buy-sell-model.html">MMXM (Market Maker Buy &amp; Sell Model)</a></li>
+<li><a href="../p/no-bias-engagement-routine.html">No-Bias Engagement Routine</a></li>
+<li><a href="../p/ny-lunch-macro-model.html">NY Lunch Macro Model</a></li>
+<li><a href="../p/ny-pm-trend.html">NY PM Trend</a></li>
+<li><a href="../p/ohlc-datenanalyse-workflow.html">OHLC-Datenanalyse (Workflow)</a></li>
+<li><a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a></li>
+<li><a href="../p/silver-bullet-model.html">Silver Bullet Model</a></li>
+<li><a href="../p/stock-mega-trades.html">Stock Mega-Trades</a></li>
+<li><a href="../p/the-sentiment-effect.html">The Sentiment Effect</a></li>
+<li><a href="../p/three-timeframe-framing.html">Three Timeframe Framing</a></li>
+<li><a href="../p/trading-complex-opening-ranges.html">Trading Complex Opening Ranges</a></li>
+<li><a href="../p/trading-in-consolidations.html">Trading In Consolidations</a></li>
+<li><a href="../p/trading-journal-dol-checklist.html">Trading Journal &amp; DOL Checklist</a></li>
+<li><a href="../p/weekly-range-trading-model.html">Weekly Range Trading Model</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#models">Modelle</a></div>
+  <h1>MMXM (Market Maker Buy &amp; Sell Model)</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">model</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">mmxm</span> <span class="tag">mmbm</span> <span class="tag">mmsm</span> <span class="tag">curve</span> <span class="tag">htf</span> <span class="tag">core</span></div><div class="dates">erstellt 2026-08-23 · aktualisiert 2026-08-23</div><div class="srcline"><span>Quellen:</span> <a href="../p/reclaimed-ict-orderblock-source.html">Reclaimed ICT Orderblock (Source)</a>, <a href="../p/essentials-to-ict-market-structure-source.html">Essentials To ICT Market Structure (Source)</a>, <a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a>, <a href="../p/intraweek-market-reversals-overlapping-models-source.html">Intraweek Market Reversals &amp; Overlapping Models (Source)</a>, <a href="../p/market-maker-trap-trendline-phantoms-source.html">Market Maker Trap Trendline Phantoms (Source)</a>, <a href="../p/how-do-i-engage-markets-when-i-don-t-have-an-initial-bias-source.html">How Do I Engage Markets When I Don&#x27;t Have An Initial Bias (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#mmbm-market-maker-buy-model">MMBM — Market Maker Buy Model</a></li>
+<li><a href="#mmsm-market-maker-sell-model">MMSM — Market Maker Sell Model</a></li>
+<li><a href="#wo-die-kurve-anfangt-und-aufhort">Wo die Kurve anfängt und aufhört</a></li>
+<li><a href="#zuerst-der-hochste-timeframe">Zuerst der höchste Timeframe</a></li>
+<li><a href="#verhaltnis-zu-den-anderen-modellen">Verhältnis zu den anderen Modellen</a></li>
+<li><a href="#wo-das-modell-im-vault-sonst-auftaucht">Wo das Modell im Vault sonst auftaucht</a></li>
+<li><a href="#offene-punkte">Offene Punkte</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="mmxm-market-maker-buy-sell-model">MMXM (Market Maker Buy &amp; Sell Model)</h1>
+<p>Der übergeordnete <strong>Auslieferungsrahmen</strong>, in dem ICT eine Bewegung denkt: Preis läuft nicht
+gerade, sondern als <strong>Kurve mit zwei Hälften</strong> — einer Seite, auf der Smart Money die Position
+aufbaut, und einer Seite, auf der sie ausgeliefert wird. <strong>MMXM</strong> ist der Sammelbegriff; die
+beiden Ausprägungen heißen <strong>MMBM</strong> (Market Maker <strong>Buy</strong> Model) und <strong>MMSM</strong> (Market Maker
+<strong>Sell</strong> Model).</p>
+<blockquote>
+<p>✅ <strong>Schließt die Lücke, die seit 2026-08-02 in <code>wiki/log.md</code> und auf <a href="../p/graded-price-swings.html">Graded Price Swings</a>
+als offener Punkt stand</strong> („MMXM hat im Vault bislang keine eigene Seite, obwohl es dort als
+eine der beiden Säulen genannt wird").</p>
+</blockquote>
+<h2 id="mmbm-market-maker-buy-model">MMBM — Market Maker Buy Model</h2>
+<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/ICT Mentorship Dez2016 - Reclaimed Block Market Maker Buy Model.png" alt="ICT Mentorship Dez2016 - Reclaimed Block Market Maker Buy Model" loading="lazy"></figure>
+
+<p><em>ICT Monthly Mentorship, Dezember 2016: die V-Kurve des Buy Models. </em><em>Links die Sell Side Of
+Curve</em><em> (rot, Preis fällt), </em><em>rechts die Buy Side Of Curve</em><em> (grün, Preis steigt). Die blauen
+Striche markieren die Order Blocks, die sich zwischen beiden Hälften spiegeln.</em></p>
+<ul>
+<li><strong>Form</strong>: V — erst Abgabe, dann Anstieg. Der Tiefpunkt ist der Wendepunkt der Kurve.</li>
+<li><strong>Ideales Umfeld (wörtlich auf der Folie)</strong>: <em>„In Major To Intermediate Term </em><em>Uptrends</em><em>."</em>
+  Das Modell wird also <strong>im übergeordneten Aufwärtstrend</strong> gesucht — die Sell Side Of Curve ist
+  das Retracement darin, nicht eine Trendwende.</li>
+<li><strong>Was auf der Sell Side passiert</strong>: Große Player können ihre Größe nicht in einer Transaktion
+  aufbauen. Sie hedgen gestaffelt an jedem <strong>Minor Higher High</strong> des Rückgangs — jede dieser
+  kleinen Gegenbewegungen hinterlässt einen Order Block.</li>
+<li><strong>Was auf der Buy Side passiert</strong>: Genau diese alten Blöcke werden von unten wieder aufgegriffen.
+  Folientext: <em>„In the Buy Side Of Curve — these ‚old' blocks will be reclaimed longs."</em>
+  Vollständige Mechanik dazu auf <a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a>.</li>
+</ul>
+<h2 id="mmsm-market-maker-sell-model">MMSM — Market Maker Sell Model</h2>
+<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/ICT Mentorship Dez2016 - Reclaimed Block Market Maker Sell Model.png" alt="ICT Mentorship Dez2016 - Reclaimed Block Market Maker Sell Model" loading="lazy"><figcaption>Dieselbe Folie spiegelbildlich: die Λ-Kurve des Sell Models. **Links die Buy Side Of Curve*</figcaption></figure>
+
+<p>(grün), <strong>rechts die Sell Side Of Curve</strong> (rot).*</p>
+<ul>
+<li><strong>Form</strong>: Λ — erst Anstieg, dann Abgabe.</li>
+<li><strong>Ideales Umfeld</strong>: <em>„In Major To Intermediate Term </em><em>Downtrends</em><em>."</em></li>
+<li><strong>Spiegelbild in jeder Hinsicht</strong>: Auf der Buy Side hedgen die großen Player an jedem <strong>Minor
+  Lower Low</strong>; die dort entstandenen Up-Candle-Blöcke werden auf der Sell Side zu <strong>reclaimed
+  shorts</strong>. Folientext: <em>„these ‚old' blocks will be reclaimed shorts."</em></li>
+</ul>
+<p><strong>Merkhilfe, die oft verwechselt wird</strong>: Das Modell ist nach dem <strong>Ziel</strong> benannt, nicht nach der
+ersten Bewegung. Ein <strong>Buy</strong> Model beginnt mit einer <strong>fallenden</strong> Hälfte, ein <strong>Sell</strong> Model mit
+einer <strong>steigenden</strong>. Wer die erste Bewegung für die Richtung hält, handelt das Modell verkehrt
+herum.</p>
+<h2 id="wo-die-kurve-anfangt-und-aufhort">Wo die Kurve anfängt und aufhört</h2>
+<p>Aus <a href="../p/essentials-to-ict-market-structure-source.html">Essentials To ICT Market Structure (Source)</a> — die praktische Regel, um den Rahmen
+überhaupt einzuzeichnen:</p>
+<blockquote>
+<p><em>„Haben wir ein High, was links und rechts ein Lower High hat — und visaversa —, sind das die
+Start- und Endpunkte von unserem gesamten Swing."</em></p>
+</blockquote>
+<p>Ein High mit tieferen Highs auf <strong>beiden</strong> Seiten (bzw. ein Low mit höheren Lows auf beiden
+Seiten) ist damit kein Short-Term-Punkt mehr, sondern ein <strong>ITH/ITL</strong> — und genau diese Punkte
+begrenzen die Kurve. Jeder Swing dazwischen wird eingeordnet: Short Term High/Low oder ITH/ITL?
+Siehe <a href="../p/graded-price-swings.html">Graded Price Swings</a> und <a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a>.</p>
+<figure><img class="wiki-img" src="../../.claude/worktrees/algo-permutation-test/raw/trading-ict/assets/MMP - MarketStructure 06.png" alt="MMP - MarketStructure 06" loading="lazy"></figure>
+
+<p><em>Market Maker Primer: derselbe Swingverlauf, alle Zwischen-Highs/-Lows markiert. Die beiden blauen
+Pfeile zeigen auf das Major High (Beginn der Sell Side) und das Major Low (Wendepunkt zur Buy
+Side) — die Start- und Endpunkte der Kurve.</em></p>
+<h2 id="zuerst-der-hochste-timeframe">Zuerst der höchste Timeframe</h2>
+<blockquote>
+<p><em>„Modeling im Highest Timeframe: Wenn wir wissen, welches MMXM Model es ist und wir die Higher
+Timeframe PDs kennen, können wir den mittleren Timeframe nutzen, um zu framen, und den
+geringsten zum Timing für den Entry."</em> — <a href="../p/essentials-to-ict-market-structure-source.html">Essentials To ICT Market Structure (Source)</a></p>
+</blockquote>
+<p>Die Reihenfolge ist nicht optional: <strong>erst</strong> das Modell auf dem höchsten Timeframe bestimmen,
+<strong>dann</strong> framen, <strong>dann</strong> timen. Die Quelle ist an dieser Stelle ungewöhnlich nachdrücklich
+(<em>„Wir achten auf dieses Model im Highest Timeframe — sehr wichtig!!!"</em>). Die konkrete
+15m/5m/1m-Aufteilung steht auf <a href="../p/three-timeframe-framing.html">Three Timeframe Framing</a>: 15m zum Framen und für die Liquidität,
+5m als Arbeitschart, 1m <strong>ausschließlich</strong> für den Entry.</p>
+<p>Der Einstieg selbst wird im Regelfall über einen <a href="../p/market-structure-shift-mss.html">MSS</a> plus
+<a href="../p/cisd-change-in-state-of-delivery.html">CISD</a> oder Order Block gesucht — nach dem Sweep des Lows
+(bullish) bzw. Highs (bearish) wird auf das Retracement gewartet.</p>
+<h2 id="verhaltnis-zu-den-anderen-modellen">Verhältnis zu den anderen Modellen</h2>
+<p>Laut <a href="../p/cisd-mini-serie-lecture-2-source.html">CISD Mini Serie - Lecture 2 (Source)</a> gibt es <strong>nur zwei</strong> übergeordnete Modelle: das
+MMXM und das Graden der Price Swings. <em>„Schaut ICT nicht nach einem MMXM-Modell, schaut er nach
+diesem. Mehr Models gibt es nicht, es sind diese beiden!"</em></p>
+<blockquote>
+<p>⚠️ Diese Zweiteilung steht quer zum übrigen Vault, der unter <code>wiki/models/</code> inzwischen über 20
+Seiten führt. Der Widerspruch ist bereits auf <a href="../p/graded-price-swings.html">Graded Price Swings</a> markiert und dort so
+aufgelöst, dass „Modell" hier enger gemeint sein dürfte — als <strong>übergeordneter
+Auslieferungsrahmen</strong>, nicht als Setup. <a href="../p/silver-bullet-model.html">Silver Bullet Model</a> oder
+<a href="../p/one-shot-one-kill-model.html">One Shot One Kill Model</a> sind Setups <em>innerhalb</em> eines solchen Rahmens, keine Konkurrenz
+dazu. Nicht abschließend geklärt, nur eingeordnet.</p>
+</blockquote>
+<h2 id="wo-das-modell-im-vault-sonst-auftaucht">Wo das Modell im Vault sonst auftaucht</h2>
+<ul>
+<li><strong><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a></strong> — die ausführlichste Mechanik: Blöcke der einen Kurvenhälfte
+  matchen 1:1 auf die andere. Wer die Sell Side im Nachhinein durchgeht und jeden Down-Candle mit
+  kurzer Gegenreaktion markiert, hat die komplette Liste künftiger Reclaimed-Long-Level für die
+  Buy Side vorbereitet. <strong>Prüfbedingung</strong>: Folgt auf jedes starke Displacement sofort ein Minor
+  Displacement zur Gegenseite, ist das Hedging bestätigt und das MMXM intakt.</li>
+<li><strong><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a></strong> — Intraweek-Reversal-Muster: <em>„Oft kehrt der Preis zur
+  Balanced Price Range zurück, um ein MMXM zu bilden."</em> Ein Lower High am Dienstag <strong>verringert</strong>
+  die Chance auf ein MMBM, schließt es aber nicht aus.</li>
+<li><strong><a href="../p/trendline-phantoms-3-drives-pattern.html">Trendline Phantoms (3 Drives Pattern)</a></strong> — ein 3-Drives-Muster erzeugt genau die Liquidität
+  an drei sichtbaren Spitzen, die ein MMXM anschließend abholt.</li>
+<li><strong><a href="../p/no-bias-engagement-routine.html">No-Bias Engagement Routine</a></strong> — Jannes' eigene Notiz zu einem 2026er ICT-Video: <em>„Für mich
+  wäre es viel leichter zu kaufen, MMBM Model, schöne Buyside als DOL, das BISI im Discount wird
+  wunderbar respektiert."</em> Also: MMBM als Rahmen, Buyside-Liquidität als
+  <a href="../p/open-float-liquidity-pools.html">DOL</a>, BISI im Discount als Entry-Array.</li>
+</ul>
+<h2 id="offene-punkte">Offene Punkte</h2>
+<ul>
+<li>⚠️ <strong>Phasen-Nomenklatur uneinheitlich.</strong> In <a href="../p/how-do-i-engage-markets-when-i-don-t-have-an-initial-bias-source.html">How Do I Engage Markets When I Don&#x27;t Have An Initial Bias (Source)</a>
+  notiert Jannes die Abfolge als <em>„1. Stage Distribution, 2. Stage Accumulation, 2. Retracement,
+  2. Stage Distribution mit Target Buyside"</em> — die Nummerierung ist in der Notiz selbst
+  widersprüchlich, und ICTs Folien von 2016 verwenden diese Begriffe gar nicht, sondern nur
+  „Sell Side / Buy Side Of Curve". Hier bewusst <strong>nicht</strong> vereinheitlicht: die Folienbegriffe sind
+  belegt, die Stage-Begriffe nicht. Auflösbar nur mit einer Quelle, in der ICT die Phasen selbst
+  benennt.</li>
+<li><strong>Nicht gebacktestet.</strong> Anders als <a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a> (7,1 % Bias-intakt) oder
+  <a href="../p/tgif-thank-god-its-friday.html">TGIF (Thank God its Friday)</a> steht hinter dem MMXM im Vault <strong>keine einzige gerechnete Zahl</strong>.
+  Offen und mangels objektiver Kurven-Definition auch nicht trivial zu operationalisieren — der
+  ITH/ITL-Test oben wäre der Ansatzpunkt, weil er als einziger Teil des Modells rein mechanisch
+  prüfbar ist (<code>tools/analyze_ohlc.py</code> erkennt Swing-Punkte bereits).</li>
+</ul>
+<h2 id="verwandt">Verwandt</h2>
+<ul>
+<li><a href="../p/graded-price-swings.html">Graded Price Swings</a> — das zweite der beiden übergeordneten Modelle</li>
+<li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a>, <a href="../p/order-block.html">Order Block</a>, <a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/three-timeframe-framing.html">Three Timeframe Framing</a>, <a href="../p/market-structure-shift-mss.html">Market Structure Shift (MSS)</a></li>
+<li><a href="../p/market-maker-manipulation-templates.html">Market Maker Manipulation Templates</a> — Wochenprofile, die innerhalb eines MMXM ablaufen</li>
+<li><a href="../p/amd-cycle-accumulation-manipulation-distribution.html">AMD Cycle (Accumulation – Manipulation – Distribution)</a> — dieselbe Grundidee auf Tagesebene</li>
+<li><a href="../p/buy-sell-program.html">Buy &amp; Sell Program</a>, <a href="../p/algorithmic-order-flow.html">Algorithmic Order Flow</a></li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">4</span></h2><ul><li><a href="../p/graded-price-swings.html">Graded Price Swings</a><span class="cat">Modelle</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/new-week-opening-gap-nwog-bias.html">New Week Opening Gap (NWOG) Bias</a><span class="cat">Konzepte</span></li><li><a href="../p/reclaimed-order-block.html">Reclaimed Order Block</a><span class="cat">Konzepte</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/models/MMXM (Market Maker Buy &amp; Sell Model).md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

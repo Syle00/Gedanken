@@ -91,7 +91,9 @@ def lies_journal_tabelle() -> dict[str, dict]:
 def lies_eintraege(meta: dict) -> list[dict]:
     """Alle Journaldateien mit Checkliste einlesen."""
     eintraege = []
-    for pfad in sorted(JOURNAL.glob("*.md")):
+    # rglob, nicht glob: die Eintraege liegen seit 2026-08-16 in bias/{daily,weekly}/,
+    # tape-reading/ und trade-execution/ statt flach in raw/journal/.
+    for pfad in sorted(JOURNAL.rglob("*.md")):
         if pfad.stem == "Journal":
             continue
         text = pfad.read_text(encoding="utf-8", errors="replace")

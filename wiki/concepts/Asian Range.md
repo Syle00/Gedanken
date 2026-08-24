@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, sessions, bias, core]
 created: 2026-08-02
-updated: 2026-08-02
-sources: ["[[Implementing The Asian Range (Source)]]", "[[Asia Session (Source)]]", "[[Understanding The ICT Judas Swing (Source)]]", "[[Trading The Key Swing Points (Source)]]"]
+updated: 2026-08-23
+sources: ["[[Implementing The Asian Range (Source)]]", "[[Asia Session (Source)]]", "[[Understanding The ICT Judas Swing (Source)]]", "[[Trading The Key Swing Points (Source)]]", "[[2026-08-18 - Trade Management & Removing The Need To Be Right (Source)|Trade Management & Removing The Need To Be Right (Source)]]"]
 ---
 
 # Asian Range
@@ -86,6 +86,31 @@ Der [[Judas Swing]] (0:00–5:00 Uhr NY) arbeitet direkt an den Rändern dieser 
 
 Der Asian Open kann ein [[Optimal Trade Entry (OTE)|OTE]]-Muster aufsetzen (15–20 Pips), ideale
 Paare sind **AUD, NZD, JPY** — siehe [[ICT Killzones]].
+
+## ⚠️ Bei Index-Futures: 19:00–22:00 statt 19:00–24:00
+
+> ⚠️ **Widerspruch zu [[Implementing The Asian Range (Source)]]** (und zur Definition oben):
+> [[2026-08-18 - Trade Management & Removing The Need To Be Right (Source)|Trade Management & Removing The Need To Be Right (Source)]]
+> setzt das Fenster für NQ auf **19:00–22:00 ET** und grenzt es ausdrücklich gegen die
+> Forex-Definition ab:
+>
+> > *„…last Thursday's dealing range from **7:00 p.m. to 10:00 p.m.** Eastern time. **Not the Asian
+> > range like when we're trading forex** — that's not what I'm referring to. What I'm referring to
+> > is the time at which the best trading can be done, which is between 7:00 and 10:00 Eastern
+> > time."*
+>
+> Beide Angaben sind gleichwertige ICT-Primärquellen; nicht überschrieben, sondern nebeneinander
+> geführt. **Arbeitsannahme**: 19:00–24:00 für Forex (Bias-Rahmen, Judas-Swing-Kontext oben),
+> **19:00–22:00 für Index-Futures**, wenn die Range als *Dealing Range zur Level-Ableitung* genutzt
+> wird. Ungeprüft, welche der beiden Spannen an NQ die belastbareren Level liefert — ein
+> Kandidat für einen Vergleichslauf gegen `raw/marktdaten/`.
+
+**Verwendung als Dealing Range mit Oktanten.** In derselben Quelle wird die Range **nicht** als
+Sentiment-Rahmen gelesen, sondern als [[Dealing Range]], auf die eine volle Qs/Os/Hs-Skala gelegt
+wird — ICT nennt im Live-Trade den **„0.875 octant"** (= O7) als Zielbereich und legt Partials an
+die **C.E.** der Range. Bemerkenswert daran: die Range stammt vom **Donnerstag der Vorwoche**, wird
+also über mehrere Tage hinweg als Levelquelle weiterverwendet — konsistent mit der
+Verlängerungs-Regel im Abschnitt oben.
 
 ## Abgrenzung
 

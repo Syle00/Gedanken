@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, 2026]
 created: 2026-08-01
-updated: 2026-08-10
-sources: ["[[From Vision To Execution (Source)]]", "[[ICT 2026 Smart Money Concepts Lecture - January 02, 2026 (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]"]
+updated: 2026-08-23
+sources: ["[[2026-08-18 - Trade Management & Removing The Need To Be Right (Source)|Trade Management & Removing The Need To Be Right (Source)]]", "[[From Vision To Execution (Source)]]", "[[ICT 2026 Smart Money Concepts Lecture - January 02, 2026 (Source)]]", "[[Kurz Notizen (Source)]]", "[[Opening Range Theory - 1st Presented FVG Logic (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain - Market Alchemy (Source)]]"]
 ---
 
 # IFVG (Inverse Fair Value Gap)
@@ -50,6 +50,54 @@ Body-über-Wick-C.E.-Regel aus [[Institutional Order Flow (Body vs Wick)]].
 Das erste starke Displacement nach dem Liquidity Sweep im Opening-Range-Fenster reißt das FVG, das
 dann invertiert und in die Gegenrichtung liefert. Details und Chartbeispiel:
 [[ORG (Opening Range Gap) & 1st Presented FVG]].
+
+## Gescheiterte „First Utilization" — wie ein SIBI zum bullishen IFVG wird (2026-05-13)
+
+Aus [[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain — Market Alchemy (Source)]]
+die klarste Formulierung des Umkipp-Moments im Vault:
+
+> *„Remember, the **first presented utilization** is that they're SIBIs. So price going up into them
+> should offer bearish prices. **It didn't do it here. And it didn't do it here.** So these two have
+> failed in their initial role of first utilization."*
+
+Ein SIBI hat also eine **erste, vorgesehene Rolle** (Preis von oben abweisen). Erfüllt er sie beim
+ersten Anlauf **nicht**, ist er damit invertiert — die Inversion ist ein *ausgebliebenes*
+Verhalten, kein zusätzliches Ereignis. Spiegelbildlich für ein BISI, das nicht mehr stützt.
+
+**Haltebedingung danach** (mehrfach im Video wiederholt, deckt sich mit
+[[Institutional Order Flow (Body vs Wick)]]):
+
+- Solange Preis **in** der Zone ist: **Bodies bleiben in der oberen Hälfte** (bullish gelesen).
+- Sobald Preis die Zone **verlassen** hat: in der unteren Hälfte sind **gar keine Bodies** mehr
+  zulässig. Ein Wick hinein ist erlaubt — der „Mohawk" — *„it can touch the high, wick into this a
+  little bit, but then it needs to really start traveling higher."*
+- Kommt Preis zurück hinein, muss der Body **wieder über die C.E. des Referenz-Wicks** schließen,
+  bevor die These weiterhin trägt.
+
+Praxisfolge fürs Stop-Placement: Der Stop gehört **unter die C.E. des Wicks**, nicht unter den Wick
+selbst — *„underneath the midpoint of this wick, allowing for that little Mohawk."*
+
+## Close vor Open — und „give up the ghost" (2026-08-18)
+
+Aus [[2026-08-18 - Trade Management & Removing The Need To Be Right (Source)|Trade Management & Removing The Need To Be Right (Source)]]
+zwei Präzisierungen zur Validierung:
+
+- **Der Body-Close zählt, der Open nicht.** *„It's stronger when it does it on the **close**, not
+  the open. The open is just not as reliable for continuation."* Konkret: Erst ein **Close unter
+  dem Midpoint** des Levels (bei bearisher Inversion) macht die Fortsetzung
+  hochwahrscheinlich — eine Kerze, die auf demselben Niveau nur *eröffnet*, reicht nicht. Ergänzt
+  die Validierungsbedingung ganz oben um das Kriterium *welcher* Preis der Kerze gemeint ist.
+- **„Give up the ghost"** — ICTs Formulierung für den Polaritätswechsel selbst: Das bullishe PD
+  Array muss seine **First Utilization als Buyside-Lieferung scheitern lassen** und darf danach von
+  unten als **Premium Array** respektiert werden. *„I want to see it give up the ghost, go right
+  through it or go through it and then come back up and then respect it as a premium array."* Der
+  Durchhandel allein genügt nicht; die anschließende Zurückweisung von unten ist Teil der
+  Bedingung — dieselbe Zweistufigkeit wie in der Mehrfach-Qualifizierung oben, hier nur kompakter
+  formuliert.
+
+Praxisfolge im dokumentierten Trade: Solange das IFVG nur per **Wick** durchstoßen war und kein
+Body darunter schloss, galt die Short-These als **nicht bestätigt** — ICT hielt die Position, zog
+aber den Stop enger, statt aufzustocken.
 
 ## Verwandt
 

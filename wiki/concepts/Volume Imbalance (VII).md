@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core, fvg, pd-array]
 created: 2026-08-02
-updated: 2026-08-05
-sources: ["[[Enigma FVG Projections (Source)]]", "[[Alltime Highs und TGIF (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]"]
+updated: 2026-08-16
+sources: ["[[Enigma FVG Projections (Source)]]", "[[Alltime Highs und TGIF (Source)]]", "[[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]]", "[[2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)|Missed Entry How To Navigate The Same Trade Idea (Source, Video)]]"]
 ---
 
 # Volume Imbalance (VII)
@@ -77,6 +77,20 @@ erzeugt hat. Quelle: [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Mark
 
 Im DXY-Beispiel der Quelle ergibt das **101,805 mit** gegenüber **101,795 ohne** VII — eine Differenz
 von 0,010, also genau die Größenordnung einer Close-Open-Lücke.
+
+## VII als Stop-Anker (2026-Ergänzung)
+
+Aus [[2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)|Missed Entry How To Navigate The Same Trade Idea (Source, Video)]]:
+Bei einem Short mit Limit-Entry knapp über der C.E. eines FVG legt ICT den **initialen Stop über
+die Volume Imbalance**, die über diesem FVG liegt — *„Stop loss above the volume balance."*
+
+Die VII dient hier also nicht als Ziel oder Entry, sondern als **strukturelle Invalidierungsmarke**:
+Handelt Preis über sie hinaus, ist die Prämisse gebrochen. Der Stop wandert danach in Stufen weiter
+(Rejection Block, dann laufende Hochs) — vollständige Kaskade in
+[[Missed Entry Trade Management Playbook]].
+
+Konsistent mit der Einstufung als eigenständige PD Array oben: Eine VII ist ein Level, an dem eine
+Reaktion erwartet wird, und taugt damit für beide Seiten des Trades.
 
 ## Verwandt
 

@@ -1,0 +1,56 @@
+﻿pnl demo ok
+[OK]   pnl
+risk_fixed demo: OK
+[OK]   risk_fixed
+risk_garch demo: OK
+[OK]   risk_garch
+risk_kelly demo: OK
+[OK]   risk_kelly
+risk_killswitch demo: OK
+[OK]   risk_killswitch
+masters.py: alle Selbstchecks bestanden
+[OK]   masters
+confidence.demo: OK
+[OK]   confidence
+plan_trade demo ok: TradeSetup(t=datetime.datetime(2026, 8, 3, 10, 10, tzinfo=zoneinfo.ZoneInfo(key='America/New_York')), window='NY AM Silver Bullet', side='long', entry=98.5, stop=97.75, target=110)
+plan_trade_hp_fvg demo ok: TradeSetup(t=datetime.datetime(2026, 8, 3, 7, 10, tzinfo=zoneinfo.ZoneInfo(key='America/New_York')), window='NY', side='long', entry=102.25, stop=99.75, target=122.25)
+liquidity-helpers demo ok
+[OK]   rules
+signals calendar+autocorr+statarb demo ok
+build_features Integrationscheck ok: n=1856 Zeilen
+[OK]   signals
+backtest_ensemble _passes_bias_filter/point_value/Margin-Deckel demo ok
+[OK]   backtest_ensemble
+backtest_bt.demo: OK (extend_hist ergebnis-erhaltend)
+[OK]   backtest_bt
+backtest_risk_compare demo: OK
+[OK]   backtest_risk_compare
+validate.demo: OK (Doppel-Bootstrap konservativer als naiv)
+[OK]   validate
+backtest_common.demo: OK
+[OK]   backtest_common
+macro_db.selfcheck: OK
+[OK]   macro_db
+backtest_fvg_strength.selfcheck: OK
+[OK]   backtest_fvg_strength
+selfcheck ok
+[OK]   backtest_hp_fvg
+selfcheck ok
+[OK]   backtest_1p_mindestgroesse
+analyze_ohlc.pruefe_kerzen demo: OK
+[OK]   ohlc_gate
+analyze_ohlc.demo_session_guard: OK
+[OK]   session_guard
+build_parquet: Selbstcheck ok
+[OK]   build_parquet
+marktdaten: Selbstcheck ok
+[OK]   marktdaten
+verify_forex_data: Selbstcheck ok
+[OK]   verify_forex_data
+measure_forex_attrappen: Selbstcheck ok
+[OK]   measure_forex_attrappen
+demo ok
+[OK]   bias_levels
+[OK]   dedup
+
+Alle 26 Selbstchecks bestanden.

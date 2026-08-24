@@ -21,11 +21,11 @@
 <nav class="sidebar">
 <a class="brand" href="../index.html">Gedanken</a>
 <div class="nav-block"><div class="nav-head">Kategorien</div><ul>
-<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">141</span></a></li>
-<li><a href="../index.html#models">Modelle<span class="count">27</span></a></li>
-<li><a href="../index.html#sources">Quellen<span class="count">348</span></a></li>
-<li><a href="../index.html#synthesis">Synthese<span class="count">17</span></a></li>
-<li><a href="../index.html#meta">Meta<span class="count">2</span></a></li>
+<li class="active"><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
+<li><a href="../index.html#meta">Meta<span class="count">16</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Konzepte</div><ul class="pagelist">
 <li><a href="../p/accumulation-reaccumulation-model.html">Accumulation &amp; Reaccumulation Model</a></li>
@@ -48,6 +48,7 @@
 <li><a href="../p/central-bank-dealers-range-cbdr.html">Central Bank Dealers Range (CBDR)</a></li>
 <li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a></li>
 <li><a href="../p/cisd-change-in-state-of-delivery.html">CISD (Change in State of Delivery)</a></li>
+<li><a href="../p/continuous-contract-vs-front-month.html">Continuous Contract vs. Front Month</a></li>
 <li><a href="../p/cot-commitment-of-traders-data.html">COT (Commitment of Traders) Data</a></li>
 <li><a href="../p/cppi-constant-proportion-portfolio-insurance.html">CPPI (Constant Proportion Portfolio Insurance)</a></li>
 <li><a href="../p/cross-validation-vs-walk-forward-masters.html">Cross Validation vs. Walk-Forward (Masters)</a></li>
@@ -77,6 +78,7 @@
 <li><a href="../p/forward-futures-maerkte-contango-backwardation-yale-econ-252.html">Forward- &amp; Futures-Märkte (Contango, Backwardation, Yale Econ 252)</a></li>
 <li><a href="../p/futures-datenaufbereitung-backtesting-fallstricke-chan.html">Futures-Datenaufbereitung &amp; Backtesting-Fallstricke (Chan)</a></li>
 <li><a href="../p/gauntlet-pd-array.html">Gauntlet (PD Array)</a></li>
+<li><a href="../p/gladhanding.html">Gladhanding</a></li>
 <li><a href="../p/grenzen-fuer-einzelrenditen-drawdown.html">Grenzen für Einzelrenditen &amp; Drawdown</a></li>
 <li><a href="../p/halbwertszeit-der-mean-reversion-kointegration-chan.html">Halbwertszeit der Mean Reversion &amp; Kointegration (Chan)</a></li>
 <li><a href="../p/hauptkomponentenanalyse-pca-in-der-finance.html">Hauptkomponentenanalyse (PCA) in der Finance</a></li>
@@ -95,6 +97,7 @@
 <li><a href="../p/judas-swing.html">Judas Swing</a></li>
 <li><a href="../p/kelly-criterion-value-at-risk-money-management.html">Kelly-Criterion &amp; Value-at-Risk (Money Management)</a></li>
 <li><a href="../p/kelly-formel-optimales-leverage-chan.html">Kelly-Formel &amp; optimales Leverage (Chan)</a></li>
+<li><a href="../p/kerzenzahl-in-einer-ineffizienz.html">Kerzenzahl in einer Ineffizienz</a></li>
 <li><a href="../p/konfidenzgrenzen-fuer-renditen-t-test-bootstrap-bca.html">Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)</a></li>
 <li><a href="../p/kontraktspezifikation-mnq-tick-punktwert.html">Kontraktspezifikation MNQ (Tick, Punktwert)</a></li>
 <li><a href="../p/leading-risk-indicators.html">Leading Risk Indicators</a></li>
@@ -176,8 +179,16 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#concepts">Konzepte</a></div>
   <h1>Suspension Block</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">fvg</span> <span class="tag">pd-array</span> <span class="tag">2026</span></div><div class="dates">erstellt 2026-08-03 · aktualisiert 2026-08-03</div><div class="srcline"><span>Quellen:</span> <a href="../p/chain-of-custody-of-price-with-daily-inefficiencies-source.html">Chain Of Custody Of Price With Daily Inefficiencies (Source)</a></div></div>
-  
+  <div class="pagemeta"><div class="tags"><span class="tag">concept</span> <span class="tag">ict</span> <span class="tag">trading-ict</span> <span class="tag">fvg</span> <span class="tag">pd-array</span> <span class="tag">2026</span></div><div class="dates">erstellt 2026-08-03 · aktualisiert 2026-08-23</div><div class="srcline"><span>Quellen:</span> <a href="../p/chain-of-custody-of-price-with-daily-inefficiencies-source.html">Chain Of Custody Of Price With Daily Inefficiencies (Source)</a>, <a href="../p/2026-08-15-the-week-in-the-life-cycle-of-price-source.html">The Week In The Life Cycle Of Price (Source)</a>, <a href="../p/2026-08-18-trade-management-removing-the-need-to-be-right-source.html">Trade Management &amp; Removing The Need To Be Right (Source)</a></div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#warum-starker-als-ein-normales-fvg">Warum stärker als ein normales FVG</a></li>
+<li><a href="#verwendung-als-entry-level-live-beispiel-15082026">Verwendung als Entry-Level (Live-Beispiel 15.08.2026)</a></li>
+<li><a href="#definition-aus-icts-eigenem-mund-an-einem-sibi-17082026">Definition aus ICTs eigenem Mund, an einem SIBI (17.08.2026)</a></li>
+<li><a href="#verwandt">Verwandt</a></li>
+</ul>
+</div>
+</details>
   <div class="content"><h1 id="suspension-block">Suspension Block</h1>
 <p>Ein <a href="../p/fair-value-gap-fvg.html">FVG</a>, das auf <strong>beiden Seiten</strong> eine
 <a href="../p/volume-imbalance-vii.html">VII</a> hat — laut Quelle eine der <strong>stärksten PD Arrays</strong> überhaupt. Findet
@@ -192,14 +203,40 @@ auf, war aber nicht eigenständig definiert).</p>
 <a href="../p/volume-imbalance-vii.html">VII</a>). Ein Suspension Block kombiniert <strong>zwei</strong> solcher Anker — je einen
 an jeder FVG-Grenze — statt nur einer. Das deckt sich mit der allgemeinen Regel, dass eine VII immer
 mit eingezeichnet wird, wenn sie vorhanden ist (siehe <a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>).</p>
+<h2 id="verwendung-als-entry-level-live-beispiel-15082026">Verwendung als Entry-Level (Live-Beispiel 15.08.2026)</h2>
+<p>Aus <a href="../p/2026-08-15-the-week-in-the-life-cycle-of-price-source.html">The Week In The Life Cycle Of Price (Source)</a>:
+ICT wählte für seinen Freitags-Short bewusst die <strong>C.E. des Suspension Blocks</strong> als Einstieg —
+nicht das größere, naheliegendere FVG daneben. Zusätzliche Orientierung gab die C.E. des längsten
+Wicks links davon. Der Body der Einstiegskerze legte sich exakt auf diese C.E.</p>
+<p>Bestätigt die Einstufung oben als besonders starke <a href="../p/pd-array.html">PD Array</a>: Sie taugt als <strong>präziser
+Entry-Anker</strong>, nicht nur als Expansions-Indiz. Vollständige Bestätigungskette:
+<a href="../p/silver-bullet-model.html">Silver Bullet Model</a>.</p>
+<h2 id="definition-aus-icts-eigenem-mund-an-einem-sibi-17082026">Definition aus ICTs eigenem Mund, an einem SIBI (17.08.2026)</h2>
+<p>Bislang stand die Definition oben auf einer Folienquelle. In
+<a href="../p/2026-08-18-trade-management-removing-the-need-to-be-right-source.html">Trade Management &amp; Removing The Need To Be Right (Source)</a>
+benennt ICT die Konstellation live und wörtlich:</p>
+<blockquote>
+<p><em>„We're up inside this little cibby here with two volume imbalance, </em><em>which is a suspension
+block</em><em>."</em></p>
+</blockquote>
+<p>Zwei Punkte, die das ergänzt:</p>
+<ul>
+<li>Die Definition gilt <strong>symmetrisch für SIBI und BISI</strong> — das Beispiel vom 15.08. lag an einem
+  BISI, dieses an einem SIBI („cibby" = SIBI).</li>
+<li>Hier dient der Suspension Block <strong>nicht</strong> als Entry-Anker, sondern als <strong>Widerstandszone gegen
+  die eigene Position</strong>: ICT liest den Preis, der in den Suspension Block hineinläuft, als
+  Warnsignal für seinen Short und zieht daraufhin den Stop nach. Der Block markiert also die
+  Grenze, an der die These kippt — dieselbe Stärke-Einstufung, nur aus der Gegenrichtung genutzt.</li>
+</ul>
 <h2 id="verwandt">Verwandt</h2>
 <ul>
 <li><a href="../p/fair-value-gap-fvg.html">Fair Value Gap (FVG)</a>, <a href="../p/volume-imbalance-vii.html">Volume Imbalance (VII)</a></li>
+<li><a href="../p/silver-bullet-model.html">Silver Bullet Model</a> — Suspension-Block-C.E. als dokumentierter Entry</li>
 <li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a> — Suspension Block entsteht am Rand eines BISI/SIBI</li>
 <li><a href="../p/pd-array.html">PD Array</a></li>
 <li><a href="../p/chain-of-custody-of-price-with-daily-inefficiencies-source.html">Chain Of Custody Of Price With Daily Inefficiencies (Source)</a></li>
 </ul></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">14</span></h2><ul><li><a href="../p/2026-07-29-predicting-session-low-high-with-executions-source.html">2026-07-29 - Predicting Session Low &amp; High With Executions (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-31-market-review-nq-july-31-2026-source.html">2026-07-31 - Market Review NQ July 31, 2026 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-06-ict-price-action-chronicles-the-science-of-anticipation-in-price-action-source.html">2026-08-06 - ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-07-case-study-with-nonfarm-payroll-nq-futures-source.html">2026-08-07 - Case Study With NonFarm Payroll &amp; NQ Futures (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a><span class="cat">Konzepte</span></li><li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a><span class="cat">Konzepte</span></li><li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/chain-of-custody-of-price-with-daily-inefficiencies-source.html">Chain Of Custody Of Price With Daily Inefficiencies (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/nq-futures-weekly-range-market-wizardry-source.html">NQ Futures Weekly Range Market Wizardry (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li></ul></section>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">19</span></h2><ul><li><a href="../p/2026-07-29-predicting-session-low-high-with-executions-source.html">2026-07-29 - Predicting Session Low &amp; High With Executions (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-31-ict-algorithmic-time-price-grids-source.html">2026-07-31 - ICT Algorithmic Time &amp; Price Grids (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-07-31-market-review-nq-july-31-2026-source.html">2026-07-31 - Market Review NQ July 31, 2026 (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-06-ict-price-action-chronicles-the-science-of-anticipation-in-price-action-source.html">2026-08-06 - ICT Price Action Chronicles - The Science Of Anticipation In Price Action (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-07-case-study-with-nonfarm-payroll-nq-futures-source.html">2026-08-07 - Case Study With NonFarm Payroll &amp; NQ Futures (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-15-the-week-in-the-life-cycle-of-price-source.html">2026-08-15 - The Week In The Life Cycle Of Price (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/2026-08-18-trade-management-removing-the-need-to-be-right-source.html">2026-08-18 - Trade Management &amp; Removing The Need To Be Right (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/algorithmic-time-price-grid.html">Algorithmic Time &amp; Price Grid</a><span class="cat">Konzepte</span></li><li><a href="../p/bisi-sibi-buyside-sellside-imbalance.html">BISI &amp; SIBI (Buyside-Sellside Imbalance)</a><span class="cat">Konzepte</span></li><li><a href="../p/chain-of-custody-q-validation.html">Chain of Custody (Q-Validation)</a><span class="cat">Konzepte</span></li><li><a href="../p/chain-of-custody-of-price-with-daily-inefficiencies-source.html">Chain Of Custody Of Price With Daily Inefficiencies (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/log-archiv-bis-2026-08.html">log-archiv-bis-2026-08</a><span class="cat">Meta</span></li><li><a href="../p/low-resistance-liquidity-run.html">Low Resistance Liquidity Run</a><span class="cat">Konzepte</span></li><li><a href="../p/muster-validierung-laufend.html">Muster-Validierung (laufend)</a><span class="cat">Synthese</span></li><li><a href="../p/nq-futures-weekly-range-market-wizardry-source.html">NQ Futures Weekly Range Market Wizardry (Source)</a><span class="cat">Quellen</span></li><li><a href="../p/silver-bullet-model.html">Silver Bullet Model</a><span class="cat">Modelle</span></li><li><a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a><span class="cat">Konzepte</span></li><li><a href="../p/weekly-range-trading-model.html">Weekly Range Trading Model</a><span class="cat">Modelle</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/concepts/Suspension Block.md</code></footer>
 </article>
 </main>

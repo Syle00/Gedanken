@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, mentorship-2023, tgif, weekly, po3]
 created: 2026-08-02
-updated: 2026-08-02
-sources: ["[[TGIF - Thank God its Friday (Source)]]", "[[Alltime Highs und TGIF (Source)]]", "[[NQ Futures Weekly Range Market Wizardry (Source)]]", "[[Kurz Notizen (Source)]]"]
+updated: 2026-08-16
+sources: ["[[TGIF - Thank God its Friday (Source)]]", "[[Alltime Highs und TGIF (Source)]]", "[[NQ Futures Weekly Range Market Wizardry (Source)]]", "[[Kurz Notizen (Source)]]", "[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]"]
 ---
 
 # TGIF (Thank God its Friday)
@@ -40,6 +40,28 @@ zurückläuft.*
 
 Bleibt das Retracement am Freitag aus, wird es standardmäßig am **Montag oder Dienstag** der
 Folgewoche erwartet ([[Kurz Notizen (Source)]]).
+
+### Zielpräzisierung: 25 % als Arbeitsziel, 40 % als Extremfall (2026-08-15)
+
+Aus [[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]] —
+ICTs eigene Gewichtung innerhalb der 20–30-%-Zone:
+
+- **20 % ist „reasonable and tradable"**, 30 % *kann* kommen. ICT zielt in der Praxis auf die
+  **Mitte, also ~25 %** — *„I like to look for half of 20 to 30."*
+- **40 % ist der Extremfall und wird bewusst nicht angesteuert**: Läuft Preis bis 40 %, geht es
+  laut ICT „wahrscheinlich noch deutlich tiefer" — der Move ist dann kein TGIF-Retracement mehr,
+  sondern etwas anderes. Wer bis dahin hält, hält meist ohnehin nicht durch.
+- **Messrichtung**: Fib über die Weekly Range von **Wochen-Low zu Wochen-High**; das
+  Freitags-Retracement läuft von oben in die 20–30-%-Zone hinein.
+- **Extraction Point**: ICT rahmt TGIF als die Frage, *wo Smart Money die Woche verlässt* — die
+  Handelswoche läuft Sonntag 18:00 ET bis Freitag 17:00 ET, der Ausstieg passiert per Distribution
+  vom Wochenhoch aus.
+- **Confluenz erhöht die Zielqualität**: Im Fallbeispiel fielen ~25 % der Weekly Range und das
+  **Vormonats-High** zusammen. ICT betont ausdrücklich, dass er dort *nicht* wegen
+  Support/Resistance aussteigt, sondern wegen des Weekly-Range-Prozentsatzes — die Übereinstimmung
+  ist Bestätigung, nicht Begründung.
+- **Referenz-Timeframe**: 15-Min genügt für die TGIF-Level (siehe [[Open Float & Liquidity Pools]],
+  Bellwether-Regel). Ein höherer Timeframe bringt nichts dazu.
 
 ## Higher Timeframe PD als Auslöser
 
@@ -109,6 +131,14 @@ n=27 Wochen MNQ-Daten: exakte Trefferquote nur 3,7%, aber der **Median liegt bei
 Zahl stimmt im Median, die Verteilung ist aber bimodal (Wochen retracen meist entweder kaum
 0–10% oder deutlich mehr 50–100%, selten genau 20–30%). Als Erwartung für eine einzelne Woche
 ist die Zielzone deshalb mit Vorsicht zu genießen.
+
+> **Anschluss an die 25-%-Präzisierung oben (2026-08-16)**: Der gemessene **Median von 22,1 %**
+> liegt sehr nah an ICTs eigenem Arbeitsziel „Hälfte von 20–30 %" (~25 %) — die Zahl ist als
+> *zentrale Tendenz* also gut gestützt. Das ändert nichts am Kernproblem der bimodalen Verteilung:
+> Ein Median trifft die einzelne Woche nicht. Offen und noch ungeprüft ist ICTs Zusatzregel, dass
+> ein Retracement **jenseits von 40 %** kein TGIF mehr ist, sondern ein qualitativ anderer Move —
+> das wäre ein testbares Trennkriterium für die beiden Modi der Verteilung und ist als
+> Backlog-Punkt in `algo/PLAN.md` vermerkt.
 
 ## Verwandt
 

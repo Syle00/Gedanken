@@ -1,8 +1,8 @@
 ---
 tags: [model, ict, trading-ict, swing, weekly]
 created: 2026-08-01
-updated: 2026-08-02
-sources: ["[[Using Monthly & Weekly Ranges (Source)]]", "[[NQ Futures Weekly Range Market Wizardry (Source)]]", "[[TGIF - Thank God its Friday (Source)]]"]
+updated: 2026-08-16
+sources: ["[[Using Monthly & Weekly Ranges (Source)]]", "[[NQ Futures Weekly Range Market Wizardry (Source)]]", "[[TGIF - Thank God its Friday (Source)]]", "[[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]"]
 ---
 
 # Weekly Range Trading Model
@@ -71,8 +71,31 @@ Sell-Program).*
 ![[image 34.png]]
 *Zwei-DOL-Methode am NQ-Beispiel: bei bearishem Bias zuerst das Premium-DOL antizipieren, danach den Discount-Pool/DOL.*
 - **Overnight Liquidity** wird bevorzugt im Fenster **7–9 Uhr** (Premarket) attackiert.
-- ⚠️ Quelle nutzt den Begriff "Suspensionblock" (vermutlich verwandt mit [[Order Block]]/
-  Konsolidierungsblock) ohne klare Definition — bei weiterem 2026-Content-Ingest präzisieren.
+- ✅ **Geklärt (2026-08-16)**: Der hier ohne Definition auftauchende Begriff „Suspensionblock" ist
+  inzwischen als eigene Seite [[Suspension Block]] belegt (FVG mit
+  [[Volume Imbalance (VII)|VII]] auf **beiden** Seiten). Nicht verwandt mit [[Order Block]], wie
+  ursprünglich vermutet.
+  [[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]]
+  zeigt zusätzlich die praktische Verwendung: dessen C.E. als Entry-Anker.
+
+## Wochenend-Routine (2026-08-15)
+
+Wie ICT die Level-Liste für die Folgewoche erstellt — Freitag nach Close oder Samstag früh, auf
+Papier:
+
+1. **Continuous Contract zuerst**, dann Front-Month-Abgleich — siehe
+   [[Continuous Contract vs. Front Month]].
+2. **Alle Session-Ranges plus deren Mittelpunkte** notieren (Asia, London, NY AM, NY Lunch), dazu
+   Vortag, Last-3-Days, Vorwoche, Vormonat — vollständiger Katalog in
+   [[Open Float & Liquidity Pools]].
+3. **Abgelaufene Woche einem Profil zuordnen** ([[Market Maker Manipulation Templates]]) und das
+   erwartete Profil der Folgewoche über den **Wirtschaftskalender** legen.
+4. **Bias über Nähe**: Liegt der Wochenopen näher am Vorwochen-/Vormonats-High als am
+   entsprechenden Low, ist das High der Weg des geringsten Widerstands — zusammen mit dem
+   übergeordneten Order Flow ergibt das den Wochenbias.
+
+Der 15-Min-Chart genügt für Schritt 2–4 („Bellwether"); höhere Timeframes bringen laut ICT nichts
+dazu.
 
 ## Verwandt
 
@@ -81,3 +104,5 @@ Sell-Program).*
 - [[Market Maker Manipulation Templates]]
 - [[PD Array]], [[Fair Value Gap (FVG)]]
 - [[Event Horizon]]
+- [[Continuous Contract vs. Front Month]] — Schritt 1 der Wochenend-Routine
+- [[Suspension Block]], [[Open Float & Liquidity Pools]]

@@ -5,6 +5,9 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 > **Einstieg:** [[Smart Money Concepts (SMC)]] — Wurzelseite über dem gesamten ICT-Material.
 > Der Katalog unten ist alphabetisch; die SMC-Seite ordnet dieselben Seiten inhaltlich.
 
+> **Protokoll:** [[log]] hält seit 2026-08-16 nur noch, was keine Commit-Message ausdrückt.
+> Der chronologische Verlauf bis dahin steht in [[log-archiv-bis-2026-08]].
+
 ## Concepts
 
 - [[Accumulation & Reaccumulation Model]] — Low-taken-Expansion vs. Dip-Reentry-Phasen nach einem Sweep (2026-08-01)
@@ -21,7 +24,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Erwartungswert & Reward-to-Risk-Modell]] — Mindest-RR nach Trefferquote, bestätigt die 1-%-Risiko-Regel im ICT-Quellenmaterial (2026-08-06)
 - [[Eröffnungsauktion vs. 24x5-Markt]] — warum ORG/NDOG Futures-Konzepte sind (tägliche Eröffnungsauktion), Forex 24x5 stattdessen nur NWOG (2026-08-15)
 - [[AMD Cycle (Accumulation – Manipulation – Distribution)]] — 4-Phasen-Marktzyklus + FX-Session-Fahrplan, DOL-Definition (2026-08-01)
-- [[Asian Range]] — 19–24 Uhr NY, Highest High/Lowest Low; Konsolidierung = Trendtag, nur mit Bias nutzbar (2026-08-02)
+- [[Asian Range]] — 19–24 Uhr NY, Highest High/Lowest Low; Konsolidierung = Trendtag, nur mit Bias nutzbar; ⚠️ bei Index-Futures setzt ICT 19–22 ET an und gradet Oktanten darauf (2026-08-23)
 - [[Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)]] — Vier-Bias-Katalog aus Halls-Moore, systematisiert bestehende Projektregeln; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Average Daily Range (5-Tage-ADR)]] — 5-Tage-Durchschnittsrange als Reichweiten- und Exit-Werkzeug; Verdopplungsbedingungen, 15-Pips-vor-ADR-Exit (2026-08-10)
 - [[Balanced Price Range (BPR)]] — Verhalten innerhalb eines FVG, eine Timeframe tiefer betrachtet (2026-08-02)
@@ -32,7 +35,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Central Bank Dealers Range (CBDR)]] — 14–20-Uhr-Range mit STD-Projektion fürs Tages-High/Low, Technik auch auf Pre-News-Ranges übertragbar (2026-08-01, erg. 2026-08-07)
 - [[Chain of Custody (Q-Validation)]] — Q-Level validieren PD Arrays entlang der antizipierten Dealing Range (2026-08-01)
 - [[CISD (Change in State of Delivery)]] — Down-/Up-Close-Candles als struktureller Support/Resistance (2026-08-01)
-- [[COT (Commitment of Traders) Data]] — Positionierungsdaten großer Player, 12-Monats-Hedging-Methode (2026-08-01)
+- [[Continuous Contract vs. Front Month]] — ICTs feste Analysereihenfolge: Referenzfeld aus dem Continuous Contract, dann Level-Abgleich gegen den Front Month (2026-08-16)
+- [[COT (Commitment of Traders) Data]] — Positionierungsdaten großer Player, 12-Monats-Hedging-Methode; neu die Trennung **Bestand vs. Fluss** — `gegenlaeufig` misst nur den Bestand, NQ und ES liefen am 18.08. im Fluss auseinander (2026-08-23)
 - [[CPPI (Constant Proportion Portfolio Insurance)]] — harte Drawdown-Obergrenze bei praktisch unveränderter Wachstumsrate (0,5 statt 0,9 Drawdown); **Risikomanagement** (2026-08-08)
 - [[Cross Validation vs. Walk-Forward (Masters)]] — warum CV bei Marktdaten pessimistisch *und* optimistisch verzerrt ist und nicht empfohlen wird; Ausnahme CV-in-Walk-Forward; algo-methodology (2026-08-08)
 - [[CSCV (Combinatorially Symmetric Cross Validation)]] — Dominanz-Test: schlägt der IS-beste Parametersatz OOS den Median seiner Konkurrenten? algo-methodology (2026-08-08)
@@ -41,9 +45,10 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[DXY Correlation (Risk On_Off)]] — Risk-On/Risk-Off-Faustregel über den Dollar Index (2026-08-02)
 - [[Enigma FVG Projection]] — FIB-Technik zur Antizipation von FVG-Expansion (VII/C.E) (2026-08-01)
 - [[Equilibrium Vs. Discount]] — Dealing-Range-Konstruktion, EQ, verschachteltes Premium/Discount (2026-08-01)
-- [[Event Horizon]] — 50%-Punkt zwischen zwei Liquidity Pools für Partials (2026-08-01)
+- [[Event Horizon]] — 50%-Punkt zwischen zwei beliebigen Referenzleveln (nicht nur zwei Liquidity Pools) für Partials; Ausführung wird vorgezogen, wenn ein altes Low dazwischenliegt (2026-08-01, erg. 2026-08-16)
 - [[External vs. Internal Range Liquidity]] — Entry an Internal (OB/FVG in der Range), Exit an External (Stops außerhalb) (2026-08-06)
 - [[Gauntlet (PD Array)]] — das erste SIBI im Liquiditäts-Bein eines Breakers, als Turtle-Soup-Entry (2026-08-10)
+- [[Gladhanding]] — Order-Pairing an einem Level; wird die C.E. eines BISI *nicht* erreicht, ist das starkes Bullish-Signal (2026-08-16)
 - [[Fair Value Gap (FVG)]] — Preiszone ohne Trading zwischen zwei Candles (2026-08-06)
 - [[Filling The Numbers (4 Level pro Tag)]] — IPDA füllt vier Level pro Tag; vier Messlatten (Pivots, CBDR, Asia Range, Flout) über Konfluenz kombiniert (2026-08-10)
 - [[Flout (15-00 NY Range)]] — Range 15:00–00:00 NY, halbiert; die halbe Range ist die Projektionseinheit (2026-08-10)
@@ -56,7 +61,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[ICT Macros & Leading Candles]] — Session-Zeitfenster mit auffälligen Referenz-Candles, auch als Reversal-Check für laufende Positionen nutzbar (2026-08-01, erg. 2026-08-07)
 - [[Implied Dealing Range]] — noch nicht abgeschlossene Preisstrecke; Breakaway Gap bei 20–30 %, Measuring Gap bei 50 % (2026-08-10)
 - [[Implementation Shortfall]] — Gesamtkosten der Umsetzung einer Handelsidee (Perold); im Buchbeispiel gehen 52 % des Ideenwerts in der Ausführung verloren; algo-methodology (2026-08-08)
-- [[IFVG (Inverse Fair Value Gap)]] — FVG, das nach Durchhandeln die Polarität wechselt (2026-08-01)
+- [[IFVG (Inverse Fair Value Gap)]] — FVG, das nach Durchhandeln die Polarität wechselt; Validierung zählt den Body-Close, nicht den Open („give up the ghost“) (2026-08-23)
 - [[Indikator-Stationarität & Entropie]] — STATN-Gap-Analyse gegen langsames Wandern, relative Entropie ≥ 0,5, monotones Tail-Cleaning; algo-methodology (2026-08-08)
 - [[Institutional Order Flow (Body vs Wick)]] — Volumen steckt in Candle Bodys, nicht Wicks; "Mohawk"-Wick-Toleranzregel jetzt auch für BISI/SIBI-Range-Grenzen (2026-08-01, erg. 2026-08-07)
 - [[Institutional Order Flow Entry Drill (IOFED)]] — Teil-Entry an der Oberkante eines FVG, das nicht füllen soll; ein Tick genügt zum Fill, beste Fills zwischen C.E. und Gap-High (2026-08-10)
@@ -64,13 +69,14 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Intermarket Relationships]] — Bonds/Stocks/Commodities/Currencies-Korrelationsregeln (2026-08-01)
 - [[IPDA Data Ranges]] — 20/40/60-Tage-Lookback des Interbank Price Delivery Algorithmus (2026-08-01)
 - [[Judas Swing]] — Der False Run zwischen 0:00 und 5:00 NY, bullishe/bearishe Ausführung (2026-08-02)
+- [[Kerzenzahl in einer Ineffizienz]] — wie lange Preis in einem FVG verweilt, ist selbst ein Signal: 1-2 Kerzen ideal, ab 3 kippt die Wahrscheinlichkeit, mehr als 5 = gescheitert; zu viele Kerzen *zwischen* zwei PD Arrays = manueller Eingriff (2026-08-16)
 - [[Kelly-Criterion & Value-at-Risk (Money Management)]] — quantitative Hebel-/Verlustschätzung, Ergänzung zur festen 1%-Regel; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Kelly-Formel & optimales Leverage (Chan)]] — `f = m/s²`, Half-Kelly, Ruin-Grenze `1/|schlechteste Rendite|`, Drawdown-Nebenbedingung ist NICHT linear; **Risikomanagement** (2026-08-08)
 - [[Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)]] — Untergrenze für die wahre mittlere Rendite; SPX-Beispiel: 9,91 % Backtest-Rendite mit Untergrenze −0,0022; algo-methodology (2026-08-08)
-- [[Kontraktspezifikation MNQ (Tick, Punktwert)]] — Tick 0,25 und Punktwert je Symbol; jeder abgeleitete Preis (C.E., Quadranten, Stop) muss aufs Raster (2026-08-11)
+- [[Kontraktspezifikation MNQ (Tick, Punktwert)]] — Tick 0,25 und Punktwert je Symbol; jeder abgeleitete Preis (C.E., Quadranten, Stop) muss aufs Raster, und eine Kontraktzahl ohne Instrument ist bedeutungslos (2026-08-20)
 - [[Leading Risk Indicators]] — VIX/TED/HYG/MXN/Order Flow; derselbe Indikator kann für zwei Strategien gegensätzlich zu deuten sein; **Risikomanagement** (2026-08-08)
-- [[Liquidity Void]] — LTF-Erscheinung eines FVG, einseitige Preislieferung, Common-Gap-Präzisions-Entry (2026-08-06)
-- [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD (2026-08-01)
+- [[Liquidity Void]] — LTF-Erscheinung eines FVG, einseitige Preislieferung, Common-Gap-Präzisions-Entry; RTH und ETH werden getrennt bewertet (2026-08-06, erg. 2026-08-16)
+- [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD; High-Resistance-Gegenstück inkl. Feiertags-Mechanismus (Partizipationsvakuum) (2026-08-01, erg. 2026-08-16)
 - [[Market Maker Trap - False Breakout]] — false breakouts neutralisieren gezielt eine Seite gebracketer Stops, seriell wiederholend (2026-08-06)
 - [[Market Maker Trap - False Flag]] — Bull-/Bear-Flag-Fake in HTF-Premium/Discount-Zonen, Body-vs-Wick-Erkennung (2026-08-06)
 - [[Market Maker Trap - Head & Shoulders]] — klassische Chartmuster als Retail-Erwartungsmuster, die Smart Money als Liquiditätsquelle nutzt (2026-08-06)
@@ -87,12 +93,12 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Monte Carlo Permutation Test (MCPT)]] — Bar-Permutation zerstört Muster statistik-erhaltend, P-Wert prüft Data-Mining-Bias einer Strategie; algo-methodology, kein ICT-Konzept (2026-08-08)
 - [[Nested Walkforward]] — Walk-Forward in Walk-Forward, nötig sobald laufend zwischen Systemen/Kriterien ausgewählt wird; S&P-100-Beispiel 19,12 % p.a. bei p=0,027; algo-methodology (2026-08-08)
 - [[New Day Opening Gap (NDOG)]] — tägliches Pendant zum NWOG, min. 5 Handelstage aktiv, danach weiter als DOL nutzbar (2026-08-13)
-- [[New Week Opening Gap (NWOG) Bias]] — Wöchentliche Bias-Regel + Intraweek-Reversal-Muster (2026-08-01)
+- [[New Week Opening Gap (NWOG) Bias]] — Wöchentliche Bias-Regel + Intraweek-Reversal-Muster; neu das Montags-Framework (NWOG als Ziel statt Filter), am 17.08.2026 gegen eigene 1s-Daten bestätigt (2026-08-23)
 - [[Open Float & Liquidity Pools]] — Wo liegen die Stops der großen Funds, OI-Bestätigung (2026-08-01)
 - [[Optimal Trade Entry (OTE)]] — Retracement-Entry 62/70,5/79 % mit Targets und protectetem SL (2026-08-02)
 - [[Order Block]] — Basiskonzept + Validierungsregeln für alle OB-Varianten (2026-08-01)
 - [[ORG (Opening Range Gap) & 1st Presented FVG]] — C.E-Bias-Bestätigung über Wicks und ORG; Auswahl-/Ausschlusskriterien des 1.p FVG, MOR-vs-ORG-Abgrenzung, Mindestgrößen-Hypothese mit Messung (2026-08-14)
-- [[Partial Profit-Taking & R-Multiple-Skalierung]] — erstes Partial bei 3:1 sichern, Rest bis 9–15R laufen lassen (2026-08-06)
+- [[Partial Profit-Taking & R-Multiple-Skalierung]] — erstes Partial bei 3:1 sichern, Rest bis 9–15R laufen lassen; neu „right is not required for profitability“, Ziel als Black Hole, Order-Konflikt-Regel (2026-08-23)
 - [[Performance-Kennzahlen-Katalog]] — Sharpe/Sortino/Calmar/SQN/Drawdown-Dauer mit Formeln; was ein Backtest-Report ausweisen sollte; algo-methodology (2026-08-08)
 - [[PD Array]] — Premium/Discount-Array, Grundbaustein jedes ICT-Setups (2026-08-01)
 - [[Premium vs. Carrying Charge Market]] — Futures-Kurven-Analyse (Contango/Backwardation) (2026-08-01)
@@ -112,10 +118,10 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Seasonal Tendency]] — Historisch wiederkehrende saisonale Preistendenzen (2026-08-01)
 - [[Signal-Following & Crowd Liquidity Risk]] — Warum öffentliches Teilen von Live-Levels die eigene Edge zerstört; manuelle Intervention (Spread-Widening, Mini-Runs), CFTC-Hintergrund, Operator- vs. Konzept-Fehler (2026-08-05)
 - [[Smart Money Concepts (SMC)]] — **Wurzelseite**: Dachbegriff über allen ICT-Study-Notes, thematischer Einstieg (2026-08-02)
-- [[SMT (Smart Money Divergence)]] — Divergenz zwischen korrelierten Märkten, Cross-Asset-Check (2026-08-01)
+- [[SMT (Smart Money Divergence)]] — Divergenz zwischen korrelierten Märkten, Cross-Asset-Check; das schwächere Instrument ist das Ziel, nicht das Setup (2026-08-20)
 - [[Stop Loss bei Mean Reversion vs. Momentum]] — bei Momentum logisch zwingend, bei Mean Reversion nur GRÖSSER als der Backtest-Drawdown ansetzen; **Risikomanagement** (2026-08-08)
-- [[Suspension Block]] — FVG mit VII auf beiden Seiten, eine der stärksten PD Arrays (2026-08-03)
-- [[TGIF (Thank God its Friday)]] — Freitags-Retracement 20–30 % in die Weekly Range als Draw on Liquidity, 3 Voraussetzungen, Weekly Po3 (2026-08-02)
+- [[Suspension Block]] — FVG mit VII auf beiden Seiten, eine der stärksten PD Arrays; von ICT live an einem SIBI benannt, auch als Warnzone gegen die eigene Position nutzbar (2026-08-23)
+- [[TGIF (Thank God its Friday)]] — Freitags-Retracement 20–30 % in die Weekly Range als Draw on Liquidity, 3 Voraussetzungen, Weekly Po3; ICTs Arbeitsziel ~25 %, 40 % gilt als Extremfall (2026-08-02, erg. 2026-08-16)
 - [[Trader's Dilemma & Efficient Trading Frontier]] — Market Impact und Timing Risk sind gegenläufig; dominierte Strategien liefern nie Best Execution; algo-methodology (2026-08-08)
 - [[Trading All Time Highs (ATH)]] — Continuation-Checkliste am ATH und die 3 Stages, an denen Smart Money oben verkauft (2026-08-02)
 - [[Training Bias & Selection Bias]] — zwei getrennte Verzerrungen: die Auswahl des besten Systems macht eine unverzerrte OOS-Zahl im selben Moment verzerrt; algo-methodology (2026-08-08)
@@ -164,13 +170,15 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[London Session Profiles]] — 4 London-Profile + Wann London vermeiden/ideal ist (2026-08-01)
 - [[Market Maker Manipulation Templates]] — Katalog wiederkehrender Weekly-Manipulation-Profile (2026-08-01)
 - [[Market on Close (MOC) Macro Model]] — 15:50–16:00-Macro, zwei Ranges (Daily + Final-Hour), Dealing-Range-Fib bis 16tel, Order-Flow-Entry, SL-/Exit-Philosophie, ES- und NQ-Beispiel je auf wenige Ticks genau (2026-08-05)
-- [[Missed Entry Trade Management Playbook]] — Wick-Entry, CISD-Reentry-Skalierung, Event-Horizon-Exits (2026-08-01)
+- [[Low Probability Day Probing]] — Vorgehen an einem vorab als schlecht handelbar eingestuften Tag: mit einem Kontrakt sondieren statt aussitzen, Zeitlimit, Montags-Regel + NFP-Ausnahme; nach Feiertagen dagegen gar nicht handeln (2026-08-16)
+- [[MMXM (Market Maker Buy & Sell Model)]] — der übergeordnete Auslieferungsrahmen: Kurve aus Sell Side und Buy Side, **MMBM** (V, im Aufwärtstrend) und **MMSM** (Λ, im Abwärtstrend); benannt nach dem Ziel, nicht nach der ersten Bewegung; ITH/ITL begrenzen die Kurve, HTF zuerst. Schließt die seit 2026-08-02 offene Vault-Lücke (2026-08-23)
+- [[Missed Entry Trade Management Playbook]] — Wick-Entry, CISD-Reentry-Skalierung, Event-Horizon-Exits; „Präzision erzeugt verpasste Trades", dreistufige Stop-Kaskade, harte Re-Entry-Sperre (2026-08-01, erg. 2026-08-16)
 - [[Meine Strategien (Übersicht)]] — Einstiegspunkt für alle live-getradeten, vollständig geregelten Strategien (aktuell: Silver Bullet) (2026-08-05)
 - [[No-Bias Engagement Routine]] — Vorgehen ohne klaren Bias zu Handelsbeginn (2026-08-01)
 - [[NY Lunch Macro Model]] — 10-Uhr-Linie, Target-Liq muss intakt bleiben, Execution im Macro 10:50–11:10 (2026-08-02)
 - [[NY PM Trend]] — Regeln für die PM-Session (13–16 Uhr NY) + Index SMT (2026-08-01)
 - [[One Shot One Kill Model]] — Flaggschiff-Swing-Modell, 70%-Wednesday-Regel (2026-08-01)
-- [[Silver Bullet Model]] — Time-based Model mit drei festen Fenstern (London 3–4, NY AM 10–11, NY PM 14–15 Uhr), Move startet im Macro davor; Trade Management: Mindestziel 10 Punkte, Partial am Swing + Breakeven (2026-08-05)
+- [[Silver Bullet Model]] — Time-based Model mit drei festen Fenstern (London 3–4, NY AM 10–11, NY PM 14–15 Uhr), Move startet im Macro davor; Trade Management: Mindestziel 10 Punkte, Partial am Swing + Breakeven; vollständige Entry-Anatomie eines Live-Trades (15.08.2026) (2026-08-05, erg. 2026-08-16)
 - [[Stock Mega-Trades]] — Mega-Trade-Methodik für Einzelaktien, Earnings-gekoppelt (2026-08-01)
 - [[The Sentiment Effect]] — Asia-Range-basiertes Judas-Setup für Daytrading/Scalping (2026-08-01)
 - [[Three Timeframe Framing]] — Timeframe-Tripel je Handelsstil; HTF Kontext, MTF Framing, LTF nur Entry (2026-08-02)
@@ -236,6 +244,11 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Chain Of Custody Of Price With Daily Inefficiencies (Source)]] — Quadranten/Oktanten-Raster auf BISI/SIBI inkl. VII, definiert den Suspension Block (2026-08-03)
 - [[2026-08-04 - ICT Price Action Chronicles - Market On Close Macro (Source)|ICT Price Action Chronicles - Market On Close Macro (Source)]] — YouTube 2026-08-04: Grundlagen-Lecture zum MOC Macro (NQ, 2026-08-03), zwei Ranges, Relative-Equal-Kriterium, Wick-vs-FVG-Vorrang, SL-/Exit-Philosophie (2026-08-05)
 - [[2026-08-05 - ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)|ICT Price Action Chronicles - MOC Crushing The Buying & Selling Pressure Myth (Source)]] — YouTube 2026-08-05: MOC Macro Model am ES angewendet, 16tel-Fib-Level, Candlestick-only Order-Flow-Bestätigung, Signal-Following-Risiko (2026-08-05)
+- [[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain - Market Alchemy (Source)]] — YouTube 2026-05-13, 94 Min: Live-Trade unter High-Resistance-Bedingungen mit angekündigtem Stop-out und Wiedereinstieg auf dieselbe These; gescheiterte IFVG-„First Utilization“, Verweildauer als Interventions-Signatur, „running down equity“, Journaling als Priming (2026-08-16)
+- [[2026-07-02 - Missed Entry How To Navigate The Same Trade Idea (Source)|Missed Entry How To Navigate The Same Trade Idea (Source, Video)]] — YouTube 2026-07-02, 19 Min: Originaltranskript zur bereits vorhandenen Notiz-Fassung; „perfection will yield missed trades", Limit-Order-Disziplin, dreistufige Stop-Kaskade (VII → Rejection Block → laufende Hochs), Wick-C.E.-Close-Test, Market Maker Sell Model, harte Re-Entry-Sperre (2026-08-16)
+- [[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]] — YouTube 2026-07-06, 28 Min: Montag nach dem 4.-Juli-Wochenende; **Mechanismus** hinter der Feiertagsregel (Partizipationsvakuum → kleinere Ranges *und* geringere Präzision), Index-Entkopplung als Filter, Live-Demo mit offengelegtem P&L (2026-08-16)
+- [[2026-07-13 - How To Probe Low Probability RTH Opening Ranges (Source)|How To Probe Low Probability RTH Opening Ranges (Source)]] — YouTube 2026-07-13, 51 Min: Live-Session an einem bewusst als low-probability eingestuften Montag; ORG-Konstruktion Schritt für Schritt, **zweite Primärquelle für die 70-%-Regel**, Kerzenzahl-Regel in Ineffizienzen, RTH-vs-ETH-Voids (2026-08-16)
+- [[2026-07-14 - Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)|Part 2 - How To Probe Low Probability RTH Opening Ranges (Source)]] — YouTube 2026-07-14, 15 Min: Nachbesprechung desselben Tages; Tagestief über Daily-Key-Level + Volume-Imbalance-Confluenz auf einen Tick genau, „Unicorn" (Breaker+FVG), Positionen vor CPI/PPI glattstellen (2026-08-16)
 - [[2026-07-29 - Predicting Session Low & High With Executions (Source)|Predicting Session Low & High With Executions (Source)]] — YouTube 2026-07-29: Daily-Suspension-Block-Reaktion liefert Session-Low *und* -High, Market-Maker-Buy-Model, "Mohawk"-Wick am IFVG (2026-08-05)
 - [[2026-07-31 - Market Review NQ July 31, 2026 (Source)|Market Review NQ July 31, 2026 (Source)]] — YouTube 2026-07-31: Pre-Market-7-9-Uhr-Raster, Fib-0,5-Extension für Daily High, 70-%-ORG-Regel, Order-Flow-Testeinsatz (2026-08-05)
 - [[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]] — YouTube 2026-07-31: vollständige Herleitung des Time-&-Price-Grid-Konzepts, ~200-Handle-Move in 10 Min (2026-08-05)
@@ -251,6 +264,8 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[2024-09-16 - ICT 2024 Mentorship - How To Trade ICT FVGs Correctly (Source)|How To Trade ICT FVGs Correctly (Source)]] — YouTube 2024-09-16: die Ausführungs-Lecture zum FVG — Entry ein Tick vor der Kante von Kerze 3, Stop hinter Kerze 2 bzw. 1, Quadrantenraster, "ferne Hälfte bleibt offen", 20-Handle-Mindestraum (2026-08-14)
 - [[2025-01-19 - ICT Private Mentorship - High Probability FVGs Masterclass (Source)|High Probability FVG's Masterclass (Source)]] — YouTube 2025-01-19: wo High-Probability-FVGs entstehen — Draw on Liquidity zuerst, richtige Hälfte der Vortagesrange, Killzone; inkl. ICTs unbelegter 98-%-Behauptung (2026-08-14)
 - [[2026-08-13 - PPI Market Review August 13, 2026 (Source)|PPI Market Review August 13, 2026 (Source)]] — YouTube 2026-08-13: ICTs eigener Trade-Recap des PPI-Tages, Freitags-Daily-High der Vorwoche als Order Block, Ziele 30.600/30.975; Abgleich mit eigenem [[2026-08-13 MNQ Daily Bias]] — Richtung stimmte, eigene Ziele zu konservativ (2026-08-13)
+- [[2026-08-15 - The Week In The Life Cycle Of Price (Source)|The Week In The Life Cycle Of Price (Source)]] — YouTube 2026-08-15, 85 Min: komplette Woche 11.–15.08. auf NQ von Monthly bis 1-Min-Entry; Continuous Contract zuerst, Bias über Nähe zum Vorwochen-/Vormonats-High, 15-Min als Bellwether, Gladhanding, Guarded Liquidity, TGIF ~25 %, dokumentierter Freitags-Silver-Bullet (2026-08-16)
+- [[2026-08-18 - Trade Management & Removing The Need To Be Right (Source)|Trade Management & Removing The Need To Be Right (Source)]] — YouTube 2026-08-18, 55 Min: Live-Management eines NQ-Shorts vom 17.08.; „right is not required for profitability", Ziel als Black Hole, Montags-NWOG-Framework, Order-Konflikt-Regel, Asian Dealing Range 19–22 ET bei Index-Futures; **eigener 1s-Datenabgleich: Ziel 14 Min nach Videoende erreicht** (2026-08-23)
 
 ### ICT Gems (Drittkanal, Ausschnitte aus ICT-Originalvideos — Macro-Reihe)
 
@@ -261,7 +276,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 
 ### ICT Executions (Chart-only Trade-Beispiele, ohne Voiceover)
 
-> Playlist mit 61 Videos, laufender Batch-Ingest (siehe `wiki/log.md`). Jedes Video zeigt nur den
+> Playlist mit 61 Videos, laufender Batch-Ingest (siehe `wiki/log-archiv-bis-2026-08.md`). Jedes Video zeigt nur den
 > Chart ohne gesprochenen Kommentar — Inhalt wird per Frame-Extraktion visuell rekonstruiert.
 
 - [[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)]] — Lunch-Macro-Short, FVG-Entry, gestaffelte Partials, Ziel an Weekly BSL C.E.
@@ -543,6 +558,7 @@ ausstehend).
 
 ## Synthesis
 
+- [[Forex-Algo — ICT-Konzepte auf 23 Jahren (laufend)]] — die MNQ-Konzepte auf 10 Paaren statt einer zweistelligen Tagesmenge: Silver Bullet verliert auf EURUSD 5m über 5 Jahre (871 Trades, 18,3 % Treffer), einzig das Londoner Fenster ist positiv; 85 % aller Setups haben einen Stop enger als der Spread (2026-08-15)
 - [[FVG-Stärke, Session-Volatilität & Confluence (laufend)]] — **generiert** aus 27 MNQ-Tagen: der 9:30-Open trägt die 2,8-fache FVG-Größe von London, das Verhältnis FVG÷Kerze ist aber überall ≈0,45; HTF-Qs-Confluence hält, NDOG-Confluence nicht (2026-08-13)
 - [[High-Probability-FVG - ICTs Kriterien gegen eigene Daten (laufend)]] — ICTs HP-Kriterien gegen 7.375 MNQ-FVGs: Vortageshälfte hält, Killzone bringt nichts, sofortiges Rebalance ist negativ, 98 % nicht reproduzierbar (2026-08-14)
 - [[Journal-Auswertung]] — **generiert** aus `raw/journal/`: Erfüllungsquote je Checklistenpunkt über 21 Einträge, verknüpft mit den zuständigen Wiki-Seiten; Ausreißer ist „Entry" mit 24 % (2026-08-02)
@@ -560,6 +576,19 @@ ausstehend).
 - [[KW32 2026 — Weekly Review]] — Wochenübergreifender roter Faden über die bereits einzeln verifizierten `journal/entries/`: Weekly Bias (bullish, DOL 29.363,50) und Montag beide bias_korrekt:true, Donnerstag fehlerfrei; echte Fehler waren Bias-Inkonsistenz Montag (Weekly vs. Daily binnen 33 Min.) und ein veraltetes ORG-Level am Freitag (2026-08-07)
 - [[Risk-Management-Vergleich (laufend)]] — **generiert** von `algo/backtest_risk_compare.py`: Vergleich der drei Risk-Sizing-Module (fix/GARCH/Kelly) auf identischen Silver-Bullet-Signalen, mit Expectancy, VaR95/ES95 und Kleine-Stichprobe-Vorbehalt (2026-08-12)
 - [[Quant-Finance-Formeln für den MNQ-Algo (laufend)]] — **generiert**, aktualisiert bei jedem neuen quant-finance-Fund: PCA-Regime-Feature, Regressions-Signifikanztest für Strategie-Alpha, Diversifikationsformel für Multi-Symbol, Markov-Ketten für Bar-Zustandsfolgen, Gain-Loss-Ratio-Sizing — je mit konkretem `algo/`-Modulbezug oder als Layer-0-Verstoß markiert (2026-08-12)
+
+## Lernpfad
+
+Eigener Bereich unter `wiki/lernpfad/` — kein Wissenslayer, sondern die Arbeitsstruktur für den
+12-Monats-Lernpfad (Python, Mathematik, Statistik, ML). Verstandene Konzepte daraus wandern nach
+`concepts/`, nicht hierher; hier steht nur Planung und Tagebuch.
+
+- [[Lernpfad Quant — Übersicht]] — 12-Monats-Plan in sechs Phasen, Wochenrhythmus, Dokumentationsregeln; Unterbau für das Algo-Ziel aus Layer 0 (2026-08-24)
+- [[Lernpfad — Meilensteine]] — neun Prüfpunkte mit Fälligkeitsdatum, von Phase 0 (04.10.2026) bis Paper-Trading (29.08.2027); Nachweis statt Gefühl (2026-08-24)
+- [[Lernpfad — Zeitfenster & Ausbaustufen]] — Dienstplan-Muster KW 35–38, die vier nutzbaren Fenster (Bahn 45 Min geschenkt, 9:55-Tage, früher Büro-Feierabend, HO-Mittagspause), Ausbaustufen 11 → 18,5 h und die 6-Stunden-Schlafgrenze (2026-08-24)
+- [[Lernpfad — Woche 01]] — 24.08.–30.08.2026, Phase 0, acht Blöcke à 11,75 h inkl. Bahn-Slot (2026-08-24)
+- [[Lernpfad — Mathe-Videothek]] — 13 geprüfte deutschsprachige Erklärvideos (überwiegend Mathe by Daniel Jung), pro Aufgabe zugeordnet; Titel und Kanal per oEmbed verifiziert (2026-08-24)
+- [[Lernpfad — Tagesvorlage]] — Vorlage und Feldkonventionen für neue Tageseinträge in `lernpfad/tagebuch/` (2026-08-24)
 
 ## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)
 
@@ -581,4 +610,4 @@ ausstehend).
   Notion-Clip ohne echten Inhalt).
 - Lint-Durchgang 2026-08-06: mehrere Konzeptseiten enthielten veraltete ⚠️-Hinweise auf Seiten, die
   inzwischen längst existieren ([[PD Array]], [[New Week Opening Gap (NWOG) Bias]],
-  [[Smart Money Concepts (SMC)]]) — korrigiert, siehe `wiki/log.md`.
+  [[Smart Money Concepts (SMC)]]) — korrigiert, siehe `wiki/log-archiv-bis-2026-08.md`.

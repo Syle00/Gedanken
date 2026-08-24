@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, core]
 created: 2026-08-01
-updated: 2026-08-14
-sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)]]"]
+updated: 2026-08-16
+sources: ["[[Low Resistance Liquidity Runs Part 1 (Source)]]", "[[Low Resistance Liquidity Runs Part 2 (Source)]]", "[[Post US Holiday Monday Followup (Source)]]", "[[2026-07-31 - ICT Algorithmic Time & Price Grids (Source)|ICT Algorithmic Time & Price Grids (Source)]]", "[[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2022-05-04 - 2022 ICT Mentorship Episode 23 (Source)]]", "[[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]]", "[[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain - Market Alchemy (Source)]]"]
 ---
 
 # Low Resistance Liquidity Run
@@ -59,6 +59,43 @@ US-Feiertags-Wochenenden** (z.B. 4. Juli auf Sa/So: Montag meist schwierige, sch
 Action → am Montag lieber nicht traden, erst Dienstag wieder einsteigen) und **vor
 Zinsentscheiden/FOMC-Meetings**.
 
+### Warum Feiertage HRLR erzeugen — der Mechanismus (2026-Ergänzung)
+
+Aus [[2026-07-06 - Weekend US Holiday Volume Protocol (Source)|Weekend US Holiday Volume Protocol (Source)]],
+der ausführlichen Fassung der bislang nur als Kurznotiz vorhandenen Warnregel
+([[Post US Holiday Monday Followup (Source)]]). ICT begründet sie erstmals — es ist **keine
+Kalender-Heuristik, sondern ein Partizipationsargument**:
+
+- Große Adressen wissen, dass das Volumen dünn bleibt (Abwesenheit, Sommermonate). Damit fehlt der
+  Anlass für große Ranges: *„There's **no need for them** to start spreading the market higher or
+  lower on a great big range, because there isn't enough interest to make it reasonable to assume
+  why the market went that high."*
+- **Sie können Teilnahme auch nicht erzwingen** — *„he won't be able to engineer participation,
+  cuz there's a vacuum of interest."*
+- **Die entscheidende Konsequenz**: *„They don't need to have the market to be that **precise**."*
+  Die PD Arrays verschwinden nicht, sie werden **unschärfer**. Wer an einem solchen Tag auf die
+  gewohnte Tick-Präzision setzt, handelt gegen die Bedingungen — nicht gegen die Methode.
+- Beantwortet damit auch den häufigen Einwand, ein *US*-Feiertag könne einen global gehandelten
+  Kontrakt nicht betreffen.
+
+**Erkennungsmerkmale im laufenden Handel** (dieselbe Quelle):
+
+| Tell | Normalfall zum Vergleich |
+|---|---|
+| **Index-Entkopplung** (Dow scharf runter, ES gemischt, NQ anders) | Gleichlauf aller drei = *„no-brainer"*, siehe [[SMT (Smart Money Divergence)]] |
+| News nimmt zwar ein Tief mit, **berührt das erste signifikante FVG aber gar nicht** | FVG wird angelaufen |
+| Preis steht **mittig** in der 15-Min-Range, beide Seiten offen | klare Premium-/Discount-Lage |
+| Failures to launch, träge Kerzen, sofortiges Zurückrollen nach Ausbruch | Displacement trägt |
+
+**Die Empfehlung ist eindeutig**: *„I've lost more money trading after holidays like this than in
+any other thing."* — und *„**Enough is not trading at all on a day like today.** That's the right
+answer."* Das Protokoll für den Fall, dass man trotzdem teilnimmt, steht auf
+[[Low Probability Day Probing]].
+
+> **Was am schlechten Tag trotzdem trug**: Quadranten- und C.E.-Level blieben im Live-Beispiel
+> präzise (Umkehr exakt am unteren Quadranten, [[Event Horizon]] auf den Punkt). Unschärfer wurde
+> die *Erzählung*, nicht das Raster — die Levels hielten, nur die Wege dorthin waren zäh.
+
 ### Mechanik (2022er Video-Ergänzung)
 
 Aus [[ICT Mentorship Core Content - Month 1 - Liquidity Runs (Source)]] — die konkrete
@@ -75,6 +112,34 @@ Preis-Struktur-Erklärung, warum manche Highs/Lows "verteidigt" sind:
   Rücklauf zum letzten Swing praktisch widerstandsfrei zum nächsten alten High/Low durchläuft.
 - Je **mehr Preisaktion** (Candles, Konsolidierung) um ein Level herum stattgefunden hat, desto
   stärker ist es institutionell verteidigt — Faustregel für die Einschätzung ohne zusätzliche Tools.
+
+### Stop-Weite und Größe: HRLR verlangt das Gegenteil von LRLR (2026-05-13)
+
+Aus [[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain — Market Alchemy (Source)]] —
+der direkteste Vergleich beider Regime, den ICT selbst zieht:
+
+> *„I'm going to give it **a little bit more room** in the trade because it's high resistance
+> liquidity run conditions. Low resistance liquidity run conditions, I'll be **more aggressive**
+> about moving my stop losses down, because I'm not concerned about it coming back."*
+
+| | Low Resistance | High Resistance |
+|---|---|---|
+| Stop nachziehen | aggressiv, früh | zurückhaltend, mehr Luft |
+| Betreuungsaufwand | gering, *„rewards you quickly"* | hoch, *„you got to babysit the position"* |
+| Positionsgröße | normal | kleiner stückeln, damit Teilverkäufe möglich sind |
+
+- **Stückelung als Psychologie-Werkzeug**: ICT empfiehlt Anfängern unter diesen Bedingungen
+  ausdrücklich **viele kleine Kontrakte** (Beispiel: 24 Micro) statt weniger großer, um früh
+  Teilgewinne nehmen zu können. Sonst kippt die Aufmerksamkeit von der Preisaktion auf die eigene
+  Position: *„instead of watching the process unfold, your mind shifts to ‚am I going to get stopped
+  out or not?'"* Siehe [[Partial Profit-Taking & R-Multiple-Skalierung]].
+- **Erwartung ans zweite Bein**: Nach dem ersten Lauf soll der zweite **schneller** kommen, damit
+  die Gegenseite ihre Orders nicht zurückziehen kann — Details und ICTs Warnung gegen mechanisches
+  Zählen auf [[Kerzenzahl in einer Ineffizienz]].
+- **Realitätscheck von ICT selbst**: *„You all want the get-in-easy low resistance liquidity run
+  conditions… But what happens when 98 % of the time it's doing things like it is today?"* Die
+  Fähigkeit, HRLR zu navigieren, ist damit kein Sonderfall, sondern der Normalfall — *„you can make
+  money on the good days, but you'll give it all back on days like this."*
 
 ### Navigieren statt Aussitzen (Live-Trade 2026-08-10)
 

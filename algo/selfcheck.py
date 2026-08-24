@@ -31,6 +31,7 @@ from backtest_bt import demo as backtest_bt_demo  # noqa: E402
 from backtest_risk_compare import demo as backtest_risk_compare_demo  # noqa: E402
 from validate import demo as validate_demo  # noqa: E402
 from backtest_common import demo as backtest_common_demo  # noqa: E402
+from cot import demo as cot_demo  # noqa: E402
 from macro_db import selfcheck as macro_db_selfcheck  # noqa: E402
 from backtest_fvg_strength import selfcheck as fvg_strength_selfcheck  # noqa: E402
 from backtest_hp_fvg import selfcheck as hp_fvg_selfcheck  # noqa: E402
@@ -42,6 +43,8 @@ from build_parquet import _demo as build_parquet_demo  # noqa: E402
 from marktdaten import _demo as marktdaten_demo  # noqa: E402
 from verify_forex_data import _demo as verify_forex_demo  # noqa: E402
 from measure_forex_attrappen import _demo as measure_attrappen_demo  # noqa: E402
+from bias_levels import demo as bias_levels_demo  # noqa: E402
+from fetch_ibkr import _demo as fetch_ibkr_demo  # noqa: E402
 
 
 def _results_demo() -> None:
@@ -109,6 +112,7 @@ CHECKS = [
     ("backtest_risk_compare", backtest_risk_compare_demo),
     ("validate", validate_demo),
     ("backtest_common", backtest_common_demo),
+    ("cot", cot_demo),
     ("macro_db", macro_db_selfcheck),
     ("backtest_fvg_strength", fvg_strength_selfcheck),
     ("backtest_hp_fvg", hp_fvg_selfcheck),
@@ -119,6 +123,8 @@ CHECKS = [
     ("marktdaten", marktdaten_demo),
     ("verify_forex_data", verify_forex_demo),
     ("measure_forex_attrappen", measure_attrappen_demo),
+    ("bias_levels", bias_levels_demo),
+    ("fetch_ibkr", fetch_ibkr_demo),
     ("dedup", _results_demo),
 ]
 

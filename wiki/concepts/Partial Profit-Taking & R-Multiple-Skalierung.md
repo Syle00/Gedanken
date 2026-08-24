@@ -1,8 +1,8 @@
 ---
 tags: [concept, ict, trading-ict, trade-management]
 created: 2026-08-06
-updated: 2026-08-11
-sources: ["[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)]]", "[[2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]", "[[2024-09-11 - ICT Executions September 11, 2024 NQ Long MOC Macro (Source)]]", "[[2023-01-12 - ICT Executions January 12, 2023 ES Short Last Hour Setup (Source)]]", "[[2023-02-01 - ICT Executions February 1, 2023 ES Short (Source)]]"]
+updated: 2026-08-23
+sources: ["[[2026-08-18 - Trade Management & Removing The Need To Be Right (Source)|Trade Management & Removing The Need To Be Right (Source)]]", "[[ICT Mentorship Core Content - Month 02 - How Traders Make 10% Per Month (Source)]]", "[[2026-08-10 - Navigating High Resistance Liquidity Run Conditions (Source)|Navigating High Resistance Liquidity Run Conditions (Source)]]", "[[2024-10-03 - ICT Executions October 3, 2024 NQ Short (Source)]]", "[[2024-09-23 - ICT Executions September 23, 2024 NQ Long (Source)]]", "[[2024-09-13 - ICT Executions September 13, 2024 NQ Short Silver Bullet (Source)]]", "[[2024-09-11 - ICT Executions September 11, 2024 NQ Long MOC Macro (Source)]]", "[[2023-01-12 - ICT Executions January 12, 2023 ES Short Last Hour Setup (Source)]]", "[[2023-02-01 - ICT Executions February 1, 2023 ES Short (Source)]]", "[[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain - Market Alchemy (Source)]]"]
 ---
 
 # Partial Profit-Taking & R-Multiple-Skalierung
@@ -121,6 +121,85 @@ genommener Partials unverändert** — *"no strangling the trade if the Large Ra
 manifests..."*. Kontrastiert die übrigen Beispiele dieser Seite (die den Stop nach Partials aktiv
 auf Breakeven/"Risk Removed" verschieben): welche Variante gilt, hängt vom Zieltyp ab
 (Intraday-Ziel vs. größere Swing-Range).
+
+## „Running down equity" — Partial an jedem neuen Hoch (2026-05-13)
+
+Aus [[2026-05-13 - Turning Loss Into Gain - Market Alchemy (Source)|Turning Loss Into Gain — Market Alchemy (Source)]]
+eine von ICT benannte Technik, die er nach eigener Aussage schon Jahre zuvor gelehrt hat:
+
+> *„Every time it takes a new high and I'm in a long, **as soon as it takes the high out**, I'm
+> going to take a partial off there."*
+
+Der Auslöser ist damit **strukturell** (neues Hoch genommen), nicht R-basiert und nicht an ein
+vorab gesetztes Ziel gebunden. Begründung: Auf das volle Erreichen des Endziels mit der kompletten
+Position zu bestehen, sei *„a little overzealous if you're brand new."*
+
+**Zwei weitere Management-Elemente aus derselben Quelle:**
+
+- **Bedingtes Bracket, vorab erklärt**: Für den Fall eines Stop-outs an einem bestimmten Level
+  liegen bereits Orders bereit (im Beispiel: 10 weitere Kontrakte raus, 4 bleiben mit Stop unter der
+  IFVG-C.E.). Der Plan steht **vor** dem Ereignis — *„that way you can see everything's been
+  explained ahead of time."*
+- **„Strangle the position"**: Ist die Idee ausgereizt, wird der Stop bewusst eng gezogen statt auf
+  das Ziel zu warten — *„I've done worn out my welcome in this trade… either it moves in my favor
+  and rewards my patience, or it removes me from the trade and I've taken a little bit more than I
+  would have."* Vgl. „Last Exit" in [[Missed Entry Trade Management Playbook]].
+- **Größe als Psychologie-Werkzeug** unter [[Low Resistance Liquidity Run|High-Resistance-Bedingungen]]:
+  viele kleine Kontrakte, damit früh Teilgewinne möglich sind — sonst verschiebt sich die
+  Aufmerksamkeit von der Preisaktion auf die eigene Position.
+
+## „Removing the need to be right" — das Ziel als Black Hole (2026-08-18)
+
+Aus [[2026-08-18 - Trade Management & Removing The Need To Be Right (Source)|Trade Management & Removing The Need To Be Right (Source)]]
+die bislang klarste Begründung dafür, **warum** Partials nicht optional sind. ICT formuliert sie
+nicht als Risikotechnik, sondern als Definition von Profitabilität:
+
+> *„**Right is not required for profitability.** Being profitable is knowing how to get in a trade
+> while it's moving in one direction and finding ways to get out in that direction and **not need
+> or require the absolute target or terminus** that you called for."*
+
+Das Bild dazu — der Grund, warum der Ausstieg **vor** dem Ziel geplant wird:
+
+> *„When I post a target or a draw like new week opening gap, that's like a big **black hole** — it
+> can pull a lot of things towards it, **but it need not actually get to it**. So knowing where you
+> can get out at before it gets to that very specific terminus draw is important."*
+
+Der DOL zieht, garantiert aber nichts. Jeder Ausstiegspunkt liegt daher diesseits des Terminus.
+
+**Drei Management-Regeln aus demselben Live-Trade:**
+
+- **Partial-Auslöser ist Qualität, nicht Preis.** Das erste Partial („funding the position") kam
+  nicht an einem R-Multiple oder Level, sondern weil die Fortsetzung nachließ — *„a little bit too
+  much discount sensitivity for my liking."* Ergänzt die R-basierte und die strukturbasierte
+  („running down equity") Auslöser-Variante oben um eine dritte: **Verschlechterung der
+  Fortsetzungsqualität**.
+- ⚠️ **Order-Konflikt-Regel** (im Vault bisher nicht dokumentiert): Liegen ein Buy-Stop über dem
+  Markt (Partial-auf-Retracement) und eine Limit-Order darunter (Partial am Ziel) **gleichzeitig**
+  im Markt, muss die jeweils andere **sofort gelöscht werden, sobald eine füllt** — sonst nimmt
+  eine schnelle Fluktuation beide mit und die Teilnahme am weiteren Lauf ist weg.
+  *„Whichever one fills first, I got to cancel the other."*
+- **„Harassment fee"** — dieselbe Idee wie „strangle the position" oben, aber mit anderer
+  Begründung: Der Stop wird bei jedem weiteren Aussitzen enger gezogen als **Bezahlung für den
+  ausgehaltenen Buchgewinn-Drawdown**, nicht als Reaktion auf ein Kursziel. *„I want to secure a
+  little bit more and pay myself for the harassment fee of being plagued and vexed by a single
+  contract."*
+
+**Der „gute Stop-out".** Der finale Stop lag über einer Kerze, die bereits zwei Wicks über dem
+IFVG stehen hatte: *„If I get stopped out there, it's a **good stop out**. I want to be out there.
+If it goes that high, I don't want to be any higher."* Die Qualität eines Stop-outs bemisst sich
+an der Struktur, nicht am Ergebnis — dieselbe Logik wie die Stop-unter-Wick-C.E.-Regel in
+[[IFVG (Inverse Fair Value Gap)]].
+
+**Emotions-Abbruchregel, ohne Ausweichmöglichkeit.** Löst die Position einen veränderten Zustand
+aus (Herzklopfen, Gereiztheit gegenüber anderen), wird der Trade **komplett geschlossen** — und
+zwar nicht kurz: *„Don't come back in 10 minutes. Turn it off and come back at the end of the
+day."* Härter formuliert als die Größe-als-Psychologie-Werkzeug-Regel oben, die dasselbe Problem
+präventiv über kleine Kontraktgrößen löst.
+
+> **Wie der Trade ausging** (eigene 1s-Daten, nicht aus dem Video): Das Ziel wurde **14 Minuten
+> nach Ende der Aufnahme erreicht**, während ICT die Chance noch mit „60 zu 40 dagegen" bewertete.
+> Der Trade war zu dem Zeitpunkt bereits finanziert — die Partials hatten ihn unabhängig davon
+> profitabel gemacht, ob das Ziel kam. Details: [[New Week Opening Gap (NWOG) Bias]].
 
 ## Bezug zum Reward-to-Risk-Modell
 
