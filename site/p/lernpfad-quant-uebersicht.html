@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lernpfad Quant — Übersicht — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
+<li class="active"><a href="../index.html#meta">Meta<span class="count">16</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
+<li><a href="../p/index.html">Katalog (Original)</a></li>
+<li><a href="../p/lernpfad-2026-08-24-mo.html">Lernpfad 2026-08-24 Mo</a></li>
+<li><a href="../p/lernpfad-2026-08-25-di.html">Lernpfad 2026-08-25 Di</a></li>
+<li><a href="../p/lernpfad-2026-08-26-mi.html">Lernpfad 2026-08-26 Mi</a></li>
+<li><a href="../p/lernpfad-2026-08-27-do.html">Lernpfad 2026-08-27 Do</a></li>
+<li><a href="../p/lernpfad-2026-08-28-fr.html">Lernpfad 2026-08-28 Fr</a></li>
+<li><a href="../p/lernpfad-2026-08-29-sa.html">Lernpfad 2026-08-29 Sa</a></li>
+<li><a href="../p/lernpfad-2026-08-30-so.html">Lernpfad 2026-08-30 So</a></li>
+<li class="here"><a href="../p/lernpfad-quant-uebersicht.html">Lernpfad Quant — Übersicht</a></li>
+<li><a href="../p/lernpfad-mathe-videothek.html">Lernpfad — Mathe-Videothek</a></li>
+<li><a href="../p/lernpfad-meilensteine.html">Lernpfad — Meilensteine</a></li>
+<li><a href="../p/lernpfad-tagesvorlage.html">Lernpfad — Tagesvorlage</a></li>
+<li><a href="../p/lernpfad-woche-01.html">Lernpfad — Woche 01</a></li>
+<li><a href="../p/lernpfad-zeitfenster-ausbaustufen.html">Lernpfad — Zeitfenster &amp; Ausbaustufen</a></li>
+<li><a href="../p/log.html">Änderungsprotokoll</a></li>
+<li><a href="../p/log-archiv-bis-2026-08.html">log-archiv-bis-2026-08</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#meta">Meta</a></div>
+  <h1>Lernpfad Quant — Übersicht</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">lernpfad</span> <span class="tag">meta</span> <span class="tag">python</span> <span class="tag">mathematik</span> <span class="tag">statistik</span> <span class="tag">machine-learning</span></div><div class="dates">erstellt 2026-08-24 · aktualisiert 2026-08-24</div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#das-ziel">Das Ziel</a></li>
+<li><a href="#die-sechs-phasen">Die sechs Phasen</a></li>
+<li><a href="#der-wochenrhythmus">Der Wochenrhythmus</a><ul>
+<li><a href="#uhrzeiten-sind-nicht-fix">Uhrzeiten sind nicht fix</a></li>
+</ul>
+</li>
+<li><a href="#die-vier-regeln">Die vier Regeln</a></li>
+<li><a href="#wie-hier-dokumentiert-wird">Wie hier dokumentiert wird</a><ul>
+<li><a href="#1-tagebuch-was-passiert-ist">1. Tagebuch — was passiert ist</a></li>
+<li><a href="#2-konzept-seiten-was-du-verstanden-hast">2. Konzept-Seiten — was du verstanden hast</a></li>
+<li><a href="#3-karten-was-abrufbar-bleibt">3. Karten — was abrufbar bleibt</a></li>
+<li><a href="#4-code-was-du-gebaut-hast">4. Code — was du gebaut hast</a></li>
+</ul>
+</li>
+<li><a href="#aktuelle-woche">Aktuelle Woche</a></li>
+<li><a href="#verwandte-seiten">Verwandte Seiten</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="lernpfad-quant-ubersicht">Lernpfad Quant — Übersicht</h1>
+<p>Persönlicher 12-Monats-Lernpfad: Python, Mathematik, Statistik und Machine Learning —
+aufgebaut um ein einziges Projekt, das eigene Handelsmodell auf Basis der ICT-Konzepte
+aus <a href="../p/smart-money-concepts-smc.html">Smart Money Concepts (SMC)</a>.</p>
+<p><strong>Zeitraum:</strong> 24.08.2026 – 29.08.2027 · <strong>Pensum:</strong> 11 h/Woche · <strong>Gesamt:</strong> ca. 572 h</p>
+<blockquote>
+<p>Vollständige Fassung mit Grafiken, Kursen und Quellen: <span class="broken" title="Seite existiert noch nicht">Quant-Roadmap 12 Monate.pdf</span></p>
+<p>[!warning] Das PDF trägt noch die alten Stundenzahlen
+Im PDF stehen 10,5 h/Woche und 555 h gesamt. Beides war falsch: Der Wochenplan dort summierte
+sich tatsächlich auf 12 h (Samstag 4 h). Diese Seite ist die korrigierte Fassung mit dem
+tatsächlichen Rhythmus (Samstag 3 h). Bis das PDF neu gebaut ist, gelten die Zahlen hier.</p>
+</blockquote>
+<h2 id="das-ziel">Das Ziel</h2>
+<p>Selbstständig und zielstrebig arbeiten können, ohne bei jedem zweiten Schritt nachschlagen
+zu müssen. Nicht Zertifikate, sondern Können, das im Kopf bleibt.</p>
+<p>Der Lernpfad ist <strong>Unterbau für das Ziel aus <span class="broken" title="Seite existiert noch nicht">CLAUDE.md</span></strong> — einen autonomen
+Handelsalgorithmus für NQ und ES über IBKR. Bei einem Zielkonflikt entscheidet das Algo-Ziel,
+nicht der Lernplan.</p>
+<h2 id="die-sechs-phasen">Die sechs Phasen</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Wochen</th>
+<th>Zeitraum</th>
+<th>Thema</th>
+<th>Stunden</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase 0</td>
+<td>1–6</td>
+<td>24.08. – 04.10.2026</td>
+<td>Fundament: CS50P + Mathe-Auffrischung</td>
+<td>66 h</td>
+</tr>
+<tr>
+<td>Phase 1</td>
+<td>7–12</td>
+<td>05.10. – 15.11.2026</td>
+<td>Daten &amp; Handwerk: NumPy, pandas, Git, pytest</td>
+<td>66 h</td>
+</tr>
+<tr>
+<td>Phase 2</td>
+<td>13–20</td>
+<td>16.11.2026 – 10.01.2027</td>
+<td>Mathe-Kern: Lineare Algebra + Analysis</td>
+<td>88 h</td>
+</tr>
+<tr>
+<td>Phase 3</td>
+<td>21–30</td>
+<td>11.01. – 21.03.2027</td>
+<td>Statistik &amp; Zeitreihen</td>
+<td>110 h</td>
+</tr>
+<tr>
+<td>Phase 4</td>
+<td>31–40</td>
+<td>22.03. – 06.06.2027</td>
+<td>Machine Learning</td>
+<td>110 h</td>
+</tr>
+<tr>
+<td>Phase 5</td>
+<td>41–52</td>
+<td>07.06. – 29.08.2027</td>
+<td>Financial ML &amp; Live</td>
+<td>132 h</td>
+</tr>
+</tbody>
+</table>
+<p>Fortschritt und harte Nachweise: <a href="../p/lernpfad-meilensteine.html">Lernpfad — Meilensteine</a></p>
+<h2 id="der-wochenrhythmus">Der Wochenrhythmus</h2>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Dauer</th>
+<th>Block</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Montag</td>
+<td>1,5 h</td>
+<td>Code — Python / Kurs</td>
+</tr>
+<tr>
+<td>Dienstag</td>
+<td>1,5 h</td>
+<td>Mathe — Stift und Papier</td>
+</tr>
+<tr>
+<td>Mittwoch</td>
+<td>1,5 h</td>
+<td>Code — Python / Kurs</td>
+</tr>
+<tr>
+<td>Donnerstag</td>
+<td>1,5 h</td>
+<td>Mathe — Stift und Papier</td>
+</tr>
+<tr>
+<td>Freitag</td>
+<td>1 h</td>
+<td>Freies Coden — Mini-Skript ohne Anleitung</td>
+</tr>
+<tr>
+<td>Samstag</td>
+<td>3 h</td>
+<td>Vertiefung (1,5 h) + Projekt ICT-Modell (1,5 h, ab Woche 7)</td>
+</tr>
+<tr>
+<td>Sonntag</td>
+<td>1 h</td>
+<td>Review — Blank-Page-Test, Karten, Wochenrückblick</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Summe: 11 h pro Woche.</strong> Code und Mathe liegen bewusst an getrennten Tagen: Beides im selben
+Block zu mischen kostet jedes Mal rund 15 Minuten Umschaltzeit.</p>
+<h3 id="uhrzeiten-sind-nicht-fix">Uhrzeiten sind nicht fix</h3>
+<p>Jannes hat wechselnde Arbeitszeiten (Dienstplan im Google Kalender, immer 8:06, aber Start um
+7:55, 8:55 oder 9:55). <strong>Die Blöcke wiederholen sich deshalb nicht automatisch</strong> — sie werden
+jede Woche neu gesetzt und einzeln im Kalender <strong>Lernsession</strong> eingetragen.</p>
+<p>Welche Fenster wann nutzbar sind, welche Ausbaustufen es gibt und wo die Schlafgrenze liegt,
+steht vollständig in <a href="../p/lernpfad-zeitfenster-ausbaustufen.html">Lernpfad — Zeitfenster &amp; Ausbaustufen</a>. Die Kurzfassung:</p>
+<ul>
+<li><strong>Bahn an Büro-Tagen (6:40–7:25)</strong> — 45 Min pro Fahrt, geschenkte Zeit. Karten und Videos,
+  kein Papier, kein Code.</li>
+<li><strong>HO-Tage mit 9:55-Start</strong> — Morgenblock 8:00–9:30 ohne Schlafverlust. Hier gehört Mathe hin.</li>
+<li><strong>Büro-Tage ab 16:01</strong> — früher Feierabend, Block 18:30–20:00.</li>
+<li><strong>HO-Mittagspause</strong> — 30 Min reine Kartenwiederholung.</li>
+</ul>
+<p>Gym ist spontan und meist abends. Deshalb haben Morgen-, Bahn- und Mittagsfenster Vorrang —
+sie kollidieren nie damit. Fällt eine Woche kürzer aus, gilt Regel 3: nichts nachholen, der
+Plan verschiebt sich.</p>
+<h2 id="die-vier-regeln">Die vier Regeln</h2>
+<ol>
+<li><strong>Termin statt Vorsatz.</strong> Ein Block, der nicht im Kalender steht, findet nicht statt.</li>
+<li><strong>Immer im selben Zustand aufhören.</strong> Jede Session endet mit einer Notiz „hier weiter".</li>
+<li><strong>Ausgefallen ist ausgefallen.</strong> Nichts wird nachgeholt, der Plan verschiebt sich um eine Woche.
+   Aufhol-Marathons sind der häufigste Grund, warum Lernpläne sterben.</li>
+<li><strong>Minimum-Tag statt Nulltag.</strong> An schlechten Tagen 15 Minuten Karten. Die Kette ist wichtiger
+   als jeder einzelne Tag.</li>
+</ol>
+<h2 id="wie-hier-dokumentiert-wird">Wie hier dokumentiert wird</h2>
+<p>Vier Ebenen, jede mit einem klaren Zweck. Wer alles in eine Datei schreibt, findet später nichts
+wieder — und wer fünf Systeme pflegt, pflegt am Ende keins.</p>
+<h3 id="1-tagebuch-was-passiert-ist">1. Tagebuch — was passiert ist</h3>
+<p>Ein Eintrag pro Lerntag unter <code>wiki/lernpfad/tagebuch/</code>, benannt
+<code>Lernpfad JJJJ-MM-TT Tag.md</code>. <strong>Vor</strong> der Session liest du den Eintrag, <strong>nach</strong> der Session
+füllst du drei Felder aus:</p>
+<ul>
+<li><strong>Gelernt</strong> — in eigenen Worten, ein bis drei Sätze</li>
+<li><strong>Hängengeblieben</strong> — was nicht klar wurde (das wird zur Karte)</li>
+<li><strong>Hier weiter</strong> — der genaue Einstiegspunkt fürs nächste Mal</li>
+</ul>
+<p>Das dritte Feld ist das wichtigste. Es spart beim nächsten Mal zehn Minuten Wiedereinstieg.
+Vorlage: <a href="../p/lernpfad-tagesvorlage.html">Lernpfad — Tagesvorlage</a></p>
+<h3 id="2-konzept-seiten-was-du-verstanden-hast">2. Konzept-Seiten — was du verstanden hast</h3>
+<p>Sobald ein Konzept sitzt, bekommt es eine eigene Seite in <code>wiki/concepts/</code> — nach denselben
+Seitenkonventionen wie alles andere im Vault (Frontmatter, Wikilinks, Widerspruchsmarker).
+Kein eigener Lernpfad-Ordner dafür: Ein verstandenes Konzept ist Wissen, kein Tagebucheintrag,
+und gehört dorthin, wo du es später suchst.</p>
+<p>Tag-Konvention für Seiten aus dem Lernpfad: <code>#lernpfad</code> zusätzlich zu den fachlichen Tags,
+damit sich beides trennen lässt.</p>
+<p><strong>Regel:</strong> Nicht abschreiben. Erklären, als würdest du es jemandem beibringen, mit einem eigenen
+Beispiel und eigenem Code. Was du nur zitieren kannst, hast du nicht verstanden.</p>
+<h3 id="3-karten-was-abrufbar-bleibt">3. Karten — was abrufbar bleibt</h3>
+<p>Wiederholt wird mit dem Obsidian-Plugin <strong>Spaced Repetition</strong> (Stephen Mwangi), nicht mit Anki.
+Grund: Die Karten leben direkt in den Notizen, die du ohnehin schreibst — ein System statt zwei,
+und kein Bruch zwischen „Notiz" und „Karte". Auf dem iPhone läuft dasselbe über die kostenlose
+Obsidian-App, synchronisiert per <em>Remotely Save</em> gegen OneDrive.</p>
+<p><strong>Drei bis fünf eigene Karten nach jeder Session, täglich zehn Minuten wiederholen.</strong> Keine
+fertigen Decks: Das Formulieren der Karte ist der halbe Lerneffekt. Gute Karten sind Fragen,
+keine Definitionen — „Wie berechne ich in pandas einen 20-Perioden-Durchschnitt?" statt
+„Was ist ein Moving Average?".</p>
+<p><strong>Syntax</strong> (direkt in jede Wiki-Seite schreibbar):</p>
+<table>
+<thead>
+<tr>
+<th>Kartentyp</th>
+<th>Schreibweise</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Einzeilig</td>
+<td><code>Frage::Antwort</code></td>
+</tr>
+<tr>
+<td>Einzeilig, beidseitig</td>
+<td><code>Begriff:::Definition</code></td>
+</tr>
+<tr>
+<td>Mehrzeilig</td>
+<td>Frage, neue Zeile <code>?</code>, neue Zeile Antwort</td>
+</tr>
+<tr>
+<td>Lückentext</td>
+<td><code>Der ADF-Test prüft auf ==Stationarität==.</code></td>
+</tr>
+</tbody>
+</table>
+<p>Jede Karte braucht den Tag <code>#flashcards</code>, Unterdecks über <code>#flashcards/python</code>,
+<code>#flashcards/mathe</code>, <code>#flashcards/statistik</code> und so weiter. Abgefragt wird über das
+Karten-Symbol in der linken Leiste.</p>
+<blockquote>
+<p>[!tip] Karten gehören zur Konzeptseite, nicht ins Tagebuch
+Schreib die Karte dorthin, wo das Wissen steht — auf die Seite in <code>concepts/</code>. Das Tagebuch
+hält nur fest, <strong>wie viele</strong> Karten an dem Tag entstanden sind (Feld <code>karten</code> im Frontmatter).</p>
+</blockquote>
+<h3 id="4-code-was-du-gebaut-hast">4. Code — was du gebaut hast</h3>
+<p>Der Code selbst gehört ins Git-Repo, nicht ins Wiki. Übungscode aus den Kursen in einen eigenen
+Ordner <code>quant-lab/</code>, Projektcode später nach <code>algo/</code> unter den dort geltenden Standards
+(siehe <span class="broken" title="Seite existiert noch nicht">algo/CLAUDE.md</span>).</p>
+<h2 id="aktuelle-woche">Aktuelle Woche</h2>
+<p><a href="../p/lernpfad-woche-01.html">Lernpfad — Woche 01</a> · 24.08. – 30.08.2026 · Phase 0</p>
+<h2 id="verwandte-seiten">Verwandte Seiten</h2>
+<ul>
+<li><a href="../p/lernpfad-meilensteine.html">Lernpfad — Meilensteine</a> — die neun Prüfpunkte mit Fälligkeitsdatum</li>
+<li><a href="../p/lernpfad-zeitfenster-ausbaustufen.html">Lernpfad — Zeitfenster &amp; Ausbaustufen</a> — Dienstplan-Muster, nutzbare Fenster, Schlafgrenzen</li>
+<li><a href="../p/lernpfad-mathe-videothek.html">Lernpfad — Mathe-Videothek</a> — deutschsprachige Erklärvideos zu jeder Mathe-Aufgabe</li>
+<li><a href="../p/lernpfad-tagesvorlage.html">Lernpfad — Tagesvorlage</a> — Vorlage für neue Tageseinträge</li>
+<li><a href="../p/datenbeschaffung-fuer-backtests-optionen-grenzen.html">Datenbeschaffung für Backtests (Optionen &amp; Grenzen)</a> — warum Datenmenge nicht der Engpass ist</li>
+<li><a href="../p/backtesting-biases-optimisation-look-ahead-survivorship-cognitive.html">Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)</a> — Phase 5 vertieft das</li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">8</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-2026-08-27-do.html">Lernpfad 2026-08-27 Do</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-2026-08-29-sa.html">Lernpfad 2026-08-29 Sa</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-mathe-videothek.html">Lernpfad — Mathe-Videothek</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-meilensteine.html">Lernpfad — Meilensteine</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-tagesvorlage.html">Lernpfad — Tagesvorlage</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-woche-01.html">Lernpfad — Woche 01</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-zeitfenster-ausbaustufen.html">Lernpfad — Zeitfenster &amp; Ausbaustufen</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/lernpfad/Lernpfad Quant — Übersicht.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

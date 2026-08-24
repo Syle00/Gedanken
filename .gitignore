@@ -95,3 +95,10 @@ algo/cache/
 # bis sie umgeschrieben wird -- deshalb muss jedes neue Grossartefakt hier eingetragen sein,
 # BEVOR der naechste Cron-Lauf es einsammelt.
 algo/results/forex_macro_blocks.csv
+# Sync-Plugin: Bundle enthaelt fremde OAuth-Credentials -> GitHub Push Protection blockt.
+.obsidian/plugins/remotely-save/
+
+# Plugin-Bundles: minifizierter Fremdcode, installiert Obsidian selbst nach.
+# Blaeht den Push auf und laesst GitHubs Secret-Scanning haengen.
+.obsidian/plugins/*/main.js
+.obsidian/plugins/*/styles.css

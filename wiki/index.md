@@ -577,6 +577,19 @@ ausstehend).
 - [[Risk-Management-Vergleich (laufend)]] — **generiert** von `algo/backtest_risk_compare.py`: Vergleich der drei Risk-Sizing-Module (fix/GARCH/Kelly) auf identischen Silver-Bullet-Signalen, mit Expectancy, VaR95/ES95 und Kleine-Stichprobe-Vorbehalt (2026-08-12)
 - [[Quant-Finance-Formeln für den MNQ-Algo (laufend)]] — **generiert**, aktualisiert bei jedem neuen quant-finance-Fund: PCA-Regime-Feature, Regressions-Signifikanztest für Strategie-Alpha, Diversifikationsformel für Multi-Symbol, Markov-Ketten für Bar-Zustandsfolgen, Gain-Loss-Ratio-Sizing — je mit konkretem `algo/`-Modulbezug oder als Layer-0-Verstoß markiert (2026-08-12)
 
+## Lernpfad
+
+Eigener Bereich unter `wiki/lernpfad/` — kein Wissenslayer, sondern die Arbeitsstruktur für den
+12-Monats-Lernpfad (Python, Mathematik, Statistik, ML). Verstandene Konzepte daraus wandern nach
+`concepts/`, nicht hierher; hier steht nur Planung und Tagebuch.
+
+- [[Lernpfad Quant — Übersicht]] — 12-Monats-Plan in sechs Phasen, Wochenrhythmus, Dokumentationsregeln; Unterbau für das Algo-Ziel aus Layer 0 (2026-08-24)
+- [[Lernpfad — Meilensteine]] — neun Prüfpunkte mit Fälligkeitsdatum, von Phase 0 (04.10.2026) bis Paper-Trading (29.08.2027); Nachweis statt Gefühl (2026-08-24)
+- [[Lernpfad — Zeitfenster & Ausbaustufen]] — Dienstplan-Muster KW 35–38, die vier nutzbaren Fenster (Bahn 45 Min geschenkt, 9:55-Tage, früher Büro-Feierabend, HO-Mittagspause), Ausbaustufen 11 → 18,5 h und die 6-Stunden-Schlafgrenze (2026-08-24)
+- [[Lernpfad — Woche 01]] — 24.08.–30.08.2026, Phase 0, acht Blöcke à 11,75 h inkl. Bahn-Slot (2026-08-24)
+- [[Lernpfad — Mathe-Videothek]] — 13 geprüfte deutschsprachige Erklärvideos (überwiegend Mathe by Daniel Jung), pro Aufgabe zugeordnet; Titel und Kanal per oEmbed verifiziert (2026-08-24)
+- [[Lernpfad — Tagesvorlage]] — Vorlage und Feldkonventionen für neue Tageseinträge in `lernpfad/tagebuch/` (2026-08-24)
+
 ## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)
 
 - ✅ **Erledigt (2026-08-02)**: "MSS" → [[Market Structure Shift (MSS)]] (aus der MentorShip 2022),
