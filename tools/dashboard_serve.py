@@ -83,6 +83,61 @@ def jetzt() -> dict:
             "weekday": tage[t.weekday()]}
 
 
+BRIEFINGS = VAULT / "briefings"
+
+
+def _ist_briefing(p: Path) -> bool:
+    """Nur datierte Dateien sind Briefings. In briefings/ liegt laut CLAUDE.md auch
+    status.md (Lernpfad-Statusseite) -- die darf hier nie als Briefing durchgehen."""
+    n = p.name
+    return (len(n) > 11 and n[:4].isdigit() and n[4] == "-"
+            and n[7] == "-" and n[10] == "-")
+
+
+def _parse_briefing(text: str) -> dict:
+    """Fliesstext + Termine aus einer Cowork-Briefing-Datei.
+
+    Bewusst tolerant: fehlt `## Termine`, bleibt die Liste leer und der Text kommt trotzdem
+    durch. Ein strenger Parser wuerde hier nur dafuer sorgen, dass ein Formatwechsel in
+    Cowork das ganze Panel abschaltet."""
+    if text.startswith("---"):
+        teile = text.split("---", 2)
+        if len(teile) == 3:
+            text = teile[2]
+    termine, im_abschnitt = [], False
+    for zeile in text.splitlines():
+        if zeile.startswith("## "):
+            im_abschnitt = zeile[3:].strip().lower() == "termine"
+            continue
+        if im_abschnitt and zeile.strip().startswith("- "):
+            rest = zeile.strip()[2:]
+            for trenner in ("—", "–", " - "):
+                if trenner in rest:
+                    zeit, titel = rest.split(trenner, 1)
+                    termine.append({"zeit": zeit.strip(), "titel": titel.strip()})
+                    break
+    return {"text": text.strip(), "termine": termine}
+
+
+def briefing() -> tuple[dict, float]:
+    """Neuestes Briefing des heutigen Tages, sonst das letzte vorhandene."""
+    heute = datetime.now(NY).date().isoformat()
+    dateien = sorted(p for p in BRIEFINGS.glob("*.md")
+                     if _ist_briefing(p)) if BRIEFINGS.is_dir() else []
+    von_heute = [p for p in dateien if p.name.startswith(heute)]
+    quelle = max(von_heute or dateien, key=lambda p: p.stat().st_mtime, default=None)
+    if quelle is None:
+        return {"fehlt": True, "datei": None, "termine": [],
+                "hinweis": "Kein Briefing vorhanden — laeuft Cowork und schreibt es "
+                           "nach briefings/?"}, 0.0
+    d = _parse_briefing(quelle.read_text(encoding="utf-8", errors="replace"))
+    d["fehlt"] = not von_heute
+    d["datei"] = quelle.name
+    if d["fehlt"]:
+        d["hinweis"] = (f"Kein Briefing fuer {heute} — letztes: {quelle.name}")
+    return d, time.time() - quelle.stat().st_mtime
+
+
 ERLAUBT = ("planung", "raw/journal", "wiki/lernpfad")
 
 
@@ -110,6 +165,7 @@ def schreibe_atomar(p: Path, text: str) -> None:
 
 def state() -> dict:
     return {"now": jetzt(),
+            "briefing": sicher(briefing),
             "daten": sicher(datenabdeckung)}
 
 

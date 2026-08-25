@@ -6,6 +6,7 @@ Aufruf: python tools/test_dashboard.py
 from __future__ import annotations
 
 import sys
+import time
 from datetime import date
 from pathlib import Path
 
@@ -90,6 +91,71 @@ def test_atomarer_write():
         ziel.unlink(missing_ok=True)
         for rest in ziel.parent.glob("_test_atomar.md.tmp"):
             rest.unlink()
+
+
+def test_parse_briefing():
+    text = ("---\ntyp: morgen-briefing\n---\n\n"
+            "Erster Absatz.\n\n"
+            "## Termine\n\n"
+            "- 09:00 — Uni Mathe\n"
+            "- 14:30 — Call Quant\n\n"
+            "## Sonstiges\n\n"
+            "- kein Termin, sondern eine Notiz\n")
+    r = ds._parse_briefing(text)
+    assert r["termine"] == [{"zeit": "09:00", "titel": "Uni Mathe"},
+                            {"zeit": "14:30", "titel": "Call Quant"}], r["termine"]
+    assert r["text"].startswith("Erster Absatz."), "Frontmatter nicht abgeschnitten"
+    assert "kein Termin" not in str(r["termine"]), "Liste aus fremdem Abschnitt uebernommen"
+
+
+def test_parse_briefing_ohne_termine():
+    # tolerant: fehlt der Abschnitt, bleibt die Liste leer und der Text kommt trotzdem durch
+    r = ds._parse_briefing("Nur Fliesstext.\n")
+    assert r["termine"] == []
+    assert r["text"] == "Nur Fliesstext."
+
+
+def test_briefing_fehlend_meldet_statt_zu_werfen():
+    # Kernfall aus der Spec: Cowork lief nicht -> error, keine Exception, kein alter Wert
+    echt = ds.BRIEFINGS
+    ds.BRIEFINGS = ds.VAULT / "_gibt_es_nicht"
+    try:
+        r = ds.sicher(ds.briefing)
+    finally:
+        ds.BRIEFINGS = echt
+    assert r["error"] is None, "fehlendes Briefing ist kein Serverfehler"
+    assert r["data"]["fehlt"] is True
+    assert r["data"]["hinweis"], "kein Hinweistext fuer den Nutzer"
+
+
+def test_status_md_ist_kein_briefing():
+    # briefings/status.md ist die Lernpfad-Statusseite (CLAUDE.md), kein Briefing
+    assert ds._ist_briefing(ds.VAULT / "briefings" / "status.md") is False
+    assert ds._ist_briefing(ds.VAULT / "briefings" / "2026-08-25-morgen.md") is True
+
+
+def test_briefing_altes_wird_als_alt_erkannt():
+    # Spec-Kernfall: ein Briefing von gestern darf nicht aussehen wie das von heute.
+    import os
+    from datetime import datetime, timedelta
+    echt = ds.BRIEFINGS
+    ds.BRIEFINGS = ds.VAULT / "_test_briefings"
+    ds.BRIEFINGS.mkdir(exist_ok=True)
+    gestern = (datetime.now(ds.NY).date() - timedelta(days=1)).isoformat()
+    p = ds.BRIEFINGS / f"{gestern}-morgen.md"
+    p.write_text("Altes Briefing.\n", encoding="utf-8")
+    alt = time.time() - 30 * 3600
+    os.utime(p, (alt, alt))
+    try:
+        r = ds.sicher(ds.briefing)
+        assert r["error"] is None
+        assert r["data"]["fehlt"] is True, "Briefing von gestern als heutiges ausgegeben"
+        assert gestern in r["data"]["hinweis"], r["data"]["hinweis"]
+        assert r["age_s"] > 24 * 3600, r["age_s"]
+    finally:
+        ds.BRIEFINGS = echt
+        p.unlink(missing_ok=True)
+        (ds.VAULT / "_test_briefings").rmdir()
 
 
 if __name__ == "__main__":
