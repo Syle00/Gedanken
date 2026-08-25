@@ -7,7 +7,7 @@ woche: 1
 phase: Phase 0
 block: Setup
 geplant_min: 90
-status: offen
+status: teilweise
 karten: 0
 ---
 
@@ -17,7 +17,12 @@ karten: 0
 
 Heute wird nichts gelernt, heute wird eingerichtet. Einmalig, dafür nie wieder.
 
-## Geplant
+> [!warning] Abgebrochen wegen Technikproblemen
+> Vier von acht Punkten stehen. Der Rest wird **am Dienstag während der Arbeitszeit** erledigt
+> (HO-Tag) — Plugin, Handy-Einrichtung und Ordner brauchen keinen Lernblock, das läuft nebenbei.
+> Der Mathe-Block am Dienstagmorgen bleibt davon unberührt und findet wie geplant statt.
+
+## Erledigt
 
 - [x] **Python installieren** — python.org/downloads. Beim Windows-Installer unbedingt
       „Add Python to PATH" anhaken. Danach im Terminal `python --version` prüfen.
@@ -25,6 +30,9 @@ Heute wird nichts gelernt, heute wird eingerichtet. Einmalig, dafür nie wieder.
       von Microsoft.
 - [x] **Git installieren** — git-scm.com. Danach `git --version` prüfen.
 - [x] **GitHub-Konto anlegen** — github.com, gleicher Benutzername wie überall sonst.
+
+## Offen → Dienstag während der Arbeitszeit
+
 - [ ] **Obsidian-Plugin „Spaced Repetition"** — Einstellungen → Community-Plugins →
       Durchsuchen → „Spaced Repetition" (von Stephen Mwangi) → installieren und aktivieren.
       Danach in den Plugin-Einstellungen prüfen, dass der Karten-Tag `#flashcards` heißt.
@@ -35,19 +43,21 @@ Heute wird nichts gelernt, heute wird eingerichtet. Einmalig, dafür nie wieder.
       fummelige Schritt; nimm dir dafür ruhig 20 Minuten. Danach hast du Vault und
       Karten unterwegs dabei.
 - [ ] **Ordner anlegen** — `quant-lab/` für allen Übungscode aus den Kursen.
-- [ ] **Sieben Kalendertermine** — die Lernblöcke als wiederkehrende Termine eintragen:
-      Mo–Do je 1,5 h, Fr 1 h, Sa 4 h, So 1 h.
+- [ ] **Technikprobleme klären** — was genau hakt, hier notieren, falls es wiederkommt:
 
-## Falls Zeit übrig bleibt
+## Kalendertermine — erledigt
 
-CS50P Woche 0 weiterschauen, dort wo du aufgehört hast (`int()`).
+Die sieben Blöcke stehen bereits im Kalender **Lernsession**, angelegt am 24.08. Sie
+wiederholen sich nicht automatisch, sondern werden jede Woche neu gesetzt — siehe
+[[Lernpfad — Zeitfenster & Ausbaustufen]].
 
 ## Nach der Session
 
-**Gelernt:**
+**Gelernt:** —
 
-**Hängengeblieben:**
+**Hängengeblieben:** Technikprobleme beim Einrichten, Details noch offen.
 
-**Hier weiter:**
+**Hier weiter:** Plugin „Spaced Repetition" installieren und Obsidian aufs iPhone bringen —
+am Dienstag während der Arbeitszeit, nicht im Mathe-Block.
 
-**Karten angelegt:**
+**Karten angelegt:** 0

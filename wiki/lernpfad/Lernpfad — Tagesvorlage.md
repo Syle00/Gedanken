@@ -54,7 +54,7 @@ karten: 0
 
 | Feld | Werte | Zweck |
 | --- | --- | --- |
-| `status` | `offen`, `erledigt`, `ausgefallen` | Für die Wochenbilanz und das tägliche Briefing |
+| `status` | `offen`, `erledigt`, `teilweise`, `ausgefallen` | Für die Wochenbilanz und das tägliche Briefing |
 | `block` | `Code`, `Mathe`, `Frei`, `Vertiefung`, `Projekt`, `Review`, `Setup` | Woran gearbeitet wurde |
 | `geplant_min` | Zahl | Geplante Minuten laut Wochenrhythmus |
 | `phase` | `Phase 0` … `Phase 5` | Für Auswertungen über längere Zeiträume |
@@ -62,6 +62,10 @@ karten: 0
 `ausgefallen` ist ein völlig legitimer Status. Er wird **nicht** nachgeholt — siehe Regel 3 in
 [[Lernpfad Quant — Übersicht]]. Ein ehrliches `ausgefallen` ist mehr wert als ein Eintrag, der
 so tut, als wäre er erledigt.
+
+`teilweise` nutzt du, wenn ein Block angefangen, aber nicht zu Ende gebracht wurde. Schreib
+dann unter „Hier weiter" genau, was noch offen ist. Auch hier gilt: Der Rest wird nicht in den
+nächsten Lernblock gequetscht, sondern entweder bewusst neu eingeplant oder gestrichen.
 
 ## Die drei Felder nach der Session
 

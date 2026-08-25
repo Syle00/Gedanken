@@ -132,6 +132,8 @@ siehe [[Lernpfad 2026-08-29 Sa]].
 - [ ] Drei bis fünf Karten anlegen unter `wiki/concepts/`, Tag `#flashcards/mathe`. Beispiel:
       `Wie hole ich n aus 1,05^n = 2 heraus?::Auf beiden Seiten ln anwenden: n = ln(2)/ln(1,05) ≈ 14,2`
 - [ ] „Hier weiter" ausfüllen
+- [ ] **Rechenblatt fotografieren und zur Korrektur hochladen** —
+      Ablauf: [[Lernpfad — Mathe-Coaching]]
 
 ---
 

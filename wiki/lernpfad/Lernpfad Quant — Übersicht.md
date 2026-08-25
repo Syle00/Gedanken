@@ -160,6 +160,9 @@ Ordner `quant-lab/`, Projektcode später nach `algo/` unter den dort geltenden S
 - [[Lernpfad — Meilensteine]] — die neun Prüfpunkte mit Fälligkeitsdatum
 - [[Lernpfad — Zeitfenster & Ausbaustufen]] — Dienstplan-Muster, nutzbare Fenster, Schlafgrenzen
 - [[Lernpfad — Mathe-Videothek]] — deutschsprachige Erklärvideos zu jeder Mathe-Aufgabe
+- [[Lernpfad — Betreuung & Arbeitsweise]] — wie die Begleitung über alle Themen funktioniert
+- [[Lernpfad — Mathe-Coaching]] — wie die Korrektur der Rechenwege abläuft
+- [[Lernpfad — Fehlerjournal]] — wiederkehrende Fehlermuster über die Wochen
 - [[Lernpfad — Tagesvorlage]] — Vorlage für neue Tageseinträge
 - [[Datenbeschaffung für Backtests (Optionen & Grenzen)]] — warum Datenmenge nicht der Engpass ist
 - [[Backtesting-Biases (Optimisation, Look-Ahead, Survivorship, Cognitive)]] — Phase 5 vertieft das

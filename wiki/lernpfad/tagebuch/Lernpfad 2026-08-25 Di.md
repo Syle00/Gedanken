@@ -1,7 +1,7 @@
 ---
 tags: [lernpfad, tagebuch, phase-0, mathematik]
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-08-25
 datum: 2026-08-25
 woche: 1
 phase: Phase 0
@@ -17,6 +17,14 @@ karten: 0
 
 **Thema:** Brüche, Terme, Gleichungen und Formeln umstellen
 **Material:** Stift, Papier, Taschenrechner nur wo ausdrücklich erlaubt
+**Zusatzmaterial:** [[Lernpfad 2026-08-25 Di — Zusatzaufgaben]] — je drei Varianten (a/b/c) zu
+jeder Aufgabe unten, im Schwierigkeitsgrad steigend. Vorrat, kein Pensum: nur dort einsetzen,
+wo eine Aufgabe unsicher war.
+
+> [!tip] Heute braucht es keine Technik
+> Die Setup-Probleme vom Montag betreffen diesen Block nicht — Stift und Papier reichen,
+> die Videolinks öffnest du zur Not am Handy. Der Rest der Einrichtung läuft heute nebenbei
+> während der Arbeitszeit.
 
 ## So gehst du vor
 
@@ -115,11 +123,22 @@ nach `n`. Dafür brauchst du Wurzeln und Logarithmen, die stehen am Donnerstag a
 
 ## Teil 5 — Abschluss (5 Min)
 
-- [ ] Drei bis fünf Karten anlegen, in einer Notiz unter `wiki/concepts/`, mit Tag
-      `#flashcards/mathe`. Beispiel:
-      `Wie stelle ich y = m·x + n nach x um?::x = (y − n) / m — erst n abziehen, dann durch m teilen.`
+> [!note] Das Karten-Plugin ist noch nicht installiert
+> Wegen der Technikprobleme am Montag steht „Spaced Repetition" noch aus — du richtest es
+> heute während der Arbeitszeit ein (siehe [[Lernpfad 2026-08-24 Mo]]).
+> **Für heute Morgen genügt Papier:** Schreib die drei bis fünf Fragen ans Ende deines
+> Rechenblatts. Sobald das Plugin läuft, überträgst du sie in fünf Minuten — die Denkarbeit
+> hast du dann schon erledigt, und genau die ist der Lerneffekt.
+
+- [ ] Drei bis fünf Karten formulieren — als **Fragen**, nicht als Definitionen. Beispiel:
+      `Wie stelle ich y = m·x + n nach x um?` → `x = (y − n) / m — erst n abziehen, dann durch m teilen.`
+      Später in einer Notiz unter `wiki/concepts/` mit Tag `#flashcards/mathe` und der
+      Syntax `Frage::Antwort`.
 - [ ] „Hier weiter" ausfüllen — auch wenn du fertig geworden bist. Dann schreibst du dorthin,
       welcher Teil sich am wackeligsten angefühlt hat.
+- [ ] **Rechenblatt fotografieren und zur Korrektur hochladen.** Schreib einen Satz dazu:
+      welche Aufgaben, und wo es sich unsicher angefühlt hat.
+      Ablauf: [[Lernpfad — Mathe-Coaching]]
 
 ---
 

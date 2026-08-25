@@ -588,6 +588,9 @@ Eigener Bereich unter `wiki/lernpfad/` — kein Wissenslayer, sondern die Arbeit
 - [[Lernpfad — Zeitfenster & Ausbaustufen]] — Dienstplan-Muster KW 35–38, die vier nutzbaren Fenster (Bahn 45 Min geschenkt, 9:55-Tage, früher Büro-Feierabend, HO-Mittagspause), Ausbaustufen 11 → 18,5 h und die 6-Stunden-Schlafgrenze (2026-08-24)
 - [[Lernpfad — Woche 01]] — 24.08.–30.08.2026, Phase 0, acht Blöcke à 11,75 h inkl. Bahn-Slot (2026-08-24)
 - [[Lernpfad — Mathe-Videothek]] — 13 geprüfte deutschsprachige Erklärvideos (überwiegend Mathe by Daniel Jung), pro Aufgabe zugeordnet; Titel und Kanal per oEmbed verifiziert (2026-08-24)
+- [[Lernpfad — Betreuung & Arbeitsweise]] — Rolle als betreuender Dozent über alle Themen: Gegenfragen statt Antworten, Zielbezug, Standards halten, Ausweichbewegungen ansprechen; das Vault ist das Gedächtnis, nicht Claude (2026-08-24)
+- [[Lernpfad — Mathe-Coaching]] — Korrekturschema für hochgeladene Rechenwege: erste Fehlerstelle statt Komplettlösung, Fehlerarten-Einordnung, eine Zusatzaufgabe statt fünf (2026-08-24)
+- [[Lernpfad — Fehlerjournal]] — wiederkehrende Fehlermuster; der ehrlichste Fortschrittsmesser im Mathe-Teil (2026-08-24)
 - [[Lernpfad — Tagesvorlage]] — Vorlage und Feldkonventionen für neue Tageseinträge in `lernpfad/tagebuch/` (2026-08-24)
 
 ## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)
