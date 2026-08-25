@@ -1,0 +1,124 @@
+#!/usr/bin/env python3
+"""Dashboard-Zentrale -- lokaler Server fuer tools/dashboard.html.
+
+Design: docs/superpowers/specs/2026-08-25-dashboard-zentrale-design.md
+
+Aufruf:
+    python tools/dashboard_serve.py      # http://localhost:8787
+
+Bindet ausschliesslich an 127.0.0.1. Keine Auth, kein Zugriff von aussen.
+"""
+from __future__ import annotations
+
+import csv
+import json
+import time
+from datetime import date, datetime, timedelta
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+VAULT = Path(__file__).resolve().parent.parent
+NY = ZoneInfo("America/New_York")
+PORT = 8787
+ABDECKUNG = VAULT / "raw" / "marktdaten" / "1s-abdeckung.csv"
+
+
+def sicher(fn) -> dict:
+    """Ruft ein Panel auf und verpackt es. Ein Fehler darf nie andere Panels mitreissen."""
+    try:
+        data, age_s = fn()
+        return {"data": data, "error": None, "age_s": age_s}
+    except Exception as exc:
+        return {"data": None, "error": f"{type(exc).__name__}: {exc}", "age_s": None}
+
+
+def _letzter_werktag(heute: date) -> date:
+    """Letzter Mo-Fr strikt vor `heute`. Der laufende Tag zaehlt nicht: seine 1s-Daten
+    sind noch unvollstaendig, ein Rueckstand waere dort kein echter Rueckstand."""
+    d = heute - timedelta(days=1)
+    while d.weekday() >= 5:
+        d -= timedelta(days=1)
+    return d
+
+
+def _werktage(a: date, b: date) -> int:
+    """Werktage (Mo-Fr) strikt nach `a` bis einschliesslich `b`; 0 wenn b <= a."""
+    n, d = 0, a
+    while d < b:
+        d += timedelta(days=1)
+        if d.weekday() < 5:
+            n += 1
+    return n
+
+
+def datenabdeckung() -> tuple[dict, float]:
+    """Bis wann reichen die 1s-Daten je Symbol, und wie viele Werktage fehlen."""
+    letzte: dict[str, int] = {}
+    with ABDECKUNG.open(encoding="utf-8", newline="") as fh:
+        for r in csv.DictReader(fh):
+            ts = int(r["bis"])
+            if ts > letzte.get(r["symbol"], 0):
+                letzte[r["symbol"]] = ts
+    heute = datetime.now(NY).date()
+    soll = _letzter_werktag(heute)
+    out = {"soll": soll.isoformat(), "symbole": {}, "luecke_tage": 0}
+    for sym, ts in sorted(letzte.items()):
+        # ponytail: Handelstag = Kalendertag des letzten Bars in NY-Zeit. Genau genug fuer
+        # eine Rueckstandsanzeige; die exakte Session-Zuordnung macht algo/, nicht dieses Panel.
+        bis = datetime.fromtimestamp(ts, NY).date()
+        fehlt = _werktage(bis, soll)
+        out["symbole"][sym] = {"bis": bis.isoformat(), "fehlt_tage": fehlt}
+        out["luecke_tage"] = max(out["luecke_tage"], fehlt)
+    return out, time.time() - max(letzte.values(), default=time.time())
+
+
+def jetzt() -> dict:
+    t = datetime.now(NY)
+    tage = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
+    return {"iso": t.isoformat(timespec="seconds"),
+            "ny": t.strftime("%H:%M"),
+            "datum": t.strftime("%d.%m.%Y"),
+            "weekday": tage[t.weekday()]}
+
+
+def state() -> dict:
+    return {"now": jetzt(),
+            "daten": sicher(datenabdeckung)}
+
+
+class Handler(BaseHTTPRequestHandler):
+    def log_message(self, *_a):          # keine Zugriffszeile pro Poll ins Terminal
+        pass
+
+    def _sende(self, code: int, body: bytes, typ: str) -> None:
+        self.send_response(code)
+        self.send_header("Content-Type", typ)
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def do_GET(self):
+        if self.path.startswith("/api/state"):
+            body = json.dumps(state(), ensure_ascii=False, default=str).encode("utf-8")
+            return self._sende(200, body, "application/json; charset=utf-8")
+        if self.path in ("/", "/index.html"):
+            seite = VAULT / "tools" / "dashboard.html"
+            if not seite.exists():
+                return self._sende(404, b"dashboard.html fehlt", "text/plain; charset=utf-8")
+            return self._sende(200, seite.read_bytes(), "text/html; charset=utf-8")
+        self._sende(404, b"not found", "text/plain; charset=utf-8")
+
+
+def main() -> int:
+    srv = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
+    print(f"Dashboard laeuft auf http://localhost:{PORT}  (Strg+C beendet)")
+    try:
+        srv.serve_forever()
+    except KeyboardInterrupt:
+        print("\nbeendet")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
