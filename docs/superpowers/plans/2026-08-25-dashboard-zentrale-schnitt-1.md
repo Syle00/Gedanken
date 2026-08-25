@@ -432,6 +432,8 @@ git commit -m "setup | Dashboard: /api/write mit Pfad-Whitelist und atomarem Sch
 - Consumes: `VAULT`, `NY`, `sicher` aus Task 1
 - Produces:
   - `BRIEFINGS: Path` (= `VAULT / "briefings"`)
+  - `_ist_briefing(p: Path) -> bool` — nur datierte Dateien; `briefings/status.md` ist
+    laut `CLAUDE.md` die Lernpfad-Statusseite und kein Briefing
   - `_parse_briefing(text: str) -> dict` — liefert `{"text": str, "termine": [{"zeit","titel"}]}`
   - `briefing() -> tuple[dict, float]` — Panel-Daten inklusive `age_s` aus der Mtime
   - `state()` enthält zusätzlich den Schlüssel `briefing`
@@ -492,6 +494,12 @@ def test_briefing_fehlend_meldet_statt_zu_werfen():
     assert r["data"]["hinweis"], "kein Hinweistext fuer den Nutzer"
 
 
+def test_status_md_ist_kein_briefing():
+    # briefings/status.md ist die Lernpfad-Statusseite (CLAUDE.md), kein Briefing
+    assert ds._ist_briefing(ds.VAULT / "briefings" / "status.md") is False
+    assert ds._ist_briefing(ds.VAULT / "briefings" / "2026-08-25-morgen.md") is True
+
+
 def test_briefing_altes_wird_als_alt_erkannt():
     # Spec-Kernfall: ein Briefing von gestern darf nicht aussehen wie das von heute.
     import os
@@ -531,6 +539,14 @@ In `tools/dashboard_serve.py` vor `def state()` einfügen:
 BRIEFINGS = VAULT / "briefings"
 
 
+def _ist_briefing(p: Path) -> bool:
+    """Nur datierte Dateien sind Briefings. In briefings/ liegt laut CLAUDE.md auch
+    status.md (Lernpfad-Statusseite) -- die darf hier nie als Briefing durchgehen."""
+    n = p.name
+    return (len(n) > 11 and n[:4].isdigit() and n[4] == "-"
+            and n[7] == "-" and n[10] == "-")
+
+
 def _parse_briefing(text: str) -> dict:
     """Fliesstext + Termine aus einer Cowork-Briefing-Datei.
 
@@ -559,7 +575,8 @@ def _parse_briefing(text: str) -> dict:
 def briefing() -> tuple[dict, float]:
     """Neuestes Briefing des heutigen Tages, sonst das letzte vorhandene."""
     heute = datetime.now(NY).date().isoformat()
-    dateien = sorted(BRIEFINGS.glob("*.md")) if BRIEFINGS.is_dir() else []
+    dateien = sorted(p for p in BRIEFINGS.glob("*.md")
+                     if _ist_briefing(p)) if BRIEFINGS.is_dir() else []
     von_heute = [p for p in dateien if p.name.startswith(heute)]
     quelle = max(von_heute or dateien, key=lambda p: p.stat().st_mtime, default=None)
     if quelle is None:
@@ -586,7 +603,7 @@ def state() -> dict:
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `python tools/test_dashboard.py`
-Expected: PASS — zehn `ok test_...`-Zeilen
+Expected: PASS — elf `ok test_...`-Zeilen
 
 - [ ] **Step 5: Mit einer echten Datei gegenprüfen**
 
@@ -737,7 +754,7 @@ In `state()` ergänzen:
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `python tools/test_dashboard.py`
-Expected: PASS — dreizehn `ok test_...`-Zeilen
+Expected: PASS — vierzehn `ok test_...`-Zeilen
 
 - [ ] **Step 5: Echten Abruf gegenprüfen**
 
@@ -865,7 +882,7 @@ Und in `do_POST` den `/api/write`-Zweig um einen zweiten ergänzen:
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `python tools/test_dashboard.py`
-Expected: PASS — fünfzehn `ok test_...`-Zeilen
+Expected: PASS — sechzehn `ok test_...`-Zeilen
 
 - [ ] **Step 5: Echten Lauf starten**
 
@@ -1127,7 +1144,7 @@ Selbstcheck: `python tools/test_dashboard.py`.
 - [ ] **Step 4: Gesamten Testlauf**
 
 Run: `python tools/test_dashboard.py`
-Expected: PASS — alle fünfzehn Tests, `alle Tests bestanden`
+Expected: PASS — alle sechzehn Tests, `alle Tests bestanden`
 
 - [ ] **Step 5: Commit**
 
