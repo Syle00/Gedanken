@@ -14,6 +14,7 @@ import csv
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import threading
@@ -259,11 +260,50 @@ def schreibe_atomar(p: Path, text: str) -> None:
     os.replace(tmp, p)
 
 
+RUNS = VAULT / ".dashboard" / "runs"
+# Auf Windows ist `claude` eine .cmd -- Popen ohne shell findet sie nur ueber den vollen Pfad.
+CLAUDE = shutil.which("claude") or "claude"
+_PROZESSE: dict[str, subprocess.Popen] = {}
+
+
+def starte_run(prompt: str) -> str:
+    """Startet `claude -p <prompt>` im Vault, Ausgabe nach .dashboard/runs/<id>.log."""
+    if not (prompt or "").strip():
+        raise ValueError("leerer Prompt")
+    RUNS.mkdir(parents=True, exist_ok=True)
+    rid = datetime.now(NY).strftime("%Y%m%d-%H%M%S")
+    fh = (RUNS / f"{rid}.log").open("w", encoding="utf-8", errors="replace")
+    _PROZESSE[rid] = subprocess.Popen([CLAUDE, "-p", prompt], cwd=str(VAULT),
+                                      stdout=fh, stderr=subprocess.STDOUT)
+    return rid
+
+
+def runs() -> tuple[list[dict], float]:
+    """Die fuenf juengsten Laeufe mit den letzten drei Logzeilen.
+
+    Kein automatischer Neustart bei Fehlschlag -- ein Lauf, der stirbt, bleibt sichtbar
+    gestorben."""
+    if not RUNS.is_dir():
+        return [], 0.0
+    out = []
+    for log in sorted(RUNS.glob("*.log"), key=lambda p: p.stat().st_mtime,
+                      reverse=True)[:5]:
+        proc = _PROZESSE.get(log.stem)
+        code = proc.poll() if proc else None
+        status = ("laeuft" if proc is not None and code is None else
+                  "ok" if code == 0 else
+                  "fehlgeschlagen" if code is not None else "beendet")
+        zeilen = log.read_text(encoding="utf-8", errors="replace").splitlines()[-3:]
+        out.append({"id": log.stem, "status": status, "exit": code, "log": zeilen})
+    return out, 0.0
+
+
 def state() -> dict:
     return {"now": jetzt(),
             "briefing": sicher(briefing),
             "daten": sicher(datenabdeckung),
-            "markt": sicher(markt)}
+            "markt": sicher(markt),
+            "runs": sicher(runs)}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -290,6 +330,8 @@ class Handler(BaseHTTPRequestHandler):
                 ziel = ziel_pfad(str(daten["path"]))
                 schreibe_atomar(ziel, str(daten["content"]))
                 antwort = {"ok": True, "path": str(ziel.relative_to(VAULT))}
+            elif self.path.startswith("/api/run"):
+                antwort = {"ok": True, "id": starte_run(str(daten.get("prompt") or ""))}
             else:
                 return self._sende(404, b"not found", "text/plain; charset=utf-8")
         except Exception as exc:

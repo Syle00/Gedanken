@@ -305,6 +305,31 @@ def test_markt_fehler_danach_retry_nach_cache_abgelaufen():
         ds._markt_cache.update(echt_cache)
 
 
+def test_runs_liest_logs():
+    ds.RUNS.mkdir(parents=True, exist_ok=True)
+    probe = ds.RUNS / "_test-run.log"
+    probe.write_text("Zeile 1\nZeile 2\nZeile 3\nZeile 4\n", encoding="utf-8")
+    try:
+        liste, _ = ds.runs()
+        treffer = [r for r in liste if r["id"] == "_test-run"]
+        assert treffer, "Log nicht gefunden"
+        r = treffer[0]
+        # ohne laufenden Prozess: beendet, und nur die letzten drei Zeilen
+        assert r["status"] == "beendet", r["status"]
+        assert r["log"] == ["Zeile 2", "Zeile 3", "Zeile 4"], r["log"]
+    finally:
+        probe.unlink(missing_ok=True)
+
+
+def test_starte_run_lehnt_leeren_prompt_ab():
+    for leer in ("", "   ", None):
+        try:
+            ds.starte_run(leer)
+        except ValueError:
+            continue
+        raise AssertionError(f"leerer Prompt akzeptiert: {leer!r}")
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):
