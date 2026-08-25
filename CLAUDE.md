@@ -199,6 +199,25 @@ Der Generator verarbeitet das Wiki so:
 Lösche `site/` jederzeit und erzeuge es neu — der Build ist reproduzierbar. Installiere die
 Abhängigkeiten mit `python -m pip install -r tools/requirements.txt` (nur `markdown` + `pyyaml`).
 
+## Dashboard-Zentrale
+
+`.\dashboard.cmd` startet die lokale Arbeitszentrale auf `http://localhost:8787`
+(`tools/dashboard_serve.py` + `tools/dashboard.html`, Design:
+`docs/superpowers/specs/2026-08-25-dashboard-zentrale-design.md`). Sie zeigt das
+Cowork-Briefing samt Terminen, die Levels/News des Handelstags und die 1s-Datenabdeckung,
+und startet auf Knopfdruck `claude -p`-Laeufe.
+
+Sie liest und schreibt ausschliesslich Dateien im Vault. Schreiben ist auf `planung/`,
+`raw/journal/` und `wiki/lernpfad/` begrenzt — nach `raw/marktdaten/` schreibt sie nie.
+Datenluecken meldet sie nur, sie schliesst sie nicht.
+
+Voraussetzung fuer das Briefing-Panel: die Cowork-Aufgaben „Daily briefing" und
+„Abend briefing" schreiben ihr Ergebnis zusaetzlich nach
+`briefings/<JJJJ-MM-TT>-{morgen,abend}.md`, Termine als Liste unter `## Termine`.
+
+Selbstcheck: `python tools/test_dashboard.py` (Server) und `node tools/test_dashboard_html.mjs`
+(Frontend, bei laufendem Server).
+
 ## Versionskontrolle
 
 Das gesamte Vault liegt in einem privaten Git-Repo (`raw/` inkl. aller PNGs, `wiki/`, `site/`,
