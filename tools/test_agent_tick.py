@@ -6,7 +6,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from agent_tick import (
-    Entry, cron_matches, last_due, parse_timeout, resolve_placeholders, scan_entries,
+    Entry, append_run, cron_matches, expect_ok, faellige, last_due, last_run,
+    parse_timeout, resolve_placeholders, scan_entries,
 )
 
 
@@ -97,6 +98,164 @@ def test_scan_entries():
         # Default-Timeout, wenn keiner angegeben ist
         assert entries["extern"].timeout_s == 1800
         assert entries["meiner"].schedule == "0 9 * * 1"
+
+
+def test_expect_ok_existenz():
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        (root / "out").mkdir()
+        gestartet = datetime(2026, 8, 24, 20, 0)
+        ok, notiz = expect_ok("out/{today}.md", root, gestartet, date(2026, 8, 24))
+        assert ok is False, notiz
+        assert "2026-08-24" in notiz, notiz  # aufgeloester Pfad steht in der Notiz
+
+        (root / "out" / "2026-08-24.md").write_text("da", encoding="utf-8")
+        ok, notiz = expect_ok("out/{today}.md", root, gestartet, date(2026, 8, 24))
+        assert ok is True, notiz
+
+
+def test_expect_ok_changed():
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        ziel = root / "daten.csv"
+        ziel.write_text("alt", encoding="utf-8")
+        import os
+        # mtime kuenstlich in die Vergangenheit setzen
+        alt = datetime(2026, 8, 24, 10, 0).timestamp()
+        os.utime(ziel, (alt, alt))
+
+        gestartet = datetime(2026, 8, 24, 20, 0)
+        ok, notiz = expect_ok("changed: daten.csv", root, gestartet, date(2026, 8, 24))
+        assert ok is False, notiz
+        assert "unveraendert" in notiz.lower() or "unverändert" in notiz.lower(), notiz
+
+        neu = datetime(2026, 8, 24, 20, 5).timestamp()
+        os.utime(ziel, (neu, neu))
+        ok, notiz = expect_ok("changed: daten.csv", root, gestartet, date(2026, 8, 24))
+        assert ok is True, notiz
+
+        # fehlende Datei ist rot, kein Absturz
+        ok, notiz = expect_ok("changed: gibtsnicht.csv", root, gestartet, date(2026, 8, 24))
+        assert ok is False, notiz
+
+
+def test_expect_ok_ohne_angabe():
+    with tempfile.TemporaryDirectory() as td:
+        ok, notiz = expect_ok(None, Path(td), datetime(2026, 8, 24, 20, 0), date(2026, 8, 24))
+        assert ok is True, notiz
+
+
+def test_register_lesen_schreiben():
+    with tempfile.TemporaryDirectory() as td:
+        reg = Path(td) / "agent-runs.csv"
+        assert last_run(reg, "irgendwas") is None  # Datei existiert noch nicht
+
+        append_run(reg, {
+            "zeit_start": "2026-08-24T20:00", "command": "bias-vorlage-daily",
+            "ausloeser": "plan", "dauer_s": "86", "exit": "0",
+            "expect_ok": "1", "status": "gruen", "notiz": "",
+        })
+        append_run(reg, {
+            "zeit_start": "2026-08-25T20:00", "command": "bias-vorlage-daily",
+            "ausloeser": "plan", "dauer_s": "91", "exit": "0",
+            "expect_ok": "1", "status": "gruen", "notiz": "",
+        })
+        append_run(reg, {
+            "zeit_start": "2026-08-25T23:00", "command": "daten-1s",
+            "ausloeser": "plan", "dauer_s": "912", "exit": "0",
+            "expect_ok": "0", "status": "rot", "notiz": "expect verfehlt, Komma, Zeichen",
+        })
+        # juengster Lauf gewinnt
+        assert last_run(reg, "bias-vorlage-daily") == datetime(2026, 8, 25, 20, 0)
+        assert last_run(reg, "daten-1s") == datetime(2026, 8, 25, 23, 0)
+        assert last_run(reg, "unbekannt") is None
+        # Kopfzeile genau einmal
+        assert reg.read_text(encoding="utf-8").count("zeit_start") == 1
+        # Komma in der Notiz zerlegt die Zeile nicht
+        assert last_run(reg, "daten-1s") is not None
+
+
+def test_faellige():
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        reg = root / "agent-runs.csv"
+        e = Entry("bias", "0 20 * * 0-4", None, 900, False, root / "bias.md")
+        ex = Entry("brief", "0 7 * * *", "out/x.md", 3600, True, root / "brief.md")
+
+        # Montag 20:05, noch nie gelaufen -> faellig als "plan"
+        got = faellige([e], datetime(2026, 8, 24, 20, 5), reg)
+        assert [(x.name, a) for x, a in got] == [("bias", "plan")], got
+
+        # nach dem Lauf nicht mehr faellig
+        append_run(reg, {
+            "zeit_start": "2026-08-24T20:05", "command": "bias", "ausloeser": "plan",
+            "dauer_s": "10", "exit": "0", "expect_ok": "1", "status": "gruen", "notiz": "",
+        })
+        assert faellige([e], datetime(2026, 8, 24, 20, 15), reg) == []
+
+        # Dienstag 20:05: neue Faelligkeit nach dem letzten Lauf -> wieder dran
+        got = faellige([e], datetime(2026, 8, 25, 20, 5), reg)
+        assert [(x.name, a) for x, a in got] == [("bias", "plan")], got
+
+        # deutlich verspaetet (Rechner war aus) -> "nachhol"
+        got = faellige([e], datetime(2026, 8, 25, 23, 30), reg)
+        assert [(x.name, a) for x, a in got] == [("bias", "nachhol")], got
+
+        # extern wird nie gestartet, aber als "extern" gemeldet
+        got = faellige([ex], datetime(2026, 8, 25, 8, 0), reg)
+        assert [(x.name, a) for x, a in got] == [("brief", "extern")], got
+
+        # vor der ersten Faelligkeit des Tages: nichts zu tun
+        assert faellige([ex], datetime(2026, 8, 25, 6, 0), reg) == []
+
+
+def test_faellige_nachhol_fenster():
+    # Ruling 1: eine Faelligkeit aelter als NACHHOL_FENSTER (18h) wird nicht
+    # mehr nachgeholt; eine juengere schon.
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        reg = root / "agent-runs.csv"
+        e = Entry("bias", "0 20 * * 0-4", None, 900, False, root / "bias.md")
+
+        # Montag 20:00 faellig, Dienstag 15:00 = 19h spaeter -> zu alt, kein Nachholen
+        assert faellige([e], datetime(2026, 8, 25, 15, 0), reg) == []
+
+        # Montag 20:00 faellig, Dienstag 13:00 = 17h spaeter -> noch im Fenster
+        got = faellige([e], datetime(2026, 8, 25, 13, 0), reg)
+        assert [(x.name, a) for x, a in got] == [("bias", "nachhol")], got
+
+
+def test_faellige_extern_kulanz():
+    # Ruling 3: extern-Eintraege bekommen ihr timeout_s als Kulanzfenster --
+    # erst danach gilt der Lauf als ausgeblieben und wird gemeldet.
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        reg = root / "agent-runs.csv"
+        ex = Entry("brief", "0 7 * * *", "out/x.md", 3600, True, root / "brief.md")
+
+        # 07:30, 30 Min nach Faelligkeit, Kulanz (60 Min) noch nicht um
+        assert faellige([ex], datetime(2026, 8, 25, 7, 30), reg) == []
+
+        # 08:00, 60 Min nach Faelligkeit, Kulanz um -> gemeldet
+        got = faellige([ex], datetime(2026, 8, 25, 8, 0), reg)
+        assert [(x.name, a) for x, a in got] == [("brief", "extern")], got
+
+
+def test_dry_run_changed_nutzt_tagesbeginn():
+    # Ruling 2: der Dry-Run soll fuer 'changed:' den heutigen Tagesbeginn als
+    # Startzeitpunkt nehmen, nicht den aktuellen Moment -- sonst ist eine
+    # Datei, die heute frueh entstand, im Trockenlauf faelschlich rot.
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        ziel = root / "daten.csv"
+        ziel.write_text("neu", encoding="utf-8")
+        import os
+        heute_frueh = datetime(2026, 8, 25, 0, 30).timestamp()
+        os.utime(ziel, (heute_frueh, heute_frueh))
+
+        tagesbeginn = datetime.combine(date(2026, 8, 25), datetime.min.time())
+        ok, notiz = expect_ok("changed: daten.csv", root, tagesbeginn, date(2026, 8, 25))
+        assert ok is True, notiz
 
 
 def main():

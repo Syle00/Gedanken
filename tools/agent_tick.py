@@ -8,9 +8,11 @@ Design: docs/superpowers/specs/2026-08-25-main-agent-wachhund-design.md
 """
 from __future__ import annotations
 
+import argparse
+import csv
 import sys
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, time, timedelta
 from pathlib import Path
 
 import yaml
@@ -166,3 +168,144 @@ def scan_entries(root: Path) -> list[Entry]:
             )
         )
     return entries
+
+
+REGISTER_SPALTEN = [
+    "zeit_start", "command", "ausloeser", "dauer_s", "exit",
+    "expect_ok", "status", "notiz",
+]
+# Ab dieser Verspaetung gilt ein Lauf als verpasst statt planmaessig.
+NACHHOL_SCHWELLE = timedelta(hours=1)
+# Aeltere Faelligkeiten werden nicht mehr nachgeholt (Ruling 1): liegt ueber
+# dem groessten Abstand zweier Faelligkeiten im Plan (20:00 -> 06:30 = 10,5h)
+# und unter 24h, damit ein noch nie gelaufener Eintrag nicht die Faelligkeit
+# des Vortags nachholt.
+NACHHOL_FENSTER = timedelta(hours=18)
+
+
+def expect_ok(
+    expect: str | None, root: Path, started: datetime, today: date
+) -> tuple[bool, str]:
+    """Prueft das Erfolgskriterium. Rueckgabe: (erfuellt, Notiz fuers Register).
+
+    Zwei Formen -- 'pfad/datei.md' (existiert danach) und
+    'changed: pfad/datei.csv' (ist seit Laufbeginn juenger geworden).
+    Ohne Angabe zaehlen nur Exit-Code und Laufzeit.
+    """
+    if not expect:
+        return True, ""
+    text = resolve_placeholders(str(expect).strip(), today)
+    if text.startswith("changed:"):
+        ziel = root / text.split(":", 1)[1].strip()
+        if not ziel.exists():
+            return False, f"expect verfehlt: {ziel.name} fehlt"
+        if datetime.fromtimestamp(ziel.stat().st_mtime) < started:
+            return False, f"expect verfehlt: {ziel.name} unveraendert"
+        return True, ""
+    ziel = root / text
+    if not ziel.exists():
+        return False, f"expect verfehlt: {text} fehlt"
+    return True, ""
+
+
+def last_run(register: Path, name: str) -> datetime | None:
+    """Startzeit des juengsten protokollierten Laufs dieses Eintrags."""
+    if not register.exists():
+        return None
+    juengster = None
+    with register.open(encoding="utf-8", newline="") as f:
+        for zeile in csv.DictReader(f):
+            if zeile.get("command") != name:
+                continue
+            try:
+                wann = datetime.fromisoformat(zeile["zeit_start"])
+            except (ValueError, KeyError, TypeError):
+                continue
+            if juengster is None or wann > juengster:
+                juengster = wann
+    return juengster
+
+
+def append_run(register: Path, row: dict) -> None:
+    """Haengt eine Zeile ans Register. Legt Datei samt Kopfzeile bei Bedarf an."""
+    register.parent.mkdir(parents=True, exist_ok=True)
+    neu = not register.exists()
+    with register.open("a", encoding="utf-8", newline="") as f:
+        schreiber = csv.DictWriter(f, fieldnames=REGISTER_SPALTEN)
+        if neu:
+            schreiber.writeheader()
+        schreiber.writerow({s: row.get(s, "") for s in REGISTER_SPALTEN})
+
+
+def faellige(
+    entries: list[Entry], now: datetime, register: Path
+) -> list[tuple[Entry, str]]:
+    """Was ist jetzt dran? Liefert (Eintrag, ausloeser)-Paare.
+
+    Faellig ist ein Eintrag, wenn seine letzte planmaessige Faelligkeit nach
+    seinem letzten protokollierten Lauf liegt und nicht aelter als
+    NACHHOL_FENSTER ist (Ruling 1 -- sonst holt ein noch nie gelaufener
+    Eintrag rueckwirkend die Faelligkeit des Vortags nach). `extern` wird nie
+    gestartet, aber erst gemeldet, wenn sein timeout_s als Kulanzfenster
+    abgelaufen ist (Ruling 3).
+    """
+    dran = []
+    for e in entries:
+        faellig_um = last_due(e.schedule, now)
+        if faellig_um is None:
+            continue
+        if now - faellig_um > NACHHOL_FENSTER:
+            continue
+        zuletzt = last_run(register, e.name)
+        if zuletzt is not None and zuletzt >= faellig_um:
+            continue
+        if e.extern:
+            if now - faellig_um >= timedelta(seconds=e.timeout_s):
+                dran.append((e, "extern"))
+        elif now - faellig_um > NACHHOL_SCHWELLE:
+            dran.append((e, "nachhol"))
+        else:
+            dran.append((e, "plan"))
+    return dran
+
+
+def cli(argv: list[str] | None = None) -> int:
+    p = argparse.ArgumentParser(description="Taktgeber fuer die geplanten Vault-Laeufe.")
+    p.add_argument("--dry-run", action="store_true",
+                   help="nur zeigen, was faellig waere -- nichts starten")
+    p.add_argument("--selftest", action="store_true", help="Selbstcheck ausfuehren")
+    args = p.parse_args(argv)
+
+    if args.selftest:
+        import subprocess
+        return subprocess.call([sys.executable, str(Path(__file__).parent / "test_agent_tick.py")])
+
+    now = datetime.now().replace(second=0, microsecond=0)
+    register = ROOT / "algo" / "live" / "agent-runs.csv"
+    entries = scan_entries(ROOT)
+    dran = faellige(entries, now, register)
+
+    if args.dry_run:
+        print(f"Stand {now:%Y-%m-%d %H:%M} -- {len(entries)} geplante Eintraege\n")
+        # Ruling 2: fuer 'changed:' zaehlt im Trockenlauf der heutige
+        # Tagesbeginn als Startzeitpunkt, nicht der aktuelle Moment -- sonst
+        # ist eine Datei, die heute frueh entstand, faelschlich rot. Der
+        # echte Startzeitpunkt eines Laufs bleibt run_entry (Task 4)
+        # vorbehalten.
+        tagesbeginn = datetime.combine(now.date(), time.min)
+        for e in entries:
+            ok, notiz = expect_ok(e.expect, ROOT, tagesbeginn, now.date())
+            aufgeloest = resolve_placeholders(str(e.expect), now.date()) if e.expect else "-"
+            marke = next((a for x, a in dran if x.name == e.name), "-")
+            print(f"  {e.name:24} {e.schedule:16} faellig={marke:8} "
+                  f"expect={'ok' if ok else 'ROT'}  {aufgeloest}")
+            if not ok and notiz:
+                print(f"  {'':24} -> {notiz}")
+        return 0
+
+    print("Ausfuehrung folgt in Task 4.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(cli())
