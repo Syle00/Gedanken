@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import time
 from datetime import date, datetime, timedelta
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -82,6 +83,31 @@ def jetzt() -> dict:
             "weekday": tage[t.weekday()]}
 
 
+ERLAUBT = ("planung", "raw/journal", "wiki/lernpfad")
+
+
+def ziel_pfad(rel: str) -> Path:
+    """Relativen Pfad gegen die Whitelist pruefen -- **nach** resolve(), sonst rutschen
+    `..` und absolute Pfade durch. raw/marktdaten/ ist damit strukturell ausgeschlossen."""
+    p = (VAULT / rel).resolve()
+    if p.suffix != ".md":
+        raise ValueError(f"nur .md erlaubt: {rel}")
+    for ordner in ERLAUBT:
+        basis = (VAULT / ordner).resolve()
+        if basis in p.parents:
+            return p
+    raise ValueError(f"Pfad nicht erlaubt: {rel}")
+
+
+def schreibe_atomar(p: Path, text: str) -> None:
+    """Erst in eine Nachbardatei schreiben, dann umbenennen -- ein Abbruch darf keine
+    halbe Journal-Datei hinterlassen."""
+    p.parent.mkdir(parents=True, exist_ok=True)
+    tmp = p.with_suffix(p.suffix + ".tmp")
+    tmp.write_text(text, encoding="utf-8", newline="\n")
+    os.replace(tmp, p)
+
+
 def state() -> dict:
     return {"now": jetzt(),
             "daten": sicher(datenabdeckung)}
@@ -97,6 +123,28 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+    def _body(self) -> dict:
+        laenge = int(self.headers.get("Content-Length") or 0)
+        if laenge > 1_000_000:
+            raise ValueError("Body zu gross")
+        return json.loads(self.rfile.read(laenge).decode("utf-8"))
+
+    def do_POST(self):
+        try:
+            daten = self._body()
+            if self.path.startswith("/api/write"):
+                ziel = ziel_pfad(str(daten["path"]))
+                schreibe_atomar(ziel, str(daten["content"]))
+                antwort = {"ok": True, "path": str(ziel.relative_to(VAULT))}
+            else:
+                return self._sende(404, b"not found", "text/plain; charset=utf-8")
+        except Exception as exc:
+            body = json.dumps({"ok": False, "error": f"{type(exc).__name__}: {exc}"},
+                              ensure_ascii=False).encode("utf-8")
+            return self._sende(400, body, "application/json; charset=utf-8")
+        self._sende(200, json.dumps(antwort, ensure_ascii=False).encode("utf-8"),
+                    "application/json; charset=utf-8")
 
     def do_GET(self):
         if self.path.startswith("/api/state"):

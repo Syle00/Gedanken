@@ -49,6 +49,49 @@ def test_state_hat_alle_panels():
     assert set(s["daten"]) == {"data", "error", "age_s"}
 
 
+def test_ziel_pfad_whitelist():
+    # erlaubt
+    assert ds.ziel_pfad("planung/2026-08-25.md").name == "2026-08-25.md"
+    assert ds.ziel_pfad("raw/journal/Daily Bias 2026-08-25.md").parent.name == "journal"
+    assert ds.ziel_pfad("wiki/lernpfad/Lernpfad — Woche 01.md").parent.name == "lernpfad"
+
+    # abgelehnt: Traversal, absolute Pfade, Marktdaten, falsche Endung
+    for boese in ("planung/../raw/marktdaten/kaputt.md",
+                  "raw/marktdaten/NQ.md",
+                  "C:/Windows/Temp/x.md",
+                  "/etc/passwd",
+                  "wiki/index.md",
+                  "planung/notiz.txt"):
+        try:
+            ds.ziel_pfad(boese)
+        except ValueError:
+            continue
+        raise AssertionError(f"haette abgelehnt werden muessen: {boese}")
+
+
+def test_atomarer_write():
+    import os
+    ziel = ds.VAULT / "planung" / "_test_atomar.md"
+    try:
+        ds.schreibe_atomar(ziel, "alt")
+        assert ziel.read_text(encoding="utf-8") == "alt"
+
+        # simulierter Abbruch mitten im Schreiben: die alte Datei bleibt unangetastet
+        echt = os.replace
+        os.replace = lambda *a, **k: (_ for _ in ()).throw(OSError("abgebrochen"))
+        try:
+            ds.schreibe_atomar(ziel, "neu-halb")
+        except OSError:
+            pass
+        finally:
+            os.replace = echt
+        assert ziel.read_text(encoding="utf-8") == "alt", "Teildatei ueberschrieben"
+    finally:
+        ziel.unlink(missing_ok=True)
+        for rest in ziel.parent.glob("_test_atomar.md.tmp"):
+            rest.unlink()
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

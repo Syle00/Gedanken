@@ -237,6 +237,43 @@ an — dort ist Loggen nicht optional, sondern Standardverfahren.
   Versionskontrolle); einzige Ausnahme ist Ingest-Schritt 7, den du dort selbst ausführst. Sei
   autonom beim *Schreiben* ins Wiki, nicht beim Veröffentlichen.
 
+## Lernpfad — Statusseite `briefings/status.md`
+
+`briefings/status.md` ist die nach außen gerichtete Fortschrittsseite des Quant-Lernpfads: Sie
+soll jemandem, der den Kontext nicht kennt, in einer Minute sagen, wo das Projekt steht und was
+als Nächstes ansteht. Sie trägt kein Datum im Namen, hält immer nur den aktuellen Stand und wird
+vollständig überschrieben.
+
+**Schreibe sie ungefragt neu, sobald sich der Fortschritt ändert** — also immer dann, wenn du in
+derselben Session eine dieser Dateien angelegt oder geändert hast:
+
+- `wiki/lernpfad/tagebuch/Lernpfad JJJJ-MM-TT Xx.md` (Status, Minuten, Karten, die drei Felder)
+- `wiki/lernpfad/Lernpfad — Meilensteine.md` (ein `- [ ]` wird zu `- [x]`)
+- `wiki/lernpfad/Lernpfad — Woche NN.md` (Wochenplanung angelegt oder verschoben)
+- `wiki/lernpfad/Lernpfad Quant — Übersicht.md` (Phase oder Plan geändert)
+
+Erwähne die Aktualisierung im Bericht mit einer Zeile, frag nicht vorher nach. Ändert sich nichts
+am Lernpfad, fass die Datei nicht an. Zusätzlich schreibt der Task `abend-briefing` sie jeden
+Abend um 21:00 neu — das ist das Netz, nicht der Normalfall.
+
+Aufbau (Frontmatter `titel`, `stand: JJJJ-MM-TT`, `typ: projektstatus`):
+
+1. **Worum es geht** — zwei, drei Sätze zum Ziel des Lernpfads.
+2. **Phase & Meilensteine** — laufende Phase, nächster offener Meilenstein mit Fälligkeit und
+   verbleibenden Wochen, darunter die abgehakten.
+3. **Pensum & Streak** — erledigte Blöcke der letzten 7 Tage (`teilweise` zählt halb), geleistete
+   gegen geplante Minuten, ein Satz Einordnung.
+4. **Diese Woche** — Blöcke und Themen der laufenden Woche, Erledigtes markiert.
+5. **Aus dem Lerntagebuch** — die letzten drei Lerntage mit „Gelernt", „Hängengeblieben",
+   „Hier weiter".
+6. **Als Nächstes** — was in den kommenden Tagen ansteht.
+
+Schreib für Außenstehende: keine Vault-Pfade, keine Kalender-IDs, keine internen Kürzel, jeder
+Fachbegriff beim ersten Auftreten kurz erklärt. Fehlt ein Feld, schreib „keine Notiz" hin, statt
+etwas zu erfinden. Keine Bewertungen, keine Motivationssprache.
+
+Veröffentlicht wird wie immer nur manuell über `.\push.ps1` — schreiben ja, pushen nein.
+
 ## Operationen
 
 ### Ingest (neue Quelle verarbeiten)
