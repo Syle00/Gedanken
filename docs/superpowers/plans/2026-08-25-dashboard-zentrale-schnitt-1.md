@@ -294,7 +294,7 @@ Hänge in `tools/test_dashboard.py` vor dem `if __name__`-Block an:
 def test_ziel_pfad_whitelist():
     # erlaubt
     assert ds.ziel_pfad("planung/2026-08-25.md").name == "2026-08-25.md"
-    assert ds.ziel_pfad("raw/journal/Daily Bias 2026-08-25.md").exists() in (True, False)
+    assert ds.ziel_pfad("raw/journal/Daily Bias 2026-08-25.md").parent.name == "journal"
     assert ds.ziel_pfad("wiki/lernpfad/Lernpfad — Woche 01.md").parent.name == "lernpfad"
 
     # abgelehnt: Traversal, absolute Pfade, Marktdaten, falsche Endung
@@ -311,7 +311,7 @@ def test_ziel_pfad_whitelist():
         raise AssertionError(f"haette abgelehnt werden muessen: {boese}")
 
 
-def test_atomarer_write(tmp=None):
+def test_atomarer_write():
     import os
     ziel = ds.VAULT / "planung" / "_test_atomar.md"
     try:

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import subprocess
 import sys
 from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta
@@ -269,6 +270,86 @@ def faellige(
     return dran
 
 
+WIEDERHOLUNGEN = 2  # zusaetzlich zum Erstversuch
+
+
+def _subprocess_starter(cmd: list[str], timeout_s: int) -> tuple[int, str]:
+    """Startet einen Lauf wirklich. Rueckgabe (exit_code, letzte Ausgabezeilen)."""
+    try:
+        p = subprocess.run(
+            cmd, cwd=ROOT, timeout=timeout_s, capture_output=True,
+            text=True, encoding="utf-8", errors="replace",
+        )
+        ausgabe = (p.stdout or "") + (p.stderr or "")
+        return p.returncode, ausgabe[-4000:]
+    except subprocess.TimeoutExpired:
+        return 124, f"Timeout nach {timeout_s}s -- Prozess beendet"
+
+
+def run_entry(
+    entry: Entry, ausloeser: str, root: Path, now: datetime, starter=None
+) -> dict:
+    """Fuehrt einen faelligen Eintrag aus und liefert die fertige Registerzeile.
+
+    `extern` wird nie gestartet -- dort wird nur geprueft, ob das erwartete
+    Ergebnis eingetroffen ist. Bei Exit != 0 wird bis zu WIEDERHOLUNGEN mal
+    neu versucht; `expect` entscheidet danach ueber gruen/rot.
+    """
+    starter = starter or _subprocess_starter
+    basis = {
+        "zeit_start": now.isoformat(timespec="minutes"),
+        "command": entry.name,
+        "ausloeser": ausloeser,
+    }
+
+    if entry.extern:
+        ok, notiz = expect_ok(entry.expect, root, now, now.date())
+        return {**basis, "dauer_s": "", "exit": "", "expect_ok": "1" if ok else "0",
+                "status": "gruen" if ok else "rot",
+                "notiz": "" if ok else "ausgeblieben (extern geplant, nicht eingetroffen)"}
+
+    cmd = ["claude", "-p", f"/{entry.name}"]
+    begonnen = datetime.now()
+    code, ausgabe = -1, ""
+    for versuch in range(WIEDERHOLUNGEN + 1):
+        code, ausgabe = starter(cmd, entry.timeout_s)
+        if code == 0:
+            break
+    dauer = int((datetime.now() - begonnen).total_seconds())
+
+    ok, notiz = expect_ok(entry.expect, root, begonnen, now.date())
+    if code == 124:  # muss VOR dem allgemeinen Fehlerzweig stehen
+        notiz = f"Timeout nach {entry.timeout_s}s -- Prozess beendet"
+    elif code != 0:
+        notiz = f"exit {code} nach {WIEDERHOLUNGEN + 1} Versuchen: {ausgabe.strip()[-300:]}"
+    return {**basis, "dauer_s": str(dauer), "exit": str(code),
+            "expect_ok": "1" if ok else "0",
+            "status": "gruen" if (code == 0 and ok) else "rot", "notiz": notiz}
+
+
+def write_status(root: Path, entries: list[Entry], now: datetime) -> str:
+    """Schreibt algo/live/agent-status.md -- bei JEDEM Tick, auch bei gruener Nacht.
+
+    Sonst liest das Cowork-Morgenbriefing nach einer stoerungsfreien Nacht einen
+    Stand von vorgestern. Der Wachhund haengt seinen Diagnoseteil spaeter an.
+    """
+    register = root / "algo" / "live" / "agent-runs.csv"
+    zeilen = [f"# Agent-Status — Stand {now:%Y-%m-%d %H:%M}", ""]
+    zeilen.append("| Eintrag | letzter Lauf | expect | Status |")
+    zeilen.append("|---|---|---|---|")
+    for e in entries:
+        zuletzt = last_run(register, e.name)
+        wann = f"{zuletzt:%Y-%m-%d %H:%M}" if zuletzt else "nie"
+        ok, notiz = expect_ok(e.expect, root, now, now.date())
+        marke = "ok" if ok else "ROT"
+        zeilen.append(f"| `{e.name}` | {wann} | {marke} | {notiz or 'in Ordnung'} |")
+    text = "\n".join(zeilen) + "\n"
+    ziel = root / "algo" / "live" / "agent-status.md"
+    ziel.parent.mkdir(parents=True, exist_ok=True)
+    ziel.write_text(text, encoding="utf-8")
+    return text
+
+
 def cli(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="Taktgeber fuer die geplanten Vault-Laeufe.")
     p.add_argument("--dry-run", action="store_true",
@@ -303,7 +384,12 @@ def cli(argv: list[str] | None = None) -> int:
                 print(f"  {'':24} -> {notiz}")
         return 0
 
-    print("Ausfuehrung folgt in Task 4.")
+    register.parent.mkdir(parents=True, exist_ok=True)
+    for e, ausloeser in dran:
+        zeile = run_entry(e, ausloeser, ROOT, now)
+        append_run(register, zeile)
+        print(f"{zeile['status']:6} {e.name} ({ausloeser}) {zeile['notiz']}")
+    write_status(ROOT, entries, now)
     return 0
 
 
