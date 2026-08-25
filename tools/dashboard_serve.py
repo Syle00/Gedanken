@@ -128,13 +128,13 @@ def briefing() -> tuple[dict, float]:
     quelle = max(von_heute or dateien, key=lambda p: p.stat().st_mtime, default=None)
     if quelle is None:
         return {"fehlt": True, "datei": None, "termine": [],
-                "hinweis": "Kein Briefing vorhanden — laeuft Cowork und schreibt es "
+                "hinweis": "Kein Briefing vorhanden — läuft Cowork und schreibt es "
                            "nach briefings/?"}, 0.0
     d = _parse_briefing(quelle.read_text(encoding="utf-8", errors="replace"))
     d["fehlt"] = not von_heute
     d["datei"] = quelle.name
     if d["fehlt"]:
-        d["hinweis"] = (f"Kein Briefing fuer {heute} — letztes: {quelle.name}")
+        d["hinweis"] = (f"Kein Briefing für {heute} — letztes: {quelle.name}")
     return d, time.time() - quelle.stat().st_mtime
 
 
@@ -183,7 +183,7 @@ class Handler(BaseHTTPRequestHandler):
     def _body(self) -> dict:
         laenge = int(self.headers.get("Content-Length") or 0)
         if laenge > 1_000_000:
-            raise ValueError("Body zu gross")
+            raise ValueError("Body zu groß")
         return json.loads(self.rfile.read(laenge).decode("utf-8"))
 
     def do_POST(self):
