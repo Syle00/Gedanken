@@ -146,7 +146,12 @@ ERLAUBT = ("planung", "raw/journal", "wiki/lernpfad")
 
 BIAS_ORDNER = VAULT / "raw" / "journal"
 CACHE_S = 900
-_markt_cache: dict = {"t": 0.0, "data": None, "wall": 0.0, "error": None}
+_markt_cache: dict = {
+    "data": None,           # letzte erfolgreiche Daten
+    "wall": 0.0,            # Zeitstempel des letzten erfolgreichen Abrufs (wall clock)
+    "versuch": 0.0,         # Zeitstempel des letzten Versuchs (monotonic), Erfolg oder Fehler
+    "error_str": None,      # Fehlermeldung des letzten Versuchs als String
+}
 _markt_lock = threading.Lock()
 _markt_laden_laeuft = False
 
@@ -167,7 +172,7 @@ def _neueste_bias() -> dict | None:
 
 def _markt_laden() -> None:
     """Synchroner Subprozess-Aufruf fuer bias_levels.py. Fuellt den Cache oder vermerkt
-    den Fehler. Wird im Hintergrund-Thread aufgerufen."""
+    den Fehler. Wird im Hintergrund-Thread aufgerufen. Mutation erfolgt unter Lock."""
     global _markt_laden_laeuft
     try:
         p = subprocess.run([sys.executable, str(VAULT / "algo" / "bias_levels.py")],
@@ -175,12 +180,15 @@ def _markt_laden() -> None:
                            encoding="utf-8", errors="replace", cwd=str(VAULT))
         if p.returncode != 0:
             raise RuntimeError((p.stderr or "").strip()[-300:] or f"exit {p.returncode}")
-        _markt_cache.update(t=time.monotonic(), data=json.loads(p.stdout),
-                            wall=time.time(), error=None)
+        with _markt_lock:
+            _markt_cache.update(data=json.loads(p.stdout),
+                                wall=time.time(),
+                                versuch=time.monotonic(),
+                                error_str=None)
     except Exception as exc:
-        letzte = (datetime.fromtimestamp(_markt_cache["wall"], NY).strftime("%d.%m. %H:%M")
-                  if _markt_cache["wall"] else "nie")
-        _markt_cache.update(t=time.monotonic(), error=exc, wall=time.time())
+        with _markt_lock:
+            _markt_cache.update(versuch=time.monotonic(),
+                                error_str=f"{type(exc).__name__}: {exc}")
     finally:
         _markt_laden_laeuft = False
 
@@ -188,43 +196,44 @@ def _markt_laden() -> None:
 def markt() -> tuple[dict, float]:
     """Levels + News aus algo/bias_levels.py, gecacht im Hintergrund.
 
-    Cache-Status:
-    - Frisch (jünger als CACHE_S): liefert Daten
-    - Alt oder leer & nicht geladen: startet Hintergrund-Thread, wirft „werden geladen"
-    - Alt oder leer & Laden läuft: wirft „werden geladen"
-    - Fehler im Cache: wirft mit Kontext „letzter erfolgreicher Abruf"
+    Reihenfolge (kritisch):
+    1. Starte Ladeversuch wenn versuch-Cache abgelaufen oder nie gelaufen
+    2. Wenn Daten da: liefere sie (auch wenn alt oder gerade ein neuer Versuch laeuft)
+    3. Wenn error_str gesetzt UND KEIN neuer Versuch gerade gestartet: wirf ihn
+    4. Sonst: "werden geladen"-Fehler
     """
     global _markt_laden_laeuft
 
-    # Ist der Cache frisch?
-    if _markt_cache["data"] is not None and time.monotonic() - _markt_cache["t"] <= CACHE_S:
-        d = dict(_markt_cache["data"])
-        d["bias_datei"] = _neueste_bias()
-        return d, time.time() - _markt_cache["wall"]
-
-    # Cache alt oder leer -- prüfe, ob wir laden können
+    # 1. Entscheide: soll ein neuer Ladeversuch starten?
+    # Bedingung: (data fehlt ODER wall zu alt) UND (versuch nie gelaufen ODER versuch zu alt)
+    soll_laden = False
     with _markt_lock:
-        # Doppelprüfung: vielleicht hat zwischen check und lock ein anderer Thread geladen
-        if _markt_cache["data"] is not None and time.monotonic() - _markt_cache["t"] <= CACHE_S:
-            d = dict(_markt_cache["data"])
-            d["bias_datei"] = _neueste_bias()
-            return d, time.time() - _markt_cache["wall"]
-
-        if _markt_cache["error"] is not None:
-            # Letzter Versuch hat Fehler geworfen -- wirf ihn jetzt
-            exc = _markt_cache["error"]
-            letzte = (datetime.fromtimestamp(_markt_cache["wall"], NY).strftime("%d.%m. %H:%M")
-                      if _markt_cache["wall"] else "nie")
-            raise RuntimeError(f"{type(exc).__name__}: {exc} "
-                               f"(letzter erfolgreicher Abruf: {letzte})") from None
-
-        # Kein Fehler im Cache, aber auch keine Daten -- muss geladen werden
-        if not _markt_laden_laeuft:
+        data_fehlt_oder_alt = (_markt_cache["data"] is None or
+                              time.time() - _markt_cache["wall"] > CACHE_S)
+        versuch_fehlt_oder_alt = (_markt_cache["versuch"] == 0.0 or
+                                 time.monotonic() - _markt_cache["versuch"] > CACHE_S)
+        soll_laden = (not _markt_laden_laeuft and
+                      data_fehlt_oder_alt and
+                      versuch_fehlt_oder_alt)
+        if soll_laden:
             _markt_laden_laeuft = True
             thread = threading.Thread(target=_markt_laden, daemon=True)
             thread.start()
 
-    # Lade läuft jetzt (oder lief), aber Cache ist leer -> wirft "werden geladen"
+    # 2. Fehler werfen?
+    if _markt_cache["error_str"] is not None:
+        letzte = (datetime.fromtimestamp(_markt_cache["wall"], NY).strftime("%d.%m. %H:%M")
+                  if _markt_cache["wall"] > 0 else "nie")
+        raise RuntimeError(f"{_markt_cache['error_str']} "
+                           f"(letzter erfolgreicher Abruf: {letzte})") from None
+
+    # 3. Haben wir Daten? Liefere sie.
+    if _markt_cache["data"] is not None:
+        d = dict(_markt_cache["data"])
+        d["bias_datei"] = _neueste_bias()
+        return d, time.time() - _markt_cache["wall"]
+
+    # 4. Sonst: Laden laeuft, "werden geladen"-Fehler
     raise RuntimeError("Levels werden geladen — der erste Abruf dauert etwa eine Minute")
 
 

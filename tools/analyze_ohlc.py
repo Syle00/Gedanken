@@ -59,6 +59,7 @@ SIZE_REL_MEDIAN = 0.45
 TICK_SIZE = {
     "MNQ": 0.25, "NQ": 0.25, "ES": 0.25, "MES": 0.25,   # CME Aktienindex-Futures
     "YM": 1.0, "MYM": 1.0,                              # CBOT Dow-Futures: Tick = 1 Indexpunkt
+    "GC": 0.1, "MGC": 0.1,                              # COMEX-Gold: Tick = 0.10 USD/Unze
     "EURUSD": 0.00001, "GBPUSD": 0.00001, "AUDUSD": 0.00001, "NZDUSD": 0.00001,
     "USDCAD": 0.00001, "USDCHF": 0.00001, "EURGBP": 0.00001,
     "USDJPY": 0.001, "EURJPY": 0.001, "GBPJPY": 0.001,   # JPY-Paare: 3 Nachkommastellen
@@ -72,6 +73,7 @@ TICK_SIZE = {
 SESSION_TYP = {
     "MNQ": "futures_rth", "NQ": "futures_rth", "ES": "futures_rth", "MES": "futures_rth",
     "YM": "futures_rth", "MYM": "futures_rth",
+    "GC": "futures_rth", "MGC": "futures_rth",
     "EURUSD": "24x5", "GBPUSD": "24x5", "AUDUSD": "24x5", "NZDUSD": "24x5",
     "USDCAD": "24x5", "USDCHF": "24x5", "EURGBP": "24x5",
     "USDJPY": "24x5", "EURJPY": "24x5", "GBPJPY": "24x5",

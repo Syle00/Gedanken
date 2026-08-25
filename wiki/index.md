@@ -74,6 +74,7 @@ Katalog aller Wiki-Seiten. Wird bei jedem Ingest aktualisiert. Siehe [[../CLAUDE
 - [[Kelly-Formel & optimales Leverage (Chan)]] — `f = m/s²`, Half-Kelly, Ruin-Grenze `1/|schlechteste Rendite|`, Drawdown-Nebenbedingung ist NICHT linear; **Risikomanagement** (2026-08-08)
 - [[Konfidenzgrenzen für Renditen (t-Test, Bootstrap, BCa)]] — Untergrenze für die wahre mittlere Rendite; SPX-Beispiel: 9,91 % Backtest-Rendite mit Untergrenze −0,0022; algo-methodology (2026-08-08)
 - [[Kontraktspezifikation MNQ (Tick, Punktwert)]] — Tick 0,25 und Punktwert je Symbol; jeder abgeleitete Preis (C.E., Quadranten, Stop) muss aufs Raster, und eine Kontraktzahl ohne Instrument ist bedeutungslos (2026-08-20)
+- [[Kontraktspezifikation GC (COMEX-Gold)]] — COMEX-Gold: Tick, gerader Monatszyklus, Roll vor First Notice Day (2026-08-25)
 - [[Leading Risk Indicators]] — VIX/TED/HYG/MXN/Order Flow; derselbe Indikator kann für zwei Strategien gegensätzlich zu deuten sein; **Risikomanagement** (2026-08-08)
 - [[Liquidity Void]] — LTF-Erscheinung eines FVG, einseitige Preislieferung, Common-Gap-Präzisions-Entry; RTH und ETH werden getrennt bewertet (2026-08-06, erg. 2026-08-16)
 - [[Low Resistance Liquidity Run]] — Preislauf mit wenig Widerstand von PD zu PD; High-Resistance-Gegenstück inkl. Feiertags-Mechanismus (Partizipationsvakuum) (2026-08-01, erg. 2026-08-16)

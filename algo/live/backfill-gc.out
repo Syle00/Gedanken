@@ -1,0 +1,11 @@
+Fortschrittsfenster aus einem frueheren Lauf ist noch offen, es zeigt diesen Lauf mit.
+Backfill 2026-02-22 bis 2026-08-24: 131 Handelstage x 1 Symbol(e) = 131 Tagesdateien. Bereits vorhandene werden ohne Request uebersprungen.
+    [----------] 1/46 GC 2026-02-23 23:30 UTC: 1800 Kerzen geholt
+    [----------] 2/46 GC 2026-02-23 00:00 UTC: 1800 Kerzen geholt
+    [#---------] 3/46 GC 2026-02-23 00:30 UTC: 1800 Kerzen geholt
+    [#---------] 4/46 GC 2026-02-23 01:00 UTC: 1800 Kerzen geholt
+    [#---------] 5/46 GC 2026-02-23 01:30 UTC: 1800 Kerzen geholt
+    [#---------] 6/46 GC 2026-02-23 02:00 UTC: 1800 Kerzen geholt
+    [##--------] 7/46 GC 2026-02-23 02:30 UTC: 1800 Kerzen geholt
+    [##--------] 8/46 GC 2026-02-23 03:00 UTC: 1800 Kerzen geholt
+    [##--------] 9/46 GC 2026-02-23 03:30 UTC: 1800 Kerzen geholt

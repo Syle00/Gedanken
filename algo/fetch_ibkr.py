@@ -40,7 +40,7 @@ UTC = ZoneInfo("UTC")
 DATA_DIR = Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
 REGISTER = DATA_DIR / "1s-abdeckung.csv"
 REGISTER_HEADER = ["symbol", "von", "bis", "kontrakt", "kerzen", "geholt_am"]
-SYMBOLS = ["NQ", "ES"]
+SYMBOLS = ["NQ", "ES", "GC"]
 WINDOW_SECONDS = 1800
 # IBKR haelt 1s-Bars rund 6 Monate vor (Design SS2/E1). Bewusst 183 statt "6 Monate"
 # gerechnet: faellt der Startzeitpunkt einen Tag zu weit zurueck, meldet IBKR fuer die
@@ -192,7 +192,12 @@ def _gateway_sicherstellen(wartezeit: int = 180) -> None:
 
 # Verfallsmonate NQ/ES: H (Maerz), M (Juni), U (September), Z (Dezember).
 QUARTER_MONTHS = [(3, "H"), (6, "M"), (9, "U"), (12, "Z")]
-_MONTH_NUM = {code: month for month, code in QUARTER_MONTHS}
+# COMEX-Gold handelt die geraden Monate: G (Feb), J (Apr), M (Jun), Q (Aug), V (Okt), Z (Dez).
+GOLD_MONTHS = [(2, "G"), (4, "J"), (6, "M"), (8, "Q"), (10, "V"), (12, "Z")]
+_MONTH_NUM = {code: month for month, code in QUARTER_MONTHS + GOLD_MONTHS}
+# symbol -> (Boerse, Kontraktmonate). Gold liegt an der COMEX, nicht an der CME.
+SYMBOL_SPEC = {"NQ": ("CME", QUARTER_MONTHS), "ES": ("CME", QUARTER_MONTHS),
+               "GC": ("COMEX", GOLD_MONTHS)}
 
 
 def _future_contract(contract: str, symbol: str):
@@ -204,7 +209,7 @@ def _future_contract(contract: str, symbol: str):
     year = contract[len(symbol) + 1:]
     month = _MONTH_NUM[code]
     return Future(symbol=symbol, lastTradeDateOrContractMonth=f"{year}{month:02d}",
-                  exchange="CME", includeExpired=True)
+                  exchange=SYMBOL_SPEC[symbol][0], includeExpired=True)
 
 
 def _third_friday(year: int, month: int) -> date:
@@ -213,14 +218,22 @@ def _third_friday(year: int, month: int) -> date:
     return first_friday + timedelta(weeks=2)
 
 
+def _roll_termin(symbol: str, year: int, month: int) -> date:
+    """Tag, ab dem das Volumen im naechsten Kontrakt liegt. Aktienindex: Verfall (3. Freitag)
+    minus 8 Tage. Gold: der Kontrakt verliert das Volumen schon vor dem First Notice Day
+    (letzter Geschaeftstag des Vormonats) -- genaehert mit 5 Kalendertagen vor Monatsbeginn,
+    z.B. GCZ2026 laeuft bis 26.11.2026."""
+    if symbol == "GC":
+        return date(year, month, 1) - timedelta(days=5)
+    return _third_friday(year, month) - timedelta(days=8)
+
+
 def front_month(d: date, symbol: str) -> str:
-    """Front-Monat-Kontrakt (z.B. 'NQU2026') fuer Datum `d`: der erste Quartalskontrakt,
-    dessen Roll-Termin (Verfall - 8 Tage) nach `d` liegt. Deterministisch, netzfrei."""
+    """Front-Monat-Kontrakt (z.B. 'NQU2026') fuer Datum `d`: der erste Kontrakt des
+    Symbol-Zyklus, dessen Roll-Termin nach `d` liegt. Deterministisch, netzfrei."""
     for year in (d.year, d.year + 1):
-        for month, code in QUARTER_MONTHS:
-            verfall = _third_friday(year, month)
-            roll = verfall - timedelta(days=8)
-            if roll > d:
+        for month, code in SYMBOL_SPEC[symbol][1]:
+            if _roll_termin(symbol, year, month) > d:
                 return f"{symbol}{code}{year}"
     raise ValueError(f"kein Front-Monat fuer {d} gefunden")
 
@@ -744,6 +757,13 @@ def _demo() -> None:
     assert front_month(roll_dez - timedelta(days=1), "NQ") == "NQZ2026"
     assert front_month(roll_dez, "NQ") == "NQH2027"
 
+    # Gold: gerader Monatszyklus, Roll 5 Tage vor Monatsbeginn (kein 3.-Freitag-Verfall).
+    assert front_month(date(2026, 11, 25), "GC") == "GCZ2026"
+    assert front_month(date(2026, 11, 26), "GC") == "GCG2027",         "ab dem Roll-Termin (5 Tage vor Dezemberbeginn) liegt das Volumen im Februar-Kontrakt"
+    assert front_month(date(2026, 8, 25), "GC") == "GCV2026"
+    assert SYMBOL_SPEC["GC"][0] == "COMEX" and SYMBOL_SPEC["NQ"][0] == "CME"
+    assert _MONTH_NUM["G"] == 2 and _MONTH_NUM["V"] == 10
+
     # Fortschrittsanzeige: Balken-Randfaelle und die stdout-Spiegelung ins Fortschrittslog.
     assert _balken(0, 46) == "[----------]"
     assert _balken(46, 46) == "[##########]"
@@ -757,16 +777,16 @@ def _demo() -> None:
     import tempfile
     with tempfile.TemporaryDirectory() as tmp:
         pid_datei = Path(tmp) / "fenster.pid"
-        assert not _fenster_laeuft_schon(pid_datei), "ohne PID-Datei darf kein Fenster gelten"
+        assert not _prozess_laeuft_schon(pid_datei, b"powershell"), "ohne PID-Datei darf kein Fenster gelten"
         pid_datei.write_text("kaputt", encoding="utf-8")
-        assert not _fenster_laeuft_schon(pid_datei), "unlesbare PID darf nicht crashen"
+        assert not _prozess_laeuft_schon(pid_datei, b"powershell"), "unlesbare PID darf nicht crashen"
         pid_datei.write_text(str(os.getpid()), encoding="utf-8")
-        assert not _fenster_laeuft_schon(pid_datei), \
+        assert not _prozess_laeuft_schon(pid_datei, b"powershell"), \
             "die eigene python.exe ist kein Fortschrittsfenster (Namensprüfung muss greifen)"
         # Laengst beendete PID: hier meldet `tasklist` "keine Aufgaben ... ausgefuehrt" in der
         # OEM-Codepage -- der Fall, an dem die fruehere text=True-Dekodierung still None ergab.
         pid_datei.write_text("999998", encoding="utf-8")
-        assert not _fenster_laeuft_schon(pid_datei), \
+        assert not _prozess_laeuft_schon(pid_datei, b"powershell"), \
             "eine nicht mehr laufende PID darf False ergeben, nicht crashen"
 
     # Pacing-Limiter: 61 Requests duerfen mit einer simulierten Uhr nicht in unter 600s

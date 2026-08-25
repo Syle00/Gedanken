@@ -177,12 +177,12 @@ def test_markt_laden_synchron():
 
     echt_run, echt_cache = ds.subprocess.run, dict(ds._markt_cache)
     ds.subprocess.run = fake_run
-    ds._markt_cache.update(t=0.0, data=None, wall=0.0, error=None)
+    ds._markt_cache.update(data=None, wall=0.0, versuch=0.0, error_str=None)
     try:
         ds._markt_laden()
         assert len(aufrufe) == 1, f"bias_levels.py {len(aufrufe)}x aufgerufen statt 1x"
         assert ds._markt_cache["data"]["day"] == "2026-08-25"
-        assert ds._markt_cache["error"] is None
+        assert ds._markt_cache["error_str"] is None
     finally:
         ds.subprocess.run = echt_run
         ds._markt_cache.update(echt_cache)
@@ -194,12 +194,12 @@ def test_markt_laden_fehler_vermerken():
 
     echt_run, echt_cache = ds.subprocess.run, dict(ds._markt_cache)
     ds.subprocess.run = fake_run
-    ds._markt_cache.update(t=0.0, data=None, wall=0.0, error=None)
+    ds._markt_cache.update(data=None, wall=0.0, versuch=0.0, error_str=None)
     try:
         ds._markt_laden()
         assert ds._markt_cache["data"] is None
-        assert ds._markt_cache["error"] is not None
-        assert isinstance(ds._markt_cache["error"], ds.subprocess.TimeoutExpired)
+        assert ds._markt_cache["error_str"] is not None
+        assert "TimeoutExpired" in ds._markt_cache["error_str"]
     finally:
         ds.subprocess.run = echt_run
         ds._markt_cache.update(echt_cache)
@@ -208,7 +208,7 @@ def test_markt_laden_fehler_vermerken():
 def test_markt_leer_wirft_werden_geladen():
     """Wenn Cache leer ist und Laden unterwegs ist, wirft markt() sofort Fehler."""
     echt_cache = dict(ds._markt_cache)
-    ds._markt_cache.update(t=0.0, data=None, wall=0.0, error=None)
+    ds._markt_cache.update(data=None, wall=0.0, versuch=0.0, error_str=None)
     ds._markt_laden_laeuft = True
     try:
         r = ds.sicher(ds.markt)
@@ -218,6 +218,91 @@ def test_markt_leer_wirft_werden_geladen():
     finally:
         ds._markt_cache.update(echt_cache)
         ds._markt_laden_laeuft = False
+
+
+def test_markt_fehler_beim_refresh_verbietet_alte_daten_als_frisch():
+    """Nach erfolgreicher Ladung, dann abgelaufenem Cache, dann fehlgeschlagenem Refresh
+    muss der Fehler gemeldet werden — nicht die alten Daten als frisch ausgegeben."""
+    aufrufe = []
+
+    def fake_run_erfolg(*a, **k):
+        aufrufe.append("erfolg")
+        class P:
+            returncode = 0
+            stdout = '{"day": "2026-08-24", "news": {"events": []}}'
+            stderr = ""
+        return P()
+
+    def fake_run_fehler(*a, **k):
+        aufrufe.append("fehler")
+        raise ds.subprocess.TimeoutExpired(cmd="bias_levels.py", timeout=120)
+
+    echt_run, echt_cache = ds.subprocess.run, dict(ds._markt_cache)
+    ds.subprocess.run = fake_run_erfolg
+    ds._markt_cache.update(data=None, wall=0.0, versuch=0.0, error_str=None)
+    try:
+        # Erste Ladung: erfolg
+        ds._markt_laden()
+        assert ds._markt_cache["data"]["day"] == "2026-08-24"
+        assert ds._markt_cache["error_str"] is None
+        # Alter Cache: versuch + wall sehr alt
+        ds._markt_cache["versuch"] = time.monotonic() - 1000
+        ds._markt_cache["wall"] = time.time() - 1000
+        # Zweiter Versuch: fehler
+        ds.subprocess.run = fake_run_fehler
+        ds._markt_laden()
+        # Nach Fehlschlag: Error im Cache, aber alte Daten noch vorhanden
+        assert ds._markt_cache["error_str"] is not None
+        # markt() muss jetzt den Fehler werfen, nicht die alten Daten als frisch liefern
+        r = ds.sicher(ds.markt)
+        assert r["data"] is None, "alte Daten sollten nicht zuruckgegeben werden"
+        assert "TimeoutExpired" in r["error"], r["error"]
+        assert len(aufrufe) == 2, f"{aufrufe}x aufgerufen, erwartet 2"
+    finally:
+        ds.subprocess.run = echt_run
+        ds._markt_cache.update(echt_cache)
+
+
+def test_markt_fehler_danach_retry_nach_cache_abgelaufen():
+    """Nach Fehlschlag ohne Daten und abgelaufenem Versuch-Cache:
+    markt() startet neuen Ladeversuch UND wirft den alten Fehler (kein Retry-Status-Text)."""
+    aufrufe = []
+
+    def fake_run(*a, **k):
+        aufrufe.append(1)
+        raise ds.subprocess.TimeoutExpired(cmd="bias_levels.py", timeout=120)
+
+    echt_run, echt_cache = ds.subprocess.run, dict(ds._markt_cache)
+    ds.subprocess.run = fake_run
+    ds._markt_cache.update(data=None, wall=0.0, versuch=0.0, error_str=None)
+    try:
+        # Erster Fehlschlag
+        ds._markt_laden()
+        assert len(aufrufe) == 1
+        assert ds._markt_cache["error_str"] is not None
+        # Versuch-Cache abgelaufen -> triggert neuen Ladeversuch
+        ds._markt_cache["versuch"] = time.monotonic() - 1000
+        # markt() soll einen neuen Thread starten
+        start_anfrage = []
+        echt_thread = ds.threading.Thread
+        def fake_thread(target=None, daemon=None):
+            start_anfrage.append(target)
+            class FakeThread:
+                def start(self):
+                    pass
+            return FakeThread()
+        ds.threading.Thread = fake_thread
+        try:
+            r = ds.sicher(ds.markt)
+            # Sollte neuen Thread starten
+            assert len(start_anfrage) == 1, "Kein neuer Thread fuer Retry"
+            # UND den alten Fehler werfen (Spec: error check kommt vor "werden geladen")
+            assert "TimeoutExpired" in r["error"]
+        finally:
+            ds.threading.Thread = echt_thread
+    finally:
+        ds.subprocess.run = echt_run
+        ds._markt_cache.update(echt_cache)
 
 
 if __name__ == "__main__":
