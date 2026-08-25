@@ -70,9 +70,16 @@ Alles Lesen aus vorhandenen Artefakten, nichts neu erfunden:
 | Skill-Katalog | `.claude/skills/*/SKILL.md` + `.claude/commands/*.md` Frontmatter | 2 |
 | Quant-Lernpfad | `wiki/lernpfad/*.md` | 3 |
 
-`bias_levels.py` zieht News ueber HTTP und braucht Sekunden. Deshalb Cache im Serverprozess mit
-Mindestalter **15 min** — nicht bei jedem Poll aufrufen. Der Cache wird nie als aktuell
-ausgegeben: `age_s` sagt immer, wie alt der Wert wirklich ist.
+`bias_levels.py` zieht News ueber HTTP und braucht **gemessen rund 60 s** (Messung 2026-08-25:
+58,7 s). Deshalb zwei Vorkehrungen statt nur einer:
+
+- **Cache** im Serverprozess mit Mindestalter **15 min** — nicht bei jedem Poll aufrufen.
+- **Laden im Hintergrundthread**, Subprozess-Timeout 120 s. Ein `/api/state` darf nie eine Minute
+  blockieren: bei 5-Sekunden-Polling stapeln sich sonst ein Dutzend paralleler Subprozesse und die
+  Seite steht. `markt()` antwortet immer sofort — mit dem Cache, oder mit dem Zustand
+  „Levels werden geladen“.
+
+Der Cache wird nie als aktuell ausgegeben: `age_s` sagt immer, wie alt der Wert wirklich ist.
 
 ## Externe Voraussetzung: Cowork schreibt Dateien
 
@@ -135,7 +142,8 @@ Wert.
 | Fall | Verhalten |
 |---|---|
 | Briefing-Datei fuer heute fehlt (Cowork lief nicht oder wurde uebersprungen) | „Kein Briefing fuer <Datum> — letztes: <Datum>" + Button, den Lauf per `claude -p` nachzuholen |
-| `bias_levels.py` wirft oder braucht > 20 s | Timeout; Panel zeigt Fehlertext + Zeitstempel des letzten erfolgreichen Abrufs |
+| `bias_levels.py` wirft oder braucht > 120 s | Timeout; Panel zeigt Fehlertext + Zeitstempel des letzten erfolgreichen Abrufs |
+| `bias_levels.py` laeuft noch (erster Abruf, ~60 s) | Panel zeigt „Levels werden geladen“ statt zu blockieren |
 | 1s-Marktdaten aelter als der letzte Handelstag | Kopfzeile rot: „NQ 1s bis <Datum>, N Tage Luecke" — **melden, nicht nachladen** (Autonomie-Regel aus CLAUDE.md) |
 | `claude`-Subprozess stirbt oder haengt | Run als `fehlgeschlagen` mit Exit-Code, Log bleibt liegen; kein automatischer Neustart |
 
