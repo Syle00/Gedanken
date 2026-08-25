@@ -242,20 +242,42 @@ def test_faellige_extern_kulanz():
 
 
 def test_dry_run_changed_nutzt_tagesbeginn():
-    # Ruling 2: der Dry-Run soll fuer 'changed:' den heutigen Tagesbeginn als
-    # Startzeitpunkt nehmen, nicht den aktuellen Moment -- sonst ist eine
-    # Datei, die heute frueh entstand, im Trockenlauf faelschlich rot.
+    # Ruling 2: der Dry-Run-Zweig von cli() soll fuer 'changed:' den heutigen
+    # Tagesbeginn als Startzeitpunkt uebergeben, nicht den aktuellen Moment --
+    # sonst ist eine Datei, die heute frueh entstand, im Trockenlauf
+    # faelschlich rot. Klemmt cli() tatsaechlich ein (kein direkter
+    # expect_ok-Aufruf), sonst haette ein Rueckbau auf `now` keinen Effekt.
+    import agent_tick
+    import io
+    import os
+    from contextlib import redirect_stdout
+
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
+        cmds = root / ".claude" / "commands"
+        cmds.mkdir(parents=True)
+        (cmds / "geplant.md").write_text(
+            "---\ndescription: mit Plan\nschedule: \"0 20 * * 0-4\"\n"
+            "expect: \"changed: daten.csv\"\n---\nText\n",
+            encoding="utf-8",
+        )
         ziel = root / "daten.csv"
         ziel.write_text("neu", encoding="utf-8")
-        import os
-        heute_frueh = datetime(2026, 8, 25, 0, 30).timestamp()
-        os.utime(ziel, (heute_frueh, heute_frueh))
+        heute_frueh = datetime.combine(date.today(), datetime.min.time()).replace(minute=30)
+        os.utime(ziel, (heute_frueh.timestamp(), heute_frueh.timestamp()))
 
-        tagesbeginn = datetime.combine(date(2026, 8, 25), datetime.min.time())
-        ok, notiz = expect_ok("changed: daten.csv", root, tagesbeginn, date(2026, 8, 25))
-        assert ok is True, notiz
+        alt_root = agent_tick.ROOT
+        agent_tick.ROOT = root
+        try:
+            buf = io.StringIO()
+            with redirect_stdout(buf):
+                agent_tick.cli(["--dry-run"])
+        finally:
+            agent_tick.ROOT = alt_root
+
+        ausgabe = buf.getvalue()
+        assert "ROT" not in ausgabe, ausgabe
+        assert "expect=ok" in ausgabe, ausgabe
 
 
 def main():
