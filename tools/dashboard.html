@@ -1,0 +1,172 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Zentrale</title>
+<style>
+  :root {
+    --bg: #fbfaf8; --karte: #fff; --rahmen: #e3ded6; --text: #1c1a17;
+    --leise: #6b6560; --ok: #2f7a3f; --warn: #a8760a; --fehler: #b3261e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16171a; --karte: #1d1f23; --rahmen: #2d3036; --text: #e6e3de;
+      --leise: #948e87; --ok: #6bbd7c; --warn: #d9a441; --fehler: #e4756b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 1rem; background: var(--bg); color: var(--text);
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { display: flex; justify-content: space-between; align-items: baseline;
+           gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  header h1 { font-size: 1.05rem; font-weight: 600; margin: 0; }
+  #grid { display: grid; gap: 1rem;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); align-items: start; }
+  section { background: var(--karte); border: 1px solid var(--rahmen);
+            border-radius: 10px; padding: .9rem 1rem; }
+  section h2 { font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+               color: var(--leise); margin: 0 0 .7rem; }
+  section h3 { font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+               color: var(--leise); margin: 1rem 0 .4rem; font-weight: 600; }
+  .alter { float: right; font-weight: 400; letter-spacing: 0; text-transform: none; }
+  .fehler { color: var(--fehler); }
+  .ok { color: var(--ok); }
+  .warn { color: var(--warn); }
+  .leise { color: var(--leise); }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: .12rem 0; vertical-align: baseline; }
+  td.wert { text-align: right; font-variant-numeric: tabular-nums; }
+  td.zeit { width: 4.2rem; font-variant-numeric: tabular-nums; color: var(--leise); }
+  td.unter { padding-left: .8rem; color: var(--leise); }
+  pre { white-space: pre-wrap; font: inherit; margin: 0 0 .6rem; }
+  .log { font: 12px/1.4 ui-monospace, Consolas, monospace; color: var(--leise);
+         background: var(--bg); border-radius: 6px; padding: .4rem .6rem; margin-top: .3rem; }
+  button { font: inherit; padding: .3rem .7rem; border-radius: 6px;
+           border: 1px solid var(--rahmen); background: var(--bg); color: var(--text);
+           cursor: pointer; }
+  button:hover { border-color: var(--leise); }
+</style>
+
+<header>
+  <h1 id="kopf">…</h1>
+  <div id="daten" class="leise"></div>
+</header>
+<div id="grid">
+  <section id="p-heute"><h2>Heute</h2><div class="inhalt"></div></section>
+  <section id="p-markt"><h2>Markt</h2><div class="inhalt"></div></section>
+  <section id="p-runs"><h2>Läufe</h2><div class="inhalt"></div></section>
+</div>
+
+<script>
+const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const alter = s => s == null ? "" : s < 90 ? "gerade eben"
+  : s < 5400 ? Math.round(s / 60) + " min alt" : Math.round(s / 3600) + " h alt";
+
+function kachel(id, panel, render) {
+  const sec = document.getElementById(id);
+  const kopf = sec.querySelector("h2");
+  kopf.querySelector(".alter")?.remove();
+  const badge = document.createElement("span");
+  badge.className = "alter leise";
+  badge.textContent = panel?.error ? "" : alter(panel?.age_s);
+  kopf.append(badge);
+  sec.querySelector(".inhalt").innerHTML =
+    panel?.error ? `<p class="fehler">${esc(panel.error)}</p>` : render(panel.data);
+}
+
+function heute(d) {
+  const termine = d.termine.length
+    ? `<table>${d.termine.map(t =>
+        `<tr><td class="zeit">${esc(t.zeit)}</td><td>${esc(t.titel)}</td></tr>`).join("")}</table>`
+    : `<p class="leise">Keine Termine hinterlegt.</p>`;
+  const kopf = d.fehlt
+    ? `<p class="warn">${esc(d.hinweis)}</p>
+       <p><button onclick="lauf('Erstelle das heutige Morgen-Briefing.')">nachholen</button></p>`
+    : `<p class="leise">${esc(d.datei)}</p><pre>${esc(d.text)}</pre>`;
+  return kopf + `<h3>Termine</h3>` + termine;
+}
+
+// Standing user rule: level tables always complete (C.E./Qs/Os/Hs), never a single value.
+function unterteilung(g) {
+  const z = [];
+  const r = (l, v, klasse) => v != null && z.push(
+    `<tr><td class="${klasse || ""}">${esc(l)}</td><td class="wert">${esc(v)}</td></tr>`);
+  r("Close (vor Pause)", g.close, "unter");
+  r("Open (nach Pause)", g.open, "unter");
+  r("C.E.", g.ce, "unter");
+  for (const k of ["hs", "qs", "os"])
+    for (const [name, v] of Object.entries(g[k] ?? {})) r(name, v, "unter");
+  return z.join("");
+}
+
+function markt(d) {
+  const z = [];
+  const r = (label, v) => v != null && z.push(
+    `<tr><td>${esc(label)}</td><td class="wert">${esc(v)}</td></tr>`);
+  if (d.yesterday_range) {
+    r("PDH", d.yesterday_range.high); r("PDL", d.yesterday_range.low);
+    r("PD Close", d.yesterday_range.close);
+  }
+  if (d.weekly_range) { r("Wochen-High", d.weekly_range.high); r("Wochen-Low", d.weekly_range.low); }
+  const nwog_tage = new Set((d.gaps?.nwog ?? []).map(g => g.tag));
+  for (const g of (d.gaps?.offen ?? []).slice(0, 3)) {
+    z.push(`<tr><td colspan="2"><strong>${esc(nwog_tage.has(g.tag) ? "NWOG" : "NDOG")} ${
+      esc(g.tag)}</strong> <span class="leise">Gap ${esc(g.gap)}</span></td></tr>`);
+    z.push(unterteilung(g));
+  }
+  const levels = z.length ? `<table>${z.join("")}</table>`
+                          : `<p class="leise">Keine Levels verfügbar.</p>`;
+  const hinweis = d.gaps?.hinweis ? `<p class="warn">${esc(d.gaps.hinweis)}</p>` : "";
+  const news = d.news?.error
+    ? `<p class="warn">News: ${esc(d.news.error)}</p>`
+    : (d.news?.events ?? []).length
+      ? `<table>${d.news.events.map(e =>
+          `<tr><td class="zeit">${esc(e.ny.slice(-5))}</td><td>${esc(e.impact)} ${esc(e.title)}</td></tr>`
+        ).join("")}</table>`
+      : `<p class="leise">Keine USD-Termine mit Red-/Orange-Impact.</p>`;
+  const bias = d.bias_datei
+    ? `<p>Bias ${esc(d.bias_datei.datum)}: <strong>${esc(d.bias_datei.bias)}</strong></p>`
+    : `<p class="leise">Keine Bias-Datei gefunden.</p>`;
+  return levels + hinweis + `<h3>News (USD, NY)</h3>` + news + bias;
+}
+
+function laeufe(liste) {
+  if (!liste.length) return `<p class="leise">Kein Lauf gestartet.</p>`;
+  const farbe = {laeuft: "", ok: "ok", fehlgeschlagen: "fehler", beendet: "leise"};
+  return liste.map(r => `
+    <div><span class="${farbe[r.status] ?? ""}">${esc(r.status)}</span>
+         <span class="leise">${esc(r.id)}</span>
+         ${r.log?.length ? `<div class="log">${r.log.map(esc).join("<br>")}</div>` : ""}</div>`
+  ).join("");
+}
+
+async function lauf(prompt) {
+  const p = window.prompt("Prompt für claude -p:", prompt ?? "");
+  if (!p) return;
+  await fetch("/api/run", {method: "POST", headers: {"Content-Type": "application/json"},
+                           body: JSON.stringify({prompt: p})});
+  tick();
+}
+
+async function tick() {
+  let s;
+  try {
+    s = await (await fetch("/api/state")).json();
+  } catch (e) {
+    document.getElementById("kopf").textContent = "Server nicht erreichbar";
+    return;
+  }
+  document.getElementById("kopf").textContent =
+    `${s.now.weekday}, ${s.now.datum} · NY ${s.now.ny}`;
+  const d = s.daten;
+  document.getElementById("daten").innerHTML = d.error
+    ? `<span class="fehler">${esc(d.error)}</span>`
+    : Object.entries(d.data.symbole).map(([sym, v]) =>
+        `<span class="${v.fehlt_tage ? "fehler" : "ok"}">${esc(sym)} 1s bis ${esc(v.bis)}${
+          v.fehlt_tage ? ` · ${v.fehlt_tage} Tage Lücke` : ""}</span>`).join(" · ");
+  kachel("p-heute", s.briefing, heute);
+  kachel("p-markt", s.markt, markt);
+  kachel("p-runs", s.runs, laeufe);
+}
+
+tick();
+setInterval(tick, 5000);
+</script>
