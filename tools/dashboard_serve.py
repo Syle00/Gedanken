@@ -13,6 +13,9 @@ from __future__ import annotations
 import csv
 import json
 import os
+import re
+import subprocess
+import sys
 import time
 from datetime import date, datetime, timedelta
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -140,6 +143,49 @@ def briefing() -> tuple[dict, float]:
 
 ERLAUBT = ("planung", "raw/journal", "wiki/lernpfad")
 
+BIAS_ORDNER = VAULT / "raw" / "journal"
+CACHE_S = 900
+_markt_cache: dict = {"t": 0.0, "data": None, "wall": 0.0}
+
+
+def _neueste_bias() -> dict | None:
+    """Bias-Richtung aus der juengsten Daily-Bias-Datei (flach in raw/journal/,
+    tools/sortiere_bias.py raeumt sie spaeter nach raw/journal/bias/daily/)."""
+    dateien = sorted(BIAS_ORDNER.glob("Daily Bias *.md"))
+    if not dateien:
+        return None
+    p = dateien[-1]
+    kopf = p.read_text(encoding="utf-8", errors="replace")[:800]
+    m = re.search(r"^Bias:\s*\n\s*-\s*(.+)$", kopf, re.MULTILINE)
+    return {"datei": p.name,
+            "bias": (m.group(1).strip() if m else "unbekannt"),
+            "datum": p.stem.replace("Daily Bias ", "")}
+
+
+def markt() -> tuple[dict, float]:
+    """Levels + News aus algo/bias_levels.py, gecacht.
+
+    Der Aufruf zieht News ueber HTTP und braucht Sekunden -- bei jedem 5s-Poll waere das
+    ein Dauerfeuer auf ForexFactory. Deshalb Mindestalter CACHE_S; `age_s` sagt immer,
+    wie alt der Wert wirklich ist."""
+    if _markt_cache["data"] is None or time.monotonic() - _markt_cache["t"] > CACHE_S:
+        try:
+            p = subprocess.run([sys.executable, str(VAULT / "algo" / "bias_levels.py")],
+                               capture_output=True, text=True, timeout=20,
+                               encoding="utf-8", errors="replace", cwd=str(VAULT))
+            if p.returncode != 0:
+                raise RuntimeError((p.stderr or "").strip()[-300:] or f"exit {p.returncode}")
+            _markt_cache.update(t=time.monotonic(), data=json.loads(p.stdout),
+                                wall=time.time())
+        except Exception as exc:
+            letzte = (datetime.fromtimestamp(_markt_cache["wall"], NY).strftime("%d.%m. %H:%M")
+                      if _markt_cache["wall"] else "nie")
+            raise RuntimeError(f"{type(exc).__name__}: {exc} "
+                               f"(letzter erfolgreicher Abruf: {letzte})") from None
+    d = dict(_markt_cache["data"])
+    d["bias_datei"] = _neueste_bias()
+    return d, time.time() - _markt_cache["wall"]
+
 
 def ziel_pfad(rel: str) -> Path:
     """Relativen Pfad gegen die Whitelist pruefen -- **nach** resolve(), sonst rutschen
@@ -166,7 +212,8 @@ def schreibe_atomar(p: Path, text: str) -> None:
 def state() -> dict:
     return {"now": jetzt(),
             "briefing": sicher(briefing),
-            "daten": sicher(datenabdeckung)}
+            "daten": sicher(datenabdeckung),
+            "markt": sicher(markt)}
 
 
 class Handler(BaseHTTPRequestHandler):

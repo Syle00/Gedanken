@@ -158,6 +158,52 @@ def test_briefing_altes_wird_als_alt_erkannt():
         (ds.VAULT / "_test_briefings").rmdir()
 
 
+def test_neueste_bias():
+    r = ds._neueste_bias()
+    # Im Vault liegen Bias-Dateien; ist der Ordner leer, ist None korrekt.
+    assert r is None or {"datei", "bias", "datum"} <= set(r), r
+
+
+def test_markt_cache_verhindert_zweiten_aufruf():
+    aufrufe = []
+
+    def fake_run(*a, **k):
+        aufrufe.append(1)
+        class P:
+            returncode = 0
+            stdout = '{"day": "2026-08-25", "weekday": "Tuesday", "news": {"events": []}}'
+            stderr = ""
+        return P()
+
+    echt_run, echt_cache = ds.subprocess.run, dict(ds._markt_cache)
+    ds.subprocess.run = fake_run
+    ds._markt_cache.update(t=0.0, data=None, wall=0.0)
+    try:
+        d1, _ = ds.markt()
+        d2, _ = ds.markt()
+    finally:
+        ds.subprocess.run = echt_run
+        ds._markt_cache.update(echt_cache)
+    assert len(aufrufe) == 1, f"bias_levels.py {len(aufrufe)}x aufgerufen statt 1x"
+    assert d1["day"] == d2["day"] == "2026-08-25"
+
+
+def test_markt_fehler_nennt_letzten_erfolg():
+    def fake_run(*a, **k):
+        raise ds.subprocess.TimeoutExpired(cmd="bias_levels.py", timeout=20)
+
+    echt_run, echt_cache = ds.subprocess.run, dict(ds._markt_cache)
+    ds.subprocess.run = fake_run
+    ds._markt_cache.update(t=0.0, data=None, wall=0.0)
+    try:
+        r = ds.sicher(ds.markt)
+    finally:
+        ds.subprocess.run = echt_run
+        ds._markt_cache.update(echt_cache)
+    assert r["data"] is None
+    assert "letzter erfolgreicher Abruf" in r["error"], r["error"]
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):
