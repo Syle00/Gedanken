@@ -164,7 +164,7 @@ def test_neueste_bias():
     assert r is None or {"datei", "bias", "datum"} <= set(r), r
 
 
-def test_markt_cache_verhindert_zweiten_aufruf():
+def test_markt_laden_synchron():
     aufrufe = []
 
     def fake_run(*a, **k):
@@ -177,31 +177,47 @@ def test_markt_cache_verhindert_zweiten_aufruf():
 
     echt_run, echt_cache = ds.subprocess.run, dict(ds._markt_cache)
     ds.subprocess.run = fake_run
-    ds._markt_cache.update(t=0.0, data=None, wall=0.0)
+    ds._markt_cache.update(t=0.0, data=None, wall=0.0, error=None)
     try:
-        d1, _ = ds.markt()
-        d2, _ = ds.markt()
+        ds._markt_laden()
+        assert len(aufrufe) == 1, f"bias_levels.py {len(aufrufe)}x aufgerufen statt 1x"
+        assert ds._markt_cache["data"]["day"] == "2026-08-25"
+        assert ds._markt_cache["error"] is None
     finally:
         ds.subprocess.run = echt_run
         ds._markt_cache.update(echt_cache)
-    assert len(aufrufe) == 1, f"bias_levels.py {len(aufrufe)}x aufgerufen statt 1x"
-    assert d1["day"] == d2["day"] == "2026-08-25"
 
 
-def test_markt_fehler_nennt_letzten_erfolg():
+def test_markt_laden_fehler_vermerken():
     def fake_run(*a, **k):
-        raise ds.subprocess.TimeoutExpired(cmd="bias_levels.py", timeout=20)
+        raise ds.subprocess.TimeoutExpired(cmd="bias_levels.py", timeout=120)
 
     echt_run, echt_cache = ds.subprocess.run, dict(ds._markt_cache)
     ds.subprocess.run = fake_run
-    ds._markt_cache.update(t=0.0, data=None, wall=0.0)
+    ds._markt_cache.update(t=0.0, data=None, wall=0.0, error=None)
     try:
-        r = ds.sicher(ds.markt)
+        ds._markt_laden()
+        assert ds._markt_cache["data"] is None
+        assert ds._markt_cache["error"] is not None
+        assert isinstance(ds._markt_cache["error"], ds.subprocess.TimeoutExpired)
     finally:
         ds.subprocess.run = echt_run
         ds._markt_cache.update(echt_cache)
-    assert r["data"] is None
-    assert "letzter erfolgreicher Abruf" in r["error"], r["error"]
+
+
+def test_markt_leer_wirft_werden_geladen():
+    """Wenn Cache leer ist und Laden unterwegs ist, wirft markt() sofort Fehler."""
+    echt_cache = dict(ds._markt_cache)
+    ds._markt_cache.update(t=0.0, data=None, wall=0.0, error=None)
+    ds._markt_laden_laeuft = True
+    try:
+        r = ds.sicher(ds.markt)
+        assert r["data"] is None
+        assert "werden geladen" in r["error"], r["error"]
+        assert "eine Minute" in r["error"], "Zeitangabe fehlt"
+    finally:
+        ds._markt_cache.update(echt_cache)
+        ds._markt_laden_laeuft = False
 
 
 if __name__ == "__main__":
