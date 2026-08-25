@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from agent_tick import (
     Entry, append_run, cron_matches, expect_ok, faellige, last_due, last_run,
-    parse_timeout, resolve_placeholders, scan_entries,
+    parse_timeout, resolve_placeholders, run_entry, scan_entries, write_status,
 )
 
 
@@ -278,6 +278,110 @@ def test_dry_run_changed_nutzt_tagesbeginn():
         ausgabe = buf.getvalue()
         assert "ROT" not in ausgabe, ausgabe
         assert "expect=ok" in ausgabe, ausgabe
+
+
+def test_run_entry_gruen():
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        (root / "out").mkdir()
+        e = Entry("demo", "0 20 * * *", "out/{today}.md", 900, False, root / "demo.md")
+
+        def starter(cmd, timeout_s):
+            (root / "out" / "2026-08-24.md").write_text("erzeugt", encoding="utf-8")
+            return 0, "fertig"
+
+        zeile = run_entry(e, "plan", root, datetime(2026, 8, 24, 20, 0), starter=starter)
+        assert zeile["status"] == "gruen", zeile
+        assert zeile["exit"] == "0"
+        assert zeile["expect_ok"] == "1"
+        assert zeile["command"] == "demo"
+        assert zeile["ausloeser"] == "plan"
+
+
+def test_run_entry_expect_verfehlt():
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        e = Entry("demo", "0 20 * * *", "out/{today}.md", 900, False, root / "demo.md")
+        # Lauf meldet Erfolg, erzeugt aber nichts -- genau der Fall, den expect faengt
+        zeile = run_entry(e, "plan", root, datetime(2026, 8, 24, 20, 0),
+                          starter=lambda cmd, t: (0, "angeblich fertig"))
+        assert zeile["status"] == "rot", zeile
+        assert zeile["exit"] == "0"
+        assert zeile["expect_ok"] == "0"
+        assert "expect verfehlt" in zeile["notiz"], zeile
+
+
+def test_run_entry_wiederholt_bei_fehler():
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        e = Entry("demo", "0 20 * * *", None, 900, False, root / "demo.md")
+        versuche = []
+
+        def starter(cmd, timeout_s):
+            versuche.append(cmd)
+            return (1, "peng") if len(versuche) < 3 else (0, "endlich")
+
+        zeile = run_entry(e, "plan", root, datetime(2026, 8, 24, 20, 0), starter=starter)
+        assert len(versuche) == 3, versuche          # Erstversuch + 2 Wiederholungen
+        assert zeile["status"] == "gruen", zeile
+
+
+def test_run_entry_gibt_nach_zwei_wiederholungen_auf():
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        e = Entry("demo", "0 20 * * *", None, 900, False, root / "demo.md")
+        versuche = []
+
+        def starter(cmd, timeout_s):
+            versuche.append(cmd)
+            return 1, "peng"
+
+        zeile = run_entry(e, "plan", root, datetime(2026, 8, 24, 20, 0), starter=starter)
+        assert len(versuche) == 3, versuche
+        assert zeile["status"] == "rot", zeile
+        assert zeile["exit"] == "1"
+
+
+def test_run_entry_timeout():
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        e = Entry("demo", "0 20 * * *", None, 900, False, root / "demo.md")
+        # 124 ist der Code, den _subprocess_starter bei TimeoutExpired liefert
+        zeile = run_entry(e, "plan", root, datetime(2026, 8, 24, 20, 0),
+                          starter=lambda cmd, t: (124, ""))
+        assert zeile["status"] == "rot", zeile
+        assert zeile["exit"] == "124"
+        assert "Timeout" in zeile["notiz"], zeile
+        assert "900" in zeile["notiz"], zeile
+
+
+def test_run_entry_extern_startet_nichts():
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        e = Entry("brief", "0 7 * * *", "out/b.md", 3600, True, root / "brief.md")
+        versuche = []
+
+        def starter(cmd, timeout_s):
+            versuche.append(cmd)
+            return 0, ""
+
+        zeile = run_entry(e, "extern", root, datetime(2026, 8, 24, 8, 0), starter=starter)
+        assert versuche == [], "externer Eintrag darf nie gestartet werden"
+        assert zeile["status"] == "rot", zeile
+        assert zeile["dauer_s"] == ""
+        assert "ausgeblieben" in zeile["notiz"], zeile
+
+
+def test_write_status():
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        (root / "algo" / "live").mkdir(parents=True)
+        e = Entry("demo", "0 20 * * *", "out/fehlt.md", 900, False, root / "demo.md")
+        text = write_status(root, [e], datetime(2026, 8, 24, 21, 0))
+        ziel = root / "algo" / "live" / "agent-status.md"
+        assert ziel.exists()
+        assert "demo" in text
+        assert "2026-08-24" in text
 
 
 def main():

@@ -76,7 +76,7 @@ ausgegeben: `age_s` sagt immer, wie alt der Wert wirklich ist.
 
 ## Externe Voraussetzung: Cowork schreibt Dateien
 
-Die Briefing-Texte liegen heute nur in der ChatGPT-Cowork-App, nicht im Vault. Damit das
+Die Briefing-Texte liegen heute nur in der Claude-Desktop-Cowork-Oberflaeche, nicht im Vault. Damit das
 HEUTE-Panel Inhalt hat, muessen die Cowork-Anweisungen „Daily briefing" und „Abend briefing" um
 einen Satz erweitert werden:
 
