@@ -1,5 +1,8 @@
 ---
 description: Erzeugt die vorbefuellte Daily-Bias-Datei fuer den naechsten Handelstag (News, Levels, Wiki-Bezug, eigene Einschaetzung) -- fuer den Cron So-Do 20:00 oder manuellen Aufruf am Vorabend
+schedule: "0 20 * * 0-4"
+expect: "raw/journal/Daily Bias {next_trading_day}.md"
+timeout: 15m
 ---
 
 Erzeuge `raw/journal/Daily Bias <ZIEL>.md` fuer den naechsten Handelstag.

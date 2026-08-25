@@ -108,3 +108,8 @@ algo/results/forex_macro_blocks.csv
 # Blaeht den Push auf und laesst GitHubs Secret-Scanning haengen.
 .obsidian/plugins/*/main.js
 .obsidian/plugins/*/styles.css
+
+# --- Taktgeber (tools/agent_tick.py) ---
+# Lauf-Register des Taktgebers -- transient, wie algo/live/*/
+algo/live/agent-runs.csv
+algo/live/agent-status.md

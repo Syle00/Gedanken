@@ -1,5 +1,8 @@
 ---
 description: 1s-Datenanbindung fuer NQ/ES ueber IBKR -- Nachlad, Verify oder Backfill, je nach Argument (Design docs/superpowers/specs/2026-08-15-ibkr-1s-datenanbindung-design.md)
+schedule: "0 23 * * 1-5"
+expect: "changed: raw/marktdaten/1s-abdeckung.csv"
+timeout: 90m
 ---
 
 Fuehre einen Datenabruf ueber `algo/fetch_ibkr.py` aus. Argumente (siehe `$ARGUMENTS`,

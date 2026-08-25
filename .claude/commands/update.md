@@ -1,5 +1,7 @@
 ---
 description: Holt den neuesten Stand des Gedanken-Vaults von GitHub (für Arbeit auf mehreren Rechnern)
+schedule: "30 6 * * *"
+timeout: 10m
 ---
 
 Synchronisiere das lokale Repo mit `origin/main` auf GitHub (https://github.com/Syle00/Gedanken),

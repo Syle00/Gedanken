@@ -1,5 +1,8 @@
 ---
 description: Erzeugt die vorbefuellte Weekly-Bias-Datei fuer die kommende Handelswoche (News, Levels, Wiki-Bezug, eigene Einschaetzung) -- fuer den Cron freitags 20:00 oder manuellen Aufruf
+schedule: "0 20 * * 5"
+expect: "raw/journal/Weekly Bias KW{next_kw} {next_year}.md"
+timeout: 15m
 ---
 
 Erzeuge `raw/journal/Weekly Bias KW<NN> <JAHR>.md` fuer die kommende Handelswoche.
