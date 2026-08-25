@@ -330,6 +330,104 @@ def test_starte_run_lehnt_leeren_prompt_ab():
         raise AssertionError(f"leerer Prompt akzeptiert: {leer!r}")
 
 
+def test_starte_run_eindeutige_ids():
+    """Zwei schnelle Aufrufe bekommen unterschiedliche IDs (Mikrosekunden-Aufloesung)."""
+    echt_popen = ds.subprocess.Popen
+    def fake_popen(*a, **k):
+        class FakeProc:
+            def poll(self):
+                return None
+        return FakeProc()
+
+    ds.RUNS.mkdir(parents=True, exist_ok=True)
+    ds.subprocess.Popen = fake_popen
+    try:
+        id1 = ds.starte_run("prompt 1")
+        id2 = ds.starte_run("prompt 2")
+        assert id1 != id2, f"IDs sind gleich: {id1} == {id2}"
+        # Beide sollten Log-Dateien haben
+        assert (ds.RUNS / f"{id1}.log").exists(), f"{id1}.log existiert nicht"
+        assert (ds.RUNS / f"{id2}.log").exists(), f"{id2}.log existiert nicht"
+    finally:
+        ds.subprocess.Popen = echt_popen
+        for f in ds.RUNS.glob("*.log"):
+            f.unlink()
+
+
+def test_starte_run_fehler_keine_log_datei():
+    """Wirft Popen, bleibt keine Log-Datei zurück."""
+    echt_popen = ds.subprocess.Popen
+    def fake_popen_fehler(*a, **k):
+        raise RuntimeError("claude nicht gefunden")
+
+    ds.RUNS.mkdir(parents=True, exist_ok=True)
+    alt = len(list(ds.RUNS.glob("*.log")))
+    ds.subprocess.Popen = fake_popen_fehler
+    try:
+        ds.starte_run("prompt")
+    except RuntimeError:
+        pass
+    finally:
+        ds.subprocess.Popen = echt_popen
+    neu = len(list(ds.RUNS.glob("*.log")))
+    assert alt == neu, f"Log-Datei hinterlassen: alt={alt}, neu={neu}"
+
+
+def test_api_run_http():
+    """HTTP-Test: POST /api/run mit gueltigem und leerem Prompt."""
+    import json
+    import socket
+    from http.client import HTTPConnection
+
+    # Fake Popen
+    echt_popen = ds.subprocess.Popen
+    def fake_popen(*a, **k):
+        class FakeProc:
+            def poll(self):
+                return None
+        return FakeProc()
+
+    # Server auf Port 0 starten (OS waehlt freien Port)
+    ds.subprocess.Popen = fake_popen
+    ds.RUNS.mkdir(parents=True, exist_ok=True)
+    try:
+        srv = ds.ThreadingHTTPServer(("127.0.0.1", 0), ds.Handler)
+        addr, port = srv.server_address
+
+        # Server in Daemon-Thread
+        import threading
+        th = threading.Thread(target=srv.serve_forever, daemon=True)
+        th.start()
+
+        # Test 1: gültiger Prompt
+        conn = HTTPConnection("127.0.0.1", port)
+        body = json.dumps({"prompt": "test prompt"})
+        conn.request("POST", "/api/run", body, {"Content-Type": "application/json"})
+        resp = conn.getresponse()
+        data = json.loads(resp.read().decode("utf-8"))
+        assert resp.status == 200, f"erwartet 200, got {resp.status}"
+        assert data.get("ok") is True, f"ok nicht true: {data}"
+        assert data.get("id"), f"id fehlt: {data}"
+        conn.close()
+
+        # Test 2: leerer Prompt
+        conn = HTTPConnection("127.0.0.1", port)
+        body = json.dumps({"prompt": ""})
+        conn.request("POST", "/api/run", body, {"Content-Type": "application/json"})
+        resp = conn.getresponse()
+        data = json.loads(resp.read().decode("utf-8"))
+        assert resp.status == 400, f"erwartet 400, got {resp.status}"
+        assert data.get("ok") is False, f"ok nicht false: {data}"
+        assert "error" in data, f"error fehlt: {data}"
+        conn.close()
+
+        srv.shutdown()
+    finally:
+        ds.subprocess.Popen = echt_popen
+        for f in ds.RUNS.glob("*.log"):
+            f.unlink()
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

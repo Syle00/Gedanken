@@ -264,6 +264,8 @@ RUNS = VAULT / ".dashboard" / "runs"
 # Auf Windows ist `claude` eine .cmd -- Popen ohne shell findet sie nur ueber den vollen Pfad.
 CLAUDE = shutil.which("claude") or "claude"
 _PROZESSE: dict[str, subprocess.Popen] = {}
+_runs_lock = threading.Lock()
+_run_counter = 0  # Sequentieller Counter fuer globale Eindeutigkeit
 
 
 def starte_run(prompt: str) -> str:
@@ -271,11 +273,23 @@ def starte_run(prompt: str) -> str:
     if not (prompt or "").strip():
         raise ValueError("leerer Prompt")
     RUNS.mkdir(parents=True, exist_ok=True)
-    rid = datetime.now(NY).strftime("%Y%m%d-%H%M%S")
-    fh = (RUNS / f"{rid}.log").open("w", encoding="utf-8", errors="replace")
-    _PROZESSE[rid] = subprocess.Popen([CLAUDE, "-p", prompt], cwd=str(VAULT),
-                                      stdout=fh, stderr=subprocess.STDOUT)
-    return rid
+    with _runs_lock:
+        global _run_counter
+        _run_counter += 1
+        # Zeitstempel + Counter garantiert globale Eindeutigkeit
+        rid = f"{datetime.now(NY).strftime('%Y%m%d-%H%M%S')}-{_run_counter:06d}"
+        log_path = RUNS / f"{rid}.log"
+        fh = log_path.open("w", encoding="utf-8", errors="replace")
+        try:
+            proc = subprocess.Popen([CLAUDE, "-p", prompt], cwd=str(VAULT),
+                                    stdout=fh, stderr=subprocess.STDOUT)
+            _PROZESSE[rid] = proc
+            fh.close()  # Kindprozess hat Deskriptor geerbt, Elternprozess braucht ihn nicht
+            return rid
+        except Exception:
+            fh.close()
+            log_path.unlink(missing_ok=True)  # Keine halb angelegte Log-Datei hinterlassen
+            raise
 
 
 def runs() -> tuple[list[dict], float]:
@@ -285,17 +299,27 @@ def runs() -> tuple[list[dict], float]:
     gestorben."""
     if not RUNS.is_dir():
         return [], 0.0
-    out = []
-    for log in sorted(RUNS.glob("*.log"), key=lambda p: p.stat().st_mtime,
-                      reverse=True)[:5]:
-        proc = _PROZESSE.get(log.stem)
-        code = proc.poll() if proc else None
-        status = ("laeuft" if proc is not None and code is None else
-                  "ok" if code == 0 else
-                  "fehlgeschlagen" if code is not None else "beendet")
-        zeilen = log.read_text(encoding="utf-8", errors="replace").splitlines()[-3:]
-        out.append({"id": log.stem, "status": status, "exit": code, "log": zeilen})
-    return out, 0.0
+    with _runs_lock:
+        logs = sorted(RUNS.glob("*.log"), key=lambda p: p.stat().st_mtime,
+                      reverse=True)
+        angezeigt = set(log.stem for log in logs[:5])
+        # Aufraeumen: beendete Prozesse aus sichtbarer Liste entfernen
+        for rid in list(_PROZESSE.keys()):
+            if rid not in angezeigt:
+                proc = _PROZESSE[rid]
+                if proc.poll() is not None:  # beendet
+                    del _PROZESSE[rid]
+
+        out = []
+        for log in logs[:5]:
+            proc = _PROZESSE.get(log.stem)
+            code = proc.poll() if proc else None
+            status = ("laeuft" if proc is not None and code is None else
+                      "ok" if code == 0 else
+                      "fehlgeschlagen" if code is not None else "beendet")
+            zeilen = log.read_text(encoding="utf-8", errors="replace").splitlines()[-3:]
+            out.append({"id": log.stem, "status": status, "exit": code, "log": zeilen})
+        return out, 0.0
 
 
 def state() -> dict:
