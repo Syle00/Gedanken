@@ -155,10 +155,10 @@ nach `n`. Dafür brauchst du Wurzeln und Logarithmen, die stehen am Donnerstag a
 
 ## Nach der Session
 
-**Gelernt:**
+**Gelernt:** Teil 1 absolviert beim letzten mal keine Fehler 
 
 **Hängengeblieben:**
 
-**Hier weiter:**
+**Hier weiter:** Teil 2 usw. für Mathe muss ich mir viel Zeit nehmen um es zu verstehen und um es korrekt anzuwenden
 
 **Karten angelegt:**
