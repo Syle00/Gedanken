@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lernpfad — Karteikarten &amp; Handy-Sync einrichten — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
+<li class="active"><a href="../index.html#meta">Meta<span class="count">20</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
+<li><a href="../p/cs50-python-karteikarten.html">CS50 Python — Karteikarten</a></li>
+<li><a href="../p/cs50-karteikarten-handy-sync-einrichten.html">CS50 — Karteikarten &amp; Handy-Sync einrichten</a></li>
+<li><a href="../p/index.html">Katalog (Original)</a></li>
+<li><a href="../p/lernpfad-2026-08-24-mo.html">Lernpfad 2026-08-24 Mo</a></li>
+<li><a href="../p/lernpfad-2026-08-25-di.html">Lernpfad 2026-08-25 Di</a></li>
+<li><a href="../p/lernpfad-2026-08-26-mi.html">Lernpfad 2026-08-26 Mi</a></li>
+<li><a href="../p/lernpfad-2026-08-27-do.html">Lernpfad 2026-08-27 Do</a></li>
+<li><a href="../p/lernpfad-2026-08-28-fr.html">Lernpfad 2026-08-28 Fr</a></li>
+<li><a href="../p/lernpfad-2026-08-29-sa.html">Lernpfad 2026-08-29 Sa</a></li>
+<li><a href="../p/lernpfad-2026-08-30-so.html">Lernpfad 2026-08-30 So</a></li>
+<li><a href="../p/lernpfad-quant-uebersicht.html">Lernpfad Quant — Übersicht</a></li>
+<li><a href="../p/lernpfad-cs50p-karten-woche-0.html">Lernpfad — CS50P Karten Woche 0</a></li>
+<li class="here"><a href="../p/lernpfad-karteikarten-handy-sync-einrichten.html">Lernpfad — Karteikarten &amp; Handy-Sync einrichten</a></li>
+<li><a href="../p/lernpfad-mathe-videothek.html">Lernpfad — Mathe-Videothek</a></li>
+<li><a href="../p/lernpfad-meilensteine.html">Lernpfad — Meilensteine</a></li>
+<li><a href="../p/lernpfad-tagesvorlage.html">Lernpfad — Tagesvorlage</a></li>
+<li><a href="../p/lernpfad-woche-01.html">Lernpfad — Woche 01</a></li>
+<li><a href="../p/lernpfad-zeitfenster-ausbaustufen.html">Lernpfad — Zeitfenster &amp; Ausbaustufen</a></li>
+<li><a href="../p/log.html">Änderungsprotokoll</a></li>
+<li><a href="../p/log-archiv-bis-2026-08.html">log-archiv-bis-2026-08</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#meta">Meta</a></div>
+  <h1>Lernpfad — Karteikarten &amp; Handy-Sync einrichten</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">lernpfad</span> <span class="tag">howto</span> <span class="tag">obsidian</span> <span class="tag">cs50</span></div><div class="dates">erstellt 2026-08-26 · aktualisiert 2026-08-26</div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#teil-a-plugin-und-kartensyntax-desktop-10-min">Teil A — Plugin und Kartensyntax (Desktop, ~10 Min)</a><ul>
+<li><a href="#a1-plugin-installieren">A1. Plugin installieren</a></li>
+<li><a href="#a2-die-syntax">A2. Die Syntax</a></li>
+<li><a href="#a3-stapel-sortieren">A3. Stapel sortieren</a></li>
+<li><a href="#a4-lernen-starten">A4. Lernen starten</a></li>
+</ul>
+</li>
+<li><a href="#teil-b-vault-aufs-iphone">Teil B — Vault aufs iPhone</a><ul>
+<li><a href="#b0-nicht-den-hauptvault-synchronisieren-desktop-2-min">B0. Nicht den Hauptvault synchronisieren (Desktop, 2 Min)</a></li>
+<li><a href="#b1-sync-weg-wahlen">B1. Sync-Weg wählen</a></li>
+<li><a href="#b2-remotely-save-am-desktop-heute-abend-10-min">B2. Remotely Save am Desktop (heute Abend, ~10 Min)</a></li>
+<li><a href="#b3-remotely-save-am-iphone-morgen-in-der-bahn-10-min">B3. Remotely Save am iPhone (morgen in der Bahn, ~10 Min)</a></li>
+<li><a href="#b4-danach">B4. Danach</a></li>
+</ul>
+</li>
+<li><a href="#checkliste">Checkliste</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="lernpfad-karteikarten-handy-sync-einrichten">Lernpfad — Karteikarten &amp; Handy-Sync einrichten</h1>
+<p>Einmalige Einrichtung für den Bahn-Slot aus <a href="../p/lernpfad-zeitfenster-ausbaustufen.html">Lernpfad — Zeitfenster &amp; Ausbaustufen</a>.
+Ohne sie läuft der 15-Minuten-Kartenblock in Block 1 von <a href="../p/lernpfad-2026-08-27-do.html">Lernpfad 2026-08-27 Do</a> ins Leere.</p>
+<blockquote>
+<p>[!warning] Reihenfolge beachten
+<strong>Teil A und B1–B2 gehen nur am Desktop und müssen heute Abend passieren.</strong>
+Morgen in der Bahn ist nur noch Teil B3 (Handy) übrig — der braucht keinen Laptop.
+Machst du B2 nicht vorher, liegt morgen nichts in der Cloud, das das Handy holen könnte.</p>
+<p><strong>Warum kein Anki:</strong> AnkiMobile für iOS ist ein kostenpflichtiger Einmalkauf (ca. 30 €).
+Obsidian ist auf iOS kostenlos, und das Plugin <em>Spaced Repetition</em> nutzt denselben
+SM-2-Algorithmus wie Anki — direkt im Vault, ohne zweite App.</p>
+</blockquote>
+<hr />
+<h2 id="teil-a-plugin-und-kartensyntax-desktop-10-min">Teil A — Plugin und Kartensyntax (Desktop, ~10 Min)</h2>
+<h3 id="a1-plugin-installieren">A1. Plugin installieren</h3>
+<ol>
+<li>Obsidian öffnen → unten links <strong>Zahnrad</strong> (Einstellungen).</li>
+<li>Links <strong>Community-Plugins</strong>.</li>
+<li>Steht dort „Eingeschränkter Modus / Restricted Mode" auf <strong>an</strong> → <strong>ausschalten</strong>
+   und die Warnung bestätigen.</li>
+<li><strong>Durchsuchen / Browse</strong> → Suchfeld: <code>Spaced Repetition</code>.</li>
+<li>Treffer von <strong>st3v3nmw</strong> (Stephen Mwangi) → <strong>Installieren</strong> → <strong>Aktivieren</strong>.</li>
+</ol>
+<blockquote>
+<p>Es gibt mehrere Flashcard-Plugins. Nimm genau dieses — es ist das ausgereifteste und
+das einzige mit brauchbarem Mobile-Support. Das Plugin namens <em>Flashcards</em> exportiert
+nur nach Anki und nützt dir hier nichts.</p>
+</blockquote>
+<h3 id="a2-die-syntax">A2. Die Syntax</h3>
+<p>Eine Karte ist <strong>eine Zeile in einer normalen Markdown-Notiz</strong>. Kein Extra-Editor, keine
+Datenbank. Die Datei braucht nur irgendwo den Tag <code>#flashcards</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Was du willst</th>
+<th>Wie du es schreibst</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Einfache Karte (Vorderseite → Rückseite)</td>
+<td><code>Frage::Antwort</code></td>
+</tr>
+<tr>
+<td>Karte in <strong>beide</strong> Richtungen abgefragt</td>
+<td><code>Frage:::Antwort</code></td>
+</tr>
+<tr>
+<td>Mehrzeilige Karte</td>
+<td>Frage, dann <code>?</code> allein in einer Zeile, dann Antwort</td>
+</tr>
+<tr>
+<td>Mehrzeilig, beide Richtungen</td>
+<td>dasselbe, aber <code>??</code> statt <code>?</code></td>
+</tr>
+<tr>
+<td>Lückentext (Cloze)</td>
+<td>Text mit <code>==markierter Stelle==</code> — die wird abgefragt</td>
+</tr>
+</tbody>
+</table>
+<p>Das entspricht genau der Syntax, die in <a href="../p/lernpfad-2026-08-26-mi.html">Lernpfad 2026-08-26 Mi</a> als Tagesaufgabe steht.</p>
+<h3 id="a3-stapel-sortieren">A3. Stapel sortieren</h3>
+<p>Der Tag bestimmt den Stapel, Unterstapel per Schrägstrich:</p>
+<ul>
+<li><code>#flashcards/python</code> — die Konvention aus dem Lernpfad, dabei bleiben</li>
+<li><code>#flashcards/mathe</code>, <code>#flashcards/statistik</code> — für die späteren Phasen</li>
+</ul>
+<h3 id="a4-lernen-starten">A4. Lernen starten</h3>
+<ul>
+<li>Linke Seitenleiste: neues Stapel-Icon → <strong>Review flashcards</strong></li>
+<li>Oder <code>Strg + P</code> → <code>Spaced Repetition: Review flashcards</code></li>
+</ul>
+<p>Beim Abfragen bewertest du dich selbst mit <strong>Hard / Good / Easy</strong>; daraus berechnet das
+Plugin den nächsten Termin. Sonst ist nichts einzustellen.</p>
+<blockquote>
+<p><strong>Startstapel liegt bereit:</strong> <a href="../p/lernpfad-cs50p-karten-woche-0.html">Lernpfad — CS50P Karten Woche 0</a>, rund 30 fertige Karten
+zu <code>int</code>, <code>input()</code>, Strings und Funktionen.</p>
+</blockquote>
+<hr />
+<h2 id="teil-b-vault-aufs-iphone">Teil B — Vault aufs iPhone</h2>
+<h3 id="b0-nicht-den-hauptvault-synchronisieren-desktop-2-min">B0. Nicht den Hauptvault synchronisieren (Desktop, 2 Min)</h3>
+<p><code>VS Folder 1</code> enthält <code>raw/</code> mit rund 190 MB Screenshots plus die Marktdaten-CSVs. Das aufs
+Handy zu spiegeln ist langsam, frisst Speicher und geht beim Sync regelmäßig schief.</p>
+<p><strong>Zweiter, kleiner Vault nur fürs Lernen:</strong></p>
+<ol>
+<li>Ordner anlegen: <code>C:\Users\Jannes\Desktop\Lern-Vault</code></li>
+<li>Obsidian → unten links Vault-Symbol → <strong>Andere Vaults verwalten</strong> →
+   <strong>Ordner als Vault öffnen</strong> → neuen Ordner wählen.</li>
+<li><a href="../p/lernpfad-cs50p-karten-woche-0.html">Lernpfad — CS50P Karten Woche 0</a> dorthin <strong>kopieren</strong> (nicht verschieben — die
+   Fassung hier im Repo bleibt als versionierte Sicherung liegen).</li>
+</ol>
+<h3 id="b1-sync-weg-wahlen">B1. Sync-Weg wählen</h3>
+<table>
+<thead>
+<tr>
+<th>Weg</th>
+<th>Kosten</th>
+<th>Urteil</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Remotely Save + Dropbox</strong></td>
+<td>kostenlos</td>
+<td><strong>Empfohlen.</strong> Läuft unter Windows und iOS.</td>
+</tr>
+<tr>
+<td>Obsidian Sync (offiziell)</td>
+<td>Abo</td>
+<td>Am zuverlässigsten, kostet aber — und du sparst dir gerade Anki.</td>
+</tr>
+<tr>
+<td>iCloud für Windows</td>
+<td>kostenlos</td>
+<td><strong>Nicht nehmen.</strong> Unter Windows gibt es wiederholt Berichte über doppelte und beschädigte Dateien. Auf reinen Apple-Geräten wäre es der einfachste Weg, du bist aber auf Windows.</td>
+</tr>
+<tr>
+<td>Git + Working Copy (iOS)</td>
+<td>App kostet fürs Pushen</td>
+<td>Naheliegend, weil du Git ohnehin nutzt. Die Gratis-Version kann nur klonen und ziehen, nicht pushen.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="b2-remotely-save-am-desktop-heute-abend-10-min">B2. Remotely Save am Desktop (heute Abend, ~10 Min)</h3>
+<ol>
+<li>Dropbox-Konto anlegen, falls nicht vorhanden (kostenlos, 2 GB — für Textnotizen reichlich).</li>
+<li>In Obsidian <strong>im Lern-Vault</strong>: Einstellungen → Community-Plugins → Durchsuchen →
+   <code>Remotely Save</code> → Installieren → Aktivieren.</li>
+<li>Einstellungen → <strong>Remotely Save</strong> → <em>Remote Service</em> auf <strong>Dropbox</strong> stellen.</li>
+<li><strong>Auth</strong> klicken → Browser öffnet Dropbox → anmelden → Zugriff erlauben → den
+   angezeigten Code zurück in Obsidian einfügen.</li>
+<li>In der linken Seitenleiste erscheint ein <strong>Sync-Symbol</strong> → einmal anklicken.
+   Der Vault landet in Dropbox unter <code>Apps/remotely-save/Lern-Vault</code>.</li>
+</ol>
+<blockquote>
+<p>Falls die Dropbox-Anmeldung hakt: dasselbe Plugin kann auch <strong>OneDrive</strong>, und als
+Windows-Nutzer hast du ohnehin ein Microsoft-Konto. Ablauf identisch.</p>
+</blockquote>
+<h3 id="b3-remotely-save-am-iphone-morgen-in-der-bahn-10-min">B3. Remotely Save am iPhone (morgen in der Bahn, ~10 Min)</h3>
+<ol>
+<li><strong>Obsidian</strong> aus dem App Store laden (kostenlos).</li>
+<li>App öffnen → <strong>Create new vault</strong>.</li>
+<li>Als Namen <strong>exakt</strong> <code>Lern-Vault</code> eingeben, Groß- und Kleinschreibung identisch.<blockquote>
+<p>[!warning] Häufigster Fehler
+Heißt der Vault am Handy anders, legt das Plugin einen <strong>zweiten, getrennten Ordner</strong>
+in der Dropbox an. Beide Seiten synchronisieren dann fleißig — nur nie miteinander.</p>
+</blockquote>
+</li>
+<li>„Store in iCloud" kann <strong>aus</strong> bleiben.</li>
+<li>In der App: Zahnrad → <strong>Community Plugins</strong> → eingeschränkten Modus aus →
+   <code>Remotely Save</code> suchen → installieren → aktivieren.</li>
+<li>Dropbox genauso authentifizieren wie in B2.</li>
+<li>Sync-Symbol antippen → die Karten erscheinen.</li>
+<li>Zum Schluss <strong>Spaced Repetition</strong> auch am Handy installieren und aktivieren.</li>
+</ol>
+<h3 id="b4-danach">B4. Danach</h3>
+<p>Vor dem Aussteigen am Handy einmal <strong>Sync</strong> antippen, am Desktop nach dem Öffnen ebenso.
+Automatisch geht auch: Plugin-Einstellungen → <em>Schedule for auto run</em> → z. B. „every 5 minutes".</p>
+<hr />
+<h2 id="checkliste">Checkliste</h2>
+<p><strong>Heute Abend, Desktop:</strong></p>
+<ul>
+<li>[ ] A1 Spaced-Repetition-Plugin installiert</li>
+<li>[ ] A4 einmal eine Runde Karten abgefragt</li>
+<li>[ ] B0 Lern-Vault angelegt, Kartendatei hineinkopiert</li>
+<li>[ ] B2 Remotely Save mit Dropbox verbunden, einmal gesynct</li>
+</ul>
+<p><strong>Morgen, Bahn (Block 1):</strong></p>
+<ul>
+<li>[ ] B3 Obsidian am iPhone, Vault-Name identisch, gesynct</li>
+<li>[ ] B3.8 Spaced Repetition am Handy aktiviert</li>
+<li>[ ] Erste Runde Karten unterwegs</li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">3</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-2026-08-27-do.html">Lernpfad 2026-08-27 Do</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-cs50p-karten-woche-0.html">Lernpfad — CS50P Karten Woche 0</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/lernpfad/Lernpfad — Karteikarten &amp; Handy-Sync einrichten.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

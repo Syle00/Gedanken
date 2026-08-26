@@ -25,9 +25,11 @@
 <li><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
 <li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
 <li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
-<li class="active"><a href="../index.html#meta">Meta<span class="count">16</span></a></li>
+<li class="active"><a href="../index.html#meta">Meta<span class="count">20</span></a></li>
 </ul></div>
 <div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
+<li><a href="../p/cs50-python-karteikarten.html">CS50 Python — Karteikarten</a></li>
+<li><a href="../p/cs50-karteikarten-handy-sync-einrichten.html">CS50 — Karteikarten &amp; Handy-Sync einrichten</a></li>
 <li><a href="../p/index.html">Katalog (Original)</a></li>
 <li><a href="../p/lernpfad-2026-08-24-mo.html">Lernpfad 2026-08-24 Mo</a></li>
 <li><a href="../p/lernpfad-2026-08-25-di.html">Lernpfad 2026-08-25 Di</a></li>
@@ -37,6 +39,8 @@
 <li><a href="../p/lernpfad-2026-08-29-sa.html">Lernpfad 2026-08-29 Sa</a></li>
 <li><a href="../p/lernpfad-2026-08-30-so.html">Lernpfad 2026-08-30 So</a></li>
 <li><a href="../p/lernpfad-quant-uebersicht.html">Lernpfad Quant — Übersicht</a></li>
+<li><a href="../p/lernpfad-cs50p-karten-woche-0.html">Lernpfad — CS50P Karten Woche 0</a></li>
+<li><a href="../p/lernpfad-karteikarten-handy-sync-einrichten.html">Lernpfad — Karteikarten &amp; Handy-Sync einrichten</a></li>
 <li><a href="../p/lernpfad-mathe-videothek.html">Lernpfad — Mathe-Videothek</a></li>
 <li><a href="../p/lernpfad-meilensteine.html">Lernpfad — Meilensteine</a></li>
 <li><a href="../p/lernpfad-tagesvorlage.html">Lernpfad — Tagesvorlage</a></li>
@@ -51,13 +55,28 @@
   <div class="crumb"><a href="../index.html">Gedanken</a> ›
     <a href="../index.html#meta">Meta</a></div>
   <h1>Lernpfad 2026-08-27 Do</h1>
-  <div class="pagemeta"><div class="tags"><span class="tag">lernpfad</span> <span class="tag">tagebuch</span> <span class="tag">phase-0</span> <span class="tag">python</span></div><div class="dates">erstellt 2026-08-24 · aktualisiert 2026-08-24</div></div>
+  <div class="pagemeta"><div class="tags"><span class="tag">lernpfad</span> <span class="tag">tagebuch</span> <span class="tag">phase-0</span> <span class="tag">python</span> <span class="tag">howto</span> <span class="tag">obsidian</span></div><div class="dates">erstellt 2026-08-24 · aktualisiert 2026-08-26</div></div>
   <details class="toc" open><summary>Inhalt</summary><div class="toc">
 <ul>
 <li><a href="#block-1-bahn-06400725-45-min">Block 1 — Bahn, 06:40–07:25 (45 Min)</a></li>
 <li><a href="#block-2-abends-18301930-60-min">Block 2 — Abends, 18:30–19:30 (60 Min)</a></li>
 <li><a href="#wenn-der-tag-zu-viel-war">Wenn der Tag zu viel war</a></li>
 <li><a href="#nach-der-session">Nach der Session</a></li>
+<li><a href="#teil-1-vault-aufs-iphone-bringen">Teil 1 — Vault aufs iPhone bringen</a><ul>
+<li><a href="#weg-a-icloud-kostenlos-empfohlen-fur-ein-gerat-iphone">Weg A: iCloud (kostenlos, empfohlen für ein Gerät + iPhone)</a></li>
+<li><a href="#weg-b-obsidian-sync-kostenpflichtig-ca-45-monat">Weg B: Obsidian Sync (kostenpflichtig, ca. 4–5 $/Monat)</a></li>
+<li><a href="#check-am-ende">Check am Ende</a></li>
+<li><a href="#wenns-klemmt">Wenn's klemmt</a></li>
+</ul>
+</li>
+<li><a href="#teil-2-karteikarten-erstellen">Teil 2 — Karteikarten erstellen</a><ul>
+<li><a href="#variante-1-plugin-spaced-repetition-alles-in-obsidian-auch-mobil">Variante 1: Plugin „Spaced Repetition" (alles in Obsidian, auch mobil)</a></li>
+<li><a href="#variante-2-obsidian-anki-wenn-du-in-anki-lernen-willst">Variante 2: Obsidian + Anki (wenn du in Anki lernen willst)</a></li>
+</ul>
+</li>
+<li><a href="#teil-3-fertige-karten-bruchrechnen">Teil 3 — Fertige Karten: Bruchrechnen</a></li>
+<li><a href="#teil-4-leere-vorlage-zum-weitermachen">Teil 4 — Leere Vorlage zum Weitermachen</a></li>
+<li><a href="#checkliste-fur-morgen">Checkliste für morgen</a></li>
 </ul>
 </div>
 </details>
@@ -72,10 +91,23 @@ Heute nur Wiederholung und Übung: fordernd genug, aber kein neuer Stoff.</p>
 </blockquote>
 <h2 id="block-1-bahn-06400725-45-min">Block 1 — Bahn, 06:40–07:25 (45 Min)</h2>
 <p>Geschenkte Zeit. Nur Handy und Kopfhörer, kein Papier, kein Laptop.</p>
+<blockquote>
+<p>[!warning] Heute abweichend: Einrichtung statt Wiederholung
+Der Karten-Sync steht noch nicht — am 26.08. waren weder Karten angelegt noch das Handy
+verbunden. Block 1 geht deshalb einmalig für die Einrichtung drauf, Schritt B3 aus
+<a href="../p/lernpfad-karteikarten-handy-sync-einrichten.html">Lernpfad — Karteikarten &amp; Handy-Sync einrichten</a>. <strong>Voraussetzung:</strong> Teil A und B0–B2
+müssen am Vorabend am Desktop erledigt sein, sonst liegt nichts in der Cloud.</p>
+</blockquote>
 <ul>
-<li>[ ] <strong>15 Min:</strong> Alle fälligen Karten in Obsidian durchgehen</li>
-<li>[ ] <strong>30 Min:</strong> CS50P-Vorlesung weiterschauen, ohne mitzucoden — nur zuhören und verstehen</li>
+<li>[ ] <strong>15 Min:</strong> Obsidian aufs iPhone, Vault <code>Lern-Vault</code> (Name exakt gleich!),
+      Remotely Save + Dropbox verbinden, einmal syncen — Schritt B3</li>
+<li>[ ] <strong>10 Min:</strong> Plugin <em>Spaced Repetition</em> am Handy aktivieren, erste Runde aus
+      <a href="../p/lernpfad-cs50p-karten-woche-0.html">Lernpfad — CS50P Karten Woche 0</a> durchgehen</li>
+<li>[ ] <strong>20 Min:</strong> CS50P-Vorlesung weiterschauen, ohne mitzucoden — nur zuhören und verstehen</li>
 </ul>
+<p>Ab übermorgen ist Block 1 wieder der normale 15/30-Rhythmus aus <a href="../p/lernpfad-woche-01.html">Lernpfad — Woche 01</a>.</p>
+<p>→ Die vollständige Schritt-für-Schritt-Anleitung steht unten in diesem Dokument:
+<a href="#anleitung--obsidian-aufs-handy--karteikarten">Anleitung — Handy verbinden + Karteikarten</a>.</p>
 <p>Auf der Rückfahrt (ca. 16:15–17:00) dasselbe, falls du Lust hast. Wenn nicht: völlig in Ordnung,
 das ist ein Bonus, kein Pflichtblock.</p>
 <h2 id="block-2-abends-18301930-60-min">Block 2 — Abends, 18:30–19:30 (60 Min)</h2>
@@ -95,8 +127,267 @@ Regel 3 in <a href="../p/lernpfad-quant-uebersicht.html">Lernpfad Quant — Übe
 <p><strong>Gelernt:</strong></p>
 <p><strong>Hängengeblieben:</strong></p>
 <p><strong>Hier weiter:</strong></p>
-<p><strong>Karten angelegt:</strong></p></div>
-  <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/lernpfad-woche-01.html">Lernpfad — Woche 01</a><span class="cat">Meta</span></li></ul></section>
+<p><strong>Karten angelegt:</strong></p>
+<hr />
+<h1 id="anleitung-obsidian-aufs-handy-karteikarten">Anleitung — Obsidian aufs Handy + Karteikarten</h1>
+<blockquote>
+<p>[!warning] ⚠️ Widerspruch zu <a href="../p/lernpfad-karteikarten-handy-sync-einrichten.html">Lernpfad — Karteikarten &amp; Handy-Sync einrichten</a>
+Diese Anleitung beschreibt den <strong>iCloud</strong>-Weg mit dem Hauptvault. Die Einrichtungsnotiz
+rät für Windows davon ab (Berichte über doppelte und beschädigte Dateien) und empfiehlt
+stattdessen einen separaten <code>Lern-Vault</code> über <strong>Remotely Save + Dropbox</strong>, weil der
+Hauptvault mit <code>raw/</code> rund 190 MB Screenshots enthält. Entscheide dich morgen für <strong>einen</strong>
+der beiden Wege und streiche den anderen — beide parallel zu synchronisieren geht schief.</p>
+</blockquote>
+<h2 id="teil-1-vault-aufs-iphone-bringen">Teil 1 — Vault aufs iPhone bringen</h2>
+<h3 id="weg-a-icloud-kostenlos-empfohlen-fur-ein-gerat-iphone">Weg A: iCloud (kostenlos, empfohlen für ein Gerät + iPhone)</h3>
+<p><strong>Am Mac/PC zuerst:</strong></p>
+<ol>
+<li>Obsidian öffnen → dein Vault muss in iCloud Drive liegen.
+   - Mac-Pfad: <code>~/Library/Mobile Documents/iCloud~md~obsidian/Documents/</code>
+   - Windows: iCloud für Windows installieren, Vault-Ordner nach
+     <code>iCloudDrive\iCloud~md~obsidian\Documents\</code> verschieben.</li>
+<li>Liegt der Vault noch woanders: Obsidian schließen, Ordner dorthin verschieben,
+   Obsidian neu öffnen → <strong>Open folder as vault</strong> → neuen Ort wählen.</li>
+<li>Warten bis iCloud fertig synchronisiert hat (keine Wolken-Symbole mehr mit Pfeil).</li>
+</ol>
+<p><strong>Am iPhone:</strong></p>
+<ol>
+<li>Einstellungen → Apple-ID → iCloud → <strong>iCloud Drive</strong> an.</li>
+<li>App Store → <strong>Obsidian</strong> installieren → öffnen.</li>
+<li>„Create new vault" <strong>NICHT</strong> drücken. Stattdessen: <strong>Open folder as vault</strong> →
+   dein Vault-Ordner unter iCloud Drive → Obsidian auswählen.</li>
+<li>Öffnen. Fertig — Änderungen syncen automatisch in beide Richtungen.</li>
+</ol>
+<blockquote>
+<p>[!warning] Nicht auf beiden Geräten gleichzeitig dieselbe Notiz bearbeiten.
+iCloud kann sonst Konfliktkopien anlegen.</p>
+</blockquote>
+<h3 id="weg-b-obsidian-sync-kostenpflichtig-ca-45-monat">Weg B: Obsidian Sync (kostenpflichtig, ca. 4–5 $/Monat)</h3>
+<p>Nur nötig, wenn du mehrere Geräte, Versionsverlauf und Ende-zu-Ende-Verschlüsselung willst.</p>
+<ol>
+<li>Desktop → Einstellungen → <strong>Sync</strong> → Konto anlegen → <em>Create remote vault</em>.</li>
+<li>iPhone → Obsidian → Einstellungen → <strong>Sync</strong> → einloggen → <em>Connect to remote vault</em> →
+   denselben Vault wählen.</li>
+</ol>
+<h3 id="check-am-ende">Check am Ende</h3>
+<ol>
+<li>Auf dem iPhone eine Testnotiz <code>Handy-Test.md</code> anlegen.</li>
+<li>Am Desktop nach ~30 Sekunden nachschauen, ob sie auftaucht. Wenn ja: läuft.</li>
+</ol>
+<h3 id="wenns-klemmt">Wenn's klemmt</h3>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Lösung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vault-Ordner nicht auffindbar am iPhone</td>
+<td>Dateien-App öffnen → prüfen ob Ordner „Obsidian" unter iCloud Drive existiert. Wenn nicht: Desktop-Sync noch nicht fertig.</td>
+</tr>
+<tr>
+<td>Änderungen kommen nicht an</td>
+<td>iPhone: Obsidian ganz schließen (App-Switcher hochwischen) und neu öffnen.</td>
+</tr>
+<tr>
+<td>Plugins fehlen am Handy</td>
+<td>Einstellungen → Community Plugins → dort einzeln aktivieren (der Ordner <code>.obsidian</code> synct mit, aber Plugins müssen mobil freigeschaltet werden).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="teil-2-karteikarten-erstellen">Teil 2 — Karteikarten erstellen</h2>
+<h3 id="variante-1-plugin-spaced-repetition-alles-in-obsidian-auch-mobil">Variante 1: Plugin „Spaced Repetition" (alles in Obsidian, auch mobil)</h3>
+<p><strong>Installation</strong></p>
+<ol>
+<li>Einstellungen → Community Plugins → <em>Turn on community plugins</em>.</li>
+<li><strong>Browse</strong> → nach <code>Spaced Repetition</code> suchen (von <strong>st3v3nmw</strong>) → Install → Enable.</li>
+<li>In den Plugin-Einstellungen: Flashcard-Tag steht standardmäßig auf <code>#flashcards</code>.</li>
+</ol>
+<p><strong>Karten schreiben</strong> — einfach in eine ganz normale Notiz:</p>
+<table>
+<thead>
+<tr>
+<th>Typ</th>
+<th>Syntax</th>
+<th>Beispiel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Einzeilig</td>
+<td><code>Frage::Antwort</code></td>
+<td><code>Was heißt Kürzen?::Zähler und Nenner durch dieselbe Zahl teilen</code></td>
+</tr>
+<tr>
+<td>Beidseitig</td>
+<td><code>Frage:::Antwort</code></td>
+<td>wird auch rückwärts abgefragt</td>
+</tr>
+<tr>
+<td>Mehrzeilig</td>
+<td>Frage, dann <code>?</code>, dann Antwort</td>
+<td>siehe unten</td>
+</tr>
+<tr>
+<td>Lücke (Cloze)</td>
+<td><code>==markiert==</code></td>
+<td><code>Beim Multiplizieren rechnet man ==Zähler mal Zähler== und ==Nenner mal Nenner==</code></td>
+</tr>
+</tbody>
+</table>
+<p>Mehrzeilig sieht so aus:</p>
+<pre><code>Wie wandelt man eine gemischte Zahl in einen unechten Bruch um?
+?
+Nenner × Ganze + Zähler, das Ergebnis kommt in den Zähler.
+Der Nenner bleibt gleich.
+</code></pre>
+<p><strong>Abfragen:</strong> Linke Seitenleiste → Icon mit den Karten → <em>Review flashcards</em>.
+Nach jeder Karte: <strong>Hard / Good / Easy</strong> — daraus berechnet das Plugin den nächsten Termin.</p>
+<h3 id="variante-2-obsidian-anki-wenn-du-in-anki-lernen-willst">Variante 2: Obsidian + Anki (wenn du in Anki lernen willst)</h3>
+<ol>
+<li>Anki am Desktop installieren + Add-on <strong>AnkiConnect</strong> (Code <code>2055492159</code>), Anki neu starten.</li>
+<li>In Obsidian das Community Plugin <strong>Obsidian_to_Anki</strong> installieren.</li>
+<li>Anki muss beim Export geöffnet sein.</li>
+<li>Karten in Obsidian schreiben, z. B.:</li>
+</ol>
+<pre><code>START
+Basic
+Front: Was ist 3/4 + 1/4?
+Back: 1 (bzw. 4/4)
+Tags: bruchrechnen
+END
+</code></pre>
+<ol start="5">
+<li>Kommandopalette (<code>Strg/Cmd+P</code>) → <em>Obsidian_to_Anki: Scan Vault</em> → Karten landen in Anki.</li>
+</ol>
+<p>Am iPhone lernst du dann in <strong>AnkiMobile</strong> (kostenpflichtig) — nicht in Obsidian.</p>
+<blockquote>
+<p><strong>Kurz entschieden:</strong> Mobil ohne Zusatzkosten lernen → <strong>Variante 1</strong>.
+Ankis Lernalgorithmus und Statistiken → <strong>Variante 2</strong>.</p>
+</blockquote>
+<hr />
+<h2 id="teil-3-fertige-karten-bruchrechnen">Teil 3 — Fertige Karten: Bruchrechnen</h2>
+<p>Neue Notiz anlegen: <code>Karteikarten/Bruchrechnen.md</code>, folgenden Block hineinkopieren.</p>
+<pre><code class="language-markdown">---
+tags: flashcards
+---
+
+# Bruchrechnen
+
+## Grundbegriffe
+
+Wie heißt die Zahl über dem Bruchstrich?::Zähler
+Wie heißt die Zahl unter dem Bruchstrich?::Nenner
+Was bedeutet der Nenner anschaulich?::In wie viele gleiche Teile das Ganze zerlegt ist
+Was bedeutet der Zähler anschaulich?::Wie viele dieser Teile genommen werden
+
+## Kürzen und Erweitern
+
+Was ist die eine Regel beim Kürzen?::Zähler UND Nenner durch dieselbe Zahl teilen — niemals nur einen von beiden
+Woran erkenne ich, dass ein Bruch vollständig gekürzt ist?::Es gibt keine Zahl außer 1 mehr, durch die Zähler und Nenner beide teilbar sind
+Was ist die Gegenprobe beim Kürzen?::Das Ergebnis wieder mit derselben Zahl multiplizieren — es muss der Ausgangsbruch herauskommen
+
+Kürze 12/18 vollständig
+?
+Beide durch 6 → 2/3.
+Achtung: Bei 6/9 (nur durch 2 geteilt) wäre man einen Schritt zu früh stehengeblieben.
+
+Ändert Kürzen den Wert eines Bruchs?::Nein — nur die Schreibweise
+
+## Addieren und Subtrahieren
+
+Was braucht man zum Addieren von Brüchen?::Einen gemeinsamen Nenner
+Wie addiert man 1/4 + 2/4?::Zähler addieren, Nenner bleibt: 3/4
+
+Was macht man bei ungleichen Nennern?
+?
+Erweitern auf den kleinsten gemeinsamen Nenner, dann die Zähler addieren.
+Beispiel: 1/2 + 1/3 → 3/6 + 2/6 = 5/6
+
+Werden beim Addieren die Nenner addiert?::Nein — der Nenner bleibt stehen
+
+## Multiplizieren und Dividieren
+
+Wie multipliziert man zwei Brüche?::==Zähler mal Zähler==, ==Nenner mal Nenner==
+
+2/3 · 3/4 = ?
+?
+6/12 = 1/2 (kürzen nicht vergessen)
+
+Wie dividiert man durch einen Bruch?::Mit dem Kehrwert multiplizieren
+Was ist der Kehrwert von 3/5?::5/3
+
+1/2 : 1/4 = ?
+?
+1/2 · 4/1 = 4/2 = 2
+
+## Gemischte Zahlen
+
+Wie wandelt man eine gemischte Zahl in einen unechten Bruch um?
+?
+==Nenner × Ganze + Zähler== → Ergebnis in den Zähler, Nenner bleibt gleich.
+Beispiel: 2 3/4 → 4·2+3 = 11 → 11/4
+
+Wandle 5 1/12 in einen unechten Bruch um
+?
+12·5 + 1 = 61 → 61/12
+
+Wie kommt man vom unechten Bruch zurück zur gemischten Zahl?
+?
+Zähler durch Nenner teilen mit Rest.
+Beispiel: 11/4 → 11:4 = 2 Rest 3 → 2 3/4
+
+Was ist die Zwei-Schritt-Methode bei gemischten Zahlen?
+?
+1. In unechte Brüche umwandeln
+2. Rechnen (ggf. gleichnamig machen)
+3. Zurück in gemischte Zahl, dann kürzen
+
+Was ist ein unechter Bruch?::Ein Bruch, dessen Zähler größer oder gleich dem Nenner ist
+</code></pre>
+<hr />
+<h2 id="teil-4-leere-vorlage-zum-weitermachen">Teil 4 — Leere Vorlage zum Weitermachen</h2>
+<p>Als <code>Karteikarten/_Vorlage.md</code> speichern und für jedes neue Thema kopieren.</p>
+<pre><code class="language-markdown">---
+tags: flashcards
+---
+
+# [Thema]
+
+## [Unterthema]
+
+&lt;!-- Einzeilig --&gt;
+Frage::Antwort
+
+&lt;!-- Beidseitig (wird auch rückwärts abgefragt) --&gt;
+Begriff:::Definition
+
+&lt;!-- Mehrzeilig --&gt;
+Frage über mehrere Zeilen?
+?
+Antwort Zeile 1
+Antwort Zeile 2
+
+&lt;!-- Lückentext --&gt;
+Die Regel lautet: ==erster Teil== und dann ==zweiter Teil==
+</code></pre>
+<hr />
+<h2 id="checkliste-fur-morgen">Checkliste für morgen</h2>
+<ul>
+<li>[ ] Vault liegt in iCloud Drive</li>
+<li>[ ] Obsidian am iPhone installiert</li>
+<li>[ ] Vault am iPhone via „Open folder as vault" geöffnet</li>
+<li>[ ] Testnotiz syncte in beide Richtungen</li>
+<li>[ ] Plugin „Spaced Repetition" installiert und aktiviert (Desktop und iPhone)</li>
+<li>[ ] <code>Karteikarten/Bruchrechnen.md</code> angelegt und befüllt</li>
+<li>[ ] <code>Karteikarten/_Vorlage.md</code> angelegt</li>
+<li>[ ] Erste Review-Runde am Handy durchgeklickt</li>
+</ul>
+<p><strong>Offen aus der letzten Mathe-Session:</strong> <code>5 1/12 + 2 2/3</code> zu Ende rechnen.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">2</span></h2><ul><li><a href="../p/lernpfad-karteikarten-handy-sync-einrichten.html">Lernpfad — Karteikarten &amp; Handy-Sync einrichten</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-woche-01.html">Lernpfad — Woche 01</a><span class="cat">Meta</span></li></ul></section>
   <footer class="pagefoot">Quelldatei: <code>wiki/lernpfad/tagebuch/Lernpfad 2026-08-27 Do.md</code></footer>
 </article>
 </main>
