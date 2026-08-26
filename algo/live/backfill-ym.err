@@ -1,0 +1,6 @@
+Error 162, reqId 45: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='YM', lastTradeDateOrContractMonth='202603', exchange='CBOT', includeExpired=True)
+Error 162, reqId 226: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='YM', lastTradeDateOrContractMonth='202603', exchange='CBOT', includeExpired=True)
+Error 162, reqId 347: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='YM', lastTradeDateOrContractMonth='202603', exchange='CBOT', includeExpired=True)
+Error 162, reqId 588: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='YM', lastTradeDateOrContractMonth='202603', exchange='CBOT', includeExpired=True)
+Error 162, reqId 829: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='YM', lastTradeDateOrContractMonth='202606', exchange='CBOT', includeExpired=True)
+Error 162, reqId 1010: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='YM', lastTradeDateOrContractMonth='202606', exchange='CBOT', includeExpired=True)

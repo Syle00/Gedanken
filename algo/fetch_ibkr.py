@@ -40,7 +40,7 @@ UTC = ZoneInfo("UTC")
 DATA_DIR = Path(__file__).resolve().parent.parent / "raw" / "marktdaten"
 REGISTER = DATA_DIR / "1s-abdeckung.csv"
 REGISTER_HEADER = ["symbol", "von", "bis", "kontrakt", "kerzen", "geholt_am"]
-SYMBOLS = ["NQ", "ES", "GC"]
+SYMBOLS = ["NQ", "ES", "GC", "YM"]
 WINDOW_SECONDS = 1800
 # IBKR haelt 1s-Bars rund 6 Monate vor (Design SS2/E1). Bewusst 183 statt "6 Monate"
 # gerechnet: faellt der Startzeitpunkt einen Tag zu weit zurueck, meldet IBKR fuer die
@@ -197,7 +197,7 @@ GOLD_MONTHS = [(2, "G"), (4, "J"), (6, "M"), (8, "Q"), (10, "V"), (12, "Z")]
 _MONTH_NUM = {code: month for month, code in QUARTER_MONTHS + GOLD_MONTHS}
 # symbol -> (Boerse, Kontraktmonate). Gold liegt an der COMEX, nicht an der CME.
 SYMBOL_SPEC = {"NQ": ("CME", QUARTER_MONTHS), "ES": ("CME", QUARTER_MONTHS),
-               "GC": ("COMEX", GOLD_MONTHS)}
+               "GC": ("COMEX", GOLD_MONTHS), "YM": ("CBOT", QUARTER_MONTHS)}
 
 
 def _future_contract(contract: str, symbol: str):

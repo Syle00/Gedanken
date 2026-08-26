@@ -1,0 +1,24 @@
+Error 162, reqId 63: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202608', exchange='COMEX', includeExpired=True)
+Error 162, reqId 184: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202608', exchange='COMEX', includeExpired=True)
+Error 162, reqId 245: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202608', exchange='COMEX', includeExpired=True)
+reqHistoricalData: Timeout for Future(symbol='GC', lastTradeDateOrContractMonth='202608', exchange='COMEX', includeExpired=True)
+Error 162, reqId 478: Historical Market Data Service error message:API historical data query cancelled: 478, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202608', exchange='COMEX', includeExpired=True)
+Error 162, reqId 961: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202608', exchange='COMEX', includeExpired=True)
+Error 162, reqId 1622: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202608', exchange='COMEX', includeExpired=True)
+Error 162, reqId 1683: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202608', exchange='COMEX', includeExpired=True)
+Error 162, reqId 1984: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202608', exchange='COMEX', includeExpired=True)
+Error 162, reqId 2271: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202610', exchange='COMEX', includeExpired=True)
+Error 1100, reqId -1: Connectivity between IBKR and Trader Workstation has been lost.
+Error 1100, reqId -1: Connectivity between IBKR and Trader Workstation has been lost.
+Error 1100, reqId -1: Connectivity between IBKR and Trader Workstation has been lost.
+Error 1100, reqId -1: Connectivity between IBKR and Trader Workstation has been lost.
+Error 1100, reqId -1: Connectivity between IBKR and Trader Workstation has been lost.
+Error 1100, reqId -1: Connectivity between IBKR and Trader Workstation has been lost.
+reqHistoricalData: Timeout for Future(symbol='GC', lastTradeDateOrContractMonth='202610', exchange='COMEX', includeExpired=True)
+Error 366, reqId 2321: No historical data query found for ticker id:2321, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202610', exchange='COMEX', includeExpired=True)
+Error 1100, reqId -1: Connectivity between IBKR and Trader Workstation has been lost.
+Error 1100, reqId -1: Connectivity between IBKR and Trader Workstation has been lost.
+Error 1102, reqId -1: Connectivity between IBKR and Trader Workstation has been restored - data maintained. All data farms are connected: usfarm; ushmds; secdefil.
+Error 162, reqId 2462: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202610', exchange='COMEX', includeExpired=True)
+Error 162, reqId 2583: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202610', exchange='COMEX', includeExpired=True)
+Error 162, reqId 2824: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202610', exchange='COMEX', includeExpired=True)

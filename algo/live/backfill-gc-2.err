@@ -1,0 +1,10 @@
+Error 162, reqId 483: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202606', exchange='COMEX', includeExpired=True)
+Error 162, reqId 664: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202606', exchange='COMEX', includeExpired=True)
+Error 162, reqId 1262: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202606', exchange='COMEX', includeExpired=True)
+Error 162, reqId 1383: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202606', exchange='COMEX', includeExpired=True)
+Error 162, reqId 1564: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202606', exchange='COMEX', includeExpired=True)
+Error 162, reqId 1737: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202606', exchange='COMEX', includeExpired=True)
+reqHistoricalData: Timeout for Future(symbol='GC', lastTradeDateOrContractMonth='202606', exchange='COMEX', includeExpired=True)
+Error 366, reqId 1909: No historical data query found for ticker id:1909, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202606', exchange='COMEX', includeExpired=True)
+Error 162, reqId 1969: Historical Market Data Service error message:Historical data request pacing violation, contract: Future(symbol='GC', lastTradeDateOrContractMonth='202606', exchange='COMEX', includeExpired=True)
+Peer closed connection.
