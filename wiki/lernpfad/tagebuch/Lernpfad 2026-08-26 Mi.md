@@ -19,9 +19,8 @@ karten: 0
 
 ## Geplant
 
-- [ ] Vorlesung Woche 0 zu Ende schauen, ab `int()`
-- [ ] Mitschreiben: was machen `input()`, `print()`, `int()`, `float()`, `round()`,
-      und wie funktionieren f-Strings
+- [x] Vorlesung Woche 0 zu Ende schauen, ab `int()`
+- [x] Mitschreiben: was machen `input()`, `print()`, `int()` und wie funktionieren f-Strings
 - [ ] Problem Set 0 beginnen: *Indoor Voice*, *Playback Speed*, *Making Faces*
 - [ ] **3 bis 5 Karten anlegen** — als Fragen formuliert, nicht als Definitionen.
       Syntax: `Was macht int() mit "42"?::Wandelt den String in die Zahl 42 um. #flashcards/python`
@@ -34,10 +33,10 @@ ein drittes Mal nach.
 
 ## Nach der Session
 
-**Gelernt:**
+**Gelernt:** int(), 
 
-**Hängengeblieben:**
+**Hängengeblieben:** Strings, functions & Fstrings
 
-**Hier weiter:**
+**Hier weiter:** CS50 course steht vor .float da wird weiter gemacht & ich muss mein Test Sccript Pizza.py weiter machen da hatte ich mit dem rechnen Probleme 
 
 **Karten angelegt:**

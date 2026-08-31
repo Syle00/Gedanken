@@ -589,6 +589,8 @@ Eigener Bereich unter `wiki/lernpfad/` — kein Wissenslayer, sondern die Arbeit
 - [[Lernpfad — Woche 01]] — 24.08.–30.08.2026, Phase 0, acht Blöcke à 11,75 h inkl. Bahn-Slot (2026-08-24)
 - [[Lernpfad — Mathe-Videothek]] — 13 geprüfte deutschsprachige Erklärvideos (überwiegend Mathe by Daniel Jung), pro Aufgabe zugeordnet; Titel und Kanal per oEmbed verifiziert (2026-08-24)
 - [[Lernpfad — Tagesvorlage]] — Vorlage und Feldkonventionen für neue Tageseinträge in `lernpfad/tagebuch/` (2026-08-24)
+- [[Lernpfad — Karteikarten & Handy-Sync einrichten]] — einmalige Einrichtung des Bahn-Slots: Plugin *Spaced Repetition*, Kartensyntax, separater `Lern-Vault` + Remotely Save/Dropbox aufs iPhone; iCloud unter Windows bewusst verworfen (2026-08-26)
+- [[Lernpfad — CS50P Karten Woche 0]] — rund 30 Startkarten zu `int`/`str`, Division, Strings und Funktionen; versionierte Sicherung des Stapels `#flashcards/python` (2026-08-26)
 
 ## Offene Punkte (Lint-Kandidaten für nächsten Durchgang)
 

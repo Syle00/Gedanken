@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CS50 — Karteikarten &amp; Handy-Sync einrichten — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
+<li class="active"><a href="../index.html#meta">Meta<span class="count">20</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
+<li><a href="../p/cs50-python-karteikarten.html">CS50 Python — Karteikarten</a></li>
+<li class="here"><a href="../p/cs50-karteikarten-handy-sync-einrichten.html">CS50 — Karteikarten &amp; Handy-Sync einrichten</a></li>
+<li><a href="../p/index.html">Katalog (Original)</a></li>
+<li><a href="../p/lernpfad-2026-08-24-mo.html">Lernpfad 2026-08-24 Mo</a></li>
+<li><a href="../p/lernpfad-2026-08-25-di.html">Lernpfad 2026-08-25 Di</a></li>
+<li><a href="../p/lernpfad-2026-08-26-mi.html">Lernpfad 2026-08-26 Mi</a></li>
+<li><a href="../p/lernpfad-2026-08-27-do.html">Lernpfad 2026-08-27 Do</a></li>
+<li><a href="../p/lernpfad-2026-08-28-fr.html">Lernpfad 2026-08-28 Fr</a></li>
+<li><a href="../p/lernpfad-2026-08-29-sa.html">Lernpfad 2026-08-29 Sa</a></li>
+<li><a href="../p/lernpfad-2026-08-30-so.html">Lernpfad 2026-08-30 So</a></li>
+<li><a href="../p/lernpfad-quant-uebersicht.html">Lernpfad Quant — Übersicht</a></li>
+<li><a href="../p/lernpfad-cs50p-karten-woche-0.html">Lernpfad — CS50P Karten Woche 0</a></li>
+<li><a href="../p/lernpfad-karteikarten-handy-sync-einrichten.html">Lernpfad — Karteikarten &amp; Handy-Sync einrichten</a></li>
+<li><a href="../p/lernpfad-mathe-videothek.html">Lernpfad — Mathe-Videothek</a></li>
+<li><a href="../p/lernpfad-meilensteine.html">Lernpfad — Meilensteine</a></li>
+<li><a href="../p/lernpfad-tagesvorlage.html">Lernpfad — Tagesvorlage</a></li>
+<li><a href="../p/lernpfad-woche-01.html">Lernpfad — Woche 01</a></li>
+<li><a href="../p/lernpfad-zeitfenster-ausbaustufen.html">Lernpfad — Zeitfenster &amp; Ausbaustufen</a></li>
+<li><a href="../p/log.html">Änderungsprotokoll</a></li>
+<li><a href="../p/log-archiv-bis-2026-08.html">log-archiv-bis-2026-08</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#meta">Meta</a></div>
+  <h1>CS50 — Karteikarten &amp; Handy-Sync einrichten</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">lernen</span> <span class="tag">cs50</span> <span class="tag">obsidian</span> <span class="tag">howto</span></div><div class="dates">erstellt 2026-08-26 · aktualisiert 2026-08-26</div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#teil-a-karteikarten-in-obsidian-anlegen">Teil A — Karteikarten in Obsidian anlegen</a><ul>
+<li><a href="#a1-plugin-installieren-desktop">A1. Plugin installieren (Desktop)</a></li>
+<li><a href="#a2-karten-schreiben-die-syntax">A2. Karten schreiben — die Syntax</a></li>
+<li><a href="#a3-stapel-decks-sortieren">A3. Stapel (Decks) sortieren</a></li>
+<li><a href="#a4-lernen-starten">A4. Lernen starten</a></li>
+</ul>
+</li>
+<li><a href="#teil-b-vault-aufs-iphone-bringen">Teil B — Vault aufs iPhone bringen</a><ul>
+<li><a href="#b0-wichtig-zuerst-nicht-den-hauptvault-synchronisieren">B0. Wichtig zuerst: nicht den Hauptvault synchronisieren</a></li>
+<li><a href="#b1-sync-weg-wahlen-windows-iphone">B1. Sync-Weg wählen (Windows + iPhone)</a></li>
+<li><a href="#b2-remotely-save-einrichten-desktop">B2. Remotely Save einrichten — Desktop</a></li>
+<li><a href="#b3-remotely-save-einrichten-iphone">B3. Remotely Save einrichten — iPhone</a></li>
+<li><a href="#b4-ab-dann">B4. Ab dann</a></li>
+</ul>
+</li>
+<li><a href="#checkliste-fur-morgen">Checkliste für morgen</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="cs50-karteikarten-handy-sync-einrichten">CS50 — Karteikarten &amp; Handy-Sync einrichten</h1>
+<p>Zwei getrennte Baustellen, die morgen in der Bahn abgearbeitet werden können.
+Teil A geht <strong>am Desktop</strong> (10 Min), Teil B braucht Desktop <strong>und</strong> iPhone (20–30 Min).</p>
+<blockquote>
+<p><strong>Warum kein Anki:</strong> Die iOS-App AnkiMobile ist kostenpflichtig (Einmalkauf, ca. 30 €).
+Obsidian ist auf iOS kostenlos, und mit dem Plugin <em>Spaced Repetition</em> bekommst du
+denselben Lernalgorithmus (SM-2, wie bei Anki) direkt im Vault.</p>
+</blockquote>
+<hr />
+<h2 id="teil-a-karteikarten-in-obsidian-anlegen">Teil A — Karteikarten in Obsidian anlegen</h2>
+<h3 id="a1-plugin-installieren-desktop">A1. Plugin installieren (Desktop)</h3>
+<ol>
+<li>Obsidian öffnen → unten links <strong>Zahnrad</strong> (Einstellungen).</li>
+<li>Links <strong>Community-Plugins</strong> anklicken.</li>
+<li>Falls „Eingeschränkter Modus / Restricted Mode" <strong>an</strong> ist: <strong>ausschalten</strong>.
+   (Obsidian warnt einmal, dass Plugins Code ausführen — bestätigen.)</li>
+<li><strong>Durchsuchen / Browse</strong> → im Suchfeld <code>Spaced Repetition</code> eingeben.</li>
+<li>Den Treffer von <strong>st3v3nmw</strong> (Stephen Mwangi) wählen → <strong>Installieren</strong> → <strong>Aktivieren</strong>.</li>
+</ol>
+<blockquote>
+<p>Es gibt mehrere Flashcard-Plugins. Nimm genau dieses — es ist das ausgereifteste und
+das einzige mit gutem Mobile-Support. Das Alternativplugin <em>Flashcards</em> exportiert
+nur nach Anki und bringt dir hier nichts.</p>
+</blockquote>
+<h3 id="a2-karten-schreiben-die-syntax">A2. Karten schreiben — die Syntax</h3>
+<p>Eine Karteikarte ist <strong>eine Zeile in einer ganz normalen Markdown-Notiz</strong>. Kein extra
+Editor, keine Datenbank. Die Datei braucht nur irgendwo den Tag <code>#flashcards</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Was du willst</th>
+<th>Wie du es schreibst</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Einfache Karte (nur Vorderseite → Rückseite)</td>
+<td><code>Frage::Antwort</code></td>
+</tr>
+<tr>
+<td>Karte in <strong>beide</strong> Richtungen abgefragt</td>
+<td><code>Frage:::Antwort</code></td>
+</tr>
+<tr>
+<td>Mehrzeilige Karte</td>
+<td>Frage, dann <code>?</code> allein in einer Zeile, dann Antwort</td>
+</tr>
+<tr>
+<td>Mehrzeilig, beide Richtungen</td>
+<td>dasselbe, aber <code>??</code> statt <code>?</code></td>
+</tr>
+<tr>
+<td>Lückentext (Cloze)</td>
+<td>Text mit <code>==markierter Stelle==</code> — die wird abgefragt</td>
+</tr>
+</tbody>
+</table>
+<p>Beispiel, so sieht eine fertige Datei aus:</p>
+<pre><code class="language-markdown">---
+tags: [flashcards]
+---
+
+# CS50 Python
+
+Was liefert `input()` immer zurück?::Einen **String**, nie eine Zahl.
+
+Was ergibt `int(3.9)`?::`3` — `int()` schneidet ab, es rundet nicht.
+
+Was ist der Unterschied zwischen `/` und `//`?
+?
+`/` liefert immer einen float (`6 / 3` → `2.0`),
+`//` liefert die Ganzzahldivision (`7 // 2` → `3`).
+</code></pre>
+<h3 id="a3-stapel-decks-sortieren">A3. Stapel (Decks) sortieren</h3>
+<p>Der Tag bestimmt den Stapel. Unterstapel mit Schrägstrich:</p>
+<ul>
+<li><code>#flashcards/cs50/python</code> → Stapel „cs50" mit Unterstapel „python"</li>
+<li><code>#flashcards/trading/ict</code> → getrennter Stapel fürs Trading-Material</li>
+</ul>
+<p>So wächst später alles im selben Vault, ohne sich zu vermischen.</p>
+<h3 id="a4-lernen-starten">A4. Lernen starten</h3>
+<ul>
+<li>Linke Seitenleiste: neues Icon (Stapel-Symbol) → <strong>Review flashcards</strong></li>
+<li>Oder: <code>Strg + P</code> → <code>Spaced Repetition: Review flashcards</code> tippen</li>
+</ul>
+<p>Beim Abfragen bewertest du dich selbst mit <strong>Hard / Good / Easy</strong> — daraus berechnet das
+Plugin, wann die Karte wieder drankommt. Nichts weiter einzustellen.</p>
+<blockquote>
+<p><strong>Startdatei liegt schon bereit:</strong> <a href="../p/cs50-python-karteikarten.html">CS50 Python — Karteikarten</a> — rund 30 fertige
+Karten zu <code>int</code>, <code>input()</code>, Strings und Funktionen. Einfach öffnen und lernen.</p>
+</blockquote>
+<hr />
+<h2 id="teil-b-vault-aufs-iphone-bringen">Teil B — Vault aufs iPhone bringen</h2>
+<h3 id="b0-wichtig-zuerst-nicht-den-hauptvault-synchronisieren">B0. Wichtig zuerst: nicht den Hauptvault synchronisieren</h3>
+<p><code>VS Folder 1</code> enthält <code>raw/</code> mit rund 190 MB Screenshots plus die Marktdaten-CSVs.
+Das aufs Handy zu spiegeln ist langsam, frisst Speicher und geht beim Sync gerne schief.</p>
+<p><strong>Leg einen zweiten, kleinen Vault nur fürs Lernen an.</strong> Der Trading-Vault bleibt
+unangetastet auf dem Desktop und in seinem Git-Repo.</p>
+<ol>
+<li>Neuen Ordner anlegen: <code>C:\Users\Jannes\Desktop\CS50-Vault</code></li>
+<li>Obsidian → unten links <strong>Vault-Symbol</strong> → <strong>Andere Vaults verwalten</strong> →
+   <strong>Ordner als Vault öffnen</strong> → den neuen Ordner wählen.</li>
+<li>Karteikartendatei aus Teil A dorthin kopieren.</li>
+</ol>
+<h3 id="b1-sync-weg-wahlen-windows-iphone">B1. Sync-Weg wählen (Windows + iPhone)</h3>
+<table>
+<thead>
+<tr>
+<th>Weg</th>
+<th>Kosten</th>
+<th>Urteil</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Remotely Save + Dropbox</strong></td>
+<td>kostenlos</td>
+<td><strong>Empfohlen.</strong> Funktioniert unter Windows und iOS.</td>
+</tr>
+<tr>
+<td>Obsidian Sync (offiziell)</td>
+<td>Abo</td>
+<td>Am zuverlässigsten, aber kostet — und du wolltest ja gerade sparen.</td>
+</tr>
+<tr>
+<td>iCloud für Windows</td>
+<td>kostenlos</td>
+<td><strong>Nicht empfehlen.</strong> Unter Windows gibt es wiederholt Berichte über doppelte und beschädigte Dateien. Auf reinen Apple-Geräten wäre es der einfachste Weg — du bist aber auf Windows.</td>
+</tr>
+<tr>
+<td>Git + Working Copy (iOS)</td>
+<td>App kostet für Push</td>
+<td>Naheliegend, weil du Git ohnehin nutzt. Die Gratis-Version von Working Copy kann nur klonen/ziehen, nicht pushen.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="b2-remotely-save-einrichten-desktop">B2. Remotely Save einrichten — Desktop</h3>
+<ol>
+<li>Dropbox-Konto anlegen (kostenlos, 2 GB — für Textnotizen mehr als genug).</li>
+<li>In Obsidian im <strong>CS50-Vault</strong>: Einstellungen → Community-Plugins → Durchsuchen →
+   <code>Remotely Save</code> → Installieren → Aktivieren.</li>
+<li>Einstellungen → <strong>Remotely Save</strong> → bei <em>Remote Service</em> <strong>Dropbox</strong> wählen.</li>
+<li><strong>Auth</strong> anklicken → Browser öffnet sich → mit Dropbox anmelden → Zugriff erlauben →
+   den angezeigten Code zurück in Obsidian kopieren.</li>
+<li>Links in der Seitenleiste erscheint ein <strong>Sync-Symbol</strong> → einmal anklicken.
+   Der Vault landet in Dropbox unter <code>Apps/remotely-save/CS50-Vault</code>.</li>
+</ol>
+<blockquote>
+<p>Falls die Dropbox-Anmeldung zickt: dasselbe Plugin kann auch <strong>OneDrive</strong> — du hast als
+Windows-Nutzer ohnehin ein Microsoft-Konto. Der Ablauf ist identisch.</p>
+</blockquote>
+<h3 id="b3-remotely-save-einrichten-iphone">B3. Remotely Save einrichten — iPhone</h3>
+<ol>
+<li><strong>Obsidian</strong> aus dem App Store laden (kostenlos).</li>
+<li>App öffnen → <strong>Create new vault</strong>.</li>
+<li>Als Namen <strong>exakt</strong> <code>CS50-Vault</code> eingeben — Groß-/Kleinschreibung identisch.
+   ⚠️ Das ist der Schritt, an dem es am häufigsten scheitert: heißt der Vault am Handy
+   anders, legt das Plugin einen zweiten, getrennten Ordner in der Dropbox an und nichts
+   findet zusammen.</li>
+<li>„Store in iCloud" darf <strong>aus</strong> bleiben.</li>
+<li>In der App: Einstellungen (Zahnrad) → <strong>Community Plugins</strong> → Eingeschränkten Modus aus
+   → <code>Remotely Save</code> suchen → installieren → aktivieren.</li>
+<li>Dropbox genauso authentifizieren wie in B2.</li>
+<li>Sync-Symbol antippen → deine Karten erscheinen.</li>
+<li>Zum Schluss noch <strong>Spaced Repetition</strong> auch am Handy installieren und aktivieren.</li>
+</ol>
+<h3 id="b4-ab-dann">B4. Ab dann</h3>
+<p>Vor dem Aussteigen am Handy einmal auf <strong>Sync</strong> tippen, am Desktop nach dem Öffnen
+ebenfalls. Das Plugin kann auch automatisch synchronisieren — in den Plugin-Einstellungen
+unter <em>Schedule for auto run</em> z. B. „every 5 minutes" setzen.</p>
+<hr />
+<h2 id="checkliste-fur-morgen">Checkliste für morgen</h2>
+<ul>
+<li>[ ] A1 Spaced-Repetition-Plugin installiert</li>
+<li>[ ] A4 einmal eine Runde Karten abgefragt</li>
+<li>[ ] B0 CS50-Vault angelegt</li>
+<li>[ ] B2 Remotely Save am Desktop verbunden, einmal gesynct</li>
+<li>[ ] B3 Obsidian am iPhone installiert, gleicher Vault-Name, gesynct</li>
+<li>[ ] B3.8 Spaced Repetition am Handy aktiviert</li>
+</ul></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">1</span></h2><ul><li><a href="../p/cs50-python-karteikarten.html">CS50 Python — Karteikarten</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/lernen/CS50 — Karteikarten &amp; Handy-Sync einrichten.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

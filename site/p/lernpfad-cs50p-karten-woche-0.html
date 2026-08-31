@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lernpfad — CS50P Karten Woche 0 — Gedanken</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" aria-label="Navigation">☰</button>
+  <a class="topbrand" href="../index.html">Gedanken</a>
+  <div class="searchbox">
+    <input id="q" type="search" placeholder="Wiki durchsuchen …" autocomplete="off"
+           spellcheck="false">
+    <div id="results" class="results" hidden></div>
+  </div>
+  <a class="random" href="#" id="random" title="Zufällige Seite">🎲</a>
+</header>
+<div class="layout">
+<nav class="sidebar">
+<a class="brand" href="../index.html">Gedanken</a>
+<div class="nav-block"><div class="nav-head">Kategorien</div><ul>
+<li><a href="../index.html#concepts">Konzepte<span class="count">144</span></a></li>
+<li><a href="../index.html#models">Modelle<span class="count">29</span></a></li>
+<li><a href="../index.html#sources">Quellen<span class="count">355</span></a></li>
+<li><a href="../index.html#synthesis">Synthese<span class="count">18</span></a></li>
+<li class="active"><a href="../index.html#meta">Meta<span class="count">20</span></a></li>
+</ul></div>
+<div class="nav-block"><div class="nav-head">Meta</div><ul class="pagelist">
+<li><a href="../p/cs50-python-karteikarten.html">CS50 Python — Karteikarten</a></li>
+<li><a href="../p/cs50-karteikarten-handy-sync-einrichten.html">CS50 — Karteikarten &amp; Handy-Sync einrichten</a></li>
+<li><a href="../p/index.html">Katalog (Original)</a></li>
+<li><a href="../p/lernpfad-2026-08-24-mo.html">Lernpfad 2026-08-24 Mo</a></li>
+<li><a href="../p/lernpfad-2026-08-25-di.html">Lernpfad 2026-08-25 Di</a></li>
+<li><a href="../p/lernpfad-2026-08-26-mi.html">Lernpfad 2026-08-26 Mi</a></li>
+<li><a href="../p/lernpfad-2026-08-27-do.html">Lernpfad 2026-08-27 Do</a></li>
+<li><a href="../p/lernpfad-2026-08-28-fr.html">Lernpfad 2026-08-28 Fr</a></li>
+<li><a href="../p/lernpfad-2026-08-29-sa.html">Lernpfad 2026-08-29 Sa</a></li>
+<li><a href="../p/lernpfad-2026-08-30-so.html">Lernpfad 2026-08-30 So</a></li>
+<li><a href="../p/lernpfad-quant-uebersicht.html">Lernpfad Quant — Übersicht</a></li>
+<li class="here"><a href="../p/lernpfad-cs50p-karten-woche-0.html">Lernpfad — CS50P Karten Woche 0</a></li>
+<li><a href="../p/lernpfad-karteikarten-handy-sync-einrichten.html">Lernpfad — Karteikarten &amp; Handy-Sync einrichten</a></li>
+<li><a href="../p/lernpfad-mathe-videothek.html">Lernpfad — Mathe-Videothek</a></li>
+<li><a href="../p/lernpfad-meilensteine.html">Lernpfad — Meilensteine</a></li>
+<li><a href="../p/lernpfad-tagesvorlage.html">Lernpfad — Tagesvorlage</a></li>
+<li><a href="../p/lernpfad-woche-01.html">Lernpfad — Woche 01</a></li>
+<li><a href="../p/lernpfad-zeitfenster-ausbaustufen.html">Lernpfad — Zeitfenster &amp; Ausbaustufen</a></li>
+<li><a href="../p/log.html">Änderungsprotokoll</a></li>
+<li><a href="../p/log-archiv-bis-2026-08.html">log-archiv-bis-2026-08</a></li>
+</ul></div>
+</nav>
+<main>
+<article>
+  <div class="crumb"><a href="../index.html">Gedanken</a> ›
+    <a href="../index.html#meta">Meta</a></div>
+  <h1>Lernpfad — CS50P Karten Woche 0</h1>
+  <div class="pagemeta"><div class="tags"><span class="tag">lernpfad</span> <span class="tag">flashcards</span> <span class="tag">cs50</span> <span class="tag">python</span></div><div class="dates">erstellt 2026-08-26 · aktualisiert 2026-08-26</div></div>
+  <details class="toc" open><summary>Inhalt</summary><div class="toc">
+<ul>
+<li><a href="#datentypen">Datentypen</a></li>
+<li><a href="#rechnen-papier-vs-python">Rechnen — Papier vs. Python</a></li>
+<li><a href="#ausgabe">Ausgabe</a></li>
+<li><a href="#strings">Strings</a></li>
+<li><a href="#funktionen">Funktionen</a></li>
+<li><a href="#problem-set-0">Problem Set 0</a></li>
+</ul>
+</div>
+</details>
+  <div class="content"><h1 id="lernpfad-cs50p-karten-woche-0">Lernpfad — CS50P Karten Woche 0</h1>
+<p>Startstapel für das Plugin <em>Spaced Repetition</em>. Einrichtung siehe
+<a href="../p/lernpfad-karteikarten-handy-sync-einrichten.html">Lernpfad — Karteikarten &amp; Handy-Sync einrichten</a>, Tagesaufgabe siehe
+<a href="../p/lernpfad-2026-08-26-mi.html">Lernpfad 2026-08-26 Mi</a>.</p>
+<p>Stapel: <code>#flashcards/python</code></p>
+<blockquote>
+<p><strong>Diese Datei ist die versionierte Sicherung.</strong> Zum Lernen kopierst du sie in den
+<code>Lern-Vault</code>, der aufs Handy synchronisiert wird — der Hauptvault ist dafür zu groß.
+Neue Karten legst du künftig dort an und kopierst sie gelegentlich zurück.</p>
+</blockquote>
+<hr />
+<h2 id="datentypen">Datentypen</h2>
+<p>Was liefert <code>input()</code> immer zurück?::Einen <strong>String</strong> — nie eine Zahl, auch wenn du eine Ziffer eintippst.</p>
+<p>Du tippst bei <code>x = input("Zahl: ")</code> eine 5 ein. Was ergibt <code>x + x</code>?::<code>"55"</code> — zwei Strings werden aneinandergehängt, nicht addiert.</p>
+<p>Wie machst du aus einer Eingabe eine Ganzzahl?::<code>x = int(input("Zahl: "))</code></p>
+<p>Was ist der Unterschied zwischen <code>5</code> und <code>"5"</code>?::<code>5</code> ist ein int (Zahl, rechenbar), <code>"5"</code> ist ein str (Text, wird nur aneinandergehängt).</p>
+<p>Wofür steht <code>float</code>?::Für eine Kommazahl, z. B. <code>2.0</code> oder <code>3.5</code>. Python schreibt den <strong>Punkt</strong>, nicht das Komma.</p>
+<p>Wie fragst du ab, welchen Typ ein Wert hat?::<code>type(x)</code> — z. B. <code>type("5")</code> → <code>&lt;class 'str'&gt;</code></p>
+<hr />
+<h2 id="rechnen-papier-vs-python">Rechnen — Papier vs. Python</h2>
+<p>Was ergibt <code>int(3.9)</code>?::<code>3</code> — <code>int()</code> <strong>schneidet ab</strong>, es rundet nicht.</p>
+<p>Was ergibt <code>int(-3.9)</code>?::<code>-3</code> — abgeschnitten Richtung Null, nicht Richtung −4.</p>
+<p>Wie rundest du richtig?::Mit <code>round()</code>. <code>round(3.9)</code> → <code>4</code></p>
+<p>Was ergibt <code>6 / 3</code>?::<code>2.0</code> — <code>/</code> liefert <strong>immer</strong> einen float, auch wenn die Division aufgeht.</p>
+<p>Was ergibt <code>7 // 2</code>?::<code>3</code> — <code>//</code> ist die Ganzzahldivision, das Ergebnis ohne Rest.</p>
+<p>Was ergibt <code>7 % 2</code>?::<code>1</code> — <code>%</code> liefert den <strong>Rest</strong> der Division.</p>
+<p>Wie testest du, ob eine Zahl gerade ist?::<code>if x % 2 == 0:</code> — Rest 0 bei Division durch 2.</p>
+<p>Wie gibst du eine Zahl mit 2 Nachkommastellen aus?::Mit f-String: <code>print(f"{x:.2f}")</code></p>
+<p>Warum ist <code>2</code> nicht dasselbe wie <code>2.0</code>?
+?
+<code>2</code> ist ein int, <code>2.0</code> ein float. Gerechnet ist beides gleich, aber ausgegeben sieht es
+unterschiedlich aus — und CS50 prüft die Ausgabe zeichengenau. Häufigster Fehlgrund
+bei richtig gerechneten Aufgaben.</p>
+<hr />
+<h2 id="ausgabe">Ausgabe</h2>
+<p>Wie baust du einen Text mit eingesetzter Variable?::Mit f-String: <code>print(f"Hallo, {name}")</code> — das <code>f</code> vor dem Anführungszeichen nicht vergessen.</p>
+<p>Wie verhinderst du den Zeilenumbruch bei <code>print</code>?::<code>print("Text", end="")</code></p>
+<hr />
+<h2 id="strings">Strings</h2>
+<p>Was macht <code>.lower()</code>?::Wandelt einen String komplett in Kleinbuchstaben um.</p>
+<p>Was macht <code>.upper()</code>?::Wandelt einen String komplett in GROSSBUCHSTABEN um.</p>
+<p>Was macht <code>.strip()</code>?::Entfernt Leerzeichen am Anfang und Ende eines Strings.</p>
+<p>Was macht <code>.title()</code>?::Macht den ersten Buchstaben jedes Wortes groß.</p>
+<p>Wie ersetzt du in <code>text</code> alle Leerzeichen durch <code>...</code>?::<code>text.replace(" ", "...")</code></p>
+<p>Warum reicht <code>text.lower()</code> allein nicht?::String-Methoden verändern das Original <strong>nicht</strong>. Du musst das Ergebnis zuweisen oder zurückgeben: <code>text = text.lower()</code></p>
+<p>Wie hängst du zwei Strings zusammen?::Mit <code>+</code>: <code>"Hallo" + " " + "Welt"</code></p>
+<hr />
+<h2 id="funktionen">Funktionen</h2>
+<p>Wie definierst du eine Funktion?::<code>def name(parameter):</code> — danach ein eingerückter Block.</p>
+<p>Was macht <code>return</code>?::Gibt einen Wert an die aufrufende Stelle zurück und beendet die Funktion.</p>
+<p>Unterschied zwischen <code>return</code> und <code>print</code>?
+?
+<code>print</code> <strong>zeigt</strong> etwas auf dem Bildschirm und gibt nichts zurück.
+<code>return</code> <strong>liefert einen Wert</strong>, mit dem weitergerechnet werden kann — sichtbar wird er
+erst, wenn ihn jemand ausgibt.</p>
+<p>Warum braucht Python die Einrückung?::Sie ersetzt die geschweiften Klammern anderer Sprachen und bestimmt, was zum Block gehört. Falsche Einrückung ist ein Fehler, kein Schönheitsproblem.</p>
+<hr />
+<h2 id="problem-set-0">Problem Set 0</h2>
+<p>Was verlangt <em>Indoor Voice</em>?::Eingabe einlesen und komplett kleingeschrieben ausgeben — <code>input()</code> plus <code>.lower()</code></p>
+<p>Was verlangt <em>Playback Speed</em>?::Jedes Leerzeichen der Eingabe durch <code>...</code> ersetzen — <code>text.replace(" ", "...")</code></p>
+<p>Was verlangt <em>Making Faces</em>?::<code>:)</code> durch 🙂 und <code>:(</code> durch 🙁 ersetzen — und zwar in einer <strong>eigenen Funktion</strong> <code>convert</code>, die aus <code>main</code> heraus aufgerufen wird.</p>
+<p>Was ist der eigentliche Lernpunkt von <em>Making Faces</em>?::Nicht das Ersetzen, sondern: eine Funktion definieren, einen Wert zurückgeben, die Funktion aufrufen.</p></div>
+  <section class="backlinks"><h2>Was zeigt hierher <span class="count">3</span></h2><ul><li><a href="../p/index.html">Katalog (Original)</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-2026-08-27-do.html">Lernpfad 2026-08-27 Do</a><span class="cat">Meta</span></li><li><a href="../p/lernpfad-karteikarten-handy-sync-einrichten.html">Lernpfad — Karteikarten &amp; Handy-Sync einrichten</a><span class="cat">Meta</span></li></ul></section>
+  <footer class="pagefoot">Quelldatei: <code>wiki/lernpfad/Lernpfad — CS50P Karten Woche 0.md</code></footer>
+</article>
+</main>
+</div>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>
