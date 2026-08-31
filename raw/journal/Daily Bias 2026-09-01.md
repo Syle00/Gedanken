@@ -1,6 +1,6 @@
 # Daily Bias 2026-09-01
 
-> Weekly Bias: _(noch kein Weekly Bias fuer diese Woche)_
+> Weekly Bias: [[Weekly Bias KW36 2026]]
 
 ## News (Red/Orange Folder)
 
@@ -10,7 +10,7 @@
 
 **Datenlage (NQ):** 19 Tage 1s-Daten (28.07.–21.08.2026), keine nur-1m-Tage, keine registrierten Tage ohne Datei. 1s-vs-1m-Abgleich unkritisch (max. Abweichung 2,0 Pkt am 30.07., sonst ≤ 1,75 Pkt).
 
-⚠️ **Datenlücke (aktiv, über das übliche Maß hinaus):** Die 1s-Anbindung in `raw/marktdaten/` endet am 21.08.2026, 21:00 UTC — für die Handelstage 24.–31.08. (Mo–Mo, sieben Tage inkl. heute) liegen **weder 1s- noch 1d-Daten** vor. Das ist keine normale Wochenend-Lücke, sondern ein mehrtägiger Ausfall der laufenden IBKR-Anbindung. Entsprechend sind die NDOG-Zeilen unten die letzten *verfügbaren* (Woche 17.–20.08.), nicht die der zuletzt abgeschlossenen Handelswoche, und die "gestrige Daily Range" ist ein 1d-Fallback vom 13.08. — nicht der tatsächliche Vortag (Montag, 31.08.). Bitte den IBKR-1s-Nachlad manuell prüfen (`algo/fetch_ibkr.py` bzw. `/daten-1s`), sobald jemand am Rechner mit Gateway-Zugriff ist.
+⚠️ **Datenlücke, weiterhin aktiv (vierter Bias-Bericht in Folge mit demselben Befund — 27.08., 28.08., 31.08., dieser):** Die 1s-Anbindung in `raw/marktdaten/` endet unverändert am 21.08.2026, 21:00 UTC — für die Handelstage 24.–31.08. (acht Tage inkl. heute) liegen **weder 1s- noch 1d-Daten** vor, und auch der Merge mit dem aktuellen Remote-Stand vor diesem Lauf hat keine neueren OHLC-Dateien gebracht. Das ist keine normale Wochenend-Lücke, sondern ein mehrtägiger, bislang ungelöster Ausfall der laufenden IBKR-Anbindung. Entsprechend sind die NDOG-Zeilen unten die letzten *verfügbaren* (Woche 17.–20.08.), nicht die der zuletzt abgeschlossenen Handelswoche, und die "gestrige Daily Range" ist ein 1d-Fallback vom 13.08. — nicht der tatsächliche Vortag (Montag, 31.08.). Der Nachlad-Job (`algo/fetch_ibkr.py` bzw. `/daten-1s`) sollte geprüft werden, sobald jemand am Rechner mit Gateway-Zugriff ist — die Lücke schließt sich nicht von selbst.
 
 | Level | Datum | Close (17:00) | Open (18:00) | Gap | C.E. | Status |
 |---|---|---|---|---|---|---|
@@ -56,7 +56,7 @@ Das offene NWOG vom 02.08. (C.E. 28426.00) bleibt ein weit entfernter übergeord
 
 ORG-C.E.-70%-These: **nicht anwendbar** (`org_ce` nicht gesetzt — IBKR-Gateway in dieser Cloud-Session nicht erreichbar, kein Live-Preis verfügbar; `market_data: false`).
 
-**Wichtigster Punkt dieses Laufs ist nicht der Bias, sondern die Datenlücke** (s.o., Abschnitt Levels): Ohne frischen 1s-Nachlad beruhen alle Level hier auf einem zehn Tage alten Datenstand.
+**Wichtigster Punkt dieses Laufs ist nicht der Bias, sondern die Datenlücke** (s.o., Abschnitt Levels): Ohne frischen 1s-Nachlad beruhen alle Level hier auf einem zehn Tage alten Datenstand — und das bereits im vierten aufeinanderfolgenden Bias-Bericht.
 
 ## Mein Bias
 
